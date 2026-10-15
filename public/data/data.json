@@ -7,14 +7,14 @@
         { "label": "Newsletter", "href": "/#join-section" }
     ],
     "DomainData": [
-        { "name": "Informatique et numérique", "icon": "tabler:code", "count": 24 },
-        { "name": "Gestion et management", "icon": "tabler:briefcase", "count": 18 },
-        { "name": "Commerce et marketing", "icon": "tabler:chart-bar", "count": 16 },
-        { "name": "Comptabilité et finance", "icon": "tabler:coin", "count": 12 },
-        { "name": "Droit et sciences politiques", "icon": "tabler:scale", "count": 9 },
-        { "name": "Santé et paramédical", "icon": "tabler:heart", "count": 21 },
-        { "name": "Tourisme et hôtellerie", "icon": "tabler:send", "count": 11 },
-        { "name": "Communication et médias", "icon": "tabler:microphone", "count": 10 }
+        { "name": "Informatique et numérique", "icon": "tabler:code", "count": 24, "searchDomain": "Informatique" },
+        { "name": "Gestion et management", "icon": "tabler:briefcase", "count": 18, "searchDomain": "Gestion & Commerce" },
+        { "name": "Commerce et marketing", "icon": "tabler:chart-bar", "count": 16, "searchDomain": "Gestion & Commerce" },
+        { "name": "Comptabilité et finance", "icon": "tabler:coin", "count": 12, "searchDomain": "Gestion & Commerce" },
+        { "name": "Droit et sciences politiques", "icon": "tabler:scale", "count": 9, "searchDomain": "Droit" },
+        { "name": "Santé et paramédical", "icon": "tabler:heart", "count": 21, "searchDomain": "Médecine & Santé" },
+        { "name": "Tourisme et hôtellerie", "icon": "tabler:send", "count": 11, "searchDomain": "Tourisme & Hôtellerie" },
+        { "name": "Communication et médias", "icon": "tabler:microphone", "count": 10, "searchDomain": "Lettres & Langues" }
     ],
     "HeroFilterData": [
         {
