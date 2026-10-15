@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { Card, CardAction } from '@/components/ui/card'
+import { formatDuration } from '../format'
 import type { FormationType } from '../types'
 
 interface FormationCardProps {
@@ -42,11 +43,11 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite }: Forma
                     </li>
                     <li className='flex items-center gap-2'>
                         <Icon icon='tabler:school' className='text-lg text-secondary' />
-                        {formation.level}
+                        {formation.diploma}
                     </li>
                     <li className='flex items-center gap-2'>
                         <Icon icon='tabler:clock' className='text-lg text-secondary' />
-                        {formation.duration}
+                        {formatDuration(formation.durationYears)}
                     </li>
                 </ul>
                 <CardAction href='/#courses-section'>Voir la formation</CardAction>

@@ -17,6 +17,15 @@ const HeroFilters = () => {
         setSelected((prev) => ({ ...prev, [label]: value }))
     }
 
+    // Seuls les filtres réellement choisis (différents de « Tous… ») passent dans l'URL.
+    const params = new URLSearchParams()
+    for (const filter of filters) {
+        const value = selected[filter.label]
+        if (value && value !== filter.options[0]) params.set(filter.param, value)
+    }
+    const query = params.toString()
+    const searchHref = query ? `/recherche?${query}` : '/recherche'
+
     return (
         <div className='relative mx-auto max-w-6xl mt-12'>
             {/* Lueur colorée derrière la barre */}
@@ -44,11 +53,11 @@ const HeroFilters = () => {
                         </div>
                     ))}
                     <div className='sm:col-span-2 lg:col-span-1 p-1'>
-                        <Link href={'/#courses-section'}>
-                            <button className='flex items-center justify-center gap-2 bg-primary w-full text-white font-bold py-4 px-3 rounded-xl shadow-lg shadow-primary/30 hover:bg-primary/90 hover:shadow-primary/50 hover:-translate-y-0.5 duration-300 hover:cursor-pointer'>
-                                <Icon icon='tabler:search' className='text-xl' />
-                                Rechercher
-                            </button>
+                        <Link
+                            href={searchHref}
+                            className='flex items-center justify-center gap-2 bg-primary w-full text-white font-bold py-4 px-3 rounded-xl shadow-lg shadow-primary/30 hover:bg-primary/90 hover:shadow-primary/50 hover:-translate-y-0.5 duration-300'>
+                            <Icon icon='tabler:search' className='text-xl' />
+                            Rechercher
                         </Link>
                     </div>
                 </div>

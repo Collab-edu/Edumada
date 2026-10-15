@@ -10,10 +10,8 @@ const FormationsSection = () => {
     const { data: formations, loading } = useSiteData('FormationData')
     const [favorites, setFavorites] = useState<string[]>([])
 
-    const toggleFavorite = (title: string) => {
-        setFavorites((prev) =>
-            prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title]
-        )
+    const toggleFavorite = (id: string) => {
+        setFavorites((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]))
     }
 
     return (
@@ -22,7 +20,7 @@ const FormationsSection = () => {
                 <SectionHeader
                     title='Les formations à découvrir'
                     description='Parcourez une sélection de formations pour découvrir les cursus disponibles.'
-                    link={{ href: '/#courses-section', label: 'Découvrir toutes les formations' }}
+                    link={{ href: '/recherche', label: 'Découvrir toutes les formations' }}
                 />
 
                 {loading ? (
@@ -31,10 +29,10 @@ const FormationsSection = () => {
                     <AutoScroll duration={35}>
                         {formations.map((formation) => (
                             <FormationCard
-                                key={formation.title}
+                                key={formation.id}
                                 formation={formation}
-                                isFavorite={favorites.includes(formation.title)}
-                                onToggleFavorite={() => toggleFavorite(formation.title)}
+                                isFavorite={favorites.includes(formation.id)}
+                                onToggleFavorite={() => toggleFavorite(formation.id)}
                             />
                         ))}
                     </AutoScroll>
