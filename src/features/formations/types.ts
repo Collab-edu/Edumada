@@ -2,6 +2,7 @@ export type Diploma = 'Certificat' | 'BTS' | 'Licence' | 'Master' | 'Doctorat' |
 export type Modality = 'Présentiel' | 'Distanciel' | 'Hybride'
 export type RegistrationStatus = 'Ouvertes' | 'À venir' | 'Fermées'
 export type AdmissionLevel = 'Aucun' | 'BAC' | 'BAC+2' | 'BAC+3'
+export type AdmissionSelection = 'Inscription directe' | 'Sur dossier' | 'Dossier et entretien' | 'Concours'
 
 export type FormationType = {
   id: string
@@ -31,6 +32,7 @@ export type FormationType = {
     level: AdmissionLevel
     /** Séries du BAC acceptées ; vide = toutes les séries ou non applicable. */
     bacSeries: string[]
+    selection: AdmissionSelection
   }
   housing: 'Disponible' | 'Non disponible' | 'Non renseigné'
   scholarship: 'Bourses disponibles' | 'Non renseigné'

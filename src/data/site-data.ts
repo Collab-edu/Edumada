@@ -3,7 +3,7 @@ import withBasePath from '@/lib/base-path'
 import type { FooterLinkType, HeaderItem } from '@/types/navigation'
 import type { DomainType } from '@/features/domaines/types'
 import type { FormationType } from '@/features/formations/types'
-import type { SchoolType } from '@/features/etablissements/types'
+import type { SchoolType, TestimonialType } from '@/features/etablissements/types'
 import type { HeroFilterType } from '@/features/recherche/types'
 
 /** Contenu de `public/data/data.json`. Point d'entrée unique des données du site. */
@@ -14,6 +14,7 @@ export type SiteData = {
     DomainData: DomainType[]
     FormationData: FormationType[]
     SchoolData: SchoolType[]
+    TestimonialData: TestimonialType[]
     Companiesdata: { imgSrc: string }[]
 }
 

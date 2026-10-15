@@ -46,7 +46,12 @@ export default async function SchoolPage({ params }: Props) {
   return (
     <main>
       <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }} />
-      <SchoolProfile school={school} formations={formations} faq={faq} />
+      <SchoolProfile
+        school={school}
+        formations={formations}
+        testimonials={data.TestimonialData.filter((t) => t.schoolId === school.id)}
+        faq={faq}
+      />
     </main>
   )
 }

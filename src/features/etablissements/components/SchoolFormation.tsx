@@ -4,20 +4,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { cn } from '@/lib/utils'
-import { formatDate, formatDuration, formatFees } from '@/features/formations/format'
-import type { AdmissionLevel, FormationType, RegistrationStatus } from '@/features/formations/types'
+import { ADMISSION_LEVEL_LABEL, formatDate, formatDuration, formatFees } from '@/features/formations/format'
+import type { FormationType, RegistrationStatus } from '@/features/formations/types'
 
 const REGISTRATION_BADGE: Record<RegistrationStatus, { label: string; className: string }> = {
     Ouvertes: { label: 'Inscriptions ouvertes', className: 'bg-success/30 text-secondary' },
     'À venir': { label: 'Inscriptions à venir', className: 'bg-cream text-primary' },
     Fermées: { label: 'Inscriptions fermées', className: 'bg-gray-100 text-ink/60' },
-}
-
-const ADMISSION_LABEL: Record<AdmissionLevel, string> = {
-    Aucun: 'Aucun diplôme requis',
-    BAC: 'Baccalauréat',
-    'BAC+2': 'BAC+2 (BTS, DTS…)',
-    'BAC+3': 'BAC+3 (Licence)',
 }
 
 function Detail({ icon, label, children }: { icon: string; label: string; children: React.ReactNode }) {
@@ -131,7 +124,8 @@ export function SchoolFormation({ formation }: { formation: FormationType }) {
                     <div className='mt-5 rounded-xl bg-offwhite p-4'>
                         <p className='mb-1 font-semibold text-secondary'>Conditions d&apos;admission</p>
                         <ul className='flex flex-col gap-1 text-ink/80'>
-                            <li>Niveau requis : {ADMISSION_LABEL[level]}</li>
+                            <li>Niveau requis : {ADMISSION_LEVEL_LABEL[level]}</li>
+                            <li>Sélection : {formation.admission.selection}</li>
                             {level === 'BAC' && (
                                 <li>Séries du BAC acceptées : {bacSeries.length > 0 ? bacSeries.join(', ') : 'toutes les séries'}</li>
                             )}

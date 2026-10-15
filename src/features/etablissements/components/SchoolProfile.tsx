@@ -3,14 +3,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import type { FormationType } from '@/features/formations/types'
-import type { SchoolType } from '../types'
+import type { SchoolType, TestimonialType } from '../types'
 import type { FaqItem } from '../faq'
+import SchoolAdmission from './SchoolAdmission'
 import SchoolFaq from './SchoolFaq'
 import SchoolFormation from './SchoolFormation'
+import SchoolTestimonials from './SchoolTestimonials'
 
 interface SchoolProfileProps {
     school: SchoolType
     formations: FormationType[]
+    testimonials: TestimonialType[]
     faq: FaqItem[]
 }
 
@@ -27,7 +30,7 @@ function InfoRow({ icon, label, children }: { icon: string; label: string; child
 }
 
 /** Fiche complète d'un établissement : présentation, formations, photos, contact et localisation. */
-export function SchoolProfile({ school, formations, faq }: SchoolProfileProps) {
+export function SchoolProfile({ school, formations, testimonials, faq }: SchoolProfileProps) {
     const { lat, lng } = school.coordinates
     const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.012}%2C${lat - 0.008}%2C${lng + 0.012}%2C${lat + 0.008}&layer=mapnik&marker=${lat}%2C${lng}`
     const mapLink = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=16/${lat}/${lng}`
@@ -120,6 +123,13 @@ export function SchoolProfile({ school, formations, faq }: SchoolProfileProps) {
                             )}
                         </div>
 
+                        {formations.length > 0 && (
+                            <div id='admission' className='scroll-mt-28'>
+                                <h2 className='mb-5 font-bold'>Conditions d&apos;admission</h2>
+                                <SchoolAdmission school={school} formations={formations} />
+                            </div>
+                        )}
+
                         <div>
                             <h2 className='mb-5 font-bold'>Photos</h2>
                             <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
@@ -131,6 +141,11 @@ export function SchoolProfile({ school, formations, faq }: SchoolProfileProps) {
                                     </div>
                                 ))}
                             </div>
+                        </div>
+
+                        <div id='temoignages' className='scroll-mt-28'>
+                            <h2 className='mb-5 font-bold'>Témoignages d&apos;étudiants</h2>
+                            <SchoolTestimonials testimonials={testimonials} formations={formations} />
                         </div>
 
                         <div id='faq' className='scroll-mt-28'>

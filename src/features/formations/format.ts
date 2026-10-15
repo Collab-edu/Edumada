@@ -1,4 +1,13 @@
+import type { AdmissionLevel } from './types'
+
 const arFormatter = new Intl.NumberFormat('fr-FR')
+
+export const ADMISSION_LEVEL_LABEL: Record<AdmissionLevel, string> = {
+    Aucun: 'Aucun diplôme requis',
+    BAC: 'Baccalauréat',
+    'BAC+2': 'BAC+2 (BTS, DTS…)',
+    'BAC+3': 'BAC+3 (Licence)',
+}
 // UTC : la date affichée est la même au rendu serveur et dans le navigateur.
 const dateFormatter = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
 
