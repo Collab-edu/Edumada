@@ -326,7 +326,8 @@
             "website": "https://www.ana.example",
             "description": "Un centre de formation exemple proposant des certificats courts dans le numérique, à distance.",
             "tags": [
-                "Informatique"
+                "Informatique",
+                "Gestion & Commerce"
             ],
             "accreditation": null,
             "coordinates": {
@@ -898,6 +899,649 @@
             },
             "startDate": "2027-01-11",
             "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=70"
+        },
+        {
+            "id": "bts-en-reseaux-et-telecommunications-inm",
+            "title": "BTS en réseaux et télécommunications",
+            "school": "Institut Numérique de Madagascar",
+            "schoolId": "institut-numerique-de-madagascar",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Informatique",
+            "diploma": "BTS",
+            "durationYears": 2,
+            "fees": 1300000,
+            "registrationFee": 80000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Anglais"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "C",
+                    "D",
+                    "Technique"
+                ]
+            },
+            "housing": "Non renseigné",
+            "scholarship": "Bourses disponibles",
+            "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "master-en-science-des-donnees-inm",
+            "title": "Master en science des données",
+            "school": "Institut Numérique de Madagascar",
+            "schoolId": "institut-numerique-de-madagascar",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Informatique",
+            "diploma": "Master",
+            "durationYears": 2,
+            "fees": 2400000,
+            "registrationFee": 100000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
+            "modality": "Hybride",
+            "registration": "À venir",
+            "languages": [
+                "Français",
+                "Anglais"
+            ],
+            "admission": {
+                "level": "BAC+3",
+                "bacSeries": []
+            },
+            "housing": "Non renseigné",
+            "scholarship": "Bourses disponibles",
+            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "certificat-en-cybersecurite-inm",
+            "title": "Certificat en cybersécurité",
+            "school": "Institut Numérique de Madagascar",
+            "schoolId": "institut-numerique-de-madagascar",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Informatique",
+            "diploma": "Certificat",
+            "durationYears": 0.5,
+            "fees": 900000,
+            "registrationFee": 120000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Distanciel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Anglais"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": []
+            },
+            "housing": "Non renseigné",
+            "scholarship": "Bourses disponibles",
+            "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "bts-en-comptabilite-et-gestion-esg",
+            "title": "BTS en comptabilité et gestion",
+            "school": "École Supérieure de Gestion",
+            "schoolId": "ecole-superieure-de-gestion",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Gestion & Commerce",
+            "diploma": "BTS",
+            "durationYears": 2,
+            "fees": 1100000,
+            "registrationFee": 140000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "A",
+                    "C",
+                    "D"
+                ]
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "master-en-management-des-organisations-esg",
+            "title": "Master en management des organisations",
+            "school": "École Supérieure de Gestion",
+            "schoolId": "ecole-superieure-de-gestion",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Gestion & Commerce",
+            "diploma": "Master",
+            "durationYears": 2,
+            "fees": 2200000,
+            "registrationFee": 80000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
+            "modality": "Hybride",
+            "registration": "À venir",
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC+3",
+                "bacSeries": []
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "formation-de-sage-femme-ifs",
+            "title": "Formation de sage-femme",
+            "school": "Institut de Formation en Santé",
+            "schoolId": "institut-de-formation-en-sante",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Médecine & Santé",
+            "diploma": "Certificat",
+            "durationYears": 3,
+            "fees": 1600000,
+            "registrationFee": 100000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
+            "modality": "Présentiel",
+            "registration": "À venir",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "C",
+                    "D"
+                ]
+            },
+            "housing": "Disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "certificat-d-aide-soignant-ifs",
+            "title": "Certificat d'aide-soignant",
+            "school": "Institut de Formation en Santé",
+            "schoolId": "institut-de-formation-en-sante",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Médecine & Santé",
+            "diploma": "Certificat",
+            "durationYears": 1,
+            "fees": 700000,
+            "registrationFee": 120000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": []
+            },
+            "housing": "Disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "licence-en-management-hotelier-ith",
+            "title": "Licence en management hôtelier",
+            "school": "Institut de Tourisme et d'Hôtellerie",
+            "schoolId": "institut-de-tourisme-et-d-hotellerie",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Tourisme & Hôtellerie",
+            "diploma": "Licence",
+            "durationYears": 3,
+            "fees": 1900000,
+            "registrationFee": 140000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Anglais"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": []
+            },
+            "housing": "Non renseigné",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "certificat-en-arts-culinaires-ith",
+            "title": "Certificat en arts culinaires",
+            "school": "Institut de Tourisme et d'Hôtellerie",
+            "schoolId": "institut-de-tourisme-et-d-hotellerie",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Tourisme & Hôtellerie",
+            "diploma": "Certificat",
+            "durationYears": 1,
+            "fees": 850000,
+            "registrationFee": 80000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Anglais"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": []
+            },
+            "housing": "Non renseigné",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "licence-en-informatique-de-gestion-cui",
+            "title": "Licence en informatique de gestion",
+            "school": "Centre Universitaire d'Informatique",
+            "schoolId": "centre-universitaire-d-informatique",
+            "schoolType": "Public",
+            "city": "Antananarivo",
+            "domain": "Informatique",
+            "diploma": "Licence",
+            "durationYears": 3,
+            "fees": 350000,
+            "registrationFee": 30000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "C",
+                    "D"
+                ]
+            },
+            "housing": "Disponible",
+            "scholarship": "Bourses disponibles",
+            "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "master-en-droit-public-isdt",
+            "title": "Master en droit public",
+            "school": "Institut Supérieur de Droit de Toamasina",
+            "schoolId": "institut-superieur-de-droit-de-toamasina",
+            "schoolType": "Public",
+            "city": "Toamasina",
+            "domain": "Droit",
+            "diploma": "Master",
+            "durationYears": 2,
+            "fees": 400000,
+            "registrationFee": 40000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
+            "modality": "Présentiel",
+            "registration": "À venir",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "BAC+3",
+                "bacSeries": []
+            },
+            "housing": "Disponible",
+            "scholarship": "Bourses disponibles",
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "licence-en-agronomie-psa",
+            "title": "Licence en agronomie",
+            "school": "Pôle Supérieur d'Agronomie",
+            "schoolId": "pole-superieur-d-agronomie",
+            "schoolType": "Public",
+            "city": "Antananarivo",
+            "domain": "Agronomie",
+            "diploma": "Licence",
+            "durationYears": 3,
+            "fees": 350000,
+            "registrationFee": 50000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "C",
+                    "D"
+                ]
+            },
+            "housing": "Disponible",
+            "scholarship": "Bourses disponibles",
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "certificat-en-marketing-digital-ana",
+            "title": "Certificat en marketing digital",
+            "school": "Académie Numérique d'Antsirabe",
+            "schoolId": "academie-numerique-d-antsirabe",
+            "schoolType": "Privé",
+            "city": "Antsirabe",
+            "domain": "Gestion & Commerce",
+            "diploma": "Certificat",
+            "durationYears": 0.5,
+            "fees": 550000,
+            "registrationFee": 80000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Distanciel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": []
+            },
+            "housing": "Non renseigné",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "certificat-en-design-graphique-ana",
+            "title": "Certificat en design graphique",
+            "school": "Académie Numérique d'Antsirabe",
+            "schoolId": "academie-numerique-d-antsirabe",
+            "schoolType": "Privé",
+            "city": "Antsirabe",
+            "domain": "Informatique",
+            "diploma": "Certificat",
+            "durationYears": 0.5,
+            "fees": 600000,
+            "registrationFee": 100000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
+            "modality": "Distanciel",
+            "registration": "À venir",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": []
+            },
+            "housing": "Non renseigné",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "licence-en-traduction-et-interpretariat-ilf",
+            "title": "Licence en traduction et interprétariat",
+            "school": "Institut des Langues de Fianarantsoa",
+            "schoolId": "institut-des-langues-de-fianarantsoa",
+            "schoolType": "Public",
+            "city": "Fianarantsoa",
+            "domain": "Lettres & Langues",
+            "diploma": "Licence",
+            "durationYears": 3,
+            "fees": 280000,
+            "registrationFee": 50000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Anglais",
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "A",
+                    "C",
+                    "D"
+                ]
+            },
+            "housing": "Disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "licence-en-sciences-infirmieres-esm",
+            "title": "Licence en sciences infirmières",
+            "school": "École de Santé de Mahajanga",
+            "schoolId": "ecole-de-sante-de-mahajanga",
+            "schoolType": "Public",
+            "city": "Mahajanga",
+            "domain": "Médecine & Santé",
+            "diploma": "Licence",
+            "durationYears": 3,
+            "fees": 420000,
+            "registrationFee": 30000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "C",
+                    "D"
+                ]
+            },
+            "housing": "Disponible",
+            "scholarship": "Bourses disponibles",
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "licence-en-genie-civil-ipt",
+            "title": "Licence en génie civil",
+            "school": "Institut Polytechnique de Toliara",
+            "schoolId": "institut-polytechnique-de-toliara",
+            "schoolType": "Privé",
+            "city": "Toliara",
+            "domain": "Ingénierie",
+            "diploma": "Licence",
+            "durationYears": 3,
+            "fees": 1500000,
+            "registrationFee": 80000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
+            "modality": "Présentiel",
+            "registration": "À venir",
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "C",
+                    "Technique"
+                ]
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "bts-en-electrotechnique-ipt",
+            "title": "BTS en électrotechnique",
+            "school": "Institut Polytechnique de Toliara",
+            "schoolId": "institut-polytechnique-de-toliara",
+            "schoolType": "Privé",
+            "city": "Toliara",
+            "domain": "Ingénierie",
+            "diploma": "BTS",
+            "durationYears": 2,
+            "fees": 1050000,
+            "registrationFee": 100000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "C",
+                    "Technique"
+                ]
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "bts-en-guide-touristique-esta",
+            "title": "BTS en guide touristique",
+            "school": "École Supérieure de Tourisme d'Antsiranana",
+            "schoolId": "ecole-superieure-de-tourisme-d-antsiranana",
+            "schoolType": "Privé",
+            "city": "Antsiranana",
+            "domain": "Tourisme & Hôtellerie",
+            "diploma": "BTS",
+            "durationYears": 2,
+            "fees": 1250000,
+            "registrationFee": 120000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Anglais"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": []
+            },
+            "housing": "Disponible",
+            "scholarship": "Bourses disponibles",
+            "imageSrc": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=70"
+        },
+        {
+            "id": "master-en-commerce-international-bst",
+            "title": "Master en commerce international",
+            "school": "Business School de Toamasina",
+            "schoolId": "business-school-de-toamasina",
+            "schoolType": "Privé",
+            "city": "Toamasina",
+            "domain": "Gestion & Commerce",
+            "diploma": "Master",
+            "durationYears": 2,
+            "fees": 6200000,
+            "registrationFee": 140000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
+            "modality": "Hybride",
+            "registration": "À venir",
+            "languages": [
+                "Français",
+                "Anglais"
+            ],
+            "admission": {
+                "level": "BAC+3",
+                "bacSeries": []
+            },
+            "housing": "Non renseigné",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
         }
     ],
     "FooterLinkData": [

@@ -6,6 +6,9 @@ import SectionHeader from '@/components/ui/section-header'
 import { useSiteData } from '@/data/site-data'
 import FormationCard from './FormationCard'
 
+// Le carrousel de l'accueil reste une sélection ; la liste complète est sur /recherche.
+const MAX_HOME_FORMATIONS = 12
+
 const FormationsSection = () => {
     const { data: formations, loading } = useSiteData('FormationData')
     const [favorites, setFavorites] = useState<string[]>([])
@@ -27,7 +30,7 @@ const FormationsSection = () => {
                     <CardSkeletonGrid count={4} className='h-[420px]' />
                 ) : (
                     <AutoScroll duration={35}>
-                        {formations.map((formation) => (
+                        {formations.slice(0, MAX_HOME_FORMATIONS).map((formation) => (
                             <FormationCard
                                 key={formation.id}
                                 formation={formation}

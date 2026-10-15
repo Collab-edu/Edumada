@@ -1,4 +1,6 @@
 'use client'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { cn } from '@/lib/utils'
@@ -32,58 +34,111 @@ function Detail({ icon, label, children }: { icon: string; label: string; childr
     )
 }
 
-/** Fiche détaillée d'une formation, telle qu'affichée sur le profil d'un établissement. */
+/**
+ * Formation proposée par l'établissement : résumé toujours visible, détail dépliable.
+ * S'ouvre automatiquement quand l'URL vise cette formation (…#id-de-la-formation).
+ */
 export function SchoolFormation({ formation }: { formation: FormationType }) {
+    const [open, setOpen] = useState(false)
     const badge = REGISTRATION_BADGE[formation.registration]
     const { level, bacSeries } = formation.admission
+    const fees = formatFees(formation.fees)
+    const detailsId = `${formation.id}-details`
+
+    useEffect(() => {
+        const openIfTargeted = () => {
+            if (window.location.hash === `#${formation.id}`) setOpen(true)
+        }
+        openIfTargeted()
+        window.addEventListener('hashchange', openIfTargeted)
+        return () => window.removeEventListener('hashchange', openIfTargeted)
+    }, [formation.id])
 
     return (
-        <article id={formation.id} className='scroll-mt-28 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm'>
-            <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-5'>
-                <div className='flex flex-col gap-2'>
-                    <span className={cn('w-fit rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>
-                        {badge.label}
-                    </span>
-                    <h3 className='text-xl font-semibold text-secondary'>{formation.title}</h3>
-                    <span className='text-ink/60'>{formation.domain}</span>
+        <article
+            id={formation.id}
+            className={cn(
+                'scroll-mt-28 overflow-hidden rounded-2xl border bg-white shadow-sm transition-colors duration-300',
+                open ? 'border-primary/30' : 'border-gray-100 hover:border-primary/30'
+            )}>
+            {/* Résumé */}
+            <div className='flex flex-col sm:flex-row'>
+                <div className='relative h-40 sm:h-auto sm:w-44 shrink-0 bg-cream'>
+                    <Image src={formation.imageSrc} alt={formation.title} fill className='object-cover' />
                 </div>
-                <Link
-                    href={`/recherche?q=${encodeURIComponent(formation.title)}`}
-                    className='shrink-0 rounded-lg border border-primary px-4 py-2 text-center font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white'>
-                    Comparer
-                </Link>
+                <div className='flex flex-1 flex-col gap-3 p-5'>
+                    <div className='flex flex-wrap items-center gap-2'>
+                        <span className={cn('rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>{badge.label}</span>
+                        <span className='rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold text-secondary'>
+                            {formation.diploma}
+                        </span>
+                    </div>
+                    <h3 className='text-lg font-semibold leading-snug text-secondary'>{formation.title}</h3>
+                    <ul className='flex flex-wrap gap-x-5 gap-y-1 text-sm text-ink/70'>
+                        <li className='inline-flex items-center gap-1.5'>
+                            <Icon icon='tabler:clock' className='text-secondary' /> {formatDuration(formation.durationYears)}
+                        </li>
+                        <li className='inline-flex items-center gap-1.5'>
+                            <Icon icon='tabler:device-laptop' className='text-secondary' /> {formation.modality}
+                        </li>
+                        <li className='inline-flex items-center gap-1.5'>
+                            <Icon icon='tabler:coin' className='text-secondary' /> {fees ? `${fees} / an` : 'Frais non renseignés'}
+                        </li>
+                    </ul>
+                    <div className='mt-auto flex flex-wrap items-center gap-3 pt-1'>
+                        <button
+                            type='button'
+                            onClick={() => setOpen(!open)}
+                            aria-expanded={open}
+                            aria-controls={detailsId}
+                            className='inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-primary/90 hover:cursor-pointer'>
+                            {open ? 'Masquer le détail' : 'Voir le détail'}
+                            <Icon icon='tabler:chevron-down' className={cn('transition-transform duration-200', open && 'rotate-180')} />
+                        </button>
+                        <Link
+                            href={`/recherche?q=${encodeURIComponent(formation.title)}`}
+                            className='font-semibold text-secondary underline underline-offset-4 decoration-secondary/30 hover:text-primary hover:decoration-primary'>
+                            Comparer
+                        </Link>
+                    </div>
+                </div>
             </div>
 
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4'>
-                <Detail icon='tabler:certificate' label='Diplôme obtenu'>{formation.diploma}</Detail>
-                <Detail icon='tabler:clock' label='Durée'>{formatDuration(formation.durationYears)}</Detail>
-                <Detail icon='tabler:device-laptop' label='Modalité de formation'>{formation.modality}</Detail>
-                <Detail icon='tabler:language' label="Langues d'enseignement">{formation.languages.join(', ')}</Detail>
-                <Detail icon='tabler:receipt' label="Frais d'inscription">
-                    {formatFees(formation.registrationFee) ?? 'Non renseignés'}
-                </Detail>
-                <Detail icon='tabler:coin' label='Frais de scolarité'>
-                    {formatFees(formation.fees) ? `${formatFees(formation.fees)} / an` : 'Non renseignés'}
-                </Detail>
-                <Detail icon='tabler:calendar-event' label="Dates d'inscription">
-                    {formation.registrationPeriod
-                        ? `Du ${formatDate(formation.registrationPeriod.start)} au ${formatDate(formation.registrationPeriod.end)}`
-                        : 'Non communiquées'}
-                </Detail>
-                <Detail icon='tabler:calendar-star' label='Date de rentrée'>
-                    {formation.startDate ? formatDate(formation.startDate) : 'Non communiquée'}
-                </Detail>
-            </div>
+            {/* Détail */}
+            {open && (
+                <div id={detailsId} className='border-t border-gray-100 p-5 sm:p-6'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4'>
+                        <Detail icon='tabler:certificate' label='Diplôme obtenu'>{formation.diploma}</Detail>
+                        <Detail icon='tabler:clock' label='Durée'>{formatDuration(formation.durationYears)}</Detail>
+                        <Detail icon='tabler:device-laptop' label='Modalité de formation'>{formation.modality}</Detail>
+                        <Detail icon='tabler:language' label="Langues d'enseignement">{formation.languages.join(', ')}</Detail>
+                        <Detail icon='tabler:receipt' label="Frais d'inscription">
+                            {formatFees(formation.registrationFee) ?? 'Non renseignés'}
+                        </Detail>
+                        <Detail icon='tabler:coin' label='Frais de scolarité'>
+                            {fees ? `${fees} / an` : 'Non renseignés'}
+                        </Detail>
+                        <Detail icon='tabler:calendar-event' label="Dates d'inscription">
+                            {formation.registrationPeriod
+                                ? `Du ${formatDate(formation.registrationPeriod.start)} au ${formatDate(formation.registrationPeriod.end)}`
+                                : 'Non communiquées'}
+                        </Detail>
+                        <Detail icon='tabler:calendar-star' label='Date de rentrée'>
+                            {formation.startDate ? formatDate(formation.startDate) : 'Non communiquée'}
+                        </Detail>
+                    </div>
 
-            <div className='mt-5 rounded-xl bg-offwhite p-4'>
-                <p className='mb-1 font-semibold text-secondary'>Conditions d&apos;admission</p>
-                <ul className='flex flex-col gap-1 text-ink/80'>
-                    <li>Niveau requis : {ADMISSION_LABEL[level]}</li>
-                    {level === 'BAC' && (
-                        <li>Séries du BAC acceptées : {bacSeries.length > 0 ? bacSeries.join(', ') : 'toutes les séries'}</li>
-                    )}
-                </ul>
-            </div>
+                    <div className='mt-5 rounded-xl bg-offwhite p-4'>
+                        <p className='mb-1 font-semibold text-secondary'>Conditions d&apos;admission</p>
+                        <ul className='flex flex-col gap-1 text-ink/80'>
+                            <li>Niveau requis : {ADMISSION_LABEL[level]}</li>
+                            {level === 'BAC' && (
+                                <li>Séries du BAC acceptées : {bacSeries.length > 0 ? bacSeries.join(', ') : 'toutes les séries'}</li>
+                            )}
+                        </ul>
+                    </div>
+                </div>
+            )}
         </article>
     )
 }
