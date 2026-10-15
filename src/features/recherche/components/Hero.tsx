@@ -32,11 +32,11 @@ const Banner = () => {
                             parcours adapté à vos ambitions, à votre budget et à votre projet
                             professionnel.
                         </p>
-                        <div className='backdrop-blur-md bg-white/30 border border-white/30 rounded-lg shadow-lg p-6 w-fit mx-auto'>
-                            <div className='flex items-center justify-center gap-8'>
+                        <div className='backdrop-blur-md bg-white/30 border border-white/30 rounded-lg shadow-md px-5 py-3 w-fit mx-auto'>
+                            <div className='flex items-center justify-center gap-4'>
                                 <div className='hidden sm:block -space-x-2 overflow-hidden'>
                                     <Image
-                                        className='inline-block h-12 w-12 rounded-full ring-2 ring-white'
+                                        className='inline-block h-9 w-9 rounded-full ring-2 ring-white'
                                         src='https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                                         alt='img1'
                                         width={12}
@@ -44,28 +44,28 @@ const Banner = () => {
                                     />
 
                                     <Image
-                                        className='inline-block h-12 w-12 rounded-full ring-2 ring-white'
+                                        className='inline-block h-9 w-9 rounded-full ring-2 ring-white'
                                         src='https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                                         alt='img2'
                                         width={12}
                                         height={12}
                                     />
                                     <Image
-                                        className='inline-block h-12 w-12 rounded-full ring-2 ring-white'
+                                        className='inline-block h-9 w-9 rounded-full ring-2 ring-white'
                                         src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80'
                                         alt='img3'
                                         width={12}
                                         height={12}
                                     />
                                     <Image
-                                        className='inline-block h-12 w-12 rounded-full ring-2 ring-white'
+                                        className='inline-block h-9 w-9 rounded-full ring-2 ring-white'
                                         src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                                         alt='img4'
                                         width={12}
                                         height={12}
                                     />
                                     <Image
-                                        className='inline-block h-12 w-12 rounded-full ring-2 ring-white'
+                                        className='inline-block h-9 w-9 rounded-full ring-2 ring-white'
                                         src='https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                                         alt='img5'
                                         width={12}
@@ -73,19 +73,19 @@ const Banner = () => {
                                     />
                                 </div>
                                 <div>
-                                    <div className='flex justify-center sm:justify-start'>
-                                        <h3 className='text-2xl font-semibold mr-2'>4.6</h3>
+                                    <div className='flex items-center justify-center sm:justify-start'>
+                                        <h3 className='text-lg font-semibold mr-2'>4.6</h3>
                                         <Image
                                             src={withBasePath('/images/banner/Stars.svg')}
                                             alt='stars-icon'
-                                            width={32}
-                                            height={32}
-                                            className='w-[60%]'
+                                            width={70}
+                                            height={12}
+                                            className='h-3.5 w-auto'
                                         />
                                     </div>
                                     <div>
                                         {/* TODO : chiffres d'exemple du template, à remplacer par de vrais avis */}
-                                        <h3 className='text-sm'>Noté par 25 000 personnes sur Google.</h3>
+                                        <h3 className='text-xs text-ink/70'>Noté par 25 000 personnes sur Google.</h3>
                                     </div>
                                 </div>
                             </div>
