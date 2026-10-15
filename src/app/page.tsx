@@ -1,14 +1,14 @@
-import React from 'react'
-import Hero from '@/app/components/Home/Hero'
-import Companies from '@/app/components/Home/Companies'
-import Domains from '@/app/components/Home/Domains'
-import RegisterCta from '@/app/components/Home/RegisterCta'
-import NamesList from '@/app/components/Home/Courses'
-import Schools from '@/app/components/Home/Schools'
-import Steps from '@/app/components/Home/Steps'
-import SchoolCta from '@/app/components/Home/SchoolCta'
-import Newsletter from '@/app/components/Home/Newsletter'
 import { Metadata } from 'next'
+import Hero from '@/features/recherche/components/Hero'
+import DomainsSection from '@/features/domaines/components/DomainsSection'
+import FormationsSection from '@/features/formations/components/FormationsSection'
+import SchoolsSection from '@/features/etablissements/components/SchoolsSection'
+import Companies from '@/features/marketing/components/Companies'
+import RegisterCta from '@/features/marketing/components/RegisterCta'
+import Steps from '@/features/marketing/components/Steps'
+import SchoolCta from '@/features/marketing/components/SchoolCta'
+import Newsletter from '@/features/marketing/components/Newsletter'
+
 export const metadata: Metadata = {
   title: 'Si Educational',
 }
@@ -18,10 +18,10 @@ export default function Home() {
     <main>
       <Hero />
       <Companies />
-      <Domains />
+      <DomainsSection />
       <RegisterCta />
-      <NamesList />
-      <Schools />
+      <FormationsSection />
+      <SchoolsSection />
       <Steps />
       <SchoolCta />
       <Newsletter />

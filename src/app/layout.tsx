@@ -1,9 +1,9 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/app/components/Layout/Header";
-import Footer from "@/app/components/Layout/Footer";
-import ScrollToTop from "@/app/components/ScrollToTop";
-import Aoscompo from "@/utils/aos";
+import Header from "@/components/layout/header/Header";
+import Footer from "@/components/layout/Footer";
+import ScrollToTop from "@/components/layout/ScrollToTop";
+import Aoscompo from "@/lib/aos";
 const font = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({

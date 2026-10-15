@@ -1,5 +1,5 @@
-import Signin from "@/app/components/Auth/SignIn";
-import Breadcrumb from "@/app/components/Common/Breadcrumb";
+import Signin from "@/features/auth/components/SignIn";
+import Breadcrumb from "@/components/ui/breadcrumb";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

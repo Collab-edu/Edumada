@@ -1,5 +1,5 @@
-import HeroSub from "@/app/components/SharedComponent/HeroSub";
-import NotFound from "@/app/components/NotFound";
+import HeroSub from "@/components/not-found/HeroSub";
+import NotFound from "@/components/not-found/NotFound";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
