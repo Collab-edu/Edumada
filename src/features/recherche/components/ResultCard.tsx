@@ -19,14 +19,14 @@ interface ResultCardProps {
     onToggleFavorite: () => void
 }
 
-/** Carte horizontale d'un résultat de recherche (verticale sur mobile). */
+/** Carte d'un résultat de recherche, affichée dans une grille de deux colonnes. */
 export function ResultCard({ formation, isFavorite, onToggleFavorite }: ResultCardProps) {
     const badge = REGISTRATION_BADGE[formation.registration]
     const fees = formatFees(formation.fees)
 
     return (
-        <Card id={formation.id} className='flex flex-col md:flex-row overflow-hidden scroll-mt-28 hover:translate-y-0'>
-            <div className='relative h-48 md:h-auto md:w-60 shrink-0 bg-cream'>
+        <Card id={formation.id} className='flex h-full flex-col overflow-hidden scroll-mt-28'>
+            <div className='relative h-44 shrink-0 bg-cream'>
                 <Image src={formation.imageSrc} alt={formation.title} fill className='object-cover' />
                 <span className='absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-secondary backdrop-blur-sm'>
                     {formation.schoolType}
@@ -66,7 +66,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite }: ResultCa
                     </button>
                 </div>
 
-                <ul className='grid grid-cols-2 lg:grid-cols-4 gap-3 text-sm text-ink/80'>
+                <ul className='grid grid-cols-2 gap-3 text-sm text-ink/80'>
                     <li className='flex items-center gap-2'>
                         <Icon icon='tabler:school' className='text-lg text-secondary shrink-0' />
                         {formation.diploma}

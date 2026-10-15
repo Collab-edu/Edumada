@@ -196,18 +196,22 @@ const SearchPage = () => {
                         )}
 
                         {loading ? (
-                            Array.from({ length: 3 }).map((_, i) => (
-                                <div key={i} className='h-56 rounded-2xl bg-white border border-gray-100 animate-pulse' />
-                            ))
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                                {Array.from({ length: 4 }).map((_, i) => (
+                                    <div key={i} className='h-[460px] rounded-2xl bg-white border border-gray-100 animate-pulse' />
+                                ))}
+                            </div>
                         ) : results.length > 0 ? (
-                            results.map((formation) => (
-                                <ResultCard
-                                    key={formation.id}
-                                    formation={formation}
-                                    isFavorite={favorites.includes(formation.id)}
-                                    onToggleFavorite={() => toggleFavorite(formation.id)}
-                                />
-                            ))
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                                {results.map((formation) => (
+                                    <ResultCard
+                                        key={formation.id}
+                                        formation={formation}
+                                        isFavorite={favorites.includes(formation.id)}
+                                        onToggleFavorite={() => toggleFavorite(formation.id)}
+                                    />
+                                ))}
+                            </div>
                         ) : (
                             <div className='flex flex-col items-center gap-4 rounded-2xl border border-dashed border-secondary/20 bg-white px-6 py-16 text-center'>
                                 <span className='flex h-16 w-16 items-center justify-center rounded-full bg-cream text-primary'>
