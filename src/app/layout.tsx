@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/header/Header";
@@ -6,15 +7,24 @@ import ScrollToTop from "@/components/layout/ScrollToTop";
 import Aoscompo from "@/lib/aos";
 const font = Inter({ subsets: ["latin"] });
 
+export const metadata: Metadata = {
+    title: {
+        default: "Edumada — Trouvez votre formation à Madagascar",
+        template: "%s | Edumada",
+    },
+    description:
+        "Explorez les formations, comparez les établissements et trouvez le parcours adapté à vos ambitions, à votre budget et à votre projet professionnel à Madagascar.",
+};
+
 export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang="fr" suppressHydrationWarning>
             <body className={`${font.className}`}>
-                <style>{`:root{--banner-url: url('${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/banner/background.png'); --newsletter-url: url('${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/newsletter/hands.svg');}`}</style>
+                <style>{`:root{--newsletter-url: url('${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/newsletter/hands.svg');}`}</style>
                 <Aoscompo>
                     <Header />
                     {children}

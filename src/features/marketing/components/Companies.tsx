@@ -54,7 +54,8 @@ const Companies = () => {
         <section>
             <div className='container mx-auto max-w-7xl px-4'>
                 <h2 className='text-[26px] mb-10 text-black/40 text-center'>
-                    Trusted by companies of all sizes
+                    {/* TODO : logos d'exemple du template, à remplacer par de vrais partenaires */}
+                    Ils nous font confiance
                 </h2>
                 <div>
                     <Slider {...settings}>

@@ -1,4 +1,3 @@
-import { Metadata } from 'next'
 import Hero from '@/features/recherche/components/Hero'
 import DomainsSection from '@/features/domaines/components/DomainsSection'
 import FormationsSection from '@/features/formations/components/FormationsSection'
@@ -8,10 +7,6 @@ import RegisterCta from '@/features/marketing/components/RegisterCta'
 import Steps from '@/features/marketing/components/Steps'
 import SchoolCta from '@/features/marketing/components/SchoolCta'
 import Newsletter from '@/features/marketing/components/Newsletter'
-
-export const metadata: Metadata = {
-  title: 'Si Educational',
-}
 
 export default function Home() {
   return (

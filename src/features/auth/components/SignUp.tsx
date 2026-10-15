@@ -18,12 +18,12 @@ const SignUp = () => {
         // Simulate registration (static site)
         new Promise((resolve) => setTimeout(resolve, 200))
             .then(() => {
-                toast.success('Successfully registered')
+                toast.success('Inscription réussie')
                 setLoading(false)
                 router.push('/signin')
             })
             .catch((err) => {
-                toast.error(err?.message || 'Registration failed')
+                toast.error(err?.message || "L'inscription a échoué")
                 setLoading(false)
             })
     }
@@ -38,7 +38,7 @@ const SignUp = () => {
 
             <span className="z-1 relative my-8 block text-center before:content-[''] before:absolute before:h-px before:w-[40%] before:bg-black/20 before:left-0 before:top-3 after:content-[''] after:absolute after:h-px after:w-[40%] after:bg-black/20 after:top-3 after:right-0">
                 <span className='text-body-secondary relative z-10 inline-block px-3 text-base text-black'>
-                    OR
+                    OU
                 </span>
             </span>
 
@@ -46,7 +46,7 @@ const SignUp = () => {
                 <div className='mb-[22px]'>
                     <input
                         type='text'
-                        placeholder='Name'
+                        placeholder='Nom complet'
                         name='name'
                         required
                         className='w-full rounded-md border border-solid bg-transparent px-5 py-3 text-base text-dark outline-hidden transition border-gray-200 placeholder:text-black/30 focus:border-primary focus-visible:shadow-none text-black'
@@ -55,7 +55,7 @@ const SignUp = () => {
                 <div className='mb-[22px]'>
                     <input
                         type='email'
-                        placeholder='Email'
+                        placeholder='Adresse e-mail'
                         name='email'
                         required
                         className='w-full rounded-md border border-solid bg-transparent px-5 py-3 text-base text-dark outline-hidden transition border-gray-200 placeholder:text-black/30 focus:border-primary focus-visible:shadow-none text-black'
@@ -64,7 +64,7 @@ const SignUp = () => {
                 <div className='mb-[22px]'>
                     <input
                         type='password'
-                        placeholder='Password'
+                        placeholder='Mot de passe'
                         name='password'
                         required
                         className='w-full rounded-md border border-solid bg-transparent px-5 py-3 text-base text-dark outline-hidden transition border-gray-200 placeholder:text-black/30 focus:border-primary focus-visible:shadow-none text-black'
@@ -74,26 +74,27 @@ const SignUp = () => {
                     <button
                         type='submit'
                         className='flex w-full items-center text-18 font-medium justify-center rounded-md  text-white bg-primary px-5 py-3 text-darkmode transition duration-300 ease-in-out hover:bg-transparent hover:text-primary border-primary border hover:cursor-pointer'>
-                        Sign Up {loading && <Loader />}
+                        Créer mon compte {loading && <Loader />}
                     </button>
                 </div>
             </form>
 
             <p className='text-body-secondary mb-4 text-black text-base'>
-                By creating an account you are agree with our{' '}
+                En créant un compte, vous acceptez nos{' '}
                 <Link href='/#' className='text-primary hover:underline'>
-                    Privacy
+                    conditions d&apos;utilisation
                 </Link>{' '}
-                and{' '}
+                et notre{' '}
                 <Link href='/#' className='text-primary hover:underline'>
-                    Policy
+                    politique de confidentialité
                 </Link>
+                .
             </p>
 
             <p className='text-body-secondary text-black text-base'>
-                Already have an account?
-                <Link href='/' className='pl-2 text-primary hover:underline'>
-                    Sign In
+                Vous avez déjà un compte ?
+                <Link href='/signin' className='pl-2 text-primary hover:underline'>
+                    Se connecter
                 </Link>
             </p>
         </>

@@ -6,6 +6,14 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import withBasePath from '@/lib/base-path'
 import { useSiteData } from '@/data/site-data'
 
+// Les liens pointent vers « #! » tant que les comptes officiels ne sont pas créés.
+const SOCIAL_LINKS = [
+    { label: 'Facebook', icon: 'tabler:brand-facebook-filled' },
+    { label: 'Instagram', icon: 'tabler:brand-instagram' },
+    { label: 'LinkedIn', icon: 'tabler:brand-linkedin' },
+    { label: 'YouTube', icon: 'tabler:brand-youtube-filled' },
+]
+
 const Footer = () => {
     const { data: footerlink } = useSiteData('FooterLinkData')
 
@@ -24,46 +32,19 @@ const Footer = () => {
                             />
                         </div>
                         <p className='text-white text-base font-medium leading-7'>
-                            {' '}
-                            Level up your skills, and get dream <br /> job with passion.{' '}
+                            Trouvez votre formation à Madagascar <br /> et construisez votre avenir.
                         </p>
                         <div className='flex gap-4'>
-                            <Link
-                                href='#!'
-                                scroll={false}
-                                className='bg-white/20 rounded-full p-2 text-white hover:bg-cream hover:text-primary duration-300'>
-                                <Icon
-                                    icon='tabler:brand-instagram'
-                                    className='text-2xl inline-block'
-                                />
-                            </Link>
-                            <Link
-                                href='/'
-                                scroll={false}
-                                className='bg-white/20 rounded-full p-2 text-white hover:bg-cream hover:text-primary duration-300'>
-                                <Icon
-                                    icon='tabler:brand-dribbble'
-                                    className='text-2xl inline-block'
-                                />
-                            </Link>
-                            <Link
-                                href='/'
-                                scroll={false}
-                                className='bg-white/20 rounded-full p-2 text-white hover:bg-cream hover:text-primary duration-300'>
-                                <Icon
-                                    icon='tabler:brand-twitter-filled'
-                                    className='text-2xl inline-block'
-                                />
-                            </Link>
-                            <Link
-                                href='/'
-                                scroll={false}
-                                className='bg-white/20 rounded-full p-2 text-white hover:bg-cream hover:text-primary duration-300'>
-                                <Icon
-                                    icon='tabler:brand-youtube-filled'
-                                    className='text-2xl inline-block'
-                                />
-                            </Link>
+                            {SOCIAL_LINKS.map((social) => (
+                                <Link
+                                    key={social.label}
+                                    href='#!'
+                                    scroll={false}
+                                    aria-label={social.label}
+                                    className='bg-white/20 rounded-full p-2 text-white hover:bg-cream hover:text-primary duration-300'>
+                                    <Icon icon={social.icon} className='text-2xl inline-block' />
+                                </Link>
+                            ))}
                         </div>
                     </div>
 
@@ -95,19 +76,21 @@ const Footer = () => {
 
                     <div className='col-span-4'>
                         <h3 className='text-white text-xl font-semibold mb-6'>
-                            Stay up to date
+                            Restez informé
                         </h3>
                         <div className='relative text-white focus-within:text-white flex flex-row-reverse w-[50%] lg:w-full'>
                             <input
-                                type='Email address'
-                                name='q'
-                                className='py-4 text-sm w-full text-white bg-white/15 rounded-md pl-4 focus:outline-hidden bg-emailbg focus:text-white'
-                                placeholder='Your email address'
-                                autoComplete='off'
+                                type='email'
+                                name='email'
+                                aria-label='Adresse e-mail'
+                                className='py-4 text-sm w-full text-white bg-white/15 rounded-md pl-4 focus:outline-hidden bg-emailbg focus:text-white placeholder:text-white/60'
+                                placeholder='Votre adresse e-mail'
+                                autoComplete='email'
                             />
                             <div className='absolute inset-y-0 right-0 flex items-center pr-2'>
                                 <button
                                     type='submit'
+                                    aria-label="S'abonner"
                                     className='p-1 focus:outline-hidden focus:shadow-outline'>
                                     <Icon
                                         icon='tabler:send'
@@ -120,24 +103,10 @@ const Footer = () => {
                 </div>
             </div>
             <div className='py-3'>
-                <h3 className='text-center text-white/60'>
-                    @2025 - All Rights Reserved by{' '}
-                    <Link
-                        href='https://adminmart.com/'
-                        target='_blank'
-                        className='hover:text-white'>
-                        {' '}
-                        GetNextJs Templates.com {' '}
-                    </Link>
-                    • Distributed by{' '}
-                    <Link
-                        href='https://themewagon.com/'
-                        target='_blank'
-                        className='hover:text-white'>
-                        {' '}
-                        ThemeWagon
-                    </Link>
-                </h3>
+                {/* L'année est calculée au rendu : on tolère l'écart entre build statique et navigateur. */}
+                <p className='text-center text-white/60' suppressHydrationWarning>
+                    © {new Date().getFullYear()} Edumada. Tous droits réservés.
+                </p>
             </div>
         </div>
     )

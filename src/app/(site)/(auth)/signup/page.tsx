@@ -3,14 +3,13 @@ import Breadcrumb from "@/components/ui/breadcrumb";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title:
-    "Sign Up | Property",
+  title: "Inscription",
 };
 
 const SignupPage = () => {
   return (
     <>
-      <Breadcrumb pageName="Sign Up Page" />
+      <Breadcrumb pageName="Inscription" />
 
       <SignUp />
     </>

@@ -82,7 +82,7 @@ const Header: React.FC = () => {
                             onClick={() => {
                                 setIsSignInOpen(true)
                             }}>
-                            Sign In
+                            Connexion
                         </button>
                         {isSignInOpen && (
                             <div className='fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center z-50'>
@@ -92,7 +92,7 @@ const Header: React.FC = () => {
                                     <button
                                         onClick={() => setIsSignInOpen(false)}
                                         className='absolute top-0 right-0 mr-8 mt-8 dark:invert'
-                                        aria-label='Close Sign In Modal'>
+                                        aria-label='Fermer la fenêtre de connexion'>
                                         <Icon
                                             icon='material-symbols:close-rounded'
                                             width={24}
@@ -109,7 +109,7 @@ const Header: React.FC = () => {
                             onClick={() => {
                                 setIsSignUpOpen(true)
                             }}>
-                            Sign Up
+                            Inscription
                         </button>
                         {isSignUpOpen && (
                             <div className='fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center z-50'>
@@ -119,7 +119,7 @@ const Header: React.FC = () => {
                                     <button
                                         onClick={() => setIsSignUpOpen(false)}
                                         className='absolute top-0 right-0 mr-8 mt-8 dark:invert'
-                                        aria-label='Close Sign Up Modal'>
+                                        aria-label="Fermer la fenêtre d'inscription">
                                         <Icon
                                             icon='material-symbols:close-rounded'
                                             width={24}
@@ -134,7 +134,7 @@ const Header: React.FC = () => {
                         <button
                             onClick={() => setNavbarOpen(!navbarOpen)}
                             className='block lg:hidden p-2 rounded-lg'
-                            aria-label='Toggle mobile menu'>
+                            aria-label='Ouvrir le menu'>
                             <span className='block w-6 h-0.5 bg-black'></span>
                             <span className='block w-6 h-0.5 bg-black mt-1.5'></span>
                             <span className='block w-6 h-0.5 bg-black mt-1.5'></span>
@@ -156,7 +156,7 @@ const Header: React.FC = () => {
                         <button
                             onClick={() => setNavbarOpen(false)}
                             className='bg-black/30 rounded-full p-1 text-white'
-                            aria-label='Close menu Modal'>
+                            aria-label='Fermer le menu'>
                             <Icon
                                 icon={'material-symbols:close-rounded'}
                                 width={24}
@@ -175,7 +175,7 @@ const Header: React.FC = () => {
                                     setIsSignInOpen(true)
                                     setNavbarOpen(false)
                                 }}>
-                                Sign In
+                                Connexion
                             </button>
                             <button
                                 className='bg-primary text-white px-4 py-2 rounded-lg border  border-primary hover:text-primary hover:bg-transparent hover:cursor-pointer transition duration-300 ease-in-out'
@@ -183,7 +183,7 @@ const Header: React.FC = () => {
                                     setIsSignUpOpen(true)
                                     setNavbarOpen(false)
                                 }}>
-                                Sign Up
+                                Inscription
                             </button>
                         </div>
                     </nav>

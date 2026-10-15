@@ -84,7 +84,8 @@ const Banner = () => {
                                         />
                                     </div>
                                     <div>
-                                        <h3 className='text-sm'>Rated by 25k on google.</h3>
+                                        {/* TODO : chiffres d'exemple du template, à remplacer par de vrais avis */}
+                                        <h3 className='text-sm'>Noté par 25 000 personnes sur Google.</h3>
                                     </div>
                                 </div>
                             </div>

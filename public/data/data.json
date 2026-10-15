@@ -1,17 +1,10 @@
 {
     "HeaderData": [
-        {
-            "label": "Home",
-            "href": "/#Home"
-        },
-        {
-            "label": "Courses",
-            "href": "/#Courses"
-        },
-        {
-            "label": "Join",
-            "href": "/#join-section"
-        }
+        { "label": "Accueil", "href": "/#Home" },
+        { "label": "Domaines", "href": "/#domains-section" },
+        { "label": "Formations", "href": "/#courses-section" },
+        { "label": "Établissements", "href": "/#schools-section" },
+        { "label": "Newsletter", "href": "/#join-section" }
     ],
     "DomainData": [
         { "name": "Informatique et numérique", "icon": "tabler:code", "count": 24 },
@@ -161,45 +154,21 @@
     ],
     "FooterLinkData": [
         {
-            "section": "Company",
+            "section": "Edumada",
             "links": [
-                {
-                    "label": "Home",
-                    "href": "/#Home"
-                },
-                {
-                    "label": "Courses",
-                    "href": "/#Courses"
-                },
-                {
-                    "label": "Join",
-                    "href": "/#join-section"
-                }
+                { "label": "Accueil", "href": "/#Home" },
+                { "label": "Domaines", "href": "/#domains-section" },
+                { "label": "Formations", "href": "/#courses-section" },
+                { "label": "Établissements", "href": "/#schools-section" }
             ]
         },
         {
-            "section": "Support",
+            "section": "Aide",
             "links": [
-                {
-                    "label": "Help center",
-                    "href": "/"
-                },
-                {
-                    "label": "Terms of service",
-                    "href": "/"
-                },
-                {
-                    "label": "Legal",
-                    "href": "/"
-                },
-                {
-                    "label": "Privacy Policy",
-                    "href": "/"
-                },
-                {
-                    "label": "Status",
-                    "href": "/"
-                }
+                { "label": "Centre d'aide", "href": "/" },
+                { "label": "Conditions d'utilisation", "href": "/" },
+                { "label": "Mentions légales", "href": "/" },
+                { "label": "Politique de confidentialité", "href": "/" }
             ]
         }
     ]
