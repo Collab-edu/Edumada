@@ -50,7 +50,7 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite }: Forma
                         {formatDuration(formation.durationYears)}
                     </li>
                 </ul>
-                <CardAction href='/#courses-section'>Voir la formation</CardAction>
+                <CardAction href={`/etablissements/${formation.schoolId}#${formation.id}`}>Voir la formation</CardAction>
             </div>
         </Card>
     )

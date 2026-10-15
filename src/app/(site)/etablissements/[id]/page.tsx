@@ -29,9 +29,18 @@ export default async function SchoolPage({ params }: Props) {
   if (!school) notFound()
 
   const formations = data.FormationData.filter((f) => f.schoolId === school.id)
+
+  // Suggestions : formations des autres établissements, d'abord dans les mêmes domaines, puis dans la même ville.
+  const score = (f: (typeof formations)[number]) =>
+    (school.tags.includes(f.domain) ? 2 : 0) + (f.city === school.city ? 1 : 0)
+  const suggestions = data.FormationData
+    .filter((f) => f.schoolId !== school.id)
+    .sort((a, b) => score(b) - score(a))
+    .slice(0, 8)
+
   return (
     <main>
-      <SchoolProfile school={school} formations={formations} />
+      <SchoolProfile school={school} formations={formations} suggestions={suggestions} />
     </main>
   )
 }
