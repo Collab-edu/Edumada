@@ -22,7 +22,7 @@ const SchoolsSection = () => {
                 ) : (
                     <AutoScroll duration={40}>
                         {schools.map((school) => (
-                            <SchoolCard key={school.name} school={school} />
+                            <SchoolCard key={school.id} school={school} />
                         ))}
                     </AutoScroll>
                 )}

@@ -43,10 +43,12 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite }: ResultCa
                             {formation.title}
                         </h3>
                         <p className='flex flex-wrap items-center gap-x-3 gap-y-1 text-ink/70'>
-                            <span className='inline-flex items-center gap-1.5'>
+                            <Link
+                                href={`/etablissements/${formation.schoolId}`}
+                                className='inline-flex items-center gap-1.5 hover:text-primary hover:underline'>
                                 <Icon icon='tabler:building-community' className='text-secondary' />
                                 {formation.school}
-                            </span>
+                            </Link>
                             <span className='inline-flex items-center gap-1.5'>
                                 <Icon icon='tabler:map-pin' className='text-secondary' />
                                 {formation.city}
@@ -99,7 +101,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite }: ResultCa
                         )}
                     </div>
                     <Link
-                        href={`#${formation.id}`}
+                        href={`/etablissements/${formation.schoolId}#${formation.id}`}
                         className='rounded-lg border border-primary px-5 py-2.5 text-center font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white'>
                         Voir la formation
                     </Link>

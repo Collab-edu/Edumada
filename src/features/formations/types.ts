@@ -7,6 +7,8 @@ export type FormationType = {
   id: string
   title: string
   school: string
+  /** Identifiant de l'établissement (SchoolType.id). */
+  schoolId: string
   schoolType: 'Public' | 'Privé'
   city: string
   /** Domaine, avec les mêmes libellés que le filtre « Domaine d'études ». */
@@ -14,8 +16,14 @@ export type FormationType = {
   diploma: Diploma
   /** Durée en années (0.5 = six mois) ; null si non renseignée. */
   durationYears: number | null
-  /** Frais annuels en ariary ; null si non renseignés. */
+  /** Frais de scolarité annuels en ariary ; null si non renseignés. */
   fees: number | null
+  /** Frais d'inscription en ariary ; null si non renseignés. */
+  registrationFee: number | null
+  /** Période d'inscription (dates ISO AAAA-MM-JJ). */
+  registrationPeriod: { start: string; end: string } | null
+  /** Date de rentrée (ISO AAAA-MM-JJ). */
+  startDate: string | null
   modality: Modality
   registration: RegistrationStatus
   languages: string[]

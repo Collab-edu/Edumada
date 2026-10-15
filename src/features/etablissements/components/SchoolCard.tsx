@@ -35,7 +35,7 @@ export function SchoolCard({ school }: { school: SchoolType }) {
                         </span>
                     ))}
                 </div>
-                <CardAction href='/#schools-section'>Voir l&apos;établissement</CardAction>
+                <CardAction href={`/etablissements/${school.id}`}>Voir l&apos;établissement</CardAction>
             </div>
         </Card>
     )

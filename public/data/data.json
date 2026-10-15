@@ -1,20 +1,75 @@
 {
     "HeaderData": [
-        { "label": "Accueil", "href": "/#Home" },
-        { "label": "Domaines", "href": "/#domains-section" },
-        { "label": "Formations", "href": "/#courses-section" },
-        { "label": "Établissements", "href": "/#schools-section" },
-        { "label": "Newsletter", "href": "/#join-section" }
+        {
+            "label": "Accueil",
+            "href": "/#Home"
+        },
+        {
+            "label": "Domaines",
+            "href": "/#domains-section"
+        },
+        {
+            "label": "Formations",
+            "href": "/#courses-section"
+        },
+        {
+            "label": "Établissements",
+            "href": "/#schools-section"
+        },
+        {
+            "label": "Newsletter",
+            "href": "/#join-section"
+        }
     ],
     "DomainData": [
-        { "name": "Informatique et numérique", "icon": "tabler:code", "count": 24, "searchDomain": "Informatique" },
-        { "name": "Gestion et management", "icon": "tabler:briefcase", "count": 18, "searchDomain": "Gestion & Commerce" },
-        { "name": "Commerce et marketing", "icon": "tabler:chart-bar", "count": 16, "searchDomain": "Gestion & Commerce" },
-        { "name": "Comptabilité et finance", "icon": "tabler:coin", "count": 12, "searchDomain": "Gestion & Commerce" },
-        { "name": "Droit et sciences politiques", "icon": "tabler:scale", "count": 9, "searchDomain": "Droit" },
-        { "name": "Santé et paramédical", "icon": "tabler:heart", "count": 21, "searchDomain": "Médecine & Santé" },
-        { "name": "Tourisme et hôtellerie", "icon": "tabler:send", "count": 11, "searchDomain": "Tourisme & Hôtellerie" },
-        { "name": "Communication et médias", "icon": "tabler:microphone", "count": 10, "searchDomain": "Lettres & Langues" }
+        {
+            "name": "Informatique et numérique",
+            "icon": "tabler:code",
+            "count": 24,
+            "searchDomain": "Informatique"
+        },
+        {
+            "name": "Gestion et management",
+            "icon": "tabler:briefcase",
+            "count": 18,
+            "searchDomain": "Gestion & Commerce"
+        },
+        {
+            "name": "Commerce et marketing",
+            "icon": "tabler:chart-bar",
+            "count": 16,
+            "searchDomain": "Gestion & Commerce"
+        },
+        {
+            "name": "Comptabilité et finance",
+            "icon": "tabler:coin",
+            "count": 12,
+            "searchDomain": "Gestion & Commerce"
+        },
+        {
+            "name": "Droit et sciences politiques",
+            "icon": "tabler:scale",
+            "count": 9,
+            "searchDomain": "Droit"
+        },
+        {
+            "name": "Santé et paramédical",
+            "icon": "tabler:heart",
+            "count": 21,
+            "searchDomain": "Médecine & Santé"
+        },
+        {
+            "name": "Tourisme et hôtellerie",
+            "icon": "tabler:send",
+            "count": 11,
+            "searchDomain": "Tourisme & Hôtellerie"
+        },
+        {
+            "name": "Communication et médias",
+            "icon": "tabler:microphone",
+            "count": 10,
+            "searchDomain": "Lettres & Langues"
+        }
     ],
     "HeroFilterData": [
         {
@@ -78,36 +133,342 @@
     ],
     "SchoolData": [
         {
+            "id": "institut-numerique-de-madagascar",
             "name": "Institut Numérique de Madagascar",
             "initials": "INM",
+            "type": "Privé",
             "city": "Antananarivo",
-            "description": "Un établissement exemple orienté vers les métiers du numérique.",
-            "tags": ["Informatique", "Gestion"],
-            "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=70"
+            "address": "Lot II 12 A, Analakely, Antananarivo",
+            "phone": "+261 34 00 100 10",
+            "email": "contact@inm.example",
+            "website": "https://www.inm.example",
+            "description": "Un établissement exemple orienté vers les métiers du numérique : développement, réseaux et données.",
+            "tags": [
+                "Informatique"
+            ],
+            "accreditation": "Établissement privé habilité par le ministère de l'Enseignement supérieur",
+            "coordinates": {
+                "lat": -18.8832,
+                "lng": 47.5049
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+            ]
         },
         {
+            "id": "ecole-superieure-de-gestion",
             "name": "École Supérieure de Gestion",
             "initials": "ESG",
+            "type": "Privé",
             "city": "Antananarivo",
-            "description": "Un établissement exemple proposant des cursus en management.",
-            "tags": ["Gestion", "Commerce"],
-            "imageSrc": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=70"
+            "address": "Lot IV 19 B, Analakely, Antananarivo",
+            "phone": "+261 34 00 113 13",
+            "email": "contact@esg.example",
+            "website": "https://www.esg.example",
+            "description": "Un établissement exemple proposant des cursus en gestion, management et entrepreneuriat.",
+            "tags": [
+                "Gestion & Commerce"
+            ],
+            "accreditation": "Établissement privé habilité par le ministère de l'Enseignement supérieur",
+            "coordinates": {
+                "lat": -18.8792,
+                "lng": 47.5109
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+            ]
         },
         {
+            "id": "institut-de-formation-en-sante",
             "name": "Institut de Formation en Santé",
             "initials": "IFS",
+            "type": "Privé",
             "city": "Antananarivo",
-            "description": "Un établissement exemple dédié aux formations de santé.",
-            "tags": ["Santé"],
-            "imageSrc": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=70"
+            "address": "Lot VI 26 Ter, Analakely, Antananarivo",
+            "phone": "+261 34 00 126 16",
+            "email": "contact@ifs.example",
+            "website": "https://www.ifs.example",
+            "description": "Un établissement exemple dédié aux formations paramédicales, avec stages en milieu hospitalier.",
+            "tags": [
+                "Médecine & Santé"
+            ],
+            "accreditation": "Agrément du ministère de la Santé publique",
+            "coordinates": {
+                "lat": -18.8752,
+                "lng": 47.5049
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+            ]
         },
         {
+            "id": "institut-de-tourisme-et-d-hotellerie",
             "name": "Institut de Tourisme et d'Hôtellerie",
             "initials": "ITH",
+            "type": "Privé",
             "city": "Antananarivo",
-            "description": "Un établissement exemple pour les métiers de l'accueil.",
-            "tags": ["Tourisme", "Commerce"],
-            "imageSrc": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=70"
+            "address": "Lot IB 33 Bis, Analakely, Antananarivo",
+            "phone": "+261 34 00 139 19",
+            "email": "contact@ith.example",
+            "website": "https://www.ith.example",
+            "description": "Un établissement exemple pour les métiers de l'accueil, de l'hôtellerie et du tourisme.",
+            "tags": [
+                "Tourisme & Hôtellerie"
+            ],
+            "accreditation": null,
+            "coordinates": {
+                "lat": -18.8832,
+                "lng": 47.5109
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70"
+            ]
+        },
+        {
+            "id": "centre-universitaire-d-informatique",
+            "name": "Centre Universitaire d'Informatique",
+            "initials": "CUI",
+            "type": "Public",
+            "city": "Antananarivo",
+            "address": "Lot III 40 A, Analakely, Antananarivo",
+            "phone": "+261 34 00 152 22",
+            "email": "contact@cui.example",
+            "website": "https://www.cui.example",
+            "description": "Un établissement public exemple spécialisé en informatique et en génie logiciel.",
+            "tags": [
+                "Informatique"
+            ],
+            "accreditation": "Établissement public d'enseignement supérieur",
+            "coordinates": {
+                "lat": -18.8792,
+                "lng": 47.5049
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=70"
+            ]
+        },
+        {
+            "id": "institut-superieur-de-droit-de-toamasina",
+            "name": "Institut Supérieur de Droit de Toamasina",
+            "initials": "ISDT",
+            "type": "Public",
+            "city": "Toamasina",
+            "address": "Lot II 47 B, Tanambao, Toamasina",
+            "phone": "+261 34 00 165 25",
+            "email": "contact@isdt.example",
+            "website": "https://www.isdt.example",
+            "description": "Un établissement public exemple formant aux métiers du droit et de l'administration.",
+            "tags": [
+                "Droit"
+            ],
+            "accreditation": "Établissement public d'enseignement supérieur",
+            "coordinates": {
+                "lat": -18.1403,
+                "lng": 49.3988
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+            ]
+        },
+        {
+            "id": "pole-superieur-d-agronomie",
+            "name": "Pôle Supérieur d'Agronomie",
+            "initials": "PSA",
+            "type": "Public",
+            "city": "Antananarivo",
+            "address": "Lot IV 54 Ter, Analakely, Antananarivo",
+            "phone": "+261 34 00 178 28",
+            "email": "contact@psa.example",
+            "website": "https://www.psa.example",
+            "description": "Un établissement public exemple consacré à l'agronomie et au développement rural.",
+            "tags": [
+                "Agronomie"
+            ],
+            "accreditation": "Établissement public d'enseignement supérieur",
+            "coordinates": {
+                "lat": -18.8832,
+                "lng": 47.5049
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+            ]
+        },
+        {
+            "id": "academie-numerique-d-antsirabe",
+            "name": "Académie Numérique d'Antsirabe",
+            "initials": "ANA",
+            "type": "Privé",
+            "city": "Antsirabe",
+            "address": "Lot VI 61 Bis, Mahazoarivo, Antsirabe",
+            "phone": "+261 34 00 191 31",
+            "email": "contact@ana.example",
+            "website": "https://www.ana.example",
+            "description": "Un centre de formation exemple proposant des certificats courts dans le numérique, à distance.",
+            "tags": [
+                "Informatique"
+            ],
+            "accreditation": null,
+            "coordinates": {
+                "lat": -19.8659,
+                "lng": 47.0363
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+            ]
+        },
+        {
+            "id": "institut-des-langues-de-fianarantsoa",
+            "name": "Institut des Langues de Fianarantsoa",
+            "initials": "ILF",
+            "type": "Public",
+            "city": "Fianarantsoa",
+            "address": "Lot IB 68 A, Tsianolondroa, Fianarantsoa",
+            "phone": "+261 34 00 204 34",
+            "email": "contact@ilf.example",
+            "website": "https://www.ilf.example",
+            "description": "Un établissement public exemple pour les langues, la communication et la traduction.",
+            "tags": [
+                "Lettres & Langues"
+            ],
+            "accreditation": "Établissement public d'enseignement supérieur",
+            "coordinates": {
+                "lat": -21.4496,
+                "lng": 47.0828
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=70"
+            ]
+        },
+        {
+            "id": "ecole-de-sante-de-mahajanga",
+            "name": "École de Santé de Mahajanga",
+            "initials": "ESM",
+            "type": "Public",
+            "city": "Mahajanga",
+            "address": "Lot III 75 B, Mahabibo, Mahajanga",
+            "phone": "+261 34 00 217 37",
+            "email": "contact@esm.example",
+            "website": "https://www.esm.example",
+            "description": "Un établissement public exemple formant les futurs médecins et professionnels de santé.",
+            "tags": [
+                "Médecine & Santé"
+            ],
+            "accreditation": "Établissement public d'enseignement supérieur",
+            "coordinates": {
+                "lat": -15.7207,
+                "lng": 46.3197
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+            ]
+        },
+        {
+            "id": "institut-polytechnique-de-toliara",
+            "name": "Institut Polytechnique de Toliara",
+            "initials": "IPT",
+            "type": "Privé",
+            "city": "Toliara",
+            "address": "Lot II 82 Ter, Besakoa, Toliara",
+            "phone": "+261 34 00 230 40",
+            "email": "contact@ipt.example",
+            "website": "https://www.ipt.example",
+            "description": "Un établissement exemple pour les métiers techniques du bâtiment et de l'ingénierie.",
+            "tags": [
+                "Ingénierie"
+            ],
+            "accreditation": "Établissement privé habilité par le ministère de l'Enseignement supérieur",
+            "coordinates": {
+                "lat": -23.35,
+                "lng": 43.6637
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70"
+            ]
+        },
+        {
+            "id": "ecole-superieure-de-tourisme-d-antsiranana",
+            "name": "École Supérieure de Tourisme d'Antsiranana",
+            "initials": "ESTA",
+            "type": "Privé",
+            "city": "Antsiranana",
+            "address": "Lot IV 89 Bis, Tanambao, Antsiranana",
+            "phone": "+261 34 00 243 43",
+            "email": "contact@esta.example",
+            "website": "https://www.esta.example",
+            "description": "Un établissement exemple tourné vers le management du tourisme dans le nord de l'île.",
+            "tags": [
+                "Tourisme & Hôtellerie"
+            ],
+            "accreditation": null,
+            "coordinates": {
+                "lat": -12.2747,
+                "lng": 49.2947
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=70"
+            ]
+        },
+        {
+            "id": "business-school-de-toamasina",
+            "name": "Business School de Toamasina",
+            "initials": "BST",
+            "type": "Privé",
+            "city": "Toamasina",
+            "address": "Lot VI 96 A, Tanambao, Toamasina",
+            "phone": "+261 34 00 256 46",
+            "email": "contact@bst.example",
+            "website": "https://www.bst.example",
+            "description": "Une école de commerce exemple avec des parcours en commerce international.",
+            "tags": [
+                "Gestion & Commerce"
+            ],
+            "accreditation": "Établissement privé habilité par le ministère de l'Enseignement supérieur",
+            "coordinates": {
+                "lat": -18.1483,
+                "lng": 49.3928
+            },
+            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+            ]
         }
     ],
     "FormationData": [
@@ -123,10 +484,27 @@
             "fees": 1800000,
             "modality": "Présentiel",
             "registration": "Ouvertes",
-            "languages": ["Français", "Anglais"],
-            "admission": { "level": "BAC", "bacSeries": ["C", "D", "Technique"] },
+            "languages": [
+                "Français",
+                "Anglais"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "C",
+                    "D",
+                    "Technique"
+                ]
+            },
             "housing": "Non renseigné",
             "scholarship": "Bourses disponibles",
+            "schoolId": "institut-numerique-de-madagascar",
+            "registrationFee": 80000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
             "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -141,10 +519,26 @@
             "fees": 1500000,
             "modality": "Hybride",
             "registration": "Ouvertes",
-            "languages": ["Français"],
-            "admission": { "level": "BAC", "bacSeries": ["A", "C", "D"] },
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "A",
+                    "C",
+                    "D"
+                ]
+            },
             "housing": "Non disponible",
             "scholarship": "Non renseigné",
+            "schoolId": "ecole-superieure-de-gestion",
+            "registrationFee": 100000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
             "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -159,10 +553,26 @@
             "fees": null,
             "modality": "Présentiel",
             "registration": "À venir",
-            "languages": ["Français", "Malgache"],
-            "admission": { "level": "BAC", "bacSeries": ["C", "D"] },
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "C",
+                    "D"
+                ]
+            },
             "housing": "Disponible",
             "scholarship": "Non renseigné",
+            "schoolId": "institut-de-formation-en-sante",
+            "registrationFee": 120000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
             "imageSrc": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -177,10 +587,23 @@
             "fees": 1200000,
             "modality": "Présentiel",
             "registration": "Ouvertes",
-            "languages": ["Français", "Anglais"],
-            "admission": { "level": "BAC", "bacSeries": [] },
+            "languages": [
+                "Français",
+                "Anglais"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": []
+            },
             "housing": "Non renseigné",
             "scholarship": "Non renseigné",
+            "schoolId": "institut-de-tourisme-et-d-hotellerie",
+            "registrationFee": 140000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
             "imageSrc": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -195,10 +618,22 @@
             "fees": 450000,
             "modality": "Présentiel",
             "registration": "À venir",
-            "languages": ["Français"],
-            "admission": { "level": "BAC+3", "bacSeries": [] },
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC+3",
+                "bacSeries": []
+            },
             "housing": "Disponible",
             "scholarship": "Bourses disponibles",
+            "schoolId": "centre-universitaire-d-informatique",
+            "registrationFee": 40000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
             "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -213,10 +648,27 @@
             "fees": 300000,
             "modality": "Présentiel",
             "registration": "Ouvertes",
-            "languages": ["Français", "Malgache"],
-            "admission": { "level": "BAC", "bacSeries": ["A", "C", "D"] },
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "A",
+                    "C",
+                    "D"
+                ]
+            },
             "housing": "Disponible",
             "scholarship": "Bourses disponibles",
+            "schoolId": "institut-superieur-de-droit-de-toamasina",
+            "registrationFee": 50000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
             "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -231,10 +683,22 @@
             "fees": 600000,
             "modality": "Présentiel",
             "registration": "Fermées",
-            "languages": ["Français"],
-            "admission": { "level": "BAC+3", "bacSeries": [] },
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC+3",
+                "bacSeries": []
+            },
             "housing": "Disponible",
             "scholarship": "Bourses disponibles",
+            "schoolId": "pole-superieur-d-agronomie",
+            "registrationFee": 30000,
+            "registrationPeriod": {
+                "start": "2026-06-01",
+                "end": "2026-08-31"
+            },
+            "startDate": "2026-10-05",
             "imageSrc": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -249,10 +713,23 @@
             "fees": 650000,
             "modality": "Distanciel",
             "registration": "Ouvertes",
-            "languages": ["Français", "Malgache"],
-            "admission": { "level": "Aucun", "bacSeries": [] },
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": []
+            },
             "housing": "Non renseigné",
             "scholarship": "Non renseigné",
+            "schoolId": "academie-numerique-d-antsirabe",
+            "registrationFee": 140000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
             "imageSrc": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -267,10 +744,27 @@
             "fees": 250000,
             "modality": "Hybride",
             "registration": "À venir",
-            "languages": ["Anglais", "Français"],
-            "admission": { "level": "BAC", "bacSeries": ["A", "C", "D"] },
+            "languages": [
+                "Anglais",
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "A",
+                    "C",
+                    "D"
+                ]
+            },
             "housing": "Disponible",
             "scholarship": "Non renseigné",
+            "schoolId": "institut-des-langues-de-fianarantsoa",
+            "registrationFee": 50000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
             "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -285,10 +779,25 @@
             "fees": 500000,
             "modality": "Présentiel",
             "registration": "Ouvertes",
-            "languages": ["Français"],
-            "admission": { "level": "BAC", "bacSeries": ["C", "D"] },
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "C",
+                    "D"
+                ]
+            },
             "housing": "Disponible",
             "scholarship": "Bourses disponibles",
+            "schoolId": "ecole-de-sante-de-mahajanga",
+            "registrationFee": 30000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
             "imageSrc": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -303,10 +812,25 @@
             "fees": 1100000,
             "modality": "Présentiel",
             "registration": "Ouvertes",
-            "languages": ["Français"],
-            "admission": { "level": "BAC", "bacSeries": ["C", "Technique"] },
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "C",
+                    "Technique"
+                ]
+            },
             "housing": "Non disponible",
             "scholarship": "Non renseigné",
+            "schoolId": "institut-polytechnique-de-toliara",
+            "registrationFee": 120000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
             "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -321,10 +845,23 @@
             "fees": 2800000,
             "modality": "Hybride",
             "registration": "À venir",
-            "languages": ["Français", "Anglais"],
-            "admission": { "level": "BAC+3", "bacSeries": [] },
+            "languages": [
+                "Français",
+                "Anglais"
+            ],
+            "admission": {
+                "level": "BAC+3",
+                "bacSeries": []
+            },
             "housing": "Disponible",
             "scholarship": "Bourses disponibles",
+            "schoolId": "ecole-superieure-de-tourisme-d-antsiranana",
+            "registrationFee": 140000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
             "imageSrc": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=70"
         },
         {
@@ -339,10 +876,27 @@
             "fees": 5500000,
             "modality": "Distanciel",
             "registration": "Ouvertes",
-            "languages": ["Français", "Anglais"],
-            "admission": { "level": "BAC", "bacSeries": ["A", "C", "D"] },
+            "languages": [
+                "Français",
+                "Anglais"
+            ],
+            "admission": {
+                "level": "BAC",
+                "bacSeries": [
+                    "A",
+                    "C",
+                    "D"
+                ]
+            },
             "housing": "Non renseigné",
             "scholarship": "Non renseigné",
+            "schoolId": "business-school-de-toamasina",
+            "registrationFee": 80000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
             "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=70"
         }
     ],
@@ -350,19 +904,43 @@
         {
             "section": "Edumada",
             "links": [
-                { "label": "Accueil", "href": "/#Home" },
-                { "label": "Domaines", "href": "/#domains-section" },
-                { "label": "Formations", "href": "/#courses-section" },
-                { "label": "Établissements", "href": "/#schools-section" }
+                {
+                    "label": "Accueil",
+                    "href": "/#Home"
+                },
+                {
+                    "label": "Domaines",
+                    "href": "/#domains-section"
+                },
+                {
+                    "label": "Formations",
+                    "href": "/#courses-section"
+                },
+                {
+                    "label": "Établissements",
+                    "href": "/#schools-section"
+                }
             ]
         },
         {
             "section": "Aide",
             "links": [
-                { "label": "Centre d'aide", "href": "/" },
-                { "label": "Conditions d'utilisation", "href": "/" },
-                { "label": "Mentions légales", "href": "/" },
-                { "label": "Politique de confidentialité", "href": "/" }
+                {
+                    "label": "Centre d'aide",
+                    "href": "/"
+                },
+                {
+                    "label": "Conditions d'utilisation",
+                    "href": "/"
+                },
+                {
+                    "label": "Mentions légales",
+                    "href": "/"
+                },
+                {
+                    "label": "Politique de confidentialité",
+                    "href": "/"
+                }
             ]
         }
     ]
