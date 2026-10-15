@@ -156,6 +156,23 @@ export function SchoolProfile({ school, formations, testimonials, faq }: SchoolP
 
                     {/* Colonne latérale */}
                     <aside className='flex flex-col gap-6 lg:sticky lg:top-28 lg:self-start'>
+                        <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
+                            <p className='px-6 pt-5 pb-3 text-lg font-bold text-secondary'>Localisation</p>
+                            <iframe
+                                title={`Carte : ${school.name}`}
+                                src={mapSrc}
+                                className='h-64 w-full border-0'
+                            />
+                            <a
+                                href={mapLink}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                className='flex items-center justify-between px-6 py-4 font-semibold text-primary hover:underline'>
+                                Ouvrir dans OpenStreetMap
+                                <Icon icon='tabler:external-link' />
+                            </a>
+                        </div>
+
                         <div className='rounded-2xl border border-gray-100 bg-white p-6 shadow-sm'>
                             <p className='mb-2 text-lg font-bold text-secondary'>Informations pratiques</p>
                             <ul>
@@ -176,24 +193,6 @@ export function SchoolProfile({ school, formations, testimonials, faq }: SchoolP
                                     {school.accreditation ?? 'Non renseignée'}
                                 </InfoRow>
                             </ul>
-                        </div>
-
-                        <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
-                            <p className='px-6 pt-5 pb-3 text-lg font-bold text-secondary'>Localisation</p>
-                            <iframe
-                                title={`Carte : ${school.name}`}
-                                src={mapSrc}
-                                loading='lazy'
-                                className='h-64 w-full border-0'
-                            />
-                            <a
-                                href={mapLink}
-                                target='_blank'
-                                rel='noopener noreferrer'
-                                className='flex items-center justify-between px-6 py-4 font-semibold text-primary hover:underline'>
-                                Ouvrir dans OpenStreetMap
-                                <Icon icon='tabler:external-link' />
-                            </a>
                         </div>
                     </aside>
                 </div>
