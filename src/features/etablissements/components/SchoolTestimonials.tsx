@@ -1,13 +1,11 @@
 'use client'
-import { useState } from 'react'
 import { Icon } from '@iconify/react/dist/iconify.js'
+import AutoScroll from '@/components/ui/auto-scroll'
 import { cn } from '@/lib/utils'
 import type { FormationType } from '@/features/formations/types'
 import type { TestimonialType } from '../types'
 
 const AVATAR_COLORS = ['bg-primary text-white', 'bg-secondary text-white', 'bg-success text-secondary', 'bg-cream text-primary']
-/** Nombre d'avis affichés avant « Voir les autres avis ». */
-const VISIBLE_COUNT = 2
 
 function Stars({ rating, className }: { rating: number; className?: string }) {
     return (
@@ -27,7 +25,7 @@ const initials = (name: string) =>
         .slice(0, 2)
         .toUpperCase()
 
-/** Témoignages d'étudiants, en format compact : note moyenne sur une ligne, deux avis visibles. */
+/** Témoignages d'étudiants, en format compact : note moyenne sur une ligne, avis en défilement continu. */
 export function SchoolTestimonials({
     testimonials,
     formations,
@@ -35,14 +33,11 @@ export function SchoolTestimonials({
     testimonials: TestimonialType[]
     formations: FormationType[]
 }) {
-    const [showAll, setShowAll] = useState(false)
     if (testimonials.length === 0) {
         return <p className='text-ink/60'>Aucun témoignage pour le moment.</p>
     }
     const average = testimonials.reduce((sum, t) => sum + t.rating, 0) / testimonials.length
     const titleOf = (id: string) => formations.find((f) => f.id === id)?.title
-    const visible = showAll ? testimonials : testimonials.slice(0, VISIBLE_COUNT)
-    const hiddenCount = testimonials.length - VISIBLE_COUNT
 
     return (
         <div className='flex flex-col gap-4'>
@@ -52,9 +47,9 @@ export function SchoolTestimonials({
                 <span>· {testimonials.length} avis</span>
             </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                {visible.map((t, i) => (
-                    <figure key={t.id} className='flex flex-col gap-3 rounded-xl border border-gray-100 bg-white p-4'>
+            <AutoScroll duration={30} itemClassName='w-[340px]'>
+                {testimonials.map((t, i) => (
+                    <figure key={t.id} className='flex h-full flex-col gap-3 rounded-xl border border-gray-100 bg-white p-4'>
                         <blockquote className='line-clamp-3 text-[15px] text-ink/80 leading-snug'>« {t.quote} »</blockquote>
                         <figcaption className='mt-auto flex items-center gap-2.5'>
                             <span
@@ -74,16 +69,7 @@ export function SchoolTestimonials({
                         </figcaption>
                     </figure>
                 ))}
-            </div>
-
-            {hiddenCount > 0 && (
-                <button
-                    type='button'
-                    onClick={() => setShowAll(!showAll)}
-                    className='self-start font-semibold text-primary hover:underline hover:cursor-pointer'>
-                    {showAll ? 'Voir moins d’avis' : `Voir ${hiddenCount === 1 ? 'l’autre avis' : `les ${hiddenCount} autres avis`}`}
-                </button>
-            )}
+            </AutoScroll>
         </div>
     )
 }
