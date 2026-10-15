@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { readSiteData } from '@/data/server'
 import SchoolProfile from '@/features/etablissements/components/SchoolProfile'
+import { buildSchoolFaq } from '@/features/etablissements/faq'
 
 type Props = { params: Promise<{ id: string }> }
 
@@ -29,9 +30,23 @@ export default async function SchoolPage({ params }: Props) {
   if (!school) notFound()
 
   const formations = data.FormationData.filter((f) => f.schoolId === school.id)
+  const faq = buildSchoolFaq(school, formations)
+
+  // Données structurées FAQPage : Google peut afficher les questions dans ses résultats.
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  }
+
   return (
     <main>
-      <SchoolProfile school={school} formations={formations} />
+      <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }} />
+      <SchoolProfile school={school} formations={formations} faq={faq} />
     </main>
   )
 }
