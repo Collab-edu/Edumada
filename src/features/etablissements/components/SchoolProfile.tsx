@@ -107,7 +107,7 @@ export function SchoolProfile({ school, formations }: SchoolProfileProps) {
                                 Formations proposées <span className='text-ink/50'>({formations.length})</span>
                             </h2>
                             {formations.length > 0 ? (
-                                <div className='flex flex-col gap-5'>
+                                <div className='grid grid-cols-1 md:grid-cols-2 items-start gap-5'>
                                     {formations.map((formation) => (
                                         <SchoolFormation key={formation.id} formation={formation} />
                                     ))}

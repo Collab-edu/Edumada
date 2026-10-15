@@ -62,8 +62,8 @@ export function SchoolFormation({ formation }: { formation: FormationType }) {
                 open ? 'border-primary/30' : 'border-gray-100 hover:border-primary/30'
             )}>
             {/* Résumé */}
-            <div className='flex flex-col sm:flex-row'>
-                <div className='relative h-40 sm:h-auto sm:w-44 shrink-0 bg-cream'>
+            <div className='flex flex-col'>
+                <div className='relative h-40 shrink-0 bg-cream'>
                     <Image src={formation.imageSrc} alt={formation.title} fill className='object-cover' />
                 </div>
                 <div className='flex flex-1 flex-col gap-3 p-5'>
@@ -106,8 +106,8 @@ export function SchoolFormation({ formation }: { formation: FormationType }) {
 
             {/* Détail */}
             {open && (
-                <div id={detailsId} className='border-t border-gray-100 p-5 sm:p-6'>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4'>
+                <div id={detailsId} className='border-t border-gray-100 p-5'>
+                    <div className='grid grid-cols-1 gap-y-4'>
                         <Detail icon='tabler:certificate' label='Diplôme obtenu'>{formation.diploma}</Detail>
                         <Detail icon='tabler:clock' label='Durée'>{formatDuration(formation.durationYears)}</Detail>
                         <Detail icon='tabler:device-laptop' label='Modalité de formation'>{formation.modality}</Detail>
