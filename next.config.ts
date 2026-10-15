@@ -1,7 +1,8 @@
 import type { NextConfig } from 'next'
 
 const basePath = '';
-// const basePath = '/si-education';
+// Pour GitHub Pages (https://mahefa-int.github.io/Edumada-frontend/) :
+// const basePath = '/Edumada-frontend';
 
 const nextConfig: NextConfig = {
     /* config options here */
