@@ -33,18 +33,6 @@
             ]
         },
         {
-            "label": "Niveau d'études",
-            "param": "niveau",
-            "options": [
-                "Tous les niveaux",
-                "BTS / DTS",
-                "Licence",
-                "Master",
-                "Doctorat",
-                "Formation professionnelle"
-            ]
-        },
-        {
             "label": "Ville / Localisation",
             "param": "ville",
             "options": [

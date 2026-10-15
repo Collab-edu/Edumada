@@ -5,8 +5,12 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import { useSiteData } from '@/data/site-data'
 import FilterDropdown from './FilterDropdown'
 
-// Icône affichée devant chaque filtre, dans l'ordre de HeroFilterData
-const FILTER_ICONS = ['tabler:book-2', 'tabler:school', 'tabler:map-pin', 'tabler:building-community']
+// Icône affichée devant chaque filtre, selon son paramètre d'URL
+const FILTER_ICONS: Record<string, string> = {
+    domaine: 'tabler:book-2',
+    ville: 'tabler:map-pin',
+    type: 'tabler:building-community',
+}
 
 const HeroFilters = () => {
     const { data: filters } = useSiteData('HeroFilterData')
@@ -38,13 +42,13 @@ const HeroFilters = () => {
                     <Icon icon='tabler:search' className='text-lg text-primary' />
                     Trouvez l&apos;établissement qui vous correspond
                 </div>
-                <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5 lg:items-center'>
-                    {filters.map((filter, index) => (
+                <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 lg:items-center'>
+                    {filters.map((filter) => (
                         <div
                             key={filter.label}
                             className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none'>
                             <FilterDropdown
-                                icon={FILTER_ICONS[index]}
+                                icon={FILTER_ICONS[filter.param]}
                                 label={filter.label}
                                 options={filter.options}
                                 value={selected[filter.label] ?? filter.options[0]}
@@ -52,7 +56,7 @@ const HeroFilters = () => {
                             />
                         </div>
                     ))}
-                    <div className='sm:col-span-2 lg:col-span-1 p-1'>
+                    <div className='p-1'>
                         <Link
                             href={searchHref}
                             className='flex items-center justify-center gap-2 bg-primary w-full text-white font-bold py-4 px-3 rounded-xl shadow-lg shadow-primary/30 hover:bg-primary/90 hover:shadow-primary/50 hover:-translate-y-0.5 duration-300'>
