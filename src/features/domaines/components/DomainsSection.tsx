@@ -6,7 +6,7 @@ import { useSiteData } from '@/data/site-data'
 
 // Carte bordée avec une ombre pleine décalée, qui se « soulève » au survol.
 const domainCardClassName =
-    'group flex flex-col justify-between gap-6 rounded-xl border border-gray-200 bg-white p-5 shadow-[5px_5px_0_0_rgba(255,59,82,0.22)] transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[8px_8px_0_0_rgba(255,59,82,0.35)]'
+    'group flex flex-col justify-between gap-4 rounded-xl border border-gray-200 bg-white px-4 py-4 shadow-[4px_4px_0_0_rgba(255,59,82,0.22)] transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[6px_6px_0_0_rgba(255,59,82,0.35)]'
 
 const DomainsSection = () => {
     const { data: domains, loading } = useSiteData('DomainData')
@@ -19,33 +19,33 @@ const DomainsSection = () => {
                     description="Découvrez les possibilités d'études selon vos centres d'intérêt et vos objectifs professionnels."
                 />
 
-                <div className='grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-4 lg:grid-cols-[repeat(4,minmax(0,1fr))_minmax(0,1.3fr)] gap-5'>
+                <div className='grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-4 lg:grid-cols-[repeat(4,minmax(0,1fr))_minmax(0,1.3fr)] gap-4'>
                     {loading
                         ? Array.from({ length: 8 }).map((_, i) => (
-                            <div key={i} className='h-40 rounded-xl border border-gray-200 bg-white animate-pulse' />
+                            <div key={i} className='h-32 rounded-xl border border-gray-200 bg-white animate-pulse' />
                         ))
                         : domains.map((domain) => (
                             <Link
                                 key={domain.name}
                                 href={`/recherche?domaine=${encodeURIComponent(domain.searchDomain)}`}
                                 className={domainCardClassName}>
-                                <Icon icon={domain.icon} className='text-2xl text-primary' />
-                                <div className='flex flex-col gap-2'>
-                                    <h3 className='text-base font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
+                                <Icon icon={domain.icon} className='text-xl text-primary' />
+                                <div className='flex flex-col gap-1'>
+                                    <h3 className='text-[15px] font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
                                         {domain.name}
                                     </h3>
-                                    <p className='text-ink/60'>{domain.count} formations</p>
+                                    <span className='text-sm text-ink/60'>{domain.count} formations</span>
                                 </div>
                             </Link>
                         ))}
 
                     {/* Panneau « Explorateur », sur la hauteur des deux lignes de cartes */}
-                    <div className='flex flex-col justify-between gap-8 rounded-xl bg-secondary/10 p-7 min-[420px]:col-span-2 md:col-span-4 lg:col-span-1 lg:col-start-5 lg:row-start-1 lg:row-span-2'>
-                        <div className='flex flex-col gap-3'>
-                            <h3 className='text-xl font-bold text-secondary'>Explorateur de formations</h3>
-                            <p className='text-ink/80 leading-relaxed'>
-                                Répondez à quelques questions sur votre niveau, votre budget et vos envies : nous vous
-                                présentons les formations qui vous correspondent.
+                    <div className='flex flex-col justify-between gap-6 rounded-xl bg-secondary/10 p-6 min-[420px]:col-span-2 md:col-span-4 lg:col-span-1 lg:col-start-5 lg:row-start-1 lg:row-span-2'>
+                        <div className='flex flex-col gap-2'>
+                            <h3 className='text-lg font-bold text-secondary'>Explorateur de formations</h3>
+                            <p className='text-ink/80 leading-snug'>
+                                Répondez à quelques questions et nous vous présenterons les formations qui vous
+                                correspondent.
                             </p>
                         </div>
                         <Link
