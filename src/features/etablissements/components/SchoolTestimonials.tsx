@@ -1,10 +1,13 @@
 'use client'
+import { useState } from 'react'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { cn } from '@/lib/utils'
 import type { FormationType } from '@/features/formations/types'
 import type { TestimonialType } from '../types'
 
 const AVATAR_COLORS = ['bg-primary text-white', 'bg-secondary text-white', 'bg-success text-secondary', 'bg-cream text-primary']
+/** Nombre d'avis affichés avant « Voir les autres avis ». */
+const VISIBLE_COUNT = 2
 
 function Stars({ rating, className }: { rating: number; className?: string }) {
     return (
@@ -24,7 +27,7 @@ const initials = (name: string) =>
         .slice(0, 2)
         .toUpperCase()
 
-/** Témoignages d'étudiants : note moyenne et avis par formation. */
+/** Témoignages d'étudiants, en format compact : note moyenne sur une ligne, deux avis visibles. */
 export function SchoolTestimonials({
     testimonials,
     formations,
@@ -32,50 +35,55 @@ export function SchoolTestimonials({
     testimonials: TestimonialType[]
     formations: FormationType[]
 }) {
+    const [showAll, setShowAll] = useState(false)
     if (testimonials.length === 0) {
         return <p className='text-ink/60'>Aucun témoignage pour le moment.</p>
     }
     const average = testimonials.reduce((sum, t) => sum + t.rating, 0) / testimonials.length
     const titleOf = (id: string) => formations.find((f) => f.id === id)?.title
+    const visible = showAll ? testimonials : testimonials.slice(0, VISIBLE_COUNT)
+    const hiddenCount = testimonials.length - VISIBLE_COUNT
 
     return (
-        <div className='flex flex-col gap-5'>
-            <div className='flex items-center gap-4 rounded-2xl bg-cream/60 px-6 py-4'>
-                <span className='text-4xl font-bold text-secondary'>{average.toFixed(1).replace('.', ',')}</span>
-                <div className='flex flex-col'>
-                    <Stars rating={average} className='text-xl' />
-                    <span className='text-sm text-ink/70'>
-                        Note moyenne sur {testimonials.length} avis d&apos;étudiant{testimonials.length > 1 ? 's' : ''}
-                    </span>
-                </div>
+        <div className='flex flex-col gap-4'>
+            <div className='flex items-center gap-2 text-sm text-ink/70'>
+                <Stars rating={average} />
+                <span className='font-semibold text-secondary'>{average.toFixed(1).replace('.', ',')}</span>
+                <span>· {testimonials.length} avis</span>
             </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
-                {testimonials.map((t, i) => (
-                    <figure key={t.id} className='flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm'>
-                        <div className='flex items-center justify-between'>
-                            <Stars rating={t.rating} />
-                            <Icon icon='tabler:quote' className='text-3xl text-primary/20' />
-                        </div>
-                        <blockquote className='flex-1 text-ink/80 leading-relaxed'>« {t.quote} »</blockquote>
-                        <figcaption className='flex items-center gap-3 border-t border-gray-100 pt-4'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                {visible.map((t, i) => (
+                    <figure key={t.id} className='flex flex-col gap-3 rounded-xl border border-gray-100 bg-white p-4'>
+                        <blockquote className='line-clamp-3 text-[15px] text-ink/80 leading-snug'>« {t.quote} »</blockquote>
+                        <figcaption className='mt-auto flex items-center gap-2.5'>
                             <span
                                 className={cn(
-                                    'flex h-11 w-11 shrink-0 items-center justify-center rounded-full font-bold',
+                                    'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold',
                                     AVATAR_COLORS[i % AVATAR_COLORS.length]
                                 )}>
                                 {initials(t.name)}
                             </span>
-                            <span className='flex flex-col'>
-                                <span className='font-semibold text-secondary'>{t.name}</span>
-                                <span className='text-sm text-ink/60'>
-                                    {titleOf(t.formationId)} · {t.status}
+                            <span className='flex min-w-0 flex-col text-sm leading-tight'>
+                                <span className='flex items-center gap-2'>
+                                    <span className='font-semibold text-secondary'>{t.name}</span>
+                                    <Stars rating={t.rating} className='text-xs' />
                                 </span>
+                                <span className='truncate text-ink/60'>{titleOf(t.formationId)}</span>
                             </span>
                         </figcaption>
                     </figure>
                 ))}
             </div>
+
+            {hiddenCount > 0 && (
+                <button
+                    type='button'
+                    onClick={() => setShowAll(!showAll)}
+                    className='self-start font-semibold text-primary hover:underline hover:cursor-pointer'>
+                    {showAll ? 'Voir moins d’avis' : `Voir ${hiddenCount === 1 ? 'l’autre avis' : `les ${hiddenCount} autres avis`}`}
+                </button>
+            )}
         </div>
     )
 }
