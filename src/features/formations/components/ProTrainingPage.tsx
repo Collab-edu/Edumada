@@ -1,13 +1,12 @@
 'use client'
 import { useMemo, useState } from 'react'
 import { Icon } from '@/components/ui/icon'
-import { ButtonLink } from '@/components/ui/form'
+import { ButtonLink, SelectField } from '@/components/ui/form'
 import { CardSkeletonGrid } from '@/components/ui/card'
 import SectionHeader from '@/components/ui/section-header'
 import { useSiteData } from '@/data/site-data'
 import { useAuth } from '@/features/auth/AuthProvider'
 import SchoolCard from '@/features/etablissements/components/SchoolCard'
-import { cn } from '@/lib/utils'
 import FormationCard from './FormationCard'
 
 /** Identifiant de la catégorie « Formation professionnelle » (CategoryData). */
@@ -25,14 +24,17 @@ export default function ProTrainingPage() {
     const { data: schools, loading: schoolsLoading } = useSiteData('SchoolData')
     const { data: categories } = useSiteData('CategoryData')
     const { isFavorite, toggleFavorite } = useAuth()
-    const [domain, setDomain] = useState('')
+    const [filters, setFilters] = useState({ domain: '', city: '' })
 
     const category = categories.find((c) => c.id === CATEGORY_ID)
     const searchHref = `/recherche?categorie=${encodeURIComponent(category?.shortLabel ?? 'Formation professionnelle')}`
     const offers = useMemo(() => formations.filter((f) => f.category === CATEGORY_ID), [formations])
     const centers = useMemo(() => schools.filter((s) => s.category === CATEGORY_ID), [schools])
-    const domains = useMemo(() => [...new Set(offers.map((f) => f.domain).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr')), [offers])
-    const shown = domain ? offers.filter((f) => f.domain === domain) : offers
+    const sorted = (values: string[]) => [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr'))
+    const domains = useMemo(() => sorted(offers.map((f) => f.domain)), [offers])
+    const cities = useMemo(() => sorted(offers.map((f) => f.city)), [offers])
+    const shown = offers.filter((f) => (!filters.domain || f.domain === filters.domain) && (!filters.city || f.city === filters.city))
+    const filtered = !!(filters.domain || filters.city)
 
     return (
         <>
@@ -97,30 +99,38 @@ export default function ProTrainingPage() {
                 <div className='container mx-auto max-w-7xl px-4'>
                     <SectionHeader
                         title='Les formations professionnelles'
-                        description='Filtrez par domaine pour trouver la formation qui correspond à votre projet.'
-                        link={{ href: searchHref, label: 'Recherche détaillée' }}
+                        description='Filtrez par domaine et par ville pour trouver la formation qui correspond à votre projet.'
                     />
-                    {domains.length > 1 && (
-                        <div className='mb-6 flex flex-wrap gap-2' role='group' aria-label='Filtrer par domaine'>
-                            {['', ...domains].map((d) => (
-                                <button
-                                    key={d || 'all'}
-                                    type='button'
-                                    onClick={() => setDomain(d)}
-                                    aria-pressed={domain === d}
-                                    className={cn(
-                                        'rounded-full border px-4 py-1.5 text-sm font-medium transition-colors duration-300 hover:cursor-pointer',
-                                        domain === d ? 'border-secondary bg-secondary text-white' : 'border-gray-200 bg-white text-secondary hover:border-secondary/40'
-                                    )}>
-                                    {d || 'Tous les domaines'}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                    {/* Filtre simple : domaine et localisation */}
+                    <form role='search' aria-label='Filtrer les formations' onSubmit={(e) => e.preventDefault()} className='mb-6 grid gap-3 rounded-xl border border-gray-200 bg-white p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end'>
+                        <SelectField
+                            label='Domaine'
+                            placeholder='Tous les domaines'
+                            options={domains}
+                            value={filters.domain}
+                            onChange={(e) => setFilters({ ...filters, domain: e.target.value })}
+                        />
+                        <SelectField
+                            label='Localisation'
+                            placeholder='Toutes les villes'
+                            options={cities}
+                            value={filters.city}
+                            onChange={(e) => setFilters({ ...filters, city: e.target.value })}
+                        />
+                        <button
+                            type='button'
+                            onClick={() => setFilters({ domain: '', city: '' })}
+                            disabled={!filtered}
+                            className='h-11 rounded-lg px-4 text-sm font-semibold text-primary hover:underline disabled:hidden sm:disabled:block sm:disabled:invisible hover:cursor-pointer'>
+                            Réinitialiser
+                        </button>
+                    </form>
                     {loading ? (
                         <CardSkeletonGrid count={4} className='h-[360px]' />
                     ) : shown.length === 0 ? (
-                        <p className='rounded-xl bg-white p-8 text-center text-ink/70'>Aucune formation professionnelle publiée pour le moment.</p>
+                        <p className='rounded-xl bg-white p-8 text-center text-ink/70'>
+                            {filtered ? 'Aucune formation ne correspond à ces critères.' : 'Aucune formation professionnelle publiée pour le moment.'}
+                        </p>
                     ) : (
                         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
                             {shown.map((formation) => (
