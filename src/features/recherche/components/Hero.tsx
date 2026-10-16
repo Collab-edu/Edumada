@@ -74,10 +74,10 @@ const Banner = () => {
                                 </div>
                                 <div>
                                     <div className='flex items-center justify-center sm:justify-start'>
-                                        <h3 className='text-lg font-semibold mr-2'>4.6</h3>
+                                        <p className='text-lg font-semibold mr-2'>4.6</p>
                                         <Image
                                             src={withBasePath('/images/banner/Stars.svg')}
-                                            alt='stars-icon'
+                                            alt='Note de 4,6 sur 5'
                                             width={70}
                                             height={12}
                                             className='h-3.5 w-auto'
@@ -85,7 +85,7 @@ const Banner = () => {
                                     </div>
                                     <div>
                                         {/* TODO : chiffres d'exemple du template, à remplacer par de vrais avis */}
-                                        <h3 className='text-xs text-ink/70'>Noté par 25 000 personnes sur Google.</h3>
+                                        <p className='text-xs text-ink/70'>Noté par 25 000 personnes sur Google.</p>
                                     </div>
                                 </div>
                             </div>

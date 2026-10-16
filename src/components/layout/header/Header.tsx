@@ -170,10 +170,7 @@ const Header: React.FC = () => {
                     className={`lg:hidden fixed top-0 right-0 h-full w-full bg-white shadow-lg transform transition-transform duration-300 max-w-xs ${navbarOpen ? 'translate-x-0' : 'translate-x-full'
                         } z-50`}>
                     <div className='flex items-center justify-between p-4'>
-                        <h2 className='text-[26px] font-bold text-midnight_text'>
-                            <Logo />
-                        </h2>
-                        {/*  */}
+                        <Logo />
                         <button
                             onClick={() => setNavbarOpen(false)}
                             className='bg-black/30 rounded-full p-1 text-white'
