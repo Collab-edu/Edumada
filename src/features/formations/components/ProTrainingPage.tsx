@@ -2,12 +2,14 @@
 import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
-import { ButtonLink, SelectField } from '@/components/ui/form'
+import { ButtonLink } from '@/components/ui/form'
 import { CardSkeletonGrid } from '@/components/ui/card'
 import SectionHeader from '@/components/ui/section-header'
 import { useSiteData } from '@/data/site-data'
 import { useAuth } from '@/features/auth/AuthProvider'
 import SchoolCard from '@/features/etablissements/components/SchoolCard'
+import SuggestInput from '@/features/recherche/components/SuggestInput'
+import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
 import FormationCard from './FormationCard'
 
 /** Identifiant de la catégorie « Formation professionnelle » (CategoryData). */
@@ -33,7 +35,14 @@ export default function ProTrainingPage() {
     const searchHref = `/recherche?categorie=${encodeURIComponent(category?.shortLabel ?? 'Formation professionnelle')}`
     const offers = useMemo(() => formations.filter((f) => f.category === CATEGORY_ID), [formations])
     const centers = useMemo(() => schools.filter((s) => s.category === CATEGORY_ID), [schools])
-    const sorted = (values: string[]) => [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr'))
+    // Suggestions triées, avec le nombre de formations correspondantes.
+    const sorted = (values: string[]) =>
+        [...new Set(values.filter(Boolean))]
+            .sort((a, b) => a.localeCompare(b, 'fr'))
+            .map((value) => {
+                const count = values.filter((v) => v === value).length
+                return { value, hint: `${count} formation${count > 1 ? 's' : ''}` }
+            })
     const domains = useMemo(() => sorted(offers.map((f) => f.domain)), [offers])
     const cities = useMemo(() => sorted(offers.map((f) => f.city)), [offers])
     const shown = offers.filter((f) => (!filters.domain || f.domain === filters.domain) && (!filters.city || f.city === filters.city))
@@ -77,21 +86,26 @@ export default function ProTrainingPage() {
                         description='Filtrez par domaine et par ville pour trouver la formation qui correspond à votre projet.'
                     />
                     {/* Filtre simple : domaine et localisation */}
-                    <form role='search' aria-label='Filtrer les formations' onSubmit={(e) => e.preventDefault()} className='mb-6 grid gap-3 rounded-xl border border-gray-200 bg-white p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end'>
-                        <SelectField
-                            label='Domaine'
-                            placeholder='Tous les domaines'
-                            options={domains}
-                            value={filters.domain}
-                            onChange={(e) => setFilters({ ...filters, domain: e.target.value })}
-                        />
-                        <SelectField
-                            label='Localisation'
-                            placeholder='Toutes les villes'
-                            options={cities}
-                            value={filters.city}
-                            onChange={(e) => setFilters({ ...filters, city: e.target.value })}
-                        />
+                    <form
+                        role='search'
+                        aria-label='Filtrer les formations'
+                        onSubmit={(e) => e.preventDefault()}
+                        className='mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:grid-cols-[1fr_1fr_auto] sm:items-center'>
+                        {[
+                            { key: 'domain' as const, ui: FILTER_UI.domaine, label: "Domaine d'études", suggestions: domains },
+                            { key: 'city' as const, ui: FILTER_UI.ville, label: 'Ville / Localisation', suggestions: cities },
+                        ].map((field) => (
+                            <div key={field.key} className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
+                                <SuggestInput
+                                    icon={field.ui.icon}
+                                    label={field.label}
+                                    placeholder={field.ui.placeholder}
+                                    suggestions={field.suggestions}
+                                    value={filters[field.key]}
+                                    onChange={(value) => setFilters((prev) => ({ ...prev, [field.key]: value }))}
+                                />
+                            </div>
+                        ))}
                         <button
                             type='button'
                             onClick={() => setFilters({ domain: '', city: '' })}
