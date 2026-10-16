@@ -18,11 +18,11 @@ const SchoolsSection = () => {
                 />
 
                 {loading ? (
-                    <CardSkeletonGrid count={4} className='h-[420px]' />
+                    <CardSkeletonGrid count={4} className='h-[360px]' />
                 ) : (
-                    <AutoScroll duration={160}>
+                    <AutoScroll duration={160} itemClassName='w-[340px]'>
                         {schools.map((school) => (
-                            <SchoolCard key={school.id} school={school} />
+                            <SchoolCard key={school.id} school={school} compact />
                         ))}
                     </AutoScroll>
                 )}

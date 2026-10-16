@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { imageOr } from '@/lib/media'
+import { cn } from '@/lib/utils'
 import { Icon } from '@/components/ui/icon'
 import { Card, CardAction } from '@/components/ui/card'
 import { OFFER_CTA, offerFacts } from '../format'
@@ -10,12 +11,14 @@ interface FormationCardProps {
     formation: FormationType
     isFavorite: boolean
     onToggleFavorite: () => void
+    /** Version basse et large (bandeau défilant de l'accueil). */
+    compact?: boolean
 }
 
-export function FormationCard({ formation, isFavorite, onToggleFavorite }: FormationCardProps) {
+export function FormationCard({ formation, isFavorite, onToggleFavorite, compact = false }: FormationCardProps) {
     return (
         <Card className='flex h-full flex-col overflow-hidden'>
-            <div className='relative h-44 overflow-hidden bg-cream'>
+            <div className={cn('relative overflow-hidden bg-cream', compact ? 'h-32' : 'h-44')}>
                 <Image src={imageOr(formation.imageSrc)} alt={formation.title} fill className='object-cover' />
                 <button
                     type='button'
@@ -30,21 +33,21 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite }: Forma
                 </button>
             </div>
 
-            <div className='flex flex-1 flex-col gap-4 p-5'>
+            <div className={cn('flex flex-1 flex-col', compact ? 'gap-3 px-5 py-4' : 'gap-4 p-5')}>
                 <div className='flex flex-col gap-1'>
                     <h3 className='text-lg font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
                         {formation.title}
                     </h3>
                     <p className='text-ink/60'>{formation.school}</p>
                 </div>
-                <ul className='flex flex-col gap-2 text-ink/80'>
+                <ul className={cn('text-ink/80', compact ? 'grid grid-cols-2 gap-x-3 gap-y-1.5' : 'flex flex-col gap-2')}>
                     <li className='flex items-center gap-2'>
-                        <Icon icon='tabler:map-pin' className='text-lg text-secondary' />
+                        <Icon icon='tabler:map-pin' className='shrink-0 text-lg text-secondary' />
                         {formation.city}
                     </li>
                     {offerFacts(formation).map((fact) => (
                         <li key={fact.label} className='flex items-center gap-2'>
-                            <Icon icon={fact.icon} className='text-lg text-secondary' />
+                            <Icon icon={fact.icon} className='shrink-0 text-lg text-secondary' />
                             {fact.label}
                         </li>
                     ))}

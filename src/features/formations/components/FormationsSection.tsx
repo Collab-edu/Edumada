@@ -23,15 +23,16 @@ const FormationsSection = () => {
                 />
 
                 {loading ? (
-                    <CardSkeletonGrid count={4} className='h-[420px]' />
+                    <CardSkeletonGrid count={4} className='h-[360px]' />
                 ) : (
-                    <AutoScroll duration={140}>
+                    <AutoScroll duration={140} itemClassName='w-[340px]'>
                         {formations.slice(0, MAX_HOME_FORMATIONS).map((formation) => (
                             <FormationCard
                                 key={formation.id}
                                 formation={formation}
                                 isFavorite={isFavorite(formation.id)}
                                 onToggleFavorite={() => toggleFavorite(formation.id)}
+                                compact
                             />
                         ))}
                     </AutoScroll>
