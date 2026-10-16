@@ -27,7 +27,10 @@ class UserController extends Controller
                 ->withCount('inquiries')
                 ->when($filters['role'] ?? null, fn (Builder $query, string $role) => $query->where('role', $role))
                 ->when($filters['q'] ?? null, fn (Builder $query, string $text) => $query->where(
-                    fn (Builder $query) => $query->where('name', 'like', "%{$text}%")->orWhere('email', 'like', "%{$text}%"),
+                    fn (Builder $query) => $query->where('name', 'like', "%{$text}%")
+                        ->orWhere('email', 'like', "%{$text}%")
+                        ->orWhere('city', 'like', "%{$text}%")
+                        ->orWhere('phone', 'like', "%{$text}%"),
                 ))
                 ->latest()
                 ->paginate(25)

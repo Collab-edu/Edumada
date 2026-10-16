@@ -258,6 +258,8 @@ export type AdminUser = {
     email: string
     role: UserRole
     roleLabel: string
+    phone: string | null
+    city: string | null
     createdAt: string
     establishments: { id: string; name: string }[]
     inquiriesCount: number

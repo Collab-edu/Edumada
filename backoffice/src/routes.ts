@@ -53,7 +53,7 @@ export const routes: RouteMeta[] = [
     { path: '/revendiquer', name: 'Revendiquer une fiche', description: 'Demandez la gestion d’une fiche déjà présente sur Edumada.', icon: cilFlagAlt, roles: ESTABLISHMENT },
     { path: '/admin/etablissements', name: 'Établissements', description: 'Toutes les fiches : validation, vérification, formules.', icon: cilBank, roles: ADMIN },
     { path: '/admin/moderation', name: 'Modération', description: 'Revendications, avis et signalements à traiter.', icon: cilShieldAlt, roles: ADMIN },
-    { path: '/admin/utilisateurs', name: 'Utilisateurs', description: 'Comptes étudiants, établissements et administrateurs.', icon: cilPeople, roles: ADMIN },
+    { path: '/admin/utilisateurs', name: 'Utilisateurs', description: 'Étudiants inscrits sur Edumada.', icon: cilPeople, roles: ADMIN },
     { path: '/admin/catalogue', name: 'Catalogue', description: 'Catégories, domaines et formules.', icon: cilList, roles: ADMIN },
     { path: '/admin/facturation', name: 'Facturation', description: 'Factures, paiements et abonnements.', icon: cilWallet, roles: ADMIN },
     { path: '/admin/journal', name: "Journal d'audit", description: 'Historique des actions sensibles.', icon: cilHistory, roles: ADMIN },
