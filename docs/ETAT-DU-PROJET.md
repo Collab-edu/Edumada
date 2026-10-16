@@ -4,7 +4,7 @@
 
 Edumada est une plateforme pour trouver un établissement et une offre éducative à Madagascar, **de la crèche à l'université**. Ce document fait le point sur ce qui existe aujourd'hui dans le frontend.
 
-> **Statut :** site **statique**, sans backend. Toutes les données sont des **exemples inventés** et devront être remplacées par de vraies informations avant la mise en ligne.
+> **Statut :** le site est encore **statique** et lit ses données dans `public/data/`. Une **API Laravel** (Phase 1) existe dans `backend/` : elle sert les mêmes données, au même format, et n'est pas encore branchée au site (Phase 2). Voir [`backend/README.md`](../backend/README.md). Toutes les données sont des **exemples inventés** et devront être remplacées par de vraies informations avant la mise en ligne.
 
 ---
 
