@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import { useSearchParams } from 'next/navigation'
 import {
     CButton,
@@ -35,9 +35,8 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilCheckAlt, cilEnvelopeClosed, cilPhone, cilX } from '@coreui/icons'
-import { useEstablishment } from '@/context/EstablishmentContext'
 import { useToast } from '@/context/ToastContext'
-import { api, errorMessage, SITE_URL } from '@/lib/api'
+import { api, assetUrl, errorMessage, SITE_URL } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import { notifyEstablishmentsChanged, useEstablishmentCounts } from '@/lib/useEstablishmentCounts'
 import { formatDate, formatDateTime } from '@/lib/format'
@@ -160,6 +159,100 @@ function RefuseModal({ establishment, onClose, onDone }: { establishment: Manage
     )
 }
 
+/** Fiche en lecture seule : l'administration vérifie, l'établissement rédige. */
+function EstablishmentDetail({
+    establishment: e,
+    categoryLabel,
+    onClose,
+    onAccept,
+}: {
+    establishment: ManagedEstablishment
+    categoryLabel: string
+    onClose: () => void
+    onAccept?: () => void
+}) {
+    const rows: [string, ReactNode][] = [
+        ['Catégorie', [e.subCategory || categoryLabel, e.type].filter(Boolean).join(' · ')],
+        ['Adresse', [e.address, e.city].filter(Boolean).join(', ') || '—'],
+        ['Téléphone', e.phone || '—'],
+        ['E-mail', e.email || '—'],
+        [
+            'Site web',
+            e.website ? (
+                <a href={e.website} target='_blank' rel='noopener noreferrer'>
+                    {e.website}
+                </a>
+            ) : (
+                '—'
+            ),
+        ],
+        ['Accréditation déclarée', e.accreditation ? `${e.accreditation} ${e.accreditationVerified ? '(vérifiée)' : '(à vérifier)'}` : '—'],
+        ['Pièces demandées', e.admissionDocuments.length ? e.admissionDocuments.join(', ') : '—'],
+        ['Infrastructures', e.infrastructures.length ? e.infrastructures.join(', ') : '—'],
+        ['Offres publiées', String(e.publishedOffersCount)],
+        ['Gestionnaires', e.members?.length ? e.members.map((m) => `${m.name} (${m.email})`).join(', ') : 'Aucun compte rattaché'],
+        ['Créée le', formatDate(e.createdAt ?? e.updatedAt)],
+    ]
+
+    return (
+        <CModal visible onClose={onClose} size='lg' scrollable>
+            <CModalHeader>
+                <CModalTitle className='d-flex flex-wrap align-items-center gap-2'>
+                    {e.name}
+                    <StatusBadge status={e.status}>{e.statusLabel}</StatusBadge>
+                    {e.status === 'published' && <PlanBadge code={e.plan.code} />}
+                </CModalTitle>
+            </CModalHeader>
+            <CModalBody>
+                {e.imageSrc && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={assetUrl(e.imageSrc)} alt='' className='w-100 rounded-3 mb-3' style={{ maxHeight: 220, objectFit: 'cover' }} />
+                )}
+                {e.description ? <p style={{ whiteSpace: 'pre-line' }}>{e.description}</p> : <p className='text-body-secondary'>Pas de présentation.</p>}
+                <CTable small className='mb-3'>
+                    <CTableBody>
+                        {rows.map(([label, value]) => (
+                            <CTableRow key={label}>
+                                <CTableHeaderCell className='text-body-secondary fw-normal' style={{ width: '35%' }}>
+                                    {label}
+                                </CTableHeaderCell>
+                                <CTableDataCell>{value}</CTableDataCell>
+                            </CTableRow>
+                        ))}
+                    </CTableBody>
+                </CTable>
+                {e.photos.length > 0 && (
+                    <div className='d-flex flex-wrap gap-2'>
+                        {e.photos.map((url) => (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img key={url} src={assetUrl(url)} alt='' className='bo-thumb' />
+                        ))}
+                    </div>
+                )}
+                <p className='small text-body-secondary mt-3 mb-0'>
+                    Le contenu de la fiche est rédigé par l&apos;établissement. Pour une correction, contactez-le ou refusez l&apos;adhésion avec un motif.
+                </p>
+            </CModalBody>
+            <CModalFooter>
+                {e.status === 'published' && (
+                    <CButton color='secondary' variant='ghost' href={`${SITE_URL}/etablissements/${e.id}/`} target='_blank' rel='noopener noreferrer'>
+                        Voir sur le site
+                    </CButton>
+                )}
+                <CButton color='secondary' variant='outline' onClick={onClose}>
+                    Fermer
+                </CButton>
+                {onAccept && (
+                    <CButton color='success' className='text-white' onClick={onAccept}>
+                        <CIcon icon={cilCheckAlt} className='me-1' />
+                        Accepter l&apos;adhésion
+                    </CButton>
+                )}
+            </CModalFooter>
+        </CModal>
+    )
+}
+
 const verificationStatus = (status: string) => (status === 'Vérifié' ? 'approved' : status === 'En cours' ? 'pending' : 'draft')
 
 type Tab = 'nouveaux' | 'inscrits' | 'toutes'
@@ -174,7 +267,6 @@ const PLAN_FILTERS: { code: '' | Plan['code']; label: string }[] = [
 function EstablishmentList({ category }: { category: string | null }) {
     const params = useSearchParams()
     const toast = useToast()
-    const { select } = useEstablishment()
     const { data: counts, reload: reloadCounts } = useEstablishmentCounts(true, category)
     const requestedTab: Tab | null = params.get('status') === 'pending_review' ? 'nouveaux' : params.get('verification') ? 'toutes' : (params.get('onglet') as Tab | null)
     const [tab, setTab] = useState<Tab>(requestedTab ?? 'inscrits')
@@ -189,6 +281,7 @@ function EstablishmentList({ category }: { category: string | null }) {
     })
     const [team, setTeam] = useState<ManagedEstablishment | null>(null)
     const [refusing, setRefusing] = useState<ManagedEstablishment | null>(null)
+    const [viewing, setViewing] = useState<ManagedEstablishment | null>(null)
 
     const scope = category ? counts?.data.categories.find((c) => c.id === category) : counts?.data.total
 
@@ -312,7 +405,7 @@ function EstablishmentList({ category }: { category: string | null }) {
                                 {data.data.map((e) => (
                                     <CTableRow key={e.id}>
                                         <CTableDataCell>
-                                            <button type='button' className='btn btn-link p-0 fw-semibold text-start text-decoration-none' onClick={() => select(e.id, '/fiche/')}>
+                                            <button type='button' className='btn btn-link p-0 fw-semibold text-start text-decoration-none' onClick={() => setViewing(e)}>
                                                 {e.name}
                                             </button>
                                             <div className='small text-body-secondary'>{[e.subCategory || categoryLabel(e.category), e.type, e.city].filter(Boolean).join(' · ')}</div>
@@ -395,7 +488,9 @@ function EstablishmentList({ category }: { category: string | null }) {
                                 {data.data.map((e) => (
                                     <CTableRow key={e.id}>
                                         <CTableDataCell style={{ minWidth: 240 }}>
-                                            <strong>{e.name}</strong>
+                                            <button type='button' className='btn btn-link p-0 fw-semibold text-start text-decoration-none' onClick={() => setViewing(e)}>
+                                                {e.name}
+                                            </button>
                                             <div className='small text-body-secondary'>
                                                 {e.subCategory || categoryLabel(e.category)} · {e.city} · modifiée le {formatDateTime(e.updatedAt)}
                                             </div>
@@ -428,8 +523,8 @@ function EstablishmentList({ category }: { category: string | null }) {
                                                     Accepter
                                                 </CButton>
                                             )}
-                                            <CButton size='sm' color='primary' className='me-2' onClick={() => select(e.id, '/fiche/')}>
-                                                Gérer
+                                            <CButton size='sm' color='primary' variant='outline' className='me-2' onClick={() => setViewing(e)}>
+                                                Détails
                                             </CButton>
                                             <CDropdown alignment='end' className='d-inline-block'>
                                                 <CDropdownToggle color='secondary' variant='outline' size='sm'>
@@ -500,6 +595,22 @@ function EstablishmentList({ category }: { category: string | null }) {
                     )}
                 </CModalBody>
             </CModal>
+
+            {viewing && (
+                <EstablishmentDetail
+                    establishment={viewing}
+                    categoryLabel={categoryLabel(viewing.category)}
+                    onClose={() => setViewing(null)}
+                    onAccept={
+                        viewing.status === 'pending_review'
+                            ? () => {
+                                  moderate(viewing, { status: 'published' }, `${viewing.name} est inscrit et publié sur Edumada.`)
+                                  setViewing(null)
+                              }
+                            : undefined
+                    }
+                />
+            )}
 
             {refusing && (
                 <RefuseModal

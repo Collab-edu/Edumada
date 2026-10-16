@@ -22,7 +22,7 @@ import CIcon from '@coreui/icons-react'
 import { cilPlus } from '@coreui/icons'
 import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useToast } from '@/context/ToastContext'
-import { api, errorMessage, SITE_URL } from '@/lib/api'
+import { api, assetUrl, errorMessage, SITE_URL } from '@/lib/api'
 import { formatAriary, formatDateTime } from '@/lib/format'
 import type { ManagedOffer } from '@/lib/types'
 import { EmptyState, PageCard, StatusBadge } from '@/components/ui'
@@ -123,7 +123,7 @@ export default function Offers() {
                                     <CTableDataCell style={{ minWidth: 260 }}>
                                         <div className='d-flex align-items-center gap-3'>
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            {o.imageSrc ? <img src={o.imageSrc} alt='' className='bo-thumb' /> : <div className='bo-thumb' />}
+                                            {o.imageSrc ? <img src={assetUrl(o.imageSrc)} alt='' className='bo-thumb' /> : <div className='bo-thumb' />}
                                             <div>
                                                 <Link href={`/offres/modifier/?id=${o.id}`} className='fw-semibold text-decoration-none'>
                                                     {o.title}

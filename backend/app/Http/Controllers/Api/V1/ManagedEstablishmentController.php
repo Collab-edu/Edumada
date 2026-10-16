@@ -26,11 +26,11 @@ class ManagedEstablishmentController extends Controller
     }
 
     /**
-     * Une fiche vue par son équipe ou par un administrateur, brouillons compris.
+     * Une fiche vue par son équipe ou, en lecture seule, par un administrateur, brouillons compris.
      */
     public function show(Establishment $establishment): ManagedEstablishmentResource
     {
-        Gate::authorize('update', $establishment);
+        abort_unless(Gate::any(['update', 'moderate'], $establishment), 403);
 
         return new ManagedEstablishmentResource($establishment->load([...ManagedEstablishmentResource::RELATIONS, 'members']));
     }

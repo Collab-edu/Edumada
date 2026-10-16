@@ -119,3 +119,6 @@ export const fieldError = (error: unknown, name: string): string | undefined => 
 
 /** Erreur générale (sans erreurs de champ), à afficher en tête de formulaire. */
 export const isGeneralError = (error: unknown) => !!error && !(error instanceof ApiError && Object.keys(error.errors).length > 0)
+
+/** Image d'une fiche : les chemins relatifs (« /images/… ») sont servis par le site public. */
+export const assetUrl = (url: string) => (url.startsWith('/') && !url.startsWith('//') ? `${SITE_URL}${url}` : url)

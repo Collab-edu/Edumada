@@ -158,4 +158,16 @@ class AdminTest extends TestCase
         Notification::assertSentOnDemand(MembershipDecision::class, fn (MembershipDecision $notice) => $notice->establishment->is($pending));
         $this->assertSame('draft', $refused->fresh()->status->value);
     }
+
+    public function test_admin_moderates_but_cannot_edit_a_fiche_or_publish_offers(): void
+    {
+        [, $establishment] = $this->establishmentOwner();
+        $offer = Offer::factory()->for($establishment)->create();
+        $admin = $this->admin();
+
+        $this->actingAs($admin)->patchJson("/api/v1/establishments/{$establishment->slug}", ['name' => 'Autre nom'])->assertForbidden();
+        $this->actingAs($admin)->postJson("/api/v1/establishments/{$establishment->slug}/offers", ['title' => 'Offre'])->assertForbidden();
+        $this->actingAs($admin)->patchJson("/api/v1/offers/{$offer->slug}", ['status' => 'published'])->assertForbidden();
+        $this->actingAs($admin)->putJson("/api/v1/establishments/{$establishment->slug}/moderation", ['status' => 'suspended'])->assertOk();
+    }
 }

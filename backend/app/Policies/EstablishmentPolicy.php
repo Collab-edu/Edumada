@@ -29,12 +29,16 @@ class EstablishmentPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAdmin() || $user->isEstablishmentAccount();
+        return $user->isEstablishmentAccount();
     }
 
+    /**
+     * Le contenu de la fiche appartient à l'établissement ; l'administration publie, suspend
+     * ou vérifie (moderate) sans réécrire la fiche.
+     */
     public function update(User $user, Establishment $establishment): bool
     {
-        return $user->isAdmin() || $user->managesEstablishment($establishment);
+        return $user->managesEstablishment($establishment);
     }
 
     public function delete(User $user, Establishment $establishment): bool

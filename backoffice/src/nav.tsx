@@ -47,7 +47,7 @@ const item = (name: string, to: string, i: string[], b?: NavBadge): NavEntry => 
 /**
  * Menu latéral selon le type de compte :
  * - établissement : son tableau de bord, sa fiche, ses offres, ses demandes, sa formule ;
- * - administrateur : pilotage de la plateforme, et l'établissement qu'il a choisi de gérer.
+ * - administrateur : pilotage de la plateforme (il valide les fiches, il ne les rédige pas).
  */
 export function buildNav({
     user,
@@ -84,7 +84,6 @@ export function buildNav({
             title('Finances'),
             item('Facturation', '/admin/facturation', cilWallet, badge(counts.invoices, 'info')),
             item("Journal d'audit", '/admin/journal', cilHistory),
-            ...(current ? [title(`Géré : ${current.name}`), ...establishmentItems] : []),
             title('Compte'),
             item('Mon compte', '/compte', cilUser),
         ]

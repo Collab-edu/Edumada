@@ -29,6 +29,18 @@ use Illuminate\Validation\Validator;
 class OfferRequest extends FormRequest
 {
     /**
+     * Droits vérifiés avant la validation : un compte non autorisé reçoit 403, pas des erreurs de champs.
+     */
+    public function authorize(): bool
+    {
+        $offer = $this->route('offer');
+
+        return $offer instanceof Offer
+            ? $this->user()->can('update', $offer)
+            : $this->user()->can('create', [Offer::class, $this->route('establishment')]);
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function rules(): array

@@ -20,18 +20,24 @@ class OfferPolicy
         return $user !== null && ($user->isAdmin() || $user->managesEstablishment($offer->establishment));
     }
 
+    /**
+     * Seule l'équipe de l'établissement rédige et publie ses offres (pas l'administration Edumada).
+     */
     public function create(User $user, Establishment $establishment): bool
     {
-        return $user->isAdmin() || $user->managesEstablishment($establishment);
+        return $user->managesEstablishment($establishment);
     }
 
     public function update(User $user, Offer $offer): bool
     {
-        return $user->isAdmin() || $user->managesEstablishment($offer->establishment);
+        return $user->managesEstablishment($offer->establishment);
     }
 
+    /**
+     * Retrait d'une offre : son établissement, ou un administrateur (contenu abusif).
+     */
     public function delete(User $user, Offer $offer): bool
     {
-        return $this->update($user, $offer);
+        return $user->isAdmin() || $this->update($user, $offer);
     }
 }

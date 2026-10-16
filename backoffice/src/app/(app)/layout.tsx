@@ -13,30 +13,28 @@ import { LayoutProvider } from '@/context/LayoutContext'
 import { findRoute } from '@/routes'
 
 /** Page qui porte sur un établissement alors qu'aucun n'est choisi. */
-function NoEstablishment({ admin }: { admin: boolean }) {
+function NoEstablishment() {
     return (
         <CCard className='mb-4'>
             <CCardBody className='text-center py-5'>
-                <h4>Aucun établissement sélectionné</h4>
-                <p className='text-body-secondary'>
-                    {admin
-                        ? 'Choisissez une fiche dans la liste des établissements, puis « Gérer ».'
-                        : 'Créez la fiche de votre établissement, ou revendiquez-la si elle existe déjà sur Edumada.'}
-                </p>
-                <CButton color='primary' as={Link} href={admin ? '/admin/etablissements/' : '/nouvel-etablissement/'}>
-                    {admin ? 'Voir les établissements' : 'Créer ma fiche'}
+                <h4>Aucun établissement</h4>
+                <p className='text-body-secondary'>Créez la fiche de votre établissement, ou revendiquez-la si elle existe déjà sur Edumada.</p>
+                <CButton color='primary' as={Link} href='/nouvel-etablissement/'>
+                    Créer ma fiche
                 </CButton>
             </CCardBody>
         </CCard>
     )
 }
 
-function Forbidden() {
+function Forbidden({ admin }: { admin: boolean }) {
     return (
         <CCard className='mb-4'>
             <CCardBody className='text-center py-5'>
                 <h4>Accès réservé</h4>
-                <p className='text-body-secondary mb-0'>Cette page est réservée à l&apos;équipe Edumada.</p>
+                <p className='text-body-secondary mb-0'>
+                    {admin ? 'Cette page est réservée aux établissements : ils rédigent et publient eux-mêmes leur fiche et leurs offres.' : 'Cette page est réservée à l’équipe Edumada.'}
+                </p>
             </CCardBody>
         </CCard>
     )
@@ -48,8 +46,8 @@ function Guard({ children }: { children: ReactNode }) {
     const { current, loading } = useEstablishment()
     const route = findRoute(usePathname())
     if (!user) return null
-    if (route && !(route.roles ?? ['establishment', 'admin']).includes(user.role)) return <Forbidden />
-    if (route?.establishment && !current) return loading ? <Loading /> : <NoEstablishment admin={user.role === 'admin'} />
+    if (route && !(route.roles ?? ['establishment', 'admin']).includes(user.role)) return <Forbidden admin={user.role === 'admin'} />
+    if (route?.establishment && !current) return loading ? <Loading /> : <NoEstablishment />
     return <>{children}</>
 }
 

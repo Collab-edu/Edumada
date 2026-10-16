@@ -17,7 +17,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilImagePlus, cilPlus, cilTrash, cilX } from '@coreui/icons'
-import { api, errorMessage } from '@/lib/api'
+import { api, assetUrl, errorMessage } from '@/lib/api'
 import type { Paginated } from '@/lib/types'
 
 /** Carte de page : titre, sous-titre, actions à droite. */
@@ -217,7 +217,7 @@ export function ImageUpload(props: ImageUploadProps) {
                 {images.map((url) => (
                     <div key={url} className='position-relative'>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={url} alt='' className='bo-thumb' style={{ width: 140, height: 94 }} />
+                        <img src={assetUrl(url)} alt='' className='bo-thumb' style={{ width: 140, height: 94 }} />
                         <CButton
                             size='sm'
                             color='danger'

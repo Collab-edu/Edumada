@@ -27,11 +27,11 @@ import { SITE_URL } from '@/lib/api'
 
 export const PLAN_COLORS = { free: 'secondary', pro: 'primary', premium: 'danger' } as const
 
-/** Choix de l'établissement géré (plusieurs fiches, ou administrateur). */
+/** Choix de l'établissement géré (compte établissement avec une ou plusieurs fiches). */
 function EstablishmentSwitcher() {
     const { user } = useAuth()
-    const { establishments, current, select, leave } = useEstablishment()
-    if (!user || (!current && user.role !== 'admin')) return null
+    const { establishments, current, select } = useEstablishment()
+    if (!user || user.role !== 'establishment' || !current) return null
 
     return (
         <CDropdown variant='nav-item' placement='bottom-start'>
@@ -51,11 +51,6 @@ function EstablishmentSwitcher() {
                         {e.name}
                     </CDropdownItem>
                 ))}
-                {user.role === 'admin' && (
-                    <CDropdownItem as={Link} href='/admin/etablissements/'>
-                        Choisir dans la liste…
-                    </CDropdownItem>
-                )}
                 {current && (
                     <>
                         <CDropdownDivider />
@@ -63,11 +58,6 @@ function EstablishmentSwitcher() {
                             <CDropdownItem href={`${SITE_URL}/etablissements/${current.id}/`} target='_blank' rel='noopener noreferrer'>
                                 <CIcon icon={cilExternalLink} className='me-2' />
                                 Voir la fiche sur le site
-                            </CDropdownItem>
-                        )}
-                        {user.role === 'admin' && (
-                            <CDropdownItem as='button' onClick={leave}>
-                                Arrêter de gérer cette fiche
                             </CDropdownItem>
                         )}
                     </>

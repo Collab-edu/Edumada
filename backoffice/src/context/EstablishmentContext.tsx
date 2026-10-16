@@ -11,7 +11,6 @@ type EstablishmentContextValue = {
     loading: boolean
     reload: () => Promise<void>
     select: (slug: string, path?: string) => Promise<void>
-    leave: () => void
 }
 
 const EstablishmentContext = createContext<EstablishmentContextValue | null>(null)
@@ -27,10 +26,9 @@ const remembered = (user: User) => {
 }
 
 /**
- * Établissement géré dans le back-office.
- * - Compte établissement : ses fiches (/me/establishments), la première par défaut.
- * - Administrateur : aucune par défaut ; « Gérer » depuis la liste des établissements en choisit une.
- * Un lien `?e=fiche` (e-mails) sélectionne directement la fiche.
+ * Établissement géré dans le back-office : celui du compte établissement (/me/establishments),
+ * le premier par défaut. Un lien `?e=fiche` (e-mails) sélectionne directement la fiche.
+ * L'administrateur n'en gère aucun : il valide les fiches depuis l'administration.
  */
 export function EstablishmentProvider({ children }: { children: ReactNode }) {
     const { user } = useAuth()
@@ -69,6 +67,11 @@ export function EstablishmentProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         if (!user) return
+        if (user.role !== 'establishment') {
+            setCurrent(null)
+            setLoading(false)
+            return
+        }
         load(fromUrl ?? remembered(user))
         // Le paramètre ?e= ne sert qu'à l'arrivée sur une page.
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,21 +85,9 @@ export function EstablishmentProvider({ children }: { children: ReactNode }) {
         [load, router]
     )
 
-    const leave = useCallback(() => {
-        if (user) {
-            try {
-                localStorage.removeItem(storageKey(user))
-            } catch {
-                // sans importance
-            }
-        }
-        setCurrent(null)
-        router.push('/dashboard/')
-    }, [router, user])
-
     const value = useMemo(
-        () => ({ establishments, current, loading, reload: () => load(current?.id), select, leave }),
-        [establishments, current, loading, load, select, leave]
+        () => ({ establishments, current, loading, reload: () => load(current?.id), select }),
+        [establishments, current, loading, load, select]
     )
     return <EstablishmentContext.Provider value={value}>{children}</EstablishmentContext.Provider>
 }
