@@ -69,25 +69,6 @@ export default function ProTrainingPage() {
                 </div>
             </section>
 
-            {/* Atouts */}
-            <section className='py-6'>
-                <div className='container mx-auto max-w-7xl px-4'>
-                    <ul className='grid gap-4 sm:grid-cols-3'>
-                        {BENEFITS.map((b) => (
-                            <li key={b.title} className='flex gap-4 rounded-xl bg-white p-5 border border-gray-100'>
-                                <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary'>
-                                    <Icon icon={b.icon} className='text-2xl' />
-                                </span>
-                                <div>
-                                    <h2 className='text-base font-semibold text-secondary'>{b.title}</h2>
-                                    <p className='text-sm text-ink/70'>{b.text}</p>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </section>
-
             {/* Formations */}
             <section>
                 <div className='container mx-auto max-w-7xl px-4'>
@@ -138,6 +119,25 @@ export default function ProTrainingPage() {
                             ))}
                         </div>
                     )}
+                </div>
+            </section>
+
+            {/* Atouts */}
+            <section className='pt-0'>
+                <div className='container mx-auto max-w-7xl px-4'>
+                    <ul className='grid gap-4 sm:grid-cols-3'>
+                        {BENEFITS.map((b) => (
+                            <li key={b.title} className='flex gap-4 rounded-xl bg-white p-5 border border-gray-100'>
+                                <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary'>
+                                    <Icon icon={b.icon} className='text-2xl' />
+                                </span>
+                                <div>
+                                    <h2 className='text-base font-semibold text-secondary'>{b.title}</h2>
+                                    <p className='text-sm text-ink/70'>{b.text}</p>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </section>
 
