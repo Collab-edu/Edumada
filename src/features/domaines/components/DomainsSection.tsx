@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import SectionHeader from '@/components/ui/section-header'
 import { useSiteData } from '@/data/site-data'
 

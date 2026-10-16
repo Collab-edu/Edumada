@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import { api, apiEnabled } from '@/lib/api'
 import PlanCards from '@/features/espace/components/PlanCards'

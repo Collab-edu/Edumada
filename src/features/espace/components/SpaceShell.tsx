@@ -2,7 +2,7 @@
 import { useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import { PageSkeleton } from '@/components/ui/page-state'
 import { FormAlert } from '@/components/ui/form'
 import { apiEnabled } from '@/lib/api'

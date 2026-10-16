@@ -2,7 +2,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import { Button, ButtonLink, FormAlert, TextArea, TextField } from '@/components/ui/form'
 import { PageSkeleton, PageUnavailable } from '@/components/ui/page-state'
 import { api, ApiError, apiEnabled, getToken } from '@/lib/api'

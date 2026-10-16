@@ -1,7 +1,7 @@
 'use client'
 import { useId, useState, type ComponentProps, type ReactNode } from 'react'
 import Link from 'next/link'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 
 /* ------------------------------------------------------------------ */

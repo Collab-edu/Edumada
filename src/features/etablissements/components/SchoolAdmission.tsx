@@ -1,6 +1,6 @@
 'use client'
 import { Fragment } from 'react'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import type { CategoryType } from '@/features/categories/types'
 import { ADMISSION_LEVEL_LABEL, formatAgeRange, formatDate } from '@/features/formations/format'
 import type { FormationType } from '@/features/formations/types'

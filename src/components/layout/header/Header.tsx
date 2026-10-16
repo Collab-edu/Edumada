@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import Signin from '@/features/auth/components/SignIn'
 import SignUp from '@/features/auth/components/SignUp'
 import { useSiteData } from '@/data/site-data'

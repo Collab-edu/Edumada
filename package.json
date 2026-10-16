@@ -3,6 +3,9 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
+        "icons": "node scripts/build-icons.mjs",
+        "predev": "node scripts/build-icons.mjs",
+        "prebuild": "node scripts/build-icons.mjs",
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
@@ -34,6 +37,8 @@
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3",
+        "@iconify-json/material-symbols": "^1.2.95",
+        "@iconify-json/tabler": "^1.2.42",
         "@tailwindcss/postcss": "^4",
         "@types/aos": "^3.0.7",
         "@types/node": "^20",

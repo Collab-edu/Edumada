@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { imageOr } from '@/lib/media'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import { Card, CardAction } from '@/components/ui/card'
 import { OFFER_CTA, offerFacts } from '../format'
 import type { FormationType } from '../types'

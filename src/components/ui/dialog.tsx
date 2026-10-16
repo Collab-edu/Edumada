@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useId, useRef, type ReactNode } from 'react'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 
 interface DialogProps {

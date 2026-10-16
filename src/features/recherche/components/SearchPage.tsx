@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { track } from '@/lib/track'
 import { cn } from '@/lib/utils'

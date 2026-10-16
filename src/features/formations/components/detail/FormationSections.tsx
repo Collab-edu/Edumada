@@ -1,5 +1,5 @@
 'use client'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import type { SchoolType } from '@/features/etablissements/types'
 import type { CategoryType } from '@/features/categories/types'

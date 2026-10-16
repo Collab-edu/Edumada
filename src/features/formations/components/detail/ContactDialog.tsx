@@ -1,6 +1,6 @@
 'use client'
 import { useState, type FormEvent } from 'react'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import Dialog from '@/components/ui/dialog'
 import { Button, ButtonLink, FormAlert, TextArea, TextField } from '@/components/ui/form'
 import { api, ApiError, apiEnabled } from '@/lib/api'

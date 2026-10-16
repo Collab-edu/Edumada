@@ -1,7 +1,7 @@
 'use client'
 import { useState, type FormEvent } from 'react'
 import Link from 'next/link'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import toast from 'react-hot-toast'
 import Dialog from '@/components/ui/dialog'
 import { Badge, Button, ButtonLink, EmptyState, FormAlert, SelectField, TextField } from '@/components/ui/form'

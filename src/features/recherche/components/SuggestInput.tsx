@@ -1,7 +1,7 @@
 'use client'
 import { useMemo, useState } from 'react'
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Label } from '@headlessui/react'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 
 /** Comparaison sans accents ni majuscules : « creche » trouve « Crèche ». */
 export const normalize = (text: string) =>

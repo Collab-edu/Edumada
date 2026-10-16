@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import { mapUrls } from '@/lib/media'
 import { track } from '@/lib/track'
 import type { SchoolType } from '@/features/etablissements/types'

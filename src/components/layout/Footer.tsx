@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import withBasePath from '@/lib/base-path'
 import { useSiteData } from '@/data/site-data'
 

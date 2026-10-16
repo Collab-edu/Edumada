@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 
 /** Squelette affiché pendant le chargement d'une fiche. */
 export function PageSkeleton() {

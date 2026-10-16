@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import type { FaqItem } from '../faq'
 

@@ -1,5 +1,5 @@
 'use client'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import AutoScroll from '@/components/ui/auto-scroll'
 import { cn } from '@/lib/utils'
 import type { FormationType } from '@/features/formations/types'

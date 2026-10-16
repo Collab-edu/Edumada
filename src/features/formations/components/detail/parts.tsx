@@ -1,6 +1,6 @@
 'use client'
 import type { ReactNode } from 'react'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 
 /** Section de la page formation, avec ancre pour la navigation interne. */
