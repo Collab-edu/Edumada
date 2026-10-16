@@ -49,7 +49,7 @@ const DomainsSection = () => {
                             </p>
                         </div>
                         <Link
-                            href='/recherche'
+                            href='/orientation/'
                             className='group inline-flex items-center justify-between gap-3 font-semibold text-primary'>
                             <span className='underline underline-offset-4 decoration-primary/40 group-hover:decoration-primary'>
                                 Essayez notre outil d&apos;orientation

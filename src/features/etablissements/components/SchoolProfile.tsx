@@ -56,7 +56,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                 <nav aria-label="Fil d'Ariane" className='mb-4 text-sm text-ink/60'>
                     <Link href='/' className='inline-block py-2 hover:text-primary'>Accueil</Link>
                     <span className='mx-2'>/</span>
-                    <Link href='/#schools-section' className='inline-block py-2 hover:text-primary'>Établissements</Link>
+                    <Link href='/etablissements/' className='inline-block py-2 hover:text-primary'>Établissements</Link>
                     <span className='mx-2'>/</span>
                     <span className='text-secondary'>{school.name}</span>
                 </nav>

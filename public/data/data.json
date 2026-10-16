@@ -2,23 +2,23 @@
     "HeaderData": [
         {
             "label": "Accueil",
-            "href": "/#Home"
-        },
-        {
-            "label": "Domaines",
-            "href": "/#domains-section"
-        },
-        {
-            "label": "Formations",
-            "href": "/#courses-section"
+            "href": "/"
         },
         {
             "label": "Établissements",
-            "href": "/#schools-section"
+            "href": "/etablissements/"
         },
         {
-            "label": "Formation pro",
-            "href": "/formation-professionnelle/"
+            "label": "Formations",
+            "href": "/recherche/"
+        },
+        {
+            "label": "Domaines",
+            "href": "/domaines/"
+        },
+        {
+            "label": "Orientation",
+            "href": "/orientation/"
         }
     ],
     "DomainData": [
@@ -2581,19 +2581,27 @@
             "links": [
                 {
                     "label": "Accueil",
-                    "href": "/#Home"
+                    "href": "/"
                 },
                 {
                     "label": "Domaines",
-                    "href": "/#domains-section"
+                    "href": "/domaines/"
                 },
                 {
                     "label": "Formations",
-                    "href": "/#courses-section"
+                    "href": "/recherche/"
                 },
                 {
                     "label": "Établissements",
-                    "href": "/#schools-section"
+                    "href": "/etablissements/"
+                },
+                {
+                    "label": "Formation professionnelle",
+                    "href": "/formation-professionnelle/"
+                },
+                {
+                    "label": "Orientation",
+                    "href": "/orientation/"
                 },
                 {
                     "label": "Établissements : nos formules",

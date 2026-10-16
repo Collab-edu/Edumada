@@ -14,7 +14,7 @@ const SchoolsSection = () => {
                 <SectionHeader
                     title='Découvrez les établissements'
                     description="Consultez les établissements et découvrez les formations qu'ils proposent."
-                    link={{ href: '/#schools-section', label: 'Voir tous les établissements' }}
+                    link={{ href: '/etablissements/', label: 'Voir tous les établissements' }}
                 />
 
                 {loading ? (
