@@ -1,8 +1,10 @@
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { useSiteData } from '@/data/site-data'
+import { useAuth } from '@/features/auth/AuthProvider'
+import { track } from '@/lib/track'
 import { cn } from '@/lib/utils'
 import FilterDropdown from './FilterDropdown'
 import ResultCard from './ResultCard'
@@ -12,11 +14,10 @@ import {
     SORT_OPTIONS,
     activeFilters,
     filtersFromParams,
-    matchesFilters,
-    sortFormations,
     type SearchFilters,
     type SortValue,
 } from '../filters'
+import { useOfferSearch, useSponsoredOffers } from '../useOfferSearch'
 
 // Filtres principaux repris du Hero (le niveau d'études devient « Diplôme préparé » dans le panneau).
 const TOP_FILTERS = [
@@ -28,14 +29,19 @@ const TOP_FILTERS = [
 
 const SearchPage = () => {
     const searchParams = useSearchParams()
-    const { data: formations, loading } = useSiteData('FormationData')
     const { data: heroFilters } = useSiteData('HeroFilterData')
-    const { data: categories } = useSiteData('CategoryData')
+    const { isFavorite, toggleFavorite } = useAuth()
 
     const [filters, setFilters] = useState<SearchFilters>(() => filtersFromParams(searchParams))
     const [sort, setSort] = useState<SortValue>('pertinence')
-    const [favorites, setFavorites] = useState<string[]>([])
     const [panelOpen, setPanelOpen] = useState(false)
+    const { results, total, loading, loadingMore, hasMore, offline, loadMore } = useOfferSearch(filters, sort)
+    const sponsored = useSponsoredOffers(filters)
+
+    // Impressions des emplacements sponsorisés (statistiques Premium).
+    useEffect(() => {
+        sponsored.forEach((s) => track({ type: 'impression', establishment: s.offer.schoolId, offer: s.offer.id, campaign: s.campaignId }))
+    }, [sponsored])
 
     // Bloque le défilement de la page quand le panneau mobile est ouvert.
     useEffect(() => {
@@ -45,18 +51,9 @@ const SearchPage = () => {
         }
     }, [panelOpen])
 
-    const results = useMemo(
-        () => {
-            const labelOf = (id: string) => categories.find((c) => c.id === id)?.shortLabel
-            return sortFormations(formations.filter((f) => matchesFilters(f, filters, labelOf)), sort)
-        },
-        [formations, filters, sort, categories]
-    )
     const chips = activeFilters(filters)
     const advancedCount = chips.filter((c) => !['q', 'categorie', 'domaine', 'ville', 'type'].includes(c.id)).length
 
-    const toggleFavorite = (id: string) =>
-        setFavorites((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]))
     const reset = () => setFilters(EMPTY_FILTERS)
     // Sur mobile, Domaine / Ville / Type sont dans le panneau : on les compte dans le badge du bouton.
     const mobileCount = chips.filter((c) => c.id !== 'q').length
@@ -153,7 +150,7 @@ const SearchPage = () => {
                             type='button'
                             onClick={() => setPanelOpen(false)}
                             className='mt-6 w-full rounded-lg bg-primary py-3 font-bold text-white lg:hidden hover:cursor-pointer'>
-                            Voir {results.length} résultat{results.length > 1 ? 's' : ''}
+                            Voir {total} résultat{total > 1 ? 's' : ''}
                         </button>
                     </aside>
 
@@ -163,7 +160,7 @@ const SearchPage = () => {
                             <p className='font-semibold text-secondary' aria-live='polite'>
                                 {loading
                                     ? 'Chargement…'
-                                    : `${results.length} résultat${results.length > 1 ? 's' : ''}`}
+                                    : `${total} résultat${total > 1 ? 's' : ''}`}
                             </p>
                             <div className='flex items-center gap-3'>
                                 <button
@@ -207,6 +204,30 @@ const SearchPage = () => {
                             </div>
                         )}
 
+                        {offline && (
+                            <p className='flex items-start gap-2 rounded-xl bg-cream px-4 py-3 text-sm text-ink/80' role='status'>
+                                <Icon icon='tabler:wifi-off' className='mt-0.5 shrink-0 text-primary' />
+                                Le service Edumada ne répond pas : les résultats affichés peuvent ne pas être à jour.
+                            </p>
+                        )}
+
+                        {sponsored.length > 0 && !loading && (
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                                {sponsored.map((item) => (
+                                    <div
+                                        key={item.campaignId}
+                                        onClickCapture={() => track({ type: 'click', establishment: item.offer.schoolId, offer: item.offer.id, campaign: item.campaignId })}>
+                                        <ResultCard
+                                            formation={item.offer}
+                                            sponsored
+                                            isFavorite={isFavorite(item.offer.id)}
+                                            onToggleFavorite={() => toggleFavorite(item.offer.id)}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
                         {loading ? (
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                                 {Array.from({ length: 4 }).map((_, i) => (
@@ -219,12 +240,22 @@ const SearchPage = () => {
                                     <ResultCard
                                         key={formation.id}
                                         formation={formation}
-                                        isFavorite={favorites.includes(formation.id)}
+                                        isFavorite={isFavorite(formation.id)}
                                         onToggleFavorite={() => toggleFavorite(formation.id)}
                                     />
                                 ))}
                             </div>
-                        ) : (
+                        ) : null}
+                        {!loading && hasMore && (
+                            <button
+                                type='button'
+                                onClick={loadMore}
+                                disabled={loadingMore}
+                                className='mx-auto rounded-lg border border-primary px-6 py-3 font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white disabled:opacity-60 hover:cursor-pointer'>
+                                {loadingMore ? 'Chargement…' : `Voir plus de résultats (${results.length} sur ${total})`}
+                            </button>
+                        )}
+                        {loading || results.length > 0 ? null : (
                             <div className='flex flex-col items-center gap-4 rounded-2xl border border-dashed border-secondary/20 bg-white px-6 py-16 text-center'>
                                 <span className='flex h-16 w-16 items-center justify-center rounded-full bg-cream text-primary'>
                                     <Icon icon='tabler:search-off' className='text-3xl' />

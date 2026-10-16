@@ -16,12 +16,12 @@ const SchoolCta = () => {
                     </div>
                     <div className='flex flex-col sm:flex-row sm:items-center gap-6 shrink-0'>
                         <Link
-                            href='/signup'
+                            href='/signup/?type=etablissement'
                             className='rounded-xl bg-primary px-7 py-4 text-center font-bold text-white shadow-lg shadow-black/20 transition-all duration-300 hover:bg-primary/90 hover:-translate-y-0.5'>
                             Référencer mon établissement
                         </Link>
                         <Link
-                            href='/#school-cta-section'
+                            href='/tarifs/'
                             className='text-center font-semibold text-white underline underline-offset-4 decoration-white/50 transition-colors duration-300 hover:text-cream hover:decoration-cream'>
                             Découvrir les avantages
                         </Link>

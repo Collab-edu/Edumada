@@ -60,6 +60,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::put('me/password', [ProfileController::class, 'updatePassword'])->name('me.password');
         Route::delete('me', [ProfileController::class, 'destroy'])->name('me.destroy');
         Route::get('me/establishments', [ManagedEstablishmentController::class, 'index'])->name('me.establishments');
+        Route::get('establishments/{establishment}/manage', [ManagedEstablishmentController::class, 'show'])->name('establishments.manage');
 
         // Espace étudiant : favoris, demandes et candidatures, avis.
         Route::get('me/favorites', [FavoriteController::class, 'index'])->name('me.favorites.index');

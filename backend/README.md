@@ -59,41 +59,71 @@ Le seeder importe les données d'exemple du site (`public/data/data.json` et `fo
 | GET | `/establishments/{id}` | Fiche complète, avec ses offres et ses avis |
 | GET | `/offers` | Recherche avec les filtres de la page `/recherche` (voir ci-dessous) |
 | GET | `/offers/{id}` | Fiche offre : offre, `details` et `establishment` |
+| GET | `/reviews` | Avis publiés (`TestimonialType`) |
+| GET | `/sponsored` | Offres des campagnes Premium en cours, ciblées par `category`, `domain`, `city` |
 | GET | `/plans` | Formules Gratuit, Pro et Premium |
 | GET | `/reference` | Valeurs acceptées |
+| POST | `/reports` | Signaler une information erronée (10 par heure) |
+| POST | `/track` | Mesures d'audience : vues, impressions, clics (sans donnée personnelle) |
 
-Filtres de `/offers` : `q`, `category`, `domain`, `city`, `type`, `kind`, `school`, `feesMin`, `feesMax`, `durationMin`, `durationMax`, `modalities[]`, `diplomas[]`, `registration`, `languages[]`, `level`, `bacSeries[]`, `housing[]`, `scholarships[]`, `childAge`, `sort` (`pertinence`, `frais-asc`, `frais-desc`, `duree-asc`) et `perPage` (100 au maximum).
+Filtres de `/offers` : `q`, `category`, `domain`, `city`, `type`, `kind`, `school`, `feeRanges[]` (`min-max`, `5000000-` sans plafond), `durations[]` (libellés du site), `modalities[]`, `diplomas[]`, `registration`, `languages[]` (`Autre` = toute autre langue), `level`, `bacSeries[]`, `housing[]`, `scholarships[]`, `childAge`, `ids[]`, `sort` (`pertinence`, `frais-asc`, `frais-desc`, `duree-asc`) et `perPage` (100 au maximum).
 
-**Authentification**
+**Compte** (en-tête `Authorization: Bearer <token>`)
 
 | Méthode | Route | Rôle |
 |---|---|---|
-| POST | `/auth/register` | `accountType` : `student` ou `establishment` (jamais `admin`) |
-| POST | `/auth/login` | Renvoie `token` (5 essais par minute) |
-| POST | `/auth/logout` | Révoque le jeton |
-| GET | `/me` | Compte connecté et établissements représentés |
+| POST | `/auth/register`, `/auth/login`, `/auth/logout` | Inscription (`student` ou `establishment`, jamais `admin`), connexion (5 essais par minute), déconnexion |
+| GET / PATCH / DELETE | `/me` | Profil ; suppression du compte et des données (mot de passe demandé) |
+| PUT | `/me/password` | Changer de mot de passe |
 
-**Back-office** (en-tête `Authorization: Bearer <token>`)
+**Espace étudiant**
 
-| Méthode | Route | Qui |
+| Méthode | Route | Rôle |
 |---|---|---|
-| GET | `/me/establishments` | Équipe : ses fiches, toutes les offres (brouillons compris), la formule en vigueur |
-| POST | `/establishments` | Compte établissement : la fiche est créée **en attente de validation** |
-| PATCH / DELETE | `/establishments/{id}` | Équipe de l'établissement ou administrateur |
-| PUT | `/establishments/{id}/moderation` | **Administrateur seulement** : publication, badge « vérifié », accréditation |
-| POST | `/establishments/{id}/offers` | Équipe ou administrateur |
-| PATCH / DELETE | `/offers/{id}` | Équipe ou administrateur |
-| POST / PATCH / DELETE | `/categories`, `/domains` | Administrateur |
+| GET, PUT / DELETE | `/me/favorites`, `/me/favorites/{offre}` | Favoris |
+| POST | `/offers/{offre}/inquiries` | Demande d'information ou candidature (pièces jointes PDF/JPG/PNG, 5 × 5 Mo), si la candidature est activée |
+| GET | `/me/inquiries`, `/inquiries/{id}` | Mes démarches et leur historique de statuts |
+| GET | `/inquiries/{id}/attachments/{pièce}` | Pièce jointe (auteur et établissement destinataire seulement) |
+| POST | `/establishments/{id}/reviews` | Laisser un avis, publié après modération |
+
+**Espace établissement** (équipe de la fiche ou administrateur)
+
+| Méthode | Route | Rôle |
+|---|---|---|
+| GET | `/me/establishments`, `/establishments/{id}/manage` | Mes fiches, brouillons compris, formule en vigueur |
+| POST, PATCH / DELETE | `/establishments`, `/establishments/{id}` | Créer (en attente de validation), modifier, supprimer |
+| POST | `/establishments/{id}/claims` | Revendiquer une fiche existante |
+| POST | `/establishments/{id}/verification-request` | Demander le badge « vérifié » |
+| POST, PATCH / DELETE | `/establishments/{id}/offers`, `/offers/{id}` | Offres (limite de publication de la formule) |
+| GET | `/establishments/{id}/inquiries`, `…/inquiries/export` | Boîte de réception et export CSV (**Pro et Premium**) |
+| PUT | `/inquiries/{id}/status` | Changer le statut, avec une note ; l'étudiant est prévenu par e-mail |
+| GET | `/establishments/{id}/reports` | Signalements reçus |
+| GET | `/establishments/{id}/stats` | Statistiques standard (**Pro**) ou avancées (**Premium**) |
+| GET, POST | `/establishments/{id}/billing`, `…/subscription-requests` | Formule, factures ; demander une formule (crée une facture) |
+| GET / PATCH | `/invoices/{id}` | Facture ; indiquer la référence du paiement ou annuler |
+| GET, POST, PATCH / DELETE | `/establishments/{id}/campaigns`, `/campaigns/{id}` | Campagnes sponsorisées (**Premium**) |
+| POST | `/uploads` | Envoi d'une image (4 Mo max), renvoie son URL |
+
+**Administration** (`/admin/…`, administrateurs seulement)
+
+`overview` (indicateurs du pilote et files d'attente), `establishments` (+ `members`), `PUT /establishments/{id}/moderation` (publication, badge « vérifié », accréditation), `users`, `reviews`, `reports`, `claims`, `invoices` (`confirm`, `cancel`), `subscriptions` (`cancel`), `PATCH plans/{code}`, `campaigns`, `audit-logs`. Référentiels : `POST / PATCH / DELETE /categories` et `/domains`.
 
 ## Règles des comptes appliquées
 
 D'après le document « Les 4 types de comptes » :
 
 - **Le catalogue est public.** Un brouillon n'est visible que par son équipe et les administrateurs ; pour les autres, il n'existe pas (404).
-- **Un établissement ne voit et ne modifie que ses propres fiches.**
+- **Un établissement ne voit et ne modifie que ses propres fiches** ; une demande n'est visible que par son auteur et l'établissement destinataire.
 - **Le badge « vérifié » et l'accréditation vérifiée sont réservés aux administrateurs**, jamais liés au paiement.
-- **Gratuit : 3 offres publiées au maximum.** Les brouillons restent possibles. Pro et Premium : illimité.
-- **Abonnement expiré :** retour automatique à Gratuit, sans supprimer la fiche ni les offres.
-- **Prix et limites stockés en base** (table `plans`) : ce sont des hypothèses à valider, modifiables sans toucher au code.
+- **Gratuit :** 3 offres publiées, demandes reçues par e-mail. **Pro :** offres illimitées, boîte de réception, statistiques standard. **Premium :** + campagnes « Sponsorisé » et statistiques avancées.
+- **Paiement :** l'établissement choisit une formule, règle la facture (MVola, Orange Money, Airtel Money, virement, espèces) et indique la référence ; un administrateur confirme, la formule s'active (ou se prolonge).
+- **Expiration :** rappels à J-30, J-7 et J-1, période de grâce (7 jours, `EDUMADA_GRACE_DAYS`), puis retour à Gratuit. La fiche reste en ligne ; les offres au-delà de la limite repassent en brouillon.
+- **Journal d'audit :** validation, changement de formule, suppression, export.
+- **Prix et limites stockés en base** (table `plans`), modifiables depuis l'administration : ce sont des hypothèses à valider.
 
-Les tables `favorites`, `inquiries` (demandes et candidatures) et `inquiry_status_changes` sont créées. Leurs routes arrivent aux phases 3 et 4.
+## Tâches planifiées et e-mails
+
+- `php artisan subscriptions:process` gère les rappels et les expirations ; il est planifié chaque jour à 6 h (`routes/console.php`). En production, lancer `php artisan schedule:run` chaque minute (cron).
+- En local, les e-mails sont écrits dans `storage/logs/laravel.log` (`MAIL_MAILER=log`). Configurer un vrai serveur SMTP avant la mise en ligne.
+- Les images envoyées sont servies par `public/storage` : lancer `php artisan storage:link` une fois. Les pièces jointes de candidature restent dans `storage/app/private`.
+- `FRONTEND_URLS` (origines autorisées, séparées par des virgules) et `FRONTEND_URL` (liens des e-mails) désignent le site Next.js.

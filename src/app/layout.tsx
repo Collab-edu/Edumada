@@ -5,6 +5,7 @@ import Header from "@/components/layout/header/Header";
 import Footer from "@/components/layout/Footer";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import Aoscompo from "@/lib/aos";
+import Providers from "@/components/Providers";
 const font = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -25,12 +26,14 @@ export default function RootLayout({
         <html lang="fr" suppressHydrationWarning>
             <body className={`${font.className}`}>
                 <style>{`:root{--newsletter-url: url('${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/newsletter/hands.svg');}`}</style>
-                <Aoscompo>
-                    <Header />
-                    {children}
-                    <Footer />
-                </Aoscompo>
-                <ScrollToTop />
+                <Providers>
+                    <Aoscompo>
+                        <Header />
+                        {children}
+                        <Footer />
+                    </Aoscompo>
+                    <ScrollToTop />
+                </Providers>
             </body>
         </html>
     );

@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
 import AutoScroll from '@/components/ui/auto-scroll'
 import { CardSkeletonGrid } from '@/components/ui/card'
 import SectionHeader from '@/components/ui/section-header'
 import { useSiteData } from '@/data/site-data'
+import { useAuth } from '@/features/auth/AuthProvider'
 import FormationCard from './FormationCard'
 
 // Le carrousel de l'accueil reste une sélection ; la liste complète est sur /recherche.
@@ -11,11 +11,7 @@ const MAX_HOME_FORMATIONS = 12
 
 const FormationsSection = () => {
     const { data: formations, loading } = useSiteData('FormationData')
-    const [favorites, setFavorites] = useState<string[]>([])
-
-    const toggleFavorite = (id: string) => {
-        setFavorites((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]))
-    }
+    const { isFavorite, toggleFavorite } = useAuth()
 
     return (
         <section id='courses-section'>
@@ -34,7 +30,7 @@ const FormationsSection = () => {
                             <FormationCard
                                 key={formation.id}
                                 formation={formation}
-                                isFavorite={favorites.includes(formation.id)}
+                                isFavorite={isFavorite(formation.id)}
                                 onToggleFavorite={() => toggleFavorite(formation.id)}
                             />
                         ))}

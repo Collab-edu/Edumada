@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { cn } from '@/lib/utils'
+import { track } from '@/lib/track'
+import { useAuth } from '@/features/auth/AuthProvider'
+import ReportDialog from '@/features/etablissements/components/ReportDialog'
+import ContactDialog from './ContactDialog'
 import type { FaqItem } from '@/features/etablissements/faq'
 import type { SchoolType } from '@/features/etablissements/types'
 import type { CategoryType } from '@/features/categories/types'
@@ -42,9 +46,17 @@ export function FormationDetailPage({ formation, detail, school, category, other
     const showProgramme = fields.programme && (detail.program.length > 0 || detail.subjects.length > 0)
     const showCareers = fields.careers && detail.careers.jobs.length + detail.careers.sectors.length > 0
     const NAV = ALL_NAV.filter((item) => (item.id !== 'programme' || showProgramme) && (item.id !== 'debouches' || showCareers))
-    const [isFavorite, setIsFavorite] = useState(false)
+    const { isFavorite: isFavoriteOffer, toggleFavorite: toggle } = useAuth()
+    const isFavorite = isFavoriteOffer(formation.id)
+    const toggleFavorite = () => toggle(formation.id)
     const [active, setActive] = useState(NAV[0].id)
-    const toggleFavorite = () => setIsFavorite((v) => !v)
+    const [contactOpen, setContactOpen] = useState(false)
+    const [reportOpen, setReportOpen] = useState(false)
+    const openContact = () => {
+        setContactOpen(true)
+        track({ type: 'contact_click', establishment: school.id, offer: formation.id })
+    }
+    const applyClick = () => track({ type: 'apply_click', establishment: school.id, offer: formation.id })
     const sectionProps = { formation, detail, school, fields }
     const badge = REGISTRATION_BADGE[formation.registration]
     const tuition = formatTuition(formation)
@@ -87,7 +99,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
                     <span className='text-secondary'>{formation.title}</span>
                 </nav>
 
-                <FormationHero {...sectionProps} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />
+                <FormationHero {...sectionProps} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} onContact={openContact} onApply={applyClick} />
 
                 {/* Navigation interne */}
                 <nav
@@ -119,8 +131,8 @@ export function FormationDetailPage({ formation, detail, school, category, other
                         <OrganisationSection {...sectionProps} />
                         {showCareers && <CareersSection {...sectionProps} />}
                         <FormationSchool school={school} otherFormations={otherFormations} />
-                        <ApplySection {...sectionProps} />
-                        <ExtraInfoSection detail={detail} faq={faq} />
+                        <ApplySection {...sectionProps} onContact={openContact} onApply={applyClick} />
+                        <ExtraInfoSection detail={detail} faq={faq} onReport={() => setReportOpen(true)} />
                     </div>
 
                     {/* Résumé latéral */}
@@ -143,21 +155,23 @@ export function FormationDetailPage({ formation, detail, school, category, other
                             </dl>
                             {detail.onlineApplication ? (
                                 <Link
-                                    href={`/signup?formation=${formation.id}`}
+                                    href={`/candidature/?offre=${formation.id}`}
+                                    onClick={applyClick}
                                     className='flex items-center justify-center gap-2 rounded-xl bg-primary py-3 font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90'>
                                     <Icon icon='tabler:send' /> Postuler maintenant
                                 </Link>
                             ) : null}
-                            <a
-                                href='#contact'
+                            <button
+                                type='button'
+                                onClick={openContact}
                                 className={cn(
-                                    'flex items-center justify-center gap-2 rounded-xl py-3 font-bold',
+                                    'flex items-center justify-center gap-2 rounded-xl py-3 font-bold hover:cursor-pointer',
                                     detail.onlineApplication
                                         ? 'border border-secondary/20 text-secondary hover:border-primary hover:text-primary'
                                         : 'bg-primary text-white shadow-lg shadow-primary/30 hover:bg-primary/90'
                                 )}>
                                 <Icon icon='tabler:message-circle' /> Contacter l&apos;établissement
-                            </a>
+                            </button>
                             <button
                                 type='button'
                                 onClick={toggleFavorite}
@@ -175,6 +189,9 @@ export function FormationDetailPage({ formation, detail, school, category, other
                 </div>
             </div>
 
+            <ContactDialog open={contactOpen} onClose={() => setContactOpen(false)} formation={formation} school={school} />
+            <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} establishmentId={school.id} offerId={formation.id} />
+
             {/* Barre d'action mobile : le résumé latéral n'existe pas sur petit écran */}
             <div
                 data-mobile-cta
@@ -187,17 +204,19 @@ export function FormationDetailPage({ formation, detail, school, category, other
                     className='flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-secondary/20 text-secondary'>
                     <Icon icon={isFavorite ? 'tabler:heart-filled' : 'tabler:heart'} className={cn('text-xl', isFavorite && 'text-primary')} />
                 </button>
-                <a
-                    href='#contact'
+                <button
+                    type='button'
+                    onClick={openContact}
                     className={cn(
-                        'flex h-12 flex-1 items-center justify-center gap-2 rounded-xl font-bold',
+                        'flex h-12 flex-1 items-center justify-center gap-2 rounded-xl font-bold hover:cursor-pointer',
                         detail.onlineApplication ? 'border border-secondary/20 text-secondary' : 'bg-primary text-white'
                     )}>
                     <Icon icon='tabler:message-circle' /> Contacter
-                </a>
+                </button>
                 {detail.onlineApplication && (
                     <Link
-                        href={`/signup?formation=${formation.id}`}
+                        href={`/candidature/?offre=${formation.id}`}
+                        onClick={applyClick}
                         className='flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-primary font-bold text-white'>
                         <Icon icon='tabler:send' /> Postuler
                     </Link>

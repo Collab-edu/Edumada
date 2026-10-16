@@ -1,6 +1,8 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
+import { imageOr } from '@/lib/media'
+import { track } from '@/lib/track'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { cn } from '@/lib/utils'
@@ -20,10 +22,12 @@ interface FormationHeroProps {
     school: SchoolType
     isFavorite: boolean
     onToggleFavorite: () => void
+    onContact: () => void
+    onApply: () => void
 }
 
 /** Haut de page : informations principales et actions. */
-export function FormationHero({ formation, detail, school, isFavorite, onToggleFavorite }: FormationHeroProps) {
+export function FormationHero({ formation, detail, school, isFavorite, onToggleFavorite, onContact, onApply }: FormationHeroProps) {
     const [copied, setCopied] = useState(false)
     const badge = REGISTRATION_BADGE[formation.registration]
     const tuition = formatTuition(formation)
@@ -86,21 +90,23 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                     <div className='grid grid-cols-1 sm:flex sm:flex-wrap sm:items-center gap-3 [&>*]:justify-center sm:[&>*]:justify-start'>
                         {detail.onlineApplication ? (
                             <Link
-                                href={`/signup?formation=${formation.id}`}
+                                href={`/candidature/?offre=${formation.id}`}
+                                onClick={onApply}
                                 className='inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-white shadow-lg shadow-primary/30 transition-all duration-300 hover:bg-primary/90 hover:-translate-y-0.5'>
                                 <Icon icon='tabler:send' className='text-lg' /> Postuler maintenant
                             </Link>
                         ) : null}
-                        <a
-                            href='#contact'
+                        <button
+                            type='button'
+                            onClick={onContact}
                             className={cn(
-                                'inline-flex items-center gap-2 rounded-xl px-6 py-3 font-bold transition-colors duration-300',
+                                'inline-flex items-center gap-2 rounded-xl px-6 py-3 font-bold transition-colors duration-300 hover:cursor-pointer',
                                 detail.onlineApplication
                                     ? 'border border-secondary/20 text-secondary hover:border-primary hover:text-primary'
                                     : 'bg-primary text-white shadow-lg shadow-primary/30 hover:bg-primary/90'
                             )}>
                             <Icon icon='tabler:message-circle' className='text-lg' /> Contacter l&apos;établissement
-                        </a>
+                        </button>
                         <button
                             type='button'
                             onClick={onToggleFavorite}
@@ -109,13 +115,16 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                             <Icon icon={isFavorite ? 'tabler:heart-filled' : 'tabler:heart'} className={cn('text-lg', isFavorite && 'text-primary')} />
                             {isFavorite ? 'Dans mes favoris' : 'Ajouter aux favoris'}
                         </button>
-                        <a
-                            href={school.website}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            className='inline-flex items-center gap-2 px-2 py-3 font-semibold text-secondary hover:text-primary'>
-                            <Icon icon='tabler:world' className='text-lg' /> Site de l&apos;établissement
-                        </a>
+                        {school.website && (
+                            <a
+                                href={school.website}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                onClick={() => track({ type: 'website_click', establishment: school.id, offer: formation.id })}
+                                className='inline-flex items-center gap-2 px-2 py-3 font-semibold text-secondary hover:text-primary'>
+                                <Icon icon='tabler:world' className='text-lg' /> Site de l&apos;établissement
+                            </a>
+                        )}
                         <button
                             type='button'
                             onClick={share}
@@ -132,7 +141,7 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                 </div>
 
                 <div className='relative hidden lg:block min-h-full bg-cream'>
-                    <Image src={formation.imageSrc} alt={formation.title} fill priority className='object-cover' />
+                    <Image src={imageOr(formation.imageSrc)} alt={formation.title} fill priority className='object-cover' />
                 </div>
             </div>
         </div>

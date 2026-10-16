@@ -8,14 +8,14 @@ import { formatDate } from '../../format'
 import type { FormationDetailType, FormationType } from '../../types'
 import { DetailSection, Panel, SubTitle } from './parts'
 
-type Props = { formation: FormationType; detail: FormationDetailType; school: SchoolType }
+type Props = { formation: FormationType; detail: FormationDetailType; school: SchoolType; onContact: () => void; onApply: () => void }
 
 /* 9. Comment postuler ? */
-export function ApplySection({ formation, detail, school }: Props) {
+export function ApplySection({ formation, detail, school, onContact, onApply }: Props) {
     const steps = [
         { title: "Vérifiez les conditions d'admission", href: '#admission' },
         { title: 'Préparez les documents demandés', href: '#admission' },
-        { title: detail.onlineApplication ? 'Démarrez votre candidature en ligne' : "Contactez l'établissement", href: detail.onlineApplication ? undefined : '#contact' },
+        { title: detail.onlineApplication ? 'Démarrez votre candidature en ligne' : "Contactez l'établissement", href: detail.onlineApplication ? undefined : '#etablissement' },
         { title: 'Soumettez votre dossier selon la procédure indiquée' },
         { title: detail.onlineApplication ? 'Suivez la réponse depuis votre espace Edumada' : "Suivez la réponse de l'établissement" },
     ]
@@ -51,16 +51,18 @@ export function ApplySection({ formation, detail, school }: Props) {
                 </div>
                 {detail.onlineApplication ? (
                     <Link
-                        href={`/signup?formation=${formation.id}`}
+                        href={`/candidature/?offre=${formation.id}`}
+                        onClick={onApply}
                         className='inline-flex shrink-0 items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-white transition-colors duration-300 hover:bg-white hover:text-primary'>
                         <Icon icon='tabler:send' /> Postuler maintenant
                     </Link>
                 ) : (
-                    <a
-                        href={`tel:${school.phone.replace(/\s/g, '')}`}
-                        className='inline-flex shrink-0 items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-white transition-colors duration-300 hover:bg-white hover:text-primary'>
-                        <Icon icon='tabler:phone' /> Contacter l&apos;établissement
-                    </a>
+                    <button
+                        type='button'
+                        onClick={onContact}
+                        className='inline-flex shrink-0 items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-white transition-colors duration-300 hover:bg-white hover:text-primary hover:cursor-pointer'>
+                        <Icon icon='tabler:message-circle' /> Contacter l&apos;établissement
+                    </button>
                 )}
             </div>
         </DetailSection>
@@ -68,7 +70,7 @@ export function ApplySection({ formation, detail, school }: Props) {
 }
 
 /* 10. Informations complémentaires */
-export function ExtraInfoSection({ detail, faq }: { detail: FormationDetailType; faq: FaqItem[] }) {
+export function ExtraInfoSection({ detail, faq, onReport }: { detail: FormationDetailType; faq: FaqItem[]; onReport: () => void }) {
     return (
         <DetailSection id='infos' title='Informations complémentaires' icon='tabler:file-description'>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
@@ -93,6 +95,9 @@ export function ExtraInfoSection({ detail, faq }: { detail: FormationDetailType;
                         <span className='text-sm text-ink/60'>
                             Informations vérifiées par Edumada le {formatDate(detail.lastVerified)}
                         </span>
+                        <button type='button' onClick={onReport} className='mt-1 w-fit text-sm font-semibold text-primary hover:underline hover:cursor-pointer'>
+                            Signaler une information erronée
+                        </button>
                     </div>
                 </Panel>
             </div>

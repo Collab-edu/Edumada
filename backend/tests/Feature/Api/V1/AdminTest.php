@@ -79,6 +79,17 @@ class AdminTest extends TestCase
         $this->assertDatabaseHas('audit_logs', ['action' => 'plan.updated']);
     }
 
+    public function test_manage_endpoint_opens_any_fiche_to_admins_but_not_to_other_establishments(): void
+    {
+        $draft = Establishment::factory()->draft()->create();
+        [$intruder] = $this->establishmentOwner();
+
+        $this->actingAs($this->admin())->getJson("/api/v1/establishments/{$draft->slug}/manage")
+            ->assertOk()
+            ->assertJsonPath('data.status', 'pending_review');
+        $this->actingAs($intruder)->getJson("/api/v1/establishments/{$draft->slug}/manage")->assertForbidden();
+    }
+
     public function test_admin_cannot_change_own_role_422(): void
     {
         $admin = $this->admin();

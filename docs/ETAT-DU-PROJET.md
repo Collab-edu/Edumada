@@ -1,10 +1,10 @@
 # Edumada — État du projet
 
-*Mis à jour le 16 octobre 2026*
+*Mis à jour le 16 octobre 2026 (phases 1 à 5)*
 
 Edumada est une plateforme pour trouver un établissement et une offre éducative à Madagascar, **de la crèche à l'université**. Ce document fait le point sur ce qui existe aujourd'hui dans le frontend.
 
-> **Statut :** le site est encore **statique** et lit ses données dans `public/data/`. Une **API Laravel** (Phase 1) existe dans `backend/` : elle sert les mêmes données, au même format, et n'est pas encore branchée au site (Phase 2). Voir [`backend/README.md`](../backend/README.md). Toutes les données sont des **exemples inventés** et devront être remplacées par de vraies informations avant la mise en ligne.
+> **Statut :** le site est branché sur l'**API Laravel** (`backend/`) : catalogue, recherche, comptes, espaces étudiant / établissement / administration et formules payantes. Sans API configurée (ou si elle ne répond pas), il retombe sur les fichiers de `public/data/`. Toutes les données sont des **exemples inventés** et devront être remplacées par de vraies informations avant la mise en ligne.
 
 ---
 
@@ -188,12 +188,22 @@ docs/                     Documentation (ce fichier)
 - **Logos Google, Microsoft, Airbnb, etc.** dans « Ils nous font confiance » : à remplacer par de vrais partenaires ou à retirer.
 - **Accréditations et statuts de vérification :** exemples à vérifier réellement.
 
-### Non fonctionnel (nécessite un backend)
-- Connexion et inscription.
-- Candidature en ligne (« Postuler » mène à l'inscription) et suivi du dossier.
-- Favoris : non sauvegardés.
-- Newsletter.
-- Brochures PDF.
+### Fait depuis (phases 1 à 5)
+- **Backend Laravel** et base MySQL : voir [`backend/README.md`](../backend/README.md).
+- **Données de l'API** sur tout le site, avec repli sur `public/data/` si elle est indisponible. Les fiches restent des pages statiques (SEO), mises à jour dans le navigateur ; une fiche publiée après le build s'ouvre via `/formations/voir/?id=…` (redirection automatique depuis la 404).
+- **Comptes :** connexion, inscription (étudiant ou établissement), « Mon espace » dans l'en-tête.
+- **Étudiant :** favoris, demande d'information, candidature en ligne avec documents, suivi des statuts, avis, profil et suppression du compte.
+- **Établissement (`/espace/etablissement`) :** fiche, offres (formulaire adapté à la catégorie), demandes, statistiques, campagnes, formule et factures, création ou revendication d'une fiche, demande de vérification.
+- **Administration (`/espace/admin`) :** indicateurs du pilote, validation et vérification des fiches, modération, utilisateurs, catalogue, facturation, journal d'audit.
+- **Formules :** page `/tarifs`, limites par formule, paiement Mobile Money confirmé par un administrateur, rappels et expiration automatiques.
+- **Pages légales** `/conditions` et `/confidentialite` (à faire valider par un juriste).
+
+### Encore à faire
+- Newsletter (non branchée).
+- Brochures PDF hébergées (aujourd'hui : un lien).
+- E-mails réels (SMTP) et vérification de l'adresse e-mail à l'inscription.
+- Paiement Mobile Money automatique (API MVola / Orange Money) une fois les prix validés.
+- Hébergement : le site statique et l'API Laravel doivent être déployés ensemble (GitHub Pages ne suffit plus pour l'API).
 
 ### Pistes suivantes
 1. **Tableau de bord d'administration :** gérer catégories, sous-catégories, établissements et offres. Demande un backend et une base de données.
@@ -210,6 +220,7 @@ docs/                     Documentation (ce fichier)
 ```bash
 npm install          # installer les dépendances
 npm run dev          # serveur de développement : http://localhost:3000
+                     # (copier .env.example en .env.local pour utiliser l'API)
 npm run build        # build de production (export statique dans out/)
 npm run lint         # vérification ESLint
 npm run deploy       # publication de out/ sur GitHub Pages

@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import { imageOr } from '@/lib/media'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { Card, CardAction } from '@/components/ui/card'
 import { OFFER_CTA, offerFacts } from '../format'
@@ -15,7 +16,7 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite }: Forma
     return (
         <Card className='flex h-full flex-col overflow-hidden'>
             <div className='relative h-44 overflow-hidden bg-cream'>
-                <Image src={formation.imageSrc} alt={formation.title} fill className='object-cover' />
+                <Image src={imageOr(formation.imageSrc)} alt={formation.title} fill className='object-cover' />
                 <button
                     type='button'
                     onClick={onToggleFavorite}

@@ -5,6 +5,7 @@ Site web d'Edumada : trouvez votre formation à Madagascar, comparez les établi
 ## Stack
 
 - [Next.js 15](https://nextjs.org/) (App Router, export statique)
+- API Laravel dans [`backend/`](backend/README.md)
 - React 19, TypeScript
 - Tailwind CSS v4
 
@@ -12,10 +13,11 @@ Site web d'Edumada : trouvez votre formation à Madagascar, comparez les établi
 
 ```bash
 npm install
+cp .env.example .env.local   # adresse de l'API (backend/), voir backend/README.md
 npm run dev
 ```
 
-Le site est disponible sur http://localhost:3000.
+Le site est disponible sur http://localhost:3000. Sans `NEXT_PUBLIC_API_URL`, il fonctionne en mode statique avec `public/data/`.
 
 | Commande          | Rôle                                         |
 | ----------------- | -------------------------------------------- |

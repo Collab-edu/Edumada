@@ -1,72 +1,84 @@
 'use client'
 import Link from 'next/link'
-import { useState } from 'react'
-import SocialSignIn from './SocialSignIn'
+import { useEffect, useState, type FormEvent } from 'react'
+import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 import Logo from '@/components/layout/header/Logo'
-import Loader from '@/components/ui/loader'
+import { Button, FormAlert, TextField } from '@/components/ui/form'
+import { ApiError, apiEnabled } from '@/lib/api'
+import { useAuth } from '../AuthProvider'
+import { SPACE_HOME } from '../types'
 
-const Signin = () => {
-    const [loginData, setLoginData] = useState({
-        email: '',
-        password: '',
-        checkboxToggle: false,
-    })
-    // La connexion n'est pas encore branchée : il n'y a pas de backend d'authentification.
-    const [loading] = useState(false)
+/** Adresse de retour demandée (?next=/formations/…), limitée au site lui-même. */
+export function nextUrl(): string | null {
+    if (typeof window === 'undefined') return null
+    const next = new URLSearchParams(window.location.search).get('next')
+    return next && next.startsWith('/') && !next.startsWith('//') ? next : null
+}
+
+const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
+    const { login } = useAuth()
+    const router = useRouter()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<ApiError | null>(null)
+    // Sur une connexion lente, on attend que la page soit interactive : sinon l'envoi recharge la page et perd la saisie.
+    const [ready, setReady] = useState(false)
+    useEffect(() => setReady(true), [])
+
+    const submit = async (e: FormEvent) => {
+        e.preventDefault()
+        setLoading(true)
+        setError(null)
+        try {
+            const user = await login(email, password)
+            toast.success(`Bienvenue, ${user.name.split(' ')[0]} !`)
+            onSuccess?.()
+            router.push(nextUrl() ?? SPACE_HOME[user.role])
+        } catch (err) {
+            setError(err as ApiError)
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <>
-            <div className='mb-10 text-center mx-auto inline-block max-w-[160px]'>
+            <div className='mb-8 text-center mx-auto inline-block max-w-[160px]'>
                 <Logo />
             </div>
 
-            <SocialSignIn />
+            {!apiEnabled && <FormAlert tone='info'>La connexion sera disponible quand le service en ligne d&apos;Edumada sera activé.</FormAlert>}
 
-            <span className="z-1 relative my-8 block text-center before:content-[''] before:absolute before:h-px before:w-[40%] before:bg-black/20 before:left-0 before:top-3 after:content-[''] after:absolute after:h-px after:w-[40%] after:bg-black/20 after:top-3 after:right-0">
-                <span className='text-body-secondary relative z-10 inline-block px-3 text-base text-black'>
-                    OU
-                </span>
-            </span>
-
-            <form onSubmit={(e) => e.preventDefault()}>
-                <div className='mb-[22px]'>
-                    <input
-                        type='email'
-                        placeholder='Adresse e-mail'
-                        onChange={(e) =>
-                            setLoginData({ ...loginData, email: e.target.value })
-                        }
-                        className='w-full rounded-md border border-solid bg-transparent px-5 py-3 text-base text-dark outline-hidden transition border-gray-200 placeholder:text-black/30 focus:border-primary focus-visible:shadow-none text-black'
-                    />
-                </div>
-                <div className='mb-[22px]'>
-                    <input
-                        type='password'
-                        placeholder='Mot de passe'
-                        onChange={(e) =>
-                            setLoginData({ ...loginData, password: e.target.value })
-                        }
-                        className='w-full rounded-md border border-solid bg-transparent px-5 py-3 text-base text-dark outline-hidden transition border-gray-200 placeholder:text-black/30 focus:border-primary focus-visible:shadow-none text-black'
-                    />
-                </div>
-                <div className='mb-9'>
-                    <button
-                        // onClick={loginUser}
-                        type='submit'
-                        className='bg-primary w-full py-3 rounded-lg text-18 font-medium border text-white border-primary hover:text-primary hover:bg-transparent hover:cursor-pointer transition duration-300 ease-in-out'>
-                        Se connecter {loading && <Loader />}
-                    </button>
-                </div>
+            <form onSubmit={submit} className='mt-4 flex flex-col gap-4 text-left' noValidate>
+                {error && !error.field('email') && <FormAlert>{error.message}</FormAlert>}
+                <TextField
+                    label='Adresse e-mail'
+                    type='email'
+                    autoComplete='email'
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    error={error?.field('email')}
+                />
+                <TextField
+                    label='Mot de passe'
+                    type='password'
+                    autoComplete='current-password'
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    error={error?.field('password')}
+                />
+                <Button type='submit' loading={loading} disabled={!apiEnabled || !ready} className='mt-2 w-full py-3 text-lg'>
+                    Se connecter
+                </Button>
             </form>
 
-            <Link
-                href='/'
-                className='mb-2 inline-block text-base text-primary hover:underline'>
-                Mot de passe oublié ?
-            </Link>
-            <p className='text-body-secondary text-black text-base'>
+            <p className='mt-6 text-center text-base text-ink'>
                 Pas encore de compte ?{' '}
-                <Link href='/signup' className='text-primary hover:underline'>
+                <Link href='/signup/' onClick={onSuccess} className='font-semibold text-primary hover:underline'>
                     Créer un compte
                 </Link>
             </p>

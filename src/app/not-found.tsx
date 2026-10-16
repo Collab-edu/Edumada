@@ -1,4 +1,5 @@
 import NotFound from "@/components/not-found/NotFound";
+import FicheRedirect from "@/components/not-found/FicheRedirect";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,7 +7,12 @@ export const metadata: Metadata = {
 };
 
 const ErrorPage = () => {
-  return <NotFound />;
+  return (
+    <>
+      <FicheRedirect />
+      <NotFound />
+    </>
+  );
 };
 
 export default ErrorPage;

@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { imageOr } from '@/lib/media'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { cn } from '@/lib/utils'
@@ -58,7 +59,7 @@ export function SchoolFormation({ formation, fields }: { formation: FormationTyp
             {/* Résumé */}
             <div className='flex flex-col'>
                 <div className='relative h-40 shrink-0 bg-cream'>
-                    <Image src={formation.imageSrc} alt={formation.title} fill className='object-cover' />
+                    <Image src={imageOr(formation.imageSrc)} alt={formation.title} fill className='object-cover' />
                 </div>
                 <div className='flex flex-1 flex-col gap-3 p-5'>
                     <div className='flex flex-wrap items-center gap-2'>

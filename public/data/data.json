@@ -2594,6 +2594,10 @@
                 {
                     "label": "Établissements",
                     "href": "/#schools-section"
+                },
+                {
+                    "label": "Établissements : nos formules",
+                    "href": "/tarifs/"
                 }
             ]
         },
@@ -2601,20 +2605,16 @@
             "section": "Aide",
             "links": [
                 {
-                    "label": "Centre d'aide",
-                    "href": "/"
+                    "label": "Mon espace",
+                    "href": "/espace/"
                 },
                 {
                     "label": "Conditions d'utilisation",
-                    "href": "/"
-                },
-                {
-                    "label": "Mentions légales",
-                    "href": "/"
+                    "href": "/conditions/"
                 },
                 {
                     "label": "Politique de confidentialité",
-                    "href": "/"
+                    "href": "/confidentialite/"
                 }
             ]
         }

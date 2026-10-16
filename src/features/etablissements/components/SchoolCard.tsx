@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import { imageOr } from '@/lib/media'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { Card, CardAction } from '@/components/ui/card'
 import type { SchoolType } from '../types'
@@ -8,7 +9,7 @@ export function SchoolCard({ school }: { school: SchoolType }) {
     return (
         <Card className='flex h-full flex-col overflow-hidden'>
             <div className='relative h-36 bg-cream'>
-                <Image src={school.imageSrc} alt={`Locaux de ${school.name}`} fill className='object-cover' />
+                <Image src={imageOr(school.imageSrc)} alt={`Locaux de ${school.name}`} fill className='object-cover' />
             </div>
 
             <div className='flex flex-1 flex-col gap-3 px-5 pb-5'>

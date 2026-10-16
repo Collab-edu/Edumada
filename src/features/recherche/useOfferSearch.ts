@@ -1,0 +1,154 @@
+'use client'
+import { useEffect, useMemo, useState } from 'react'
+import { api, apiEnabled, type Paginated } from '@/lib/api'
+import { useSiteData } from '@/data/site-data'
+import type { FormationType } from '@/features/formations/types'
+import { BUDGET_RANGES, matchesFilters, sortFormations, type SearchFilters, type SortValue } from './filters'
+
+const PAGE_SIZE = 20
+
+const REGISTRATION_VALUE: Record<string, string> = {
+    'Inscriptions ouvertes': 'Ouvertes',
+    'À venir': 'À venir',
+}
+
+/** Traduit les filtres de la page en paramètres de GET /offers (mêmes libellés que le site). */
+export function toApiQuery(filters: SearchFilters, sort: SortValue) {
+    return {
+        q: filters.q.trim(),
+        category: filters.categorie,
+        domain: filters.domaine,
+        city: filters.ville,
+        type: filters.type,
+        school: filters.school.trim(),
+        feeRanges: BUDGET_RANGES.filter((r) => filters.budgets.includes(r.label)).map((r) => `${r.min}-${Number.isFinite(r.max) ? r.max : ''}`),
+        durations: filters.durations,
+        modalities: filters.modalities,
+        diplomas: filters.diplomas,
+        registration: REGISTRATION_VALUE[filters.registration] ?? '',
+        languages: filters.languages,
+        level: filters.admissionLevel === 'Tous les niveaux' ? '' : filters.admissionLevel,
+        bacSeries: filters.bacSeries,
+        housing: filters.housing,
+        scholarships: filters.scholarships,
+        childAge: filters.childAge,
+        sort: sort === 'pertinence' ? '' : sort,
+    }
+}
+
+type SearchState = {
+    results: FormationType[]
+    total: number
+    loading: boolean
+    loadingMore: boolean
+    hasMore: boolean
+    /** true si l'API n'a pas répondu et que l'on filtre les données locales. */
+    offline: boolean
+    loadMore: () => void
+}
+
+/**
+ * Résultats de la recherche : filtrés par l'API (avec pagination) quand elle est configurée,
+ * sinon (ou en cas de panne) filtrés dans le navigateur sur les données locales.
+ */
+export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchState {
+    const { data: formations, loading: localLoading } = useSiteData('FormationData')
+    const { data: categories } = useSiteData('CategoryData')
+    const [remote, setRemote] = useState<{ results: FormationType[]; total: number; page: number; lastPage: number } | null>(null)
+    const [loading, setLoading] = useState(apiEnabled)
+    const [loadingMore, setLoadingMore] = useState(false)
+    const [offline, setOffline] = useState(!apiEnabled)
+
+    const query = useMemo(() => toApiQuery(filters, sort), [filters, sort])
+    const queryKey = JSON.stringify(query)
+
+    useEffect(() => {
+        if (!apiEnabled) return
+        const controller = new AbortController()
+        setLoading(true)
+        // Petite attente pour ne pas interroger l'API à chaque lettre tapée.
+        const timer = setTimeout(() => {
+            api<Paginated<FormationType>>('/offers', { query: { ...query, perPage: PAGE_SIZE }, signal: controller.signal, token: null })
+                .then((res) => {
+                    setRemote({ results: res.data, total: res.meta.total, page: 1, lastPage: res.meta.last_page })
+                    setOffline(false)
+                })
+                .catch((error) => {
+                    if (error?.name === 'AbortError') return
+                    setOffline(true)
+                    setRemote(null)
+                })
+                .finally(() => {
+                    if (!controller.signal.aborted) setLoading(false)
+                })
+        }, 300)
+        return () => {
+            clearTimeout(timer)
+            controller.abort()
+        }
+        // queryKey résume `query`.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [queryKey])
+
+    const local = useMemo(() => {
+        if (!offline) return []
+        const labelOf = (id: string) => categories.find((c) => c.id === id)?.shortLabel
+        return sortFormations(formations.filter((f) => matchesFilters(f, filters, labelOf)), sort)
+    }, [offline, formations, categories, filters, sort])
+
+    const loadMore = () => {
+        if (!remote || remote.page >= remote.lastPage || loadingMore) return
+        setLoadingMore(true)
+        api<Paginated<FormationType>>('/offers', { query: { ...query, perPage: PAGE_SIZE, page: remote.page + 1 }, token: null })
+            .then((res) =>
+                setRemote((prev) => prev && { ...prev, results: [...prev.results, ...res.data], page: res.meta.current_page, lastPage: res.meta.last_page })
+            )
+            .catch(() => undefined)
+            .finally(() => setLoadingMore(false))
+    }
+
+    if (offline) {
+        return { results: local, total: local.length, loading: localLoading, loadingMore: false, hasMore: false, offline: apiEnabled, loadMore }
+    }
+    return {
+        results: remote?.results ?? [],
+        total: remote?.total ?? 0,
+        loading: loading && !remote ? true : loading,
+        loadingMore,
+        hasMore: !!remote && remote.page < remote.lastPage,
+        offline: false,
+        loadMore,
+    }
+}
+
+export type SponsoredOffer = {
+    campaignId: number
+    title: string
+    description: string | null
+    callToAction: string | null
+    offer: FormationType
+}
+
+/** Offres mises en avant par une campagne Premium, ciblées sur la recherche en cours. */
+export function useSponsoredOffers(filters: SearchFilters): SponsoredOffer[] {
+    const [items, setItems] = useState<SponsoredOffer[]>([])
+    const key = `${filters.categorie}|${filters.domaine}|${filters.ville}`
+
+    useEffect(() => {
+        if (!apiEnabled) return
+        let active = true
+        api<{ data: SponsoredOffer[] }>('/sponsored', {
+            query: { category: filters.categorie, domain: filters.domaine, city: filters.ville, limit: 2 },
+            token: null,
+        })
+            .then((res) => active && setItems(res.data))
+            .catch(() => active && setItems([]))
+        return () => {
+            active = false
+        }
+        // key résume les trois filtres de ciblage.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [key])
+
+    return items
+}

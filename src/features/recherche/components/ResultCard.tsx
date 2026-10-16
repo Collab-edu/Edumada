@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import { imageOr } from '@/lib/media'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { Card } from '@/components/ui/card'
@@ -17,20 +18,27 @@ interface ResultCardProps {
     formation: FormationType
     isFavorite: boolean
     onToggleFavorite: () => void
+    /** Emplacement payant d'une campagne Premium : toujours signalé comme tel. */
+    sponsored?: boolean
 }
 
 /** Carte d'un résultat de recherche, affichée dans une grille de deux colonnes. */
-export function ResultCard({ formation, isFavorite, onToggleFavorite }: ResultCardProps) {
+export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored = false }: ResultCardProps) {
     const badge = REGISTRATION_BADGE[formation.registration]
     const fees = formatFees(formation.fees)
 
     return (
-        <Card id={formation.id} className='flex h-full flex-col overflow-hidden scroll-mt-28'>
+        <Card id={sponsored ? undefined : formation.id} className={cn('flex h-full flex-col overflow-hidden scroll-mt-28', sponsored && 'ring-2 ring-primary/20')}>
             <div className='relative h-44 shrink-0 bg-cream'>
-                <Image src={formation.imageSrc} alt={formation.title} fill className='object-cover' />
+                <Image src={imageOr(formation.imageSrc)} alt={formation.title} fill className='object-cover' />
                 <span className='absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-secondary backdrop-blur-sm'>
                     {formation.schoolType}
                 </span>
+                {sponsored && (
+                    <span className='absolute top-3 right-3 rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-white'>
+                        Sponsorisé
+                    </span>
+                )}
             </div>
 
             <div className='flex flex-1 flex-col gap-4 p-5'>

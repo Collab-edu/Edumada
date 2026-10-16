@@ -24,7 +24,8 @@ export type SchoolType = {
   accreditation: string | null
   /** true seulement si Edumada a vérifié la reconnaissance auprès des autorités. */
   accreditationVerified: boolean
-  coordinates: { lat: number; lng: number }
+  /** Position GPS ; null tant que l'établissement ne l'a pas renseignée. */
+  coordinates: { lat: number; lng: number } | null
   /** Pièces à fournir pour le dossier de candidature. */
   admissionDocuments: string[]
   /** Photo de couverture. */

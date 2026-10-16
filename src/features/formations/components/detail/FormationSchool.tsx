@@ -2,6 +2,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
+import { mapUrls } from '@/lib/media'
+import { track } from '@/lib/track'
 import type { SchoolType } from '@/features/etablissements/types'
 import { offerFacts } from '../../format'
 import type { FormationType } from '../../types'
@@ -15,8 +17,7 @@ interface FormationSchoolProps {
 
 /* 8. Présentation de l'établissement */
 export function FormationSchool({ school, otherFormations }: FormationSchoolProps) {
-    const { lat, lng } = school.coordinates
-    const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.012}%2C${lat - 0.008}%2C${lng + 0.012}%2C${lat + 0.008}&layer=mapnik&marker=${lat}%2C${lng}`
+    const map = mapUrls(school.coordinates)
 
     return (
         <DetailSection id='etablissement' title="L'établissement" icon='tabler:building-community'>
@@ -38,6 +39,7 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                     </Link>
                 </div>
 
+                {school.photos.length > 0 && (
                 <div className='grid grid-cols-3 gap-1'>
                     {school.photos.map((src, i) => (
                         <div key={src} className='relative h-32 md:h-40 bg-cream'>
@@ -45,6 +47,7 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                         </div>
                     ))}
                 </div>
+                )}
 
                 <div className='flex flex-col gap-5 p-6'>
                     <p className='text-ink/80 leading-relaxed'>{school.description}</p>
@@ -59,20 +62,22 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                     <div id='contact' className='scroll-mt-40 grid grid-cols-1 md:grid-cols-2 gap-5'>
                         <div className='flex flex-col gap-3'>
                             <SubTitle>Coordonnées</SubTitle>
-                            <a href={`tel:${school.phone.replace(/\s/g, '')}`} className='flex min-h-10 items-center gap-2 text-ink/80 hover:text-primary'>
+                            {school.phone && (
+                            <a href={`tel:${school.phone.replace(/\s/g, '')}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='flex min-h-10 items-center gap-2 text-ink/80 hover:text-primary'>
                                 <Icon icon='tabler:phone' className='text-lg text-secondary' /> {school.phone}
                             </a>
-                            <a href={`mailto:${school.email}`} className='flex min-h-10 items-center gap-2 text-ink/80 hover:text-primary'>
+                            )}
+                            {school.email && <a href={`mailto:${school.email}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='flex min-h-10 items-center gap-2 text-ink/80 hover:text-primary'>
                                 <Icon icon='tabler:mail' className='text-lg text-secondary' /> {school.email}
-                            </a>
-                            <a href={school.website} target='_blank' rel='noopener noreferrer' className='flex min-h-10 items-center gap-2 text-primary hover:underline'>
+                            </a>}
+                            {school.website && <a href={school.website} target='_blank' rel='noopener noreferrer' onClick={() => track({ type: 'website_click', establishment: school.id })} className='flex min-h-10 items-center gap-2 text-primary hover:underline'>
                                 <Icon icon='tabler:world' className='text-lg text-secondary' /> {school.website.replace(/^https?:\/\//, '')}
-                            </a>
+                            </a>}
                             <span className='flex items-start gap-2 text-ink/80'>
                                 <Icon icon='tabler:map-pin' className='mt-0.5 text-lg text-secondary' /> {school.address}
                             </span>
                         </div>
-                        <iframe title={`Carte : ${school.name}`} src={mapSrc} loading='lazy' className='h-56 w-full rounded-xl border-0' />
+                        {map && <iframe title={`Carte : ${school.name}`} src={map.embed} loading='lazy' className='h-56 w-full rounded-xl border-0' />}
                     </div>
 
                     {otherFormations.length > 0 && (

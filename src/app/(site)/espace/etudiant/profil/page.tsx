@@ -1,0 +1,20 @@
+import { Suspense } from 'react'
+import { Metadata } from 'next'
+import { PageSkeleton } from '@/components/ui/page-state'
+import { StudentProfilePage as Page } from '@/features/espace/etudiant/StudentPages'
+
+export const metadata: Metadata = {
+  title: 'Mon profil',
+  robots: { index: false },
+}
+
+// Espace connecté : rendu dans le navigateur, avec les paramètres d'URL (?e=…).
+export default function Route() {
+  return (
+    <main>
+      <Suspense fallback={<PageSkeleton />}>
+        <Page />
+      </Suspense>
+    </main>
+  )
+}

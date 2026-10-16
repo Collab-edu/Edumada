@@ -1,9 +1,12 @@
 'use client'
+import { useState } from 'react'
 import Image from 'next/image'
+import { imageOr, mapUrls } from '@/lib/media'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import type { CategoryType } from '@/features/categories/types'
 import { formatDate } from '@/features/formations/format'
+import { track } from '@/lib/track'
 import type { FormationType } from '@/features/formations/types'
 import type { SchoolType, TestimonialType } from '../types'
 import type { FaqItem } from '../faq'
@@ -11,6 +14,8 @@ import SchoolAdmission from './SchoolAdmission'
 import SchoolFaq from './SchoolFaq'
 import SchoolFormation from './SchoolFormation'
 import SchoolTestimonials from './SchoolTestimonials'
+import ReportDialog from './ReportDialog'
+import ReviewDialog from './ReviewDialog'
 
 interface SchoolProfileProps {
     school: SchoolType
@@ -38,9 +43,9 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
     // Les avis viennent des étudiants dans le supérieur, des familles ailleurs.
     const reviewsTitle = category.id === 'petite-enfance' ? 'Avis des parents' : fields.careers ? "Témoignages d'étudiants" : 'Avis des familles et des élèves'
     const socials = Object.entries(school.socialLinks).filter((entry): entry is [string, string] => Boolean(entry[1]))
-    const { lat, lng } = school.coordinates
-    const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.012}%2C${lat - 0.008}%2C${lng + 0.012}%2C${lat + 0.008}&layer=mapnik&marker=${lat}%2C${lng}`
-    const mapLink = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=16/${lat}/${lng}`
+    const map = mapUrls(school.coordinates)
+    const [reviewOpen, setReviewOpen] = useState(false)
+    const [reportOpen, setReportOpen] = useState(false)
     const websiteLabel = school.website.replace(/^https?:\/\//, '')
 
     return (
@@ -57,7 +62,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
 
                 {/* Couverture */}
                 <div className='relative h-72 md:h-80 overflow-hidden rounded-2xl bg-secondary'>
-                    <Image src={school.imageSrc} alt={`Locaux de ${school.name}`} fill priority className='object-cover' />
+                    <Image src={imageOr(school.imageSrc)} alt={`Locaux de ${school.name}`} fill priority className='object-cover' />
                     <div aria-hidden='true' className='absolute inset-0 bg-gradient-to-t from-secondary via-secondary/60 to-transparent' />
                     <div className='absolute inset-x-0 bottom-0 flex flex-col md:flex-row md:items-end gap-4 p-6 md:p-8'>
                         <span className='flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-white text-xl font-bold tracking-wide text-secondary shadow-lg'>
@@ -100,18 +105,24 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         ))}
                     </div>
                     <div className='flex flex-wrap gap-3'>
-                        <a
-                            href={`tel:${school.phone.replace(/\s/g, '')}`}
-                            className='inline-flex items-center gap-2 rounded-lg border border-secondary/20 bg-white px-4 py-2.5 font-semibold text-secondary transition-colors duration-300 hover:border-primary hover:text-primary'>
-                            <Icon icon='tabler:phone' className='text-lg' /> Appeler
-                        </a>
-                        <a
-                            href={school.website}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            className='inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 font-semibold text-white shadow-lg shadow-primary/30 transition-colors duration-300 hover:bg-primary/90'>
-                            <Icon icon='tabler:world' className='text-lg' /> Site web
-                        </a>
+                        {school.phone && (
+                            <a
+                                href={`tel:${school.phone.replace(/\s/g, '')}`}
+                                onClick={() => track({ type: 'contact_click', establishment: school.id })}
+                                className='inline-flex items-center gap-2 rounded-lg border border-secondary/20 bg-white px-4 py-2.5 font-semibold text-secondary transition-colors duration-300 hover:border-primary hover:text-primary'>
+                                <Icon icon='tabler:phone' className='text-lg' /> Appeler
+                            </a>
+                        )}
+                        {school.website && (
+                            <a
+                                href={school.website}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                onClick={() => track({ type: 'website_click', establishment: school.id })}
+                                className='inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 font-semibold text-white shadow-lg shadow-primary/30 transition-colors duration-300 hover:bg-primary/90'>
+                                <Icon icon='tabler:world' className='text-lg' /> Site web
+                            </a>
+                        )}
                     </div>
                 </div>
 
@@ -145,6 +156,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             </div>
                         )}
 
+                        {school.photos.length > 0 && (
                         <div>
                             <h2 className='mb-5 font-bold'>Photos</h2>
                             <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
@@ -157,6 +169,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 ))}
                             </div>
                         </div>
+                        )}
 
                         {school.infrastructures.length > 0 && (
                             <div>
@@ -172,7 +185,15 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         )}
 
                         <div id='temoignages' className='scroll-mt-28'>
-                            <h2 className='mb-5 font-bold'>{reviewsTitle}</h2>
+                            <div className='mb-5 flex flex-wrap items-center justify-between gap-3'>
+                                <h2 className='font-bold'>{reviewsTitle}</h2>
+                                <button
+                                    type='button'
+                                    onClick={() => setReviewOpen(true)}
+                                    className='inline-flex min-h-11 items-center gap-2 rounded-lg border border-primary px-4 py-2 font-semibold text-primary hover:bg-primary hover:text-white hover:cursor-pointer'>
+                                    <Icon icon='tabler:message-star' /> Donner mon avis
+                                </button>
+                            </div>
                             <SchoolTestimonials testimonials={testimonials} formations={formations} />
                         </div>
 
@@ -184,15 +205,16 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
 
                     {/* Colonne latérale */}
                     <aside className='flex flex-col gap-6 lg:sticky lg:top-28 lg:self-start'>
+                        {map && (
                         <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
                             <p className='px-6 pt-5 pb-3 text-lg font-bold text-secondary'>Localisation</p>
                             <iframe
                                 title={`Carte : ${school.name}`}
-                                src={mapSrc}
+                                src={map.embed}
                                 className='h-64 w-full border-0'
                             />
                             <a
-                                href={mapLink}
+                                href={map.link}
                                 target='_blank'
                                 rel='noopener noreferrer'
                                 className='flex items-center justify-between px-6 py-4 font-semibold text-primary hover:underline'>
@@ -200,6 +222,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 <Icon icon='tabler:external-link' />
                             </a>
                         </div>
+                        )}
 
                         <div className='rounded-2xl border border-gray-100 bg-white p-6 shadow-sm'>
                             <p className='mb-2 text-lg font-bold text-secondary'>Informations pratiques</p>
@@ -209,17 +232,23 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                     {school.subCategory} · {category.label} · {school.type === 'Public' ? 'public' : 'privé'}
                                 </InfoRow>
                                 <InfoRow icon='tabler:map-pin' label='Adresse'>{school.address}</InfoRow>
-                                <InfoRow icon='tabler:phone' label='Téléphone'>
-                                    <a href={`tel:${school.phone.replace(/\s/g, '')}`} className='hover:text-primary'>{school.phone}</a>
-                                </InfoRow>
-                                <InfoRow icon='tabler:mail' label='E-mail'>
-                                    <a href={`mailto:${school.email}`} className='hover:text-primary'>{school.email}</a>
-                                </InfoRow>
-                                <InfoRow icon='tabler:world' label='Site web'>
-                                    <a href={school.website} target='_blank' rel='noopener noreferrer' className='text-primary hover:underline'>
-                                        {websiteLabel}
-                                    </a>
-                                </InfoRow>
+                                {school.phone && (
+                                    <InfoRow icon='tabler:phone' label='Téléphone'>
+                                        <a href={`tel:${school.phone.replace(/\s/g, '')}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='hover:text-primary'>{school.phone}</a>
+                                    </InfoRow>
+                                )}
+                                {school.email && (
+                                    <InfoRow icon='tabler:mail' label='E-mail'>
+                                        <a href={`mailto:${school.email}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='hover:text-primary'>{school.email}</a>
+                                    </InfoRow>
+                                )}
+                                {school.website && (
+                                    <InfoRow icon='tabler:world' label='Site web'>
+                                        <a href={school.website} target='_blank' rel='noopener noreferrer' onClick={() => track({ type: 'website_click', establishment: school.id })} className='text-primary hover:underline'>
+                                            {websiteLabel}
+                                        </a>
+                                    </InfoRow>
+                                )}
                                 {socials.length > 0 && (
                                     <InfoRow icon='tabler:share' label='Réseaux sociaux'>
                                         <span className='flex flex-wrap gap-2'>
@@ -251,9 +280,25 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 </InfoRow>
                             </ul>
                         </div>
+                        <div className='rounded-2xl border border-gray-100 bg-white p-6 shadow-sm flex flex-col gap-3'>
+                            <p className='text-lg font-bold text-secondary'>Une information à corriger ?</p>
+                            <button
+                                type='button'
+                                onClick={() => setReportOpen(true)}
+                                className='flex min-h-11 items-center gap-2 font-semibold text-primary hover:underline hover:cursor-pointer'>
+                                <Icon icon='tabler:flag' /> Signaler une information erronée
+                            </button>
+                            <Link
+                                href={`/espace/etablissement/revendiquer/?e=${school.id}`}
+                                className='flex min-h-11 items-center gap-2 font-semibold text-secondary hover:text-primary'>
+                                <Icon icon='tabler:building-community' /> Vous représentez cet établissement ? Gérez cette fiche
+                            </Link>
+                        </div>
                     </aside>
                 </div>
             </div>
+            <ReviewDialog open={reviewOpen} onClose={() => setReviewOpen(false)} establishmentId={school.id} formations={formations} />
+            <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} establishmentId={school.id} />
         </section>
     )
 }

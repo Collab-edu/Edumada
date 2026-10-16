@@ -1,0 +1,255 @@
+'use client'
+import { useState, type FormEvent } from 'react'
+import Link from 'next/link'
+import { Icon } from '@iconify/react/dist/iconify.js'
+import toast from 'react-hot-toast'
+import Dialog from '@/components/ui/dialog'
+import { Badge, Button, ButtonLink, EmptyState, FormAlert, SelectField, TextField } from '@/components/ui/form'
+import { api, ApiError } from '@/lib/api'
+import { useAuth } from '@/features/auth/AuthProvider'
+import { STUDY_LEVELS } from '@/features/auth/components/SignUp'
+import FormationCard from '@/features/formations/components/FormationCard'
+import type { FormationType } from '@/features/formations/types'
+import { useApi } from '../useApi'
+import { Panel, SpaceShell, StatCard, formatDateTime } from '../components/SpaceShell'
+import { INQUIRY_STATUS_TONE, type Inquiry } from '../types'
+import { InquiryDetail } from '../etablissement/InboxPage'
+
+const NAV = [
+    { href: '/espace/etudiant/', label: 'Mes démarches', icon: 'tabler:list-check' },
+    { href: '/espace/etudiant/favoris/', label: 'Favoris', icon: 'tabler:heart' },
+    { href: '/espace/etudiant/profil/', label: 'Mon profil', icon: 'tabler:user' },
+]
+
+function Shell({ title, children }: { title: string; children: React.ReactNode }) {
+    const { user } = useAuth()
+    return (
+        <SpaceShell roles={['student']} title={title} subtitle={user ? `Bonjour ${user.name.split(' ')[0]} !` : undefined} nav={NAV} actions={<ButtonLink href='/recherche/' variant='secondary'><Icon icon='tabler:search' /> Rechercher</ButtonLink>}>
+            {children}
+        </SpaceShell>
+    )
+}
+
+/* ------------------------------------------------------------------ */
+/* Mes démarches                                                       */
+/* ------------------------------------------------------------------ */
+
+function Inquiries() {
+    const { favorites } = useAuth()
+    const { data, loading } = useApi<{ data: Inquiry[] }>('/me/inquiries')
+    const [selected, setSelected] = useState<Inquiry | null>(null)
+    const inquiries = data?.data ?? []
+    const active = inquiries.filter((i) => !['accepted', 'refused'].includes(i.status))
+
+    return (
+        <>
+            <div className='grid grid-cols-2 lg:grid-cols-3 gap-3'>
+                <StatCard icon='tabler:send' label='Démarches en cours' value={loading ? '…' : active.length} />
+                <StatCard icon='tabler:circle-check' label='Réponses reçues' value={loading ? '…' : inquiries.filter((i) => i.status !== 'new').length} />
+                <StatCard icon='tabler:heart' label='Favoris' value={favorites.length} href='/espace/etudiant/favoris/' />
+            </div>
+
+            <Panel title='Mes demandes et candidatures' description="Chaque changement de statut vous est aussi envoyé par e-mail.">
+                {loading ? (
+                    <div className='h-32 rounded-xl bg-offwhite animate-pulse' />
+                ) : inquiries.length === 0 ? (
+                    <EmptyState icon='tabler:send' title='Aucune démarche pour le moment' action={<ButtonLink href='/recherche/'>Trouver une formation</ButtonLink>}>
+                        Contactez un établissement ou postulez depuis la fiche d&apos;une offre : vous suivrez la réponse ici.
+                    </EmptyState>
+                ) : (
+                    <ul className='flex flex-col gap-3'>
+                        {inquiries.map((inquiry) => (
+                            <li key={inquiry.id}>
+                                <button type='button' onClick={() => setSelected(inquiry)} className='flex w-full flex-col gap-2 rounded-xl border border-gray-100 p-4 text-left hover:border-primary/40 hover:cursor-pointer'>
+                                    <span className='flex flex-wrap items-center gap-2'>
+                                        <Badge tone={inquiry.type === 'application' ? 'info' : 'neutral'}>{inquiry.typeLabel}</Badge>
+                                        <Badge tone={INQUIRY_STATUS_TONE[inquiry.status]}>{inquiry.statusLabel}</Badge>
+                                    </span>
+                                    <span className='font-semibold text-secondary'>{inquiry.offer?.title ?? inquiry.establishment.name}</span>
+                                    <span className='text-sm text-ink/60'>{inquiry.establishment.name} · envoyée le {formatDateTime(inquiry.createdAt)}</span>
+                                    {inquiry.history && inquiry.history.length > 1 && inquiry.history[inquiry.history.length - 1].note && (
+                                        <span className='rounded-lg bg-cream/60 px-3 py-2 text-sm text-ink/80'>
+                                            <Icon icon='tabler:message' className='mr-1 inline text-primary' />
+                                            {inquiry.history[inquiry.history.length - 1].note}
+                                        </span>
+                                    )}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </Panel>
+
+            <Dialog open={!!selected} onClose={() => setSelected(null)} title={selected?.offer?.title ?? selected?.establishment.name ?? ''} className='sm:max-w-2xl'>
+                {selected && (
+                    <div className='flex flex-col gap-4'>
+                        <InquiryDetail inquiry={selected} readOnly />
+                        {selected.offer && <ButtonLink href={`/formations/${selected.offer.id}/`} variant='secondary'>Voir l&apos;offre</ButtonLink>}
+                    </div>
+                )}
+            </Dialog>
+        </>
+    )
+}
+
+export function StudentDashboardPage() {
+    return (
+        <Shell title='Mon espace'>
+            <Inquiries />
+        </Shell>
+    )
+}
+
+/* ------------------------------------------------------------------ */
+/* Favoris                                                             */
+/* ------------------------------------------------------------------ */
+
+function Favorites() {
+    const { isFavorite, toggleFavorite, favorites } = useAuth()
+    const { data, loading } = useApi<{ data: FormationType[] }>('/me/favorites')
+    // On garde la carte affichée après un retrait pour permettre de l'annuler.
+    const offers = data?.data ?? []
+
+    return (
+        <Panel title='Mes favoris' description={`${favorites.length} offre(s) enregistrée(s).`}>
+            {loading ? (
+                <div className='h-64 rounded-xl bg-offwhite animate-pulse' />
+            ) : offers.length === 0 ? (
+                <EmptyState icon='tabler:heart' title='Aucun favori' action={<ButtonLink href='/recherche/'>Explorer les formations</ButtonLink>}>
+                    Touchez le cœur d&apos;une offre pour la retrouver ici et la comparer.
+                </EmptyState>
+            ) : (
+                <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5'>
+                    {offers.map((offer) => (
+                        <FormationCard key={offer.id} formation={offer} isFavorite={isFavorite(offer.id)} onToggleFavorite={() => toggleFavorite(offer.id)} />
+                    ))}
+                </div>
+            )}
+        </Panel>
+    )
+}
+
+export function StudentFavoritesPage() {
+    return (
+        <Shell title='Mes favoris'>
+            <Favorites />
+        </Shell>
+    )
+}
+
+/* ------------------------------------------------------------------ */
+/* Profil                                                              */
+/* ------------------------------------------------------------------ */
+
+export function ProfileForms() {
+    const { user, setUser, logout } = useAuth()
+    const [profile, setProfile] = useState({ name: user?.name ?? '', email: user?.email ?? '', phone: user?.phone ?? '', city: user?.city ?? '', studyLevel: user?.studyLevel ?? '' })
+    const [passwords, setPasswords] = useState({ currentPassword: '', password: '', password_confirmation: '' })
+    const [saving, setSaving] = useState<string | null>(null)
+    const [error, setError] = useState<ApiError | null>(null)
+    const [deleteOpen, setDeleteOpen] = useState(false)
+    const [deletePassword, setDeletePassword] = useState('')
+
+    const saveProfile = async (e: FormEvent) => {
+        e.preventDefault()
+        setSaving('profile')
+        setError(null)
+        try {
+            const res = await api<{ data: NonNullable<typeof user> }>('/me', { method: 'PATCH', body: profile })
+            setUser(res.data)
+            toast.success('Profil enregistré')
+        } catch (err) {
+            setError(err as ApiError)
+        } finally {
+            setSaving(null)
+        }
+    }
+
+    const savePassword = async (e: FormEvent) => {
+        e.preventDefault()
+        setSaving('password')
+        setError(null)
+        try {
+            await api('/me/password', { method: 'PUT', body: passwords })
+            setPasswords({ currentPassword: '', password: '', password_confirmation: '' })
+            toast.success('Mot de passe modifié')
+        } catch (err) {
+            setError(err as ApiError)
+        } finally {
+            setSaving(null)
+        }
+    }
+
+    const deleteAccount = async () => {
+        setSaving('delete')
+        try {
+            await api('/me', { method: 'DELETE', body: { password: deletePassword } })
+            toast.success('Votre compte et vos données ont été supprimés.')
+            await logout()
+        } catch (err) {
+            toast.error((err as ApiError).field('password') ?? (err as Error).message)
+        } finally {
+            setSaving(null)
+        }
+    }
+
+    if (!user) return null
+
+    return (
+        <>
+            <Panel title='Mes informations'>
+                <form onSubmit={saveProfile} className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                    <TextField label='Nom complet' required value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })} error={error?.field('name')} />
+                    <TextField label='E-mail' type='email' required value={profile.email} onChange={(e) => setProfile({ ...profile, email: e.target.value })} error={error?.field('email')} />
+                    <TextField label='Téléphone (facultatif)' type='tel' value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} error={error?.field('phone')} />
+                    {user.role === 'student' && (
+                        <>
+                            <TextField label='Ville' value={profile.city} onChange={(e) => setProfile({ ...profile, city: e.target.value })} />
+                            <SelectField label="Niveau d'études" placeholder='Choisir…' options={STUDY_LEVELS} value={profile.studyLevel} onChange={(e) => setProfile({ ...profile, studyLevel: e.target.value })} />
+                        </>
+                    )}
+                    <div className='sm:col-span-2'>
+                        <Button type='submit' loading={saving === 'profile'}>Enregistrer</Button>
+                    </div>
+                </form>
+            </Panel>
+
+            <Panel title='Mot de passe'>
+                <form onSubmit={savePassword} className='grid grid-cols-1 sm:grid-cols-3 gap-4 items-start'>
+                    <TextField label='Mot de passe actuel' type='password' autoComplete='current-password' value={passwords.currentPassword} onChange={(e) => setPasswords({ ...passwords, currentPassword: e.target.value })} error={error?.field('currentPassword')} />
+                    <TextField label='Nouveau mot de passe' type='password' autoComplete='new-password' value={passwords.password} onChange={(e) => setPasswords({ ...passwords, password: e.target.value })} error={error?.field('password')} />
+                    <TextField label='Confirmation' type='password' autoComplete='new-password' value={passwords.password_confirmation} onChange={(e) => setPasswords({ ...passwords, password_confirmation: e.target.value })} />
+                    <div className='sm:col-span-3'>
+                        <Button type='submit' variant='secondary' loading={saving === 'password'}>Changer le mot de passe</Button>
+                    </div>
+                </form>
+            </Panel>
+
+            <Panel title='Mes données' description='Vos demandes et documents ne sont visibles que par vous et par les établissements à qui vous les avez envoyés.'>
+                <div className='flex flex-col gap-3'>
+                    <p className='text-ink/70'>
+                        Supprimer votre compte efface vos informations, vos favoris, vos demandes et vos documents. Cette action est définitive.{' '}
+                        <Link href='/confidentialite/' className='text-primary underline'>Politique de confidentialité</Link>
+                    </p>
+                    <Button variant='danger' className='w-fit' onClick={() => setDeleteOpen(true)}>Supprimer mon compte</Button>
+                </div>
+            </Panel>
+
+            <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)} title='Supprimer mon compte ?' description='Toutes vos données seront effacées définitivement.'>
+                <div className='flex flex-col gap-4'>
+                    <FormAlert>Cette action ne peut pas être annulée.</FormAlert>
+                    <TextField label='Votre mot de passe' type='password' autoComplete='current-password' value={deletePassword} onChange={(e) => setDeletePassword(e.target.value)} />
+                    <Button variant='danger' onClick={deleteAccount} loading={saving === 'delete'} disabled={!deletePassword}>Supprimer définitivement</Button>
+                </div>
+            </Dialog>
+        </>
+    )
+}
+
+export function StudentProfilePage() {
+    return (
+        <Shell title='Mon profil'>
+            <ProfileForms />
+        </Shell>
+    )
+}

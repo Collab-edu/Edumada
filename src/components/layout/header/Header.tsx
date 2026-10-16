@@ -5,12 +5,16 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import Signin from '@/features/auth/components/SignIn'
 import SignUp from '@/features/auth/components/SignUp'
 import { useSiteData } from '@/data/site-data'
+import Link from 'next/link'
+import { useAuth } from '@/features/auth/AuthProvider'
+import { SPACE_HOME } from '@/features/auth/types'
 import Logo from './Logo'
 import HeaderLink from './HeaderLink'
 import MobileHeaderLink from './MobileHeaderLink'
 
 const Header: React.FC = () => {
     const { data: headerData } = useSiteData('HeaderData')
+    const { user, logout } = useAuth()
 
     const [navbarOpen, setNavbarOpen] = useState(false)
     const [sticky, setSticky] = useState(false)
@@ -77,6 +81,21 @@ const Header: React.FC = () => {
                         ))}
                     </nav>
                     <div className='flex items-center gap-4'>
+                        {user ? (
+                            <div className='hidden lg:flex items-center gap-3'>
+                                <Link
+                                    href={SPACE_HOME[user.role]}
+                                    className='inline-flex items-center gap-2 bg-primary text-white border border-primary hover:bg-transparent hover:text-primary duration-300 px-5 py-2 rounded-lg font-medium'>
+                                    <Icon icon='tabler:user-circle' className='text-xl' /> Mon espace
+                                </Link>
+                                <button
+                                    onClick={logout}
+                                    className='px-3 py-2 font-medium text-secondary hover:text-primary hover:cursor-pointer'>
+                                    Déconnexion
+                                </button>
+                            </div>
+                        ) : (
+                        <>
                         <button
                             className='hidden lg:block bg-transparent text-primary border hover:bg-primary border-primary hover:text-white duration-300 px-6 py-2 rounded-lg hover:cursor-pointer'
                             onClick={() => {
@@ -88,7 +107,7 @@ const Header: React.FC = () => {
                             <div className='fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center z-50'>
                                 <div
                                     ref={signInRef}
-                                    className='relative mx-auto w-full max-w-md overflow-hidden rounded-lg px-8 pt-14 pb-8 text-center bg-dark_grey/90 backdrop-blur-md bg-white'>
+                                    className='relative mx-4 w-full max-w-md max-h-[92vh] overflow-y-auto rounded-2xl px-6 sm:px-8 pt-14 pb-8 text-center bg-white'>
                                     <button
                                         onClick={() => setIsSignInOpen(false)}
                                         className='absolute top-0 right-0 mr-8 mt-8 dark:invert'
@@ -100,7 +119,7 @@ const Header: React.FC = () => {
                                             className='text-black hover:text-primary inline-block hover:cursor-pointer'
                                         />
                                     </button>
-                                    <Signin />
+                                    <Signin onSuccess={() => setIsSignInOpen(false)} />
                                 </div>
                             </div>
                         )}
@@ -115,7 +134,7 @@ const Header: React.FC = () => {
                             <div className='fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center z-50'>
                                 <div
                                     ref={signUpRef}
-                                    className='relative mx-auto bg-white w-full max-w-md overflow-hidden rounded-lg bg-dark_grey/90 backdrop-blur-md px-8 pt-14 pb-8 text-center'>
+                                    className='relative mx-4 w-full max-w-md max-h-[92vh] overflow-y-auto rounded-2xl bg-white px-6 sm:px-8 pt-14 pb-8 text-center'>
                                     <button
                                         onClick={() => setIsSignUpOpen(false)}
                                         className='absolute top-0 right-0 mr-8 mt-8 dark:invert'
@@ -127,9 +146,11 @@ const Header: React.FC = () => {
                                             className='text-black hover:text-primary inline-block hover:cursor-pointer'
                                         />
                                     </button>
-                                    <SignUp />
+                                    <SignUp onSuccess={() => setIsSignUpOpen(false)} />
                                 </div>
                             </div>
+                        )}
+                        </>
                         )}
                         <button
                             onClick={() => setNavbarOpen(!navbarOpen)}
@@ -169,6 +190,25 @@ const Header: React.FC = () => {
                             <MobileHeaderLink key={index} item={item} />
                         ))}
                         <div className='mt-4 flex flex-col gap-4 w-full'>
+                            {user ? (
+                                <>
+                                    <Link
+                                        href={SPACE_HOME[user.role]}
+                                        onClick={() => setNavbarOpen(false)}
+                                        className='inline-flex items-center justify-center gap-2 bg-primary text-white px-4 py-3 rounded-lg border border-primary font-medium'>
+                                        <Icon icon='tabler:user-circle' className='text-xl' /> Mon espace
+                                    </Link>
+                                    <button
+                                        onClick={() => {
+                                            setNavbarOpen(false)
+                                            logout()
+                                        }}
+                                        className='px-4 py-3 rounded-lg border border-secondary/20 font-medium text-secondary hover:cursor-pointer'>
+                                        Déconnexion
+                                    </button>
+                                </>
+                            ) : (
+                            <>
                             <button
                                 className='bg-primary text-white px-4 py-2 rounded-lg border  border-primary hover:text-primary hover:bg-transparent hover:cursor-pointer transition duration-300 ease-in-out'
                                 onClick={() => {
@@ -185,6 +225,8 @@ const Header: React.FC = () => {
                                 }}>
                                 Inscription
                             </button>
+                            </>
+                            )}
                         </div>
                     </nav>
                 </div>
