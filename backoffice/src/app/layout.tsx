@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from 'next'
+import { Poppins } from 'next/font/google'
 import type { ReactNode } from 'react'
 import Providers from './providers'
 import './globals.scss'
+
+// Police d'Edumada, comme sur le site.
+const font = Poppins({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap', variable: '--edu-font' })
 
 export const metadata: Metadata = {
     title: 'Edumada · Back-office',
@@ -17,7 +21,7 @@ const themeScript = `try{var m=localStorage.getItem('edumada-backoffice-theme');
 
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
-        <html lang='fr' suppressHydrationWarning>
+        <html lang='fr' suppressHydrationWarning className={font.variable}>
             <head>
                 <script dangerouslySetInnerHTML={{ __html: themeScript }} />
             </head>

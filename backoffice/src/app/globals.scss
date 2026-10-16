@@ -10,6 +10,7 @@
 @use "@coreui/chartjs/scss/coreui-chartjs";
 
 :root {
+  --cui-body-font-family: var(--edu-font), system-ui, sans-serif;
   --edu-teal: #0f4c5c;
   --edu-teal-dark: #082a33;
   --edu-red: #ff3b52;
