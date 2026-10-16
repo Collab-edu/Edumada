@@ -27,7 +27,7 @@ const steps = [
 
 const Steps = () => {
     return (
-        <section id='steps-section' className='bg-white py-20'>
+        <section id='steps-section' className='bg-white py-14'>
             <div className='container mx-auto max-w-7xl px-4'>
                 <h2 className='font-bold text-center mb-10'>
                     Trouvez votre formation en trois étapes

@@ -9,7 +9,7 @@ const SchoolsSection = () => {
     const { data: schools, loading } = useSiteData('SchoolData')
 
     return (
-        <section id='schools-section' className='bg-secondary/[0.06] py-20 mt-14'>
+        <section id='schools-section' className='bg-secondary/[0.06] py-14 mt-10'>
             <div className='container mx-auto max-w-7xl px-4'>
                 <SectionHeader
                     title='Découvrez les établissements'
