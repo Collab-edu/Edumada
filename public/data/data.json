@@ -164,7 +164,8 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "ecole-superieure-de-gestion",
@@ -198,7 +199,8 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "institut-de-formation-en-sante",
@@ -232,7 +234,8 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence",
                 "Certificat médical d'aptitude"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "institut-de-tourisme-et-d-hotellerie",
@@ -265,7 +268,8 @@
                 "Copie de la carte d'identité nationale (CIN)",
                 "Deux photos d'identité récentes",
                 "Certificat de résidence"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "centre-universitaire-d-informatique",
@@ -299,7 +303,8 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "institut-superieur-de-droit-de-toamasina",
@@ -333,7 +338,8 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "pole-superieur-d-agronomie",
@@ -367,7 +373,8 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "academie-numerique-d-antsirabe",
@@ -401,7 +408,8 @@
                 "Copie de la carte d'identité nationale (CIN)",
                 "Deux photos d'identité récentes",
                 "Certificat de résidence"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "institut-des-langues-de-fianarantsoa",
@@ -434,7 +442,8 @@
                 "Copie de la carte d'identité nationale (CIN)",
                 "Deux photos d'identité récentes",
                 "Certificat de résidence"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "ecole-de-sante-de-mahajanga",
@@ -468,7 +477,8 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence",
                 "Certificat médical d'aptitude"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "institut-polytechnique-de-toliara",
@@ -501,7 +511,8 @@
                 "Copie de la carte d'identité nationale (CIN)",
                 "Deux photos d'identité récentes",
                 "Certificat de résidence"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "ecole-superieure-de-tourisme-d-antsiranana",
@@ -535,7 +546,8 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
-            ]
+            ],
+            "accreditationVerified": false
         },
         {
             "id": "business-school-de-toamasina",
@@ -569,7 +581,8 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
-            ]
+            ],
+            "accreditationVerified": false
         }
     ],
     "FormationData": [
@@ -671,7 +684,7 @@
             "housing": "Disponible",
             "scholarship": "Non renseigné",
             "schoolId": "institut-de-formation-en-sante",
-            "registrationFee": 120000,
+            "registrationFee": null,
             "registrationPeriod": {
                 "start": "2027-01-15",
                 "end": "2027-03-31"

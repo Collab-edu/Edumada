@@ -101,7 +101,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite }: ResultCa
                         )}
                     </div>
                     <Link
-                        href={`/etablissements/${formation.schoolId}#${formation.id}`}
+                        href={`/formations/${formation.id}`}
                         className='rounded-lg border border-primary px-5 py-2.5 text-center font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white'>
                         Voir la formation
                     </Link>

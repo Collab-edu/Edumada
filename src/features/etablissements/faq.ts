@@ -69,8 +69,8 @@ export function buildSchoolFaq(school: SchoolType, formations: FormationType[]):
             question: 'Quels diplômes peut-on obtenir ? Sont-ils reconnus ?',
             answer:
                 `L'établissement prépare aux diplômes suivants : ${joinFr(unique(formations.map((f) => f.diploma)))}. ` +
-                (school.accreditation
-                    ? `Reconnaissance indiquée : ${school.accreditation}.`
+                (school.accreditationVerified && school.accreditation
+                    ? `Reconnaissance vérifiée par Edumada : ${school.accreditation}.`
                     : "Aucune information de reconnaissance ou d'accréditation n'est renseignée : renseignez-vous auprès de l'établissement avant de vous inscrire."),
         },
     ]

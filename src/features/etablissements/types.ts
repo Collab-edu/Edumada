@@ -14,6 +14,8 @@ export type SchoolType = {
   tags: string[]
   /** Reconnaissance / accréditation, null si non applicable ou non renseignée. */
   accreditation: string | null
+  /** true seulement si Edumada a vérifié la reconnaissance auprès des autorités. */
+  accreditationVerified: boolean
   coordinates: { lat: number; lng: number }
   /** Pièces à fournir pour le dossier de candidature. */
   admissionDocuments: string[]

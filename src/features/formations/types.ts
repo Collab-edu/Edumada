@@ -38,3 +38,52 @@ export type FormationType = {
   scholarship: 'Bourses disponibles' | 'Non renseigné'
   imageSrc: string
 }
+
+/** Montant d'un frais ; null = « Non communiqué ». */
+export type FeeLine = { label: string; amount: number | null }
+
+/** Contenu détaillé d'une formation (public/data/formation-details.json), lu au moment du build. */
+export type FormationDetailType = {
+  id: string
+  description: string
+  objectives: string[]
+  skills: string[]
+  subjects: string[]
+  program: { period: string; courses: string[] }[]
+  specializations: string[]
+  teachingMethods: string[]
+  evaluation: string
+  admission: {
+    prerequisites: string[]
+    specialConditions: string | null
+    minAge: number | null
+  }
+  costs: {
+    applicationFee: number | null
+    otherFees: FeeLine[]
+    /** Les montants sont-ils confirmés par l'établissement ou estimés par Edumada ? */
+    status: 'Confirmés' | 'Estimés' | 'Non communiqués'
+    paymentOptions: string[]
+    scholarships: string | null
+    discounts: string | null
+  }
+  organization: {
+    schedule: string | null
+    campus: string
+    rhythm: string[]
+  }
+  careers: {
+    jobs: string[]
+    sectors: string[]
+    furtherStudies: string[]
+    internship: string | null
+    /** Uniquement les partenariats confirmés. */
+    partnerships: string[]
+  }
+  /** Candidature en ligne activée pour cette formation. */
+  onlineApplication: boolean
+  brochureUrl: string | null
+  academicCalendar: { label: string; date: string }[]
+  /** Date de dernière vérification des informations (ISO). */
+  lastVerified: string
+}

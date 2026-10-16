@@ -65,7 +65,7 @@ export function SchoolProfile({ school, formations, testimonials, faq }: SchoolP
                                 <span className='inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>
                                     <Icon icon='tabler:map-pin' /> {school.city}
                                 </span>
-                                {school.accreditation && (
+                                {school.accreditationVerified && (
                                     <span className='inline-flex items-center gap-1 rounded-full bg-success px-3 py-1 font-semibold text-secondary'>
                                         <Icon icon='tabler:rosette-discount-check' /> Reconnu
                                     </span>
@@ -190,7 +190,9 @@ export function SchoolProfile({ school, formations, testimonials, faq }: SchoolP
                                     </a>
                                 </InfoRow>
                                 <InfoRow icon='tabler:rosette-discount-check' label='Reconnaissance / accréditation'>
-                                    {school.accreditation ?? 'Non renseignée'}
+                                    {school.accreditationVerified && school.accreditation
+                                        ? school.accreditation
+                                        : 'En cours de vérification par Edumada'}
                                 </InfoRow>
                             </ul>
                         </div>

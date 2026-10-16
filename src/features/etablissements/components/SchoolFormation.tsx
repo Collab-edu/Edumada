@@ -89,9 +89,9 @@ export function SchoolFormation({ formation }: { formation: FormationType }) {
                             <Icon icon='tabler:chevron-down' className={cn('transition-transform duration-200', open && 'rotate-180')} />
                         </button>
                         <Link
-                            href={`/recherche?q=${encodeURIComponent(formation.title)}`}
+                            href={`/formations/${formation.id}`}
                             className='font-semibold text-secondary underline underline-offset-4 decoration-secondary/30 hover:text-primary hover:decoration-primary'>
-                            Comparer
+                            Fiche complète
                         </Link>
                     </div>
                 </div>

@@ -1,0 +1,4507 @@
+[
+    {
+        "id": "licence-informatique-inm",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut Numérique de Madagascar ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
+            "Concevoir et administrer des systèmes d’information",
+            "Mener un projet numérique de l’analyse au déploiement"
+        ],
+        "skills": [
+            "Programmer en Python, Java et JavaScript",
+            "Concevoir une base de données",
+            "Développer une application web",
+            "Administrer un réseau",
+            "Travailler en méthode agile",
+            "Sécuriser un système d’information"
+        ],
+        "subjects": [
+            "Algorithmique et programmation",
+            "Bases de données",
+            "Développement web",
+            "Réseaux informatiques",
+            "Systèmes d’exploitation",
+            "Génie logiciel",
+            "Mathématiques pour l’informatique",
+            "Anglais technique"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Algorithmique et programmation",
+                    "Bases de données",
+                    "Développement web"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Réseaux informatiques",
+                    "Systèmes d’exploitation",
+                    "Génie logiciel"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Mathématiques pour l’informatique",
+                    "Anglais technique",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Développement logiciel",
+            "Réseaux et cybersécurité",
+            "Données et intelligence artificielle"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Estimés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": "Réduction de 5 % en cas de paiement annuel en une fois."
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut Numérique de Madagascar — Lot II 12 A, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Développeur·se web et mobile",
+                "Administrateur·rice systèmes et réseaux",
+                "Analyste programmeur·se",
+                "Technicien·ne support informatique",
+                "Chef·fe de projet numérique"
+            ],
+            "sectors": [
+                "Entreprises de services numériques",
+                "Télécommunications",
+                "Banques et assurances",
+                "Administrations publiques"
+            ],
+            "furtherStudies": [
+                "Master dans le même domaine ou un domaine proche"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-09-01"
+    },
+    {
+        "id": "licence-gestion-esg",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « École Supérieure de Gestion ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
+        "objectives": [
+            "Comprendre le fonctionnement économique et financier d’une organisation",
+            "Piloter une activité commerciale",
+            "Encadrer une équipe et conduire un projet"
+        ],
+        "skills": [
+            "Tenir une comptabilité",
+            "Analyser des états financiers",
+            "Élaborer un plan marketing",
+            "Négocier avec des clients et fournisseurs",
+            "Manager une équipe",
+            "Construire un budget prévisionnel"
+        ],
+        "subjects": [
+            "Comptabilité générale",
+            "Gestion financière",
+            "Marketing",
+            "Management des organisations",
+            "Droit des affaires",
+            "Économie générale",
+            "Techniques de négociation",
+            "Statistiques appliquées"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Comptabilité générale",
+                    "Gestion financière",
+                    "Marketing"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Management des organisations",
+                    "Droit des affaires",
+                    "Économie générale"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Techniques de négociation",
+                    "Statistiques appliquées",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Comptabilité et finance",
+            "Marketing et vente",
+            "Commerce international"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Classes virtuelles",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Cours sur place le samedi, le reste en ligne en semaine",
+            "campus": "École Supérieure de Gestion — Lot IV 19 B, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein",
+                "Temps partiel"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Assistant·e de gestion",
+                "Comptable",
+                "Chargé·e de clientèle",
+                "Responsable commercial·e",
+                "Contrôleur·se de gestion"
+            ],
+            "sectors": [
+                "Commerce et distribution",
+                "Banques et microfinance",
+                "Industrie",
+                "Cabinets comptables"
+            ],
+            "furtherStudies": [
+                "Master dans le même domaine ou un domaine proche"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-04"
+    },
+    {
+        "id": "soins-infirmiers-ifs",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Formation en Santé ». Elle forme des professionnels de santé capables de prendre en charge les patients avec rigueur et humanité. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Acquérir les connaissances biomédicales fondamentales",
+            "Maîtriser les gestes et protocoles de soins",
+            "Agir dans le respect de l’éthique et de la déontologie"
+        ],
+        "skills": [
+            "Réaliser les soins de base et techniques",
+            "Surveiller l’état clinique d’un patient",
+            "Appliquer les règles d’hygiène et d’asepsie",
+            "Communiquer avec les patients et les familles",
+            "Travailler en équipe pluridisciplinaire",
+            "Réagir face à une urgence"
+        ],
+        "subjects": [
+            "Anatomie et physiologie",
+            "Biologie fondamentale",
+            "Soins infirmiers",
+            "Pharmacologie",
+            "Santé publique",
+            "Hygiène hospitalière",
+            "Psychologie du patient",
+            "Éthique et législation"
+        ],
+        "program": [
+            {
+                "period": "Module 1",
+                "courses": [
+                    "Anatomie et physiologie",
+                    "Biologie fondamentale",
+                    "Soins infirmiers"
+                ]
+            },
+            {
+                "period": "Module 2",
+                "courses": [
+                    "Pharmacologie",
+                    "Santé publique",
+                    "Hygiène hospitalière"
+                ]
+            },
+            {
+                "period": "Module 3",
+                "courses": [
+                    "Psychologie du patient",
+                    "Éthique et législation",
+                    "Projet pratique encadré"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Évaluation continue sur les projets pratiques et un projet final.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": "Admission sur concours écrit, suivi d’un entretien de motivation.",
+            "minAge": 18
+        },
+        "costs": {
+            "applicationFee": null,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": null
+                },
+                {
+                    "label": "Tenue de stage",
+                    "amount": null
+                }
+            ],
+            "status": "Non communiqués",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut de Formation en Santé — Lot VI 26 Ter, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Infirmier·ère",
+                "Sage-femme",
+                "Aide-soignant·e",
+                "Agent·e de santé communautaire",
+                "Médecin généraliste"
+            ],
+            "sectors": [
+                "Hôpitaux publics",
+                "Cliniques privées",
+                "Centres de santé de base",
+                "ONG de santé"
+            ],
+            "furtherStudies": [
+                "BTS ou licence dans le même domaine"
+            ],
+            "internship": "Projet pratique encadré, réalisé pour un client réel.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2027-01-15"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2027-03-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-04-19"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-09-19"
+            }
+        ],
+        "lastVerified": "2026-09-07"
+    },
+    {
+        "id": "bts-tourisme-ith",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Tourisme et d'Hôtellerie ». Elle prépare aux métiers de l’accueil, de l’hôtellerie et du tourisme, secteurs clés de l’économie malgache. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les techniques d’accueil et de service",
+            "Concevoir et vendre des produits touristiques",
+            "Gérer un établissement hôtelier ou une agence"
+        ],
+        "skills": [
+            "Accueillir une clientèle internationale",
+            "Gérer des réservations",
+            "Organiser un circuit touristique",
+            "Encadrer une équipe de service",
+            "Valoriser le patrimoine local",
+            "Communiquer en anglais"
+        ],
+        "subjects": [
+            "Techniques d’accueil",
+            "Hébergement et réception",
+            "Restauration",
+            "Géographie touristique de Madagascar",
+            "Marketing touristique",
+            "Gestion hôtelière",
+            "Anglais professionnel",
+            "Communication interculturelle"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Techniques d’accueil",
+                    "Hébergement et réception",
+                    "Restauration"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Géographie touristique de Madagascar",
+                    "Marketing touristique",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Estimés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut de Tourisme et d'Hôtellerie — Lot IB 33 Bis, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Réceptionniste",
+                "Guide touristique",
+                "Agent·e de voyages",
+                "Gouvernant·e d’hôtel",
+                "Responsable d’hébergement"
+            ],
+            "sectors": [
+                "Hôtellerie",
+                "Agences de voyages",
+                "Tour-opérateurs",
+                "Restauration"
+            ],
+            "furtherStudies": [
+                "Licence professionnelle",
+                "Licence générale (admission en 3e année sur dossier)"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-10"
+    },
+    {
+        "id": "master-genie-logiciel-cui",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Centre Universitaire d'Informatique ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
+            "Concevoir et administrer des systèmes d’information",
+            "Mener un projet numérique de l’analyse au déploiement"
+        ],
+        "skills": [
+            "Programmer en Python, Java et JavaScript",
+            "Concevoir une base de données",
+            "Développer une application web",
+            "Administrer un réseau",
+            "Travailler en méthode agile",
+            "Sécuriser un système d’information"
+        ],
+        "subjects": [
+            "Algorithmique et programmation",
+            "Bases de données",
+            "Développement web",
+            "Réseaux informatiques",
+            "Systèmes d’exploitation",
+            "Génie logiciel",
+            "Mathématiques pour l’informatique",
+            "Anglais technique"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Algorithmique et programmation",
+                    "Bases de données",
+                    "Développement web"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Réseaux informatiques",
+                    "Systèmes d’exploitation",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Développement logiciel",
+            "Réseaux et cybersécurité",
+            "Données et intelligence artificielle"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Licence (BAC+3) dans le domaine ou un domaine proche"
+            ],
+            "specialConditions": "Entretien de motivation après présélection sur dossier.",
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 10000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Centre Universitaire d'Informatique — Lot III 40 A, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Développeur·se web et mobile",
+                "Administrateur·rice systèmes et réseaux",
+                "Analyste programmeur·se",
+                "Technicien·ne support informatique",
+                "Chef·fe de projet numérique"
+            ],
+            "sectors": [
+                "Entreprises de services numériques",
+                "Télécommunications",
+                "Banques et assurances",
+                "Administrations publiques"
+            ],
+            "furtherStudies": [
+                "Doctorat",
+                "Insertion professionnelle directe"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2027-01-15"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2027-03-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-04-19"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-09-19"
+            }
+        ],
+        "lastVerified": "2026-09-13"
+    },
+    {
+        "id": "licence-droit-affaires-isdt",
+        "description": "Cette formation est dispensée à Toamasina par l’établissement « Institut Supérieur de Droit de Toamasina ». Elle apporte une solide culture juridique et prépare aux carrières du droit public et privé. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les fondamentaux du droit malgache",
+            "Analyser une situation juridique et rédiger un argumentaire",
+            "Préparer les concours de la fonction publique et des professions juridiques"
+        ],
+        "skills": [
+            "Rechercher et analyser des textes juridiques",
+            "Rédiger des actes et des consultations",
+            "Argumenter à l’écrit et à l’oral",
+            "Conseiller une entreprise sur ses obligations",
+            "Comprendre le fonctionnement des institutions",
+            "Préparer un concours administratif"
+        ],
+        "subjects": [
+            "Introduction au droit",
+            "Droit constitutionnel",
+            "Droit civil",
+            "Droit des obligations",
+            "Droit administratif",
+            "Droit des affaires",
+            "Droit du travail",
+            "Procédure civile"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Introduction au droit",
+                    "Droit constitutionnel",
+                    "Droit civil"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Droit des obligations",
+                    "Droit administratif",
+                    "Droit des affaires"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Droit du travail",
+                    "Procédure civile",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Droit des affaires",
+            "Droit public",
+            "Droit international"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 10000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut Supérieur de Droit de Toamasina — Lot II 47 B, Tanambao, Toamasina",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Juriste d’entreprise",
+                "Assistant·e juridique",
+                "Greffier·ère",
+                "Attaché·e d’administration",
+                "Conseiller·ère juridique"
+            ],
+            "sectors": [
+                "Administrations publiques",
+                "Cabinets d’avocats et notaires",
+                "Entreprises privées",
+                "Organisations internationales"
+            ],
+            "furtherStudies": [
+                "Master dans le même domaine ou un domaine proche"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-02"
+    },
+    {
+        "id": "master-agronomie-psa",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Pôle Supérieur d'Agronomie ». Elle forme des spécialistes du développement agricole et rural, au service de la sécurité alimentaire. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Comprendre les systèmes de production agricole",
+            "Accompagner les producteurs et les filières",
+            "Concevoir des projets de développement rural durable"
+        ],
+        "skills": [
+            "Diagnostiquer une exploitation agricole",
+            "Conduire des essais au champ",
+            "Conseiller des producteurs",
+            "Monter un projet de développement",
+            "Analyser une filière",
+            "Promouvoir des pratiques durables"
+        ],
+        "subjects": [
+            "Agronomie générale",
+            "Sciences du sol",
+            "Production végétale",
+            "Production animale",
+            "Économie rurale",
+            "Gestion des ressources naturelles",
+            "Agroécologie",
+            "Statistiques"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Agronomie générale",
+                    "Sciences du sol",
+                    "Production végétale"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Production animale",
+                    "Économie rurale",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Production végétale",
+            "Élevage",
+            "Développement rural"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Licence (BAC+3) dans le domaine ou un domaine proche"
+            ],
+            "specialConditions": "Entretien de motivation après présélection sur dossier.",
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 10000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Estimés",
+            "paymentOptions": [
+                "Annuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Pôle Supérieur d'Agronomie — Lot IV 54 Ter, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Ingénieur·e agronome",
+                "Conseiller·ère agricole",
+                "Chef·fe de projet de développement rural",
+                "Technicien·ne de filière",
+                "Chargé·e d’études environnementales"
+            ],
+            "sectors": [
+                "ONG et projets de développement",
+                "Agro-industrie",
+                "Ministères et services techniques",
+                "Recherche agronomique"
+            ],
+            "furtherStudies": [
+                "Doctorat",
+                "Insertion professionnelle directe"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-06-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-08-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2026-10-05"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-03-05"
+            }
+        ],
+        "lastVerified": "2026-09-05"
+    },
+    {
+        "id": "certificat-dev-web-ana",
+        "description": "Cette formation est dispensée à Antsirabe par l’établissement « Académie Numérique d'Antsirabe ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule entièrement à distance.",
+        "objectives": [
+            "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
+            "Concevoir et administrer des systèmes d’information",
+            "Mener un projet numérique de l’analyse au déploiement"
+        ],
+        "skills": [
+            "Programmer en Python, Java et JavaScript",
+            "Concevoir une base de données",
+            "Développer une application web",
+            "Administrer un réseau",
+            "Travailler en méthode agile",
+            "Sécuriser un système d’information"
+        ],
+        "subjects": [
+            "Algorithmique et programmation",
+            "Bases de données",
+            "Développement web",
+            "Réseaux informatiques",
+            "Systèmes d’exploitation",
+            "Génie logiciel",
+            "Mathématiques pour l’informatique",
+            "Anglais technique"
+        ],
+        "program": [
+            {
+                "period": "Module 1",
+                "courses": [
+                    "Algorithmique et programmation",
+                    "Bases de données",
+                    "Développement web"
+                ]
+            },
+            {
+                "period": "Module 2",
+                "courses": [
+                    "Réseaux informatiques",
+                    "Systèmes d’exploitation",
+                    "Génie logiciel"
+                ]
+            },
+            {
+                "period": "Module 3",
+                "courses": [
+                    "Mathématiques pour l’informatique",
+                    "Anglais technique",
+                    "Projet pratique encadré"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Classes virtuelles",
+            "Études de cas"
+        ],
+        "evaluation": "Évaluation continue sur les projets pratiques et un projet final.",
+        "admission": {
+            "prerequisites": [
+                "Bonne maîtrise du français écrit",
+                "Ordinateur et connexion internet"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Cours en ligne en soirée, à suivre à votre rythme",
+            "campus": "Académie Numérique d'Antsirabe — Lot VI 61 Bis, Mahazoarivo, Antsirabe",
+            "rhythm": [
+                "Temps plein",
+                "Temps partiel"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Développeur·se web et mobile",
+                "Administrateur·rice systèmes et réseaux",
+                "Analyste programmeur·se",
+                "Technicien·ne support informatique",
+                "Chef·fe de projet numérique"
+            ],
+            "sectors": [
+                "Entreprises de services numériques",
+                "Télécommunications",
+                "Banques et assurances",
+                "Administrations publiques"
+            ],
+            "furtherStudies": [
+                "BTS ou licence dans le même domaine"
+            ],
+            "internship": "Projet pratique encadré, réalisé pour un client réel.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-08"
+    },
+    {
+        "id": "licence-anglais-ilf",
+        "description": "Cette formation est dispensée à Fianarantsoa par l’établissement « Institut des Langues de Fianarantsoa ». Elle développe une excellente maîtrise des langues et de la communication écrite et orale. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
+        "objectives": [
+            "Maîtriser une langue étrangère à un niveau professionnel",
+            "Développer des compétences en communication et en rédaction",
+            "S’ouvrir aux cultures et aux enjeux internationaux"
+        ],
+        "skills": [
+            "Traduire des documents professionnels",
+            "S’exprimer avec aisance à l’oral",
+            "Rédiger des contenus clairs",
+            "Animer un cours de langue",
+            "Interpréter lors de réunions",
+            "Communiquer avec des partenaires étrangers"
+        ],
+        "subjects": [
+            "Grammaire et linguistique",
+            "Expression écrite",
+            "Expression orale",
+            "Littérature",
+            "Traduction",
+            "Civilisation des pays anglophones",
+            "Communication interculturelle",
+            "Interprétariat"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Grammaire et linguistique",
+                    "Expression écrite",
+                    "Expression orale"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Littérature",
+                    "Traduction",
+                    "Civilisation des pays anglophones"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Communication interculturelle",
+                    "Interprétariat",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Traduction",
+            "Enseignement",
+            "Communication"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Classes virtuelles",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 10000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel"
+            ],
+            "scholarships": null,
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Cours sur place le samedi, le reste en ligne en semaine",
+            "campus": "Institut des Langues de Fianarantsoa — Lot IB 68 A, Tsianolondroa, Fianarantsoa",
+            "rhythm": [
+                "Temps plein",
+                "Temps partiel"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Traducteur·rice",
+                "Interprète",
+                "Enseignant·e de langues",
+                "Chargé·e de communication",
+                "Assistant·e trilingue"
+            ],
+            "sectors": [
+                "Enseignement",
+                "Organisations internationales",
+                "Médias et communication",
+                "Tourisme"
+            ],
+            "furtherStudies": [
+                "Master dans le même domaine ou un domaine proche"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2027-01-15"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2027-03-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-04-19"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-09-19"
+            }
+        ],
+        "lastVerified": "2026-09-11"
+    },
+    {
+        "id": "doctorat-medecine-eds",
+        "description": "Cette formation est dispensée à Mahajanga par l’établissement « École de Santé de Mahajanga ». Elle forme des professionnels de santé capables de prendre en charge les patients avec rigueur et humanité. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Acquérir les connaissances biomédicales fondamentales",
+            "Maîtriser les gestes et protocoles de soins",
+            "Agir dans le respect de l’éthique et de la déontologie"
+        ],
+        "skills": [
+            "Réaliser les soins de base et techniques",
+            "Surveiller l’état clinique d’un patient",
+            "Appliquer les règles d’hygiène et d’asepsie",
+            "Communiquer avec les patients et les familles",
+            "Travailler en équipe pluridisciplinaire",
+            "Réagir face à une urgence"
+        ],
+        "subjects": [
+            "Anatomie et physiologie",
+            "Biologie fondamentale",
+            "Soins infirmiers",
+            "Pharmacologie",
+            "Santé publique",
+            "Hygiène hospitalière",
+            "Psychologie du patient",
+            "Éthique et législation"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Anatomie et physiologie",
+                    "Biologie fondamentale",
+                    "Soins infirmiers"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Pharmacologie",
+                    "Santé publique",
+                    "Hygiène hospitalière"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Psychologie du patient",
+                    "Éthique et législation",
+                    "Urgences et premiers secours"
+                ]
+            },
+            {
+                "period": "4e à 7e année",
+                "courses": [
+                    "Approfondissement de la spécialité",
+                    "Stages de longue durée",
+                    "Mémoire ou thèse"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": "Admission sur concours écrit, suivi d’un entretien de motivation.",
+            "minAge": 18
+        },
+        "costs": {
+            "applicationFee": 10000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Tenue de stage",
+                    "amount": null
+                }
+            ],
+            "status": "Estimés",
+            "paymentOptions": [
+                "Annuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "École de Santé de Mahajanga — Lot III 75 B, Mahabibo, Mahajanga",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Infirmier·ère",
+                "Sage-femme",
+                "Aide-soignant·e",
+                "Agent·e de santé communautaire",
+                "Médecin généraliste"
+            ],
+            "sectors": [
+                "Hôpitaux publics",
+                "Cliniques privées",
+                "Centres de santé de base",
+                "ONG de santé"
+            ],
+            "furtherStudies": [
+                "Spécialisation médicale",
+                "Carrière de recherche et d’enseignement"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-14"
+    },
+    {
+        "id": "bts-genie-civil-ipt",
+        "description": "Cette formation est dispensée à Toliara par l’établissement « Institut Polytechnique de Toliara ». Elle forme des techniciens et ingénieurs capables de concevoir et de réaliser des ouvrages et des installations techniques. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les bases scientifiques de l’ingénierie",
+            "Concevoir et dimensionner des ouvrages",
+            "Encadrer un chantier dans le respect des normes de sécurité"
+        ],
+        "skills": [
+            "Lire et réaliser des plans techniques",
+            "Dimensionner une structure simple",
+            "Établir un devis",
+            "Organiser un chantier",
+            "Appliquer les règles de sécurité",
+            "Utiliser un logiciel de DAO"
+        ],
+        "subjects": [
+            "Mathématiques appliquées",
+            "Résistance des matériaux",
+            "Dessin technique et DAO",
+            "Topographie",
+            "Électricité générale",
+            "Béton armé",
+            "Gestion de chantier",
+            "Hydraulique"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Mathématiques appliquées",
+                    "Résistance des matériaux",
+                    "Dessin technique et DAO"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Topographie",
+                    "Électricité générale",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": "Réduction de 5 % en cas de paiement annuel en une fois."
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut Polytechnique de Toliara — Lot II 82 Ter, Besakoa, Toliara",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Technicien·ne en bâtiment",
+                "Conducteur·rice de travaux",
+                "Dessinateur·rice-projeteur·se",
+                "Électrotechnicien·ne",
+                "Métreur·se"
+            ],
+            "sectors": [
+                "Bâtiment et travaux publics",
+                "Énergie",
+                "Bureaux d’études",
+                "Industrie"
+            ],
+            "furtherStudies": [
+                "Licence professionnelle",
+                "Licence générale (admission en 3e année sur dossier)"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-09-03"
+    },
+    {
+        "id": "master-management-tourisme-est",
+        "description": "Cette formation est dispensée à Antsiranana par l’établissement « École Supérieure de Tourisme d'Antsiranana ». Elle prépare aux métiers de l’accueil, de l’hôtellerie et du tourisme, secteurs clés de l’économie malgache. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
+        "objectives": [
+            "Maîtriser les techniques d’accueil et de service",
+            "Concevoir et vendre des produits touristiques",
+            "Gérer un établissement hôtelier ou une agence"
+        ],
+        "skills": [
+            "Accueillir une clientèle internationale",
+            "Gérer des réservations",
+            "Organiser un circuit touristique",
+            "Encadrer une équipe de service",
+            "Valoriser le patrimoine local",
+            "Communiquer en anglais"
+        ],
+        "subjects": [
+            "Techniques d’accueil",
+            "Hébergement et réception",
+            "Restauration",
+            "Géographie touristique de Madagascar",
+            "Marketing touristique",
+            "Gestion hôtelière",
+            "Anglais professionnel",
+            "Communication interculturelle"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Techniques d’accueil",
+                    "Hébergement et réception",
+                    "Restauration"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Géographie touristique de Madagascar",
+                    "Marketing touristique",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Hébergement",
+            "Guidage et circuits",
+            "Management hôtelier"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Classes virtuelles",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Licence (BAC+3) dans le domaine ou un domaine proche"
+            ],
+            "specialConditions": "Entretien de motivation après présélection sur dossier.",
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Cours sur place le samedi, le reste en ligne en semaine",
+            "campus": "École Supérieure de Tourisme d'Antsiranana — Lot IV 89 Bis, Tanambao, Antsiranana",
+            "rhythm": [
+                "Temps plein",
+                "Temps partiel"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Réceptionniste",
+                "Guide touristique",
+                "Agent·e de voyages",
+                "Gouvernant·e d’hôtel",
+                "Responsable d’hébergement"
+            ],
+            "sectors": [
+                "Hôtellerie",
+                "Agences de voyages",
+                "Tour-opérateurs",
+                "Restauration"
+            ],
+            "furtherStudies": [
+                "Doctorat",
+                "Insertion professionnelle directe"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2027-01-15"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2027-03-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-04-19"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-09-19"
+            }
+        ],
+        "lastVerified": "2026-10-06"
+    },
+    {
+        "id": "licence-commerce-international-bst",
+        "description": "Cette formation est dispensée à Toamasina par l’établissement « Business School de Toamasina ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule entièrement à distance.",
+        "objectives": [
+            "Comprendre le fonctionnement économique et financier d’une organisation",
+            "Piloter une activité commerciale",
+            "Encadrer une équipe et conduire un projet"
+        ],
+        "skills": [
+            "Tenir une comptabilité",
+            "Analyser des états financiers",
+            "Élaborer un plan marketing",
+            "Négocier avec des clients et fournisseurs",
+            "Manager une équipe",
+            "Construire un budget prévisionnel"
+        ],
+        "subjects": [
+            "Comptabilité générale",
+            "Gestion financière",
+            "Marketing",
+            "Management des organisations",
+            "Droit des affaires",
+            "Économie générale",
+            "Techniques de négociation",
+            "Statistiques appliquées"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Comptabilité générale",
+                    "Gestion financière",
+                    "Marketing"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Management des organisations",
+                    "Droit des affaires",
+                    "Économie générale"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Techniques de négociation",
+                    "Statistiques appliquées",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Comptabilité et finance",
+            "Marketing et vente",
+            "Commerce international"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Classes virtuelles",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Estimés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": "Réduction de 5 % en cas de paiement annuel en une fois."
+        },
+        "organization": {
+            "schedule": "Cours en ligne en soirée, à suivre à votre rythme",
+            "campus": "Business School de Toamasina — Lot VI 96 A, Tanambao, Toamasina",
+            "rhythm": [
+                "Temps plein",
+                "Temps partiel"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Assistant·e de gestion",
+                "Comptable",
+                "Chargé·e de clientèle",
+                "Responsable commercial·e",
+                "Contrôleur·se de gestion"
+            ],
+            "sectors": [
+                "Commerce et distribution",
+                "Banques et microfinance",
+                "Industrie",
+                "Cabinets comptables"
+            ],
+            "furtherStudies": [
+                "Master dans le même domaine ou un domaine proche"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-09-09"
+    },
+    {
+        "id": "bts-en-reseaux-et-telecommunications-inm",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut Numérique de Madagascar ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
+            "Concevoir et administrer des systèmes d’information",
+            "Mener un projet numérique de l’analyse au déploiement"
+        ],
+        "skills": [
+            "Programmer en Python, Java et JavaScript",
+            "Concevoir une base de données",
+            "Développer une application web",
+            "Administrer un réseau",
+            "Travailler en méthode agile",
+            "Sécuriser un système d’information"
+        ],
+        "subjects": [
+            "Algorithmique et programmation",
+            "Bases de données",
+            "Développement web",
+            "Réseaux informatiques",
+            "Systèmes d’exploitation",
+            "Génie logiciel",
+            "Mathématiques pour l’informatique",
+            "Anglais technique"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Algorithmique et programmation",
+                    "Bases de données",
+                    "Développement web"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Réseaux informatiques",
+                    "Systèmes d’exploitation",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut Numérique de Madagascar — Lot II 12 A, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Développeur·se web et mobile",
+                "Administrateur·rice systèmes et réseaux",
+                "Analyste programmeur·se",
+                "Technicien·ne support informatique",
+                "Chef·fe de projet numérique"
+            ],
+            "sectors": [
+                "Entreprises de services numériques",
+                "Télécommunications",
+                "Banques et assurances",
+                "Administrations publiques"
+            ],
+            "furtherStudies": [
+                "Licence professionnelle",
+                "Licence générale (admission en 3e année sur dossier)"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-12"
+    },
+    {
+        "id": "master-en-science-des-donnees-inm",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut Numérique de Madagascar ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
+        "objectives": [
+            "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
+            "Concevoir et administrer des systèmes d’information",
+            "Mener un projet numérique de l’analyse au déploiement"
+        ],
+        "skills": [
+            "Programmer en Python, Java et JavaScript",
+            "Concevoir une base de données",
+            "Développer une application web",
+            "Administrer un réseau",
+            "Travailler en méthode agile",
+            "Sécuriser un système d’information"
+        ],
+        "subjects": [
+            "Algorithmique et programmation",
+            "Bases de données",
+            "Développement web",
+            "Réseaux informatiques",
+            "Systèmes d’exploitation",
+            "Génie logiciel",
+            "Mathématiques pour l’informatique",
+            "Anglais technique"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Algorithmique et programmation",
+                    "Bases de données",
+                    "Développement web"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Réseaux informatiques",
+                    "Systèmes d’exploitation",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Développement logiciel",
+            "Réseaux et cybersécurité",
+            "Données et intelligence artificielle"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Classes virtuelles",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Licence (BAC+3) dans le domaine ou un domaine proche"
+            ],
+            "specialConditions": "Entretien de motivation après présélection sur dossier.",
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": "Réduction de 5 % en cas de paiement annuel en une fois."
+        },
+        "organization": {
+            "schedule": "Cours sur place le samedi, le reste en ligne en semaine",
+            "campus": "Institut Numérique de Madagascar — Lot II 12 A, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein",
+                "Temps partiel"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Développeur·se web et mobile",
+                "Administrateur·rice systèmes et réseaux",
+                "Analyste programmeur·se",
+                "Technicien·ne support informatique",
+                "Chef·fe de projet numérique"
+            ],
+            "sectors": [
+                "Entreprises de services numériques",
+                "Télécommunications",
+                "Banques et assurances",
+                "Administrations publiques"
+            ],
+            "furtherStudies": [
+                "Doctorat",
+                "Insertion professionnelle directe"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2027-01-15"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2027-03-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-04-19"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-09-19"
+            }
+        ],
+        "lastVerified": "2026-09-01"
+    },
+    {
+        "id": "certificat-en-cybersecurite-inm",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut Numérique de Madagascar ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule entièrement à distance.",
+        "objectives": [
+            "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
+            "Concevoir et administrer des systèmes d’information",
+            "Mener un projet numérique de l’analyse au déploiement"
+        ],
+        "skills": [
+            "Programmer en Python, Java et JavaScript",
+            "Concevoir une base de données",
+            "Développer une application web",
+            "Administrer un réseau",
+            "Travailler en méthode agile",
+            "Sécuriser un système d’information"
+        ],
+        "subjects": [
+            "Algorithmique et programmation",
+            "Bases de données",
+            "Développement web",
+            "Réseaux informatiques",
+            "Systèmes d’exploitation",
+            "Génie logiciel",
+            "Mathématiques pour l’informatique",
+            "Anglais technique"
+        ],
+        "program": [
+            {
+                "period": "Module 1",
+                "courses": [
+                    "Algorithmique et programmation",
+                    "Bases de données",
+                    "Développement web"
+                ]
+            },
+            {
+                "period": "Module 2",
+                "courses": [
+                    "Réseaux informatiques",
+                    "Systèmes d’exploitation",
+                    "Génie logiciel"
+                ]
+            },
+            {
+                "period": "Module 3",
+                "courses": [
+                    "Mathématiques pour l’informatique",
+                    "Anglais technique",
+                    "Projet pratique encadré"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Classes virtuelles",
+            "Études de cas"
+        ],
+        "evaluation": "Évaluation continue sur les projets pratiques et un projet final.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Estimés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Cours en ligne en soirée, à suivre à votre rythme",
+            "campus": "Institut Numérique de Madagascar — Lot II 12 A, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein",
+                "Temps partiel"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Développeur·se web et mobile",
+                "Administrateur·rice systèmes et réseaux",
+                "Analyste programmeur·se",
+                "Technicien·ne support informatique",
+                "Chef·fe de projet numérique"
+            ],
+            "sectors": [
+                "Entreprises de services numériques",
+                "Télécommunications",
+                "Banques et assurances",
+                "Administrations publiques"
+            ],
+            "furtherStudies": [
+                "BTS ou licence dans le même domaine"
+            ],
+            "internship": "Projet pratique encadré, réalisé pour un client réel.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-04"
+    },
+    {
+        "id": "bts-en-comptabilite-et-gestion-esg",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « École Supérieure de Gestion ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Comprendre le fonctionnement économique et financier d’une organisation",
+            "Piloter une activité commerciale",
+            "Encadrer une équipe et conduire un projet"
+        ],
+        "skills": [
+            "Tenir une comptabilité",
+            "Analyser des états financiers",
+            "Élaborer un plan marketing",
+            "Négocier avec des clients et fournisseurs",
+            "Manager une équipe",
+            "Construire un budget prévisionnel"
+        ],
+        "subjects": [
+            "Comptabilité générale",
+            "Gestion financière",
+            "Marketing",
+            "Management des organisations",
+            "Droit des affaires",
+            "Économie générale",
+            "Techniques de négociation",
+            "Statistiques appliquées"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Comptabilité générale",
+                    "Gestion financière",
+                    "Marketing"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Management des organisations",
+                    "Droit des affaires",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": "Réduction de 5 % en cas de paiement annuel en une fois."
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "École Supérieure de Gestion — Lot IV 19 B, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Assistant·e de gestion",
+                "Comptable",
+                "Chargé·e de clientèle",
+                "Responsable commercial·e",
+                "Contrôleur·se de gestion"
+            ],
+            "sectors": [
+                "Commerce et distribution",
+                "Banques et microfinance",
+                "Industrie",
+                "Cabinets comptables"
+            ],
+            "furtherStudies": [
+                "Licence professionnelle",
+                "Licence générale (admission en 3e année sur dossier)"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-09-07"
+    },
+    {
+        "id": "master-en-management-des-organisations-esg",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « École Supérieure de Gestion ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
+        "objectives": [
+            "Comprendre le fonctionnement économique et financier d’une organisation",
+            "Piloter une activité commerciale",
+            "Encadrer une équipe et conduire un projet"
+        ],
+        "skills": [
+            "Tenir une comptabilité",
+            "Analyser des états financiers",
+            "Élaborer un plan marketing",
+            "Négocier avec des clients et fournisseurs",
+            "Manager une équipe",
+            "Construire un budget prévisionnel"
+        ],
+        "subjects": [
+            "Comptabilité générale",
+            "Gestion financière",
+            "Marketing",
+            "Management des organisations",
+            "Droit des affaires",
+            "Économie générale",
+            "Techniques de négociation",
+            "Statistiques appliquées"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Comptabilité générale",
+                    "Gestion financière",
+                    "Marketing"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Management des organisations",
+                    "Droit des affaires",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Comptabilité et finance",
+            "Marketing et vente",
+            "Commerce international"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Classes virtuelles",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Licence (BAC+3) dans le domaine ou un domaine proche"
+            ],
+            "specialConditions": "Entretien de motivation après présélection sur dossier.",
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Cours sur place le samedi, le reste en ligne en semaine",
+            "campus": "École Supérieure de Gestion — Lot IV 19 B, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein",
+                "Temps partiel"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Assistant·e de gestion",
+                "Comptable",
+                "Chargé·e de clientèle",
+                "Responsable commercial·e",
+                "Contrôleur·se de gestion"
+            ],
+            "sectors": [
+                "Commerce et distribution",
+                "Banques et microfinance",
+                "Industrie",
+                "Cabinets comptables"
+            ],
+            "furtherStudies": [
+                "Doctorat",
+                "Insertion professionnelle directe"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2027-01-15"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2027-03-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-04-19"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-09-19"
+            }
+        ],
+        "lastVerified": "2026-10-10"
+    },
+    {
+        "id": "formation-de-sage-femme-ifs",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Formation en Santé ». Elle forme des professionnels de santé capables de prendre en charge les patients avec rigueur et humanité. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Acquérir les connaissances biomédicales fondamentales",
+            "Maîtriser les gestes et protocoles de soins",
+            "Agir dans le respect de l’éthique et de la déontologie"
+        ],
+        "skills": [
+            "Réaliser les soins de base et techniques",
+            "Surveiller l’état clinique d’un patient",
+            "Appliquer les règles d’hygiène et d’asepsie",
+            "Communiquer avec les patients et les familles",
+            "Travailler en équipe pluridisciplinaire",
+            "Réagir face à une urgence"
+        ],
+        "subjects": [
+            "Anatomie et physiologie",
+            "Biologie fondamentale",
+            "Soins infirmiers",
+            "Pharmacologie",
+            "Santé publique",
+            "Hygiène hospitalière",
+            "Psychologie du patient",
+            "Éthique et législation"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Anatomie et physiologie",
+                    "Biologie fondamentale",
+                    "Soins infirmiers"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Pharmacologie",
+                    "Santé publique",
+                    "Hygiène hospitalière"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Psychologie du patient",
+                    "Éthique et législation",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": "Admission sur concours écrit, suivi d’un entretien de motivation.",
+            "minAge": 18
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Tenue de stage",
+                    "amount": null
+                }
+            ],
+            "status": "Estimés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": "Réduction de 5 % en cas de paiement annuel en une fois."
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut de Formation en Santé — Lot VI 26 Ter, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Infirmier·ère",
+                "Sage-femme",
+                "Aide-soignant·e",
+                "Agent·e de santé communautaire",
+                "Médecin généraliste"
+            ],
+            "sectors": [
+                "Hôpitaux publics",
+                "Cliniques privées",
+                "Centres de santé de base",
+                "ONG de santé"
+            ],
+            "furtherStudies": [
+                "BTS ou licence dans le même domaine"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2027-01-15"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2027-03-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-04-19"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-09-19"
+            }
+        ],
+        "lastVerified": "2026-09-13"
+    },
+    {
+        "id": "certificat-d-aide-soignant-ifs",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Formation en Santé ». Elle forme des professionnels de santé capables de prendre en charge les patients avec rigueur et humanité. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Acquérir les connaissances biomédicales fondamentales",
+            "Maîtriser les gestes et protocoles de soins",
+            "Agir dans le respect de l’éthique et de la déontologie"
+        ],
+        "skills": [
+            "Réaliser les soins de base et techniques",
+            "Surveiller l’état clinique d’un patient",
+            "Appliquer les règles d’hygiène et d’asepsie",
+            "Communiquer avec les patients et les familles",
+            "Travailler en équipe pluridisciplinaire",
+            "Réagir face à une urgence"
+        ],
+        "subjects": [
+            "Anatomie et physiologie",
+            "Biologie fondamentale",
+            "Soins infirmiers",
+            "Pharmacologie",
+            "Santé publique",
+            "Hygiène hospitalière",
+            "Psychologie du patient",
+            "Éthique et législation"
+        ],
+        "program": [
+            {
+                "period": "Module 1",
+                "courses": [
+                    "Anatomie et physiologie",
+                    "Biologie fondamentale",
+                    "Soins infirmiers"
+                ]
+            },
+            {
+                "period": "Module 2",
+                "courses": [
+                    "Pharmacologie",
+                    "Santé publique",
+                    "Hygiène hospitalière"
+                ]
+            },
+            {
+                "period": "Module 3",
+                "courses": [
+                    "Psychologie du patient",
+                    "Éthique et législation",
+                    "Projet pratique encadré"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Bonne maîtrise du français écrit"
+            ],
+            "specialConditions": null,
+            "minAge": 18
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Tenue de stage",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut de Formation en Santé — Lot VI 26 Ter, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Infirmier·ère",
+                "Sage-femme",
+                "Aide-soignant·e",
+                "Agent·e de santé communautaire",
+                "Médecin généraliste"
+            ],
+            "sectors": [
+                "Hôpitaux publics",
+                "Cliniques privées",
+                "Centres de santé de base",
+                "ONG de santé"
+            ],
+            "furtherStudies": [
+                "BTS ou licence dans le même domaine"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-02"
+    },
+    {
+        "id": "licence-en-management-hotelier-ith",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Tourisme et d'Hôtellerie ». Elle prépare aux métiers de l’accueil, de l’hôtellerie et du tourisme, secteurs clés de l’économie malgache. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les techniques d’accueil et de service",
+            "Concevoir et vendre des produits touristiques",
+            "Gérer un établissement hôtelier ou une agence"
+        ],
+        "skills": [
+            "Accueillir une clientèle internationale",
+            "Gérer des réservations",
+            "Organiser un circuit touristique",
+            "Encadrer une équipe de service",
+            "Valoriser le patrimoine local",
+            "Communiquer en anglais"
+        ],
+        "subjects": [
+            "Techniques d’accueil",
+            "Hébergement et réception",
+            "Restauration",
+            "Géographie touristique de Madagascar",
+            "Marketing touristique",
+            "Gestion hôtelière",
+            "Anglais professionnel",
+            "Communication interculturelle"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Techniques d’accueil",
+                    "Hébergement et réception",
+                    "Restauration"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Géographie touristique de Madagascar",
+                    "Marketing touristique",
+                    "Gestion hôtelière"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Anglais professionnel",
+                    "Communication interculturelle",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Hébergement",
+            "Guidage et circuits",
+            "Management hôtelier"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": "Réduction de 5 % en cas de paiement annuel en une fois."
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut de Tourisme et d'Hôtellerie — Lot IB 33 Bis, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Réceptionniste",
+                "Guide touristique",
+                "Agent·e de voyages",
+                "Gouvernant·e d’hôtel",
+                "Responsable d’hébergement"
+            ],
+            "sectors": [
+                "Hôtellerie",
+                "Agences de voyages",
+                "Tour-opérateurs",
+                "Restauration"
+            ],
+            "furtherStudies": [
+                "Master dans le même domaine ou un domaine proche"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-09-05"
+    },
+    {
+        "id": "certificat-en-arts-culinaires-ith",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Tourisme et d'Hôtellerie ». Elle prépare aux métiers de l’accueil, de l’hôtellerie et du tourisme, secteurs clés de l’économie malgache. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les techniques d’accueil et de service",
+            "Concevoir et vendre des produits touristiques",
+            "Gérer un établissement hôtelier ou une agence"
+        ],
+        "skills": [
+            "Accueillir une clientèle internationale",
+            "Gérer des réservations",
+            "Organiser un circuit touristique",
+            "Encadrer une équipe de service",
+            "Valoriser le patrimoine local",
+            "Communiquer en anglais"
+        ],
+        "subjects": [
+            "Techniques d’accueil",
+            "Hébergement et réception",
+            "Restauration",
+            "Géographie touristique de Madagascar",
+            "Marketing touristique",
+            "Gestion hôtelière",
+            "Anglais professionnel",
+            "Communication interculturelle"
+        ],
+        "program": [
+            {
+                "period": "Module 1",
+                "courses": [
+                    "Techniques d’accueil",
+                    "Hébergement et réception",
+                    "Restauration"
+                ]
+            },
+            {
+                "period": "Module 2",
+                "courses": [
+                    "Géographie touristique de Madagascar",
+                    "Marketing touristique",
+                    "Gestion hôtelière"
+                ]
+            },
+            {
+                "period": "Module 3",
+                "courses": [
+                    "Anglais professionnel",
+                    "Communication interculturelle",
+                    "Projet pratique encadré"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Bonne maîtrise du français écrit"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Estimés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut de Tourisme et d'Hôtellerie — Lot IB 33 Bis, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Réceptionniste",
+                "Guide touristique",
+                "Agent·e de voyages",
+                "Gouvernant·e d’hôtel",
+                "Responsable d’hébergement"
+            ],
+            "sectors": [
+                "Hôtellerie",
+                "Agences de voyages",
+                "Tour-opérateurs",
+                "Restauration"
+            ],
+            "furtherStudies": [
+                "BTS ou licence dans le même domaine"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-08"
+    },
+    {
+        "id": "licence-en-informatique-de-gestion-cui",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Centre Universitaire d'Informatique ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
+            "Concevoir et administrer des systèmes d’information",
+            "Mener un projet numérique de l’analyse au déploiement"
+        ],
+        "skills": [
+            "Programmer en Python, Java et JavaScript",
+            "Concevoir une base de données",
+            "Développer une application web",
+            "Administrer un réseau",
+            "Travailler en méthode agile",
+            "Sécuriser un système d’information"
+        ],
+        "subjects": [
+            "Algorithmique et programmation",
+            "Bases de données",
+            "Développement web",
+            "Réseaux informatiques",
+            "Systèmes d’exploitation",
+            "Génie logiciel",
+            "Mathématiques pour l’informatique",
+            "Anglais technique"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Algorithmique et programmation",
+                    "Bases de données",
+                    "Développement web"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Réseaux informatiques",
+                    "Systèmes d’exploitation",
+                    "Génie logiciel"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Mathématiques pour l’informatique",
+                    "Anglais technique",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Développement logiciel",
+            "Réseaux et cybersécurité",
+            "Données et intelligence artificielle"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 10000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Centre Universitaire d'Informatique — Lot III 40 A, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Développeur·se web et mobile",
+                "Administrateur·rice systèmes et réseaux",
+                "Analyste programmeur·se",
+                "Technicien·ne support informatique",
+                "Chef·fe de projet numérique"
+            ],
+            "sectors": [
+                "Entreprises de services numériques",
+                "Télécommunications",
+                "Banques et assurances",
+                "Administrations publiques"
+            ],
+            "furtherStudies": [
+                "Master dans le même domaine ou un domaine proche"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-09-11"
+    },
+    {
+        "id": "master-en-droit-public-isdt",
+        "description": "Cette formation est dispensée à Toamasina par l’établissement « Institut Supérieur de Droit de Toamasina ». Elle apporte une solide culture juridique et prépare aux carrières du droit public et privé. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les fondamentaux du droit malgache",
+            "Analyser une situation juridique et rédiger un argumentaire",
+            "Préparer les concours de la fonction publique et des professions juridiques"
+        ],
+        "skills": [
+            "Rechercher et analyser des textes juridiques",
+            "Rédiger des actes et des consultations",
+            "Argumenter à l’écrit et à l’oral",
+            "Conseiller une entreprise sur ses obligations",
+            "Comprendre le fonctionnement des institutions",
+            "Préparer un concours administratif"
+        ],
+        "subjects": [
+            "Introduction au droit",
+            "Droit constitutionnel",
+            "Droit civil",
+            "Droit des obligations",
+            "Droit administratif",
+            "Droit des affaires",
+            "Droit du travail",
+            "Procédure civile"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Introduction au droit",
+                    "Droit constitutionnel",
+                    "Droit civil"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Droit des obligations",
+                    "Droit administratif",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Droit des affaires",
+            "Droit public",
+            "Droit international"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Licence (BAC+3) dans le domaine ou un domaine proche"
+            ],
+            "specialConditions": "Entretien de motivation après présélection sur dossier.",
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 10000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut Supérieur de Droit de Toamasina — Lot II 47 B, Tanambao, Toamasina",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Juriste d’entreprise",
+                "Assistant·e juridique",
+                "Greffier·ère",
+                "Attaché·e d’administration",
+                "Conseiller·ère juridique"
+            ],
+            "sectors": [
+                "Administrations publiques",
+                "Cabinets d’avocats et notaires",
+                "Entreprises privées",
+                "Organisations internationales"
+            ],
+            "furtherStudies": [
+                "Doctorat",
+                "Insertion professionnelle directe"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2027-01-15"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2027-03-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-04-19"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-09-19"
+            }
+        ],
+        "lastVerified": "2026-10-14"
+    },
+    {
+        "id": "licence-en-agronomie-psa",
+        "description": "Cette formation est dispensée à Antananarivo par l’établissement « Pôle Supérieur d'Agronomie ». Elle forme des spécialistes du développement agricole et rural, au service de la sécurité alimentaire. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Comprendre les systèmes de production agricole",
+            "Accompagner les producteurs et les filières",
+            "Concevoir des projets de développement rural durable"
+        ],
+        "skills": [
+            "Diagnostiquer une exploitation agricole",
+            "Conduire des essais au champ",
+            "Conseiller des producteurs",
+            "Monter un projet de développement",
+            "Analyser une filière",
+            "Promouvoir des pratiques durables"
+        ],
+        "subjects": [
+            "Agronomie générale",
+            "Sciences du sol",
+            "Production végétale",
+            "Production animale",
+            "Économie rurale",
+            "Gestion des ressources naturelles",
+            "Agroécologie",
+            "Statistiques"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Agronomie générale",
+                    "Sciences du sol",
+                    "Production végétale"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Production animale",
+                    "Économie rurale",
+                    "Gestion des ressources naturelles"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Agroécologie",
+                    "Statistiques",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Production végétale",
+            "Élevage",
+            "Développement rural"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 10000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Estimés",
+            "paymentOptions": [
+                "Annuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Pôle Supérieur d'Agronomie — Lot IV 54 Ter, Analakely, Antananarivo",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Ingénieur·e agronome",
+                "Conseiller·ère agricole",
+                "Chef·fe de projet de développement rural",
+                "Technicien·ne de filière",
+                "Chargé·e d’études environnementales"
+            ],
+            "sectors": [
+                "ONG et projets de développement",
+                "Agro-industrie",
+                "Ministères et services techniques",
+                "Recherche agronomique"
+            ],
+            "furtherStudies": [
+                "Master dans le même domaine ou un domaine proche"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-09-03"
+    },
+    {
+        "id": "certificat-en-marketing-digital-ana",
+        "description": "Cette formation est dispensée à Antsirabe par l’établissement « Académie Numérique d'Antsirabe ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule entièrement à distance.",
+        "objectives": [
+            "Comprendre le fonctionnement économique et financier d’une organisation",
+            "Piloter une activité commerciale",
+            "Encadrer une équipe et conduire un projet"
+        ],
+        "skills": [
+            "Tenir une comptabilité",
+            "Analyser des états financiers",
+            "Élaborer un plan marketing",
+            "Négocier avec des clients et fournisseurs",
+            "Manager une équipe",
+            "Construire un budget prévisionnel"
+        ],
+        "subjects": [
+            "Comptabilité générale",
+            "Gestion financière",
+            "Marketing",
+            "Management des organisations",
+            "Droit des affaires",
+            "Économie générale",
+            "Techniques de négociation",
+            "Statistiques appliquées"
+        ],
+        "program": [
+            {
+                "period": "Module 1",
+                "courses": [
+                    "Comptabilité générale",
+                    "Gestion financière",
+                    "Marketing"
+                ]
+            },
+            {
+                "period": "Module 2",
+                "courses": [
+                    "Management des organisations",
+                    "Droit des affaires",
+                    "Économie générale"
+                ]
+            },
+            {
+                "period": "Module 3",
+                "courses": [
+                    "Techniques de négociation",
+                    "Statistiques appliquées",
+                    "Projet pratique encadré"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Classes virtuelles",
+            "Études de cas"
+        ],
+        "evaluation": "Évaluation continue sur les projets pratiques et un projet final.",
+        "admission": {
+            "prerequisites": [
+                "Bonne maîtrise du français écrit",
+                "Ordinateur et connexion internet"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Cours en ligne en soirée, à suivre à votre rythme",
+            "campus": "Académie Numérique d'Antsirabe — Lot VI 61 Bis, Mahazoarivo, Antsirabe",
+            "rhythm": [
+                "Temps plein",
+                "Temps partiel"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Assistant·e de gestion",
+                "Comptable",
+                "Chargé·e de clientèle",
+                "Responsable commercial·e",
+                "Contrôleur·se de gestion"
+            ],
+            "sectors": [
+                "Commerce et distribution",
+                "Banques et microfinance",
+                "Industrie",
+                "Cabinets comptables"
+            ],
+            "furtherStudies": [
+                "BTS ou licence dans le même domaine"
+            ],
+            "internship": "Projet pratique encadré, réalisé pour un client réel.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-06"
+    },
+    {
+        "id": "certificat-en-design-graphique-ana",
+        "description": "Cette formation est dispensée à Antsirabe par l’établissement « Académie Numérique d'Antsirabe ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule entièrement à distance.",
+        "objectives": [
+            "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
+            "Concevoir et administrer des systèmes d’information",
+            "Mener un projet numérique de l’analyse au déploiement"
+        ],
+        "skills": [
+            "Programmer en Python, Java et JavaScript",
+            "Concevoir une base de données",
+            "Développer une application web",
+            "Administrer un réseau",
+            "Travailler en méthode agile",
+            "Sécuriser un système d’information"
+        ],
+        "subjects": [
+            "Algorithmique et programmation",
+            "Bases de données",
+            "Développement web",
+            "Réseaux informatiques",
+            "Systèmes d’exploitation",
+            "Génie logiciel",
+            "Mathématiques pour l’informatique",
+            "Anglais technique"
+        ],
+        "program": [
+            {
+                "period": "Module 1",
+                "courses": [
+                    "Algorithmique et programmation",
+                    "Bases de données",
+                    "Développement web"
+                ]
+            },
+            {
+                "period": "Module 2",
+                "courses": [
+                    "Réseaux informatiques",
+                    "Systèmes d’exploitation",
+                    "Génie logiciel"
+                ]
+            },
+            {
+                "period": "Module 3",
+                "courses": [
+                    "Mathématiques pour l’informatique",
+                    "Anglais technique",
+                    "Projet pratique encadré"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Classes virtuelles",
+            "Études de cas"
+        ],
+        "evaluation": "Évaluation continue sur les projets pratiques et un projet final.",
+        "admission": {
+            "prerequisites": [
+                "Bonne maîtrise du français écrit",
+                "Ordinateur et connexion internet"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": "Réduction de 5 % en cas de paiement annuel en une fois."
+        },
+        "organization": {
+            "schedule": "Cours en ligne en soirée, à suivre à votre rythme",
+            "campus": "Académie Numérique d'Antsirabe — Lot VI 61 Bis, Mahazoarivo, Antsirabe",
+            "rhythm": [
+                "Temps plein",
+                "Temps partiel"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Développeur·se web et mobile",
+                "Administrateur·rice systèmes et réseaux",
+                "Analyste programmeur·se",
+                "Technicien·ne support informatique",
+                "Chef·fe de projet numérique"
+            ],
+            "sectors": [
+                "Entreprises de services numériques",
+                "Télécommunications",
+                "Banques et assurances",
+                "Administrations publiques"
+            ],
+            "furtherStudies": [
+                "BTS ou licence dans le même domaine"
+            ],
+            "internship": "Projet pratique encadré, réalisé pour un client réel.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2027-01-15"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2027-03-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-04-19"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-09-19"
+            }
+        ],
+        "lastVerified": "2026-09-09"
+    },
+    {
+        "id": "licence-en-traduction-et-interpretariat-ilf",
+        "description": "Cette formation est dispensée à Fianarantsoa par l’établissement « Institut des Langues de Fianarantsoa ». Elle développe une excellente maîtrise des langues et de la communication écrite et orale. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser une langue étrangère à un niveau professionnel",
+            "Développer des compétences en communication et en rédaction",
+            "S’ouvrir aux cultures et aux enjeux internationaux"
+        ],
+        "skills": [
+            "Traduire des documents professionnels",
+            "S’exprimer avec aisance à l’oral",
+            "Rédiger des contenus clairs",
+            "Animer un cours de langue",
+            "Interpréter lors de réunions",
+            "Communiquer avec des partenaires étrangers"
+        ],
+        "subjects": [
+            "Grammaire et linguistique",
+            "Expression écrite",
+            "Expression orale",
+            "Littérature",
+            "Traduction",
+            "Civilisation des pays anglophones",
+            "Communication interculturelle",
+            "Interprétariat"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Grammaire et linguistique",
+                    "Expression écrite",
+                    "Expression orale"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Littérature",
+                    "Traduction",
+                    "Civilisation des pays anglophones"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Communication interculturelle",
+                    "Interprétariat",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Traduction",
+            "Enseignement",
+            "Communication"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 10000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Estimés",
+            "paymentOptions": [
+                "Annuel"
+            ],
+            "scholarships": null,
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut des Langues de Fianarantsoa — Lot IB 68 A, Tsianolondroa, Fianarantsoa",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Traducteur·rice",
+                "Interprète",
+                "Enseignant·e de langues",
+                "Chargé·e de communication",
+                "Assistant·e trilingue"
+            ],
+            "sectors": [
+                "Enseignement",
+                "Organisations internationales",
+                "Médias et communication",
+                "Tourisme"
+            ],
+            "furtherStudies": [
+                "Master dans le même domaine ou un domaine proche"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-12"
+    },
+    {
+        "id": "licence-en-sciences-infirmieres-esm",
+        "description": "Cette formation est dispensée à Mahajanga par l’établissement « École de Santé de Mahajanga ». Elle forme des professionnels de santé capables de prendre en charge les patients avec rigueur et humanité. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Acquérir les connaissances biomédicales fondamentales",
+            "Maîtriser les gestes et protocoles de soins",
+            "Agir dans le respect de l’éthique et de la déontologie"
+        ],
+        "skills": [
+            "Réaliser les soins de base et techniques",
+            "Surveiller l’état clinique d’un patient",
+            "Appliquer les règles d’hygiène et d’asepsie",
+            "Communiquer avec les patients et les familles",
+            "Travailler en équipe pluridisciplinaire",
+            "Réagir face à une urgence"
+        ],
+        "subjects": [
+            "Anatomie et physiologie",
+            "Biologie fondamentale",
+            "Soins infirmiers",
+            "Pharmacologie",
+            "Santé publique",
+            "Hygiène hospitalière",
+            "Psychologie du patient",
+            "Éthique et législation"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Anatomie et physiologie",
+                    "Biologie fondamentale",
+                    "Soins infirmiers"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Pharmacologie",
+                    "Santé publique",
+                    "Hygiène hospitalière"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Psychologie du patient",
+                    "Éthique et législation",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Soins généraux",
+            "Santé maternelle et infantile",
+            "Santé communautaire"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": "Admission sur concours écrit, suivi d’un entretien de motivation.",
+            "minAge": 18
+        },
+        "costs": {
+            "applicationFee": 10000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Tenue de stage",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "École de Santé de Mahajanga — Lot III 75 B, Mahabibo, Mahajanga",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Infirmier·ère",
+                "Sage-femme",
+                "Aide-soignant·e",
+                "Agent·e de santé communautaire",
+                "Médecin généraliste"
+            ],
+            "sectors": [
+                "Hôpitaux publics",
+                "Cliniques privées",
+                "Centres de santé de base",
+                "ONG de santé"
+            ],
+            "furtherStudies": [
+                "Master dans le même domaine ou un domaine proche"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-09-01"
+    },
+    {
+        "id": "licence-en-genie-civil-ipt",
+        "description": "Cette formation est dispensée à Toliara par l’établissement « Institut Polytechnique de Toliara ». Elle forme des techniciens et ingénieurs capables de concevoir et de réaliser des ouvrages et des installations techniques. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les bases scientifiques de l’ingénierie",
+            "Concevoir et dimensionner des ouvrages",
+            "Encadrer un chantier dans le respect des normes de sécurité"
+        ],
+        "skills": [
+            "Lire et réaliser des plans techniques",
+            "Dimensionner une structure simple",
+            "Établir un devis",
+            "Organiser un chantier",
+            "Appliquer les règles de sécurité",
+            "Utiliser un logiciel de DAO"
+        ],
+        "subjects": [
+            "Mathématiques appliquées",
+            "Résistance des matériaux",
+            "Dessin technique et DAO",
+            "Topographie",
+            "Électricité générale",
+            "Béton armé",
+            "Gestion de chantier",
+            "Hydraulique"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Mathématiques appliquées",
+                    "Résistance des matériaux",
+                    "Dessin technique et DAO"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Topographie",
+                    "Électricité générale",
+                    "Béton armé"
+                ]
+            },
+            {
+                "period": "3e année",
+                "courses": [
+                    "Gestion de chantier",
+                    "Hydraulique",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Bâtiment",
+            "Travaux publics",
+            "Électrotechnique"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut Polytechnique de Toliara — Lot II 82 Ter, Besakoa, Toliara",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Technicien·ne en bâtiment",
+                "Conducteur·rice de travaux",
+                "Dessinateur·rice-projeteur·se",
+                "Électrotechnicien·ne",
+                "Métreur·se"
+            ],
+            "sectors": [
+                "Bâtiment et travaux publics",
+                "Énergie",
+                "Bureaux d’études",
+                "Industrie"
+            ],
+            "furtherStudies": [
+                "Master dans le même domaine ou un domaine proche"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2027-01-15"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2027-03-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-04-19"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-09-19"
+            }
+        ],
+        "lastVerified": "2026-10-04"
+    },
+    {
+        "id": "bts-en-electrotechnique-ipt",
+        "description": "Cette formation est dispensée à Toliara par l’établissement « Institut Polytechnique de Toliara ». Elle forme des techniciens et ingénieurs capables de concevoir et de réaliser des ouvrages et des installations techniques. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les bases scientifiques de l’ingénierie",
+            "Concevoir et dimensionner des ouvrages",
+            "Encadrer un chantier dans le respect des normes de sécurité"
+        ],
+        "skills": [
+            "Lire et réaliser des plans techniques",
+            "Dimensionner une structure simple",
+            "Établir un devis",
+            "Organiser un chantier",
+            "Appliquer les règles de sécurité",
+            "Utiliser un logiciel de DAO"
+        ],
+        "subjects": [
+            "Mathématiques appliquées",
+            "Résistance des matériaux",
+            "Dessin technique et DAO",
+            "Topographie",
+            "Électricité générale",
+            "Béton armé",
+            "Gestion de chantier",
+            "Hydraulique"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Mathématiques appliquées",
+                    "Résistance des matériaux",
+                    "Dessin technique et DAO"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Topographie",
+                    "Électricité générale",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Estimés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": "Réduction de 5 % en cas de paiement annuel en une fois."
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "Institut Polytechnique de Toliara — Lot II 82 Ter, Besakoa, Toliara",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Technicien·ne en bâtiment",
+                "Conducteur·rice de travaux",
+                "Dessinateur·rice-projeteur·se",
+                "Électrotechnicien·ne",
+                "Métreur·se"
+            ],
+            "sectors": [
+                "Bâtiment et travaux publics",
+                "Énergie",
+                "Bureaux d’études",
+                "Industrie"
+            ],
+            "furtherStudies": [
+                "Licence professionnelle",
+                "Licence générale (admission en 3e année sur dossier)"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-09-07"
+    },
+    {
+        "id": "bts-en-guide-touristique-esta",
+        "description": "Cette formation est dispensée à Antsiranana par l’établissement « École Supérieure de Tourisme d'Antsiranana ». Elle prépare aux métiers de l’accueil, de l’hôtellerie et du tourisme, secteurs clés de l’économie malgache. Elle se déroule en présentiel, sur le campus.",
+        "objectives": [
+            "Maîtriser les techniques d’accueil et de service",
+            "Concevoir et vendre des produits touristiques",
+            "Gérer un établissement hôtelier ou une agence"
+        ],
+        "skills": [
+            "Accueillir une clientèle internationale",
+            "Gérer des réservations",
+            "Organiser un circuit touristique",
+            "Encadrer une équipe de service",
+            "Valoriser le patrimoine local",
+            "Communiquer en anglais"
+        ],
+        "subjects": [
+            "Techniques d’accueil",
+            "Hébergement et réception",
+            "Restauration",
+            "Géographie touristique de Madagascar",
+            "Marketing touristique",
+            "Gestion hôtelière",
+            "Anglais professionnel",
+            "Communication interculturelle"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Techniques d’accueil",
+                    "Hébergement et réception",
+                    "Restauration"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Géographie touristique de Madagascar",
+                    "Marketing touristique",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Projets en groupe",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Baccalauréat ou diplôme équivalent"
+            ],
+            "specialConditions": null,
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": "Bourses sur critères académiques et sociaux, à demander auprès de l’établissement.",
+            "discounts": null
+        },
+        "organization": {
+            "schedule": "Du lundi au vendredi, de 8 h à 12 h et de 14 h à 17 h",
+            "campus": "École Supérieure de Tourisme d'Antsiranana — Lot IV 89 Bis, Tanambao, Antsiranana",
+            "rhythm": [
+                "Temps plein"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Réceptionniste",
+                "Guide touristique",
+                "Agent·e de voyages",
+                "Gouvernant·e d’hôtel",
+                "Responsable d’hébergement"
+            ],
+            "sectors": [
+                "Hôtellerie",
+                "Agences de voyages",
+                "Tour-opérateurs",
+                "Restauration"
+            ],
+            "furtherStudies": [
+                "Licence professionnelle",
+                "Licence générale (admission en 3e année sur dossier)"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": false,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2026-09-01"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2026-11-30"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-01-11"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-06-11"
+            }
+        ],
+        "lastVerified": "2026-10-10"
+    },
+    {
+        "id": "master-en-commerce-international-bst",
+        "description": "Cette formation est dispensée à Toamasina par l’établissement « Business School de Toamasina ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
+        "objectives": [
+            "Comprendre le fonctionnement économique et financier d’une organisation",
+            "Piloter une activité commerciale",
+            "Encadrer une équipe et conduire un projet"
+        ],
+        "skills": [
+            "Tenir une comptabilité",
+            "Analyser des états financiers",
+            "Élaborer un plan marketing",
+            "Négocier avec des clients et fournisseurs",
+            "Manager une équipe",
+            "Construire un budget prévisionnel"
+        ],
+        "subjects": [
+            "Comptabilité générale",
+            "Gestion financière",
+            "Marketing",
+            "Management des organisations",
+            "Droit des affaires",
+            "Économie générale",
+            "Techniques de négociation",
+            "Statistiques appliquées"
+        ],
+        "program": [
+            {
+                "period": "1re année",
+                "courses": [
+                    "Comptabilité générale",
+                    "Gestion financière",
+                    "Marketing"
+                ]
+            },
+            {
+                "period": "2e année",
+                "courses": [
+                    "Management des organisations",
+                    "Droit des affaires",
+                    "Stage et mémoire de fin d’études"
+                ]
+            }
+        ],
+        "specializations": [
+            "Comptabilité et finance",
+            "Marketing et vente",
+            "Commerce international"
+        ],
+        "teachingMethods": [
+            "Cours magistraux",
+            "Travaux dirigés et pratiques",
+            "Classes virtuelles",
+            "Études de cas"
+        ],
+        "evaluation": "Contrôle continu et examens semestriels ; soutenance d’un mémoire ou d’un rapport de stage en fin de cursus.",
+        "admission": {
+            "prerequisites": [
+                "Licence (BAC+3) dans le domaine ou un domaine proche"
+            ],
+            "specialConditions": "Entretien de motivation après présélection sur dossier.",
+            "minAge": null
+        },
+        "costs": {
+            "applicationFee": 25000,
+            "otherFees": [
+                {
+                    "label": "Assurance et carte étudiante",
+                    "amount": 15000
+                },
+                {
+                    "label": "Fournitures et supports de cours",
+                    "amount": null
+                }
+            ],
+            "status": "Confirmés",
+            "paymentOptions": [
+                "Annuel",
+                "Trimestriel",
+                "Mensuel"
+            ],
+            "scholarships": null,
+            "discounts": "Réduction de 5 % en cas de paiement annuel en une fois."
+        },
+        "organization": {
+            "schedule": "Cours sur place le samedi, le reste en ligne en semaine",
+            "campus": "Business School de Toamasina — Lot VI 96 A, Tanambao, Toamasina",
+            "rhythm": [
+                "Temps plein",
+                "Temps partiel"
+            ]
+        },
+        "careers": {
+            "jobs": [
+                "Assistant·e de gestion",
+                "Comptable",
+                "Chargé·e de clientèle",
+                "Responsable commercial·e",
+                "Contrôleur·se de gestion"
+            ],
+            "sectors": [
+                "Commerce et distribution",
+                "Banques et microfinance",
+                "Industrie",
+                "Cabinets comptables"
+            ],
+            "furtherStudies": [
+                "Doctorat",
+                "Insertion professionnelle directe"
+            ],
+            "internship": "Stage obligatoire de 2 à 3 mois en entreprise ou en structure d’accueil.",
+            "partnerships": []
+        },
+        "onlineApplication": true,
+        "brochureUrl": null,
+        "academicCalendar": [
+            {
+                "label": "Ouverture des candidatures",
+                "date": "2027-01-15"
+            },
+            {
+                "label": "Clôture des candidatures",
+                "date": "2027-03-31"
+            },
+            {
+                "label": "Rentrée",
+                "date": "2027-04-19"
+            },
+            {
+                "label": "Examens du premier semestre",
+                "date": "2027-09-19"
+            }
+        ],
+        "lastVerified": "2026-09-13"
+    }
+]
