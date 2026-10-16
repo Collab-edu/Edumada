@@ -72,7 +72,7 @@ const SearchPage = () => {
             <div className='container mx-auto max-w-7xl px-4'>
                 {/* En-tête */}
                 <div className='mb-6 sm:mb-8 flex flex-col gap-2'>
-                    <h1 className='text-3xl md:text-4xl font-bold tracking-tight text-secondary'>
+                    <h1 className='text-3xl md:text-4xl font-bold text-secondary'>
                         Formations, écoles et crèches
                     </h1>
                     <p className='text-ink/70'>

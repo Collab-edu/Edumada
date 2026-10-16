@@ -60,7 +60,7 @@ export function SpaceShell({ roles, title, subtitle, nav, actions, banner, child
             <div className='container mx-auto max-w-7xl px-4'>
                 <div className='mb-5 flex flex-col sm:flex-row sm:items-end justify-between gap-3'>
                     <div className='flex flex-col gap-1'>
-                        <h1 className='text-2xl sm:text-3xl font-bold tracking-tight text-secondary'>{title}</h1>
+                        <h1 className='text-2xl sm:text-3xl font-bold text-secondary'>{title}</h1>
                         {subtitle && <div className='text-ink/70'>{subtitle}</div>}
                     </div>
                     {actions && <div className='flex flex-wrap gap-2'>{actions}</div>}

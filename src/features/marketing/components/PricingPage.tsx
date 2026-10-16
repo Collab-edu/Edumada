@@ -54,7 +54,7 @@ export default function PricingPage() {
             <div className='container mx-auto max-w-7xl px-4 flex flex-col gap-10'>
                 <div className='mx-auto flex max-w-3xl flex-col gap-3 text-center'>
                     <p className='font-semibold uppercase tracking-wide text-primary'>Établissements</p>
-                    <h1 className='text-3xl md:text-5xl font-bold tracking-tight text-secondary'>Faites-vous connaître des futurs étudiants</h1>
+                    <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Faites-vous connaître des futurs étudiants</h1>
                     <p className='text-ink/70'>
                         Commencez gratuitement. Passez à Pro pour gérer vos demandes et candidatures, à Premium pour mettre vos formations en avant pendant vos recrutements.
                     </p>

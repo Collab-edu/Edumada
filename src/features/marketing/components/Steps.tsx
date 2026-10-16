@@ -29,7 +29,7 @@ const Steps = () => {
     return (
         <section id='steps-section' className='bg-white py-20'>
             <div className='container mx-auto max-w-7xl px-4'>
-                <h2 className='font-bold tracking-tight text-center mb-10'>
+                <h2 className='font-bold text-center mb-10'>
                     Trouvez votre formation en trois étapes
                 </h2>
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>

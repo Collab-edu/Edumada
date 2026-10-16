@@ -23,7 +23,7 @@ const Banner = () => {
             <div className='relative w-full px-6 lg:px-8'>
                 <div className='container'>
                     <div className='flex flex-col gap-4 text-center'>
-                        <h1 className='text-[30px] sm:text-[38px] lg:text-[45px] leading-tight font-bold tracking-tight max-w-4xl mx-auto'>
+                        <h1 className='text-[30px] sm:text-[38px] lg:text-[45px] leading-tight font-bold max-w-4xl mx-auto'>
                             Trouvez votre formation à Madagascar et construisez votre{' '}
                             <span className='text-primary'>avenir</span>.
                         </h1>

@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next'
-import { Poppins } from 'next/font/google'
+import { Inter, Plus_Jakarta_Sans } from 'next/font/google'
 import type { ReactNode } from 'react'
 import Providers from './providers'
 import './globals.scss'
 
-// Police d'Edumada, comme sur le site.
-const font = Poppins({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap', variable: '--edu-font' })
+// Polices d'Edumada, comme sur le site : Plus Jakarta Sans (titres), Inter (textes et formulaires).
+const heading = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['600', '700', '800'], display: 'swap', variable: '--edu-font-heading' })
+const body = Inter({ subsets: ['latin'], display: 'swap', variable: '--edu-font-body' })
 
 export const metadata: Metadata = {
     title: 'Edumada · Back-office',
@@ -21,7 +22,7 @@ const themeScript = `try{var m=localStorage.getItem('edumada-backoffice-theme');
 
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
-        <html lang='fr' suppressHydrationWarning className={font.variable}>
+        <html lang='fr' suppressHydrationWarning className={`${heading.variable} ${body.variable}`}>
             <head>
                 <script dangerouslySetInnerHTML={{ __html: themeScript }} />
             </head>

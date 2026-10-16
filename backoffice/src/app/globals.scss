@@ -10,7 +10,7 @@
 @use "@coreui/chartjs/scss/coreui-chartjs";
 
 :root {
-  --cui-body-font-family: var(--edu-font), system-ui, sans-serif;
+  --cui-body-font-family: var(--edu-font-body), system-ui, sans-serif;
   --edu-teal: #0f4c5c;
   --edu-teal-dark: #082a33;
   --edu-red: #ff3b52;
@@ -20,6 +20,10 @@
   --edu-ink: #334155;
   --edu-body-bg: #f6f8fa;
   --edu-card-head-bg: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .card-title, .modal-title {
+  font-family: var(--edu-font-heading), var(--edu-font-body), system-ui, sans-serif;
 }
 
 body {
