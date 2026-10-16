@@ -38,9 +38,9 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite, compact
                     <h3 className='text-lg font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
                         {formation.title}
                     </h3>
-                    <p className='text-ink/60'>{formation.school}</p>
+                    <p className={cn('text-ink/60', compact && 'text-sm')}>{formation.school}</p>
                 </div>
-                <ul className={cn('text-ink/80', compact ? 'grid grid-cols-2 gap-x-3 gap-y-1.5' : 'flex flex-col gap-2')}>
+                <ul className={cn('text-ink/80', compact ? 'grid grid-cols-2 gap-x-3 gap-y-1.5 text-sm' : 'flex flex-col gap-2')}>
                     <li className='flex items-center gap-2'>
                         <Icon icon='tabler:map-pin' className='shrink-0 text-lg text-secondary' />
                         {formation.city}
@@ -52,7 +52,7 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite, compact
                         </li>
                     ))}
                 </ul>
-                <CardAction href={`/formations/${formation.id}`}>{OFFER_CTA[formation.kind]}</CardAction>
+                <CardAction href={`/formations/${formation.id}`} className={cn(compact && 'py-2.5 text-sm')}>{OFFER_CTA[formation.kind]}</CardAction>
             </div>
         </Card>
     )

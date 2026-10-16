@@ -23,14 +23,14 @@ export function SchoolCard({ school, compact = false }: { school: SchoolType; co
                     <h3 className='text-lg font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
                         {school.name}
                     </h3>
-                    <p className={cn('flex items-center gap-1.5 text-ink/70', compact && 'min-w-0')}>
+                    <p className={cn('flex items-center gap-1.5 text-ink/70', compact && 'min-w-0 text-sm')}>
                         <Icon icon='tabler:map-pin' className='shrink-0 text-lg text-secondary' />
                         <span className={cn(compact && 'truncate')}>
                             {school.subCategory} · {school.city}
                         </span>
                     </p>
                 </div>
-                <p className={cn('text-ink/60', compact ? 'line-clamp-2' : 'line-clamp-3')}>{school.description}</p>
+                <p className={cn('text-ink/60', compact ? 'line-clamp-2 text-sm' : 'line-clamp-3')}>{school.description}</p>
                 <div className={cn('flex gap-2', compact ? 'flex-nowrap overflow-hidden' : 'flex-wrap')}>
                     {(compact ? school.tags.slice(0, 2) : school.tags).map((tag) => (
                         <span
@@ -40,7 +40,7 @@ export function SchoolCard({ school, compact = false }: { school: SchoolType; co
                         </span>
                     ))}
                 </div>
-                <CardAction href={`/etablissements/${school.id}`}>Voir l&apos;établissement</CardAction>
+                <CardAction href={`/etablissements/${school.id}`} className={cn(compact && 'py-2.5 text-sm')}>Voir l&apos;établissement</CardAction>
             </div>
         </Card>
     )
