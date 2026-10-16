@@ -24,7 +24,7 @@ const CHANNELS = [
     { icon: 'tabler:mail', label: CONTACT.email, href: `mailto:${CONTACT.email}` },
 ]
 
-/** Page Contact : bandeau aux couleurs d'Edumada et formulaire centré. */
+/** Page Contact : titre centré, coordonnées et formulaire. */
 export default function ContactPage() {
     const { user } = useAuth()
     const [form, setForm] = useState({ ...EMPTY, name: user?.name ?? '', email: user?.email ?? '' })
@@ -50,33 +50,27 @@ export default function ContactPage() {
     }
 
     return (
-        <section className='relative overflow-hidden bg-secondary pt-32 pb-20 sm:pt-40'>
-            {/* Quadrillage discret */}
-            <div
-                aria-hidden='true'
-                className='pointer-events-none absolute inset-0 opacity-[0.07] [background-image:linear-gradient(white_1px,transparent_1px),linear-gradient(90deg,white_1px,transparent_1px)] [background-size:56px_56px]'
-            />
-
-            <div className='container relative mx-auto max-w-7xl px-4'>
+        <section className='pt-32 pb-20 sm:pt-40'>
+            <div className='container mx-auto max-w-7xl px-4'>
                 <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
-                    <span className='inline-flex items-center gap-2 rounded-full bg-white/10 py-1 pr-4 pl-1 text-sm text-white/90'>
+                    <span className='inline-flex items-center gap-2 rounded-full bg-secondary/10 py-1 pr-4 pl-1 text-sm font-medium text-secondary'>
                         <span className='flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white'>
                             <Icon icon='tabler:school' className='text-sm' />
                         </span>
                         Votre guide des études à Madagascar
                     </span>
-                    <h1 className='text-4xl md:text-6xl font-bold text-white'>
+                    <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
                         Contactez-nous <span className='text-primary'>dès aujourd&apos;hui</span>
                     </h1>
-                    <p className='max-w-2xl text-white/75'>
+                    <p className='max-w-2xl text-ink/70'>
                         Une question sur une formation, un établissement à référencer ou un souci avec votre compte ? Écrivez-nous, l&apos;équipe Edumada vous
                         répond rapidement.
                     </p>
-                    <ul className='mt-2 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-white'>
+                    <ul className='mt-2 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-medium text-secondary'>
                         {CHANNELS.map((channel) => {
                             const content = (
                                 <>
-                                    <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink/40 text-primary'>
+                                    <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary'>
                                         <Icon icon={channel.icon} className='text-lg' />
                                     </span>
                                     {channel.label}
@@ -98,7 +92,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* Formulaire */}
-                <div className='mx-auto mt-12 max-w-2xl rounded-2xl bg-offwhite p-5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.5)] sm:p-8'>
+                <div className='mx-auto mt-12 max-w-2xl rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:p-8'>
                     {sent ? (
                         <div className='flex flex-col items-start gap-4'>
                             <FormAlert tone='success'>Merci ! Votre message a bien été envoyé, nous vous répondrons rapidement.</FormAlert>
