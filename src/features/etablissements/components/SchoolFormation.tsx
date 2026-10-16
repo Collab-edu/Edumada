@@ -4,7 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { cn } from '@/lib/utils'
-import { ADMISSION_LEVEL_LABEL, formatDate, formatDuration, formatFees } from '@/features/formations/format'
+import type { CategoryType } from '@/features/categories/types'
+import { ADMISSION_LEVEL_LABEL, formatAgeRange, formatDate, formatDuration, formatFees, formatTuition, offerFacts } from '@/features/formations/format'
 import type { FormationType, RegistrationStatus } from '@/features/formations/types'
 
 const REGISTRATION_BADGE: Record<RegistrationStatus, { label: string; className: string }> = {
@@ -31,11 +32,11 @@ function Detail({ icon, label, children }: { icon: string; label: string; childr
  * Formation proposée par l'établissement : résumé toujours visible, détail dépliable.
  * S'ouvre automatiquement quand l'URL vise cette formation (…#id-de-la-formation).
  */
-export function SchoolFormation({ formation }: { formation: FormationType }) {
+export function SchoolFormation({ formation, fields }: { formation: FormationType; fields: CategoryType['fields'] }) {
     const [open, setOpen] = useState(false)
     const badge = REGISTRATION_BADGE[formation.registration]
     const { level, bacSeries } = formation.admission
-    const fees = formatFees(formation.fees)
+    const tuition = formatTuition(formation)
     const detailsId = `${formation.id}-details`
 
     useEffect(() => {
@@ -62,20 +63,26 @@ export function SchoolFormation({ formation }: { formation: FormationType }) {
                 <div className='flex flex-1 flex-col gap-3 p-5'>
                     <div className='flex flex-wrap items-center gap-2'>
                         <span className={cn('rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>{badge.label}</span>
-                        <span className='rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold text-secondary'>
-                            {formation.diploma}
-                        </span>
+                        {(formation.diploma || formation.ageRange) && (
+                            <span className='rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold text-secondary'>
+                                {formation.diploma ?? formatAgeRange(formation.ageRange!)}
+                            </span>
+                        )}
                     </div>
                     <h3 className='text-lg font-semibold leading-snug text-secondary'>{formation.title}</h3>
                     <ul className='flex flex-wrap gap-x-5 gap-y-1 text-sm text-ink/70'>
-                        <li className='inline-flex items-center gap-1.5'>
-                            <Icon icon='tabler:clock' className='text-secondary' /> {formatDuration(formation.durationYears)}
-                        </li>
+                        {offerFacts(formation)
+                            .filter((fact) => fact.label !== formation.diploma)
+                            .map((fact) => (
+                                <li key={fact.label} className='inline-flex items-center gap-1.5'>
+                                    <Icon icon={fact.icon} className='text-secondary' /> {fact.label}
+                                </li>
+                            ))}
                         <li className='inline-flex items-center gap-1.5'>
                             <Icon icon='tabler:device-laptop' className='text-secondary' /> {formation.modality}
                         </li>
                         <li className='inline-flex items-center gap-1.5'>
-                            <Icon icon='tabler:coin' className='text-secondary' /> {fees ? `${fees} / an` : 'Frais non renseignés'}
+                            <Icon icon='tabler:coin' className='text-secondary' /> {tuition ?? 'Frais non renseignés'}
                         </li>
                     </ul>
                     <div className='mt-auto flex flex-wrap items-center gap-3 pt-1'>
@@ -101,15 +108,16 @@ export function SchoolFormation({ formation }: { formation: FormationType }) {
             {open && (
                 <div id={detailsId} className='border-t border-gray-100 p-5'>
                     <div className='grid grid-cols-1 gap-y-4'>
-                        <Detail icon='tabler:certificate' label='Diplôme obtenu'>{formation.diploma}</Detail>
-                        <Detail icon='tabler:clock' label='Durée'>{formatDuration(formation.durationYears)}</Detail>
-                        <Detail icon='tabler:device-laptop' label='Modalité de formation'>{formation.modality}</Detail>
+                        {formation.diploma && <Detail icon='tabler:certificate' label='Diplôme obtenu'>{formation.diploma}</Detail>}
+                        {formation.ageRange && <Detail icon='tabler:mood-kid' label='Âge des enfants accueillis'>{formatAgeRange(formation.ageRange)}</Detail>}
+                        {formation.durationYears !== null && <Detail icon='tabler:clock' label='Durée'>{formatDuration(formation.durationYears)}</Detail>}
+                        <Detail icon='tabler:device-laptop' label='Modalité'>{formation.modality}</Detail>
                         <Detail icon='tabler:language' label="Langues d'enseignement">{formation.languages.join(', ')}</Detail>
                         <Detail icon='tabler:receipt' label="Frais d'inscription">
                             {formatFees(formation.registrationFee) ?? 'Non renseignés'}
                         </Detail>
                         <Detail icon='tabler:coin' label='Frais de scolarité'>
-                            {fees ? `${fees} / an` : 'Non renseignés'}
+                            {tuition ?? 'Non renseignés'}
                         </Detail>
                         <Detail icon='tabler:calendar-event' label="Dates d'inscription">
                             {formation.registrationPeriod
@@ -124,9 +132,9 @@ export function SchoolFormation({ formation }: { formation: FormationType }) {
                     <div className='mt-5 rounded-xl bg-offwhite p-4'>
                         <p className='mb-1 font-semibold text-secondary'>Conditions d&apos;admission</p>
                         <ul className='flex flex-col gap-1 text-ink/80'>
-                            <li>Niveau requis : {ADMISSION_LEVEL_LABEL[level]}</li>
+                            {fields.level && <li>Niveau requis : {ADMISSION_LEVEL_LABEL[level]}</li>}
                             <li>Sélection : {formation.admission.selection}</li>
-                            {level === 'BAC' && (
+                            {fields.level && level === 'BAC' && (
                                 <li>Séries du BAC acceptées : {bacSeries.length > 0 ? bacSeries.join(', ') : 'toutes les séries'}</li>
                             )}
                         </ul>

@@ -6,6 +6,7 @@ import {
     ADMISSION_LEVELS,
     BAC_SERIES,
     BUDGET_RANGES,
+    CHILD_AGES,
     DIPLOMAS,
     DURATIONS,
     HOUSING_OPTIONS,
@@ -81,6 +82,21 @@ export function SearchFiltersPanel({ filters, onChange }: SearchFiltersPanelProp
         <div>
             {/* Priorité élevée : toujours visibles */}
             <FilterGroup title='Budget annuel'>{checkboxes('budgets', BUDGET_RANGES.map((r) => r.label))}</FilterGroup>
+            <FilterGroup title="Âge de l'enfant">
+                <label className='flex flex-col gap-1.5 text-sm text-ink/70'>
+                    Pour une crèche, une école ou un accompagnement
+                    <select
+                        value={filters.childAge}
+                        onChange={(e) => onChange({ ...filters, childAge: e.target.value })}
+                        className='min-h-11 rounded-lg border border-gray-200 bg-white px-3 text-base text-ink outline-hidden focus:border-primary hover:cursor-pointer'>
+                        {CHILD_AGES.map((age) => (
+                            <option key={age.value} value={age.value}>
+                                {age.label}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+            </FilterGroup>
             <FilterGroup title='Durée'>{checkboxes('durations', DURATIONS)}</FilterGroup>
             <FilterGroup title='Modalité'>{checkboxes('modalities', MODALITIES)}</FilterGroup>
             <FilterGroup title='Diplôme préparé'>{checkboxes('diplomas', DIPLOMAS)}</FilterGroup>

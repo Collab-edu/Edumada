@@ -1,11 +1,13 @@
 'use client'
+import { Fragment } from 'react'
 import { Icon } from '@iconify/react/dist/iconify.js'
-import { ADMISSION_LEVEL_LABEL, formatDate } from '@/features/formations/format'
+import type { CategoryType } from '@/features/categories/types'
+import { ADMISSION_LEVEL_LABEL, formatAgeRange, formatDate } from '@/features/formations/format'
 import type { FormationType } from '@/features/formations/types'
 import type { SchoolType } from '../types'
 
 const STEPS = [
-    { icon: 'tabler:list-check', title: 'Vérifiez les prérequis', text: 'Niveau requis et séries du BAC acceptées pour la formation choisie.' },
+    { icon: 'tabler:list-check', title: 'Vérifiez les prérequis', text: "Âge, niveau ou prérequis demandés pour l'offre choisie." },
     { icon: 'tabler:folder', title: 'Préparez votre dossier', text: 'Rassemblez les pièces demandées ci-dessous.' },
     { icon: 'tabler:send', title: 'Déposez votre candidature', text: "Pendant la période d'inscription, auprès de l'établissement." },
     { icon: 'tabler:circle-check', title: 'Sélection et inscription', text: 'Étude du dossier, entretien ou concours selon la formation.' },
@@ -18,7 +20,24 @@ const periodLabel = (f: FormationType) =>
     f.registrationPeriod ? `${formatDate(f.registrationPeriod.start)} → ${formatDate(f.registrationPeriod.end)}` : 'À confirmer'
 
 /** Conditions d'admission de l'établissement : démarche, prérequis par formation et pièces du dossier. */
-export function SchoolAdmission({ school, formations }: { school: SchoolType; formations: FormationType[] }) {
+export function SchoolAdmission({
+    school,
+    formations,
+    fields,
+}: {
+    school: SchoolType
+    formations: FormationType[]
+    fields: CategoryType['fields']
+}) {
+    // Seules les colonnes pertinentes pour la catégorie (et renseignées) sont affichées.
+    const columns: { label: string; value: (f: FormationType) => string }[] = [
+        ...(fields.level ? [{ label: 'Niveau requis', value: (f: FormationType) => ADMISSION_LEVEL_LABEL[f.admission.level] }] : []),
+        ...(fields.level && formations.some((f) => f.admission.level === 'BAC') ? [{ label: 'Séries du BAC', value: seriesLabel }] : []),
+        ...(fields.childAge && formations.some((f) => f.ageRange) ? [{ label: 'Âge', value: (f: FormationType) => (f.ageRange ? formatAgeRange(f.ageRange) : '—') }] : []),
+        { label: 'Sélection', value: (f: FormationType) => f.admission.selection },
+        { label: 'Inscriptions', value: periodLabel },
+    ]
+
     return (
         <div className='flex flex-col gap-6'>
             {/* Démarche */}
@@ -33,16 +52,15 @@ export function SchoolAdmission({ school, formations }: { school: SchoolType; fo
                 ))}
             </ol>
 
-            {/* Prérequis par formation : tableau sur grand écran, cartes sur mobile */}
+            {/* Prérequis par offre : tableau sur grand écran, cartes sur mobile. Colonnes selon la catégorie. */}
             <div className='hidden md:block overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
                 <table className='w-full text-left text-sm'>
                     <thead className='bg-secondary/5 text-secondary'>
                         <tr>
-                            <th scope='col' className='px-4 py-3 font-semibold'>Formation</th>
-                            <th scope='col' className='px-4 py-3 font-semibold'>Niveau requis</th>
-                            <th scope='col' className='px-4 py-3 font-semibold'>Séries du BAC</th>
-                            <th scope='col' className='px-4 py-3 font-semibold'>Sélection</th>
-                            <th scope='col' className='px-4 py-3 font-semibold'>Candidatures</th>
+                            <th scope='col' className='px-4 py-3 font-semibold'>Offre</th>
+                            {columns.map((col) => (
+                                <th key={col.label} scope='col' className='px-4 py-3 font-semibold'>{col.label}</th>
+                            ))}
                         </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-100 text-ink/80'>
@@ -51,10 +69,9 @@ export function SchoolAdmission({ school, formations }: { school: SchoolType; fo
                                 <th scope='row' className='px-4 py-3 font-semibold text-ink'>
                                     <a href={`#${f.id}`} className='hover:text-primary'>{f.title}</a>
                                 </th>
-                                <td className='px-4 py-3'>{ADMISSION_LEVEL_LABEL[f.admission.level]}</td>
-                                <td className='px-4 py-3'>{seriesLabel(f)}</td>
-                                <td className='px-4 py-3'>{f.admission.selection}</td>
-                                <td className='px-4 py-3'>{periodLabel(f)}</td>
+                                {columns.map((col) => (
+                                    <td key={col.label} className='px-4 py-3'>{col.value(f)}</td>
+                                ))}
                             </tr>
                         ))}
                     </tbody>
@@ -63,17 +80,18 @@ export function SchoolAdmission({ school, formations }: { school: SchoolType; fo
             <div className='flex flex-col gap-3 md:hidden'>
                 {formations.map((f) => (
                     <div key={f.id} className='rounded-xl border border-gray-100 bg-white p-4 text-sm'>
-                        <a href={`#${f.id}`} className='mb-2 block font-semibold text-secondary'>{f.title}</a>
+                        <a href={`#${f.id}`} className='mb-2 block py-1 font-semibold text-secondary'>{f.title}</a>
                         <dl className='grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-ink/80'>
-                            <dt className='text-ink/60'>Niveau requis</dt><dd>{ADMISSION_LEVEL_LABEL[f.admission.level]}</dd>
-                            <dt className='text-ink/60'>Séries du BAC</dt><dd>{seriesLabel(f)}</dd>
-                            <dt className='text-ink/60'>Sélection</dt><dd>{f.admission.selection}</dd>
-                            <dt className='text-ink/60'>Candidatures</dt><dd>{periodLabel(f)}</dd>
+                            {columns.map((col) => (
+                                <Fragment key={col.label}>
+                                    <dt className='text-ink/60'>{col.label}</dt>
+                                    <dd>{col.value(f)}</dd>
+                                </Fragment>
+                            ))}
                         </dl>
                     </div>
                 ))}
             </div>
-
             {/* Pièces du dossier */}
             <div className='rounded-2xl bg-secondary/[0.06] p-6'>
                 <p className='mb-3 font-semibold text-secondary'>Pièces à fournir</p>

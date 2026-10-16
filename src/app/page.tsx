@@ -1,4 +1,5 @@
 import Hero from '@/features/recherche/components/Hero'
+import CategoriesSection from '@/features/categories/components/CategoriesSection'
 import DomainsSection from '@/features/domaines/components/DomainsSection'
 import FormationsSection from '@/features/formations/components/FormationsSection'
 import SchoolsSection from '@/features/etablissements/components/SchoolsSection'
@@ -13,6 +14,7 @@ export default function Home() {
     <main>
       <Hero />
       <Companies />
+      <CategoriesSection />
       <DomainsSection />
       <RegisterCta />
       <FormationsSection />

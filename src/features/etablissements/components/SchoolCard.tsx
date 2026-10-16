@@ -22,10 +22,10 @@ export function SchoolCard({ school }: { school: SchoolType }) {
                     </h3>
                     <p className='flex items-center gap-1.5 text-ink/70'>
                         <Icon icon='tabler:map-pin' className='text-lg text-secondary' />
-                        {school.city}
+                        {school.subCategory} · {school.city}
                     </p>
                 </div>
-                <p className='text-ink/60'>{school.description}</p>
+                <p className='line-clamp-3 text-ink/60'>{school.description}</p>
                 <div className='flex flex-wrap gap-2'>
                     {school.tags.map((tag) => (
                         <span

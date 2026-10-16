@@ -4,6 +4,14 @@ export type SchoolType = {
   name: string
   initials: string
   type: 'Public' | 'Privé'
+  /** Catégorie principale (CategoryType.id) et sous-catégorie libre. */
+  category: string
+  subCategory: string
+  socialLinks: { facebook?: string; instagram?: string; linkedin?: string; youtube?: string }
+  /** Présentation des infrastructures (bibliothèque, cantine, ateliers…). */
+  infrastructures: string[]
+  /** Statut de vérification de la fiche par Edumada. */
+  verification: { status: 'Vérifié' | 'En cours' | 'Non vérifié'; date: string | null }
   city: string
   address: string
   phone: string

@@ -2,16 +2,23 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { cn } from '@/lib/utils'
 import type { SchoolType } from '@/features/etablissements/types'
-import { ADMISSION_LEVEL_LABEL, formatDate, formatDuration, formatFees } from '../../format'
+import type { CategoryType } from '@/features/categories/types'
+import { ADMISSION_LEVEL_LABEL, formatAgeRange, formatDate, formatDuration, formatFees } from '../../format'
 import type { FormationDetailType, FormationType } from '../../types'
 import { CheckList, ChipList, DetailSection, Fact, NOT_PROVIDED, Panel, SubTitle } from './parts'
 
-type Props = { formation: FormationType; detail: FormationDetailType; school: SchoolType }
+type Props = { formation: FormationType; detail: FormationDetailType; school: SchoolType; fields: CategoryType['fields'] }
+
+const PRESENTATION_TITLE: Record<FormationType['kind'], string> = {
+    formation: 'Présentation de la formation',
+    niveau: 'Présentation du niveau',
+    accueil: "Présentation de l'accueil",
+}
 
 /* 2. Présentation et objectifs */
-export function PresentationSection({ detail }: Props) {
+export function PresentationSection({ formation, detail }: Props) {
     return (
-        <DetailSection id='presentation' title='Présentation de la formation' icon='tabler:info-circle'>
+        <DetailSection id='presentation' title={PRESENTATION_TITLE[formation.kind]} icon='tabler:info-circle'>
             <p className='text-ink/80 leading-relaxed'>{detail.description}</p>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                 <Panel>
@@ -19,7 +26,7 @@ export function PresentationSection({ detail }: Props) {
                     <CheckList items={detail.objectives} />
                 </Panel>
                 <Panel>
-                    <SubTitle>Compétences acquises</SubTitle>
+                    <SubTitle>{formation.kind === 'formation' ? 'Compétences acquises' : 'Ce que l’enfant développe'}</SubTitle>
                     <CheckList items={detail.skills} />
                 </Panel>
             </div>
@@ -76,15 +83,18 @@ export function ProgramSection({ detail }: Props) {
 }
 
 /* 4. Conditions d'admission */
-export function AdmissionSection({ formation, detail, school }: Props) {
+export function AdmissionSection({ formation, detail, school, fields }: Props) {
     const { level, bacSeries, selection } = formation.admission
     return (
         <DetailSection id='admission' title="Conditions d'admission" icon='tabler:clipboard-check'>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-                <Fact icon='tabler:school' label="Niveau d'études requis">{ADMISSION_LEVEL_LABEL[level]}</Fact>
-                <Fact icon='tabler:list-letters' label='Séries du BAC acceptées'>
-                    {level !== 'BAC' ? 'Non applicable' : bacSeries.length > 0 ? bacSeries.join(', ') : 'Toutes les séries'}
-                </Fact>
+                {fields.level && <Fact icon='tabler:school' label="Niveau d'études requis">{ADMISSION_LEVEL_LABEL[level]}</Fact>}
+                {fields.level && level === 'BAC' && (
+                    <Fact icon='tabler:list-letters' label='Séries du BAC acceptées'>
+                        {bacSeries.length > 0 ? bacSeries.join(', ') : 'Toutes les séries'}
+                    </Fact>
+                )}
+                {formation.ageRange && <Fact icon='tabler:mood-kid' label='Âge des enfants accueillis'>{formatAgeRange(formation.ageRange)}</Fact>}
                 <Fact icon='tabler:filter' label='Modalités de sélection'>{selection}</Fact>
                 <Fact icon='tabler:user' label='Âge minimum'>
                     {detail.admission.minAge ? `${detail.admission.minAge} ans` : 'Aucun âge minimum imposé'}
@@ -120,7 +130,7 @@ export function CostsSection({ formation, detail }: Props) {
     const banner = STATUS_BANNER[costs.status]
     const rows = [
         { label: "Frais d'inscription", amount: formation.registrationFee },
-        { label: 'Frais de scolarité annuels', amount: formation.fees },
+        { label: `Frais de scolarité (par ${formation.feesPeriod})`, amount: formation.fees },
         { label: 'Frais de dossier', amount: costs.applicationFee },
         ...costs.otherFees,
     ]
@@ -168,7 +178,8 @@ export function OrganisationSection({ formation, detail }: Props) {
     return (
         <DetailSection id='organisation' title='Organisation de la formation' icon='tabler:calendar-event'>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-                <Fact icon='tabler:clock' label='Durée totale'>{formatDuration(formation.durationYears)}</Fact>
+                {formation.durationYears !== null && <Fact icon='tabler:clock' label='Durée totale'>{formatDuration(formation.durationYears)}</Fact>}
+                {formation.ageRange && <Fact icon='tabler:mood-kid' label='Âge des enfants'>{formatAgeRange(formation.ageRange)}</Fact>}
                 <Fact icon='tabler:calendar-star' label='Date de rentrée'>
                     {formation.startDate ? formatDate(formation.startDate) : NOT_PROVIDED}
                 </Fact>
@@ -177,7 +188,7 @@ export function OrganisationSection({ formation, detail }: Props) {
                         ? `Du ${formatDate(formation.registrationPeriod.start)} au ${formatDate(formation.registrationPeriod.end)}`
                         : NOT_PROVIDED}
                 </Fact>
-                <Fact icon='tabler:clock-hour-4' label='Horaires des cours'>{organization.schedule ?? NOT_PROVIDED}</Fact>
+                <Fact icon='tabler:clock-hour-4' label={formation.kind === 'accueil' ? "Horaires d'accueil" : 'Horaires des cours'}>{organization.schedule ?? NOT_PROVIDED}</Fact>
                 <Fact icon='tabler:device-laptop' label='Modalité'>{formation.modality}</Fact>
                 <Fact icon='tabler:language' label="Langues d'enseignement">{formation.languages.join(', ')}</Fact>
                 <Fact icon='tabler:building' label='Campus'>{organization.campus}</Fact>

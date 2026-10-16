@@ -3,6 +3,7 @@ import withBasePath from '@/lib/base-path'
 import type { FooterLinkType, HeaderItem } from '@/types/navigation'
 import type { DomainType } from '@/features/domaines/types'
 import type { FormationType } from '@/features/formations/types'
+import type { CategoryType } from '@/features/categories/types'
 import type { SchoolType, TestimonialType } from '@/features/etablissements/types'
 import type { HeroFilterType } from '@/features/recherche/types'
 
@@ -13,6 +14,7 @@ export type SiteData = {
     HeroFilterData: HeroFilterType[]
     DomainData: DomainType[]
     FormationData: FormationType[]
+    CategoryData: CategoryType[]
     SchoolData: SchoolType[]
     TestimonialData: TestimonialType[]
     Companiesdata: { imgSrc: string }[]

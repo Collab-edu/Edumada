@@ -2,6 +2,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
+import type { CategoryType } from '@/features/categories/types'
+import { formatDate } from '@/features/formations/format'
 import type { FormationType } from '@/features/formations/types'
 import type { SchoolType, TestimonialType } from '../types'
 import type { FaqItem } from '../faq'
@@ -12,6 +14,7 @@ import SchoolTestimonials from './SchoolTestimonials'
 
 interface SchoolProfileProps {
     school: SchoolType
+    category: CategoryType
     formations: FormationType[]
     testimonials: TestimonialType[]
     faq: FaqItem[]
@@ -30,14 +33,18 @@ function InfoRow({ icon, label, children }: { icon: string; label: string; child
 }
 
 /** Fiche complète d'un établissement : présentation, formations, photos, contact et localisation. */
-export function SchoolProfile({ school, formations, testimonials, faq }: SchoolProfileProps) {
+export function SchoolProfile({ school, category, formations, testimonials, faq }: SchoolProfileProps) {
+    const { fields } = category
+    // Les avis viennent des étudiants dans le supérieur, des familles ailleurs.
+    const reviewsTitle = category.id === 'petite-enfance' ? 'Avis des parents' : fields.careers ? "Témoignages d'étudiants" : 'Avis des familles et des élèves'
+    const socials = Object.entries(school.socialLinks).filter((entry): entry is [string, string] => Boolean(entry[1]))
     const { lat, lng } = school.coordinates
     const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.012}%2C${lat - 0.008}%2C${lng + 0.012}%2C${lat + 0.008}&layer=mapnik&marker=${lat}%2C${lng}`
     const mapLink = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=16/${lat}/${lng}`
     const websiteLabel = school.website.replace(/^https?:\/\//, '')
 
     return (
-        <section className='pt-28 pb-20'>
+        <section className='pt-24 pb-20 sm:pt-28'>
             <div className='container mx-auto max-w-7xl px-4'>
                 {/* Fil d'Ariane */}
                 <nav aria-label="Fil d'Ariane" className='mb-4 text-sm text-ink/60'>
@@ -59,12 +66,20 @@ export function SchoolProfile({ school, formations, testimonials, faq }: SchoolP
                         <div className='flex flex-col gap-2'>
                             <h1 className='text-3xl md:text-4xl font-bold leading-tight text-white'>{school.name}</h1>
                             <div className='flex flex-wrap items-center gap-2 text-sm'>
-                                <span className='rounded-full bg-white/90 px-3 py-1 font-semibold text-secondary'>
-                                    {school.type === 'Public' ? 'Établissement public' : 'Établissement privé'}
+                                <span className='inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 font-semibold text-secondary'>
+                                    <Icon icon={category.icon} /> {school.subCategory}
+                                </span>
+                                <span className='rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>
+                                    {school.type === 'Public' ? 'Public' : 'Privé'}
                                 </span>
                                 <span className='inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>
                                     <Icon icon='tabler:map-pin' /> {school.city}
                                 </span>
+                                {school.verification.status === 'Vérifié' && (
+                                    <span className='inline-flex items-center gap-1 rounded-full bg-success px-3 py-1 font-semibold text-secondary'>
+                                        <Icon icon='tabler:shield-check' /> Fiche vérifiée
+                                    </span>
+                                )}
                                 {school.accreditationVerified && (
                                     <span className='inline-flex items-center gap-1 rounded-full bg-success px-3 py-1 font-semibold text-secondary'>
                                         <Icon icon='tabler:rosette-discount-check' /> Reconnu
@@ -110,23 +125,23 @@ export function SchoolProfile({ school, formations, testimonials, faq }: SchoolP
 
                         <div>
                             <h2 className='mb-5 font-bold'>
-                                Formations proposées <span className='text-ink/50'>({formations.length})</span>
+                                {category.offersLabel} <span className='text-ink/50'>({formations.length})</span>
                             </h2>
                             {formations.length > 0 ? (
                                 <div className='grid grid-cols-1 md:grid-cols-2 items-start gap-5'>
                                     {formations.map((formation) => (
-                                        <SchoolFormation key={formation.id} formation={formation} />
+                                        <SchoolFormation key={formation.id} formation={formation} fields={fields} />
                                     ))}
                                 </div>
                             ) : (
-                                <p className='text-ink/60'>Aucune formation n&apos;est encore référencée pour cet établissement.</p>
+                                <p className='text-ink/60'>Aucune offre n&apos;est encore référencée pour cet établissement.</p>
                             )}
                         </div>
 
                         {formations.length > 0 && (
                             <div id='admission' className='scroll-mt-28'>
                                 <h2 className='mb-5 font-bold'>Conditions d&apos;admission</h2>
-                                <SchoolAdmission school={school} formations={formations} />
+                                <SchoolAdmission school={school} formations={formations} fields={fields} />
                             </div>
                         )}
 
@@ -143,8 +158,21 @@ export function SchoolProfile({ school, formations, testimonials, faq }: SchoolP
                             </div>
                         </div>
 
+                        {school.infrastructures.length > 0 && (
+                            <div>
+                                <h2 className='mb-5 font-bold'>Infrastructures</h2>
+                                <ul className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
+                                    {school.infrastructures.map((item) => (
+                                        <li key={item} className='flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-4 py-3 text-ink/80'>
+                                            <Icon icon='tabler:circle-check-filled' className='shrink-0 text-lg text-primary' /> {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
                         <div id='temoignages' className='scroll-mt-28'>
-                            <h2 className='mb-5 font-bold'>Témoignages d&apos;étudiants</h2>
+                            <h2 className='mb-5 font-bold'>{reviewsTitle}</h2>
                             <SchoolTestimonials testimonials={testimonials} formations={formations} />
                         </div>
 
@@ -177,6 +205,9 @@ export function SchoolProfile({ school, formations, testimonials, faq }: SchoolP
                             <p className='mb-2 text-lg font-bold text-secondary'>Informations pratiques</p>
                             <ul>
                                 <InfoRow icon='tabler:building-community' label='Nom'>{school.name}</InfoRow>
+                                <InfoRow icon={category.icon} label='Type et catégorie'>
+                                    {school.subCategory} · {category.label} · {school.type === 'Public' ? 'public' : 'privé'}
+                                </InfoRow>
                                 <InfoRow icon='tabler:map-pin' label='Adresse'>{school.address}</InfoRow>
                                 <InfoRow icon='tabler:phone' label='Téléphone'>
                                     <a href={`tel:${school.phone.replace(/\s/g, '')}`} className='hover:text-primary'>{school.phone}</a>
@@ -189,10 +220,34 @@ export function SchoolProfile({ school, formations, testimonials, faq }: SchoolP
                                         {websiteLabel}
                                     </a>
                                 </InfoRow>
+                                {socials.length > 0 && (
+                                    <InfoRow icon='tabler:share' label='Réseaux sociaux'>
+                                        <span className='flex flex-wrap gap-2'>
+                                            {socials.map(([network, url]) => (
+                                                <a
+                                                    key={network}
+                                                    href={url}
+                                                    target='_blank'
+                                                    rel='noopener noreferrer'
+                                                    aria-label={network}
+                                                    className='flex h-10 w-10 items-center justify-center rounded-full bg-secondary/10 text-secondary hover:bg-primary hover:text-white'>
+                                                    <Icon icon={`tabler:brand-${network}`} className='text-xl' />
+                                                </a>
+                                            ))}
+                                        </span>
+                                    </InfoRow>
+                                )}
                                 <InfoRow icon='tabler:rosette-discount-check' label='Reconnaissance / accréditation'>
                                     {school.accreditationVerified && school.accreditation
                                         ? school.accreditation
                                         : 'En cours de vérification par Edumada'}
+                                </InfoRow>
+                                <InfoRow icon='tabler:shield-check' label='Statut sur Edumada'>
+                                    {school.verification.status === 'Vérifié' && school.verification.date
+                                        ? `Fiche vérifiée le ${formatDate(school.verification.date)}`
+                                        : school.verification.status === 'En cours'
+                                            ? 'Vérification en cours'
+                                            : 'Fiche non vérifiée'}
                                 </InfoRow>
                             </ul>
                         </div>

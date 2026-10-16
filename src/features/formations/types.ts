@@ -1,4 +1,6 @@
-export type Diploma = 'Certificat' | 'BTS' | 'Licence' | 'Master' | 'Doctorat' | 'Autre'
+export type Diploma = 'Certificat' | 'BTS' | 'Licence' | 'Master' | 'Doctorat' | 'CEPE' | 'BEPC' | 'BAC' | 'Autre'
+/** Nature de l'offre éducative : formation diplômante, niveau scolaire, ou accueil (crèche, accompagnement). */
+export type OfferKind = 'formation' | 'niveau' | 'accueil'
 export type Modality = 'Présentiel' | 'Distanciel' | 'Hybride'
 export type RegistrationStatus = 'Ouvertes' | 'À venir' | 'Fermées'
 export type AdmissionLevel = 'Aucun' | 'BAC' | 'BAC+2' | 'BAC+3'
@@ -14,11 +16,19 @@ export type FormationType = {
   city: string
   /** Domaine, avec les mêmes libellés que le filtre « Domaine d'études ». */
   domain: string
-  diploma: Diploma
-  /** Durée en années (0.5 = six mois) ; null si non renseignée. */
+  kind: OfferKind
+  /** Catégorie de l'établissement (CategoryType.id), recopiée pour filtrer facilement. */
+  category: string
+  /** Diplôme préparé ; null pour un accueil sans diplôme (crèche, accompagnement…). */
+  diploma: Diploma | null
+  /** Durée en années (0.5 = six mois) ; null si non renseignée ou sans objet. */
   durationYears: number | null
-  /** Frais de scolarité annuels en ariary ; null si non renseignés. */
+  /** Âge des enfants accueillis, en années (0.25 = 3 mois) ; null si sans objet. */
+  ageRange: { min: number; max: number } | null
+  /** Frais de scolarité en ariary ; null si non renseignés. */
   fees: number | null
+  /** Période des frais de scolarité : par an ou par mois (crèches, écoles). */
+  feesPeriod: 'an' | 'mois'
   /** Frais d'inscription en ariary ; null si non renseignés. */
   registrationFee: number | null
   /** Période d'inscription (dates ISO AAAA-MM-JJ). */

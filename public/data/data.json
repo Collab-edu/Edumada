@@ -73,6 +73,18 @@
     ],
     "HeroFilterData": [
         {
+            "label": "Catégorie d'établissement",
+            "param": "categorie",
+            "options": [
+                "Toutes les catégories",
+                "Enseignement supérieur",
+                "Petite enfance",
+                "Formation professionnelle",
+                "Primaire et secondaire",
+                "Autres établissements"
+            ]
+        },
+        {
             "label": "Domaine d'études",
             "param": "domaine",
             "options": [
@@ -84,7 +96,10 @@
                 "Ingénierie",
                 "Agronomie",
                 "Lettres & Langues",
-                "Tourisme & Hôtellerie"
+                "Tourisme & Hôtellerie",
+                "Petite enfance",
+                "Enseignement général",
+                "Éducation spécialisée"
             ]
         },
         {
@@ -165,7 +180,22 @@
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "superieur",
+            "subCategory": "Institut supérieur",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/inm.example",
+                "linkedin": "https://www.linkedin.com/company/inm-example"
+            },
+            "infrastructures": [
+                "Salles de cours équipées",
+                "Bibliothèque",
+                "Salle informatique"
+            ],
+            "verification": {
+                "status": "Vérifié",
+                "date": "2026-09-15"
+            }
         },
         {
             "id": "ecole-superieure-de-gestion",
@@ -200,7 +230,23 @@
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "superieur",
+            "subCategory": "École supérieure",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/esg.example",
+                "linkedin": "https://www.linkedin.com/company/esg-example"
+            },
+            "infrastructures": [
+                "Salles de cours équipées",
+                "Bibliothèque",
+                "Salle informatique",
+                "Connexion Wi-Fi"
+            ],
+            "verification": {
+                "status": "En cours",
+                "date": null
+            }
         },
         {
             "id": "institut-de-formation-en-sante",
@@ -235,7 +281,24 @@
                 "Certificat de résidence",
                 "Certificat médical d'aptitude"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "superieur",
+            "subCategory": "Institut supérieur",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/ifs.example",
+                "linkedin": "https://www.linkedin.com/company/ifs-example"
+            },
+            "infrastructures": [
+                "Salles de cours équipées",
+                "Bibliothèque",
+                "Salle informatique",
+                "Connexion Wi-Fi",
+                "Amphithéâtre"
+            ],
+            "verification": {
+                "status": "En cours",
+                "date": null
+            }
         },
         {
             "id": "institut-de-tourisme-et-d-hotellerie",
@@ -269,7 +332,22 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "superieur",
+            "subCategory": "Institut supérieur",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/ith.example",
+                "linkedin": "https://www.linkedin.com/company/ith-example"
+            },
+            "infrastructures": [
+                "Salles de cours équipées",
+                "Bibliothèque",
+                "Salle informatique"
+            ],
+            "verification": {
+                "status": "Vérifié",
+                "date": "2026-09-15"
+            }
         },
         {
             "id": "centre-universitaire-d-informatique",
@@ -304,7 +382,23 @@
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "superieur",
+            "subCategory": "Université",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/cui.example",
+                "linkedin": "https://www.linkedin.com/company/cui-example"
+            },
+            "infrastructures": [
+                "Salles de cours équipées",
+                "Bibliothèque",
+                "Salle informatique",
+                "Connexion Wi-Fi"
+            ],
+            "verification": {
+                "status": "En cours",
+                "date": null
+            }
         },
         {
             "id": "institut-superieur-de-droit-de-toamasina",
@@ -339,7 +433,24 @@
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "superieur",
+            "subCategory": "Institut supérieur",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/isdt.example",
+                "linkedin": "https://www.linkedin.com/company/isdt-example"
+            },
+            "infrastructures": [
+                "Salles de cours équipées",
+                "Bibliothèque",
+                "Salle informatique",
+                "Connexion Wi-Fi",
+                "Amphithéâtre"
+            ],
+            "verification": {
+                "status": "En cours",
+                "date": null
+            }
         },
         {
             "id": "pole-superieur-d-agronomie",
@@ -374,7 +485,22 @@
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "superieur",
+            "subCategory": "Grande école",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/psa.example",
+                "linkedin": "https://www.linkedin.com/company/psa-example"
+            },
+            "infrastructures": [
+                "Salles de cours équipées",
+                "Bibliothèque",
+                "Salle informatique"
+            ],
+            "verification": {
+                "status": "Vérifié",
+                "date": "2026-09-15"
+            }
         },
         {
             "id": "academie-numerique-d-antsirabe",
@@ -409,7 +535,21 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "formation-pro",
+            "subCategory": "Centre de formation en informatique",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/ana.example"
+            },
+            "infrastructures": [
+                "Ateliers pratiques",
+                "Salle informatique",
+                "Connexion Wi-Fi"
+            ],
+            "verification": {
+                "status": "En cours",
+                "date": null
+            }
         },
         {
             "id": "institut-des-langues-de-fianarantsoa",
@@ -443,7 +583,24 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "superieur",
+            "subCategory": "Institut supérieur",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/ilf.example",
+                "linkedin": "https://www.linkedin.com/company/ilf-example"
+            },
+            "infrastructures": [
+                "Salles de cours équipées",
+                "Bibliothèque",
+                "Salle informatique",
+                "Connexion Wi-Fi",
+                "Amphithéâtre"
+            ],
+            "verification": {
+                "status": "En cours",
+                "date": null
+            }
         },
         {
             "id": "ecole-de-sante-de-mahajanga",
@@ -478,7 +635,22 @@
                 "Certificat de résidence",
                 "Certificat médical d'aptitude"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "superieur",
+            "subCategory": "École supérieure",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/esm.example",
+                "linkedin": "https://www.linkedin.com/company/esm-example"
+            },
+            "infrastructures": [
+                "Salles de cours équipées",
+                "Bibliothèque",
+                "Salle informatique"
+            ],
+            "verification": {
+                "status": "Vérifié",
+                "date": "2026-09-15"
+            }
         },
         {
             "id": "institut-polytechnique-de-toliara",
@@ -512,7 +684,21 @@
                 "Deux photos d'identité récentes",
                 "Certificat de résidence"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "formation-pro",
+            "subCategory": "École technique",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/ipt.example"
+            },
+            "infrastructures": [
+                "Ateliers pratiques",
+                "Salle informatique",
+                "Connexion Wi-Fi"
+            ],
+            "verification": {
+                "status": "En cours",
+                "date": null
+            }
         },
         {
             "id": "ecole-superieure-de-tourisme-d-antsiranana",
@@ -547,7 +733,24 @@
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "superieur",
+            "subCategory": "École supérieure",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/esta.example",
+                "linkedin": "https://www.linkedin.com/company/esta-example"
+            },
+            "infrastructures": [
+                "Salles de cours équipées",
+                "Bibliothèque",
+                "Salle informatique",
+                "Connexion Wi-Fi",
+                "Amphithéâtre"
+            ],
+            "verification": {
+                "status": "En cours",
+                "date": null
+            }
         },
         {
             "id": "business-school-de-toamasina",
@@ -582,7 +785,213 @@
                 "Certificat de résidence",
                 "Lettre de motivation et CV (masters)"
             ],
-            "accreditationVerified": false
+            "accreditationVerified": false,
+            "category": "superieur",
+            "subCategory": "École supérieure",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/bst.example",
+                "linkedin": "https://www.linkedin.com/company/bst-example"
+            },
+            "infrastructures": [
+                "Salles de cours équipées",
+                "Bibliothèque",
+                "Salle informatique"
+            ],
+            "verification": {
+                "status": "Vérifié",
+                "date": "2026-09-15"
+            }
+        },
+        {
+            "id": "creche-les-petits-lemuriens",
+            "name": "Crèche Les Petits Lémuriens",
+            "initials": "PL",
+            "type": "Privé",
+            "city": "Antananarivo",
+            "address": "Lot IVB 23, Ankadifotsy, Antananarivo",
+            "phone": "+261 34 00 300 20",
+            "email": "contact@pl.example",
+            "website": "https://www.pl.example",
+            "description": "Une crèche exemple qui accueille les tout-petits de 3 mois à 6 ans dans un cadre chaleureux, avec une équipe d'auxiliaires de puériculture.",
+            "tags": [
+                "Petite enfance"
+            ],
+            "accreditation": null,
+            "accreditationVerified": false,
+            "coordinates": {
+                "lat": -18.9049,
+                "lng": 47.5296
+            },
+            "admissionDocuments": [
+                "Acte de naissance de l'enfant",
+                "Carnet de vaccination à jour",
+                "Certificat médical",
+                "Copie de la CIN des parents",
+                "2 photos d'identité de l'enfant"
+            ],
+            "imageSrc": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+            ],
+            "category": "petite-enfance",
+            "subCategory": "Crèche",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/pl.example"
+            },
+            "infrastructures": [
+                "Espace d'éveil",
+                "Dortoir",
+                "Cour de jeux sécurisée",
+                "Cantine"
+            ],
+            "verification": {
+                "status": "En cours",
+                "date": null
+            }
+        },
+        {
+            "id": "groupe-scolaire-les-flamboyants",
+            "name": "Groupe Scolaire Les Flamboyants",
+            "initials": "GSF",
+            "type": "Privé",
+            "city": "Toamasina",
+            "address": "Rue du Commerce, Tanambao V, Toamasina",
+            "phone": "+261 34 00 317 25",
+            "email": "contact@gsf.example",
+            "website": "https://www.gsf.example",
+            "description": "Un groupe scolaire exemple qui accompagne les élèves du préscolaire jusqu’au baccalauréat, avec un suivi personnalisé.",
+            "tags": [
+                "Enseignement général"
+            ],
+            "accreditation": "Établissement agréé par le ministère de l’Éducation nationale",
+            "accreditationVerified": false,
+            "coordinates": {
+                "lat": -18.1522,
+                "lng": 49.4021
+            },
+            "admissionDocuments": [
+                "Acte de naissance de l'élève",
+                "Bulletins de notes de l’année précédente",
+                "Certificat de scolarité ou d’exeat",
+                "Carnet de vaccination",
+                "4 photos d’identité"
+            ],
+            "imageSrc": "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+            ],
+            "category": "scolaire",
+            "subCategory": "Établissement scolaire privé",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/gsf.example"
+            },
+            "infrastructures": [
+                "Salles de classe",
+                "Bibliothèque",
+                "Terrain de sport",
+                "Cantine",
+                "Salle informatique"
+            ],
+            "verification": {
+                "status": "Vérifié",
+                "date": "2026-10-01"
+            }
+        },
+        {
+            "id": "centre-de-langues-vakoka",
+            "name": "Centre de Langues Vakoka",
+            "initials": "CLV",
+            "type": "Privé",
+            "city": "Antananarivo",
+            "address": "Lot IIJ 8, Ambohijatovo, Antananarivo",
+            "phone": "+261 34 00 334 30",
+            "email": "contact@clv.example",
+            "website": "https://www.clv.example",
+            "description": "Un centre de langues exemple : cours d’anglais et de français pour étudiants et professionnels, en petits groupes.",
+            "tags": [
+                "Lettres & Langues"
+            ],
+            "accreditation": null,
+            "accreditationVerified": false,
+            "coordinates": {
+                "lat": -18.9122,
+                "lng": 47.5241
+            },
+            "admissionDocuments": [
+                "Copie de la CIN",
+                "1 photo d’identité",
+                "Test de niveau (passé sur place)"
+            ],
+            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=70"
+            ],
+            "category": "formation-pro",
+            "subCategory": "Centre de langues",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/clv.example"
+            },
+            "infrastructures": [
+                "Ateliers pratiques",
+                "Salle informatique",
+                "Connexion Wi-Fi"
+            ],
+            "verification": {
+                "status": "En cours",
+                "date": null
+            }
+        },
+        {
+            "id": "centre-educatif-fanantenana",
+            "name": "Centre Éducatif Fanantenana",
+            "initials": "CEF",
+            "type": "Privé",
+            "city": "Fianarantsoa",
+            "address": "Quartier Antarandolo, Fianarantsoa",
+            "phone": "+261 34 00 351 35",
+            "email": "contact@cef.example",
+            "website": "https://www.cef.example",
+            "description": "Un établissement spécialisé exemple qui accompagne les enfants et adolescents en situation de handicap ou en difficulté d'apprentissage.",
+            "tags": [
+                "Éducation spécialisée"
+            ],
+            "accreditation": null,
+            "accreditationVerified": false,
+            "coordinates": {
+                "lat": -21.4448,
+                "lng": 47.0912
+            },
+            "admissionDocuments": [
+                "Acte de naissance de l'enfant",
+                "Bilan médical ou psychologique, si disponible",
+                "Copie de la CIN des parents"
+            ],
+            "imageSrc": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1200&q=70",
+            "photos": [
+                "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70",
+                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+            ],
+            "category": "autres",
+            "subCategory": "Établissement spécialisé",
+            "socialLinks": {
+                "facebook": "https://www.facebook.com/cef.example"
+            },
+            "infrastructures": [
+                "Salles d'activités adaptées",
+                "Espace de repos",
+                "Jardin pédagogique"
+            ],
+            "verification": {
+                "status": "En cours",
+                "date": null
+            }
         }
     ],
     "FormationData": [
@@ -620,7 +1029,11 @@
                 "end": "2026-11-30"
             },
             "startDate": "2027-01-11",
-            "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "licence-gestion-esg",
@@ -655,7 +1068,11 @@
                 "end": "2026-11-30"
             },
             "startDate": "2027-01-11",
-            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "soins-infirmiers-ifs",
@@ -690,7 +1107,11 @@
                 "end": "2027-03-31"
             },
             "startDate": "2027-04-19",
-            "imageSrc": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "bts-tourisme-ith",
@@ -722,7 +1143,11 @@
                 "end": "2026-11-30"
             },
             "startDate": "2027-01-11",
-            "imageSrc": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "master-genie-logiciel-cui",
@@ -753,7 +1178,11 @@
                 "end": "2027-03-31"
             },
             "startDate": "2027-04-19",
-            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "licence-droit-affaires-isdt",
@@ -789,7 +1218,11 @@
                 "end": "2026-11-30"
             },
             "startDate": "2027-01-11",
-            "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "master-agronomie-psa",
@@ -820,7 +1253,11 @@
                 "end": "2026-08-31"
             },
             "startDate": "2026-10-05",
-            "imageSrc": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "certificat-dev-web-ana",
@@ -852,7 +1289,11 @@
                 "end": "2026-11-30"
             },
             "startDate": "2027-01-11",
-            "imageSrc": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "formation-pro",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "licence-anglais-ilf",
@@ -888,7 +1329,11 @@
                 "end": "2027-03-31"
             },
             "startDate": "2027-04-19",
-            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "doctorat-medecine-eds",
@@ -922,7 +1367,11 @@
                 "end": "2026-11-30"
             },
             "startDate": "2027-01-11",
-            "imageSrc": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "bts-genie-civil-ipt",
@@ -956,7 +1405,11 @@
                 "end": "2026-11-30"
             },
             "startDate": "2027-01-11",
-            "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "formation-pro",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "master-management-tourisme-est",
@@ -988,7 +1441,11 @@
                 "end": "2027-03-31"
             },
             "startDate": "2027-04-19",
-            "imageSrc": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "licence-commerce-international-bst",
@@ -1024,7 +1481,11 @@
                 "end": "2026-11-30"
             },
             "startDate": "2027-01-11",
-            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "bts-en-reseaux-et-telecommunications-inm",
@@ -1060,7 +1521,11 @@
             },
             "housing": "Non renseigné",
             "scholarship": "Bourses disponibles",
-            "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "master-en-science-des-donnees-inm",
@@ -1092,7 +1557,11 @@
             },
             "housing": "Non renseigné",
             "scholarship": "Bourses disponibles",
-            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "certificat-en-cybersecurite-inm",
@@ -1124,7 +1593,11 @@
             },
             "housing": "Non renseigné",
             "scholarship": "Bourses disponibles",
-            "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "bts-en-comptabilite-et-gestion-esg",
@@ -1159,7 +1632,11 @@
             },
             "housing": "Non disponible",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "master-en-management-des-organisations-esg",
@@ -1190,7 +1667,11 @@
             },
             "housing": "Non disponible",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "formation-de-sage-femme-ifs",
@@ -1225,7 +1706,11 @@
             },
             "housing": "Disponible",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "certificat-d-aide-soignant-ifs",
@@ -1257,7 +1742,11 @@
             },
             "housing": "Disponible",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "licence-en-management-hotelier-ith",
@@ -1289,7 +1778,11 @@
             },
             "housing": "Non renseigné",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "certificat-en-arts-culinaires-ith",
@@ -1321,7 +1814,11 @@
             },
             "housing": "Non renseigné",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "licence-en-informatique-de-gestion-cui",
@@ -1355,7 +1852,11 @@
             },
             "housing": "Disponible",
             "scholarship": "Bourses disponibles",
-            "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "master-en-droit-public-isdt",
@@ -1387,7 +1888,11 @@
             },
             "housing": "Disponible",
             "scholarship": "Bourses disponibles",
-            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "licence-en-agronomie-psa",
@@ -1421,7 +1926,11 @@
             },
             "housing": "Disponible",
             "scholarship": "Bourses disponibles",
-            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "certificat-en-marketing-digital-ana",
@@ -1453,7 +1962,11 @@
             },
             "housing": "Non renseigné",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "formation-pro",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "certificat-en-design-graphique-ana",
@@ -1485,7 +1998,11 @@
             },
             "housing": "Non renseigné",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "formation-pro",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "licence-en-traduction-et-interpretariat-ilf",
@@ -1521,7 +2038,11 @@
             },
             "housing": "Disponible",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "licence-en-sciences-infirmieres-esm",
@@ -1555,7 +2076,11 @@
             },
             "housing": "Disponible",
             "scholarship": "Bourses disponibles",
-            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "licence-en-genie-civil-ipt",
@@ -1589,7 +2114,11 @@
             },
             "housing": "Non disponible",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "formation-pro",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "bts-en-electrotechnique-ipt",
@@ -1623,7 +2152,11 @@
             },
             "housing": "Non disponible",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "formation-pro",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "bts-en-guide-touristique-esta",
@@ -1655,7 +2188,11 @@
             },
             "housing": "Disponible",
             "scholarship": "Bourses disponibles",
-            "imageSrc": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
         },
         {
             "id": "master-en-commerce-international-bst",
@@ -1687,7 +2224,355 @@
             },
             "housing": "Non renseigné",
             "scholarship": "Non renseigné",
-            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70"
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "superieur",
+            "ageRange": null,
+            "feesPeriod": "an"
+        },
+        {
+            "id": "accueil-creche-pl",
+            "title": "Accueil en crèche (3 mois – 3 ans)",
+            "school": "Crèche Les Petits Lémuriens",
+            "schoolId": "creche-les-petits-lemuriens",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Petite enfance",
+            "diploma": null,
+            "durationYears": null,
+            "fees": 180000,
+            "feesPeriod": "mois",
+            "registrationFee": 50000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": [],
+                "selection": "Inscription directe"
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1200&q=70",
+            "kind": "accueil",
+            "category": "petite-enfance",
+            "ageRange": {
+                "min": 0.25,
+                "max": 3
+            }
+        },
+        {
+            "id": "maternelle-pl",
+            "title": "Maternelle (3 – 6 ans)",
+            "school": "Crèche Les Petits Lémuriens",
+            "schoolId": "creche-les-petits-lemuriens",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Petite enfance",
+            "diploma": null,
+            "durationYears": null,
+            "fees": 150000,
+            "feesPeriod": "mois",
+            "registrationFee": 50000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
+            "modality": "Présentiel",
+            "registration": "À venir",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": [],
+                "selection": "Inscription directe"
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1200&q=70",
+            "kind": "niveau",
+            "category": "petite-enfance",
+            "ageRange": {
+                "min": 3,
+                "max": 6
+            }
+        },
+        {
+            "id": "prescolaire-gsf",
+            "title": "Préscolaire",
+            "school": "Groupe Scolaire Les Flamboyants",
+            "schoolId": "groupe-scolaire-les-flamboyants",
+            "schoolType": "Privé",
+            "city": "Toamasina",
+            "domain": "Enseignement général",
+            "diploma": null,
+            "durationYears": 3,
+            "fees": 90000,
+            "feesPeriod": "mois",
+            "registrationFee": 60000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": [],
+                "selection": "Inscription directe"
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1200&q=70",
+            "kind": "niveau",
+            "category": "scolaire",
+            "ageRange": {
+                "min": 3,
+                "max": 5
+            }
+        },
+        {
+            "id": "primaire-gsf",
+            "title": "Primaire (T1 à T5)",
+            "school": "Groupe Scolaire Les Flamboyants",
+            "schoolId": "groupe-scolaire-les-flamboyants",
+            "schoolType": "Privé",
+            "city": "Toamasina",
+            "domain": "Enseignement général",
+            "diploma": "CEPE",
+            "durationYears": 5,
+            "fees": 110000,
+            "feesPeriod": "mois",
+            "registrationFee": 60000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": [],
+                "selection": "Inscription directe"
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=70",
+            "kind": "niveau",
+            "category": "scolaire",
+            "ageRange": {
+                "min": 6,
+                "max": 10
+            }
+        },
+        {
+            "id": "college-gsf",
+            "title": "Collège (6e à 3e)",
+            "school": "Groupe Scolaire Les Flamboyants",
+            "schoolId": "groupe-scolaire-les-flamboyants",
+            "schoolType": "Privé",
+            "city": "Toamasina",
+            "domain": "Enseignement général",
+            "diploma": "BEPC",
+            "durationYears": 4,
+            "fees": 140000,
+            "feesPeriod": "mois",
+            "registrationFee": 80000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": [],
+                "selection": "Sur dossier"
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=70",
+            "kind": "niveau",
+            "category": "scolaire",
+            "ageRange": {
+                "min": 11,
+                "max": 14
+            }
+        },
+        {
+            "id": "lycee-gsf",
+            "title": "Lycée (Seconde à Terminale)",
+            "school": "Groupe Scolaire Les Flamboyants",
+            "schoolId": "groupe-scolaire-les-flamboyants",
+            "schoolType": "Privé",
+            "city": "Toamasina",
+            "domain": "Enseignement général",
+            "diploma": "BAC",
+            "durationYears": 3,
+            "fees": 170000,
+            "feesPeriod": "mois",
+            "registrationFee": 80000,
+            "registrationPeriod": {
+                "start": "2027-01-15",
+                "end": "2027-03-31"
+            },
+            "startDate": "2027-04-19",
+            "modality": "Présentiel",
+            "registration": "À venir",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": [],
+                "selection": "Sur dossier"
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70",
+            "kind": "niveau",
+            "category": "scolaire",
+            "ageRange": {
+                "min": 15,
+                "max": 17
+            }
+        },
+        {
+            "id": "anglais-general-clv",
+            "title": "Cours d'anglais général (A1 à B2)",
+            "school": "Centre de Langues Vakoka",
+            "schoolId": "centre-de-langues-vakoka",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Lettres & Langues",
+            "diploma": "Certificat",
+            "durationYears": 0.5,
+            "fees": 450000,
+            "feesPeriod": "an",
+            "registrationFee": 30000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Hybride",
+            "registration": "Ouvertes",
+            "languages": [
+                "Anglais",
+                "Français"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": [],
+                "selection": "Inscription directe"
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "formation-pro",
+            "ageRange": null
+        },
+        {
+            "id": "francais-professionnel-clv",
+            "title": "Français professionnel",
+            "school": "Centre de Langues Vakoka",
+            "schoolId": "centre-de-langues-vakoka",
+            "schoolType": "Privé",
+            "city": "Antananarivo",
+            "domain": "Lettres & Langues",
+            "diploma": "Certificat",
+            "durationYears": 0.25,
+            "fees": 300000,
+            "feesPeriod": "an",
+            "registrationFee": 30000,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": [],
+                "selection": "Inscription directe"
+            },
+            "housing": "Non disponible",
+            "scholarship": "Non renseigné",
+            "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
+            "kind": "formation",
+            "category": "formation-pro",
+            "ageRange": null
+        },
+        {
+            "id": "accompagnement-specialise-cef",
+            "title": "Accompagnement éducatif spécialisé (6 – 16 ans)",
+            "school": "Centre Éducatif Fanantenana",
+            "schoolId": "centre-educatif-fanantenana",
+            "schoolType": "Privé",
+            "city": "Fianarantsoa",
+            "domain": "Éducation spécialisée",
+            "diploma": null,
+            "durationYears": null,
+            "fees": null,
+            "feesPeriod": "mois",
+            "registrationFee": null,
+            "registrationPeriod": {
+                "start": "2026-09-01",
+                "end": "2026-11-30"
+            },
+            "startDate": "2027-01-11",
+            "modality": "Présentiel",
+            "registration": "Ouvertes",
+            "languages": [
+                "Français",
+                "Malgache"
+            ],
+            "admission": {
+                "level": "Aucun",
+                "bacSeries": [],
+                "selection": "Dossier et entretien"
+            },
+            "housing": "Non disponible",
+            "scholarship": "Bourses disponibles",
+            "imageSrc": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1200&q=70",
+            "kind": "accueil",
+            "category": "autres",
+            "ageRange": {
+                "min": 6,
+                "max": 16
+            }
         }
     ],
     "FooterLinkData": [
@@ -2022,6 +2907,169 @@
             "status": "Étudiant·e en 1re année",
             "rating": 4,
             "quote": "J'ai choisi ce cursus pour ses travaux pratiques, et je ne le regrette pas : j'ai trouvé un stage dès la deuxième année."
+        },
+        {
+            "id": "creche-les-petits-lemuriens-1",
+            "schoolId": "creche-les-petits-lemuriens",
+            "formationId": "accueil-creche-pl",
+            "name": "Haingo R.",
+            "status": "Maman de Tiana, 2 ans",
+            "rating": 5,
+            "quote": "L'équipe est douce et attentive. Notre fille y va avec le sourire chaque matin."
+        },
+        {
+            "id": "creche-les-petits-lemuriens-2",
+            "schoolId": "creche-les-petits-lemuriens",
+            "formationId": "maternelle-pl",
+            "name": "Rado M.",
+            "status": "Papa de Mamy, 4 ans",
+            "rating": 5,
+            "quote": "Les activités d’éveil sont variées et on reçoit des nouvelles chaque jour."
+        },
+        {
+            "id": "groupe-scolaire-les-flamboyants-1",
+            "schoolId": "groupe-scolaire-les-flamboyants",
+            "formationId": "prescolaire-gsf",
+            "name": "Volatiana S.",
+            "status": "Parent d’élève en 5e",
+            "rating": 5,
+            "quote": "Les enseignants suivent vraiment chaque élève. Les résultats au BEPC sont très bons."
+        },
+        {
+            "id": "groupe-scolaire-les-flamboyants-2",
+            "schoolId": "groupe-scolaire-les-flamboyants",
+            "formationId": "primaire-gsf",
+            "name": "Ny Aina T.",
+            "status": "Ancien élève, BAC 2025",
+            "rating": 5,
+            "quote": "Un cadre sérieux qui m’a bien préparé au baccalauréat."
+        },
+        {
+            "id": "centre-de-langues-vakoka-1",
+            "schoolId": "centre-de-langues-vakoka",
+            "formationId": "anglais-general-clv",
+            "name": "Mamitiana F.",
+            "status": "Étudiante en anglais",
+            "rating": 5,
+            "quote": "Les groupes sont petits, on parle beaucoup. J’ai gagné un niveau en six mois."
+        },
+        {
+            "id": "centre-educatif-fanantenana-1",
+            "schoolId": "centre-educatif-fanantenana",
+            "formationId": "accompagnement-specialise-cef",
+            "name": "Lalao H.",
+            "status": "Maman de Toky, 9 ans",
+            "rating": 5,
+            "quote": "Mon fils a fait d'énormes progrès grâce à un accompagnement vraiment adapté."
+        }
+    ],
+    "CategoryData": [
+        {
+            "id": "superieur",
+            "label": "Université et enseignement supérieur",
+            "shortLabel": "Enseignement supérieur",
+            "icon": "tabler:building-bank",
+            "subCategories": [
+                "Université",
+                "École supérieure",
+                "Institut supérieur",
+                "Grande école"
+            ],
+            "offersLabel": "Formations proposées",
+            "fields": {
+                "diplomas": true,
+                "programme": true,
+                "level": true,
+                "childAge": false,
+                "duration": true,
+                "careers": true
+            }
+        },
+        {
+            "id": "petite-enfance",
+            "label": "Crèche et petite enfance",
+            "shortLabel": "Petite enfance",
+            "icon": "tabler:baby-carriage",
+            "subCategories": [
+                "Crèche",
+                "Garderie",
+                "Préscolaire",
+                "Maternelle"
+            ],
+            "offersLabel": "Accueil proposé",
+            "fields": {
+                "diplomas": false,
+                "programme": false,
+                "level": false,
+                "childAge": true,
+                "duration": false,
+                "careers": false
+            }
+        },
+        {
+            "id": "formation-pro",
+            "label": "Formation professionnelle",
+            "shortLabel": "Formation professionnelle",
+            "icon": "tabler:tools",
+            "subCategories": [
+                "Centre de formation professionnelle",
+                "Centre d'apprentissage",
+                "École technique",
+                "Centre de formation en informatique",
+                "Centre de langues"
+            ],
+            "offersLabel": "Formations proposées",
+            "fields": {
+                "diplomas": true,
+                "programme": true,
+                "level": true,
+                "childAge": false,
+                "duration": true,
+                "careers": true
+            }
+        },
+        {
+            "id": "scolaire",
+            "label": "Primaire et secondaire",
+            "shortLabel": "Primaire et secondaire",
+            "icon": "tabler:backpack",
+            "subCategories": [
+                "École primaire",
+                "Collège",
+                "Lycée",
+                "Établissement scolaire privé",
+                "Établissement scolaire public"
+            ],
+            "offersLabel": "Niveaux scolaires",
+            "fields": {
+                "diplomas": true,
+                "programme": true,
+                "level": true,
+                "childAge": true,
+                "duration": true,
+                "careers": false
+            }
+        },
+        {
+            "id": "autres",
+            "label": "Autres établissements",
+            "shortLabel": "Autres établissements",
+            "icon": "tabler:heart-handshake",
+            "subCategories": [
+                "Établissement spécialisé",
+                "Centre éducatif",
+                "Organisme de formation",
+                "Autre structure éducative"
+            ],
+            "offersLabel": "Accompagnements proposés",
+            "fields": {
+                "diplomas": false,
+                "programme": true,
+                "level": false,
+                "childAge": true,
+                "duration": false,
+                "careers": false
+            }
         }
     ]
 }

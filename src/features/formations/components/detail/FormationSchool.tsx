@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import type { SchoolType } from '@/features/etablissements/types'
+import { offerFacts } from '../../format'
 import type { FormationType } from '../../types'
 import { DetailSection, SubTitle } from './parts'
 
@@ -83,7 +84,7 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                                         <Link href={`/formations/${f.id}`} className='group flex items-center justify-between gap-3 px-4 py-3 hover:bg-offwhite'>
                                             <span className='flex flex-col'>
                                                 <span className='font-medium text-secondary group-hover:text-primary'>{f.title}</span>
-                                                <span className='text-sm text-ink/60'>{f.diploma} · {f.modality}</span>
+                                                <span className='text-sm text-ink/60'>{[...offerFacts(f).map((fact) => fact.label), f.modality].join(' · ')}</span>
                                             </span>
                                             <Icon icon='tabler:chevron-right' className='shrink-0 text-ink/40 group-hover:text-primary' />
                                         </Link>

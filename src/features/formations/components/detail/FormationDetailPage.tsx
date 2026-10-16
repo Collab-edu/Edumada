@@ -5,7 +5,8 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import { cn } from '@/lib/utils'
 import type { FaqItem } from '@/features/etablissements/faq'
 import type { SchoolType } from '@/features/etablissements/types'
-import { formatDate, formatDuration, formatFees } from '../../format'
+import type { CategoryType } from '@/features/categories/types'
+import { formatDate, formatTuition, offerFacts } from '../../format'
 import type { FormationDetailType, FormationType } from '../../types'
 import SimilarFormations from '../SimilarFormations'
 import { ApplySection, ExtraInfoSection } from './FormationApply'
@@ -13,7 +14,7 @@ import FormationHero, { REGISTRATION_BADGE } from './FormationHero'
 import FormationSchool from './FormationSchool'
 import { AdmissionSection, CareersSection, CostsSection, OrganisationSection, PresentationSection, ProgramSection } from './FormationSections'
 
-const NAV = [
+const ALL_NAV = [
     { id: 'presentation', label: 'Présentation' },
     { id: 'programme', label: 'Programme' },
     { id: 'admission', label: 'Admission' },
@@ -28,19 +29,25 @@ interface FormationDetailPageProps {
     formation: FormationType
     detail: FormationDetailType
     school: SchoolType
+    category: CategoryType
     otherFormations: FormationType[]
     similar: FormationType[]
     faq: FaqItem[]
 }
 
 /** Page complète d'une formation, dans l'ordre recommandé : infos clés, contenu, admission, frais, organisation, débouchés, établissement, candidature. */
-export function FormationDetailPage({ formation, detail, school, otherFormations, similar, faq }: FormationDetailPageProps) {
+export function FormationDetailPage({ formation, detail, school, category, otherFormations, similar, faq }: FormationDetailPageProps) {
+    const { fields } = category
+    // Sections affichées selon la catégorie : pas de programme ni de débouchés pour une crèche, par exemple.
+    const showProgramme = fields.programme && (detail.program.length > 0 || detail.subjects.length > 0)
+    const showCareers = fields.careers && detail.careers.jobs.length + detail.careers.sectors.length > 0
+    const NAV = ALL_NAV.filter((item) => (item.id !== 'programme' || showProgramme) && (item.id !== 'debouches' || showCareers))
     const [isFavorite, setIsFavorite] = useState(false)
     const [active, setActive] = useState(NAV[0].id)
     const toggleFavorite = () => setIsFavorite((v) => !v)
-    const sectionProps = { formation, detail, school }
+    const sectionProps = { formation, detail, school, fields }
     const badge = REGISTRATION_BADGE[formation.registration]
-    const fees = formatFees(formation.fees)
+    const tuition = formatTuition(formation)
 
     // Met en évidence, dans la navigation, la section en cours de lecture.
     useEffect(() => {
@@ -56,6 +63,8 @@ export function FormationDetailPage({ formation, detail, school, otherFormations
             if (el) observer.observe(el)
         })
         return () => observer.disconnect()
+        // NAV ne dépend que des props, fixes pour une page donnée.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // Sur mobile, la barre d'onglets défile horizontalement : on garde l'onglet actif visible.
@@ -73,7 +82,7 @@ export function FormationDetailPage({ formation, detail, school, otherFormations
                 <nav aria-label="Fil d'Ariane" className='mb-4 text-sm text-ink/60'>
                     <Link href='/' className='inline-block py-2 hover:text-primary'>Accueil</Link>
                     <span className='mx-2'>/</span>
-                    <Link href='/recherche' className='inline-block py-2 hover:text-primary'>Formations</Link>
+                    <Link href='/recherche' className='inline-block py-2 hover:text-primary'>Recherche</Link>
                     <span className='mx-2'>/</span>
                     <span className='text-secondary'>{formation.title}</span>
                 </nav>
@@ -104,11 +113,11 @@ export function FormationDetailPage({ formation, detail, school, otherFormations
                 <div className='mt-8 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-10'>
                     <div className='flex flex-col gap-14'>
                         <PresentationSection {...sectionProps} />
-                        <ProgramSection {...sectionProps} />
+                        {showProgramme && <ProgramSection {...sectionProps} />}
                         <AdmissionSection {...sectionProps} />
                         <CostsSection {...sectionProps} />
                         <OrganisationSection {...sectionProps} />
-                        <CareersSection {...sectionProps} />
+                        {showCareers && <CareersSection {...sectionProps} />}
                         <FormationSchool school={school} otherFormations={otherFormations} />
                         <ApplySection {...sectionProps} />
                         <ExtraInfoSection detail={detail} faq={faq} />
@@ -121,9 +130,8 @@ export function FormationDetailPage({ formation, detail, school, otherFormations
                             <span className={cn('w-fit rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>{badge.label}</span>
                             <dl className='flex flex-col gap-3 text-sm'>
                                 {[
-                                    ['Frais de scolarité', fees ? `${fees} / an` : 'Non communiqués'],
-                                    ['Durée', formatDuration(formation.durationYears)],
-                                    ['Diplôme', formation.diploma],
+                                    ['Frais de scolarité', tuition ?? 'Non communiqués'],
+                                    ...offerFacts(formation).map((fact) => [fact.icon === 'tabler:school' ? 'Diplôme' : fact.icon === 'tabler:clock' ? 'Durée' : 'Âge', fact.label]),
                                     ['Rentrée', formation.startDate ? formatDate(formation.startDate) : 'Non communiquée'],
                                     ['Date limite', formation.registrationPeriod ? formatDate(formation.registrationPeriod.end) : 'Non communiquée'],
                                 ].map(([label, value]) => (

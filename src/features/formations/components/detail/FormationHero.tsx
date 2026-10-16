@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { cn } from '@/lib/utils'
 import type { SchoolType } from '@/features/etablissements/types'
-import { formatDate, formatDuration, formatFees } from '../../format'
+import { formatDate, formatTuition, offerFacts } from '../../format'
 import type { FormationDetailType, FormationType, RegistrationStatus } from '../../types'
 
 export const REGISTRATION_BADGE: Record<RegistrationStatus, { label: string; className: string }> = {
@@ -26,7 +26,7 @@ interface FormationHeroProps {
 export function FormationHero({ formation, detail, school, isFavorite, onToggleFavorite }: FormationHeroProps) {
     const [copied, setCopied] = useState(false)
     const badge = REGISTRATION_BADGE[formation.registration]
-    const fees = formatFees(formation.fees)
+    const tuition = formatTuition(formation)
 
     const share = async () => {
         const data = { title: `${formation.title} — ${school.name}`, url: window.location.href }
@@ -46,9 +46,8 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
     const facts = [
         { icon: 'tabler:map-pin', label: formation.city },
         { icon: 'tabler:building-community', label: `Établissement ${formation.schoolType.toLowerCase()}` },
-        { icon: 'tabler:certificate', label: formation.diploma },
-        { icon: 'tabler:clock', label: formatDuration(formation.durationYears) },
-        { icon: 'tabler:coin', label: fees ? `${fees} / an` : 'Frais non communiqués' },
+        ...offerFacts(formation),
+        { icon: 'tabler:coin', label: tuition ?? 'Frais non communiqués' },
     ]
 
     return (

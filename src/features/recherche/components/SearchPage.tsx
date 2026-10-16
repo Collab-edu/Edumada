@@ -20,6 +20,7 @@ import {
 
 // Filtres principaux repris du Hero (le niveau d'études devient « Diplôme préparé » dans le panneau).
 const TOP_FILTERS = [
+    { param: 'categorie', icon: 'tabler:category' },
     { param: 'domaine', icon: 'tabler:book-2' },
     { param: 'ville', icon: 'tabler:map-pin' },
     { param: 'type', icon: 'tabler:building-community' },
@@ -29,6 +30,7 @@ const SearchPage = () => {
     const searchParams = useSearchParams()
     const { data: formations, loading } = useSiteData('FormationData')
     const { data: heroFilters } = useSiteData('HeroFilterData')
+    const { data: categories } = useSiteData('CategoryData')
 
     const [filters, setFilters] = useState<SearchFilters>(() => filtersFromParams(searchParams))
     const [sort, setSort] = useState<SortValue>('pertinence')
@@ -44,11 +46,14 @@ const SearchPage = () => {
     }, [panelOpen])
 
     const results = useMemo(
-        () => sortFormations(formations.filter((f) => matchesFilters(f, filters)), sort),
-        [formations, filters, sort]
+        () => {
+            const labelOf = (id: string) => categories.find((c) => c.id === id)?.shortLabel
+            return sortFormations(formations.filter((f) => matchesFilters(f, filters, labelOf)), sort)
+        },
+        [formations, filters, sort, categories]
     )
     const chips = activeFilters(filters)
-    const advancedCount = chips.filter((c) => !['q', 'domaine', 'ville', 'type'].includes(c.id)).length
+    const advancedCount = chips.filter((c) => !['q', 'categorie', 'domaine', 'ville', 'type'].includes(c.id)).length
 
     const toggleFavorite = (id: string) =>
         setFavorites((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]))
@@ -79,20 +84,20 @@ const SearchPage = () => {
                 {/* En-tête */}
                 <div className='mb-6 sm:mb-8 flex flex-col gap-2'>
                     <h1 className='text-3xl md:text-4xl font-bold tracking-tight text-secondary'>
-                        Trouvez votre formation
+                        Formations, écoles et crèches
                     </h1>
                     <p className='text-ink/70'>
-                        Affinez votre recherche avec les filtres et comparez les formations proposées à Madagascar.
+                        Affinez votre recherche et comparez les offres des établissements à Madagascar, de la crèche à l’université.
                     </p>
                 </div>
 
                 {/* Barre de recherche principale */}
                 <div className='mb-6 sm:mb-8 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)]'>
-                    <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 lg:items-center'>
+                    <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5 lg:items-center'>
                         <div className='rounded-xl px-4 py-3 lg:border-r lg:border-gray-100 lg:rounded-none'>
                             <label htmlFor='search-q' className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
                                 <Icon icon='tabler:search' className='text-base text-secondary' />
-                                Formation ou métier
+                                Formation, niveau, métier…
                             </label>
                             <input
                                 id='search-q'
@@ -157,8 +162,8 @@ const SearchPage = () => {
                         <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-3'>
                             <p className='font-semibold text-secondary' aria-live='polite'>
                                 {loading
-                                    ? 'Chargement des formations…'
-                                    : `${results.length} formation${results.length > 1 ? 's' : ''} trouvée${results.length > 1 ? 's' : ''}`}
+                                    ? 'Chargement…'
+                                    : `${results.length} résultat${results.length > 1 ? 's' : ''}`}
                             </p>
                             <div className='flex items-center gap-3'>
                                 <button
@@ -224,7 +229,7 @@ const SearchPage = () => {
                                 <span className='flex h-16 w-16 items-center justify-center rounded-full bg-cream text-primary'>
                                     <Icon icon='tabler:search-off' className='text-3xl' />
                                 </span>
-                                <h2 className='text-xl font-bold'>Aucune formation ne correspond</h2>
+                                <h2 className='text-xl font-bold'>Aucun résultat ne correspond</h2>
                                 <p className='max-w-md text-ink/70'>
                                     Essayez de retirer quelques filtres ou d&apos;élargir votre recherche à d&apos;autres villes.
                                 </p>

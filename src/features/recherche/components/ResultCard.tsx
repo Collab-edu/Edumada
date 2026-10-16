@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
-import { formatDuration, formatFees } from '@/features/formations/format'
+import { OFFER_CTA, formatFees, offerFacts } from '@/features/formations/format'
 import type { FormationType, RegistrationStatus } from '@/features/formations/types'
 
 const REGISTRATION_BADGE: Record<RegistrationStatus, { label: string; className: string }> = {
@@ -69,14 +69,12 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite }: ResultCa
                 </div>
 
                 <ul className='grid grid-cols-2 gap-3 text-sm text-ink/80'>
-                    <li className='flex items-center gap-2'>
-                        <Icon icon='tabler:school' className='text-lg text-secondary shrink-0' />
-                        {formation.diploma}
-                    </li>
-                    <li className='flex items-center gap-2'>
-                        <Icon icon='tabler:clock' className='text-lg text-secondary shrink-0' />
-                        {formatDuration(formation.durationYears)}
-                    </li>
+                    {offerFacts(formation).map((fact) => (
+                        <li key={fact.label} className='flex items-center gap-2'>
+                            <Icon icon={fact.icon} className='text-lg text-secondary shrink-0' />
+                            {fact.label}
+                        </li>
+                    ))}
                     <li className='flex items-center gap-2'>
                         <Icon icon='tabler:device-laptop' className='text-lg text-secondary shrink-0' />
                         {formation.modality}
@@ -91,7 +89,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite }: ResultCa
                     <div>
                         {fees ? (
                             <p className='font-bold text-secondary'>
-                                {fees} <span className='font-normal text-ink/60'>/ an</span>
+                                {fees} <span className='font-normal text-ink/60'>/ {formation.feesPeriod}</span>
                             </p>
                         ) : (
                             <p className='text-ink/60'>Frais non renseignés</p>
@@ -103,7 +101,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite }: ResultCa
                     <Link
                         href={`/formations/${formation.id}`}
                         className='rounded-lg border border-primary px-5 py-2.5 text-center font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white'>
-                        Voir la formation
+                        {OFFER_CTA[formation.kind]}
                     </Link>
                 </div>
             </div>

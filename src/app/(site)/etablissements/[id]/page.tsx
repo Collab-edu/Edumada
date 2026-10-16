@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { readSiteData } from '@/data/server'
 import SchoolProfile from '@/features/etablissements/components/SchoolProfile'
 import { buildSchoolFaq } from '@/features/etablissements/faq'
+import { DEFAULT_FIELDS } from '@/features/categories/types'
 
 type Props = { params: Promise<{ id: string }> }
 
@@ -30,7 +31,11 @@ export default async function SchoolPage({ params }: Props) {
   if (!school) notFound()
 
   const formations = data.FormationData.filter((f) => f.schoolId === school.id)
-  const faq = buildSchoolFaq(school, formations)
+  const category = data.CategoryData.find((c) => c.id === school.category) ?? {
+    ...data.CategoryData[0],
+    fields: DEFAULT_FIELDS,
+  }
+  const faq = buildSchoolFaq(school, formations, category.fields)
 
   // Données structurées FAQPage : Google peut afficher les questions dans ses résultats.
   const faqJsonLd = {
@@ -48,6 +53,7 @@ export default async function SchoolPage({ params }: Props) {
       <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }} />
       <SchoolProfile
         school={school}
+        category={category}
         formations={formations}
         testimonials={data.TestimonialData.filter((t) => t.schoolId === school.id)}
         faq={faq}

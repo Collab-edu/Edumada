@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { Card, CardAction } from '@/components/ui/card'
-import { formatDuration } from '../format'
+import { OFFER_CTA, offerFacts } from '../format'
 import type { FormationType } from '../types'
 
 interface FormationCardProps {
@@ -41,16 +41,14 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite }: Forma
                         <Icon icon='tabler:map-pin' className='text-lg text-secondary' />
                         {formation.city}
                     </li>
-                    <li className='flex items-center gap-2'>
-                        <Icon icon='tabler:school' className='text-lg text-secondary' />
-                        {formation.diploma}
-                    </li>
-                    <li className='flex items-center gap-2'>
-                        <Icon icon='tabler:clock' className='text-lg text-secondary' />
-                        {formatDuration(formation.durationYears)}
-                    </li>
+                    {offerFacts(formation).map((fact) => (
+                        <li key={fact.label} className='flex items-center gap-2'>
+                            <Icon icon={fact.icon} className='text-lg text-secondary' />
+                            {fact.label}
+                        </li>
+                    ))}
                 </ul>
-                <CardAction href={`/formations/${formation.id}`}>Voir la formation</CardAction>
+                <CardAction href={`/formations/${formation.id}`}>{OFFER_CTA[formation.kind]}</CardAction>
             </div>
         </Card>
     )
