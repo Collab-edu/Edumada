@@ -53,12 +53,6 @@ export default function ContactPage() {
         <section className='pt-32 pb-20 sm:pt-40'>
             <div className='container mx-auto max-w-7xl px-4'>
                 <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
-                    <span className='inline-flex items-center gap-2 rounded-full bg-secondary/10 py-1 pr-4 pl-1 text-sm font-medium text-secondary'>
-                        <span className='flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white'>
-                            <Icon icon='tabler:school' className='text-sm' />
-                        </span>
-                        Votre guide des études à Madagascar
-                    </span>
                     <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
                         Contactez-nous <span className='text-primary'>dès aujourd&apos;hui</span>
                     </h1>
