@@ -1,0 +1,262 @@
+// Thème du back-office : CoreUI aux couleurs d'Edumada.
+@use "@coreui/coreui/scss/coreui" as * with (
+  $enable-deprecation-messages: false,
+  $primary: #0f4c5c,
+  $danger: #ff3b52,
+  $success: #2f9e74,
+  $info: #2a8fbd,
+  $warning: #f0a020,
+);
+@use "@coreui/chartjs/scss/coreui-chartjs";
+
+:root {
+  --edu-teal: #0f4c5c;
+  --edu-teal-dark: #082a33;
+  --edu-red: #ff3b52;
+  --edu-sage: #a7c4bc;
+  --edu-cream: #ffe5e8;
+  --edu-offwhite: #f6f8fa;
+  --edu-ink: #334155;
+  --edu-body-bg:
+    radial-gradient(1100px 520px at 100% -10%, rgba(255, 59, 82, .09), transparent 60%),
+    radial-gradient(900px 600px at -10% 30%, rgba(167, 196, 188, .28), transparent 60%),
+    linear-gradient(180deg, #f3f7f8 0%, #eef3f4 100%);
+  --edu-card-head-bg: linear-gradient(90deg, rgba(15, 76, 92, .06), rgba(167, 196, 188, .12));
+}
+
+body {
+  min-height: 100vh;
+  background: var(--edu-body-bg) fixed;
+  color: var(--edu-ink);
+}
+
+.wrapper {
+  width: 100%;
+  padding-inline: var(--cui-sidebar-occupy-start, 0) var(--cui-sidebar-occupy-end, 0);
+  will-change: auto;
+  @include transition(padding .15s);
+}
+
+.simplebar-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+// --- Barre latérale : dégradé sarcelle, entrée active marquée en rouge.
+.sidebar.sidebar-dark {
+  --cui-sidebar-bg: linear-gradient(180deg, #0f4c5c 0%, #0b3a46 55%, #082a33 100%);
+  --cui-sidebar-nav-title-color: var(--edu-sage);
+  --cui-sidebar-nav-link-color: rgba(255, 255, 255, .78);
+  --cui-sidebar-nav-link-icon-color: rgba(167, 196, 188, .9);
+  --cui-sidebar-nav-link-hover-bg: rgba(255, 255, 255, .08);
+  --cui-sidebar-nav-link-active-bg: rgba(255, 59, 82, .16);
+  --cui-sidebar-nav-link-active-icon-color: #ff8a99;
+  background: var(--cui-sidebar-bg);
+  border: 0 !important;
+  box-shadow: 4px 0 24px rgba(8, 42, 51, .18);
+
+  .sidebar-header {
+    border-color: rgba(255, 255, 255, .08) !important;
+    background: rgba(0, 0, 0, .12);
+  }
+  .sidebar-footer { border-color: rgba(255, 255, 255, .08) !important; }
+  .nav-title { letter-spacing: .08em; font-size: .7rem; }
+  .nav-link {
+    margin: 1px .5rem;
+    border-radius: .5rem;
+    position: relative;
+  }
+  .nav-link.active {
+    font-weight: 600;
+    color: #fff;
+    &::before {
+      content: "";
+      position: absolute;
+      inset-block: .45rem;
+      inset-inline-start: -.5rem;
+      width: 4px;
+      border-radius: 0 4px 4px 0;
+      background: var(--edu-red);
+    }
+  }
+}
+
+.sidebar-header {
+  min-height: calc(4rem + 1px); // stylelint-disable-line function-disallowed-list
+}
+.sidebar-brand-full { margin-left: 3px; }
+.sidebar-toggler { margin-inline-start: auto; }
+.sidebar-narrow,
+.sidebar-narrow-unfoldable:not(:hover) {
+  .sidebar-toggler { margin-inline-end: auto; }
+}
+
+// --- En-tête : verre dépoli + fin liseré rouge → sarcelle.
+.header {
+  --cui-header-bg: rgba(255, 255, 255, .82);
+  backdrop-filter: blur(10px);
+  border-bottom: 0;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, var(--edu-red), #ff8a5c 35%, var(--edu-sage) 70%, var(--edu-teal));
+  }
+  > .container-fluid { min-height: calc(4rem + 1px); } // stylelint-disable-line function-disallowed-list
+  > .container-fluid + .container-fluid { min-height: 2.75rem; }
+}
+.breadcrumb {
+  font-size: .875rem;
+  a { text-decoration: none; font-weight: 500; }
+}
+
+.footer {
+  min-height: calc(3rem + 1px); // stylelint-disable-line function-disallowed-list
+  --cui-footer-bg: transparent;
+  border-top: 1px solid rgba(15, 76, 92, .08);
+}
+
+// --- Bandeau de page : titre de la page sur dégradé de marque.
+.bo-banner {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  padding: 1.25rem 1.25rem 1.35rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  background:
+    radial-gradient(420px 220px at 100% 0%, rgba(255, 59, 82, .55), transparent 70%),
+    radial-gradient(360px 260px at 0% 120%, rgba(167, 196, 188, .45), transparent 70%),
+    linear-gradient(120deg, #0f4c5c 0%, #0d5f6e 55%, #12707f 100%);
+  box-shadow: 0 10px 30px rgba(15, 76, 92, .22);
+  &::after {
+    // Motif discret de cercles.
+    content: "";
+    position: absolute;
+    inset: auto -40px -60px auto;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 28px solid rgba(255, 255, 255, .06);
+  }
+  .bo-banner-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: .85rem;
+    background: rgba(255, 255, 255, .14);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18);
+  }
+  h1 { font-size: 1.35rem; font-weight: 700; margin: 0; color: #fff; }
+  p { margin: .25rem 0 0; font-size: .95rem; color: rgba(255, 255, 255, .82); }
+  .bo-banner-actions { position: relative; z-index: 1; }
+  @include media-breakpoint-up(md) {
+    padding: 1.5rem 1.75rem;
+    h1 { font-size: 1.6rem; }
+  }
+}
+
+// --- Cartes : ombre douce, en-tête teinté.
+.card {
+  border: 0;
+  border-radius: .9rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 6px 20px rgba(15, 76, 92, .07);
+}
+.card > .card-header:first-child {
+  background: var(--edu-card-head-bg);
+  border-bottom: 1px solid rgba(15, 76, 92, .08);
+  border-radius: .9rem .9rem 0 0;
+  h5 { color: var(--edu-teal); font-weight: 600; }
+}
+.table > thead th {
+  background: rgba(15, 76, 92, .05);
+  color: var(--edu-teal);
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-weight: 600;
+}
+
+// --- Indicateurs en dégradé (tableau de bord).
+.bo-widget {
+  --bo-from: #0f4c5c;
+  --bo-to: #1b7a8c;
+  border: 0;
+  color: #fff;
+  background: linear-gradient(135deg, var(--bo-from), var(--bo-to)) !important;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--bo-from) 30%, transparent);
+  .text-body-secondary, .text-white-50 { color: rgba(255, 255, 255, .78) !important; }
+  .card-header, .card-body { background: transparent; color: inherit; }
+  &.bo-widget-teal { --bo-from: #0f4c5c; --bo-to: #1b7a8c; }
+  &.bo-widget-red { --bo-from: #ff3b52; --bo-to: #ff7a59; }
+  &.bo-widget-sage { --bo-from: #3f8f7f; --bo-to: #7fb5a7; }
+  &.bo-widget-ink { --bo-from: #334155; --bo-to: #52627a; }
+  &.bo-widget-gold { --bo-from: #d98a00; --bo-to: #f2b544; }
+}
+
+// Pastille d'icône colorée (cartes de statistiques).
+.bo-icon-chip {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: .75rem;
+  flex: none;
+  background: rgba(15, 76, 92, .1);
+  color: var(--edu-teal);
+  &.chip-red { background: rgba(255, 59, 82, .12); color: var(--edu-red); }
+  &.chip-sage { background: rgba(167, 196, 188, .35); color: #2f6f62; }
+  &.chip-gold { background: rgba(240, 160, 32, .15); color: #b36f00; }
+}
+
+.btn-primary { box-shadow: 0 4px 12px rgba(15, 76, 92, .2); }
+
+// Édition de fiches : listes et images.
+.bo-thumb {
+  width: 96px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: var(--cui-border-radius);
+  background: var(--cui-tertiary-bg);
+}
+
+// --- Écran de connexion.
+.bo-login {
+  min-height: 100vh;
+  background:
+    radial-gradient(700px 420px at 85% 10%, rgba(255, 59, 82, .35), transparent 65%),
+    radial-gradient(600px 500px at 10% 90%, rgba(167, 196, 188, .35), transparent 65%),
+    linear-gradient(135deg, #082a33 0%, #0f4c5c 60%, #13687a 100%);
+  .card { box-shadow: 0 24px 60px rgba(0, 0, 0, .25); }
+  .bo-login-aside {
+    background: linear-gradient(160deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03));
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, .12);
+  }
+}
+
+// --- Mode sombre.
+@include color-mode(dark) {
+  --edu-body-bg:
+    radial-gradient(1100px 520px at 100% -10%, rgba(255, 59, 82, .08), transparent 60%),
+    radial-gradient(900px 600px at -10% 30%, rgba(167, 196, 188, .07), transparent 60%),
+    linear-gradient(180deg, #0f171c 0%, #121c22 100%);
+  --edu-card-head-bg: linear-gradient(90deg, rgba(167, 196, 188, .08), rgba(167, 196, 188, .02));
+  body { color: var(--cui-body-color); }
+  .header { --cui-header-bg: rgba(22, 31, 38, .85); }
+  .card { box-shadow: 0 6px 20px rgba(0, 0, 0, .3); }
+  .card > .card-header:first-child h5, .table > thead th { color: var(--edu-sage); }
+  .table > thead th { background: rgba(167, 196, 188, .06); }
+  .bo-icon-chip { background: rgba(167, 196, 188, .12); color: var(--edu-sage); }
+}
+
+@media print {
+  .sidebar, .header, .footer, .no-print, .bo-banner { display: none !important; }
+  .wrapper { padding: 0 !important; }
+  body { background: #fff; }
+  .card { box-shadow: none; }
+}

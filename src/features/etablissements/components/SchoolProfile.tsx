@@ -290,7 +290,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 <Icon icon='tabler:flag' /> Signaler une information erronée
                             </button>
                             <Link
-                                href={backofficeUrl(`/revendiquer/${school.id}`)}
+                                href={backofficeUrl(`/revendiquer?fiche=${school.id}`)}
                                 className='flex min-h-11 items-center gap-2 font-semibold text-secondary hover:text-primary'>
                                 <Icon icon='tabler:building-community' /> Vous représentez cet établissement ? Gérez cette fiche
                             </Link>

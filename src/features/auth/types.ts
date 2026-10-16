@@ -16,8 +16,11 @@ export type User = {
 /** Back-office séparé (dossier backoffice/) : établissements et administration. */
 export const BACKOFFICE_URL = (process.env.NEXT_PUBLIC_BACKOFFICE_URL ?? 'http://localhost:5173').replace(/\/+$/, '')
 
-/** Adresse d'une page du back-office (routage par « # »). */
-export const backofficeUrl = (path = '/dashboard') => `${BACKOFFICE_URL}/#${path}`
+/** Adresse d'une page du back-office : « /formule » → …/formule/, la requête éventuelle est conservée. */
+export const backofficeUrl = (path = '/dashboard') => {
+    const [route, query] = path.split('?')
+    return `${BACKOFFICE_URL}${route.replace(/\/?$/, '/')}${query ? `?${query}` : ''}`
+}
 
 /**
  * Espace de chaque type de compte : l'espace étudiant est sur le site,

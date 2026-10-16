@@ -1,0 +1,72 @@
+import CIcon from '@coreui/icons-react'
+import {
+    cilBank,
+    cilBullhorn,
+    cilChartLine,
+    cilCreditCard,
+    cilEducation,
+    cilHistory,
+    cilInbox,
+    cilList,
+    cilPeople,
+    cilPlus,
+    cilShieldAlt,
+    cilSpeedometer,
+    cilUser,
+    cilWallet,
+} from '@coreui/icons'
+import type { ReactNode } from 'react'
+import type { ManagedEstablishment, User } from '@/lib/types'
+
+export type NavBadge = { color: string; text: string }
+export type NavEntry = { kind: 'title'; name: string } | { kind: 'item'; name: string; to: string; icon: ReactNode; badge?: NavBadge }
+
+export type NavCounts = { newInquiries?: number; establishments?: number; moderation?: number; invoices?: number }
+
+const icon = (i: string[]) => <CIcon icon={i} customClassName='nav-icon' />
+const badge = (count?: number, color = 'danger'): NavBadge | undefined => (count ? { color, text: String(count) } : undefined)
+const title = (name: string): NavEntry => ({ kind: 'title', name })
+const item = (name: string, to: string, i: string[], b?: NavBadge): NavEntry => ({ kind: 'item', name, to, icon: icon(i), badge: b })
+
+/**
+ * Menu latéral selon le type de compte :
+ * - établissement : son tableau de bord, sa fiche, ses offres, ses demandes, sa formule ;
+ * - administrateur : pilotage de la plateforme, et l'établissement qu'il a choisi de gérer.
+ */
+export function buildNav({ user, current, counts = {} }: { user: User | null; current: ManagedEstablishment | null; counts?: NavCounts }): NavEntry[] {
+    const establishmentItems = current
+        ? [
+              item('Fiche établissement', '/fiche', cilBank),
+              item('Offres', '/offres', cilEducation),
+              item('Demandes', '/demandes', cilInbox, badge(counts.newInquiries)),
+              item('Statistiques', '/statistiques', cilChartLine),
+              item('Campagnes', '/campagnes', cilBullhorn, current.plan.code === 'premium' ? undefined : { color: 'secondary', text: 'PREMIUM' }),
+              item('Formule et factures', '/formule', cilCreditCard),
+          ]
+        : []
+
+    if (user?.role === 'admin') {
+        return [
+            item('Tableau de bord', '/dashboard', cilSpeedometer),
+            title('Plateforme'),
+            item('Établissements', '/admin/etablissements', cilBank, badge(counts.establishments, 'warning')),
+            item('Modération', '/admin/moderation', cilShieldAlt, badge(counts.moderation)),
+            item('Utilisateurs', '/admin/utilisateurs', cilPeople),
+            item('Catalogue', '/admin/catalogue', cilList),
+            title('Finances'),
+            item('Facturation', '/admin/facturation', cilWallet, badge(counts.invoices, 'info')),
+            item("Journal d'audit", '/admin/journal', cilHistory),
+            ...(current ? [title(`Géré : ${current.name}`), ...establishmentItems] : []),
+            title('Compte'),
+            item('Mon compte', '/compte', cilUser),
+        ]
+    }
+
+    return [
+        item('Tableau de bord', '/dashboard', cilSpeedometer),
+        ...(current ? [title('Mon établissement'), ...establishmentItems] : []),
+        title('Compte'),
+        item('Ajouter un établissement', '/nouvel-etablissement', cilPlus),
+        item('Mon compte', '/compte', cilUser),
+    ]
+}
