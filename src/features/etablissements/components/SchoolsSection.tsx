@@ -20,7 +20,7 @@ const SchoolsSection = () => {
                 {loading ? (
                     <CardSkeletonGrid count={4} className='h-[420px]' />
                 ) : (
-                    <AutoScroll duration={80}>
+                    <AutoScroll duration={160}>
                         {schools.map((school) => (
                             <SchoolCard key={school.id} school={school} />
                         ))}
