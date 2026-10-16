@@ -77,3 +77,10 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Sur mobile, le bouton « retour en haut » passe au-dessus d'une barre d'action collée en bas. */
+@media (width < 64rem) {
+  body:has([data-mobile-cta]) .scroll-to-top {
+    bottom: 5.5rem;
+  }
+}

@@ -31,7 +31,7 @@ const HeroFilters = () => {
     const searchHref = query ? `/recherche?${query}` : '/recherche'
 
     return (
-        <div className='relative mx-auto max-w-6xl mt-12'>
+        <div className='relative mx-auto max-w-6xl mt-8 sm:mt-12'>
             {/* Lueur colorée derrière la barre */}
             <div
                 aria-hidden='true'

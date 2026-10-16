@@ -58,13 +58,22 @@ export function FormationDetailPage({ formation, detail, school, otherFormations
         return () => observer.disconnect()
     }, [])
 
+    // Sur mobile, la barre d'onglets défile horizontalement : on garde l'onglet actif visible.
+    // On fait défiler la barre seule (et non la page, ce qui interromprait la lecture).
+    useEffect(() => {
+        const nav = document.querySelector<HTMLElement>('nav[aria-label="Sections de la page"]')
+        const tab = nav?.querySelector<HTMLElement>(`a[href="#${active}"]`)
+        if (!nav || !tab) return
+        nav.scrollTo({ left: tab.offsetLeft - nav.clientWidth / 2 + tab.clientWidth / 2, behavior: 'smooth' })
+    }, [active])
+
     return (
-        <div className='pt-28 pb-20'>
+        <div className='pt-24 pb-32 sm:pt-28 lg:pb-20'>
             <div className='container mx-auto max-w-7xl px-4'>
                 <nav aria-label="Fil d'Ariane" className='mb-4 text-sm text-ink/60'>
-                    <Link href='/' className='hover:text-primary'>Accueil</Link>
+                    <Link href='/' className='inline-block py-2 hover:text-primary'>Accueil</Link>
                     <span className='mx-2'>/</span>
-                    <Link href='/recherche' className='hover:text-primary'>Formations</Link>
+                    <Link href='/recherche' className='inline-block py-2 hover:text-primary'>Formations</Link>
                     <span className='mx-2'>/</span>
                     <span className='text-secondary'>{formation.title}</span>
                 </nav>
@@ -156,6 +165,35 @@ export function FormationDetailPage({ formation, detail, school, otherFormations
                 <div className='mt-20 border-t border-gray-100 pt-14'>
                     <SimilarFormations formations={similar} />
                 </div>
+            </div>
+
+            {/* Barre d'action mobile : le résumé latéral n'existe pas sur petit écran */}
+            <div
+                data-mobile-cta
+                className='fixed inset-x-0 bottom-0 z-40 flex items-center gap-2 border-t border-gray-100 bg-white/95 px-4 py-3 shadow-[0_-8px_24px_-12px_rgba(15,76,92,0.25)] backdrop-blur-sm lg:hidden'>
+                <button
+                    type='button'
+                    onClick={toggleFavorite}
+                    aria-pressed={isFavorite}
+                    aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+                    className='flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-secondary/20 text-secondary'>
+                    <Icon icon={isFavorite ? 'tabler:heart-filled' : 'tabler:heart'} className={cn('text-xl', isFavorite && 'text-primary')} />
+                </button>
+                <a
+                    href='#contact'
+                    className={cn(
+                        'flex h-12 flex-1 items-center justify-center gap-2 rounded-xl font-bold',
+                        detail.onlineApplication ? 'border border-secondary/20 text-secondary' : 'bg-primary text-white'
+                    )}>
+                    <Icon icon='tabler:message-circle' /> Contacter
+                </a>
+                {detail.onlineApplication && (
+                    <Link
+                        href={`/signup?formation=${formation.id}`}
+                        className='flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-primary font-bold text-white'>
+                        <Icon icon='tabler:send' /> Postuler
+                    </Link>
+                )}
             </div>
         </div>
     )

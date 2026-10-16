@@ -5,7 +5,7 @@ import withBasePath from '@/lib/base-path'
 
 const Banner = () => {
     return (
-        <section id='Home' className='relative bg-offwhite min-h-screen flex items-center pt-28 pb-20'>
+        <section id='Home' className='relative bg-offwhite lg:min-h-screen flex items-center pt-24 pb-12 sm:pt-28 sm:pb-20'>
             {/* Halos de couleur flous pour donner de la profondeur */}
             <div aria-hidden='true' className='pointer-events-none absolute inset-0 overflow-hidden'>
                 <div className='absolute -top-32 -left-32 h-[520px] w-[520px] rounded-full bg-cream blur-3xl opacity-90' />
@@ -23,7 +23,7 @@ const Banner = () => {
             <div className='relative w-full px-6 lg:px-8'>
                 <div className='container'>
                     <div className='flex flex-col gap-4 text-center'>
-                        <h1 className='text-[45px] leading-tight font-bold tracking-tight max-w-4xl mx-auto'>
+                        <h1 className='text-[30px] sm:text-[38px] lg:text-[45px] leading-tight font-bold tracking-tight max-w-4xl mx-auto'>
                             Trouvez votre formation à Madagascar et construisez votre{' '}
                             <span className='text-primary'>avenir</span>.
                         </h1>

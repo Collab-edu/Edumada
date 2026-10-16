@@ -90,7 +90,7 @@ export function SchoolFormation({ formation }: { formation: FormationType }) {
                         </button>
                         <Link
                             href={`/formations/${formation.id}`}
-                            className='font-semibold text-secondary underline underline-offset-4 decoration-secondary/30 hover:text-primary hover:decoration-primary'>
+                            className='py-2 font-semibold text-secondary underline underline-offset-4 decoration-secondary/30 hover:text-primary hover:decoration-primary'>
                             Fiche complète
                         </Link>
                     </div>

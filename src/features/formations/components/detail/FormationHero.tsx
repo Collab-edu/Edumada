@@ -83,8 +83,8 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                         ))}
                     </ul>
 
-                    {/* Actions principales */}
-                    <div className='flex flex-wrap items-center gap-3'>
+                    {/* Actions principales : pleine largeur sur mobile, en ligne sur grand écran */}
+                    <div className='grid grid-cols-1 sm:flex sm:flex-wrap sm:items-center gap-3 [&>*]:justify-center sm:[&>*]:justify-start'>
                         {detail.onlineApplication ? (
                             <Link
                                 href={`/signup?formation=${formation.id}`}

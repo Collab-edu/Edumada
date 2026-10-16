@@ -41,9 +41,9 @@ export function SchoolProfile({ school, formations, testimonials, faq }: SchoolP
             <div className='container mx-auto max-w-7xl px-4'>
                 {/* Fil d'Ariane */}
                 <nav aria-label="Fil d'Ariane" className='mb-4 text-sm text-ink/60'>
-                    <Link href='/' className='hover:text-primary'>Accueil</Link>
+                    <Link href='/' className='inline-block py-2 hover:text-primary'>Accueil</Link>
                     <span className='mx-2'>/</span>
-                    <Link href='/#schools-section' className='hover:text-primary'>Établissements</Link>
+                    <Link href='/#schools-section' className='inline-block py-2 hover:text-primary'>Établissements</Link>
                     <span className='mx-2'>/</span>
                     <span className='text-secondary'>{school.name}</span>
                 </nav>

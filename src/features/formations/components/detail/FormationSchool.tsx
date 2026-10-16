@@ -58,13 +58,13 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                     <div id='contact' className='scroll-mt-40 grid grid-cols-1 md:grid-cols-2 gap-5'>
                         <div className='flex flex-col gap-3'>
                             <SubTitle>Coordonnées</SubTitle>
-                            <a href={`tel:${school.phone.replace(/\s/g, '')}`} className='flex items-center gap-2 text-ink/80 hover:text-primary'>
+                            <a href={`tel:${school.phone.replace(/\s/g, '')}`} className='flex min-h-10 items-center gap-2 text-ink/80 hover:text-primary'>
                                 <Icon icon='tabler:phone' className='text-lg text-secondary' /> {school.phone}
                             </a>
-                            <a href={`mailto:${school.email}`} className='flex items-center gap-2 text-ink/80 hover:text-primary'>
+                            <a href={`mailto:${school.email}`} className='flex min-h-10 items-center gap-2 text-ink/80 hover:text-primary'>
                                 <Icon icon='tabler:mail' className='text-lg text-secondary' /> {school.email}
                             </a>
-                            <a href={school.website} target='_blank' rel='noopener noreferrer' className='flex items-center gap-2 text-primary hover:underline'>
+                            <a href={school.website} target='_blank' rel='noopener noreferrer' className='flex min-h-10 items-center gap-2 text-primary hover:underline'>
                                 <Icon icon='tabler:world' className='text-lg text-secondary' /> {school.website.replace(/^https?:\/\//, '')}
                             </a>
                             <span className='flex items-start gap-2 text-ink/80'>

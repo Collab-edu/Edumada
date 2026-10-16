@@ -32,11 +32,11 @@ function FilterGroup({ title, children, defaultOpen = true }: { title: string; c
                 type='button'
                 onClick={() => setOpen(!open)}
                 aria-expanded={open}
-                className='flex w-full items-center justify-between font-semibold text-secondary hover:cursor-pointer'>
+                className='flex min-h-11 w-full items-center justify-between font-semibold text-secondary hover:cursor-pointer'>
                 {title}
                 <Icon icon='tabler:chevron-down' className={cn('text-lg transition-transform duration-200', open && 'rotate-180')} />
             </button>
-            {open && <div className='mt-3 flex flex-col gap-2.5'>{children}</div>}
+            {open && <div className='mt-1 flex flex-col gap-0.5'>{children}</div>}
         </div>
     )
 }
@@ -49,8 +49,8 @@ function Choice({ type, name, label, checked, onChange }: {
     onChange: () => void
 }) {
     return (
-        <label className='flex items-center gap-2.5 text-ink/80 hover:text-secondary hover:cursor-pointer'>
-            <input type={type} name={name} checked={checked} onChange={onChange} className='h-4 w-4 accent-primary hover:cursor-pointer' />
+        <label className='flex min-h-10 items-center gap-3 text-ink/80 hover:text-secondary hover:cursor-pointer'>
+            <input type={type} name={name} checked={checked} onChange={onChange} className='h-5 w-5 accent-primary hover:cursor-pointer' />
             {label}
         </label>
     )

@@ -53,12 +53,31 @@ const SearchPage = () => {
     const toggleFavorite = (id: string) =>
         setFavorites((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]))
     const reset = () => setFilters(EMPTY_FILTERS)
+    // Sur mobile, Domaine / Ville / Type sont dans le panneau : on les compte dans le badge du bouton.
+    const mobileCount = chips.filter((c) => c.id !== 'q').length
+
+    const renderTopFilters = (className: string) =>
+        TOP_FILTERS.map(({ param, icon }) => {
+            const filter = heroFilters.find((f) => f.param === param)
+            if (!filter) return null
+            return (
+                <div key={param} className={className}>
+                    <FilterDropdown
+                        icon={icon}
+                        label={filter.label}
+                        options={filter.options}
+                        value={filters[param] || filter.options[0]}
+                        onChange={(value) => setFilters({ ...filters, [param]: value === filter.options[0] ? '' : value })}
+                    />
+                </div>
+            )
+        })
 
     return (
-        <section className='pt-32 pb-20'>
+        <section className='pt-24 pb-20 sm:pt-32'>
             <div className='container mx-auto max-w-7xl px-4'>
                 {/* En-tête */}
-                <div className='mb-8 flex flex-col gap-2'>
+                <div className='mb-6 sm:mb-8 flex flex-col gap-2'>
                     <h1 className='text-3xl md:text-4xl font-bold tracking-tight text-secondary'>
                         Trouvez votre formation
                     </h1>
@@ -68,7 +87,7 @@ const SearchPage = () => {
                 </div>
 
                 {/* Barre de recherche principale */}
-                <div className='mb-8 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)]'>
+                <div className='mb-6 sm:mb-8 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)]'>
                     <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 lg:items-center'>
                         <div className='rounded-xl px-4 py-3 lg:border-r lg:border-gray-100 lg:rounded-none'>
                             <label htmlFor='search-q' className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
@@ -84,25 +103,8 @@ const SearchPage = () => {
                                 className='mt-1 w-full bg-transparent py-1 text-base font-semibold text-ink outline-hidden placeholder:font-normal placeholder:text-ink/40'
                             />
                         </div>
-                        {TOP_FILTERS.map(({ param, icon }) => {
-                            const filter = heroFilters.find((f) => f.param === param)
-                            if (!filter) return null
-                            return (
-                                <div
-                                    key={param}
-                                    className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none lg:last:border-r-0'>
-                                    <FilterDropdown
-                                        icon={icon}
-                                        label={filter.label}
-                                        options={filter.options}
-                                        value={filters[param] || filter.options[0]}
-                                        onChange={(value) =>
-                                            setFilters({ ...filters, [param]: value === filter.options[0] ? '' : value })
-                                        }
-                                    />
-                                </div>
-                            )
-                        })}
+                        {/* Sur mobile, ces filtres passent dans le panneau « Filtres » pour laisser la place aux résultats. */}
+                        {renderTopFilters('hidden sm:block rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none lg:last:border-r-0')}
                     </div>
                 </div>
 
@@ -133,10 +135,13 @@ const SearchPage = () => {
                                     type='button'
                                     onClick={() => setPanelOpen(false)}
                                     aria-label='Fermer les filtres'
-                                    className='lg:hidden rounded-full bg-black/10 p-1 hover:cursor-pointer'>
+                                    className='lg:hidden rounded-full bg-black/10 p-2.5 hover:cursor-pointer'>
                                     <Icon icon='material-symbols:close-rounded' className='text-xl' />
                                 </button>
                             </div>
+                        </div>
+                        <div className='flex flex-col divide-y divide-gray-100 border-b border-gray-100 sm:hidden'>
+                            {renderTopFilters('py-3')}
                         </div>
                         <SearchFiltersPanel filters={filters} onChange={setFilters} />
                         <button
@@ -161,7 +166,9 @@ const SearchPage = () => {
                                     onClick={() => setPanelOpen(true)}
                                     className='lg:hidden inline-flex items-center gap-2 rounded-lg border border-secondary/20 bg-white px-4 py-2 font-semibold text-secondary hover:cursor-pointer'>
                                     <Icon icon='tabler:adjustments-horizontal' className='text-lg' />
-                                    Filtres{advancedCount > 0 && ` (${advancedCount})`}
+                                    Filtres
+                                    {mobileCount > 0 && <span className='sm:hidden'>({mobileCount})</span>}
+                                    {advancedCount > 0 && <span className='hidden sm:inline'>({advancedCount})</span>}
                                 </button>
                                 <label className='flex items-center gap-2 text-ink/70'>
                                     <span className='hidden sm:inline'>Trier par</span>

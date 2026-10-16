@@ -58,11 +58,11 @@ const Footer = () => {
                                     </p>
                                     <ul>
                                         {product.links.map((item, i) => (
-                                            <li key={i} className='mb-3'>
+                                            <li key={i} className='mb-1'>
                                                 <Link
                                                     href={item.href}
                                                     scroll={item.href !== "/"}
-                                                    className='text-white/60 hover:text-white text-sm font-normal mb-6'>
+                                                    className='inline-block py-2 text-white/60 hover:text-white text-sm font-normal'>
                                                     {item.label}
                                                 </Link>
                                             </li>
