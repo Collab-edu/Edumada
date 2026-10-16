@@ -59,7 +59,7 @@ export default function Moderation() {
                     </CFormSelect>
                 }
             >
-                <CNav variant='underline-border' className='mb-3 flex-nowrap overflow-auto'>
+                <CNav variant='underline-border' className='mb-3 flex-nowrap bo-tabs'>
                     {TABS.map((t) => (
                         <CNavItem key={t.id}>
                             <CNavLink

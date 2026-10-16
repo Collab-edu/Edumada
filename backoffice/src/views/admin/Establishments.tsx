@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useSearchParams } from 'next/navigation'
 import {
-    CAlert,
     CButton,
     CButtonGroup,
     CCol,
@@ -242,7 +241,7 @@ function EstablishmentList({ category }: { category: string | null }) {
             />
 
             <PageCard>
-                <CNav variant='underline-border' className='mb-3 flex-nowrap overflow-auto'>
+                <CNav variant='underline-border' className='mb-3 flex-nowrap bo-tabs'>
                     {tabs.map((t) => (
                         <CNavItem key={t.id}>
                             <CNavLink as='button' active={tab === t.id} onClick={() => changeTab(t.id)} className='text-nowrap'>
@@ -296,53 +295,87 @@ function EstablishmentList({ category }: { category: string | null }) {
                     </EmptyState>
                 ) : tab === 'nouveaux' ? (
                     <>
-                        <CAlert color='info' className='small'>
-                            Vérifiez que l&apos;établissement existe et que les coordonnées sont joignables avant d&apos;accepter. L&apos;établissement est prévenu par e-mail de
-                            votre décision.
-                        </CAlert>
-                        {data.data.map((e) => (
-                            <div key={e.id} className='border rounded-3 p-3 mb-3 border-start border-4 border-warning'>
-                                <div className='d-flex flex-wrap align-items-start gap-3'>
-                                    <div className='me-auto' style={{ minWidth: 220 }}>
-                                        <div className='fw-semibold fs-5'>{e.name}</div>
-                                        <div className='small text-body-secondary'>
-                                            {[e.subCategory || categoryLabel(e.category), e.type, e.city].filter(Boolean).join(' · ')} · demande du {formatDate(e.createdAt ?? e.updatedAt)}
-                                        </div>
-                                        <div className='small mt-2 d-flex flex-wrap gap-3'>
+                        <p className='small text-body-secondary mb-2'>
+                            Vérifiez que l&apos;établissement existe et que ses coordonnées sont joignables avant d&apos;accepter : il est prévenu par e-mail de votre décision.
+                        </p>
+                        <CTable align='middle' hover responsive className='mb-0'>
+                            <CTableHead className='text-nowrap'>
+                                <CTableRow>
+                                    <CTableHeaderCell>Établissement</CTableHeaderCell>
+                                    <CTableHeaderCell className='d-none d-lg-table-cell'>Contact</CTableHeaderCell>
+                                    <CTableHeaderCell className='d-none d-lg-table-cell'>Demandé par</CTableHeaderCell>
+                                    <CTableHeaderCell className='d-none d-lg-table-cell'>Date</CTableHeaderCell>
+                                    <CTableHeaderCell className='text-end'>Adhésion</CTableHeaderCell>
+                                </CTableRow>
+                            </CTableHead>
+                            <CTableBody>
+                                {data.data.map((e) => (
+                                    <CTableRow key={e.id}>
+                                        <CTableDataCell>
+                                            <button type='button' className='btn btn-link p-0 fw-semibold text-start text-decoration-none' onClick={() => select(e.id, '/fiche/')}>
+                                                {e.name}
+                                            </button>
+                                            <div className='small text-body-secondary'>{[e.subCategory || categoryLabel(e.category), e.type, e.city].filter(Boolean).join(' · ')}</div>
+                                            {e.accreditation && <div className='small'>Accréditation déclarée : {e.accreditation}</div>}
+                                            {/* Petit écran : coordonnées et date sous le nom (colonnes masquées). */}
+                                            <div className='small d-lg-none mt-1'>
+                                                {[e.email, e.phone].filter(Boolean).join(' · ') || <span className='text-danger'>Aucune coordonnée</span>}
+                                                <div className='text-body-secondary'>Demande du {formatDate(e.createdAt ?? e.updatedAt)}</div>
+                                            </div>
+                                        </CTableDataCell>
+                                        <CTableDataCell className='small text-nowrap d-none d-lg-table-cell'>
                                             {e.email && (
-                                                <a href={`mailto:${e.email}`} className='text-decoration-none'>
-                                                    <CIcon icon={cilEnvelopeClosed} className='me-1' />
-                                                    {e.email}
-                                                </a>
+                                                <div>
+                                                    <a href={`mailto:${e.email}`} className='text-decoration-none'>
+                                                        <CIcon icon={cilEnvelopeClosed} className='me-1' />
+                                                        {e.email}
+                                                    </a>
+                                                </div>
                                             )}
                                             {e.phone && (
-                                                <a href={`tel:${e.phone.replace(/\s/g, '')}`} className='text-decoration-none'>
-                                                    <CIcon icon={cilPhone} className='me-1' />
-                                                    {e.phone}
-                                                </a>
+                                                <div>
+                                                    <a href={`tel:${e.phone.replace(/\s/g, '')}`} className='text-decoration-none'>
+                                                        <CIcon icon={cilPhone} className='me-1' />
+                                                        {e.phone}
+                                                    </a>
+                                                </div>
                                             )}
-                                        </div>
-                                        <div className='small text-body-secondary mt-1'>
-                                            Demandé par : {e.members?.length ? e.members.map((m) => `${m.name} (${m.email})`).join(', ') : 'aucun compte rattaché'}
-                                        </div>
-                                        {e.accreditation && <div className='small mt-1'>Accréditation déclarée : {e.accreditation}</div>}
-                                    </div>
-                                    <div className='d-flex flex-wrap gap-2'>
-                                        <CButton color='success' className='text-white' onClick={() => moderate(e, { status: 'published' }, `${e.name} est inscrit et publié sur Edumada.`)}>
-                                            <CIcon icon={cilCheckAlt} className='me-1' />
-                                            Accepter l&apos;adhésion
-                                        </CButton>
-                                        <CButton color='danger' variant='outline' onClick={() => setRefusing(e)}>
-                                            <CIcon icon={cilX} className='me-1' />
-                                            Refuser
-                                        </CButton>
-                                        <CButton color='secondary' variant='ghost' onClick={() => select(e.id, '/fiche/')}>
-                                            Voir la fiche
-                                        </CButton>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                                            {!e.email && !e.phone && <span className='text-danger'>Aucune coordonnée</span>}
+                                        </CTableDataCell>
+                                        <CTableDataCell className='small d-none d-lg-table-cell'>
+                                            {e.members?.length ? (
+                                                e.members.map((m) => (
+                                                    <div key={m.id}>
+                                                        {m.name}
+                                                        <div className='text-body-secondary'>{m.email}</div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <span className='text-body-secondary'>Aucun compte rattaché</span>
+                                            )}
+                                        </CTableDataCell>
+                                        <CTableDataCell className='small text-body-secondary text-nowrap d-none d-lg-table-cell'>{formatDate(e.createdAt ?? e.updatedAt)}</CTableDataCell>
+                                        <CTableDataCell className='text-end'>
+                                            <div className='d-flex flex-column flex-sm-row justify-content-end gap-2'>
+                                            <CButton
+                                                size='sm'
+                                                color='success'
+                                                className='text-white text-nowrap'
+                                                onClick={() => moderate(e, { status: 'published' }, `${e.name} est inscrit et publié sur Edumada.`)}
+                                            >
+                                                <CIcon icon={cilCheckAlt} className='me-1' />
+                                                Accepter
+                                            </CButton>
+                                            <CButton size='sm' color='danger' variant='outline' className='text-nowrap' onClick={() => setRefusing(e)}>
+                                                <CIcon icon={cilX} className='me-1' />
+                                                Refuser
+                                            </CButton>
+                                            </div>
+                                        </CTableDataCell>
+                                    </CTableRow>
+                                ))}
+                            </CTableBody>
+                        </CTable>
                         <Pager meta={data.meta} onChange={(page) => setFilters({ ...filters, page })} />
                     </>
                 ) : (
@@ -398,7 +431,7 @@ function EstablishmentList({ category }: { category: string | null }) {
                                             <CButton size='sm' color='primary' className='me-2' onClick={() => select(e.id, '/fiche/')}>
                                                 Gérer
                                             </CButton>
-                                            <CDropdown alignment='end'>
+                                            <CDropdown alignment='end' className='d-inline-block'>
                                                 <CDropdownToggle color='secondary' variant='outline' size='sm'>
                                                     Décider
                                                 </CDropdownToggle>

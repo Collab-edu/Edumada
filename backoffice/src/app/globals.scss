@@ -187,6 +187,14 @@ body {
 
 .btn-primary { box-shadow: none; }
 
+// Onglets : défilement horizontal sur mobile, sans barre de défilement visible.
+.bo-tabs {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
 // Édition de fiches : listes et images.
 .bo-thumb {
   width: 96px;

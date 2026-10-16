@@ -202,7 +202,7 @@ export default function Inquiries() {
                 }
             />
             <PageCard>
-                <CNav variant='underline-border' className='mb-3 flex-nowrap overflow-auto'>
+                <CNav variant='underline-border' className='mb-3 flex-nowrap bo-tabs'>
                     {[['', `Toutes (${total})`], ...Object.entries(STATUS_LABELS).map(([key, label]) => [key, `${label} (${counts[key as InquiryStatus] ?? 0})`])].map(
                         ([value, label]) => (
                             <CNavItem key={value}>
