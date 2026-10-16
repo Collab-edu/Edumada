@@ -25,7 +25,7 @@ const FormationsSection = () => {
                 {loading ? (
                     <CardSkeletonGrid count={4} className='h-[420px]' />
                 ) : (
-                    <AutoScroll duration={35}>
+                    <AutoScroll duration={70}>
                         {formations.slice(0, MAX_HOME_FORMATIONS).map((formation) => (
                             <FormationCard
                                 key={formation.id}
