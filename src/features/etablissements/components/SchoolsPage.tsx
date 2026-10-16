@@ -32,7 +32,7 @@ const VARIANTS = {
         noun: ['établissement', 'établissements'],
         cta: { title: 'Vous dirigez un établissement ?', text: 'Présentez vos formations gratuitement et recevez les demandes des futurs élèves et étudiants.' },
     },
-    /** Enseignement supérieur uniquement, filtré par type (université, institut…). */
+    /** Enseignement supérieur uniquement, filtré par filière (domaines enseignés). */
     universites: {
         categoryId: 'superieur',
         eyebrow: 'Universités',
@@ -41,7 +41,7 @@ const VARIANTS = {
         image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70',
         imageAlt: 'Étudiants de l’enseignement supérieur',
         listTitle: 'Les universités et écoles supérieures',
-        firstFilter: { label: 'Type d’établissement', icon: 'tabler:building-bank', placeholder: 'Ex. : université, institut…' },
+        firstFilter: { label: 'Filière', icon: FILTER_UI.domaine.icon, placeholder: 'Ex. : informatique, droit…' },
         noun: ['établissement', 'établissements'],
         cta: { title: 'Vous dirigez une université ou une école supérieure ?', text: 'Présentez vos cursus gratuitement et recevez les demandes des futurs étudiants.' },
     },
@@ -56,7 +56,7 @@ const toSuggestions = (values: string[]) =>
             return { value, hint: `${count} établissement${count > 1 ? 's' : ''}` }
         })
 
-/** Liste d'établissements filtrable : tous (par catégorie) ou les universités (par type). */
+/** Liste d'établissements filtrable : tous (par catégorie) ou les universités (par filière). */
 export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeof VARIANTS }) {
     const config = VARIANTS[variant]
     const { data: allSchools, loading } = useSiteData('SchoolData')
@@ -64,15 +64,15 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
     const [filters, setFilters] = useState({ kind: '', city: '' })
 
     const schools = useMemo(() => (config.categoryId ? allSchools.filter((s) => s.category === config.categoryId) : allSchools), [allSchools, config.categoryId])
-    // Premier filtre : catégorie (tous les établissements) ou sous-catégorie (universités).
-    const kindOf = useMemo(() => {
-        if (config.categoryId) return (s: SchoolType) => s.subCategory
+    // Premier filtre : catégorie (tous les établissements) ou filières enseignées (universités).
+    const kindsOf = useMemo(() => {
+        if (config.categoryId) return (s: SchoolType) => s.tags
         const labels = new Map(categories.map((c) => [c.id, c.shortLabel]))
-        return (s: SchoolType) => labels.get(s.category) ?? ''
+        return (s: SchoolType) => [labels.get(s.category) ?? '']
     }, [categories, config.categoryId])
-    const kindSuggestions = useMemo(() => toSuggestions(schools.map(kindOf)), [schools, kindOf])
+    const kindSuggestions = useMemo(() => toSuggestions(schools.flatMap(kindsOf)), [schools, kindsOf])
     const citySuggestions = useMemo(() => toSuggestions(schools.map((s) => s.city)), [schools])
-    const shown = schools.filter((s) => (!filters.kind || kindOf(s) === filters.kind) && (!filters.city || s.city === filters.city))
+    const shown = schools.filter((s) => (!filters.kind || kindsOf(s).includes(filters.kind)) && (!filters.city || s.city === filters.city))
     const filtered = !!(filters.kind || filters.city)
 
     return (
@@ -105,8 +105,11 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
             {/* Établissements */}
             <section>
                 <div className='container mx-auto max-w-7xl px-4'>
-                    <SectionHeader title={config.listTitle} description='Filtrez par type et par ville pour trouver l’établissement qui correspond à votre projet.' />
-                    {/* Filtre : type et localisation */}
+                    <SectionHeader
+                        title={config.listTitle}
+                        description={`Filtrez par ${config.firstFilter.label.toLowerCase()} et par ville pour trouver l’établissement qui correspond à votre projet.`}
+                    />
+                    {/* Filtre : catégorie ou filière, et localisation */}
                     <form
                         role='search'
                         aria-label='Filtrer les établissements'
