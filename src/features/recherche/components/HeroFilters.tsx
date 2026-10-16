@@ -1,32 +1,58 @@
 'use client'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { useSiteData } from '@/data/site-data'
-import FilterDropdown from './FilterDropdown'
+import SuggestInput, { type Suggestion } from './SuggestInput'
 
-// Icône affichée devant chaque filtre, selon son paramètre d'URL
-const FILTER_ICONS: Record<string, string> = {
-    categorie: 'tabler:category',
-    domaine: 'tabler:book-2',
-    ville: 'tabler:map-pin',
-    type: 'tabler:building-community',
+// Icône et exemple de saisie de chaque filtre, selon son paramètre d'URL
+const FILTER_UI: Record<string, { icon: string; placeholder: string; label?: string }> = {
+    categorie: { icon: 'tabler:category', placeholder: 'Ex. : crèche, université…', label: 'Catégorie' },
+    domaine: { icon: 'tabler:book-2', placeholder: 'Ex. : informatique, santé…' },
+    ville: { icon: 'tabler:map-pin', placeholder: 'Ex. : Antananarivo…' },
+    type: { icon: 'tabler:building-community', placeholder: 'Public ou privé' },
 }
+
+const offersLabel = (count: number) => `${count} offre${count > 1 ? 's' : ''}`
 
 const HeroFilters = () => {
     const { data: filters } = useSiteData('HeroFilterData')
-    // Valeur choisie par filtre (par libellé) ; sans choix, la première option s'applique.
+    const { data: formations } = useSiteData('FormationData')
+    const { data: schools } = useSiteData('SchoolData')
+    const { data: categories } = useSiteData('CategoryData')
+    // Valeur saisie par filtre (paramètre d'URL → valeur) ; vide = pas de filtre.
     const [selected, setSelected] = useState<Record<string, string>>({})
 
-    const handleChange = (label: string, value: string) => {
-        setSelected((prev) => ({ ...prev, [label]: value }))
-    }
+    /** Suggestions de chaque filtre, avec le nombre d'offres correspondantes. */
+    const suggestions = useMemo(() => {
+        const count = (predicate: (f: (typeof formations)[number]) => boolean) => formations.filter(predicate).length
+        const result: Record<string, Suggestion[]> = {}
+        for (const filter of filters) {
+            // La première option (« Toutes les… ») correspond à un champ vide.
+            let values = filter.options.slice(1)
+            if (filter.param === 'ville') {
+                // Les villes des établissements référencés complètent la liste de départ.
+                values = [...new Set([...values, ...schools.map((s) => s.city)])]
+            }
+            result[filter.param] = values.map((value) => {
+                const n =
+                    filter.param === 'domaine'
+                        ? count((f) => f.domain === value)
+                        : filter.param === 'ville'
+                            ? count((f) => f.city === value)
+                            : filter.param === 'type'
+                                ? count((f) => f.schoolType === value)
+                                : count((f) => categories.find((c) => c.id === f.category)?.shortLabel === value)
+                return { value, hint: formations.length ? offersLabel(n) : undefined }
+            })
+        }
+        return result
+    }, [filters, formations, schools, categories])
 
-    // Seuls les filtres réellement choisis (différents de « Tous… ») passent dans l'URL.
+    // Seuls les filtres renseignés passent dans l'URL de la page /recherche.
     const params = new URLSearchParams()
     for (const filter of filters) {
-        const value = selected[filter.label]
-        if (value && value !== filter.options[0]) params.set(filter.param, value)
+        if (selected[filter.param]) params.set(filter.param, selected[filter.param])
     }
     const query = params.toString()
     const searchHref = query ? `/recherche?${query}` : '/recherche'
@@ -46,14 +72,15 @@ const HeroFilters = () => {
                 <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5 lg:items-center'>
                     {filters.map((filter) => (
                         <div
-                            key={filter.label}
-                            className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none'>
-                            <FilterDropdown
-                                icon={FILTER_ICONS[filter.param]}
-                                label={filter.label}
-                                options={filter.options}
-                                value={selected[filter.label] ?? filter.options[0]}
-                                onChange={(value) => handleChange(filter.label, value)}
+                            key={filter.param}
+                            className='rounded-xl px-4 py-3 text-left transition-colors duration-200 focus-within:bg-offwhite hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none'>
+                            <SuggestInput
+                                icon={FILTER_UI[filter.param]?.icon}
+                                label={FILTER_UI[filter.param]?.label ?? filter.label}
+                                placeholder={FILTER_UI[filter.param]?.placeholder ?? filter.options[0]}
+                                suggestions={suggestions[filter.param] ?? []}
+                                value={selected[filter.param] ?? ''}
+                                onChange={(value) => setSelected((prev) => ({ ...prev, [filter.param]: value }))}
                             />
                         </div>
                     ))}
