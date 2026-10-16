@@ -1,58 +1,65 @@
 'use client'
 import Image from 'next/image'
+import Link from 'next/link'
 import { imageOr } from '@/lib/media'
 import { cn } from '@/lib/utils'
 import { Icon } from '@/components/ui/icon'
-import { Card, CardAction } from '@/components/ui/card'
-import { OFFER_CTA, offerFacts } from '../format'
+import { Card } from '@/components/ui/card'
+import { formatTuition, offerFacts } from '../format'
 import type { FormationType } from '../types'
 
 interface FormationCardProps {
     formation: FormationType
     isFavorite: boolean
     onToggleFavorite: () => void
-    /** Version basse et large (bandeau défilant de l'accueil). */
+    /** Version basse (bandeaux défilants, grilles de 4). */
     compact?: boolean
 }
 
+/** Carte d'offre : photo avec le domaine, titre, établissement, infos clés et frais. Toute la carte mène à la fiche. */
 export function FormationCard({ formation, isFavorite, onToggleFavorite, compact = false }: FormationCardProps) {
+    const tuition = formatTuition(formation)
+
     return (
-        <Card className='flex h-full flex-col overflow-hidden'>
-            <div className={cn('relative overflow-hidden bg-cream', compact ? 'h-32' : 'h-44')}>
-                <Image src={imageOr(formation.imageSrc)} alt={formation.title} fill className='object-cover' />
+        <Card className='relative flex h-full flex-col overflow-hidden'>
+            <div className={cn('relative overflow-hidden bg-cream', compact ? 'h-40' : 'h-48')}>
+                <Image src={imageOr(formation.imageSrc)} alt='' fill className='object-cover transition-transform duration-500 group-hover:scale-105' />
+                {formation.domain && (
+                    <span className='absolute bottom-3 left-3 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white'>{formation.domain}</span>
+                )}
                 <button
                     type='button'
                     onClick={onToggleFavorite}
                     aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
                     aria-pressed={isFavorite}
-                    className='absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur-sm transition-colors duration-300 hover:bg-white hover:cursor-pointer'>
-                    <Icon
-                        icon={isFavorite ? 'tabler:heart-filled' : 'tabler:heart'}
-                        className={`text-xl ${isFavorite ? 'text-primary' : 'text-secondary'}`}
-                    />
+                    className='absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur-sm transition-colors duration-300 hover:bg-white hover:cursor-pointer'>
+                    <Icon icon={isFavorite ? 'tabler:heart-filled' : 'tabler:heart'} className={cn('text-lg', isFavorite ? 'text-primary' : 'text-secondary')} />
                 </button>
             </div>
 
-            <div className={cn('flex flex-1 flex-col', compact ? 'gap-3 px-5 py-4' : 'gap-4 p-5')}>
-                <div className='flex flex-col gap-1'>
-                    <h3 className='text-lg font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
-                        {formation.title}
+            <div className='flex flex-1 flex-col gap-3 p-4'>
+                <div className='flex flex-col gap-0.5'>
+                    <h3 className='text-base font-bold leading-snug text-secondary group-hover:text-primary duration-300'>
+                        {/* Lien étiré : toute la carte est cliquable, le bouton favori reste au-dessus. */}
+                        <Link href={`/formations/${formation.id}`} className='after:absolute after:inset-0'>
+                            {formation.title}
+                        </Link>
                     </h3>
-                    <p className={cn('text-ink/60', compact && 'text-sm')}>{formation.school}</p>
+                    <p className='truncate text-sm text-ink/60'>{formation.school}</p>
                 </div>
-                <ul className={cn('text-ink/80', compact ? 'grid grid-cols-2 gap-x-3 gap-y-1.5 text-sm' : 'flex flex-col gap-2')}>
-                    <li className='flex items-center gap-2'>
-                        <Icon icon='tabler:map-pin' className='shrink-0 text-lg text-secondary' />
-                        {formation.city}
-                    </li>
+                <ul className='flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-ink/70'>
                     {offerFacts(formation).map((fact) => (
-                        <li key={fact.label} className='flex items-center gap-2'>
-                            <Icon icon={fact.icon} className='shrink-0 text-lg text-secondary' />
+                        <li key={fact.label} className='flex items-center gap-1.5'>
+                            <Icon icon={fact.icon} className='shrink-0 text-base text-secondary' />
                             {fact.label}
                         </li>
                     ))}
+                    <li className='flex items-center gap-1.5'>
+                        <Icon icon='tabler:map-pin' className='shrink-0 text-base text-secondary' />
+                        {formation.city}
+                    </li>
                 </ul>
-                <CardAction href={`/formations/${formation.id}`} className={cn(compact && 'py-2.5 text-sm')}>{OFFER_CTA[formation.kind]}</CardAction>
+                <p className={cn('mt-auto pt-1 font-bold', tuition ? 'text-primary' : 'text-sm font-medium text-ink/50')}>{tuition ?? 'Frais à préciser'}</p>
             </div>
         </Card>
     )
