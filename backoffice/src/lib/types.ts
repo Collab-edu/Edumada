@@ -22,6 +22,20 @@ export type Paginated<T> = {
     meta: { current_page: number; last_page: number; total: number; per_page: number }
 }
 
+/** Actualité ou article de blog (rédigé par l'administrateur). */
+export type Article = {
+    id: string
+    title: string
+    category: string
+    categoryLabel: string
+    excerpt: string
+    content: string
+    coverImage: string | null
+    publishedAt: string | null
+    published: boolean
+    updatedAt: string
+}
+
 export type CategoryFields = { diplomas: boolean; programme: boolean; level: boolean; childAge: boolean; duration: boolean; careers: boolean }
 
 export type Category = {

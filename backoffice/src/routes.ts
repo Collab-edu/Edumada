@@ -15,6 +15,7 @@ import {
     cilWallet,
     cilFile,
     cilFlagAlt,
+    cilNewspaper,
 } from '@coreui/icons'
 import type { UserRole } from '@/lib/types'
 
@@ -54,6 +55,7 @@ export const routes: RouteMeta[] = [
     { path: '/admin/etablissements', name: 'Établissements', description: 'Toutes les fiches : validation, vérification, formules.', icon: cilBank, roles: ADMIN },
     { path: '/admin/moderation', name: 'Modération', description: 'Revendications, avis et signalements à traiter.', icon: cilShieldAlt, roles: ADMIN },
     { path: '/admin/utilisateurs', name: 'Utilisateurs', description: 'Étudiants inscrits sur Edumada.', icon: cilPeople, roles: ADMIN },
+    { path: '/admin/actualites', name: 'Actualités', description: 'Articles et actualités publiés sur le site.', icon: cilNewspaper, roles: ADMIN },
     { path: '/admin/catalogue', name: 'Catalogue', description: 'Catégories, domaines et formules.', icon: cilList, roles: ADMIN },
     { path: '/admin/facturation', name: 'Facturation', description: 'Factures, paiements et abonnements.', icon: cilWallet, roles: ADMIN },
     { path: '/admin/journal', name: "Journal d'audit", description: 'Historique des actions sensibles.', icon: cilHistory, roles: ADMIN },

@@ -19,6 +19,10 @@
         {
             "label": "Orientation",
             "href": "/orientation/"
+        },
+        {
+            "label": "Actualités",
+            "href": "/actualites/"
         }
     ],
     "DomainData": [
@@ -2598,6 +2602,10 @@
                 {
                     "label": "Orientation",
                     "href": "/orientation/"
+                },
+                {
+                    "label": "Actualités",
+                    "href": "/actualites/"
                 },
                 {
                     "label": "Établissements : nos formules",

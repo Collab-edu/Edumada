@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Api\V1\Admin\BillingController as AdminBillingController;
 use App\Http\Controllers\Api\V1\Admin\EstablishmentController as AdminEstablishmentController;
 use App\Http\Controllers\Api\V1\Admin\ModerationController;
 use App\Http\Controllers\Api\V1\Admin\OverviewController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
+use App\Http\Controllers\Api\V1\ArticleController;
 use App\Http\Controllers\Api\V1\Auth\CurrentUserController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\RegisteredUserController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\Api\V1\Auth\TokenController;
 use App\Http\Controllers\Api\V1\BillingController;
 use App\Http\Controllers\Api\V1\CampaignController;
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\ContactController;
 use App\Http\Controllers\Api\V1\DomainController;
 use App\Http\Controllers\Api\V1\EstablishmentClaimController;
 use App\Http\Controllers\Api\V1\EstablishmentController;
@@ -26,7 +29,6 @@ use App\Http\Controllers\Api\V1\ManagedEstablishmentController;
 use App\Http\Controllers\Api\V1\OfferController;
 use App\Http\Controllers\Api\V1\PlanController;
 use App\Http\Controllers\Api\V1\ReferenceDataController;
-use App\Http\Controllers\Api\V1\ContactController;
 use App\Http\Controllers\Api\V1\ReportController;
 use App\Http\Controllers\Api\V1\ReviewController;
 use App\Http\Controllers\Api\V1\TrackController;
@@ -46,6 +48,8 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('sponsored', [CampaignController::class, 'sponsored'])->name('sponsored');
     Route::post('track', [TrackController::class, 'store'])->middleware('throttle:track')->name('track');
     Route::post('reports', [ReportController::class, 'store'])->middleware('throttle:reports')->name('reports.store');
+    Route::get('articles', [ArticleController::class, 'index'])->name('articles.index');
+    Route::get('articles/{slug}', [ArticleController::class, 'show'])->name('articles.show');
     Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:contact')->name('contact.store');
 
     // Authentification.
@@ -124,6 +128,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::put('subscriptions/{subscription}/cancel', [AdminBillingController::class, 'cancelSubscription'])->name('subscriptions.cancel');
             Route::patch('plans/{plan:code}', [AdminBillingController::class, 'updatePlan'])->name('plans.update');
             Route::get('campaigns', [AdminBillingController::class, 'campaigns'])->name('campaigns.index');
+            Route::apiResource('articles', AdminArticleController::class)->only(['index', 'store', 'update', 'destroy']);
         });
     });
 });
