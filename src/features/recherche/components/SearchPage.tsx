@@ -17,14 +17,12 @@ import {
     type SortValue,
 } from '../filters'
 import { useOfferSearch, useSponsoredOffers } from '../useOfferSearch'
-import { FILTER_UI, useFilterSuggestions } from '../useFilterSuggestions'
+import { FILTER_UI, TOP_FILTERS, useFilterSuggestions } from '../useFilterSuggestions'
 
-// Filtres principaux repris du Hero, avec saisie et suggestions.
-const TOP_FILTERS = ['categorie', 'domaine', 'ville', 'type'] as const
 
 const SearchPage = () => {
     const searchParams = useSearchParams()
-    const { filters: heroFilters, suggestions } = useFilterSuggestions()
+    const { suggestions } = useFilterSuggestions()
     const { isFavorite, toggleFavorite } = useAuth()
 
     const [filters, setFilters] = useState<SearchFilters>(() => filtersFromParams(searchParams))
@@ -54,14 +52,12 @@ const SearchPage = () => {
     const mobileCount = chips.filter((c) => c.id !== 'q').length
 
     const renderTopFilters = (className: string) =>
-        TOP_FILTERS.map((param) => {
-            const filter = heroFilters.find((f) => f.param === param)
-            if (!filter) return null
+        TOP_FILTERS.map(({ param, label }) => {
             return (
                 <div key={param} className={className}>
                     <SuggestInput
                         icon={FILTER_UI[param].icon}
-                        label={FILTER_UI[param].label ?? filter.label}
+                        label={FILTER_UI[param].label ?? label}
                         placeholder={FILTER_UI[param].placeholder}
                         suggestions={suggestions[param] ?? []}
                         value={filters[param]}

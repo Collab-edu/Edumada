@@ -11,6 +11,17 @@ export const FILTER_UI: Record<string, { icon: string; placeholder: string; labe
     type: { icon: 'tabler:building-community', placeholder: 'Public ou privé' },
 }
 
+/**
+ * Filtres principaux, connus d'avance (mêmes libellés que HeroFilterData) :
+ * les champs s'affichent tout de suite, seules leurs suggestions dépendent des données.
+ */
+export const TOP_FILTERS = [
+    { param: 'categorie', label: "Catégorie d'établissement" },
+    { param: 'domaine', label: "Domaine d'études" },
+    { param: 'ville', label: 'Ville / Localisation' },
+    { param: 'type', label: "Type d'établissement" },
+] as const
+
 const offersLabel = (count: number) => `${count} offre${count > 1 ? 's' : ''}`
 
 /**

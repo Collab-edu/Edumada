@@ -3,17 +3,17 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import SuggestInput from './SuggestInput'
-import { FILTER_UI, useFilterSuggestions } from '../useFilterSuggestions'
+import { FILTER_UI, TOP_FILTERS, useFilterSuggestions } from '../useFilterSuggestions'
 
 const HeroFilters = () => {
-    const { filters, suggestions } = useFilterSuggestions()
+    const { suggestions } = useFilterSuggestions()
     // Valeur saisie par filtre (paramètre d'URL → valeur) ; vide = pas de filtre.
     const [selected, setSelected] = useState<Record<string, string>>({})
 
     // Seuls les filtres renseignés passent dans l'URL de la page /recherche.
     const params = new URLSearchParams()
-    for (const filter of filters) {
-        if (selected[filter.param]) params.set(filter.param, selected[filter.param])
+    for (const { param } of TOP_FILTERS) {
+        if (selected[param]) params.set(param, selected[param])
     }
     const query = params.toString()
     const searchHref = query ? `/recherche?${query}` : '/recherche'
@@ -31,14 +31,14 @@ const HeroFilters = () => {
                     Trouvez l&apos;établissement qui vous correspond
                 </div>
                 <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5 lg:items-center'>
-                    {filters.map((filter) => (
+                    {TOP_FILTERS.map((filter) => (
                         <div
                             key={filter.param}
                             className='rounded-xl px-4 py-3 text-left transition-colors duration-200 focus-within:bg-offwhite hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none'>
                             <SuggestInput
-                                icon={FILTER_UI[filter.param]?.icon}
-                                label={FILTER_UI[filter.param]?.label ?? filter.label}
-                                placeholder={FILTER_UI[filter.param]?.placeholder ?? filter.options[0]}
+                                icon={FILTER_UI[filter.param].icon}
+                                label={FILTER_UI[filter.param].label ?? filter.label}
+                                placeholder={FILTER_UI[filter.param].placeholder}
                                 suggestions={suggestions[filter.param] ?? []}
                                 value={selected[filter.param] ?? ''}
                                 onChange={(value) => setSelected((prev) => ({ ...prev, [filter.param]: value }))}

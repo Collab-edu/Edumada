@@ -22,19 +22,41 @@ export type SiteData = {
     Companiesdata: { imgSrc: string }[]
 }
 
+let baseRequest: Promise<SiteData> | null = null
 let request: Promise<SiteData> | null = null
 
 /** D'où viennent les données affichées : l'API, ou les fichiers d'exemple si elle est indisponible. */
 export let siteDataSource: 'api' | 'fichiers' = 'fichiers'
 
+/**
+ * Éléments fixes du site, présents dans data.json et affichables sans attendre l'API.
+ * Les filtres et les cartes de domaines sont ensuite complétés par le catalogue.
+ */
+const STATIC_KEYS: ReadonlySet<keyof SiteData> = new Set(['HeaderData', 'FooterLinkData', 'HeroFilterData', 'DomainData', 'Companiesdata'])
+
+/** data.json, chargé une seule fois. */
+function getBaseData(): Promise<SiteData> {
+    if (!baseRequest) {
+        baseRequest = fetch(withBasePath('/data/data.json')).then((res) => {
+            if (!res.ok) throw new Error(`Failed to fetch site data (${res.status})`)
+            return res.json() as Promise<SiteData>
+        })
+        baseRequest.catch(() => {
+            baseRequest = null
+        })
+    }
+    return baseRequest
+}
+
 async function loadSiteData(): Promise<SiteData> {
-    const res = await fetch(withBasePath('/data/data.json'))
-    if (!res.ok) throw new Error(`Failed to fetch site data (${res.status})`)
-    const base = (await res.json()) as SiteData
-    if (!apiEnabled) return base
+    // data.json et le catalogue de l'API sont demandés en même temps.
+    const catalog = apiEnabled ? fetchCatalog() : null
+    catalog?.catch(() => undefined)
+    const base = await getBaseData()
+    if (!catalog) return base
 
     try {
-        const data = mergeCatalog(base, await fetchCatalog())
+        const data = mergeCatalog(base, await catalog)
         siteDataSource = 'api'
         return data
     } catch (error) {
@@ -59,13 +81,26 @@ export function getSiteData(): Promise<SiteData> {
     return request
 }
 
-/** Lit une clé des données du site depuis un composant client. */
+/**
+ * Lit une clé des données du site depuis un composant client.
+ * Les éléments fixes s'affichent dès data.json, puis sont mis à jour avec le catalogue de l'API ;
+ * le catalogue (offres, établissements…) attend l'API pour ne jamais montrer de données d'exemple périmées.
+ */
 export function useSiteData<K extends keyof SiteData>(key: K) {
     const [data, setData] = useState<SiteData[K]>([] as unknown as SiteData[K])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         let active = true
+        if (STATIC_KEYS.has(key)) {
+            getBaseData()
+                .then((base) => {
+                    if (!active) return
+                    setData(base[key])
+                    setLoading(false)
+                })
+                .catch(() => undefined)
+        }
         getSiteData()
             .then((all) => {
                 if (active) setData(all[key])
