@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils'
 import Logo from './Logo'
 import HeaderLink from './HeaderLink'
 import MobileHeaderLink from './MobileHeaderLink'
-import { SOCIAL_LINKS } from '../social-links'
+import { CONTACT, SOCIAL_LINKS } from '../social-links'
 
 /** Bouton carré à icône de la barre principale (recherche, compte, favoris). */
 const iconButtonClassName =
@@ -122,10 +122,14 @@ const Header: React.FC = () => {
             <div className={cn('hidden lg:block bg-secondary text-white overflow-hidden transition-[max-height] duration-300', sticky ? 'max-h-0' : 'max-h-12')}>
                 <div className='container mx-auto max-w-7xl px-4 flex h-10 items-center justify-between text-sm'>
                     <div className='flex items-center gap-8'>
-                        <span className='flex items-center gap-2'>
-                            <Icon icon='tabler:school' className='text-lg text-primary' />
-                            Universités, écoles, crèches et formations professionnelles
-                        </span>
+                        <a href={`mailto:${CONTACT.email}`} className='flex items-center gap-2 hover:text-primary duration-300'>
+                            <Icon icon='tabler:mail' className='text-lg text-primary' />
+                            {CONTACT.email}
+                        </a>
+                        <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`} className='flex items-center gap-2 hover:text-primary duration-300'>
+                            <Icon icon='tabler:phone' className='text-lg text-primary' />
+                            {CONTACT.phone}
+                        </a>
                         <span className='flex items-center gap-2'>
                             <Icon icon='tabler:map-pin' className='text-lg text-primary' />
                             Partout à Madagascar
@@ -157,21 +161,32 @@ const Header: React.FC = () => {
                     </nav>
                     <div className='flex items-center gap-3'>
                         <IconButton label='Rechercher une formation' icon='tabler:search' href='/recherche' className='hidden sm:flex' />
-                        {user ? (
-                            <IconButton label='Mon espace' icon='tabler:user' href={SPACE_HOME[user.role]} />
-                        ) : (
-                            <IconButton label='Connexion' icon='tabler:user' onClick={openSignIn} />
-                        )}
+                        {user && <IconButton label='Mon espace' icon='tabler:user' href={SPACE_HOME[user.role]} />}
                         {/* Favoris : espace étudiant (connexion d'abord pour un visiteur). */}
                         {user?.role === 'student' ? (
                             <IconButton label='Mes favoris' icon='tabler:heart' href='/espace/etudiant/favoris/' badge={favorites.length} className='hidden sm:flex' />
                         ) : (
                             !user && <IconButton label='Mes favoris' icon='tabler:heart' onClick={openSignIn} className='hidden sm:flex' />
                         )}
-                        {user && (
+                        {user ? (
                             <button onClick={logout} className='hidden lg:block px-2 py-2 text-sm font-medium text-secondary hover:text-primary hover:cursor-pointer'>
                                 Déconnexion
                             </button>
+                        ) : (
+                            <>
+                                <button
+                                    onClick={openSignIn}
+                                    className='hidden lg:block bg-transparent text-primary border border-primary hover:bg-primary hover:text-white duration-300 px-6 py-2 rounded-lg hover:cursor-pointer'>
+                                    Connexion
+                                </button>
+                                <button
+                                    onClick={() => setIsSignUpOpen(true)}
+                                    className='hidden lg:block bg-primary text-white border border-primary hover:bg-transparent hover:text-primary duration-300 px-6 py-2 rounded-lg font-medium hover:cursor-pointer'>
+                                    Inscription
+                                </button>
+                                {/* Petit écran : accès au compte par l'icône (Connexion et Inscription sont aussi dans le menu). */}
+                                <IconButton label='Connexion' icon='tabler:user' onClick={openSignIn} className='lg:hidden' />
+                            </>
                         )}
                         <button onClick={() => setNavbarOpen(!navbarOpen)} className='block lg:hidden p-2 rounded-lg' aria-label='Ouvrir le menu'>
                             <span className='block w-6 h-0.5 bg-black'></span>

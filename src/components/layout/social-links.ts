@@ -5,3 +5,12 @@ export const SOCIAL_LINKS = [
     { label: 'LinkedIn', icon: 'tabler:brand-linkedin', href: '#!' },
     { label: 'YouTube', icon: 'tabler:brand-youtube-filled', href: '#!' },
 ]
+
+/**
+ * Coordonnées affichées dans la barre supérieure de l'en-tête.
+ * TODO : valeurs provisoires, à remplacer par l'e-mail et le téléphone officiels d'Edumada.
+ */
+export const CONTACT = {
+    email: 'contact@edumada.mg',
+    phone: '+261 34 00 000 00',
+}
