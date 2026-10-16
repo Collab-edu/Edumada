@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('contact_messages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('first_name', 100);
-            $table->string('last_name', 100);
+            $table->string('name', 150);
             $table->string('email');
             $table->string('phone', 30)->nullable();
+            $table->string('subject', 30);
             $table->text('message');
             $table->string('status', 20)->default('open');
             $table->timestamps();

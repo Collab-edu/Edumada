@@ -1,27 +1,33 @@
 'use client'
 import { useState, type FormEvent } from 'react'
-import Link from 'next/link'
 import { Icon } from '@/components/ui/icon'
-import { Button, FormAlert, TextArea, TextField } from '@/components/ui/form'
+import { FormAlert, SelectField, TextArea, TextField } from '@/components/ui/form'
 import { api, ApiError, apiEnabled } from '@/lib/api'
 import { useAuth } from '@/features/auth/AuthProvider'
-import { CONTACT, SOCIAL_LINKS } from '@/components/layout/social-links'
+import { CONTACT } from '@/components/layout/social-links'
 
-const EMPTY = { first_name: '', last_name: '', email: '', phone: '', message: '' }
-
-const tel = (phone: string) => phone.replace(/\s/g, '')
-
-/** Moyens de contact affichés dans le panneau de droite. */
-const CHANNELS = [
-    { icon: 'tabler:phone', label: 'Téléphone', value: CONTACT.phone, href: `tel:${tel(CONTACT.phone)}` },
-    { icon: 'tabler:brand-whatsapp', label: 'SMS / WhatsApp', value: CONTACT.whatsapp, href: `https://wa.me/${tel(CONTACT.whatsapp).replace('+', '')}` },
-    { icon: 'tabler:mail', label: 'E-mail', value: CONTACT.email, href: `mailto:${CONTACT.email}` },
+/** Mêmes valeurs que ContactController::SUBJECTS côté API. */
+const SUBJECTS = [
+    { value: 'orientation', label: 'Choisir une formation ou une école' },
+    { value: 'establishment', label: 'Référencer mon établissement' },
+    { value: 'account', label: 'Mon compte Edumada' },
+    { value: 'partnership', label: 'Partenariat' },
+    { value: 'other', label: 'Autre demande' },
 ]
 
-/** Page Contact : formulaire d'envoi à Edumada et coordonnées directes. */
+const EMPTY = { name: '', email: '', phone: '', subject: '', message: '' }
+
+/** Coordonnées affichées en pastilles sous le titre. */
+const CHANNELS = [
+    { icon: 'tabler:phone', label: CONTACT.phone, href: `tel:${CONTACT.phone.replace(/\s/g, '')}` },
+    { icon: 'tabler:map-pin', label: 'Partout à Madagascar', href: null },
+    { icon: 'tabler:mail', label: CONTACT.email, href: `mailto:${CONTACT.email}` },
+]
+
+/** Page Contact : bandeau aux couleurs d'Edumada et formulaire centré. */
 export default function ContactPage() {
     const { user } = useAuth()
-    const [form, setForm] = useState({ ...EMPTY, email: user?.email ?? '' })
+    const [form, setForm] = useState({ ...EMPTY, name: user?.name ?? '', email: user?.email ?? '' })
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
     const [sent, setSent] = useState(false)
@@ -44,92 +50,128 @@ export default function ContactPage() {
     }
 
     return (
-        <section className='pt-28 pb-20 sm:pt-32'>
-            <div className='container mx-auto max-w-7xl px-4'>
-                <h1 className='mb-8 text-center text-3xl md:text-5xl font-bold text-secondary'>Contactez-nous</h1>
+        <section className='relative overflow-hidden bg-secondary pt-32 pb-20 sm:pt-40'>
+            {/* Quadrillage discret */}
+            <div
+                aria-hidden='true'
+                className='pointer-events-none absolute inset-0 opacity-[0.07] [background-image:linear-gradient(white_1px,transparent_1px),linear-gradient(90deg,white_1px,transparent_1px)] [background-size:56px_56px]'
+            />
 
-                <div className='grid gap-6 lg:grid-cols-[1fr_380px] lg:items-start'>
-                    {/* Formulaire */}
-                    <div className='rounded-2xl border border-gray-200 bg-white p-5 sm:p-8'>
-                        <h2 className='text-2xl font-bold text-secondary'>Envoyez-nous un message</h2>
-                        <p className='mt-1 mb-6 text-ink/70'>
-                            Une question, une remarque ou besoin d&apos;aide pour choisir votre formation ? Écrivez-nous, l&apos;équipe Edumada vous répond.
-                        </p>
-
-                        {sent ? (
-                            <div className='flex flex-col items-start gap-4'>
-                                <FormAlert tone='success'>Merci ! Votre message a bien été envoyé, nous vous répondrons rapidement.</FormAlert>
-                                <Button variant='secondary' onClick={() => setSent(false)}>
-                                    Envoyer un autre message
-                                </Button>
-                            </div>
-                        ) : !apiEnabled ? (
-                            <FormAlert tone='info'>
-                                Le formulaire en ligne sera bientôt disponible. En attendant, écrivez-nous à{' '}
-                                <a href={`mailto:${CONTACT.email}`} className='underline'>
-                                    {CONTACT.email}
-                                </a>
-                                .
-                            </FormAlert>
-                        ) : (
-                            <form onSubmit={submit} className='grid gap-4 sm:grid-cols-2'>
-                                {error && Object.keys(error.errors).length === 0 && (
-                                    <div className='sm:col-span-2'>
-                                        <FormAlert>{error.message}</FormAlert>
-                                    </div>
-                                )}
-                                <TextField label='Prénom' required autoComplete='given-name' placeholder='Votre prénom' value={form.first_name} onChange={set('first_name')} error={error?.field('first_name')} />
-                                <TextField label='Nom' required autoComplete='family-name' placeholder='Votre nom' value={form.last_name} onChange={set('last_name')} error={error?.field('last_name')} />
-                                <TextField label='E-mail' type='email' required autoComplete='email' placeholder='Votre adresse e-mail' value={form.email} onChange={set('email')} error={error?.field('email')} />
-                                <TextField label='Téléphone' type='tel' autoComplete='tel' placeholder='+261 34 00 000 00' value={form.phone} onChange={set('phone')} error={error?.field('phone')} />
-                                <TextArea
-                                    label='Message'
-                                    required
-                                    minLength={10}
-                                    rows={5}
-                                    placeholder='Votre message'
-                                    value={form.message}
-                                    onChange={set('message')}
-                                    error={error?.field('message')}
-                                    className='sm:col-span-2'
-                                />
-                                <div className='sm:col-span-2 flex justify-end'>
-                                    <Button type='submit' loading={loading} className='w-full sm:w-auto'>
-                                        <Icon icon='tabler:send' className='text-lg' />
-                                        Envoyer le message
-                                    </Button>
-                                </div>
-                            </form>
-                        )}
-                    </div>
-
-                    {/* Coordonnées */}
-                    <aside className='rounded-2xl bg-secondary p-6 text-white sm:p-8'>
-                        <h2 className='text-xl font-bold text-white'>Nous sommes là pour vous aider.</h2>
-                        <ul className='mt-6 flex flex-col gap-3'>
-                            {CHANNELS.map((channel) => (
-                                <li key={channel.label}>
-                                    <a href={channel.href} className='flex items-center gap-4 rounded-xl bg-white/10 px-4 py-3 transition-colors duration-300 hover:bg-white/20'>
-                                        <Icon icon={channel.icon} className='shrink-0 text-2xl text-primary' />
-                                        <span className='flex min-w-0 flex-col'>
-                                            <span className='text-sm font-semibold'>{channel.label}</span>
-                                            <span className='truncate text-white/80'>{channel.value}</span>
-                                        </span>
-                                    </a>
+            <div className='container relative mx-auto max-w-7xl px-4'>
+                <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
+                    <span className='inline-flex items-center gap-2 rounded-full bg-white/10 py-1 pr-4 pl-1 text-sm text-white/90'>
+                        <span className='flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white'>
+                            <Icon icon='tabler:school' className='text-sm' />
+                        </span>
+                        Votre guide des études à Madagascar
+                    </span>
+                    <h1 className='text-4xl md:text-6xl font-bold text-white'>
+                        Contactez-nous <span className='text-primary'>dès aujourd&apos;hui</span>
+                    </h1>
+                    <p className='max-w-2xl text-white/75'>
+                        Une question sur une formation, un établissement à référencer ou un souci avec votre compte ? Écrivez-nous, l&apos;équipe Edumada vous
+                        répond rapidement.
+                    </p>
+                    <ul className='mt-2 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-white'>
+                        {CHANNELS.map((channel) => {
+                            const content = (
+                                <>
+                                    <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink/40 text-primary'>
+                                        <Icon icon={channel.icon} className='text-lg' />
+                                    </span>
+                                    {channel.label}
+                                </>
+                            )
+                            return (
+                                <li key={channel.icon}>
+                                    {channel.href ? (
+                                        <a href={channel.href} className='flex items-center gap-3 hover:text-primary duration-300'>
+                                            {content}
+                                        </a>
+                                    ) : (
+                                        <span className='flex items-center gap-3'>{content}</span>
+                                    )}
                                 </li>
-                            ))}
-                        </ul>
-                        <div className='mt-6 border-t border-white/15 pt-6'>
-                            <p className='text-sm font-semibold'>Suivez-nous</p>
-                            <div className='mt-3 flex items-center gap-4'>
-                                {SOCIAL_LINKS.map((social) => (
-                                    <Link key={social.label} href={social.href} scroll={false} aria-label={social.label} className='text-white/90 hover:text-primary duration-300'>
-                                        <Icon icon={social.icon} className='text-2xl' />
-                                    </Link>
-                                ))}
-                            </div>
+                            )
+                        })}
+                    </ul>
+                </div>
+
+                {/* Formulaire */}
+                <div className='mx-auto mt-12 max-w-2xl rounded-2xl bg-offwhite p-5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.5)] sm:p-8'>
+                    {sent ? (
+                        <div className='flex flex-col items-start gap-4'>
+                            <FormAlert tone='success'>Merci ! Votre message a bien été envoyé, nous vous répondrons rapidement.</FormAlert>
+                            <button type='button' onClick={() => setSent(false)} className='font-semibold text-secondary underline hover:text-primary hover:cursor-pointer'>
+                                Envoyer un autre message
+                            </button>
                         </div>
-                    </aside>
+                    ) : !apiEnabled ? (
+                        <FormAlert tone='info'>
+                            Le formulaire en ligne sera bientôt disponible. En attendant, écrivez-nous à{' '}
+                            <a href={`mailto:${CONTACT.email}`} className='underline'>
+                                {CONTACT.email}
+                            </a>
+                            .
+                        </FormAlert>
+                    ) : (
+                        <form onSubmit={submit} className='grid gap-4 sm:grid-cols-2'>
+                            {error && Object.keys(error.errors).length === 0 && (
+                                <div className='sm:col-span-2'>
+                                    <FormAlert>{error.message}</FormAlert>
+                                </div>
+                            )}
+                            <TextField label='Votre nom' required autoComplete='name' placeholder='Nom et prénom' value={form.name} onChange={set('name')} error={error?.field('name')} />
+                            <TextField label='Votre téléphone' type='tel' autoComplete='tel' placeholder='+261 34 00 000 00' value={form.phone} onChange={set('phone')} error={error?.field('phone')} />
+                            <TextField
+                                label='Votre e-mail'
+                                type='email'
+                                required
+                                autoComplete='email'
+                                placeholder='Pour vous répondre'
+                                value={form.email}
+                                onChange={set('email')}
+                                error={error?.field('email')}
+                                className='sm:col-span-2'
+                            />
+                            <SelectField
+                                label='Objet de votre message'
+                                required
+                                placeholder='Choisissez un objet'
+                                options={SUBJECTS}
+                                value={form.subject}
+                                onChange={set('subject')}
+                                error={error?.field('subject')}
+                                className='sm:col-span-2'
+                            />
+                            <TextArea
+                                label='Message'
+                                required
+                                minLength={10}
+                                rows={5}
+                                placeholder='Votre message'
+                                value={form.message}
+                                onChange={set('message')}
+                                error={error?.field('message')}
+                                className='sm:col-span-2'
+                            />
+                            <div className='sm:col-span-2'>
+                                <button
+                                    type='submit'
+                                    disabled={loading}
+                                    className='inline-flex items-center gap-3 rounded-full bg-primary py-1.5 pr-6 pl-1.5 font-semibold text-white transition-colors duration-300 hover:bg-primary/90 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-60'>
+                                    <span className='flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-white'>
+                                        {loading ? (
+                                            <span className='h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent' aria-hidden='true' />
+                                        ) : (
+                                            <Icon icon='tabler:send' className='text-lg' />
+                                        )}
+                                    </span>
+                                    Envoyer
+                                </button>
+                            </div>
+                        </form>
+                    )}
                 </div>
             </div>
         </section>

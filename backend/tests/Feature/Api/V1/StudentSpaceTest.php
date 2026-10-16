@@ -102,20 +102,20 @@ class StudentSpaceTest extends TestCase
     public function test_anyone_can_send_a_contact_message(): void
     {
         $this->postJson('/api/v1/contact', [
-            'first_name' => 'Hery',
-            'last_name' => 'Rakoto',
+            'name' => 'Hery Rakoto',
             'email' => 'hery@example.mg',
             'phone' => '+261 34 12 345 67',
+            'subject' => 'orientation',
             'message' => 'Bonjour, je cherche une formation en informatique.',
         ])->assertCreated();
 
-        $this->assertDatabaseHas('contact_messages', ['email' => 'hery@example.mg', 'status' => 'open']);
+        $this->assertDatabaseHas('contact_messages', ['email' => 'hery@example.mg', 'subject' => 'orientation', 'status' => 'open']);
     }
 
-    public function test_contact_message_requires_name_email_and_message(): void
+    public function test_contact_message_requires_name_email_subject_and_message(): void
     {
-        $this->postJson('/api/v1/contact', ['email' => 'pas-un-email'])
+        $this->postJson('/api/v1/contact', ['email' => 'pas-un-email', 'subject' => 'inconnu'])
             ->assertUnprocessable()
-            ->assertJsonValidationErrors(['first_name', 'last_name', 'email', 'message']);
+            ->assertJsonValidationErrors(['name', 'email', 'subject', 'message']);
     }
 }
