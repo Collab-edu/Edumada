@@ -1,5 +1,6 @@
 'use client'
 import { useMemo, useState } from 'react'
+import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink, SelectField } from '@/components/ui/form'
 import { CardSkeletonGrid } from '@/components/ui/card'
@@ -11,6 +12,8 @@ import FormationCard from './FormationCard'
 
 /** Identifiant de la catégorie « Formation professionnelle » (CategoryData). */
 const CATEGORY_ID = 'formation-pro'
+
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70'
 
 const BENEFITS = [
     { icon: 'tabler:clock-hour-4', title: 'Des parcours courts', text: 'De quelques semaines à deux ans, pour se former sans mettre sa vie entre parenthèses.' },
@@ -41,7 +44,7 @@ export default function ProTrainingPage() {
             {/* En-tête de page */}
             <section className='pt-28 pb-10 sm:pt-32'>
                 <div className='container mx-auto max-w-7xl px-4'>
-                    <div className='grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end'>
+                    <div className='grid gap-8 lg:grid-cols-2 lg:items-center'>
                         <div className='flex max-w-3xl flex-col gap-4'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>Formation professionnelle</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Apprenez un métier, rapidement et concrètement</h1>
@@ -59,18 +62,9 @@ export default function ProTrainingPage() {
                                 </ButtonLink>
                             </div>
                         </div>
-                        <dl className='grid grid-cols-2 gap-4 sm:max-w-sm lg:max-w-none'>
-                            {[
-                                { label: 'formations', value: loading ? '…' : offers.length },
-                                { label: 'centres et établissements', value: schoolsLoading ? '…' : centers.length },
-                            ].map((stat) => (
-                                <div key={stat.label} className='rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
-                                    <dt className='sr-only'>{stat.label}</dt>
-                                    <dd className='text-3xl font-bold text-secondary'>{stat.value}</dd>
-                                    <p className='text-sm text-ink/60'>{stat.label}</p>
-                                </div>
-                            ))}
-                        </dl>
+                        <div className='relative h-56 overflow-hidden rounded-2xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
+                            <Image src={HERO_IMAGE} alt='Apprenants en formation professionnelle' fill priority sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
+                        </div>
                     </div>
                 </div>
             </section>
