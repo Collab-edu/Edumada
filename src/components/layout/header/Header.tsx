@@ -146,7 +146,7 @@ const Header: React.FC = () => {
                                             className='text-black hover:text-primary inline-block hover:cursor-pointer'
                                         />
                                     </button>
-                                    <SignUp onSuccess={() => setIsSignUpOpen(false)} />
+                                    <SignUp studentOnly onSuccess={() => setIsSignUpOpen(false)} />
                                 </div>
                             </div>
                         )}

@@ -19,19 +19,23 @@ const ACCOUNT_TYPES = [
 
 export const STUDY_LEVELS = ['Primaire', 'Collège', 'Lycée', 'BAC', 'BAC+2', 'BAC+3', 'BAC+5 et plus', 'Autre']
 
-const SignUp = ({ onSuccess }: { onSuccess?: () => void }) => {
+/**
+ * Création de compte. `studentOnly` (bouton « Inscription » de l'en-tête) : compte étudiant uniquement,
+ * les établissements passent par /signup/?type=etablissement.
+ */
+const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; studentOnly?: boolean }) => {
     const { register } = useAuth()
     const router = useRouter()
     const [accountType, setAccountType] = useState<'student' | 'establishment'>('student')
-    const [form, setForm] = useState({ name: '', email: '', password: '', password_confirmation: '', city: '', studyLevel: '' })
+    const [form, setForm] = useState({ name: '', email: '', password: '', password_confirmation: '', phone: '', city: '', studyLevel: '' })
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
     const [ready, setReady] = useState(false)
     // /signup/?type=etablissement : lien « Référencer mon établissement ».
     useEffect(() => {
         setReady(true)
-        if (new URLSearchParams(window.location.search).get('type') === 'etablissement') setAccountType('establishment')
-    }, [])
+        if (!studentOnly && new URLSearchParams(window.location.search).get('type') === 'etablissement') setAccountType('establishment')
+    }, [studentOnly])
     const set = (key: keyof typeof form) => (e: { target: { value: string } }) => setForm({ ...form, [key]: e.target.value })
 
     const submit = async (e: FormEvent) => {
@@ -39,7 +43,8 @@ const SignUp = ({ onSuccess }: { onSuccess?: () => void }) => {
         setLoading(true)
         setError(null)
         try {
-            const user = await register({ ...form, accountType })
+            const { phone, city, studyLevel, ...account } = form
+            const user = await register(accountType === 'student' ? { ...account, phone, city, studyLevel, accountType } : { ...account, accountType })
             toast.success('Votre compte est créé.')
             onSuccess?.()
             if (user.role === 'establishment') {
@@ -62,6 +67,12 @@ const SignUp = ({ onSuccess }: { onSuccess?: () => void }) => {
             {!apiEnabled && <FormAlert tone='info'>L&apos;inscription sera disponible quand le service en ligne d&apos;Edumada sera activé.</FormAlert>}
 
             <form onSubmit={submit} className='mt-2 flex flex-col gap-4 text-left' noValidate>
+                {studentOnly ? (
+                    <div className='text-center'>
+                        <h2 className='text-xl font-bold text-secondary'>Inscription étudiant</h2>
+                        <p className='text-sm text-ink/70'>Gratuit : favoris, demandes d&apos;information et candidatures.</p>
+                    </div>
+                ) : (
                 <fieldset className='grid grid-cols-2 gap-3'>
                     <legend className='mb-2 text-sm font-semibold text-secondary'>Je crée un compte</legend>
                     {ACCOUNT_TYPES.map((type) => (
@@ -85,6 +96,7 @@ const SignUp = ({ onSuccess }: { onSuccess?: () => void }) => {
                         </label>
                     ))}
                 </fieldset>
+                )}
 
                 {error && Object.keys(error.errors).length === 0 && <FormAlert>{error.message}</FormAlert>}
 
@@ -104,6 +116,7 @@ const SignUp = ({ onSuccess }: { onSuccess?: () => void }) => {
 
                 {accountType === 'student' && (
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                        <TextField label='Téléphone' type='tel' autoComplete='tel' placeholder='034 00 000 00' value={form.phone} onChange={set('phone')} error={error?.field('phone')} />
                         <TextField label='Ville' autoComplete='address-level2' value={form.city} onChange={set('city')} />
                         <SelectField label="Niveau d'études" placeholder='Choisir…' options={STUDY_LEVELS} value={form.studyLevel} onChange={set('studyLevel')} />
                     </div>
@@ -119,6 +132,14 @@ const SignUp = ({ onSuccess }: { onSuccess?: () => void }) => {
                 <Link href='/conditions/' className='text-primary hover:underline'>conditions d&apos;utilisation</Link> et notre{' '}
                 <Link href='/confidentialite/' className='text-primary hover:underline'>politique de confidentialité</Link>.
             </p>
+            {studentOnly && (
+                <p className='mt-3 text-sm text-ink/70'>
+                    Vous représentez un établissement ?
+                    <Link href='/signup/?type=etablissement' onClick={onSuccess} className='pl-1 font-semibold text-secondary hover:underline'>
+                        Référencer mon établissement
+                    </Link>
+                </p>
+            )}
             <p className='mt-3 text-base text-ink'>
                 Vous avez déjà un compte ?
                 <Link href='/signin/' onClick={onSuccess} className='pl-2 font-semibold text-primary hover:underline'>
