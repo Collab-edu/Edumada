@@ -19,7 +19,7 @@ const CategoriesSection = () => {
                 <ul className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4'>
                     {loading
                         ? Array.from({ length: 5 }).map((_, i) => (
-                            <li key={i} className='h-36 rounded-2xl border border-gray-100 bg-white animate-pulse' />
+                            <li key={i} className='h-36 rounded-xl border border-gray-200 bg-white shadow-[4px_4px_0_0_rgba(15,76,92,0.12)] animate-pulse' />
                         ))
                         : categories.map((category, i) => {
                             const count = schools.filter((s) => s.category === category.id).length
@@ -28,7 +28,7 @@ const CategoriesSection = () => {
                                 <li key={category.id} className={i === categories.length - 1 ? 'col-span-2 sm:col-span-1' : ''}>
                                     <Link
                                         href={`/recherche?categorie=${encodeURIComponent(category.shortLabel)}`}
-                                        className='group flex h-full flex-col gap-3 rounded-2xl border border-gray-100 bg-white p-4 sm:p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg'>
+                                        className='group flex h-full flex-col gap-3 rounded-xl border border-gray-200 bg-white p-4 sm:p-5 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)] transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-secondary/40 hover:shadow-[6px_6px_0_0_rgba(15,76,92,0.35)]'>
                                         <span className='flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white'>
                                             <Icon icon={category.icon} className='text-2xl' />
                                         </span>
