@@ -5,6 +5,9 @@ import { Icon } from '@/components/ui/icon'
 import SuggestInput from './SuggestInput'
 import { FILTER_UI, TOP_FILTERS, useFilterSuggestions } from '../useFilterSuggestions'
 
+// Le type d'établissement (public / privé) reste filtrable sur la page /recherche.
+const HERO_FILTERS = TOP_FILTERS.filter((filter) => filter.param !== 'type')
+
 const HeroFilters = () => {
     const { suggestions } = useFilterSuggestions()
     // Valeur saisie par filtre (paramètre d'URL → valeur) ; vide = pas de filtre.
@@ -12,7 +15,7 @@ const HeroFilters = () => {
 
     // Seuls les filtres renseignés passent dans l'URL de la page /recherche.
     const params = new URLSearchParams()
-    for (const { param } of TOP_FILTERS) {
+    for (const { param } of HERO_FILTERS) {
         if (selected[param]) params.set(param, selected[param])
     }
     const query = params.toString()
@@ -30,8 +33,8 @@ const HeroFilters = () => {
                     <Icon icon='tabler:search' className='text-lg text-primary' />
                     Trouvez l&apos;établissement qui vous correspond
                 </div>
-                <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5 lg:items-center'>
-                    {TOP_FILTERS.map((filter) => (
+                <div className='grid grid-cols-1 gap-2 sm:grid-cols-3 lg:grid-cols-4 lg:items-center'>
+                    {HERO_FILTERS.map((filter) => (
                         <div
                             key={filter.param}
                             className='rounded-xl px-4 py-3 text-left transition-colors duration-200 focus-within:bg-offwhite hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none'>
@@ -45,7 +48,7 @@ const HeroFilters = () => {
                             />
                         </div>
                     ))}
-                    <div className='p-1 sm:col-span-2 lg:col-span-1'>
+                    <div className='p-1 sm:col-span-3 lg:col-span-1'>
                         <Link
                             href={searchHref}
                             className='flex items-center justify-center gap-2 bg-primary w-full text-white font-bold py-4 px-3 rounded-xl shadow-lg shadow-primary/30 hover:bg-primary/90 hover:shadow-primary/50 hover:-translate-y-0.5 duration-300'>
