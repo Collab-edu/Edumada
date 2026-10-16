@@ -47,9 +47,9 @@ const Footer = () => {
                         <div className='flex gap-20'>
                             {footerlink.map((product, i) => (
                                 <div key={i} className='group relative col-span-2'>
-                                    <p className='text-white text-base font-semibold mb-9'>
+                                    <h3 className='text-white text-xl font-semibold mb-6'>
                                         {product.section}
-                                    </p>
+                                    </h3>
                                     <ul>
                                         {product.links.map((item, i) => (
                                             <li key={i} className='mb-1'>
