@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * Abonnement d'un établissement à une formule, activé après confirmation du paiement.
  */
-#[Fillable(['establishment_id', 'plan_id', 'status', 'billing_cycle', 'amount', 'starts_at', 'ends_at', 'grace_ends_at'])]
+#[Fillable(['establishment_id', 'plan_id', 'status', 'billing_cycle', 'amount', 'starts_at', 'ends_at', 'grace_ends_at', 'reminders_sent'])]
 class Subscription extends Model
 {
     /**
@@ -26,6 +26,7 @@ class Subscription extends Model
             'starts_at' => 'datetime',
             'ends_at' => 'datetime',
             'grace_ends_at' => 'datetime',
+            'reminders_sent' => 'array',
         ];
     }
 

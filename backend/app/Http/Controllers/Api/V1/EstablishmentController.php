@@ -11,6 +11,7 @@ use App\Http\Requests\EstablishmentRequest;
 use App\Http\Resources\EstablishmentDetailResource;
 use App\Http\Resources\EstablishmentResource;
 use App\Http\Resources\ManagedEstablishmentResource;
+use App\Models\AuditLog;
 use App\Models\Establishment;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -91,7 +92,7 @@ class EstablishmentController extends Controller
             return $establishment;
         });
 
-        return new ManagedEstablishmentResource($establishment->load(['category', 'subCategory', 'publishedOffers.domain', 'offers']));
+        return new ManagedEstablishmentResource($establishment->load(ManagedEstablishmentResource::RELATIONS));
     }
 
     public function update(EstablishmentRequest $request, Establishment $establishment): ManagedEstablishmentResource
@@ -100,7 +101,7 @@ class EstablishmentController extends Controller
 
         $establishment->update($request->establishmentAttributes());
 
-        return new ManagedEstablishmentResource($establishment->load(['category', 'subCategory', 'publishedOffers.domain', 'offers']));
+        return new ManagedEstablishmentResource($establishment->load(ManagedEstablishmentResource::RELATIONS));
     }
 
     /**
@@ -111,6 +112,7 @@ class EstablishmentController extends Controller
         Gate::authorize('delete', $establishment);
 
         $establishment->delete();
+        AuditLog::record('establishment.deleted', $establishment, ['name' => $establishment->name]);
 
         return response()->noContent();
     }

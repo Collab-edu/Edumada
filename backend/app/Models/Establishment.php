@@ -138,12 +138,51 @@ class Establishment extends Model
     }
 
     /**
-     * Formule en vigueur : celle de l'abonnement actif (ou en période de grâce), sinon Gratuit.
-     * À l'expiration, l'établissement retombe sur Gratuit sans perdre sa fiche.
+     * @return HasMany<Inquiry, $this>
      */
-    public function currentPlan(): Plan
+    public function inquiries(): HasMany
     {
-        $subscription = $this->subscriptions()
+        return $this->hasMany(Inquiry::class);
+    }
+
+    /**
+     * @return HasMany<EstablishmentClaim, $this>
+     */
+    public function claims(): HasMany
+    {
+        return $this->hasMany(EstablishmentClaim::class);
+    }
+
+    /**
+     * @return HasMany<Report, $this>
+     */
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    /**
+     * @return HasMany<Invoice, $this>
+     */
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    /**
+     * @return HasMany<Campaign, $this>
+     */
+    public function campaigns(): HasMany
+    {
+        return $this->hasMany(Campaign::class);
+    }
+
+    /**
+     * Abonnement payant en vigueur (actif ou en période de grâce), s'il existe.
+     */
+    public function currentSubscription(): ?Subscription
+    {
+        return $this->subscriptions()
             ->with('plan')
             ->whereIn('status', [SubscriptionStatus::Active, SubscriptionStatus::Grace])
             ->where('starts_at', '<=', now())
@@ -154,8 +193,31 @@ class Establishment extends Model
             })
             ->latest('starts_at')
             ->first();
+    }
 
-        return $subscription?->plan ?? Plan::where('code', PlanCode::Free)->firstOrFail();
+    /**
+     * La formule en vigueur inclut-elle cette fonctionnalité (inquiryInbox, sponsoredPlacement…) ?
+     */
+    public function hasFeature(string $feature): bool
+    {
+        return $this->currentPlan()->hasFeature($feature);
+    }
+
+    /**
+     * Niveau de statistiques de la formule : none, standard ou advanced.
+     */
+    public function statisticsLevel(): string
+    {
+        return $this->currentPlan()->features['statistics'] ?? 'none';
+    }
+
+    /**
+     * Formule en vigueur : celle de l'abonnement actif (ou en période de grâce), sinon Gratuit.
+     * À l'expiration, l'établissement retombe sur Gratuit sans perdre sa fiche.
+     */
+    public function currentPlan(): Plan
+    {
+        return $this->currentSubscription()?->plan ?? Plan::where('code', PlanCode::Free)->firstOrFail();
     }
 
     /**

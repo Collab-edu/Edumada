@@ -8,6 +8,7 @@ use App\Http\Requests\OfferSearchRequest;
 use App\Http\Resources\ManagedOfferResource;
 use App\Http\Resources\OfferPageResource;
 use App\Http\Resources\OfferResource;
+use App\Models\AuditLog;
 use App\Models\Establishment;
 use App\Models\Offer;
 use Illuminate\Http\Request;
@@ -62,7 +63,11 @@ class OfferController extends Controller
     {
         Gate::authorize('update', $offer);
 
-        $offer->update($request->offerAttributes());
+        $offer->fill($request->offerAttributes());
+        if ($offer->isDirty('status')) {
+            AuditLog::record('offer.status_changed', $offer, ['from' => $offer->getOriginal('status')?->value, 'to' => $offer->status->value]);
+        }
+        $offer->save();
 
         return new ManagedOfferResource($offer->load(['domain', 'establishment.category']));
     }
@@ -72,6 +77,7 @@ class OfferController extends Controller
         Gate::authorize('delete', $offer);
 
         $offer->delete();
+        AuditLog::record('offer.deleted', $offer, ['title' => $offer->title]);
 
         return response()->noContent();
     }

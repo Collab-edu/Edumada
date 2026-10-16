@@ -17,6 +17,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Inquiry extends Model
 {
     /**
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'status' => 'new',
+    ];
+
+    /**
      * @return array<string, string>
      */
     protected function casts(): array
@@ -52,10 +59,18 @@ class Inquiry extends Model
     }
 
     /**
+     * @return HasMany<InquiryAttachment, $this>
+     */
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(InquiryAttachment::class);
+    }
+
+    /**
      * @return HasMany<InquiryStatusChange, $this>
      */
     public function statusChanges(): HasMany
     {
-        return $this->hasMany(InquiryStatusChange::class);
+        return $this->hasMany(InquiryStatusChange::class)->oldest('id');
     }
 }

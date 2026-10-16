@@ -23,6 +23,12 @@ class OfferSearchRequest extends FormRequest
 
     public const SORTS = ['pertinence', 'frais-asc', 'frais-desc', 'duree-asc'];
 
+    /** Tranches de durée du filtre « Durée » (en années). */
+    public const DURATIONS = ["Moins d'un an", '1 an', '2 ans', '3 ans', '4 ans', '5 ans ou plus'];
+
+    /** Langues proposées par le filtre ; « Autre » = toute autre langue. */
+    public const KNOWN_LANGUAGES = ['Français', 'Malgache', 'Anglais'];
+
     /**
      * @return array<string, mixed>
      */
@@ -38,6 +44,10 @@ class OfferSearchRequest extends FormRequest
             'school' => ['nullable', 'string', 'max:255'],
             'feesMin' => ['nullable', 'integer', 'min:0'],
             'feesMax' => ['nullable', 'integer', 'min:0'],
+            'feeRanges' => ['nullable', 'array', 'max:10'],
+            'feeRanges.*' => ['string', 'regex:/^\d+-\d*$/'],
+            'durations' => ['nullable', 'array'],
+            'durations.*' => [Rule::in(self::DURATIONS)],
             'durationMin' => ['nullable', 'numeric', 'min:0'],
             'durationMax' => ['nullable', 'numeric', 'min:0'],
             'modalities' => ['nullable', 'array'],
@@ -57,6 +67,8 @@ class OfferSearchRequest extends FormRequest
             'childAge' => ['nullable', 'numeric', 'min:0', 'max:30'],
             'sort' => ['nullable', Rule::in(self::SORTS)],
             'perPage' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'ids' => ['nullable', 'array', 'max:100'],
+            'ids.*' => ['string', 'max:255'],
         ];
     }
 }

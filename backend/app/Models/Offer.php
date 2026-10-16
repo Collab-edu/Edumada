@@ -165,9 +165,32 @@ class Offer extends Model
             ->when($filters['housing'] ?? null, fn (Builder $query, array $labels) => $query->whereIn('housing', $toValues(HousingAvailability::class, $labels)))
             ->when($filters['scholarships'] ?? null, fn (Builder $query, array $labels) => $query->whereIn('scholarship', $toValues(ScholarshipAvailability::class, $labels)))
             ->when($filters['registration'] ?? null, fn (Builder $query, string $label) => $query->where('registration_status', RegistrationStatus::fromLabel($label)))
+            ->when($filters['ids'] ?? null, fn (Builder $query, array $slugs) => $query->whereIn('slug', $slugs))
+            ->when($filters['feeRanges'] ?? null, fn (Builder $query, array $ranges) => $query->where(function (Builder $query) use ($ranges): void {
+                // « min-max » ou « min- » (sans plafond) ; plusieurs tranches se combinent en « OU ».
+                foreach ($ranges as $range) {
+                    [$min, $max] = explode('-', $range) + [1 => ''];
+                    $query->orWhere(fn (Builder $query) => $query
+                        ->where('fees', '>=', (int) $min)
+                        ->when($max !== '', fn (Builder $query) => $query->where('fees', '<', (int) $max)));
+                }
+            }))
+            ->when($filters['durations'] ?? null, fn (Builder $query, array $durations) => $query->where(function (Builder $query) use ($durations): void {
+                foreach ($durations as $duration) {
+                    match ($duration) {
+                        "Moins d'un an" => $query->orWhere('duration_years', '<', 1),
+                        '5 ans ou plus' => $query->orWhere('duration_years', '>=', 5),
+                        default => $query->orWhere('duration_years', (int) $duration),
+                    };
+                }
+            }))
             ->when($filters['languages'] ?? null, fn (Builder $query, array $languages) => $query->where(function (Builder $query) use ($languages): void {
                 foreach ($languages as $language) {
-                    $query->orWhereJsonContains('languages', $language);
+                    if ($language === 'Autre') {
+                        $query->orWhere(fn (Builder $query) => self::whereHasOtherLanguage($query));
+                    } else {
+                        $query->orWhereJsonContains('languages', $language);
+                    }
                 }
             }))
             ->when($filters['level'] ?? null, function (Builder $query, string $studentLevel): void {
@@ -193,6 +216,28 @@ class Offer extends Model
         };
     }
 
+    /**
+     * Offres enseignées dans au moins une langue hors Français, Malgache et Anglais.
+     *
+     * @param  Builder<self>  $query
+     */
+    private static function whereHasOtherLanguage(Builder $query): void
+    {
+        $known = ['Français', 'Malgache', 'Anglais'];
+
+        if ($query->getConnection()->getDriverName() === 'sqlite') {
+            $query->whereRaw('exists (select 1 from json_each(offers.languages) where value not in (?, ?, ?))', $known);
+
+            return;
+        }
+
+        // MySQL / MariaDB : plus de langues que de langues connues trouvées.
+        $query->whereRaw(
+            'json_length(languages) > (json_contains(languages, ?) + json_contains(languages, ?) + json_contains(languages, ?))',
+            array_map(fn (string $language) => json_encode($language), $known),
+        );
+    }
+
     public function isPubliclyVisible(): bool
     {
         return $this->status === OfferStatus::Published
@@ -213,6 +258,22 @@ class Offer extends Model
     public function domain(): BelongsTo
     {
         return $this->belongsTo(Domain::class);
+    }
+
+    /**
+     * @return HasMany<Inquiry, $this>
+     */
+    public function inquiries(): HasMany
+    {
+        return $this->hasMany(Inquiry::class);
+    }
+
+    /**
+     * @return HasMany<Campaign, $this>
+     */
+    public function campaigns(): HasMany
+    {
+        return $this->hasMany(Campaign::class);
     }
 
     /**

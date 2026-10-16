@@ -4,16 +4,20 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Enums\AdmissionLevel;
 use App\Enums\AdmissionSelection;
+use App\Enums\CampaignStatus;
 use App\Enums\CostsStatus;
 use App\Enums\Diploma;
 use App\Enums\EstablishmentSector;
 use App\Enums\EstablishmentStatus;
 use App\Enums\FeesPeriod;
 use App\Enums\HousingAvailability;
+use App\Enums\InquiryStatus;
 use App\Enums\Modality;
 use App\Enums\OfferKind;
 use App\Enums\OfferStatus;
+use App\Enums\PaymentMethod;
 use App\Enums\RegistrationStatus;
+use App\Enums\ReportReason;
 use App\Enums\ScholarshipAvailability;
 use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
@@ -48,6 +52,12 @@ class ReferenceDataController extends Controller
                 'costsStatuses' => CostsStatus::labels(),
                 'verificationStatuses' => VerificationStatus::labels(),
                 'studentLevels' => OfferSearchRequest::STUDENT_LEVELS,
+                'durations' => OfferSearchRequest::DURATIONS,
+                'languages' => [...OfferSearchRequest::KNOWN_LANGUAGES, 'Autre'],
+                'inquiryStatuses' => $statuses(InquiryStatus::class),
+                'reportReasons' => $statuses(ReportReason::class),
+                'paymentMethods' => $statuses(PaymentMethod::class),
+                'campaignStatuses' => $statuses(CampaignStatus::class),
                 'sorts' => OfferSearchRequest::SORTS,
                 'offerStatuses' => $statuses(OfferStatus::class),
                 'establishmentStatuses' => $statuses(EstablishmentStatus::class),

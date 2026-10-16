@@ -14,6 +14,13 @@ use Illuminate\Http\Request;
 class ManagedEstablishmentResource extends EstablishmentResource
 {
     /**
+     * Relations à charger avant de construire la ressource (évite les requêtes N+1).
+     *
+     * @var list<string>
+     */
+    public const RELATIONS = ['category', 'subCategory', 'publishedOffers.domain', 'offers.domain', 'offers.establishment.category'];
+
+    /**
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array
@@ -28,6 +35,13 @@ class ManagedEstablishmentResource extends EstablishmentResource
             'plan' => new PlanResource($plan),
             'publishedOffersCount' => $this->publishedOffers()->count(),
             'offers' => ManagedOfferResource::collection($this->whenLoaded('offers')),
+            'members' => $this->whenLoaded('members', fn () => $this->members->map(fn ($member) => [
+                'id' => $member->id,
+                'name' => $member->name,
+                'email' => $member->email,
+                'role' => $member->pivot->role,
+            ])),
+            'createdAt' => $this->created_at?->toIso8601String(),
         ];
     }
 }

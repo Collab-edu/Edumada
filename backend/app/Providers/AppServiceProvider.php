@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -33,6 +35,11 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('login', fn (Request $request) => Limit::perMinute(5)->by(
             Str::transliterate(Str::lower($request->string('email')).'|'.$request->ip()),
         ));
+
+        RateLimiter::for('track', fn (Request $request) => Limit::perMinute(120)->by($request->ip()));
+        RateLimiter::for('reports', fn (Request $request) => Limit::perHour(10)->by($request->ip()));
+
+        Gate::define('admin', fn (User $user) => $user->isAdmin());
 
         RateLimiter::for('register', fn (Request $request) => Limit::perHour(10)->by($request->ip()));
     }

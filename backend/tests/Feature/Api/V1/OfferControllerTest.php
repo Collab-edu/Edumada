@@ -89,6 +89,23 @@ class OfferControllerTest extends TestCase
             ->assertJsonPath('data.0.id', $match->slug);
     }
 
+    public function test_index_combines_fee_ranges_durations_and_other_languages_like_the_site(): void
+    {
+        $cheapShort = Offer::factory()->create(['fees' => 800000, 'duration_years' => 0.5, 'languages' => ['Français', 'Chinois']]);
+        $expensiveLong = Offer::factory()->create(['fees' => 6000000, 'duration_years' => 5, 'languages' => ['Anglais']]);
+        Offer::factory()->create(['fees' => 3000000, 'duration_years' => 3, 'languages' => ['Français']]);
+
+        $this->getJson('/api/v1/offers?feeRanges[]=0-1000000&feeRanges[]=5000000-')
+            ->assertOk()
+            ->assertJsonPath('data.*.id', [$cheapShort->slug, $expensiveLong->slug]);
+        $this->getJson("/api/v1/offers?durations[]=Moins%20d'un%20an&durations[]=5%20ans%20ou%20plus")
+            ->assertOk()
+            ->assertJsonCount(2, 'data');
+        $this->getJson('/api/v1/offers?languages[]=Autre')
+            ->assertOk()
+            ->assertJsonPath('data.*.id', [$cheapShort->slug]);
+    }
+
     public function test_fee_sort_puts_offers_without_fees_last(): void
     {
         $unknown = Offer::factory()->create(['fees' => null]);

@@ -17,7 +17,7 @@ class ManagedEstablishmentController extends Controller
     {
         return ManagedEstablishmentResource::collection(
             $request->user()->establishments()
-                ->with(['category', 'subCategory', 'publishedOffers.domain', 'offers.domain', 'offers.establishment.category'])
+                ->with(ManagedEstablishmentResource::RELATIONS)
                 ->orderBy('name')
                 ->get(),
         );

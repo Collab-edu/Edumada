@@ -6,6 +6,7 @@ use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EstablishmentModerationRequest;
 use App\Http\Resources\ManagedEstablishmentResource;
+use App\Models\AuditLog;
 use App\Models\Establishment;
 
 /**
@@ -29,8 +30,10 @@ class EstablishmentModerationController extends Controller
             $establishment->accreditation_verified = $request->boolean('accreditationVerified');
         }
 
+        $changes = $establishment->getDirty();
         $establishment->save();
+        AuditLog::record('establishment.moderated', $establishment, array_map(fn ($value) => $value instanceof \BackedEnum ? $value->value : $value, $changes));
 
-        return new ManagedEstablishmentResource($establishment->load(['category', 'subCategory', 'publishedOffers.domain', 'offers']));
+        return new ManagedEstablishmentResource($establishment->load(ManagedEstablishmentResource::RELATIONS));
     }
 }
