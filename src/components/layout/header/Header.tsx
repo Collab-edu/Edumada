@@ -151,7 +151,7 @@ const Header: React.FC = () => {
             </div>
 
             {/* Barre principale : logo, menu, boutons à icônes */}
-            <div className={cn('py-4 transition-all duration-300', sticky ? 'bg-white shadow-lg' : 'bg-transparent')}>
+            <div className={cn('py-4 transition-all duration-300', sticky ? 'bg-white shadow-lg' : 'bg-white')}>
                 <div className='container relative mx-auto max-w-7xl px-4 flex items-center justify-between'>
                     <Logo />
                     <nav className='hidden lg:flex grow justify-center items-center gap-8 mx-8'>
