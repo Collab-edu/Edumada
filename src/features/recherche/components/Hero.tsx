@@ -1,5 +1,6 @@
 import HeroFilters from './HeroFilters'
 import { DotPattern } from '@/components/ui/dot-pattern'
+import ParallaxFloatingSymbols from '@/components/ui/m-parallax-floating-3'
 import Image from 'next/image'
 import withBasePath from '@/lib/base-path'
 
@@ -20,6 +21,8 @@ const Banner = () => {
                 cr={1.5}
                 className='fill-secondary/25 [mask-image:radial-gradient(ellipse_at_center,white_30%,transparent_85%)]'
             />
+            {/* Essai : symboles flottants qui suivent la souris (parallaxe) */}
+            <ParallaxFloatingSymbols />
             <div className='relative w-full px-6 lg:px-8'>
                 <div className='container'>
                     <div className='flex flex-col gap-4 text-center'>
