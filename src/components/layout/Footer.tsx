@@ -26,7 +26,7 @@ const Footer = () => {
                             <Image
                                 src={withBasePath('/images/logo/edumada-logo-white.svg')}
                                 alt='Edumada'
-                                width={860}
+                                width={828}
                                 height={270}
                                 className='h-14 w-auto'
                             />

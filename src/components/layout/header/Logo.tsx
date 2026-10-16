@@ -8,7 +8,7 @@ const Logo: React.FC = () => {
             <Image
                 src={withBasePath('/images/logo/edumada-logo.svg')}
                 alt="Edumada"
-                width={860}
+                width={828}
                 height={270}
                 className="h-12 w-auto"
                 priority
