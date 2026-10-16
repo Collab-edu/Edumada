@@ -6,6 +6,7 @@ Site web d'Edumada : trouvez votre formation à Madagascar, comparez les établi
 
 - [Next.js 15](https://nextjs.org/) (App Router, export statique)
 - API Laravel dans [`backend/`](backend/README.md)
+- Back-office séparé (établissements et administration) dans [`backoffice/`](backoffice/README.md)
 - React 19, TypeScript
 - Tailwind CSS v4
 

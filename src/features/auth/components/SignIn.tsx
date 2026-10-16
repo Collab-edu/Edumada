@@ -7,7 +7,7 @@ import Logo from '@/components/layout/header/Logo'
 import { Button, FormAlert, TextField } from '@/components/ui/form'
 import { ApiError, apiEnabled } from '@/lib/api'
 import { useAuth } from '../AuthProvider'
-import { SPACE_HOME } from '../types'
+import { SPACE_HOME, backofficeUrl, goTo } from '../types'
 
 /** Adresse de retour demandée (?next=/formations/…), limitée au site lui-même. */
 export function nextUrl(): string | null {
@@ -35,7 +35,11 @@ const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
             const user = await login(email, password)
             toast.success(`Bienvenue, ${user.name.split(' ')[0]} !`)
             onSuccess?.()
-            router.push(nextUrl() ?? SPACE_HOME[user.role])
+            if (user.role === 'student') goTo(nextUrl() ?? SPACE_HOME.student, router.push)
+            else {
+                toast('Votre espace de gestion est le back-office : connectez-vous-y avec le même compte.', { icon: '➡️' })
+                goTo(backofficeUrl(`/connexion?email=${encodeURIComponent(user.email)}`), router.push)
+            }
         } catch (err) {
             setError(err as ApiError)
         } finally {

@@ -9,7 +9,7 @@ import { Button, FormAlert, SelectField, TextField } from '@/components/ui/form'
 import { ApiError, apiEnabled } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import { useAuth } from '../AuthProvider'
-import { SPACE_HOME } from '../types'
+import { SPACE_HOME, backofficeUrl, goTo } from '../types'
 import { nextUrl } from './SignIn'
 
 const ACCOUNT_TYPES = [
@@ -42,7 +42,10 @@ const SignUp = ({ onSuccess }: { onSuccess?: () => void }) => {
             const user = await register({ ...form, accountType })
             toast.success('Votre compte est créé.')
             onSuccess?.()
-            router.push(nextUrl() ?? (user.role === 'establishment' ? '/espace/etablissement/nouveau/' : SPACE_HOME[user.role]))
+            if (user.role === 'establishment') {
+                toast('Connectez-vous au back-office pour créer la fiche de votre établissement.', { icon: '➡️' })
+                goTo(backofficeUrl(`/connexion?email=${encodeURIComponent(user.email)}`), router.push)
+            } else goTo(nextUrl() ?? SPACE_HOME.student, router.push)
         } catch (err) {
             setError(err as ApiError)
         } finally {

@@ -8,7 +8,7 @@ import { FormAlert } from '@/components/ui/form'
 import { apiEnabled } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/features/auth/AuthProvider'
-import { SPACE_HOME, type UserRole } from '@/features/auth/types'
+import { SPACE_HOME, goTo, type UserRole } from '@/features/auth/types'
 
 export type SpaceNavItem = { href: string; label: string; icon: string; badge?: number }
 
@@ -36,7 +36,7 @@ export function SpaceShell({ roles, title, subtitle, nav, actions, banner, child
     useEffect(() => {
         if (loading || !apiEnabled) return
         if (!user) router.replace(`/signin/?next=${encodeURIComponent(window.location.pathname + window.location.search)}`)
-        else if (!roles.includes(user.role)) router.replace(SPACE_HOME[user.role])
+        else if (!roles.includes(user.role)) goTo(SPACE_HOME[user.role], router.replace)
     }, [loading, user, roles, router])
 
     if (!apiEnabled) {

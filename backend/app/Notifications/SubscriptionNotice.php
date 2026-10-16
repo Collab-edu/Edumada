@@ -36,7 +36,7 @@ class SubscriptionNotice extends Notification
         $plan = $subscription->plan->name;
         $establishment = $subscription->establishment->name;
         $endDate = $subscription->ends_at?->locale('fr')->isoFormat('LL');
-        $billingUrl = rtrim(config('edumada.frontend_url'), '/').'/espace/etablissement/formule/?e='.$subscription->establishment->slug;
+        $billingUrl = rtrim(config('edumada.backoffice_url'), '/').'/#/formule?e='.$subscription->establishment->slug;
 
         $mail = (new MailMessage)->greeting('Bonjour,');
 

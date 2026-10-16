@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import type { CategoryType } from '@/features/categories/types'
 import { formatDate } from '@/features/formations/format'
 import { track } from '@/lib/track'
+import { backofficeUrl } from '@/features/auth/types'
 import type { FormationType } from '@/features/formations/types'
 import type { SchoolType, TestimonialType } from '../types'
 import type { FaqItem } from '../faq'
@@ -289,7 +290,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 <Icon icon='tabler:flag' /> Signaler une information erronée
                             </button>
                             <Link
-                                href={`/espace/etablissement/revendiquer/?e=${school.id}`}
+                                href={backofficeUrl(`/revendiquer/${school.id}`)}
                                 className='flex min-h-11 items-center gap-2 font-semibold text-secondary hover:text-primary'>
                                 <Icon icon='tabler:building-community' /> Vous représentez cet établissement ? Gérez cette fiche
                             </Link>

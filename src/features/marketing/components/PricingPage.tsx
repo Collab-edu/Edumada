@@ -6,6 +6,7 @@ import { api, apiEnabled } from '@/lib/api'
 import PlanCards from '@/features/espace/components/PlanCards'
 import type { Plan } from '@/features/espace/types'
 import { useAuth } from '@/features/auth/AuthProvider'
+import { backofficeUrl } from '@/features/auth/types'
 
 /** Formules affichées si l'API ne répond pas (mêmes hypothèses que la base). */
 const FALLBACK_PLANS: Plan[] = [
@@ -46,7 +47,7 @@ export default function PricingPage() {
         api<{ data: Plan[] }>('/plans', { token: null }).then((res) => setPlans(res.data)).catch(() => undefined)
     }, [])
 
-    const cta = user?.role === 'establishment' ? '/espace/etablissement/formule/' : '/signup/?type=etablissement'
+    const cta = user?.role === 'establishment' ? backofficeUrl('/formule') : '/signup/?type=etablissement'
 
     return (
         <section className='pt-28 pb-20'>

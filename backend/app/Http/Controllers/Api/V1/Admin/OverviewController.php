@@ -12,6 +12,7 @@ use App\Enums\ReviewStatus;
 use App\Enums\SubscriptionStatus;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
+use App\Models\DailyStat;
 use App\Models\Establishment;
 use App\Models\EstablishmentClaim;
 use App\Models\Inquiry;
@@ -22,14 +23,17 @@ use App\Models\Review;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Indicateurs du pilote : usage étudiant, catalogue, demandes traitées, formules et file de modération.
  */
 class OverviewController extends Controller
 {
-    public function __invoke(): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
+        $request->validate(['days' => ['nullable', 'integer', 'between:7,365']]);
+        $days = $request->integer('days', 30);
         $since = now()->subDays(30);
         $inquiries = Inquiry::query();
 
@@ -61,6 +65,7 @@ class OverviewController extends Controller
                 'thisMonth' => (int) Invoice::where('status', InvoiceStatus::Paid)->where('paid_at', '>=', now()->startOfMonth())->sum('amount'),
                 'last12Months' => (int) Invoice::where('status', InvoiceStatus::Paid)->where('paid_at', '>=', now()->subYear())->sum('amount'),
             ],
+            'series' => $this->series($days),
             'queues' => [
                 'establishmentsPending' => Establishment::where('status', EstablishmentStatus::PendingReview)->count(),
                 'verificationsPending' => Establishment::where('verification_status', 'pending')->count(),
@@ -70,5 +75,42 @@ class OverviewController extends Controller
                 'invoicesPending' => Invoice::where('status', InvoiceStatus::Pending)->count(),
             ],
         ]]);
+    }
+
+    /**
+     * Demandes, candidatures, nouveaux comptes et vues par jour sur la période.
+     *
+     * @return list<array{date: string, inquiries: int, applications: int, users: int, views: int}>
+     */
+    private function series(int $days): array
+    {
+        $from = now()->startOfDay()->subDays($days - 1);
+        $byDay = fn ($query, string $column = 'created_at') => $query
+            ->where($column, '>=', $from)
+            ->get([$column])
+            ->countBy(fn ($row) => substr((string) $row->{$column}, 0, 10));
+
+        $inquiries = $byDay(Inquiry::query()->where('type', 'information'));
+        $applications = $byDay(Inquiry::query()->where('type', 'application'));
+        $users = $byDay(User::query());
+        $views = DailyStat::query()
+            ->where('date', '>=', $from->toDateString())
+            ->where('metric', 'view')
+            ->toBase()
+            ->get(['date', 'count'])
+            ->groupBy(fn ($row) => substr((string) $row->date, 0, 10))
+            ->map(fn ($rows) => (int) $rows->sum('count'));
+
+        return collect(range(0, $days - 1))->map(function (int $offset) use ($from, $inquiries, $applications, $users, $views): array {
+            $date = $from->copy()->addDays($offset)->toDateString();
+
+            return [
+                'date' => $date,
+                'inquiries' => (int) ($inquiries[$date] ?? 0),
+                'applications' => (int) ($applications[$date] ?? 0),
+                'users' => (int) ($users[$date] ?? 0),
+                'views' => (int) ($views[$date] ?? 0),
+            ];
+        })->all();
     }
 }

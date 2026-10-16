@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 0 240 240" width="240" height="240">
+  <defs>
+    <clipPath id="mg"><path transform="translate(50 30)" d="M98.6 30.0 L100.9 34.9 L106.2 43.3 L108.8 51.7 L110.8 62.9 L114.5 78.3 L110.8 85.3 L106.2 90.9 L102.9 102.1 L100.3 113.3 L96.3 128.7 L91.1 145.5 L87.1 159.5 L81.9 174.9 L76.6 191.7 L70.0 211.3 L63.4 214.8 L54.2 219.7 L43.7 221.1 L35.8 216.9 L30.5 207.1 L25.3 193.1 L23.9 180.5 L20.0 170.7 L22.6 160.9 L29.2 149.7 L34.5 139.9 L33.2 128.7 L29.2 114.7 L29.2 103.5 L34.5 92.3 L41.1 89.5 L55.5 83.9 L63.4 75.5 L72.6 71.3 L79.2 62.9 L81.9 53.1 L87.1 50.3 L92.4 40.5 Z"></path></clipPath>
+  </defs>
+  <g clip-path="url(#mg)">
+    <rect x="0" y="0" width="230" height="182" fill="#FF3B52"></rect>
+    <rect x="0" y="182" width="230" height="100" fill="#0F4C5C"></rect>
+    <g stroke="#f7f8f9" stroke-width="4.5" fill="none">
+      <path d="M0 105 Q115 98 230 105"></path>
+      <path d="M0 140 Q115 133 230 140"></path>
+      <path d="M0 210 Q115 204 230 210"></path>
+      <path d="M0 236 Q115 231 230 236"></path>
+      <path d="M100 40 Q88 160 100 270"></path>
+      <path d="M128 40 Q122 160 128 270"></path>
+      <path d="M156 40 Q160 160 152 270"></path>
+    </g>
+  </g>
+  <path d="M22 205 Q100 150 214 150 Q120 168 34 216 Z" fill="#0F4C5C" stroke="#f7f8f9" stroke-width="5" stroke-linejoin="round" paint-order="stroke"></path>
+  <g transform="rotate(-8 130 45)">
+    <path d="M104 52 L104 72 Q130 84 158 72 L158 52 Z" fill="#D92E44"></path>
+    <polygon points="70,42 132,18 190,42 130,64" fill="#FF3B52" stroke="#f7f8f9" stroke-width="3" stroke-linejoin="round"></polygon>
+    <polyline points="130,41 182,46 182,82" fill="none" stroke="#FF3B52" stroke-width="2.5"></polyline>
+    <path d="M177 82 L187 82 L190 100 L174 100 Z" fill="#FF3B52"></path>
+  </g>
+</svg>

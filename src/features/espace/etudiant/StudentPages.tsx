@@ -13,7 +13,41 @@ import type { FormationType } from '@/features/formations/types'
 import { useApi } from '../useApi'
 import { Panel, SpaceShell, StatCard, formatDateTime } from '../components/SpaceShell'
 import { INQUIRY_STATUS_TONE, type Inquiry } from '../types'
-import { InquiryDetail } from '../etablissement/InboxPage'
+
+/** Détail d'une démarche vue par l'étudiant : message, documents, historique des statuts. */
+function InquiryDetail({ inquiry }: { inquiry: Inquiry }) {
+    return (
+        <div className='flex flex-col gap-5'>
+            <div className='flex flex-wrap items-center gap-2'>
+                <Badge tone={inquiry.type === 'application' ? 'info' : 'neutral'}>{inquiry.typeLabel}</Badge>
+                <Badge tone={INQUIRY_STATUS_TONE[inquiry.status]}>{inquiry.statusLabel}</Badge>
+                <span className='text-sm text-ink/60'>Envoyée le {formatDateTime(inquiry.createdAt)}</span>
+            </div>
+            {inquiry.message && <p className='whitespace-pre-line text-ink/90'>{inquiry.message}</p>}
+            {inquiry.attachments && inquiry.attachments.length > 0 && (
+                <ul className='flex flex-col gap-1 text-sm text-ink/80'>
+                    {inquiry.attachments.map((file) => (
+                        <li key={file.id} className='flex items-center gap-2'>
+                            <Icon icon='tabler:paperclip' className='text-secondary' /> {file.name}
+                        </li>
+                    ))}
+                </ul>
+            )}
+            {inquiry.history && inquiry.history.length > 0 && (
+                <ol className='flex flex-col gap-3 border-l-2 border-gray-100 pl-4'>
+                    {inquiry.history.map((step, i) => (
+                        <li key={i} className='relative'>
+                            <span className='absolute -left-[23px] top-1.5 h-3 w-3 rounded-full bg-primary' aria-hidden='true' />
+                            <p className='font-semibold text-secondary'>{step.toLabel}</p>
+                            <p className='text-xs text-ink/50'>{formatDateTime(step.at)}</p>
+                            {step.note && <p className='mt-1 rounded-lg bg-offwhite px-3 py-2 text-sm text-ink/80'>{step.note}</p>}
+                        </li>
+                    ))}
+                </ol>
+            )}
+        </div>
+    )
+}
 
 const NAV = [
     { href: '/espace/etudiant/', label: 'Mes démarches', icon: 'tabler:list-check' },
@@ -83,7 +117,7 @@ function Inquiries() {
             <Dialog open={!!selected} onClose={() => setSelected(null)} title={selected?.offer?.title ?? selected?.establishment.name ?? ''} className='sm:max-w-2xl'>
                 {selected && (
                     <div className='flex flex-col gap-4'>
-                        <InquiryDetail inquiry={selected} readOnly />
+                        <InquiryDetail inquiry={selected} />
                         {selected.offer && <ButtonLink href={`/formations/${selected.offer.id}/`} variant='secondary'>Voir l&apos;offre</ButtonLink>}
                     </div>
                 )}

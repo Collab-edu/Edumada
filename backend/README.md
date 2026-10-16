@@ -126,4 +126,4 @@ D'après le document « Les 4 types de comptes » :
 - `php artisan subscriptions:process` gère les rappels et les expirations ; il est planifié chaque jour à 6 h (`routes/console.php`). En production, lancer `php artisan schedule:run` chaque minute (cron).
 - En local, les e-mails sont écrits dans `storage/logs/laravel.log` (`MAIL_MAILER=log`). Configurer un vrai serveur SMTP avant la mise en ligne.
 - Les images envoyées sont servies par `public/storage` : lancer `php artisan storage:link` une fois. Les pièces jointes de candidature restent dans `storage/app/private`.
-- `FRONTEND_URLS` (origines autorisées, séparées par des virgules) et `FRONTEND_URL` (liens des e-mails) désignent le site Next.js.
+- `FRONTEND_URLS` (origines autorisées, séparées par des virgules : site et back-office), `FRONTEND_URL` (liens des e-mails aux étudiants) et `BACKOFFICE_URL` (liens des e-mails aux établissements).

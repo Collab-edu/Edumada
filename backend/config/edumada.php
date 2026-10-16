@@ -26,6 +26,12 @@ return [
     'frontend_url' => env('FRONTEND_URL', 'http://localhost:3000'),
 
     /*
+    | Back-office (application séparée, dossier backoffice/) : liens des e-mails envoyés aux établissements.
+    */
+
+    'backoffice_url' => env('BACKOFFICE_URL', 'http://localhost:5173'),
+
+    /*
     |--------------------------------------------------------------------------
     | Abonnements
     |--------------------------------------------------------------------------

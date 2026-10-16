@@ -37,7 +37,7 @@ class NewInquiryReceived extends Notification
 
         if ($this->hasInbox) {
             return $mail
-                ->action('Ouvrir la boîte de réception', rtrim(config('edumada.frontend_url'), '/').'/espace/etablissement/demandes/?e='.$inquiry->establishment->slug)
+                ->action('Ouvrir la boîte de réception', rtrim(config('edumada.backoffice_url'), '/').'/#/demandes?e='.$inquiry->establishment->slug)
                 ->line('Répondez rapidement : le délai de première réponse compte pour les futurs étudiants.');
         }
 

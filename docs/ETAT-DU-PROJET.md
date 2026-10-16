@@ -193,8 +193,7 @@ docs/                     Documentation (ce fichier)
 - **Données de l'API** sur tout le site, avec repli sur `public/data/` si elle est indisponible. Les fiches restent des pages statiques (SEO), mises à jour dans le navigateur ; une fiche publiée après le build s'ouvre via `/formations/voir/?id=…` (redirection automatique depuis la 404).
 - **Comptes :** connexion, inscription (étudiant ou établissement), « Mon espace » dans l'en-tête.
 - **Étudiant :** favoris, demande d'information, candidature en ligne avec documents, suivi des statuts, avis, profil et suppression du compte.
-- **Établissement (`/espace/etablissement`) :** fiche, offres (formulaire adapté à la catégorie), demandes, statistiques, campagnes, formule et factures, création ou revendication d'une fiche, demande de vérification.
-- **Administration (`/espace/admin`) :** indicateurs du pilote, validation et vérification des fiches, modération, utilisateurs, catalogue, facturation, journal d'audit.
+- **Back-office séparé ([`backoffice/`](../backoffice/README.md), CoreUI) :** pour les établissements (fiche, offres, demandes, statistiques, campagnes, formule et factures, création ou revendication d'une fiche) et pour l'administration (indicateurs, validation et vérification, modération, utilisateurs, catalogue, facturation, journal d'audit). Le site ne garde que l'espace étudiant.
 - **Formules :** page `/tarifs`, limites par formule, paiement Mobile Money confirmé par un administrateur, rappels et expiration automatiques.
 - **Pages légales** `/conditions` et `/confidentialite` (à faire valider par un juriste).
 

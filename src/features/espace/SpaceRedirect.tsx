@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { PageSkeleton } from '@/components/ui/page-state'
 import { useAuth } from '@/features/auth/AuthProvider'
-import { SPACE_HOME } from '@/features/auth/types'
+import { SPACE_HOME, goTo } from '@/features/auth/types'
 
 /** /espace : envoie chacun vers son espace (étudiant, établissement, administration) ou vers la connexion. */
 export default function SpaceRedirect() {
@@ -12,7 +12,7 @@ export default function SpaceRedirect() {
 
     useEffect(() => {
         if (loading) return
-        router.replace(user ? SPACE_HOME[user.role] : '/signin/?next=/espace/')
+        goTo(user ? SPACE_HOME[user.role] : '/signin/?next=/espace/', router.replace)
     }, [loading, user, router])
 
     return <PageSkeleton />
