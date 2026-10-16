@@ -2613,6 +2613,10 @@
                     "href": "/espace/"
                 },
                 {
+                    "label": "Contact",
+                    "href": "/contact/"
+                },
+                {
                     "label": "Conditions d'utilisation",
                     "href": "/conditions/"
                 },

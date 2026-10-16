@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\V1\ManagedEstablishmentController;
 use App\Http\Controllers\Api\V1\OfferController;
 use App\Http\Controllers\Api\V1\PlanController;
 use App\Http\Controllers\Api\V1\ReferenceDataController;
+use App\Http\Controllers\Api\V1\ContactController;
 use App\Http\Controllers\Api\V1\ReportController;
 use App\Http\Controllers\Api\V1\ReviewController;
 use App\Http\Controllers\Api\V1\TrackController;
@@ -45,6 +46,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('sponsored', [CampaignController::class, 'sponsored'])->name('sponsored');
     Route::post('track', [TrackController::class, 'store'])->middleware('throttle:track')->name('track');
     Route::post('reports', [ReportController::class, 'store'])->middleware('throttle:reports')->name('reports.store');
+    Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:contact')->name('contact.store');
 
     // Authentification.
     Route::prefix('auth')->name('auth.')->group(function () {
