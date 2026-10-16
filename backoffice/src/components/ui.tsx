@@ -263,3 +263,19 @@ export function Pager({ meta, onChange }: { meta?: Paginated<unknown>['meta']; o
         </CPagination>
     )
 }
+
+const PLAN_BADGES: Record<string, { color: string; label: string }> = {
+    free: { color: 'secondary', label: 'Gratuit' },
+    pro: { color: 'primary', label: 'Pro' },
+    premium: { color: 'danger', label: 'Premium' },
+}
+
+/** Formule d'un établissement : Gratuit (gris), Pro (sarcelle), Premium (rouge). */
+export function PlanBadge({ code, className }: { code: string; className?: string }) {
+    const plan = PLAN_BADGES[code] ?? PLAN_BADGES.free
+    return (
+        <CBadge color={plan.color} className={className}>
+            {plan.label}
+        </CBadge>
+    )
+}

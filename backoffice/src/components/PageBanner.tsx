@@ -15,7 +15,7 @@ export default function PageBanner({ title, description, actions }: { title?: Re
                 </div>
             )}
             <div className='me-auto min-w-0' style={{ flex: '1 1 220px' }}>
-                <h1 className='text-truncate'>{title ?? route?.name}</h1>
+                <h1 className='text-break'>{title ?? route?.name}</h1>
                 {(description ?? route?.description) && <p>{description ?? route?.description}</p>}
             </div>
             {actions && <div className='bo-banner-actions d-flex flex-wrap gap-2'>{actions}</div>}

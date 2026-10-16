@@ -26,6 +26,8 @@ class EstablishmentModerationRequest extends FormRequest
             'status' => ['sometimes', Rule::enum(EstablishmentStatus::class)],
             'verification' => ['sometimes', Rule::enum(VerificationStatus::class)],
             'accreditationVerified' => ['sometimes', 'boolean'],
+            // Message joint à la réponse d'adhésion (acceptation ou refus).
+            'note' => ['nullable', 'string', 'max:1000'],
         ];
     }
 }

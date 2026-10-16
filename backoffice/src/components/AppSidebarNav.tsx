@@ -1,20 +1,39 @@
 'use client'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
 import { CBadge, CNavItem, CNavTitle, CSidebarNav } from '@coreui/react'
 import type { NavEntry } from '@/nav'
 
+type NavItem = Extract<NavEntry, { kind: 'item' }>
+
 const clean = (path: string) => path.replace(/\/+$/, '') || '/'
 
-/** Entrées du menu ; l'entrée active couvre aussi ses sous-pages (/offres → /offres/nouvelle). */
+/** « /admin/etablissements?categorie=x » → lien « /admin/etablissements/?categorie=x » (export avec barre finale). */
+const href = (to: string) => {
+    const [path, query] = to.split('?')
+    return `${path}/${query ? `?${query}` : ''}`
+}
+
+/**
+ * Entrées du menu. L'entrée active couvre ses sous-pages (/offres → /offres/nouvelle) ;
+ * une entrée avec paramètres (catégorie) n'est active que si l'adresse a les mêmes paramètres.
+ */
 export function AppSidebarNav({ items, onNavigate }: { items: NavEntry[]; onNavigate?: () => void }) {
     const pathname = clean(usePathname())
-    // L'entrée la plus précise l'emporte (Établissements ne s'allume pas sur une autre page admin).
+    const search = useSearchParams()
+
+    const matches = (item: NavItem) => {
+        const [path, query] = item.to.split('?')
+        if (pathname !== path && !pathname.startsWith(`${path}/`)) return false
+        const wanted = new URLSearchParams(query)
+        return [...wanted.entries()].every(([key, value]) => search.get(key) === value)
+    }
+    // L'entrée la plus précise l'emporte (une catégorie plutôt que « Tous les établissements »).
     const active = items
-        .filter((i): i is Extract<NavEntry, { kind: 'item' }> => i.kind === 'item')
-        .filter((i) => pathname === i.to || pathname.startsWith(`${i.to}/`))
+        .filter((i): i is NavItem => i.kind === 'item')
+        .filter(matches)
         .sort((a, b) => b.to.length - a.to.length)[0]?.to
 
     return (
@@ -26,9 +45,9 @@ export function AppSidebarNav({ items, onNavigate }: { items: NavEntry[]; onNavi
                     </CNavTitle>
                 ) : (
                     <CNavItem key={entry.to} as='div'>
-                        <Link href={`${entry.to}/`} className={`nav-link${active === entry.to ? ' active' : ''}`} onClick={onNavigate}>
+                        <Link href={href(entry.to)} className={`nav-link${active === entry.to ? ' active' : ''}`} onClick={onNavigate}>
                             {entry.icon}
-                            {entry.name}
+                            <span className='bo-nav-label'>{entry.name}</span>
                             {entry.badge && (
                                 <CBadge color={entry.badge.color} className='ms-auto' size='sm'>
                                     {entry.badge.text}

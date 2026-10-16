@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\BillingCycle;
 use App\Enums\SubscriptionStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -28,6 +30,21 @@ class Subscription extends Model
             'grace_ends_at' => 'datetime',
             'reminders_sent' => 'array',
         ];
+    }
+
+    /**
+     * Abonnement en vigueur : actif ou en période de grâce, déjà commencé, pas encore échu.
+     */
+    #[Scope]
+    protected function current(Builder $query): void
+    {
+        $query->whereIn('status', [SubscriptionStatus::Active, SubscriptionStatus::Grace])
+            ->where('starts_at', '<=', now())
+            ->where(function (Builder $query): void {
+                $query->whereNull('ends_at')
+                    ->orWhere('ends_at', '>', now())
+                    ->orWhere('grace_ends_at', '>', now());
+            });
     }
 
     /**

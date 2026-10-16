@@ -102,6 +102,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::prefix('admin')->name('admin.')->middleware('can:admin')->group(function () {
             Route::get('overview', OverviewController::class)->name('overview');
             Route::get('establishments', [AdminEstablishmentController::class, 'index'])->name('establishments.index');
+            Route::get('establishments/counts', [AdminEstablishmentController::class, 'counts'])->name('establishments.counts');
             Route::post('establishments/{establishment}/members', [AdminEstablishmentController::class, 'storeMember'])->name('establishments.members.store');
             Route::delete('establishments/{establishment}/members/{user}', [AdminEstablishmentController::class, 'destroyMember'])->name('establishments.members.destroy');
             Route::get('users', [UserController::class, 'index'])->name('users.index');

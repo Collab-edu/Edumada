@@ -2,14 +2,18 @@
 
 namespace Tests\Feature\Api\V1;
 
+use App\Enums\PlanCode;
 use App\Enums\ReviewStatus;
 use App\Enums\UserRole;
+use App\Models\Category;
 use App\Models\Establishment;
 use App\Models\Offer;
 use App\Models\Plan;
 use App\Models\User;
+use App\Notifications\MembershipDecision;
 use Database\Seeders\PlanSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
@@ -95,5 +99,63 @@ class AdminTest extends TestCase
         $admin = $this->admin();
 
         $this->actingAs($admin)->patchJson("/api/v1/admin/users/{$admin->id}", ['role' => 'student'])->assertUnprocessable();
+    }
+
+    public function test_establishment_list_filters_by_category_and_plan(): void
+    {
+        $universities = Category::factory()->create(['slug' => 'universite']);
+        $creches = Category::factory()->create(['slug' => 'creche']);
+        [, $premium] = $this->establishmentOwner(PlanCode::Premium);
+        $premium->update(['category_id' => $universities->id]);
+        $free = Establishment::factory()->create(['category_id' => $universities->id]);
+        Establishment::factory()->create(['category_id' => $creches->id]);
+        $admin = $this->admin();
+
+        $this->actingAs($admin)->getJson('/api/v1/admin/establishments?category=universite')
+            ->assertOk()
+            ->assertJsonCount(2, 'data');
+        $this->actingAs($admin)->getJson('/api/v1/admin/establishments?category=universite&plan=premium')
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $premium->slug)
+            ->assertJsonPath('data.0.plan.code', 'premium');
+        $this->actingAs($admin)->getJson('/api/v1/admin/establishments?category=universite&plan=free')
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $free->slug);
+    }
+
+    public function test_counts_split_new_and_registered_establishments_by_category(): void
+    {
+        $universities = Category::factory()->create(['slug' => 'universite']);
+        Establishment::factory()->count(2)->create(['category_id' => $universities->id]);
+        Establishment::factory()->draft()->create(['category_id' => $universities->id]);
+        [, $pro] = $this->establishmentOwner(PlanCode::Pro);
+        $pro->update(['category_id' => $universities->id]);
+
+        $response = $this->actingAs($this->admin())->getJson('/api/v1/admin/establishments/counts?category=universite')->assertOk();
+
+        $response->assertJsonPath('data.total.new', 1)
+            ->assertJsonPath('data.total.registered', 3)
+            ->assertJsonPath('data.plans.pro', 1)
+            ->assertJsonPath('data.plans.free', 2);
+        $university = collect($response->json('data.categories'))->firstWhere('id', 'universite');
+        $this->assertSame([1, 3], [$university['new'], $university['registered']]);
+    }
+
+    public function test_membership_decision_is_emailed_to_the_establishment(): void
+    {
+        Notification::fake();
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $pending = Establishment::factory()->draft()->ownedBy($owner)->create();
+        $refused = Establishment::factory()->draft()->create(['email' => null]);
+        $admin = $this->admin();
+
+        $this->actingAs($admin)->putJson("/api/v1/establishments/{$pending->slug}/moderation", ['status' => 'published'])->assertOk();
+        $this->actingAs($admin)->putJson("/api/v1/establishments/{$refused->slug}/moderation", ['status' => 'draft', 'note' => "Merci d'ajouter une adresse."])->assertOk();
+
+        Notification::assertSentTo($owner, MembershipDecision::class, fn (MembershipDecision $notice) => $notice->accepted);
+        Notification::assertSentOnDemand(MembershipDecision::class, fn (MembershipDecision $notice) => $notice->establishment->is($pending));
+        $this->assertSame('draft', $refused->fresh()->status->value);
     }
 }

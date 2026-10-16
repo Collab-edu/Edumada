@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext'
 import { useEstablishment } from '@/context/EstablishmentContext'
 import { useLayout } from '@/context/LayoutContext'
 import { useApi } from '@/lib/useApi'
+import { useEstablishmentCounts } from '@/lib/useEstablishmentCounts'
 
 type Overview = { data: { queues: { establishmentsPending: number; verificationsPending: number; claimsPending: number; reviewsPending: number; reportsOpen: number; invoicesPending: number } } }
 
@@ -18,11 +19,14 @@ export default function AppSidebar() {
     // Pastilles du menu : nouvelles demandes, files d'attente de l'administration.
     const hasInbox = !!current?.plan.features.inquiryInbox
     const { data: inbox } = useApi<{ counts?: { new?: number } }>(hasInbox ? `/establishments/${current?.id}/inquiries` : null, { perPage: 1 })
-    const { data: overview } = useApi<Overview>(user?.role === 'admin' ? '/admin/overview' : null, { days: 7 })
+    const admin = user?.role === 'admin'
+    const { data: overview } = useApi<Overview>(admin ? '/admin/overview' : null, { days: 7 })
+    const { data: establishmentCounts } = useEstablishmentCounts(admin)
     const q = overview?.data.queues
     const counts = {
         newInquiries: inbox?.counts?.new,
-        establishments: q && q.establishmentsPending + q.verificationsPending,
+        // Nouvelles demandes d'adhésion (fiches en attente de validation).
+        establishments: establishmentCounts?.data.total.new,
         moderation: q && q.claimsPending + q.reviewsPending + q.reportsOpen,
         invoices: q?.invoicesPending,
     }
@@ -52,7 +56,7 @@ export default function AppSidebar() {
                 </Link>
                 <CCloseButton className='d-lg-none' dark onClick={() => setSidebarShow(false)} />
             </CSidebarHeader>
-            <AppSidebarNav items={buildNav({ user, current, counts })} onNavigate={closeOnMobile} />
+            <AppSidebarNav items={buildNav({ user, current, counts, categories: establishmentCounts?.data.categories })} onNavigate={closeOnMobile} />
             <CSidebarFooter className='border-top d-none d-lg-flex'>
                 <CSidebarToggler onClick={() => setSidebarUnfoldable(!sidebarUnfoldable)} aria-label='Réduire le menu' />
             </CSidebarFooter>

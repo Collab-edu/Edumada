@@ -25,7 +25,7 @@ import { useEstablishment } from '@/context/EstablishmentContext'
 import { useLayout } from '@/context/LayoutContext'
 import { SITE_URL } from '@/lib/api'
 
-export const PLAN_COLORS = { free: 'secondary', pro: 'info', premium: 'danger' } as const
+export const PLAN_COLORS = { free: 'secondary', pro: 'primary', premium: 'danger' } as const
 
 /** Choix de l'établissement géré (plusieurs fiches, ou administrateur). */
 function EstablishmentSwitcher() {

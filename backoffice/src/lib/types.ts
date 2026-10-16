@@ -302,3 +302,14 @@ export type EstablishmentStats = {
         campaigns?: { id: number; title: string; offer: string; startsOn: string; endsOn: string; impressions: number; clicks: number; clickRate: number | null; inquiriesDuring: number }[]
     }
 }
+
+export type StatusCounts = { new: number; registered: number; other: number }
+
+/** Compteurs de l'administration : demandes d'adhésion (nouvelles), fiches inscrites, par catégorie et par formule. */
+export type EstablishmentCounts = {
+    data: {
+        total: StatusCounts
+        categories: ({ id: string; label: string; shortLabel: string } & StatusCounts)[]
+        plans: Record<Plan['code'], number>
+    }
+}

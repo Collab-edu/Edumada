@@ -7,7 +7,6 @@ use App\Enums\EstablishmentStatus;
 use App\Enums\OfferStatus;
 use App\Enums\PlanCode;
 use App\Enums\ReviewStatus;
-use App\Enums\SubscriptionStatus;
 use App\Enums\VerificationStatus;
 use App\Models\Concerns\HasUniqueSlug;
 use Database\Factories\EstablishmentFactory;
@@ -67,6 +66,22 @@ class Establishment extends Model
     protected function published(Builder $query): void
     {
         $query->where('status', EstablishmentStatus::Published);
+    }
+
+    /**
+     * Fiches dont la formule en vigueur est celle donnée (Gratuit = aucun abonnement payant en cours).
+     */
+    #[Scope]
+    protected function onPlan(Builder $query, PlanCode $plan): void
+    {
+        if ($plan === PlanCode::Free) {
+            $query->whereDoesntHave('subscriptions', fn (Builder $query) => $query->current());
+
+            return;
+        }
+
+        $query->whereHas('subscriptions', fn (Builder $query) => $query->current()
+            ->whereHas('plan', fn (Builder $query) => $query->where('code', $plan)));
     }
 
     /**
@@ -184,13 +199,7 @@ class Establishment extends Model
     {
         return $this->subscriptions()
             ->with('plan')
-            ->whereIn('status', [SubscriptionStatus::Active, SubscriptionStatus::Grace])
-            ->where('starts_at', '<=', now())
-            ->where(function (Builder $query): void {
-                $query->whereNull('ends_at')
-                    ->orWhere('ends_at', '>', now())
-                    ->orWhere('grace_ends_at', '>', now());
-            })
+            ->current()
             ->latest('starts_at')
             ->first();
     }
