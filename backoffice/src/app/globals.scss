@@ -17,16 +17,13 @@
   --edu-cream: #ffe5e8;
   --edu-offwhite: #f6f8fa;
   --edu-ink: #334155;
-  --edu-body-bg:
-    radial-gradient(1100px 520px at 100% -10%, rgba(255, 59, 82, .09), transparent 60%),
-    radial-gradient(900px 600px at -10% 30%, rgba(167, 196, 188, .28), transparent 60%),
-    linear-gradient(180deg, #f3f7f8 0%, #eef3f4 100%);
-  --edu-card-head-bg: linear-gradient(90deg, rgba(15, 76, 92, .06), rgba(167, 196, 188, .12));
+  --edu-body-bg: #f6f8fa;
+  --edu-card-head-bg: #ffffff;
 }
 
 body {
   min-height: 100vh;
-  background: var(--edu-body-bg) fixed;
+  background: var(--edu-body-bg);
   color: var(--edu-ink);
 }
 
@@ -43,9 +40,9 @@ body {
   min-height: 100%;
 }
 
-// --- Barre latérale : dégradé sarcelle, entrée active marquée en rouge.
+// --- Barre latérale : sarcelle uni, entrée active marquée en rouge.
 .sidebar.sidebar-dark {
-  --cui-sidebar-bg: linear-gradient(180deg, #0f4c5c 0%, #0b3a46 55%, #082a33 100%);
+  --cui-sidebar-bg: #0f4c5c;
   --cui-sidebar-nav-title-color: var(--edu-sage);
   --cui-sidebar-nav-link-color: rgba(255, 255, 255, .78);
   --cui-sidebar-nav-link-icon-color: rgba(167, 196, 188, .9);
@@ -54,7 +51,7 @@ body {
   --cui-sidebar-nav-link-active-icon-color: #ff8a99;
   background: var(--cui-sidebar-bg);
   border: 0 !important;
-  box-shadow: 4px 0 24px rgba(8, 42, 51, .18);
+  
 
   .sidebar-header {
     border-color: rgba(255, 255, 255, .08) !important;
@@ -92,18 +89,11 @@ body {
   .sidebar-toggler { margin-inline-end: auto; }
 }
 
-// --- En-tête : verre dépoli + fin liseré rouge → sarcelle.
+// --- En-tête : blanc, fin liseré rouge.
 .header {
-  --cui-header-bg: rgba(255, 255, 255, .82);
-  backdrop-filter: blur(10px);
+  --cui-header-bg: #ffffff;
+  border-top: 3px solid var(--edu-red);
   border-bottom: 0;
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto;
-    height: 3px;
-    background: linear-gradient(90deg, var(--edu-red), #ff8a5c 35%, var(--edu-sage) 70%, var(--edu-teal));
-  }
   > .container-fluid { min-height: calc(4rem + 1px); } // stylelint-disable-line function-disallowed-list
   > .container-fluid + .container-fluid { min-height: 2.75rem; }
 }
@@ -121,26 +111,11 @@ body {
 // --- Bandeau de page : titre de la page sur dégradé de marque.
 .bo-banner {
   position: relative;
-  overflow: hidden;
-  border-radius: 1rem;
+  border-radius: .75rem;
   padding: 1.25rem 1.25rem 1.35rem;
   margin-bottom: 1.5rem;
   color: #fff;
-  background:
-    radial-gradient(420px 220px at 100% 0%, rgba(255, 59, 82, .55), transparent 70%),
-    radial-gradient(360px 260px at 0% 120%, rgba(167, 196, 188, .45), transparent 70%),
-    linear-gradient(120deg, #0f4c5c 0%, #0d5f6e 55%, #12707f 100%);
-  box-shadow: 0 10px 30px rgba(15, 76, 92, .22);
-  &::after {
-    // Motif discret de cercles.
-    content: "";
-    position: absolute;
-    inset: auto -40px -60px auto;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    border: 28px solid rgba(255, 255, 255, .06);
-  }
+  background: var(--edu-teal);
   .bo-banner-icon {
     flex: none;
     display: grid;
@@ -148,8 +123,7 @@ body {
     width: 48px;
     height: 48px;
     border-radius: .85rem;
-    background: rgba(255, 255, 255, .14);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18);
+    background: rgba(255, 255, 255, .12);
   }
   h1 { font-size: 1.35rem; font-weight: 700; margin: 0; color: #fff; }
   p { margin: .25rem 0 0; font-size: .95rem; color: rgba(255, 255, 255, .82); }
@@ -163,13 +137,13 @@ body {
 // --- Cartes : ombre douce, en-tête teinté.
 .card {
   border: 0;
-  border-radius: .9rem;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 6px 20px rgba(15, 76, 92, .07);
+  border-radius: .75rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, .08);
 }
 .card > .card-header:first-child {
   background: var(--edu-card-head-bg);
   border-bottom: 1px solid rgba(15, 76, 92, .08);
-  border-radius: .9rem .9rem 0 0;
+  border-radius: .75rem .75rem 0 0;
   h5 { color: var(--edu-teal); font-weight: 600; }
 }
 .table > thead th {
@@ -181,21 +155,18 @@ body {
   font-weight: 600;
 }
 
-// --- Indicateurs en dégradé (tableau de bord).
+// --- Indicateurs du tableau de bord : aplats aux couleurs d'Edumada.
 .bo-widget {
-  --bo-from: #0f4c5c;
-  --bo-to: #1b7a8c;
+  --bo-color: #0f4c5c;
   border: 0;
   color: #fff;
-  background: linear-gradient(135deg, var(--bo-from), var(--bo-to)) !important;
-  box-shadow: 0 10px 24px color-mix(in srgb, var(--bo-from) 30%, transparent);
-  .text-body-secondary, .text-white-50 { color: rgba(255, 255, 255, .78) !important; }
+  background: var(--bo-color) !important;
+  .text-body-secondary, .text-white-50 { color: rgba(255, 255, 255, .8) !important; }
   .card-header, .card-body { background: transparent; color: inherit; }
-  &.bo-widget-teal { --bo-from: #0f4c5c; --bo-to: #1b7a8c; }
-  &.bo-widget-red { --bo-from: #ff3b52; --bo-to: #ff7a59; }
-  &.bo-widget-sage { --bo-from: #3f8f7f; --bo-to: #7fb5a7; }
-  &.bo-widget-ink { --bo-from: #334155; --bo-to: #52627a; }
-  &.bo-widget-gold { --bo-from: #d98a00; --bo-to: #f2b544; }
+  &.bo-widget-teal { --bo-color: #0f4c5c; }
+  &.bo-widget-red { --bo-color: #ff3b52; }
+  &.bo-widget-sage { --bo-color: #4f7d71; }
+  &.bo-widget-ink { --bo-color: #334155; }
 }
 
 // Pastille d'icône colorée (cartes de statistiques).
@@ -213,7 +184,7 @@ body {
   &.chip-gold { background: rgba(240, 160, 32, .15); color: #b36f00; }
 }
 
-.btn-primary { box-shadow: 0 4px 12px rgba(15, 76, 92, .2); }
+.btn-primary { box-shadow: none; }
 
 // Édition de fiches : listes et images.
 .bo-thumb {
@@ -227,13 +198,10 @@ body {
 // --- Écran de connexion.
 .bo-login {
   min-height: 100vh;
-  background:
-    radial-gradient(700px 420px at 85% 10%, rgba(255, 59, 82, .35), transparent 65%),
-    radial-gradient(600px 500px at 10% 90%, rgba(167, 196, 188, .35), transparent 65%),
-    linear-gradient(135deg, #082a33 0%, #0f4c5c 60%, #13687a 100%);
-  .card { box-shadow: 0 24px 60px rgba(0, 0, 0, .25); }
+  background: var(--edu-teal);
+  .card { box-shadow: 0 8px 24px rgba(0, 0, 0, .2); }
   .bo-login-aside {
-    background: linear-gradient(160deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03));
+    background: rgba(255, 255, 255, .06);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, .12);
   }
@@ -241,13 +209,10 @@ body {
 
 // --- Mode sombre.
 @include color-mode(dark) {
-  --edu-body-bg:
-    radial-gradient(1100px 520px at 100% -10%, rgba(255, 59, 82, .08), transparent 60%),
-    radial-gradient(900px 600px at -10% 30%, rgba(167, 196, 188, .07), transparent 60%),
-    linear-gradient(180deg, #0f171c 0%, #121c22 100%);
-  --edu-card-head-bg: linear-gradient(90deg, rgba(167, 196, 188, .08), rgba(167, 196, 188, .02));
+  --edu-body-bg: #12191e;
+  --edu-card-head-bg: var(--cui-body-bg);
   body { color: var(--cui-body-color); }
-  .header { --cui-header-bg: rgba(22, 31, 38, .85); }
+  .header { --cui-header-bg: var(--cui-body-bg); }
   .card { box-shadow: 0 6px 20px rgba(0, 0, 0, .3); }
   .card > .card-header:first-child h5, .table > thead th { color: var(--edu-sage); }
   .table > thead th { background: rgba(167, 196, 188, .06); }

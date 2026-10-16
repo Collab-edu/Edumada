@@ -44,11 +44,11 @@ type BillingData = {
     data: { plan: Plan; plans: Plan[]; subscription: Subscription | null; invoices: Invoice[]; paymentMethods: PaymentMethod[]; publishedOffersCount: number }
 }
 
-/** En-tête coloré de chaque formule. */
+/** Couleur d'en-tête de chaque formule. */
 const PLAN_HEADER: Record<Plan['code'], string> = {
-    free: 'linear-gradient(135deg, #64748b, #94a3b8)',
-    pro: 'linear-gradient(135deg, #0f4c5c, #1b7a8c)',
-    premium: 'linear-gradient(135deg, #ff3b52, #ff7a59)',
+    free: '#64748b',
+    pro: '#0f4c5c',
+    premium: '#ff3b52',
 }
 
 function PendingInvoice({ invoice, onChanged }: { invoice: Invoice; onChanged: () => void }) {

@@ -22,7 +22,7 @@ export default function AppHeaderDropdown() {
     return (
         <CDropdown variant='nav-item' placement='bottom-end'>
             <CDropdownToggle className='py-0 pe-0' caret={false} aria-label='Mon compte'>
-                <CAvatar textColor='white' size='md' style={{ background: 'linear-gradient(135deg, #ff3b52, #0f4c5c)' }}>
+                <CAvatar textColor='white' size='md' style={{ background: '#ff3b52' }}>
                     {initials(user.name)}
                 </CAvatar>
             </CDropdownToggle>

@@ -162,7 +162,7 @@ function EstablishmentDashboard({ e }: { e: ManagedEstablishment }) {
                     />
                 </CCol>
                 <CCol sm={6} xl={3}>
-                    <CWidgetStatsA color='primary' className='bo-widget bo-widget-gold' value={<>{completion} %</>} title='Fiche complète' chart={bar(completion)} />
+                    <CWidgetStatsA color='primary' className='bo-widget bo-widget-ink' value={<>{completion} %</>} title='Fiche complète' chart={bar(completion)} />
                 </CCol>
             </CRow>
 
@@ -350,7 +350,7 @@ function AdminDashboard() {
                 <CCol sm={6} xl={3}>
                     <CWidgetStatsA
                         color='primary'
-                        className='bo-widget bo-widget-gold'
+                        className='bo-widget bo-widget-ink'
                         value={
                             <>
                                 {formatAriary(o.revenue.thisMonth)}{' '}

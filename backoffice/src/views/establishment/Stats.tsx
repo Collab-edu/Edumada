@@ -65,7 +65,7 @@ export default function Stats() {
             footer: trendText(t.contactClicks + t.websiteClicks, p ? p.contactClicks + p.websiteClicks : 0),
         },
         { icon: cilInbox, chip: 'chip-red', title: 'Demandes reçues', value: formatNumber(t.inquiries + t.applications), footer: `dont ${t.applications} candidature(s)` },
-        { icon: cilCheckCircle, chip: 'chip-gold', title: 'Demandes traitées', value: processed === null ? '—' : `${processed} %`, footer: 'statut changé au moins une fois' },
+        { icon: cilCheckCircle, chip: '', title: 'Demandes traitées', value: processed === null ? '—' : `${processed} %`, footer: 'statut changé au moins une fois' },
     ]
 
     return (
