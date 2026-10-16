@@ -5,14 +5,8 @@ import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
 import withBasePath from '@/lib/base-path'
 import { useSiteData } from '@/data/site-data'
+import { SOCIAL_LINKS } from './social-links'
 
-// Les liens pointent vers « #! » tant que les comptes officiels ne sont pas créés.
-const SOCIAL_LINKS = [
-    { label: 'Facebook', icon: 'tabler:brand-facebook-filled' },
-    { label: 'Instagram', icon: 'tabler:brand-instagram' },
-    { label: 'LinkedIn', icon: 'tabler:brand-linkedin' },
-    { label: 'YouTube', icon: 'tabler:brand-youtube-filled' },
-]
 
 const Footer = () => {
     const { data: footerlink } = useSiteData('FooterLinkData')
@@ -38,7 +32,7 @@ const Footer = () => {
                             {SOCIAL_LINKS.map((social) => (
                                 <Link
                                     key={social.label}
-                                    href='#!'
+                                    href={social.href}
                                     scroll={false}
                                     aria-label={social.label}
                                     className='bg-white/20 rounded-full p-2 text-white hover:bg-cream hover:text-primary duration-300'>

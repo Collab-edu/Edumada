@@ -34,7 +34,8 @@ export default function RootLayout({
                 <Providers>
                     <Aoscompo>
                         <Header />
-                        {children}
+                        {/* Place de la barre supérieure de l'en-tête (affichée sur grand écran). */}
+                        <div className="lg:pt-10">{children}</div>
                         <Footer />
                     </Aoscompo>
                     <ScrollToTop />
