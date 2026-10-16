@@ -2,11 +2,10 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Icon } from '@iconify/react/dist/iconify.js'
-import { useSiteData } from '@/data/site-data'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { track } from '@/lib/track'
 import { cn } from '@/lib/utils'
-import FilterDropdown from './FilterDropdown'
+import SuggestInput from './SuggestInput'
 import ResultCard from './ResultCard'
 import SearchFiltersPanel from './SearchFiltersPanel'
 import {
@@ -18,18 +17,14 @@ import {
     type SortValue,
 } from '../filters'
 import { useOfferSearch, useSponsoredOffers } from '../useOfferSearch'
+import { FILTER_UI, useFilterSuggestions } from '../useFilterSuggestions'
 
-// Filtres principaux repris du Hero (le niveau d'études devient « Diplôme préparé » dans le panneau).
-const TOP_FILTERS = [
-    { param: 'categorie', icon: 'tabler:category' },
-    { param: 'domaine', icon: 'tabler:book-2' },
-    { param: 'ville', icon: 'tabler:map-pin' },
-    { param: 'type', icon: 'tabler:building-community' },
-] as const
+// Filtres principaux repris du Hero, avec saisie et suggestions.
+const TOP_FILTERS = ['categorie', 'domaine', 'ville', 'type'] as const
 
 const SearchPage = () => {
     const searchParams = useSearchParams()
-    const { data: heroFilters } = useSiteData('HeroFilterData')
+    const { filters: heroFilters, suggestions } = useFilterSuggestions()
     const { isFavorite, toggleFavorite } = useAuth()
 
     const [filters, setFilters] = useState<SearchFilters>(() => filtersFromParams(searchParams))
@@ -59,17 +54,18 @@ const SearchPage = () => {
     const mobileCount = chips.filter((c) => c.id !== 'q').length
 
     const renderTopFilters = (className: string) =>
-        TOP_FILTERS.map(({ param, icon }) => {
+        TOP_FILTERS.map((param) => {
             const filter = heroFilters.find((f) => f.param === param)
             if (!filter) return null
             return (
                 <div key={param} className={className}>
-                    <FilterDropdown
-                        icon={icon}
-                        label={filter.label}
-                        options={filter.options}
-                        value={filters[param] || filter.options[0]}
-                        onChange={(value) => setFilters({ ...filters, [param]: value === filter.options[0] ? '' : value })}
+                    <SuggestInput
+                        icon={FILTER_UI[param].icon}
+                        label={FILTER_UI[param].label ?? filter.label}
+                        placeholder={FILTER_UI[param].placeholder}
+                        suggestions={suggestions[param] ?? []}
+                        value={filters[param]}
+                        onChange={(value) => setFilters((prev) => ({ ...prev, [param]: value }))}
                     />
                 </div>
             )
