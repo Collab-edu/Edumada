@@ -14,7 +14,7 @@ import HeaderLink from './HeaderLink'
 import MobileHeaderLink from './MobileHeaderLink'
 import { CONTACT, SOCIAL_LINKS } from '../social-links'
 
-/** Bouton carré à icône de la barre principale (recherche, compte, favoris). */
+/** Bouton carré à icône de la barre principale (compte). */
 const iconButtonClassName =
     'relative flex h-11 w-11 items-center justify-center rounded-lg bg-white text-secondary shadow-[0_6px_20px_-6px_rgba(15,76,92,0.25)] transition-colors duration-300 hover:bg-primary hover:text-white hover:cursor-pointer'
 
@@ -70,7 +70,7 @@ function Modal({ panelRef, label, onClose, children }: { panelRef: RefObject<HTM
 
 const Header: React.FC = () => {
     const { data: headerData } = useSiteData('HeaderData')
-    const { user, logout, favorites } = useAuth()
+    const { user, logout } = useAuth()
 
     const [navbarOpen, setNavbarOpen] = useState(false)
     const [sticky, setSticky] = useState(false)
@@ -160,14 +160,7 @@ const Header: React.FC = () => {
                         ))}
                     </nav>
                     <div className='flex items-center gap-3'>
-                        <IconButton label='Rechercher une formation' icon='tabler:search' href='/recherche' className='hidden sm:flex' />
                         {user && <IconButton label='Mon espace' icon='tabler:user' href={SPACE_HOME[user.role]} />}
-                        {/* Favoris : espace étudiant (connexion d'abord pour un visiteur). */}
-                        {user?.role === 'student' ? (
-                            <IconButton label='Mes favoris' icon='tabler:heart' href='/espace/etudiant/favoris/' badge={favorites.length} className='hidden sm:flex' />
-                        ) : (
-                            !user && <IconButton label='Mes favoris' icon='tabler:heart' onClick={openSignIn} className='hidden sm:flex' />
-                        )}
                         {user ? (
                             <button onClick={logout} className='hidden lg:block px-2 py-2 text-sm font-medium text-secondary hover:text-primary hover:cursor-pointer'>
                                 Déconnexion
