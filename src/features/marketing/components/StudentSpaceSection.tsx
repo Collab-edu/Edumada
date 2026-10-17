@@ -3,8 +3,8 @@ import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import { useSiteData } from '@/data/site-data'
-import withBasePath from '@/lib/base-path'
 import { imageOr } from '@/lib/media'
+import PhoneMockup, { type PhoneTab } from './PhoneMockup'
 
 const FEATURES = [
     { icon: 'tabler:heart', text: 'Enregistrez vos formations favorites' },
@@ -19,11 +19,11 @@ const SHORTCUTS = [
     { icon: 'tabler:user', label: 'Profil' },
 ]
 
-const TABS = [
+const TABS: PhoneTab[] = [
     { icon: 'tabler:home', label: 'Accueil', active: true },
-    { icon: 'tabler:search', label: 'Rechercher', active: false },
-    { icon: 'tabler:heart', label: 'Favoris', active: false },
-    { icon: 'tabler:user', label: 'Profil', active: false },
+    { icon: 'tabler:search', label: 'Rechercher' },
+    { icon: 'tabler:heart', label: 'Favoris' },
+    { icon: 'tabler:user', label: 'Profil' },
 ]
 
 /** Section « Espace étudiant » : aperçu sur téléphone et ce que l'on peut y faire. */
@@ -36,67 +36,44 @@ export default function StudentSpaceSection() {
             <div className='container mx-auto max-w-7xl px-4'>
                 <div className='grid items-center gap-10 lg:grid-cols-2 lg:gap-16'>
                     {/* Téléphone */}
-                    <div className='relative mx-auto w-full max-w-[18rem]' aria-hidden='true'>
-                        <div className='absolute -inset-6 -z-10 rounded-full bg-cream blur-2xl' />
-                        <div className='rounded-[2.5rem] border-[10px] border-secondary bg-offwhite shadow-xl'>
-                            <div className='mx-auto mt-2 h-1.5 w-16 rounded-full bg-secondary/20' />
-                            <div className='flex flex-col gap-4 px-4 pt-4'>
-                                <div className='flex items-center justify-between'>
-                                    <Image src={withBasePath('/images/logo/edumada-logo.svg')} alt='' width={828} height={270} className='h-7 w-auto' />
-                                    <span className='relative text-xl text-secondary'>
-                                        <Icon icon='tabler:bell' />
-                                        <span className='absolute right-0 top-0 h-2 w-2 rounded-full bg-primary' />
-                                    </span>
-                                </div>
-                                <div>
-                                    <p className='font-bold text-secondary'>Bonjour Aina 👋</p>
-                                    <p className='!text-xs text-ink/60'>Quelle formation cherches-tu ?</p>
-                                </div>
-                                <div className='flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-ink/50'>
-                                    <Icon icon='tabler:search' className='text-sm' />
-                                    Rechercher une formation…
-                                </div>
-                                <div className='grid grid-cols-3 gap-2'>
-                                    {SHORTCUTS.map((shortcut) => (
-                                        <div key={shortcut.label} className='flex flex-col items-center gap-1 rounded-lg bg-white py-2 text-[11px] font-medium text-secondary'>
-                                            <span className='flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary'>
-                                                <Icon icon={shortcut.icon} className='text-sm' />
-                                            </span>
-                                            {shortcut.label}
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                    <div className='flex items-center justify-between text-xs'>
-                                        <span className='font-semibold text-secondary'>Mes favoris</span>
-                                        <span className='font-semibold text-primary'>Voir tout</span>
-                                    </div>
-                                    {favorites.map((formation) => (
-                                        <div key={formation.id} className='flex gap-2 rounded-lg bg-white p-2'>
-                                            <div className='relative h-12 w-12 shrink-0 overflow-hidden rounded-md bg-cream'>
-                                                <Image src={imageOr(formation.imageSrc)} alt='' fill sizes='48px' className='object-cover' />
-                                            </div>
-                                            <div className='min-w-0'>
-                                                <p className='truncate !text-xs font-semibold text-secondary'>{formation.title}</p>
-                                                <p className='truncate !text-[11px] text-ink/60'>{formation.school}</p>
-                                                <p className='!text-[11px] text-ink/60'>{formation.city}</p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className='mt-4 grid grid-cols-4 rounded-b-[1.9rem] border-t border-gray-200 bg-white py-2'>
-                                {TABS.map((tab) => (
-                                    <span
-                                        key={tab.label}
-                                        className={`flex flex-col items-center gap-0.5 text-[10px] ${tab.active ? 'font-semibold text-primary' : 'text-ink/50'}`}>
-                                        <Icon icon={tab.icon} className='text-base' />
-                                        {tab.label}
-                                    </span>
-                                ))}
-                            </div>
+                    <PhoneMockup tabs={TABS}>
+                        <div>
+                            <p className='font-bold text-secondary'>Bonjour Aina 👋</p>
+                            <p className='!text-xs text-ink/60'>Quelle formation cherches-tu ?</p>
                         </div>
-                    </div>
+                        <div className='flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-ink/50'>
+                            <Icon icon='tabler:search' className='text-sm' />
+                            Rechercher une formation…
+                        </div>
+                        <div className='grid grid-cols-3 gap-2'>
+                            {SHORTCUTS.map((shortcut) => (
+                                <div key={shortcut.label} className='flex flex-col items-center gap-1 rounded-lg bg-white py-2 text-[11px] font-medium text-secondary'>
+                                    <span className='flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary'>
+                                        <Icon icon={shortcut.icon} className='text-sm' />
+                                    </span>
+                                    {shortcut.label}
+                                </div>
+                            ))}
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                            <div className='flex items-center justify-between text-xs'>
+                                <span className='font-semibold text-secondary'>Mes favoris</span>
+                                <span className='font-semibold text-primary'>Voir tout</span>
+                            </div>
+                            {favorites.map((formation) => (
+                                <div key={formation.id} className='flex gap-2 rounded-lg bg-white p-2'>
+                                    <div className='relative h-12 w-12 shrink-0 overflow-hidden rounded-md bg-cream'>
+                                        <Image src={imageOr(formation.imageSrc)} alt='' fill sizes='48px' className='object-cover' />
+                                    </div>
+                                    <div className='min-w-0'>
+                                        <p className='truncate !text-xs font-semibold text-secondary'>{formation.title}</p>
+                                        <p className='truncate !text-[11px] text-ink/60'>{formation.school}</p>
+                                        <p className='!text-[11px] text-ink/60'>{formation.city}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </PhoneMockup>
 
                     {/* Avantages */}
                     <div className='flex flex-col gap-6 rounded-2xl border border-primary/15 bg-cream/60 p-6 sm:p-8'>

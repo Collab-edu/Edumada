@@ -4,6 +4,7 @@ import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import SectionHeader from '@/components/ui/section-header'
 import DashboardPreview from './DashboardPreview'
+import PhoneMockup, { type PhoneTab } from './PhoneMockup'
 
 const BENEFITS = [
     {
@@ -44,7 +45,22 @@ const BENEFITS = [
     },
 ]
 
-const STEPS_IMAGE = 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=70'
+/** Liste de contrôle de la fiche, avec les mêmes libellés que l'espace établissement. */
+const CHECKLIST = [
+    { label: 'Photo de couverture', done: true },
+    { label: 'Présentation de quelques phrases', done: true },
+    { label: 'Téléphone et e-mail', done: true },
+    { label: 'Au moins 2 photos des locaux', done: true },
+    { label: 'Position sur la carte', done: true },
+    { label: 'Au moins une offre publiée', done: false },
+]
+
+const PHONE_TABS: PhoneTab[] = [
+    { icon: 'tabler:layout-dashboard', label: 'Accueil' },
+    { icon: 'tabler:id-badge-2', label: 'Fiche', active: true },
+    { icon: 'tabler:books', label: 'Offres' },
+    { icon: 'tabler:inbox', label: 'Demandes' },
+]
 
 const STEPS = [
     { title: 'Créez votre compte', text: 'Un compte établissement gratuit, en quelques minutes.' },
@@ -127,13 +143,36 @@ export default function BenefitsPage() {
             <section className='bg-secondary/[0.06]'>
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
-                        <div className='relative h-64 overflow-hidden rounded-2xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-80 lg:h-full lg:min-h-96'>
-                            <Image src={STEPS_IMAGE} alt='Élèves dans une salle de classe' fill sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
-                            <div className='absolute bottom-4 left-4 flex items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-lg'>
-                                <Icon icon='tabler:clock' className='text-xl text-primary' />
-                                <span className='!text-sm font-semibold text-secondary'>Inscription en quelques minutes</span>
+                        <PhoneMockup tabs={PHONE_TABS}>
+                            <div>
+                                <p className='font-bold text-secondary'>Bienvenue 👋</p>
+                                <p className='!text-xs text-ink/60'>Votre fiche est presque prête.</p>
                             </div>
-                        </div>
+                            <div className='flex flex-col gap-2 rounded-lg bg-white p-3'>
+                                <div className='flex items-center justify-between text-xs'>
+                                    <span className='font-semibold text-secondary'>Fiche complétée</span>
+                                    <span className='font-bold text-primary'>83 %</span>
+                                </div>
+                                <div className='h-2 overflow-hidden rounded-full bg-secondary/10'>
+                                    <div className='h-full w-[83%] rounded-full bg-primary' />
+                                </div>
+                            </div>
+                            <ul className='flex flex-col gap-1.5'>
+                                {CHECKLIST.map((item) => (
+                                    <li key={item.label} className='flex items-center gap-2 rounded-lg bg-white px-2 py-1.5 text-[11px] text-secondary'>
+                                        <span
+                                            className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${item.done ? 'bg-success/50 text-secondary' : 'border border-dashed border-primary text-primary'}`}>
+                                            <Icon icon={item.done ? 'tabler:check' : 'tabler:plus'} className='text-xs' />
+                                        </span>
+                                        <span className={item.done ? '' : 'font-semibold'}>{item.label}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className='flex items-center gap-2 rounded-lg bg-secondary px-3 py-2 text-[11px] font-semibold text-white'>
+                                <Icon icon='tabler:send' className='text-sm' />
+                                Envoyer pour vérification
+                            </div>
+                        </PhoneMockup>
                         <div>
                             <SectionHeader title='Comment ça marche ?' description='Trois étapes pour être visible sur Edumada.' />
                             <ol className='flex flex-col gap-4'>
