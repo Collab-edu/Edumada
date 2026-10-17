@@ -2621,6 +2621,10 @@
                     "href": "/espace/"
                 },
                 {
+                    "label": "À propos",
+                    "href": "/a-propos/"
+                },
+                {
                     "label": "Contact",
                     "href": "/contact/"
                 },
