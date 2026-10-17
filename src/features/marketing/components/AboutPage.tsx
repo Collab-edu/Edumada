@@ -7,6 +7,7 @@ import { useSiteData } from '@/data/site-data'
 import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import type { FaqItem } from '@/features/etablissements/faq'
 import SchoolCta from './SchoolCta'
+import StudentSpaceSection from './StudentSpaceSection'
 
 const HERO_IMAGE = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=70'
 
@@ -143,6 +144,8 @@ export default function AboutPage() {
                     </ul>
                 </div>
             </section>
+
+            <StudentSpaceSection />
 
             {/* Questions fréquentes */}
             <section>
