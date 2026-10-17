@@ -60,7 +60,7 @@ const SchoolCta = () => {
                                 <Icon icon='tabler:arrow-right' className='text-lg' />
                             </Link>
                             <Link
-                                href='/tarifs/'
+                                href='/avantages/'
                                 className='font-semibold text-secondary underline underline-offset-4 decoration-secondary/40 transition-colors duration-300 hover:text-primary hover:decoration-primary'>
                                 Découvrir les avantages
                             </Link>
