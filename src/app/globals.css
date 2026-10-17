@@ -32,6 +32,16 @@
   }
 
   --animate-float: float 6s ease-in-out infinite;
+  --animate-nav-progress: nav-progress 8s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
+
+  @keyframes nav-progress {
+    from {
+      width: 0;
+    }
+    to {
+      width: 90%;
+    }
+  }
 
   @keyframes float {
     0%, 100% {

@@ -5,6 +5,8 @@ import Header from "@/components/layout/header/Header";
 import Footer from "@/components/layout/Footer";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import SchoolCta from "@/features/marketing/components/SchoolCta";
+import NavigationProgress from "@/components/layout/NavigationProgress";
+import { Suspense } from "react";
 import Aoscompo from "@/lib/aos";
 import Providers from "@/components/Providers";
 /**
@@ -31,6 +33,9 @@ export default function RootLayout({
     return (
         <html lang="fr" suppressHydrationWarning className={`${heading.variable} ${body.variable}`}>
             <body>
+                <Suspense fallback={null}>
+                    <NavigationProgress />
+                </Suspense>
                 <Providers>
                     <Aoscompo>
                         <Header />
