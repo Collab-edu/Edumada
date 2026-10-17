@@ -5,13 +5,13 @@ import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import { api, apiEnabled } from '@/lib/api'
 import { cn } from '@/lib/utils'
-import { useSiteData } from '@/data/site-data'
 import type { Plan } from '@/features/espace/types'
 import { formatAriary } from '@/features/espace/components/SpaceShell'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { backofficeUrl } from '@/features/auth/types'
 import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import SectionHeader from '@/components/ui/section-header'
+import Companies from './Companies'
 
 /** Formules affichées si l'API ne répond pas (mêmes hypothèses que la base). */
 const FALLBACK_PLANS: Plan[] = [
@@ -69,7 +69,6 @@ const FAQ = [
 
 export default function PricingPage() {
     const { user } = useAuth()
-    const { data: schools } = useSiteData('SchoolData')
     const [plans, setPlans] = useState<Plan[]>(FALLBACK_PLANS)
     const [yearly, setYearly] = useState(false)
 
@@ -171,23 +170,10 @@ export default function PricingPage() {
                         })}
                     </div>
                     <p className='text-center text-sm text-ink/60'>Prix de lancement indicatifs, susceptibles d&apos;évoluer. Aucun nombre de candidats n&apos;est garanti.</p>
-
-                    {/* Établissements déjà inscrits */}
-                    {schools.length > 0 && (
-                        <div className='flex flex-col items-center gap-5'>
-                            <p className='text-xs font-semibold uppercase tracking-wide text-ink/50'>Ils sont déjà sur Edumada</p>
-                            <ul className='flex flex-wrap justify-center gap-x-8 gap-y-3'>
-                                {schools.slice(0, 6).map((school) => (
-                                    <li key={school.id} className='flex items-center gap-2 text-ink/50'>
-                                        <Icon icon='tabler:building-community' className='text-xl' />
-                                        <span className='text-sm font-semibold'>{school.name}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
                 </div>
             </section>
+
+            <Companies />
 
             {/* Questions fréquentes */}
             <section className='pb-20'>
