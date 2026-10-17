@@ -69,7 +69,6 @@ export default function AboutPage() {
             <section className='pt-32 pb-10 sm:pt-40'>
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
-                        <span className='rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary'>À propos d’Edumada</span>
                         <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
                             Bien choisir sa formation, <span className='text-primary'>partout à Madagascar</span>
                         </h1>
