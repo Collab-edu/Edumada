@@ -13,7 +13,7 @@ const Footer = () => {
 
     return (
         <div className='bg-secondary' id='first-section'>
-            <div className='container pt-60 pb-10'>
+            <div className='container pt-16 pb-10'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-16 xl:gap-8'>
                     <div className='col-span-4 flex flex-col gap-5'>
                         <div>

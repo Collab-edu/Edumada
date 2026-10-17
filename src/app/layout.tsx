@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/header/Header";
 import Footer from "@/components/layout/Footer";
 import ScrollToTop from "@/components/layout/ScrollToTop";
+import SchoolCta from "@/features/marketing/components/SchoolCta";
 import Aoscompo from "@/lib/aos";
 import Providers from "@/components/Providers";
 /**
@@ -30,12 +31,12 @@ export default function RootLayout({
     return (
         <html lang="fr" suppressHydrationWarning className={`${heading.variable} ${body.variable}`}>
             <body>
-                <style>{`:root{--newsletter-url: url('${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/newsletter/hands.svg');}`}</style>
                 <Providers>
                     <Aoscompo>
                         <Header />
                         {/* Place de la barre supérieure de l'en-tête (affichée sur grand écran). */}
                         <div className="lg:pt-10">{children}</div>
+                        <SchoolCta />
                         <Footer />
                     </Aoscompo>
                     <ScrollToTop />

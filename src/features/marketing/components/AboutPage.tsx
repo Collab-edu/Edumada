@@ -6,7 +6,6 @@ import { CONTACT } from '@/components/layout/social-links'
 import { useSiteData } from '@/data/site-data'
 import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import type { FaqItem } from '@/features/etablissements/faq'
-import SchoolCta from './SchoolCta'
 import StudentSpaceSection from './StudentSpaceSection'
 import OrientationBanner from './OrientationBanner'
 
@@ -163,10 +162,6 @@ export default function AboutPage() {
                     </p>
                 </div>
             </section>
-
-            <div className='pb-20'>
-                <SchoolCta />
-            </div>
         </>
     )
 }

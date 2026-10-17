@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const SchoolCta = () => {
     return (
-        <section id='school-cta-section'>
+        <section id='school-cta-section' className='pb-16'>
             <div className='container mx-auto max-w-7xl px-4'>
                 <div className='flex flex-col lg:flex-row lg:items-center justify-between gap-8 rounded-2xl bg-secondary px-8 py-12 md:px-14'>
                     <div className='flex flex-col gap-3 max-w-2xl'>

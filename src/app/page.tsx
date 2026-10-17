@@ -7,8 +7,6 @@ import Companies from '@/features/marketing/components/Companies'
 import RegisterCta from '@/features/marketing/components/RegisterCta'
 import Steps from '@/features/marketing/components/Steps'
 import StudentSpaceSection from '@/features/marketing/components/StudentSpaceSection'
-import SchoolCta from '@/features/marketing/components/SchoolCta'
-import Newsletter from '@/features/marketing/components/Newsletter'
 
 export default function Home() {
   return (
@@ -22,8 +20,6 @@ export default function Home() {
       <SchoolsSection />
       <Steps />
       <StudentSpaceSection />
-      <SchoolCta />
-      <Newsletter />
     </main>
   )
 }
