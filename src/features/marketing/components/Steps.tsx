@@ -46,7 +46,7 @@ const Steps = () => {
                                 </span>
                             </div>
                             <h3 className='mb-3 text-xl font-semibold text-secondary transition-colors duration-300 group-hover:text-primary'>{step.title}</h3>
-                            <p className='text-ink/70 leading-relaxed'>{step.description}</p>
+                            <p className='text-black leading-relaxed'>{step.description}</p>
                         </div>
                     ))}
                 </div>

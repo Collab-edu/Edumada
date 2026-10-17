@@ -75,7 +75,7 @@ export function ContactDialog({ open, onClose, formation, school }: ContactDialo
                 <FormAlert tone='info'>L&apos;envoi de demandes en ligne sera bientôt disponible. Utilisez les coordonnées ci-dessus.</FormAlert>
             ) : !user ? (
                 <div className='flex flex-col gap-3'>
-                    <p className='text-ink/80'>Créez un compte gratuit pour envoyer votre question et suivre la réponse depuis votre espace.</p>
+                    <p className='text-black'>Créez un compte gratuit pour envoyer votre question et suivre la réponse depuis votre espace.</p>
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                         <ButtonLink href={`/signin/?next=${encodeURIComponent(here)}`} variant='secondary'>Se connecter</ButtonLink>
                         <ButtonLink href={`/signup/?next=${encodeURIComponent(here)}`}>Créer un compte</ButtonLink>

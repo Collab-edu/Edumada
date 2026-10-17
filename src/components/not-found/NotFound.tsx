@@ -59,7 +59,7 @@ const NotFound = () => {
                             <h3 className="mb-5 text-2xl font-semibold text-secondary">
                                 Nous ne trouvons pas la page que vous cherchez.
                             </h3>
-                            <p className="mb-8 text-ink/70">
+                            <p className="mb-8 text-black">
                                 Oups ! Cette page n&apos;existe pas ou a été déplacée.
                             </p>
                             <Link

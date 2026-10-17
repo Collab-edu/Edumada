@@ -57,7 +57,7 @@ export default function ArticlePage({ id }: { id: string }) {
                     </span>
                 </div>
                 <h1 className='mt-4 text-3xl md:text-5xl font-bold text-secondary'>{article.title}</h1>
-                <p className='mt-4 text-xl text-ink/70'>{article.excerpt}</p>
+                <p className='mt-4 text-xl text-black'>{article.excerpt}</p>
             </div>
 
             {article.coverImage && (

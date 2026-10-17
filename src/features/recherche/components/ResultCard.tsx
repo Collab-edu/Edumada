@@ -50,7 +50,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                         <h3 className='mt-1 text-lg font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
                             {formation.title}
                         </h3>
-                        <p className='flex flex-wrap items-center gap-x-3 gap-y-1 text-ink/70'>
+                        <p className='flex flex-wrap items-center gap-x-3 gap-y-1 text-black'>
                             <Link
                                 href={`/etablissements/${formation.schoolId}`}
                                 className='inline-flex items-center gap-1.5 hover:text-primary hover:underline'>

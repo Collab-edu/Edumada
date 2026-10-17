@@ -26,7 +26,7 @@ export function ArticleCard({ article }: { article: Article }) {
                         {article.title}
                     </Link>
                 </h3>
-                <p className='line-clamp-3 text-sm text-ink/70'>{article.excerpt}</p>
+                <p className='line-clamp-3 text-sm text-black'>{article.excerpt}</p>
                 <span className='mt-auto inline-flex items-center gap-1 pt-2 text-sm font-semibold text-primary'>
                     Lire l&apos;article
                     <Icon icon='tabler:arrow-right' className='text-base transition-transform duration-300 group-hover:translate-x-1' />

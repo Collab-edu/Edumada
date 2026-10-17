@@ -70,7 +70,7 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                 {studentOnly ? (
                     <div className='text-center'>
                         <h2 className='text-xl font-bold text-secondary'>Inscription étudiant</h2>
-                        <p className='text-sm text-ink/70'>Gratuit : favoris, demandes d&apos;information et candidatures.</p>
+                        <p className='text-sm text-black'>Gratuit : favoris, demandes d&apos;information et candidatures.</p>
                     </div>
                 ) : (
                 <fieldset className='grid grid-cols-2 gap-3'>
@@ -127,20 +127,20 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                 </Button>
             </form>
 
-            <p className='mt-5 text-sm text-ink/70'>
+            <p className='mt-5 text-sm text-black'>
                 En créant un compte, vous acceptez nos{' '}
                 <Link href='/conditions/' className='text-primary hover:underline'>conditions d&apos;utilisation</Link> et notre{' '}
                 <Link href='/confidentialite/' className='text-primary hover:underline'>politique de confidentialité</Link>.
             </p>
             {studentOnly && (
-                <p className='mt-3 text-sm text-ink/70'>
+                <p className='mt-3 text-sm text-black'>
                     Vous représentez un établissement ?
                     <Link href='/signup/?type=etablissement' onClick={onSuccess} className='pl-1 font-semibold text-secondary hover:underline'>
                         Référencer mon établissement
                     </Link>
                 </p>
             )}
-            <p className='mt-3 text-base text-ink'>
+            <p className='mt-3 text-base text-black'>
                 Vous avez déjà un compte ?
                 <Link href='/signin/' onClick={onSuccess} className='pl-2 font-semibold text-primary hover:underline'>
                     Se connecter

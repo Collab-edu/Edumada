@@ -84,7 +84,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                         <div className='flex max-w-3xl flex-col gap-4'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>{config.eyebrow}</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{config.title}</h1>
-                            <p className='text-ink/70'>{config.intro}</p>
+                            <p className='text-black'>{config.intro}</p>
                             <div className='flex flex-wrap gap-3'>
                                 <ButtonLink href='/recherche/'>
                                     <Icon icon='tabler:search' className='text-lg' />
@@ -142,7 +142,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                     {loading ? (
                         <CardSkeletonGrid count={8} className='h-[360px]' />
                     ) : shown.length === 0 ? (
-                        <p className='rounded-xl bg-white p-8 text-center text-ink/70'>
+                        <p className='rounded-xl bg-white p-8 text-center text-black'>
                             {filtered ? 'Aucun établissement ne correspond à ces critères.' : 'Aucun établissement publié pour le moment.'}
                         </p>
                     ) : (
@@ -171,7 +171,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                 </span>
                                 <div>
                                     <h2 className='text-base font-semibold text-secondary'>{b.title}</h2>
-                                    <p className='text-sm text-ink/70'>{b.text}</p>
+                                    <p className='text-sm text-black'>{b.text}</p>
                                 </div>
                             </li>
                         ))}

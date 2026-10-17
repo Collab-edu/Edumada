@@ -19,7 +19,7 @@ const PRESENTATION_TITLE: Record<FormationType['kind'], string> = {
 export function PresentationSection({ formation, detail }: Props) {
     return (
         <DetailSection id='presentation' title={PRESENTATION_TITLE[formation.kind]} icon='tabler:info-circle'>
-            <p className='text-ink/80 leading-relaxed'>{detail.description}</p>
+            <p className='text-black leading-relaxed'>{detail.description}</p>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                 <Panel>
                     <SubTitle>Objectifs pédagogiques</SubTitle>
@@ -75,7 +75,7 @@ export function ProgramSection({ detail }: Props) {
                 </Panel>
                 <Panel>
                     <SubTitle>Évaluation</SubTitle>
-                    <p className='text-ink/80'>{detail.evaluation}</p>
+                    <p className='text-black'>{detail.evaluation}</p>
                 </Panel>
             </div>
         </DetailSection>
@@ -104,7 +104,7 @@ export function AdmissionSection({ formation, detail, school, fields }: Props) {
                 <Panel>
                     <SubTitle>Diplômes et prérequis</SubTitle>
                     <CheckList items={detail.admission.prerequisites} />
-                    <p className='mt-4 text-sm text-ink/70'>
+                    <p className='mt-4 text-sm text-black'>
                         <span className='font-semibold text-secondary'>Conditions particulières : </span>
                         {detail.admission.specialConditions ?? 'Aucune condition particulière communiquée.'}
                     </p>

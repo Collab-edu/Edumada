@@ -82,7 +82,7 @@ export default function StudentSpaceSection() {
                                 <Icon icon='tabler:layout-dashboard' className='text-2xl' />
                             </span>
                             <h2 className='font-bold'>Votre espace étudiant</h2>
-                            <p className='text-ink/70'>Un compte gratuit pour garder vos formations à portée de main et suivre vos démarches.</p>
+                            <p className='text-black'>Un compte gratuit pour garder vos formations à portée de main et suivre vos démarches.</p>
                         </div>
                         <ul className='flex flex-col gap-4'>
                             {FEATURES.map((feature) => (

@@ -75,7 +75,7 @@ const SearchPage = () => {
                     <h1 className='text-3xl md:text-4xl font-bold text-secondary'>
                         Formations, écoles et crèches
                     </h1>
-                    <p className='text-ink/70'>
+                    <p className='text-black'>
                         Affinez votre recherche et comparez les offres des établissements à Madagascar, de la crèche à l’université.
                     </p>
                 </div>
@@ -197,7 +197,7 @@ const SearchPage = () => {
                         )}
 
                         {offline && (
-                            <p className='flex items-start gap-2 rounded-xl bg-cream px-4 py-3 text-sm text-ink/80' role='status'>
+                            <p className='flex items-start gap-2 rounded-xl bg-cream px-4 py-3 text-sm text-black' role='status'>
                                 <Icon icon='tabler:wifi-off' className='mt-0.5 shrink-0 text-primary' />
                                 Le service Edumada ne répond pas : les résultats affichés peuvent ne pas être à jour.
                             </p>
@@ -253,7 +253,7 @@ const SearchPage = () => {
                                     <Icon icon='tabler:search-off' className='text-3xl' />
                                 </span>
                                 <h2 className='text-xl font-bold'>Aucun résultat ne correspond</h2>
-                                <p className='max-w-md text-ink/70'>
+                                <p className='max-w-md text-black'>
                                     Essayez de retirer quelques filtres ou d&apos;élargir votre recherche à d&apos;autres villes.
                                 </p>
                                 <button

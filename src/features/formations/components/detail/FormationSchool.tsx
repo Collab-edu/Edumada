@@ -50,9 +50,9 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                 )}
 
                 <div className='flex flex-col gap-5 p-6'>
-                    <p className='text-ink/80 leading-relaxed'>{school.description}</p>
+                    <p className='text-black leading-relaxed'>{school.description}</p>
 
-                    <p className='flex items-start gap-2 rounded-xl bg-offwhite p-4 text-sm text-ink/80'>
+                    <p className='flex items-start gap-2 rounded-xl bg-offwhite p-4 text-sm text-black'>
                         <Icon icon={school.accreditationVerified ? 'tabler:rosette-discount-check' : 'tabler:info-circle'} className='mt-0.5 shrink-0 text-lg text-secondary' />
                         {school.accreditationVerified && school.accreditation
                             ? `Reconnaissance officielle vérifiée : ${school.accreditation}.`

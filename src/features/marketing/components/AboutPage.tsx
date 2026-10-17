@@ -72,7 +72,7 @@ export default function AboutPage() {
                         <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
                             Bien choisir sa formation, <span className='text-primary'>partout à Madagascar</span>
                         </h1>
-                        <p className='max-w-2xl text-ink/70'>
+                        <p className='max-w-2xl text-black'>
                             Edumada aide les jeunes et leurs familles à découvrir les formations et les établissements du pays, à les comparer, puis à
                             les contacter directement.
                         </p>
@@ -100,11 +100,11 @@ export default function AboutPage() {
                     <div className='grid gap-10 lg:grid-cols-2'>
                         <div className='flex flex-col gap-4'>
                             <h2 className='font-bold'>Pourquoi nous avons créé Edumada</h2>
-                            <p className='text-ink/70'>
+                            <p className='text-black'>
                                 À Madagascar, trouver une formation se fait souvent au hasard : une affiche, une publication sur les réseaux sociaux, le
                                 conseil d’un proche. Les informations sont dispersées et difficiles à comparer.
                             </p>
-                            <p className='text-ink/70'>
+                            <p className='text-black'>
                                 Nous voulons que chaque jeune, à Antananarivo comme en région, puisse voir toutes les possibilités qui s’offrent à lui
                                 avant de faire son choix.
                             </p>
@@ -117,7 +117,7 @@ export default function AboutPage() {
                                     </span>
                                     <div className='flex flex-col gap-1'>
                                         <h3 className='text-lg font-semibold text-secondary'>{item.title}</h3>
-                                        <p className='text-ink/70'>{item.text}</p>
+                                        <p className='text-black'>{item.text}</p>
                                     </div>
                                 </li>
                             ))}
@@ -137,7 +137,7 @@ export default function AboutPage() {
                                     <Icon icon={audience.icon} className='text-2xl' />
                                 </span>
                                 <h3 className='text-lg font-semibold text-secondary'>{audience.title}</h3>
-                                <p className='text-ink/70'>{audience.text}</p>
+                                <p className='text-black'>{audience.text}</p>
                             </li>
                         ))}
                     </ul>
@@ -153,7 +153,7 @@ export default function AboutPage() {
                 <div className='container mx-auto max-w-3xl px-4'>
                     <SectionHeader title='Questions fréquentes' />
                     <SchoolFaq items={FAQ} />
-                    <p className='mt-6 text-ink/70'>
+                    <p className='mt-6 text-black'>
                         Une autre question ? Écrivez-nous :{' '}
                         <a href={`mailto:${CONTACT.email}`} className='font-semibold text-primary underline underline-offset-4'>
                             {CONTACT.email}

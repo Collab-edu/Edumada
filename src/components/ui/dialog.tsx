@@ -48,7 +48,7 @@ export function Dialog({ open, onClose, title, description, children, className 
                 <div className='mb-5 flex items-start justify-between gap-4'>
                     <div className='flex flex-col gap-1'>
                         <h2 id={titleId} className='text-xl font-bold text-secondary'>{title}</h2>
-                        {description && <p className='text-sm text-ink/70'>{description}</p>}
+                        {description && <p className='text-sm text-black'>{description}</p>}
                     </div>
                     <button
                         type='button'

@@ -43,7 +43,7 @@ const DomainsSection = () => {
                     <div className='flex flex-col justify-between gap-6 rounded-xl bg-secondary/10 p-6 min-[420px]:col-span-2 md:col-span-4 lg:col-span-1 lg:col-start-5 lg:row-start-1 lg:row-span-2'>
                         <div className='flex flex-col gap-2'>
                             <h3 className='text-lg font-bold text-secondary'>Explorateur de formations</h3>
-                            <p className='text-ink/80 leading-snug'>
+                            <p className='text-black leading-snug'>
                                 Répondez à quelques questions et nous vous présenterons les formations qui vous
                                 correspondent.
                             </p>

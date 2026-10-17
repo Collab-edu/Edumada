@@ -23,7 +23,7 @@ function InquiryDetail({ inquiry }: { inquiry: Inquiry }) {
                 <Badge tone={INQUIRY_STATUS_TONE[inquiry.status]}>{inquiry.statusLabel}</Badge>
                 <span className='text-sm text-ink/60'>Envoyée le {formatDateTime(inquiry.createdAt)}</span>
             </div>
-            {inquiry.message && <p className='whitespace-pre-line text-ink/90'>{inquiry.message}</p>}
+            {inquiry.message && <p className='whitespace-pre-line text-black'>{inquiry.message}</p>}
             {inquiry.attachments && inquiry.attachments.length > 0 && (
                 <ul className='flex flex-col gap-1 text-sm text-ink/80'>
                     {inquiry.attachments.map((file) => (
@@ -40,7 +40,7 @@ function InquiryDetail({ inquiry }: { inquiry: Inquiry }) {
                             <span className='absolute -left-[23px] top-1.5 h-3 w-3 rounded-full bg-primary' aria-hidden='true' />
                             <p className='font-semibold text-secondary'>{step.toLabel}</p>
                             <p className='text-xs text-ink/50'>{formatDateTime(step.at)}</p>
-                            {step.note && <p className='mt-1 rounded-lg bg-offwhite px-3 py-2 text-sm text-ink/80'>{step.note}</p>}
+                            {step.note && <p className='mt-1 rounded-lg bg-offwhite px-3 py-2 text-sm text-black'>{step.note}</p>}
                         </li>
                     ))}
                 </ol>
@@ -261,7 +261,7 @@ export function ProfileForms() {
 
             <Panel title='Mes données' description='Vos demandes et documents ne sont visibles que par vous et par les établissements à qui vous les avez envoyés.'>
                 <div className='flex flex-col gap-3'>
-                    <p className='text-ink/70'>
+                    <p className='text-black'>
                         Supprimer votre compte efface vos informations, vos favoris, vos demandes et vos documents. Cette action est définitive.{' '}
                         <Link href='/confidentialite/' className='text-primary underline'>Politique de confidentialité</Link>
                     </p>

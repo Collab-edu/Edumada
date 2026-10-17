@@ -56,7 +56,7 @@ export default function ContactPage() {
                     <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
                         Contactez-nous <span className='text-primary'>dès aujourd&apos;hui</span>
                     </h1>
-                    <p className='max-w-2xl text-ink/70'>
+                    <p className='max-w-2xl text-black'>
                         Une question sur une formation, un établissement à référencer ou un souci avec votre compte ? Écrivez-nous, l&apos;équipe Edumada vous
                         répond rapidement.
                     </p>

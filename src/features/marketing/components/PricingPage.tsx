@@ -90,7 +90,7 @@ export default function PricingPage() {
                         <h1 className='text-3xl md:text-5xl font-bold text-secondary'>
                             Des formules adaptées à <span className='text-primary'>votre établissement</span>
                         </h1>
-                        <p className='text-ink/70'>
+                        <p className='text-black'>
                             Commencez gratuitement. Passez à Pro pour gérer vos demandes et candidatures, à Premium pour mettre vos formations en
                             avant pendant vos recrutements.
                         </p>
@@ -134,7 +134,7 @@ export default function PricingPage() {
                                             <p className='text-xl font-bold text-secondary'>{plan.name}</p>
                                             {highlighted && <span className='rounded-full bg-cream px-3 py-1 text-xs font-semibold text-primary'>Recommandée</span>}
                                         </div>
-                                        <p className='min-h-12 text-sm text-ink/70'>{details.description}</p>
+                                        <p className='min-h-12 text-sm text-black'>{details.description}</p>
                                         <div className='min-h-16'>
                                             {plan.code === 'free' ? (
                                                 <p className='text-4xl font-bold text-secondary'>0 Ar</p>
@@ -178,7 +178,7 @@ export default function PricingPage() {
                 <div className='container mx-auto max-w-3xl px-4'>
                     <SectionHeader title='Questions fréquentes' description='Tout savoir sur les formules et le paiement.' className='text-center sm:justify-center' />
                     <SchoolFaq items={FAQ} />
-                    <p className='mt-6 text-ink/70'>
+                    <p className='mt-6 text-black'>
                         Vous ne trouvez pas votre réponse ?{' '}
                         <Link href='/contact/' className='font-semibold text-primary underline underline-offset-4'>
                             Écrivez à notre équipe

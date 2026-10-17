@@ -29,7 +29,7 @@ export function PageUnavailable({ title, message }: { title: string; message: st
                     <Icon icon='tabler:mood-empty' className='text-3xl' />
                 </span>
                 <h1 className='text-3xl font-bold text-secondary'>{title}</h1>
-                <p className='text-ink/70'>{message}</p>
+                <p className='text-black'>{message}</p>
                 <div className='flex flex-col sm:flex-row gap-3'>
                     <Link href='/recherche/' className='rounded-lg bg-primary px-6 py-3 font-bold text-white hover:bg-primary/90'>
                         Rechercher une formation

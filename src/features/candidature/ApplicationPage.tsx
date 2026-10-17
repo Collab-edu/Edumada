@@ -92,7 +92,7 @@ export default function ApplicationPage() {
                 <div className='rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8'>
                     <p className='text-sm font-semibold uppercase tracking-wide text-primary'>Candidature en ligne</p>
                     <h1 className='mt-1 text-2xl sm:text-3xl font-bold text-secondary'>{offer.title}</h1>
-                    <p className='mt-1 text-ink/70'>{offer.school} · {offer.city}</p>
+                    <p className='mt-1 text-black'>{offer.school} · {offer.city}</p>
                     {offer.registrationPeriod && offer.registration !== 'Fermées' && (
                         <p className='mt-3 inline-flex items-center gap-2 rounded-full bg-success/30 px-3 py-1 text-sm font-semibold text-secondary'>
                             <Icon icon='tabler:calendar' /> Date limite : {formatDate(offer.registrationPeriod.end)}
@@ -113,7 +113,7 @@ export default function ApplicationPage() {
                             </FormAlert>
                         ) : !user ? (
                             <div className='flex flex-col gap-3'>
-                                <p className='text-ink/80'>Pour postuler et suivre votre dossier, connectez-vous ou créez un compte gratuit.</p>
+                                <p className='text-black'>Pour postuler et suivre votre dossier, connectez-vous ou créez un compte gratuit.</p>
                                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                                     <ButtonLink href={`/signin/?next=${encodeURIComponent(here)}`} variant='secondary'>Se connecter</ButtonLink>
                                     <ButtonLink href={`/signup/?next=${encodeURIComponent(here)}`}>Créer un compte</ButtonLink>

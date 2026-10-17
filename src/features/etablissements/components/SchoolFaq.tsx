@@ -38,7 +38,7 @@ export function SchoolFaq({ items }: { items: FaqItem[] }) {
                             </button>
                         </h3>
                         {open && (
-                            <p id={id} className='px-5 pb-5 text-ink/80 leading-relaxed'>
+                            <p id={id} className='px-5 pb-5 text-black leading-relaxed'>
                                 {item.answer}
                             </p>
                         )}

@@ -48,7 +48,7 @@ const SchoolCta = () => {
                             {schools.length > 0 ? `Déjà ${schools.length} établissements sur Edumada` : 'Espace établissements'}
                         </span>
                         <h2 className='font-bold text-secondary'>Vous êtes un établissement de formation ?</h2>
-                        <p className='text-ink/80 leading-relaxed'>
+                        <p className='text-black leading-relaxed'>
                             Présentez vos formations, améliorez votre visibilité et permettez aux futurs étudiants de découvrir votre
                             établissement. La fiche est gratuite.
                         </p>

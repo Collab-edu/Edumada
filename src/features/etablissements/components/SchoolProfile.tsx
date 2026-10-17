@@ -132,7 +132,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                     <div className='flex flex-col gap-10'>
                         <div>
                             <h2 className='mb-3 font-bold'>À propos</h2>
-                            <p className='text-ink/80 leading-relaxed'>{school.description}</p>
+                            <p className='text-black leading-relaxed'>{school.description}</p>
                         </div>
 
                         <div>

@@ -63,7 +63,7 @@ export default function OrientationPage() {
                     <div className='flex max-w-3xl flex-col gap-4'>
                         <p className='font-semibold uppercase tracking-wide text-primary'>Orientation</p>
                         <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Trouvez la voie qui vous correspond</h1>
-                        <p className='text-ink/70'>
+                        <p className='text-black'>
                             Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et
                             comparer les possibilités à Madagascar.
                         </p>
@@ -86,7 +86,7 @@ export default function OrientationPage() {
                                     <span className='text-sm font-semibold text-ink/40'>Étape {index + 1}</span>
                                 </div>
                                 <h2 className='text-lg font-semibold text-secondary'>{step.title}</h2>
-                                <p className='text-sm text-ink/70'>{step.text}</p>
+                                <p className='text-sm text-black'>{step.text}</p>
                                 {step.link && (
                                     <Link href={step.link.href} className='mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline'>
                                         {step.link.label}
@@ -111,7 +111,7 @@ export default function OrientationPage() {
                                     className='group flex h-full flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40'>
                                     <Icon icon={profile.icon} className='text-3xl text-primary' />
                                     <h3 className='text-lg font-semibold text-secondary group-hover:text-primary duration-300'>{profile.title}</h3>
-                                    <p className='text-sm text-ink/70'>{profile.text}</p>
+                                    <p className='text-sm text-black'>{profile.text}</p>
                                     <span className='mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary'>
                                         {profile.cta}
                                         <Icon icon='tabler:chevron-right' className='text-base transition-transform duration-300 group-hover:translate-x-1' />

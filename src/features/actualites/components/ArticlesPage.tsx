@@ -16,7 +16,7 @@ export default function ArticlesPage() {
                 <div className='mb-8 flex max-w-3xl flex-col gap-4'>
                     <p className='font-semibold uppercase tracking-wide text-primary'>Actualités</p>
                     <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Les actualités de l&apos;éducation à Madagascar</h1>
-                    <p className='text-ink/70'>Rentrées, concours, conseils d&apos;orientation et événements : suivez ce qui compte pour vos études.</p>
+                    <p className='text-black'>Rentrées, concours, conseils d&apos;orientation et événements : suivez ce qui compte pour vos études.</p>
                 </div>
 
                 <div className='mb-8 flex flex-wrap gap-2' role='group' aria-label='Filtrer par rubrique'>
@@ -38,9 +38,9 @@ export default function ArticlesPage() {
                 {loading ? (
                     <CardSkeletonGrid count={4} className='h-[380px]' />
                 ) : error ? (
-                    <p className='rounded-xl bg-white p-8 text-center text-ink/70'>{error}</p>
+                    <p className='rounded-xl bg-white p-8 text-center text-black'>{error}</p>
                 ) : articles.length === 0 ? (
-                    <p className='rounded-xl bg-white p-8 text-center text-ink/70'>
+                    <p className='rounded-xl bg-white p-8 text-center text-black'>
                         {category ? 'Aucun article dans cette rubrique pour le moment.' : 'Aucune actualité publiée pour le moment. Revenez bientôt !'}
                     </p>
                 ) : (

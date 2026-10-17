@@ -30,7 +30,7 @@ const Banner = () => {
                             Trouvez votre formation à Madagascar et construisez votre{' '}
                             <span className='text-primary'>avenir</span>.
                         </h1>
-                        <p className='text-base leading-7 text-ink max-w-3xl mx-auto'>
+                        <p className='text-base leading-7 text-black max-w-3xl mx-auto'>
                             Explorez les formations, comparez les établissements et trouvez le
                             parcours adapté à vos ambitions, à votre budget et à votre projet
                             professionnel.
@@ -88,7 +88,7 @@ const Banner = () => {
                                     </div>
                                     <div>
                                         {/* TODO : chiffres d'exemple du template, à remplacer par de vrais avis */}
-                                        <p className='text-xs text-ink/70'>Noté par 25 000 personnes sur Google.</p>
+                                        <p className='text-xs text-black'>Noté par 25 000 personnes sur Google.</p>
                                     </div>
                                 </div>
                             </div>

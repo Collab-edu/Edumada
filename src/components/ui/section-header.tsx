@@ -16,7 +16,7 @@ export function SectionHeader({ title, description, link, className }: SectionHe
         <div className={cn('flex flex-col sm:flex-row justify-between sm:items-end gap-3 sm:gap-5 mb-6 sm:mb-10', className)}>
             <div className='flex flex-col gap-3'>
                 <h2 className='font-bold'>{title}</h2>
-                {description && <p className='text-ink/70'>{description}</p>}
+                {description && <p className='text-black'>{description}</p>}
             </div>
             {link && (
                 <Link

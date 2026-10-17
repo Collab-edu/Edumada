@@ -57,7 +57,7 @@ export default function ProTrainingPage() {
                         <div className='flex max-w-3xl flex-col gap-4'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>Formation professionnelle</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Apprenez un métier, rapidement et concrètement</h1>
-                            <p className='text-ink/70'>
+                            <p className='text-black'>
                                 Centres de formation, instituts techniques et écoles de métiers à Madagascar : comparez les formations courtes et certifiantes, puis contactez
                                 directement l&apos;établissement.
                             </p>
@@ -117,7 +117,7 @@ export default function ProTrainingPage() {
                     {loading ? (
                         <CardSkeletonGrid count={4} className='h-[360px]' />
                     ) : shown.length === 0 ? (
-                        <p className='rounded-xl bg-white p-8 text-center text-ink/70'>
+                        <p className='rounded-xl bg-white p-8 text-center text-black'>
                             {filtered ? 'Aucune formation ne correspond à ces critères.' : 'Aucune formation professionnelle publiée pour le moment.'}
                         </p>
                     ) : (
@@ -147,7 +147,7 @@ export default function ProTrainingPage() {
                                 </span>
                                 <div>
                                     <h2 className='text-base font-semibold text-secondary'>{b.title}</h2>
-                                    <p className='text-sm text-ink/70'>{b.text}</p>
+                                    <p className='text-sm text-black'>{b.text}</p>
                                 </div>
                             </li>
                         ))}

@@ -23,7 +23,7 @@ export function SchoolCard({ school, compact = false }: { school: SchoolType; co
                     <h3 className='text-lg font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
                         {school.name}
                     </h3>
-                    <p className={cn('flex items-center gap-1.5 text-ink/70', compact && 'min-w-0 text-sm')}>
+                    <p className={cn('flex items-center gap-1.5 text-black', compact && 'min-w-0 text-sm')}>
                         <Icon icon='tabler:map-pin' className='shrink-0 text-lg text-secondary' />
                         <span className={cn(compact && 'truncate')}>
                             {school.subCategory} · {school.city}

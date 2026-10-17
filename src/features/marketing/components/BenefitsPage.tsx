@@ -78,7 +78,7 @@ export default function BenefitsPage() {
                         <div className='flex flex-col gap-4'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>Établissements</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Faites découvrir vos formations aux futurs étudiants</h1>
-                            <p className='text-ink/70'>
+                            <p className='text-black'>
                                 Edumada est le lieu où les jeunes et leurs familles cherchent une formation à Madagascar. Référencez votre
                                 établissement gratuitement et soyez là où ils vous cherchent.
                             </p>
@@ -114,7 +114,7 @@ export default function BenefitsPage() {
                                     <Icon icon={benefit.icon} className='text-2xl' />
                                 </span>
                                 <h3 className='text-lg font-semibold text-secondary'>{benefit.title}</h3>
-                                <p className='text-ink/70'>{benefit.text}</p>
+                                <p className='text-black'>{benefit.text}</p>
                             </li>
                         ))}
                     </ul>
@@ -163,7 +163,7 @@ export default function BenefitsPage() {
                                         <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary font-bold text-white'>{index + 1}</span>
                                         <div className='flex flex-col gap-1'>
                                             <h3 className='text-lg font-semibold text-secondary'>{step.title}</h3>
-                                            <p className='text-ink/70'>{step.text}</p>
+                                            <p className='text-black'>{step.text}</p>
                                         </div>
                                     </li>
                                 ))}
@@ -188,7 +188,7 @@ export default function BenefitsPage() {
                                     href='/tarifs/'
                                     className={`group flex h-full flex-col gap-2 rounded-xl border bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 ${plan.highlight ? 'border-primary' : 'border-gray-200 hover:border-primary/40'}`}>
                                     <span className='text-xl font-bold text-secondary group-hover:text-primary duration-300'>{plan.name}</span>
-                                    <p className='text-ink/70'>{plan.text}</p>
+                                    <p className='text-black'>{plan.text}</p>
                                 </Link>
                             </li>
                         ))}

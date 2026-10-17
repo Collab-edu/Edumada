@@ -47,7 +47,7 @@ export function ReviewDialog({ open, onClose, establishmentId, formations }: Rev
                 <FormAlert tone='success'>Merci ! Votre avis sera publié après vérification par Edumada.</FormAlert>
             ) : !user ? (
                 <div className='flex flex-col gap-3'>
-                    <p className='text-ink/80'>Connectez-vous avec un compte étudiant pour partager votre expérience.</p>
+                    <p className='text-black'>Connectez-vous avec un compte étudiant pour partager votre expérience.</p>
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                         <ButtonLink href={`/signin/?next=${encodeURIComponent(here)}`} variant='secondary'>Se connecter</ButtonLink>
                         <ButtonLink href={`/signup/?next=${encodeURIComponent(here)}`}>Créer un compte</ButtonLink>

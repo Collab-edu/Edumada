@@ -80,7 +80,7 @@ const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
                 </Button>
             </form>
 
-            <p className='mt-6 text-center text-base text-ink'>
+            <p className='mt-6 text-center text-base text-black'>
                 Pas encore de compte ?{' '}
                 <Link href='/signup/' onClick={onSuccess} className='font-semibold text-primary hover:underline'>
                     Créer un compte

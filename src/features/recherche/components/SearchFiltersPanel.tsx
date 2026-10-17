@@ -151,7 +151,7 @@ export function SearchFiltersPanel({ filters, onChange }: SearchFiltersPanelProp
                                 ))}
                             </select>
                         </label>
-                        <p className='mt-1 text-sm text-ink/70'>Série du BAC</p>
+                        <p className='mt-1 text-sm text-black'>Série du BAC</p>
                         <div className='flex flex-wrap gap-2'>
                             {BAC_SERIES.map((serie) => {
                                 const active = filters.bacSeries.includes(serie)
