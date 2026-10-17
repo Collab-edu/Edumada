@@ -1,12 +1,16 @@
 'use client'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import { api, apiEnabled } from '@/lib/api'
-import PlanCards from '@/features/espace/components/PlanCards'
+import { cn } from '@/lib/utils'
+import { useSiteData } from '@/data/site-data'
 import type { Plan } from '@/features/espace/types'
+import { formatAriary } from '@/features/espace/components/SpaceShell'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { backofficeUrl } from '@/features/auth/types'
+import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 
 /** Formules affichées si l'API ne répond pas (mêmes hypothèses que la base). */
 const FALLBACK_PLANS: Plan[] = [
@@ -15,32 +19,67 @@ const FALLBACK_PLANS: Plan[] = [
     { code: 'premium', name: 'Premium', monthlyPrice: 175000, yearlyPrice: null, maxPublishedOffers: null, features: { inquiryInbox: true, statistics: 'advanced', sponsoredPlacement: true } },
 ]
 
+/** Accroche et contenu de chaque formule, d'après le document « Les 4 types de comptes ». */
+const PLAN_DETAILS: Record<Plan['code'], { description: string; intro: string; features: (plan: Plan) => string[] }> = {
+    free: {
+        description: 'Pour être présent sur Edumada et publier vos premières offres.',
+        intro: 'Ce qui est inclus :',
+        features: (plan) => [
+            'Fiche établissement complète',
+            plan.maxPublishedOffers === null ? 'Offres illimitées' : `${plan.maxPublishedOffers} offres publiées`,
+            'Présence dans les résultats standards',
+            'Demandes reçues par e-mail',
+        ],
+    },
+    pro: {
+        description: 'Pour gérer vos demandes et suivre vos résultats toute l’année.',
+        intro: 'Tout Gratuit, plus :',
+        features: () => ['Offres illimitées', 'Boîte de réception des demandes et candidatures', 'Statuts, filtres et export CSV', 'Statistiques standard'],
+    },
+    premium: {
+        description: 'Pour mettre vos formations en avant pendant vos recrutements.',
+        intro: 'Tout Pro, plus :',
+        features: () => ['Campagnes sponsorisées, clairement signalées', 'Statistiques avancées par campagne', 'Accompagnement prioritaire'],
+    },
+}
+
 const FAQ = [
     {
-        q: 'Les étudiants paient-ils quelque chose ?',
-        a: "Non. Rechercher, comparer, contacter un établissement et suivre une candidature est toujours gratuit pour les étudiants et les familles.",
+        question: 'Les étudiants paient-ils quelque chose ?',
+        answer: 'Non. Rechercher, comparer, contacter un établissement et suivre une candidature est toujours gratuit pour les étudiants et les familles.',
     },
     {
-        q: 'Que se passe-t-il à la fin de mon abonnement ?',
-        a: "Vous recevez un rappel 30, 7 et 1 jour avant. Après une courte période de grâce, les fonctions payantes s'arrêtent mais votre fiche reste en ligne avec la formule Gratuit.",
+        question: 'Que se passe-t-il à la fin de mon abonnement ?',
+        answer: 'Vous recevez un rappel 30, 7 et 1 jour avant. Après une courte période de grâce, les fonctions payantes s’arrêtent mais votre fiche reste en ligne avec la formule Gratuit.',
     },
     {
-        q: 'Le badge « établissement vérifié » est-il inclus dans une formule ?',
-        a: "Non : il est attribué après un contrôle réel de votre identité et de vos autorisations, quelle que soit votre formule. Il ne s'achète pas.",
+        question: 'Le badge « établissement vérifié » est-il inclus dans une formule ?',
+        answer: 'Non : il est attribué après un contrôle réel de votre identité et de vos autorisations, quelle que soit votre formule. Il ne s’achète pas.',
     },
     {
-        q: 'Comment payer ?',
-        a: "Par MVola, Orange Money, Airtel Money, virement ou en espèces. Vous indiquez la référence du paiement dans votre espace ; Edumada confirme et active la formule.",
+        question: 'Comment payer ?',
+        answer: 'Par MVola, Orange Money, Airtel Money, virement ou en espèces. Vous indiquez la référence du paiement dans votre espace ; Edumada confirme et active la formule.',
     },
     {
-        q: 'Je ne recrute que quelques mois par an.',
-        a: "Une campagne Premium d'un mois autour de la rentrée peut suffire : pas besoin d'un abonnement toute l'année.",
+        question: 'Je ne recrute que quelques mois par an.',
+        answer: 'Une campagne Premium d’un mois autour de la rentrée peut suffire : pas besoin d’un abonnement toute l’année.',
     },
 ]
 
+/** Trait souligné sous un mot du titre. */
+function Underline() {
+    return (
+        <svg viewBox='0 0 200 12' preserveAspectRatio='none' className='absolute -bottom-2 left-0 h-3 w-full text-primary' aria-hidden='true'>
+            <path d='M2 9 C 50 2, 150 2, 198 8' fill='none' stroke='currentColor' strokeWidth='4' strokeLinecap='round' />
+        </svg>
+    )
+}
+
 export default function PricingPage() {
     const { user } = useAuth()
+    const { data: schools } = useSiteData('SchoolData')
     const [plans, setPlans] = useState<Plan[]>(FALLBACK_PLANS)
+    const [yearly, setYearly] = useState(false)
 
     useEffect(() => {
         if (!apiEnabled) return
@@ -48,43 +87,146 @@ export default function PricingPage() {
     }, [])
 
     const cta = user?.role === 'establishment' ? backofficeUrl('/formule') : '/signup/?type=etablissement'
+    const pro = plans.find((plan) => plan.code === 'pro')
+    const yearlySaving =
+        pro?.monthlyPrice && pro.yearlyPrice ? Math.round((1 - pro.yearlyPrice / (pro.monthlyPrice * 12)) * 100) : null
 
     return (
-        <section className='pt-28 pb-20'>
-            <div className='container mx-auto max-w-7xl px-4 flex flex-col gap-10'>
-                <div className='mx-auto flex max-w-3xl flex-col gap-3 text-center'>
-                    <p className='font-semibold uppercase tracking-wide text-primary'>Établissements</p>
-                    <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Faites-vous connaître des futurs étudiants</h1>
-                    <p className='text-ink/70'>
-                        Commencez gratuitement. Passez à Pro pour gérer vos demandes et candidatures, à Premium pour mettre vos formations en avant pendant vos recrutements.
+        <>
+            {/* Formules */}
+            <section className='pt-28 sm:pt-32'>
+                <div className='container mx-auto max-w-7xl px-4 flex flex-col gap-10'>
+                    <div className='mx-auto flex max-w-3xl flex-col items-center gap-4 text-center'>
+                        <span className='rounded-full bg-success/40 px-4 py-1.5 text-sm font-semibold text-secondary'>Formules</span>
+                        <h1 className='text-3xl md:text-5xl font-bold text-secondary'>
+                            Des formules adaptées à{' '}
+                            <span className='relative inline-block'>
+                                votre établissement
+                                <Underline />
+                            </span>
+                        </h1>
+                        <p className='text-ink/70'>
+                            Commencez gratuitement. Passez à Pro pour gérer vos demandes et candidatures, à Premium pour mettre vos formations en
+                            avant pendant vos recrutements.
+                        </p>
+
+                        <div className='mt-2 inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white p-1' role='group' aria-label='Période de paiement'>
+                            {[false, true].map((value) => (
+                                <button
+                                    key={String(value)}
+                                    type='button'
+                                    aria-pressed={yearly === value}
+                                    onClick={() => setYearly(value)}
+                                    className={cn(
+                                        'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 hover:cursor-pointer',
+                                        yearly === value ? 'bg-secondary text-white' : 'text-secondary hover:text-primary'
+                                    )}>
+                                    {value ? 'Annuel' : 'Mensuel'}
+                                    {value && yearlySaving ? (
+                                        <span className={cn('rounded-full px-2 py-0.5 text-xs', yearly ? 'bg-white/20 text-white' : 'bg-primary/10 text-primary')}>
+                                            −{yearlySaving} %
+                                        </span>
+                                    ) : null}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className='grid gap-5 md:grid-cols-3 md:items-stretch'>
+                        {plans.map((plan) => {
+                            const details = PLAN_DETAILS[plan.code]
+                            const highlighted = plan.code === 'pro'
+                            const showYearly = yearly && plan.yearlyPrice !== null && plan.code !== 'free'
+                            return (
+                                <div
+                                    key={plan.code}
+                                    className={cn(
+                                        'relative flex flex-col overflow-hidden rounded-2xl border bg-white',
+                                        highlighted ? 'border-primary shadow-xl shadow-primary/10 md:-my-3' : 'border-gray-200'
+                                    )}>
+                                    <div className={cn('flex flex-col gap-4 p-6', highlighted && 'bg-cream/60')}>
+                                        <div className='flex items-center justify-between gap-2'>
+                                            <p className='text-xl font-bold text-secondary'>{plan.name}</p>
+                                            {highlighted && <span className='rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white'>Recommandée</span>}
+                                        </div>
+                                        <p className='min-h-12 text-sm text-ink/70'>{details.description}</p>
+                                        <div className='min-h-16'>
+                                            {plan.code === 'free' ? (
+                                                <p className='text-4xl font-bold text-secondary'>0 Ar</p>
+                                            ) : (
+                                                <>
+                                                    <p className='text-4xl font-bold text-secondary'>
+                                                        {formatAriary(showYearly ? plan.yearlyPrice : plan.monthlyPrice)}
+                                                        <span className='text-base font-normal text-ink/60'> / {showYearly ? 'an' : 'mois'}</span>
+                                                    </p>
+                                                    {yearly && plan.yearlyPrice === null && <p className='text-sm text-ink/60'>Au mois uniquement, selon vos besoins</p>}
+                                                </>
+                                            )}
+                                        </div>
+                                        <ButtonLink href={cta} variant={highlighted ? 'primary' : 'dark'} className='w-full justify-center'>
+                                            {plan.code === 'free' ? 'Référencer mon établissement' : `Choisir ${plan.name}`}
+                                        </ButtonLink>
+                                    </div>
+                                    <div className='flex flex-1 flex-col gap-3 border-t border-gray-100 p-6'>
+                                        <p className='text-sm font-semibold text-secondary'>{details.intro}</p>
+                                        <ul className='flex flex-col gap-2.5'>
+                                            {details.features(plan).map((feature) => (
+                                                <li key={feature} className='flex items-start gap-2 text-sm text-ink/80'>
+                                                    <span className='mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-success/50 text-secondary'>
+                                                        <Icon icon='tabler:check' className='text-xs' />
+                                                    </span>
+                                                    {feature}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <p className='text-center text-sm text-ink/60'>Prix de lancement indicatifs, susceptibles d&apos;évoluer. Aucun nombre de candidats n&apos;est garanti.</p>
+
+                    {/* Établissements déjà inscrits */}
+                    {schools.length > 0 && (
+                        <div className='flex flex-col items-center gap-5'>
+                            <p className='text-xs font-semibold uppercase tracking-wide text-ink/50'>Ils sont déjà sur Edumada</p>
+                            <ul className='flex flex-wrap justify-center gap-x-8 gap-y-3'>
+                                {schools.slice(0, 6).map((school) => (
+                                    <li key={school.id} className='flex items-center gap-2 text-ink/50'>
+                                        <Icon icon='tabler:building-community' className='text-xl' />
+                                        <span className='text-sm font-semibold'>{school.name}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            {/* Questions fréquentes */}
+            <section className='pb-20'>
+                <div className='container mx-auto max-w-3xl px-4 flex flex-col items-center gap-8'>
+                    <div className='flex flex-col items-center gap-4 text-center'>
+                        <span className='rounded-full bg-success/40 px-4 py-1.5 text-sm font-semibold text-secondary'>FAQ</span>
+                        <h2 className='font-bold'>
+                            Tout savoir sur{' '}
+                            <span className='relative inline-block'>
+                                nos formules
+                                <Underline />
+                            </span>
+                        </h2>
+                    </div>
+                    <div className='w-full'>
+                        <SchoolFaq items={FAQ} />
+                    </div>
+                    <p className='text-center text-ink/70'>
+                        Vous ne trouvez pas votre réponse ?{' '}
+                        <Link href='/contact/' className='font-semibold text-primary underline underline-offset-4'>
+                            Écrivez à notre équipe
+                        </Link>
                     </p>
                 </div>
-
-                <PlanCards
-                    plans={plans}
-                    action={(plan) => (
-                        <ButtonLink href={cta} variant={plan.code === 'pro' ? 'primary' : plan.code === 'premium' ? 'dark' : 'secondary'}>
-                            {plan.code === 'free' ? 'Référencer mon établissement' : `Choisir ${plan.name}`}
-                        </ButtonLink>
-                    )}
-                />
-                <p className='text-center text-sm text-ink/60'>Prix de lancement indicatifs, susceptibles d&apos;évoluer. Aucun nombre de candidats n&apos;est garanti.</p>
-
-                <div className='mx-auto w-full max-w-3xl'>
-                    <h2 className='mb-5 text-center font-bold'>Questions fréquentes</h2>
-                    <div className='flex flex-col gap-3'>
-                        {FAQ.map((item) => (
-                            <details key={item.q} className='group rounded-xl border border-gray-100 bg-white p-4'>
-                                <summary className='flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 font-semibold text-secondary'>
-                                    {item.q}
-                                    <Icon icon='tabler:chevron-down' className='shrink-0 transition-transform group-open:rotate-180' />
-                                </summary>
-                                <p className='mt-2 text-ink/80'>{item.a}</p>
-                            </details>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
+        </>
     )
 }
