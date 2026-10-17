@@ -78,9 +78,7 @@ export default function PricingPage() {
     }, [])
 
     const cta = user?.role === 'establishment' ? backofficeUrl('/formule') : '/signup/?type=etablissement'
-    const pro = plans.find((plan) => plan.code === 'pro')
-    const yearlySaving =
-        pro?.monthlyPrice && pro.yearlyPrice ? Math.round((1 - pro.yearlyPrice / (pro.monthlyPrice * 12)) * 100) : null
+    const yearlySaving = 10
 
     return (
         <>
