@@ -178,7 +178,7 @@ export default function PricingPage() {
             {/* Questions fréquentes */}
             <section className='pb-20'>
                 <div className='container mx-auto max-w-3xl px-4'>
-                    <SectionHeader title='Questions fréquentes' description='Tout savoir sur les formules et le paiement.' />
+                    <SectionHeader title='Questions fréquentes' description='Tout savoir sur les formules et le paiement.' className='text-center sm:justify-center' />
                     <SchoolFaq items={FAQ} />
                     <p className='mt-6 text-ink/70'>
                         Vous ne trouvez pas votre réponse ?{' '}
