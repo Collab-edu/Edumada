@@ -11,6 +11,7 @@ import { formatAriary } from '@/features/espace/components/SpaceShell'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { backofficeUrl } from '@/features/auth/types'
 import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
+import SectionHeader from '@/components/ui/section-header'
 
 /** Formules affichées si l'API ne répond pas (mêmes hypothèses que la base). */
 const FALLBACK_PLANS: Plan[] = [
@@ -66,15 +67,6 @@ const FAQ = [
     },
 ]
 
-/** Trait souligné sous un mot du titre. */
-function Underline() {
-    return (
-        <svg viewBox='0 0 200 12' preserveAspectRatio='none' className='absolute -bottom-2 left-0 h-3 w-full text-primary' aria-hidden='true'>
-            <path d='M2 9 C 50 2, 150 2, 198 8' fill='none' stroke='currentColor' strokeWidth='4' strokeLinecap='round' />
-        </svg>
-    )
-}
-
 export default function PricingPage() {
     const { user } = useAuth()
     const { data: schools } = useSiteData('SchoolData')
@@ -97,20 +89,16 @@ export default function PricingPage() {
             <section className='pt-28 sm:pt-32'>
                 <div className='container mx-auto max-w-7xl px-4 flex flex-col gap-10'>
                     <div className='mx-auto flex max-w-3xl flex-col items-center gap-4 text-center'>
-                        <span className='rounded-full bg-success/40 px-4 py-1.5 text-sm font-semibold text-secondary'>Formules</span>
+                        <p className='font-semibold uppercase tracking-wide text-primary'>Établissements</p>
                         <h1 className='text-3xl md:text-5xl font-bold text-secondary'>
-                            Des formules adaptées à{' '}
-                            <span className='relative inline-block'>
-                                votre établissement
-                                <Underline />
-                            </span>
+                            Des formules adaptées à <span className='text-primary'>votre établissement</span>
                         </h1>
                         <p className='text-ink/70'>
                             Commencez gratuitement. Passez à Pro pour gérer vos demandes et candidatures, à Premium pour mettre vos formations en
                             avant pendant vos recrutements.
                         </p>
 
-                        <div className='mt-2 inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white p-1' role='group' aria-label='Période de paiement'>
+                        <div className='mt-2 inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white p-1 shadow-[3px_3px_0_0_rgba(15,76,92,0.18)]' role='group' aria-label='Période de paiement'>
                             {[false, true].map((value) => (
                                 <button
                                     key={String(value)}
@@ -141,13 +129,13 @@ export default function PricingPage() {
                                 <div
                                     key={plan.code}
                                     className={cn(
-                                        'relative flex flex-col overflow-hidden rounded-2xl border bg-white',
-                                        highlighted ? 'border-primary shadow-xl shadow-primary/10 md:-my-3' : 'border-gray-200'
+                                        'relative flex flex-col overflow-hidden rounded-xl border bg-white',
+                                        highlighted ? 'border-primary shadow-[4px_4px_0_0_rgba(255,59,82,0.3)] md:-my-3' : 'border-gray-200 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'
                                     )}>
                                     <div className={cn('flex flex-col gap-4 p-6', highlighted && 'bg-cream/60')}>
                                         <div className='flex items-center justify-between gap-2'>
                                             <p className='text-xl font-bold text-secondary'>{plan.name}</p>
-                                            {highlighted && <span className='rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white'>Recommandée</span>}
+                                            {highlighted && <span className='rounded-full bg-cream px-3 py-1 text-xs font-semibold text-primary'>Recommandée</span>}
                                         </div>
                                         <p className='min-h-12 text-sm text-ink/70'>{details.description}</p>
                                         <div className='min-h-16'>
@@ -172,9 +160,7 @@ export default function PricingPage() {
                                         <ul className='flex flex-col gap-2.5'>
                                             {details.features(plan).map((feature) => (
                                                 <li key={feature} className='flex items-start gap-2 text-sm text-ink/80'>
-                                                    <span className='mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-success/50 text-secondary'>
-                                                        <Icon icon='tabler:check' className='text-xs' />
-                                                    </span>
+                                                    <Icon icon='tabler:circle-check-filled' className='mt-0.5 shrink-0 text-lg text-primary' />
                                                     {feature}
                                                 </li>
                                             ))}
@@ -205,21 +191,10 @@ export default function PricingPage() {
 
             {/* Questions fréquentes */}
             <section className='pb-20'>
-                <div className='container mx-auto max-w-3xl px-4 flex flex-col items-center gap-8'>
-                    <div className='flex flex-col items-center gap-4 text-center'>
-                        <span className='rounded-full bg-success/40 px-4 py-1.5 text-sm font-semibold text-secondary'>FAQ</span>
-                        <h2 className='font-bold'>
-                            Tout savoir sur{' '}
-                            <span className='relative inline-block'>
-                                nos formules
-                                <Underline />
-                            </span>
-                        </h2>
-                    </div>
-                    <div className='w-full'>
-                        <SchoolFaq items={FAQ} />
-                    </div>
-                    <p className='text-center text-ink/70'>
+                <div className='container mx-auto max-w-3xl px-4'>
+                    <SectionHeader title='Questions fréquentes' description='Tout savoir sur les formules et le paiement.' />
+                    <SchoolFaq items={FAQ} />
+                    <p className='mt-6 text-ink/70'>
                         Vous ne trouvez pas votre réponse ?{' '}
                         <Link href='/contact/' className='font-semibold text-primary underline underline-offset-4'>
                             Écrivez à notre équipe
