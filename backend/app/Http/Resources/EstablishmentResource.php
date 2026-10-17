@@ -25,7 +25,7 @@ class EstablishmentResource extends JsonResource
             'id' => $this->slug,
             'name' => $this->name,
             'initials' => $this->initials ?: self::initialsFrom($this->name),
-            'type' => $this->sector->label(),
+            'type' => $this->sector?->label(),
             'category' => $this->category->slug,
             'subCategory' => $this->subCategory?->label ?? '',
             'socialLinks' => (object) ($this->social_links ?? []),

@@ -26,7 +26,7 @@ class OfferResource extends JsonResource
             'title' => $this->title,
             'school' => $establishment->name,
             'schoolId' => $establishment->slug,
-            'schoolType' => $establishment->sector->label(),
+            'schoolType' => $establishment->sector?->label(),
             'city' => $establishment->city,
             'domain' => $this->domain?->name ?? '',
             'kind' => $this->kind->label(),

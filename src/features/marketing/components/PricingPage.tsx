@@ -77,7 +77,7 @@ export default function PricingPage() {
         api<{ data: Plan[] }>('/plans', { token: null }).then((res) => setPlans(res.data)).catch(() => undefined)
     }, [])
 
-    const cta = user?.role === 'establishment' ? backofficeUrl('/formule') : '/signup/?type=etablissement'
+    const cta = user?.role === 'establishment' ? backofficeUrl('/formule') : '/inscription-etablissement/'
     const yearlySaving = 10
 
     return (

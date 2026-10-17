@@ -5,15 +5,19 @@ import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
 import withBasePath from '@/lib/base-path'
 import { useSiteData } from '@/data/site-data'
+import { usePathname } from 'next/navigation'
+import { hidesSchoolCta } from '@/features/marketing/components/SchoolCta'
 import { SOCIAL_LINKS } from './social-links'
 
 
 const Footer = () => {
     const { data: footerlink } = useSiteData('FooterLinkData')
+    // Le bandeau « établissements » chevauche le haut du pied de page, sauf là où il est masqué.
+    const overlapped = !hidesSchoolCta(usePathname())
 
     return (
         <div className='bg-secondary' id='first-section'>
-            <div className='container pt-44 pb-10'>
+            <div className={`container pb-10 ${overlapped ? 'pt-44' : 'pt-16'}`}>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-16 xl:gap-8'>
                     <div className='col-span-4 flex flex-col gap-5'>
                         <div>

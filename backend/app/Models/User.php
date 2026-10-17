@@ -18,12 +18,23 @@ use Laravel\Sanctum\HasApiTokens;
  * Compte Edumada : étudiant, représentant d'établissement ou administrateur.
  * Le rôle n'est jamais rempli depuis une requête : voir RegisterController.
  */
-#[Fillable(['name', 'email', 'password', 'phone', 'city', 'study_level'])]
+#[Fillable(['name', 'first_name', 'last_name', 'job_title', 'email', 'password', 'phone', 'city', 'study_level'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * Identité du responsable, renseignée seulement à l'inscription d'un établissement.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'first_name' => null,
+        'last_name' => null,
+        'job_title' => null,
+    ];
 
     /**
      * Get the attributes that should be cast.

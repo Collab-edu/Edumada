@@ -83,7 +83,7 @@ export default function BenefitsPage() {
                                 établissement gratuitement et soyez là où ils vous cherchent.
                             </p>
                             <div className='flex flex-wrap gap-3'>
-                                <ButtonLink href='/signup/?type=etablissement'>
+                                <ButtonLink href='/inscription-etablissement/'>
                                     Référencer mon établissement
                                     <Icon icon='tabler:arrow-right' className='text-lg' />
                                 </ButtonLink>

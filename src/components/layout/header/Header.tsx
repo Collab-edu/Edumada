@@ -143,7 +143,7 @@ const Header: React.FC = () => {
                                 </Link>
                             ))}
                         </div>
-                        <Link href='/signup/?type=etablissement' className='flex h-full items-center bg-primary px-5 font-semibold hover:bg-primary/90 duration-300'>
+                        <Link href='/inscription-etablissement/' className='flex h-full items-center bg-primary px-5 font-semibold hover:bg-primary/90 duration-300'>
                             Référencer mon établissement
                         </Link>
                     </div>
@@ -254,7 +254,7 @@ const Header: React.FC = () => {
                             </>
                         )}
                         <Link
-                            href='/signup/?type=etablissement'
+                            href='/inscription-etablissement/'
                             onClick={() => setNavbarOpen(false)}
                             className='px-4 py-2 text-center rounded-lg border border-secondary/30 font-medium text-secondary'>
                             Référencer mon établissement

@@ -66,7 +66,7 @@ export default function ProTrainingPage() {
                                     <Icon icon='tabler:search' className='text-lg' />
                                     Rechercher une formation pro
                                 </ButtonLink>
-                                <ButtonLink href='/signup/?type=etablissement' variant='secondary'>
+                                <ButtonLink href='/inscription-etablissement/' variant='secondary'>
                                     Référencer mon centre
                                 </ButtonLink>
                             </div>
@@ -181,7 +181,7 @@ export default function ProTrainingPage() {
                             <h2 className='text-2xl font-bold text-white'>Vous dirigez un centre de formation ?</h2>
                             <p className='text-white/80'>Présentez vos formations gratuitement et recevez les demandes des futurs apprenants.</p>
                         </div>
-                        <ButtonLink href='/signup/?type=etablissement' className='shrink-0'>
+                        <ButtonLink href='/inscription-etablissement/' className='shrink-0'>
                             Référencer mon centre
                         </ButtonLink>
                     </div>

@@ -14,6 +14,11 @@ type RegisterData = {
     phone?: string
     city?: string
     studyLevel?: string
+    /** Responsable d'un établissement (page « Référencer mon établissement »). */
+    firstName?: string
+    lastName?: string
+    jobTitle?: string
+    establishment?: { name: string; category: string; city: string; email: string | null; website: string | null }
 }
 
 type AuthContextValue = {

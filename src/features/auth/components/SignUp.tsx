@@ -17,11 +17,14 @@ const ACCOUNT_TYPES = [
     { value: 'establishment', icon: 'tabler:building-community', title: 'Établissement', text: 'Présenter vos offres, gratuitement' },
 ] as const
 
+/** Page d'inscription dédiée aux établissements. */
+const ESTABLISHMENT_SIGNUP = '/inscription-etablissement/'
+
 export const STUDY_LEVELS = ['Primaire', 'Collège', 'Lycée', 'BAC', 'BAC+2', 'BAC+3', 'BAC+5 et plus', 'Autre']
 
 /**
  * Création de compte. `studentOnly` (bouton « Inscription » de l'en-tête) : compte étudiant uniquement,
- * les établissements passent par /signup/?type=etablissement.
+ * les établissements passent par la page dédiée /inscription-etablissement/.
  */
 const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; studentOnly?: boolean }) => {
     const { register } = useAuth()
@@ -31,11 +34,11 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
     const [ready, setReady] = useState(false)
-    // /signup/?type=etablissement : lien « Référencer mon établissement ».
+    // Ancien lien /signup/?type=etablissement : les établissements ont leur propre page d'inscription.
     useEffect(() => {
         setReady(true)
-        if (!studentOnly && new URLSearchParams(window.location.search).get('type') === 'etablissement') setAccountType('establishment')
-    }, [studentOnly])
+        if (!studentOnly && new URLSearchParams(window.location.search).get('type') === 'etablissement') router.replace(ESTABLISHMENT_SIGNUP)
+    }, [studentOnly, router])
     const set = (key: keyof typeof form) => (e: { target: { value: string } }) => setForm({ ...form, [key]: e.target.value })
 
     const submit = async (e: FormEvent) => {
@@ -87,7 +90,12 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                                 name='accountType'
                                 value={type.value}
                                 checked={accountType === type.value}
-                                onChange={() => setAccountType(type.value)}
+                                onChange={() => {
+                                    if (type.value === 'establishment') {
+                                        onSuccess?.()
+                                        router.push(ESTABLISHMENT_SIGNUP)
+                                    } else setAccountType(type.value)
+                                }}
                                 className='sr-only'
                             />
                             <Icon icon={type.icon} className='text-2xl text-primary' />
@@ -135,7 +143,7 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
             {studentOnly && (
                 <p className='mt-3 text-sm text-black'>
                     Vous représentez un établissement ?
-                    <Link href='/signup/?type=etablissement' onClick={onSuccess} className='pl-1 font-semibold text-secondary hover:underline'>
+                    <Link href={ESTABLISHMENT_SIGNUP} onClick={onSuccess} className='pl-1 font-semibold text-secondary hover:underline'>
                         Référencer mon établissement
                     </Link>
                 </p>

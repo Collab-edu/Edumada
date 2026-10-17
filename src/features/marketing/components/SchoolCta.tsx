@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Icon } from '@/components/ui/icon'
 import { useSiteData } from '@/data/site-data'
 import { imageOr } from '@/lib/media'
@@ -19,9 +20,15 @@ const SPOTS = [
     { left: '89%', top: '72%', size: 64, delay: '2.7s' },
 ]
 
+/** Pages où le bandeau ferait doublon : il y mène déjà. Le pied de page reprend alors sa marge normale. */
+export const hidesSchoolCta = (pathname: string | null) => !!pathname?.startsWith('/inscription-etablissement')
+
 const SchoolCta = () => {
+    const pathname = usePathname()
     const { data: schools } = useSiteData('SchoolData')
     const photos = [...new Set(schools.map((school) => imageOr(school.imageSrc)))].slice(0, SPOTS.length)
+
+    if (hidesSchoolCta(pathname)) return null
 
     return (
         <section id='school-cta-section' className='relative z-10 -mb-28 pb-0'>
@@ -54,7 +61,7 @@ const SchoolCta = () => {
                         </p>
                         <div className='flex flex-col items-center gap-5 sm:flex-row'>
                             <Link
-                                href='/signup/?type=etablissement'
+                                href='/inscription-etablissement/'
                                 className='inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-4 font-bold text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:bg-primary/90 hover:-translate-y-0.5'>
                                 Référencer mon établissement
                                 <Icon icon='tabler:arrow-right' className='text-lg' />

@@ -124,7 +124,7 @@ function LoginForm() {
                                 ))}
                             </ul>
                             <div>
-                                <CButton color='light' variant='outline' className='mt-2' href={`${SITE_URL}/signup/?type=etablissement`}>
+                                <CButton color='light' variant='outline' className='mt-2' href={`${SITE_URL}/inscription-etablissement/`}>
                                     Créer un compte établissement
                                 </CButton>
                             </div>

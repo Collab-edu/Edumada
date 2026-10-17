@@ -90,7 +90,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                     <Icon icon='tabler:search' className='text-lg' />
                                     Rechercher une formation
                                 </ButtonLink>
-                                <ButtonLink href='/signup/?type=etablissement' variant='secondary'>
+                                <ButtonLink href='/inscription-etablissement/' variant='secondary'>
                                     Référencer mon établissement
                                 </ButtonLink>
                             </div>
@@ -187,7 +187,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                             <h2 className='text-2xl font-bold text-white'>{config.cta.title}</h2>
                             <p className='text-white/80'>{config.cta.text}</p>
                         </div>
-                        <ButtonLink href='/signup/?type=etablissement' className='shrink-0'>
+                        <ButtonLink href='/inscription-etablissement/' className='shrink-0'>
                             Référencer mon établissement
                         </ButtonLink>
                     </div>
