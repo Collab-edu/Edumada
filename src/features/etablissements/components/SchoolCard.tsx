@@ -22,67 +22,58 @@ export function SchoolCard({ school, compact = false }: { school: SchoolType; co
 
     return (
         <Card className='flex h-full flex-col overflow-hidden'>
-            <div className={cn('relative bg-cream', compact ? 'h-28' : 'h-36')}>
-                <Image src={imageOr(school.imageSrc)} alt={`Locaux de ${school.name}`} fill className='object-cover' />
+            <div className={cn('relative overflow-hidden bg-cream', compact ? 'h-40' : 'h-48')}>
+                <Image src={imageOr(school.imageSrc)} alt={`Locaux de ${school.name}`} fill className='object-cover transition-transform duration-500 group-hover:scale-105' />
+                {/* Type d'établissement, comme le domaine sur la carte de formation */}
+                {typeLabel && (
+                    <span className='absolute top-3 left-3 inline-flex max-w-[70%] items-center gap-1.5 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white'>
+                        {category && <Icon icon={category.icon} className='shrink-0 text-sm' />}
+                        <span className='truncate'>{typeLabel}</span>
+                    </span>
+                )}
+                {school.type && (
+                    <span className='absolute top-3 right-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-secondary shadow-sm backdrop-blur-sm'>
+                        {school.type}
+                    </span>
+                )}
             </div>
 
-            <div className={cn('flex flex-1 flex-col', compact ? 'gap-2.5 px-5 pb-4' : 'gap-3 px-5 pb-5')}>
+            <div className='relative flex flex-1 flex-col gap-3 px-4 pb-4'>
                 {/* Logo de l'établissement, à cheval sur la photo */}
-                <div className='flex items-end justify-between gap-3'>
-                    <SchoolLogo
-                        name={school.name}
-                        initials={school.initials}
-                        logo={school.logo}
-                        className='relative -mt-7 h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white'
-                    />
-                    {school.type && (
-                        <span className='rounded-full bg-cream px-3 py-1 text-xs font-semibold text-primary'>{school.type}</span>
-                    )}
-                </div>
-                <div className='flex flex-col gap-1.5'>
-                    {/* Type d'établissement, mis en avant */}
-                    {typeLabel && (
-                        <span className='inline-flex w-fit max-w-full items-center gap-1.5 rounded-lg bg-secondary px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white'>
-                            {category && <Icon icon={category.icon} className='shrink-0 text-sm' />}
-                            <span className='truncate'>{typeLabel}</span>
-                        </span>
-                    )}
-                    <h3 className='text-lg font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
+                <SchoolLogo
+                    name={school.name}
+                    initials={school.initials}
+                    logo={school.logo}
+                    className='-mt-7 h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white'
+                />
+                <div className='flex flex-col gap-0.5'>
+                    {category && <p className='truncate text-sm font-semibold text-secondary'>{category.shortLabel}</p>}
+                    <h3 className='text-base font-bold leading-snug text-secondary group-hover:text-primary duration-300'>
                         {school.name}
                     </h3>
-                    <p className={cn('flex items-center gap-1.5 text-black', compact && 'min-w-0 text-sm')}>
-                        <Icon icon='tabler:map-pin' className='shrink-0 text-lg text-secondary' />
-                        <span className={cn(compact && 'truncate')}>{school.city}</span>
-                    </p>
                 </div>
                 {/* Offres proposées par l'établissement */}
-                {shown.length > 0 ? (
-                    <ul className='flex flex-col gap-1.5 text-sm text-black'>
-                        {shown.map((offer) => (
-                            <li key={offer.id} className='flex items-center gap-2'>
-                                <Icon icon='tabler:circle-check-filled' className='shrink-0 text-base text-primary' />
-                                <span className='truncate'>{offer.title}</span>
-                            </li>
-                        ))}
-                        {offers.length > shown.length && (
-                            <li className='pl-6 font-semibold text-secondary'>
-                                + {offers.length - shown.length} {offers.length - shown.length > 1 ? 'autres offres' : 'autre offre'}
-                            </li>
-                        )}
-                    </ul>
-                ) : (
-                    <p className='text-sm text-ink/60'>Aucune offre publiée pour le moment.</p>
-                )}
-                <div className={cn('flex gap-2', compact ? 'flex-nowrap overflow-hidden' : 'flex-wrap')}>
-                    {(compact ? school.tags.slice(0, 2) : school.tags).map((tag) => (
-                        <span
-                            key={tag}
-                            className='shrink-0 whitespace-nowrap rounded-full bg-success/30 px-3 py-1 text-sm font-medium text-secondary'>
-                            {tag}
-                        </span>
+                <ul className='flex flex-col gap-1.5 text-sm text-ink/70'>
+                    {shown.map((offer) => (
+                        <li key={offer.id} className='flex min-w-0 items-center gap-1.5'>
+                            <Icon icon='tabler:circle-check' className='shrink-0 text-base text-secondary' />
+                            <span className='truncate'>{offer.title}</span>
+                        </li>
                     ))}
-                </div>
-                <CardAction href={`/etablissements/${school.id}`} className={cn(compact && 'py-2.5 text-sm')}>Voir l&apos;établissement</CardAction>
+                    {offers.length > shown.length && (
+                        <li className='pl-6 font-semibold text-secondary'>
+                            + {offers.length - shown.length} {offers.length - shown.length > 1 ? 'autres offres' : 'autre offre'}
+                        </li>
+                    )}
+                    {offers.length === 0 && <li>Aucune offre publiée pour le moment.</li>}
+                    <li className='flex items-center gap-1.5'>
+                        <Icon icon='tabler:map-pin' className='shrink-0 text-base text-secondary' />
+                        {school.city}
+                    </li>
+                </ul>
+                <CardAction href={`/etablissements/${school.id}`} className='py-2.5 text-sm'>
+                    Voir l&apos;établissement
+                </CardAction>
             </div>
         </Card>
     )
