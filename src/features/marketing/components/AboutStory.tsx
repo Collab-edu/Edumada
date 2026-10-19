@@ -54,12 +54,12 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
         <>
             {/* Le constat */}
             <section>
-                <div className='container mx-auto max-w-7xl px-4 flex flex-col gap-10'>
-                    <h2 className='max-w-2xl text-3xl font-bold leading-tight md:text-4xl'>
-                        Nous voulons que chaque jeune choisisse sa formation <span className='text-primary'>en connaissance de cause</span>
-                    </h2>
-                    <div className='grid gap-8 md:grid-cols-2 md:items-center md:gap-14'>
-                        <div className='flex flex-col gap-4'>
+                <div className='container mx-auto max-w-7xl px-4'>
+                    <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
+                        <div className='flex max-w-2xl flex-col gap-5'>
+                            <h2 className='text-3xl font-bold leading-tight md:text-4xl'>
+                                Nous voulons que chaque jeune choisisse sa formation <span className='text-primary'>en connaissance de cause</span>
+                            </h2>
                             <p className='text-black'>
                                 À Madagascar, trouver une formation se fait souvent au hasard : une affiche, une publication sur les réseaux sociaux, le
                                 conseil d’un proche. Les informations sont dispersées, incomplètes et difficiles à comparer.
@@ -69,7 +69,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                 décider.
                             </p>
                         </div>
-                        <div className='mx-auto flex aspect-square w-full max-w-sm flex-col items-center justify-center gap-6 rounded-3xl border border-gray-200 bg-white p-8 text-center shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
+                        <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-3xl border border-gray-200 bg-white p-6 text-center shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
                             <span className='text-xs font-semibold uppercase tracking-wide text-primary'>Le constat</span>
                             <div className='flex flex-wrap items-center justify-center gap-3'>
                                 {SCATTERED.map((item) => (
