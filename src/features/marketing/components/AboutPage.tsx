@@ -1,6 +1,5 @@
 'use client'
 import Image from 'next/image'
-import { Icon } from '@/components/ui/icon'
 import SectionHeader from '@/components/ui/section-header'
 import { CONTACT } from '@/components/layout/social-links'
 import { useSiteData } from '@/data/site-data'
@@ -8,15 +7,9 @@ import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import type { FaqItem } from '@/features/etablissements/faq'
 import StudentSpaceSection from './StudentSpaceSection'
 import OrientationBanner from './OrientationBanner'
-import MissionBento from './MissionBento'
+import AboutStory from './AboutStory'
 
 const HERO_IMAGE = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=70'
-
-const AUDIENCES = [
-    { icon: 'tabler:school', title: 'Étudiants', text: 'Trouver la formation qui correspond à son projet, après le bac ou pour apprendre un métier.' },
-    { icon: 'tabler:users', title: 'Parents', text: 'Choisir une crèche, une école, un collège ou un lycée près de chez soi.' },
-    { icon: 'tabler:building', title: 'Établissements', text: 'Présenter ses formations et recevoir les demandes des futurs élèves.' },
-]
 
 const FAQ: FaqItem[] = [
     {
@@ -80,25 +73,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            <MissionBento figures={figures} cities={[...cities].sort()} />
-
-            {/* Publics */}
-            <section className='bg-secondary/[0.06]'>
-                <div className='container mx-auto max-w-7xl px-4'>
-                    <SectionHeader title='Pour qui ?' description='Edumada s’adresse à tous ceux qui cherchent ou proposent une formation.' />
-                    <ul className='grid gap-5 md:grid-cols-3'>
-                        {AUDIENCES.map((audience) => (
-                            <li key={audience.title} className='flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6'>
-                                <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary'>
-                                    <Icon icon={audience.icon} className='text-2xl' />
-                                </span>
-                                <h3 className='text-lg font-semibold text-secondary'>{audience.title}</h3>
-                                <p className='text-black'>{audience.text}</p>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </section>
+            <AboutStory figures={figures} cities={[...cities].sort()} />
 
             <StudentSpaceSection />
 
