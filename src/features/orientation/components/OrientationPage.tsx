@@ -74,6 +74,7 @@ export default function OrientationPage() {
         <>
             <section className='pt-28 pb-10 sm:pt-32'>
                 <div className='container mx-auto max-w-7xl px-4'>
+                    <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label='Cours dans une salle de classe' className='mb-10 h-56 sm:h-80 lg:h-96' />
                     <div className='flex max-w-3xl flex-col gap-4'>
                         <p className='font-semibold uppercase tracking-wide text-primary'>Orientation</p>
                         <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Trouvez la voie qui vous correspond</h1>
@@ -82,7 +83,6 @@ export default function OrientationPage() {
                             comparer les possibilités à Madagascar.
                         </p>
                     </div>
-                    <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label='Cours dans une salle de classe' className='mt-10 h-56 sm:h-80 lg:h-96' />
                 </div>
             </section>
 
