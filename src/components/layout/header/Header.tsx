@@ -154,7 +154,7 @@ const Header: React.FC = () => {
             <div className={cn('py-4 transition-all duration-300', sticky ? 'bg-white shadow-lg' : 'bg-white')}>
                 <div className='container relative mx-auto max-w-7xl px-4 flex items-center justify-between'>
                     <Logo />
-                    <nav className='hidden lg:flex grow justify-center items-center gap-8 mx-8'>
+                    <nav className='hidden xl:flex grow justify-center items-center gap-8 mx-8'>
                         {headerData.map((item, index) => (
                             <HeaderLink key={index} item={item} />
                         ))}
@@ -181,7 +181,7 @@ const Header: React.FC = () => {
                                 <IconButton label='Connexion' icon='tabler:user' onClick={openSignIn} className='lg:hidden' />
                             </>
                         )}
-                        <button onClick={() => setNavbarOpen(!navbarOpen)} className='block lg:hidden p-2 rounded-lg' aria-label='Ouvrir le menu'>
+                        <button onClick={() => setNavbarOpen(!navbarOpen)} className='block xl:hidden p-2 rounded-lg' aria-label='Ouvrir le menu'>
                             <span className='block w-6 h-0.5 bg-black'></span>
                             <span className='block w-6 h-0.5 bg-black mt-1.5'></span>
                             <span className='block w-6 h-0.5 bg-black mt-1.5'></span>
@@ -204,7 +204,7 @@ const Header: React.FC = () => {
             {navbarOpen && <div className='fixed top-0 left-0 w-full h-full bg-black/50 z-40' />}
             <div
                 ref={mobileMenuRef}
-                className={`lg:hidden fixed top-0 right-0 h-full w-full bg-white shadow-lg transform transition-transform duration-300 max-w-xs ${navbarOpen ? 'translate-x-0' : 'translate-x-full'} z-50`}>
+                className={`xl:hidden fixed top-0 right-0 h-full w-full bg-white shadow-lg transform transition-transform duration-300 max-w-xs ${navbarOpen ? 'translate-x-0' : 'translate-x-full'} z-50`}>
                 <div className='flex items-center justify-between p-4'>
                     <Logo />
                     <button onClick={() => setNavbarOpen(false)} className='bg-black/30 rounded-full p-1 text-white' aria-label='Fermer le menu'>

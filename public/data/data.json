@@ -9,20 +9,16 @@
             "href": "/universites/"
         },
         {
-            "label": "Formations",
+            "label": "Formation professionnelle",
             "href": "/formation-professionnelle/"
         },
         {
-            "label": "Domaines",
+            "label": "Domaine et filière",
             "href": "/domaines/"
         },
         {
             "label": "Orientation",
             "href": "/orientation/"
-        },
-        {
-            "label": "Actualités",
-            "href": "/actualites/"
         }
     ],
     "DomainData": [
