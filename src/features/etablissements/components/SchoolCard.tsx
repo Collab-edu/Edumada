@@ -14,6 +14,9 @@ const MAX_OFFERS = 3
 /** `compact` : version basse et large (bandeau défilant de l'accueil). */
 export function SchoolCard({ school, compact = false }: { school: SchoolType; compact?: boolean }) {
     const { data: formations } = useSiteData('FormationData')
+    const { data: categories } = useSiteData('CategoryData')
+    const category = categories.find((c) => c.id === school.category)
+    const typeLabel = school.subCategory || category?.shortLabel
     const offers = formations.filter((formation) => formation.schoolId === school.id)
     const shown = offers.slice(0, MAX_OFFERS)
 
@@ -25,21 +28,31 @@ export function SchoolCard({ school, compact = false }: { school: SchoolType; co
 
             <div className={cn('flex flex-1 flex-col', compact ? 'gap-2.5 px-5 pb-4' : 'gap-3 px-5 pb-5')}>
                 {/* Logo de l'établissement, à cheval sur la photo */}
-                <SchoolLogo
-                    name={school.name}
-                    initials={school.initials}
-                    logo={school.logo}
-                    className='relative -mt-7 h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white'
-                />
-                <div className='flex flex-col gap-1'>
+                <div className='flex items-end justify-between gap-3'>
+                    <SchoolLogo
+                        name={school.name}
+                        initials={school.initials}
+                        logo={school.logo}
+                        className='relative -mt-7 h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white'
+                    />
+                    {school.type && (
+                        <span className='rounded-full bg-cream px-3 py-1 text-xs font-semibold text-primary'>{school.type}</span>
+                    )}
+                </div>
+                <div className='flex flex-col gap-1.5'>
+                    {/* Type d'établissement, mis en avant */}
+                    {typeLabel && (
+                        <span className='inline-flex w-fit max-w-full items-center gap-1.5 rounded-lg bg-secondary px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white'>
+                            {category && <Icon icon={category.icon} className='shrink-0 text-sm' />}
+                            <span className='truncate'>{typeLabel}</span>
+                        </span>
+                    )}
                     <h3 className='text-lg font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
                         {school.name}
                     </h3>
                     <p className={cn('flex items-center gap-1.5 text-black', compact && 'min-w-0 text-sm')}>
                         <Icon icon='tabler:map-pin' className='shrink-0 text-lg text-secondary' />
-                        <span className={cn(compact && 'truncate')}>
-                            {school.subCategory} · {school.city}
-                        </span>
+                        <span className={cn(compact && 'truncate')}>{school.city}</span>
                     </p>
                 </div>
                 {/* Offres proposées par l'établissement */}
