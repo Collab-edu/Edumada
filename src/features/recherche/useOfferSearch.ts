@@ -51,6 +51,10 @@ type SearchState = {
  * Résultats de la recherche : filtrés par l'API (avec pagination) quand elle est configurée,
  * sinon (ou en cas de panne) filtrés dans le navigateur sur les données locales.
  */
+/** Durée affichée du chargement d'une recherche, en millisecondes. */
+const MIN_LOADING_MS = 1000
+const MAX_LOADING_MS = 3000
+
 export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchState {
     const { data: formations, loading: localLoading } = useSiteData('FormationData')
     const { data: categories } = useSiteData('CategoryData')
@@ -61,6 +65,14 @@ export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchS
 
     const query = useMemo(() => toApiQuery(filters, sort), [filters, sort])
     const queryKey = JSON.stringify(query)
+
+    // Chaque nouvelle recherche affiche le chargement 1 à 3 s, même si la réponse arrive plus tôt.
+    const [pacing, setPacing] = useState(true)
+    useEffect(() => {
+        setPacing(true)
+        const timer = setTimeout(() => setPacing(false), MIN_LOADING_MS + Math.random() * (MAX_LOADING_MS - MIN_LOADING_MS))
+        return () => clearTimeout(timer)
+    }, [queryKey])
 
     useEffect(() => {
         if (!apiEnabled) return
@@ -108,12 +120,12 @@ export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchS
     }
 
     if (offline) {
-        return { results: local, total: local.length, loading: localLoading, loadingMore: false, hasMore: false, offline: apiEnabled, loadMore }
+        return { results: local, total: local.length, loading: localLoading || pacing, loadingMore: false, hasMore: false, offline: apiEnabled, loadMore }
     }
     return {
         results: remote?.results ?? [],
         total: remote?.total ?? 0,
-        loading: loading && !remote ? true : loading,
+        loading: loading || pacing,
         loadingMore,
         hasMore: !!remote && remote.page < remote.lastPage,
         offline: false,
