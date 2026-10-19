@@ -60,7 +60,7 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
             <div className='grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px]'>
                 <div className='flex flex-col gap-5 p-6 md:p-8'>
                     <div className='flex items-center gap-4'>
-                        <SchoolLogo name={school.name} initials={school.initials} logo={school.logo} className='h-16 w-16 rounded-2xl border border-gray-100 text-lg' />
+                        <SchoolLogo name={school.name} initials={school.initials} logo={school.logo} className='h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white' />
                         <div className='flex flex-col'>
                             <Link href={`/etablissements/${school.id}`} className='font-semibold text-secondary hover:text-primary hover:underline'>
                                 {school.name}

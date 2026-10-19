@@ -24,7 +24,7 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
         <DetailSection id='etablissement' title="L'établissement" icon='tabler:building-community'>
             <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
                 <div className='flex flex-col sm:flex-row sm:items-center gap-4 p-6'>
-                    <SchoolLogo name={school.name} initials={school.initials} logo={school.logo} className='h-16 w-16 rounded-2xl border border-gray-100 text-lg' />
+                    <SchoolLogo name={school.name} initials={school.initials} logo={school.logo} className='h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white' />
                     <div className='flex flex-1 flex-col gap-1'>
                         <p className='text-xl font-bold text-secondary'>{school.name}</p>
                         <span className='text-ink/70'>

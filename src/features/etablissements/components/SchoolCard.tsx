@@ -21,7 +21,7 @@ export function SchoolCard({ school, compact = false }: { school: SchoolType; co
                     name={school.name}
                     initials={school.initials}
                     logo={school.logo}
-                    className={cn('relative rounded-xl text-sm shadow-sm ring-4 ring-white', compact ? '-mt-6 h-12 w-12' : '-mt-7 h-14 w-14')}
+                    className='relative -mt-7 h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white'
                 />
                 <div className='flex flex-col gap-1'>
                     <h3 className='text-lg font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>

@@ -71,7 +71,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             name={school.name}
                             initials={school.initials}
                             logo={school.logo}
-                            className='h-20 w-20 rounded-2xl text-xl shadow-lg'
+                            className='h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white'
                             fallbackClassName='bg-white text-secondary'
                         />
                         <div className='flex flex-col gap-2'>
