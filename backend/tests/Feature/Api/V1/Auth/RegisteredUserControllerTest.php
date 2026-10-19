@@ -49,6 +49,8 @@ class RegisteredUserControllerTest extends TestCase
             'password' => 'secret123',
             'password_confirmation' => 'secret123',
             'accountType' => 'establishment',
+            'plan' => 'pro',
+            'billingCycle' => 'yearly',
             'establishment' => [
                 'name' => 'Institut des Métiers de Toliara',
                 'category' => 'formation-pro',
@@ -68,6 +70,8 @@ class RegisteredUserControllerTest extends TestCase
         $this->assertSame($category->id, $establishment->category_id);
         $this->assertNull($establishment->sector);
         $this->assertSame('https://institut.mg', $establishment->website);
+        $this->assertSame('pro', $establishment->requested_plan);
+        $this->assertSame('yearly', $establishment->requested_billing_cycle);
     }
 
     public function test_establishment_signup_requires_manager_details_and_valid_category(): void

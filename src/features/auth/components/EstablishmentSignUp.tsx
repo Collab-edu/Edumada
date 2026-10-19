@@ -7,6 +7,7 @@ import { Icon } from '@/components/ui/icon'
 import { Button, FormAlert, SelectField, TextField } from '@/components/ui/form'
 import { ApiError, apiEnabled } from '@/lib/api'
 import { useSiteData } from '@/data/site-data'
+import { cn } from '@/lib/utils'
 import { useAuth } from '../AuthProvider'
 import { backofficeUrl, goTo } from '../types'
 import type { Plan } from '@/features/espace/types'
@@ -76,7 +77,7 @@ export default function EstablishmentSignUp() {
     const chosen = plans.find((plan) => plan.code === choice.plan) ?? plans[0]
     const yearly = choice.cycle === 'yearly' && chosen.yearlyPrice !== null
     const chosenPrice =
-        chosen.code === 'free' ? 'Gratuit, sans engagement' : `${formatAriary(yearly ? chosen.yearlyPrice : chosen.monthlyPrice)} / ${yearly ? 'an' : 'mois'}`
+        chosen.code === 'free' ? 'sans engagement' : `${formatAriary(yearly ? chosen.yearlyPrice : chosen.monthlyPrice)} / ${yearly ? 'an' : 'mois'}`
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
 
@@ -99,6 +100,8 @@ export default function EstablishmentSignUp() {
                 phone: form.phone,
                 password: form.password,
                 password_confirmation: form.password_confirmation,
+                plan: chosen.code,
+                billingCycle: yearly ? 'yearly' : 'monthly',
                 establishment: {
                     name: form.establishmentName,
                     category: form.category,
@@ -170,27 +173,26 @@ export default function EstablishmentSignUp() {
                         <p className='text-black'>Gratuit, en quelques minutes.</p>
                     </div>
                     <div className='order-1 rounded-2xl border border-gray-200 bg-white p-6 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)] sm:p-8 lg:order-2'>
-                        {/* Formule choisie sur la page Tarifs */}
-                        <div className='mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/20 bg-cream/60 p-4'>
-                            <div className='flex items-center gap-3'>
-                                <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-white'>
-                                    <Icon icon='tabler:rosette' className='text-2xl' />
-                                </span>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='text-xs font-semibold uppercase tracking-wide text-ink/60'>Formule choisie</span>
-                                    <span className='flex flex-wrap items-center gap-2'>
-                                        <span className='rounded-full bg-primary px-3 py-0.5 text-sm font-bold text-white'>{chosen.name}</span>
-                                        <span className='text-sm font-semibold text-secondary'>{chosenPrice}</span>
+                        {/* Formule choisie sur la page Tarifs : rappel discret, modifiable */}
+                        <div className='mb-6 flex flex-col gap-2 border-b border-gray-100 pb-5'>
+                            <div className='flex flex-wrap items-center justify-between gap-3'>
+                                <div className='inline-flex items-center gap-2 rounded-full border border-gray-200 bg-offwhite py-1 pl-3 pr-1 text-sm'>
+                                    <span className='text-ink/60'>Formule</span>
+                                    <span className='inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-0.5 font-semibold text-secondary shadow-sm'>
+                                        <span className={cn('h-2 w-2 rounded-full', chosen.code === 'free' ? 'bg-success' : 'bg-primary')} />
+                                        {chosen.name}
+                                        <span className='font-normal text-ink/60'>· {chosenPrice}</span>
                                     </span>
                                 </div>
+                                <Link href={ESTABLISHMENT_START} className='inline-flex items-center gap-1 text-sm font-medium text-ink/60 hover:text-primary duration-300'>
+                                    <Icon icon='tabler:pencil' className='text-base' />
+                                    Modifier
+                                </Link>
                             </div>
-                            <Link href={ESTABLISHMENT_START} className='text-sm font-semibold text-primary underline underline-offset-4 hover:text-primary/80'>
-                                Changer de formule
-                            </Link>
                             {chosen.code !== 'free' && (
-                                <p className='w-full text-sm text-black'>
-                                    Le paiement se fait après la création du compte, depuis votre espace. Votre fiche reste en formule Gratuit jusqu&apos;à sa
-                                    confirmation.
+                                <p className='flex items-start gap-1.5 !text-xs text-ink/60'>
+                                    <Icon icon='tabler:info-circle' className='mt-px shrink-0 text-sm' />
+                                    Paiement après la création du compte, depuis votre espace. La fiche reste en Gratuit jusqu&apos;à sa confirmation.
                                 </p>
                             )}
                         </div>

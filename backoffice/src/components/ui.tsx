@@ -279,6 +279,15 @@ const PLAN_BADGES: Record<string, { color: string; label: string }> = {
 }
 
 /** Formule d'un établissement : Gratuit (gris), Pro (sarcelle), Premium (rouge). */
+/** Formule choisie à l'inscription, pas encore payée. */
+export function RequestedPlanBadge({ plan, className }: { plan: { name: string; billingCycle: string }; className?: string }) {
+    return (
+        <CBadge color='warning' textColor='dark' className={className} title="Formule choisie à l'inscription, pas encore activée">
+            Souhaite {plan.name} · {plan.billingCycle === 'yearly' ? 'annuel' : 'mensuel'}
+        </CBadge>
+    )
+}
+
 export function PlanBadge({ code, className }: { code: string; className?: string }) {
     const plan = PLAN_BADGES[code] ?? PLAN_BADGES.free
     return (

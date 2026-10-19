@@ -51,6 +51,10 @@ class RegisteredUserController extends Controller
                 $establishment->slug = Establishment::uniqueSlug($establishment->name);
                 $establishment->status = EstablishmentStatus::PendingReview;
                 $establishment->verification_status = VerificationStatus::Unverified;
+                if (in_array($request->validated('plan'), ['pro', 'premium'], true)) {
+                    $establishment->requested_plan = $request->validated('plan');
+                    $establishment->requested_billing_cycle = $request->validated('billingCycle') ?? 'monthly';
+                }
                 $establishment->save();
                 $establishment->members()->attach($user, ['role' => EstablishmentMemberRole::Owner->value]);
             }

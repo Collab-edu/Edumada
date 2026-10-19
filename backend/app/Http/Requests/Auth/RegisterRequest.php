@@ -39,6 +39,10 @@ class RegisterRequest extends FormRequest
             'establishment.city' => ['required_with:establishment', 'string', 'max:255'],
             'establishment.email' => ['nullable', 'email', 'max:255'],
             'establishment.website' => ['nullable', 'url', 'max:255'],
+
+            // Formule choisie sur la page Tarifs : enregistrée sur la fiche, l'abonnement se fait ensuite.
+            'plan' => ['nullable', Rule::in(['free', 'pro', 'premium'])],
+            'billingCycle' => ['nullable', Rule::in(['monthly', 'yearly'])],
         ];
     }
 }

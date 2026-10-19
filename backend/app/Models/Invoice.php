@@ -92,6 +92,11 @@ class Invoice extends Model
             $this->period_starts_on = $startsAt;
             $this->period_ends_on = $endsAt;
             $this->subscription_id = $subscription->id;
+
+            // La formule demandée à l'inscription est maintenant active.
+            if ($establishment->requested_plan === $subscription->plan->code->value) {
+                $establishment->forceFill(['requested_plan' => null, 'requested_billing_cycle' => null])->save();
+            }
             $this->save();
 
             return $subscription->load(['plan', 'establishment']);

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Establishment;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 
 /**
@@ -42,6 +43,12 @@ class ManagedEstablishmentResource extends EstablishmentResource
             'memberRole' => $this->whenPivotLoaded('establishment_user', fn () => $this->pivot->role),
             'plan' => new PlanResource($plan),
             'publishedOffersCount' => $this->publishedOffers()->count(),
+            // Formule payante choisie à l'inscription, tant qu'elle n'est pas activée.
+            'requestedPlan' => $this->requested_plan ? [
+                'code' => $this->requested_plan,
+                'name' => Plan::where('code', $this->requested_plan)->value('name') ?? ucfirst($this->requested_plan),
+                'billingCycle' => $this->requested_billing_cycle ?? 'monthly',
+            ] : null,
             'offers' => ManagedOfferResource::collection($this->whenLoaded('offers')),
             'members' => $this->whenLoaded('members', fn () => $this->members->map(fn ($member) => [
                 'id' => $member->id,

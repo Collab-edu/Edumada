@@ -19,6 +19,9 @@ type RegisterData = {
     lastName?: string
     jobTitle?: string
     establishment?: { name: string; category: string; city: string; email: string | null; website: string | null }
+    /** Formule choisie sur la page Tarifs, enregistrée sur la fiche. */
+    plan?: 'free' | 'pro' | 'premium'
+    billingCycle?: 'monthly' | 'yearly'
 }
 
 type AuthContextValue = {

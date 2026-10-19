@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import {
+    CAlert,
     CButton,
     CButtonGroup,
     CCard,
@@ -125,6 +126,17 @@ function EstablishmentDashboard({ e }: { e: ManagedEstablishment }) {
                     </CButton>
                 }
             />
+            {e.requestedPlan && e.requestedPlan.code !== e.plan.code && (
+                <CAlert color='warning' className='d-flex flex-wrap align-items-center justify-content-between gap-3'>
+                    <div>
+                        <strong>Vous avez choisi la formule {e.requestedPlan.name}</strong> ({e.requestedPlan.billingCycle === 'yearly' ? 'annuel' : 'mensuel'}) lors de
+                        votre inscription. Votre fiche reste en formule {e.plan.name} tant que le paiement n&apos;est pas confirmé.
+                    </div>
+                    <CButton color='dark' as={Link} href={`/formule/?plan=${e.requestedPlan.code}&cycle=${e.requestedPlan.billingCycle}`}>
+                        Finaliser mon abonnement
+                    </CButton>
+                </CAlert>
+            )}
             <CRow className='mb-4' xs={{ gutter: 4 }}>
                 <CCol sm={6} xl={3}>
                     <CWidgetStatsA

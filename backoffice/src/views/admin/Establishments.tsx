@@ -41,7 +41,7 @@ import { useApi } from '@/lib/useApi'
 import { notifyEstablishmentsChanged, useEstablishmentCounts } from '@/lib/useEstablishmentCounts'
 import { formatDate, formatDateTime } from '@/lib/format'
 import type { ManagedEstablishment, Paginated, Plan } from '@/lib/types'
-import { EmptyState, ErrorAlert, Loading, PageCard, Pager, PlanBadge, StatusBadge } from '@/components/ui'
+import { EmptyState, ErrorAlert, Loading, PageCard, Pager, PlanBadge, RequestedPlanBadge, StatusBadge } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
 
 function Members({ establishment, onDone }: { establishment: ManagedEstablishment; onDone: () => void }) {
@@ -201,6 +201,7 @@ function EstablishmentDetail({
                     {e.name}
                     <StatusBadge status={e.status}>{e.statusLabel}</StatusBadge>
                     {e.status === 'published' && <PlanBadge code={e.plan.code} />}
+                    {e.requestedPlan && e.requestedPlan.code !== e.plan.code && <RequestedPlanBadge plan={e.requestedPlan} />}
                 </CModalTitle>
             </CModalHeader>
             <CModalBody>
@@ -409,6 +410,7 @@ function EstablishmentList({ category }: { category: string | null }) {
                                                 {e.name}
                                             </button>
                                             <div className='small text-body-secondary'>{[e.subCategory || categoryLabel(e.category), e.type, e.city].filter(Boolean).join(' · ')}</div>
+                                            {e.requestedPlan && <RequestedPlanBadge plan={e.requestedPlan} className='mt-1' />}
                                             {e.accreditation && <div className='small'>Accréditation déclarée : {e.accreditation}</div>}
                                             {/* Petit écran : coordonnées et date sous le nom (colonnes masquées). */}
                                             <div className='small d-lg-none mt-1'>
@@ -502,6 +504,7 @@ function EstablishmentList({ category }: { category: string | null }) {
                                         </CTableDataCell>
                                         <CTableDataCell>
                                             <PlanBadge code={e.plan.code} />
+                                            {e.requestedPlan && e.requestedPlan.code !== e.plan.code && <RequestedPlanBadge plan={e.requestedPlan} className='ms-1' />}
                                         </CTableDataCell>
                                         {tab === 'toutes' && (
                                             <CTableDataCell>

@@ -62,6 +62,20 @@ class BillingTest extends TestCase
         Notification::assertSentTo($owner, SubscriptionNotice::class, fn (SubscriptionNotice $notice) => $notice->kind === SubscriptionNotice::ACTIVATED);
     }
 
+    public function test_activating_the_plan_chosen_at_signup_clears_the_request(): void
+    {
+        [$owner, $establishment] = $this->establishmentOwner();
+        $establishment->forceFill(['requested_plan' => 'pro', 'requested_billing_cycle' => 'yearly'])->save();
+
+        $this->actingAs($owner)->getJson("/api/v1/establishments/{$establishment->slug}/manage")
+            ->assertJsonPath('data.requestedPlan', ['code' => 'pro', 'name' => 'Pro', 'billingCycle' => 'yearly']);
+
+        $invoice = $this->pendingInvoice($establishment, PlanCode::Pro);
+        $this->actingAs($this->admin())->putJson("/api/v1/admin/invoices/{$invoice->id}/confirm")->assertOk();
+
+        $this->assertNull($establishment->refresh()->requested_plan);
+    }
+
     public function test_paying_the_same_plan_again_extends_the_current_period(): void
     {
         [, $establishment] = $this->establishmentOwner();
