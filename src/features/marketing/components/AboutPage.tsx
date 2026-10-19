@@ -1,15 +1,17 @@
 'use client'
-import Image from 'next/image'
 import SectionHeader from '@/components/ui/section-header'
 import { CONTACT } from '@/components/layout/social-links'
 import { useSiteData } from '@/data/site-data'
 import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import type { FaqItem } from '@/features/etablissements/faq'
+import HeroVideo from '@/components/ui/hero-video'
 import StudentSpaceSection from './StudentSpaceSection'
 import OrientationBanner from './OrientationBanner'
 import AboutStory from './AboutStory'
 
 const HERO_IMAGE = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=70'
+/** Vidéo libre de droits (Pexels), en attendant une vidéo d'Edumada. */
+const HERO_VIDEO = 'https://videos.pexels.com/video-files/5198159/5198159-hd_1920_1080_25fps.mp4'
 
 const FAQ: FaqItem[] = [
     {
@@ -58,9 +60,7 @@ export default function AboutPage() {
                     </div>
 
                     <div className='relative mt-10'>
-                        <div className='relative h-56 overflow-hidden rounded-2xl sm:h-80 lg:h-96'>
-                            <Image src={HERO_IMAGE} alt='Étudiants réunis autour d’une table' fill priority sizes='100vw' className='object-cover' />
-                        </div>
+                        <HeroVideo src={HERO_VIDEO} poster={HERO_IMAGE} label='Élèves en classe' className='h-56 sm:h-80 lg:h-96' />
                         <ul className='relative mx-4 -mt-10 grid grid-cols-3 divide-x divide-gray-200 rounded-xl border border-gray-200 bg-white py-4 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)] sm:mx-auto sm:max-w-2xl sm:py-6'>
                             {figures.map((figure) => (
                                 <li key={figure.label} className='flex flex-col items-center gap-1 px-2 text-center'>

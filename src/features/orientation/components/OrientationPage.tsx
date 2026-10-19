@@ -1,10 +1,15 @@
 import Link from 'next/link'
 import { DotPattern } from '@/components/ui/dot-pattern'
+import HeroVideo from '@/components/ui/hero-video'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import StudentSpaceSection from '@/features/marketing/components/StudentSpaceSection'
 
 /** Les questions à se poser avant de comparer les formations. */
+/** Vidéo libre de droits (Pexels), en attendant une vidéo d'Edumada. */
+const HERO_VIDEO = 'https://videos.pexels.com/video-files/7092235/7092235-hd_1920_1080_30fps.mp4'
+const HERO_POSTER = 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1600&q=70'
+
 const QUESTIONS = [
     { label: 'Quel métier ?', rotate: '-rotate-3' },
     { label: 'Quel niveau ?', rotate: 'rotate-2' },
@@ -77,6 +82,7 @@ export default function OrientationPage() {
                             comparer les possibilités à Madagascar.
                         </p>
                     </div>
+                    <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label='Cours dans une salle de classe' className='mt-10 h-56 sm:h-80 lg:h-96' />
                 </div>
             </section>
 
