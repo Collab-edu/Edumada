@@ -2,17 +2,18 @@ import type { ReactNode } from 'react'
 import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
 import withBasePath from '@/lib/base-path'
+import { cn } from '@/lib/utils'
 
 export type PhoneTab = { icon: string; label: string; active?: boolean }
 
 /** Téléphone dessiné en HTML : en-tête Edumada, écran libre et barre d'onglets. Purement décoratif. */
-export default function PhoneMockup({ tabs, children }: { tabs: PhoneTab[]; children: ReactNode }) {
+export default function PhoneMockup({ tabs, children, screenClassName }: { tabs: PhoneTab[]; children: ReactNode; screenClassName?: string }) {
     return (
         <div className='relative mx-auto w-full max-w-[18rem]' aria-hidden='true'>
             <div className='absolute -inset-6 -z-10 rounded-full bg-cream blur-2xl' />
             <div className='rounded-[2.5rem] border-[10px] border-secondary bg-offwhite shadow-xl'>
                 <div className='mx-auto mt-2 h-1.5 w-16 rounded-full bg-secondary/20' />
-                <div className='flex flex-col gap-4 px-4 pt-4'>
+                <div className={cn('flex flex-col gap-4 px-4 pt-4', screenClassName)}>
                     <div className='flex items-center justify-between'>
                         <Image src={withBasePath('/images/logo/edumada-logo.svg')} alt='' width={828} height={270} className='h-7 w-auto' />
                         <span className='relative text-xl text-secondary'>

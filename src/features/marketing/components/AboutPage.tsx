@@ -8,6 +8,7 @@ import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import type { FaqItem } from '@/features/etablissements/faq'
 import StudentSpaceSection from './StudentSpaceSection'
 import OrientationBanner from './OrientationBanner'
+import HowItWorksPhones from './HowItWorksPhones'
 
 const HERO_IMAGE = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=70'
 
@@ -125,6 +126,8 @@ export default function AboutPage() {
                     </div>
                 </div>
             </section>
+
+            <HowItWorksPhones />
 
             {/* Publics */}
             <section className='bg-secondary/[0.06]'>
