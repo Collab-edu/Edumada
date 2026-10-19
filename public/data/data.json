@@ -2640,53 +2640,71 @@
     ],
     "FooterLinkData": [
         {
-            "section": "Liens utiles",
+            "section": "Découvrir",
             "links": [
                 {
                     "label": "Accueil",
                     "href": "/"
                 },
                 {
-                    "label": "Domaines",
-                    "href": "/domaines/"
-                },
-                {
                     "label": "Formations",
                     "href": "/formation-professionnelle/"
                 },
                 {
-                    "label": "Établissements",
-                    "href": "/etablissements/"
+                    "label": "Universités",
+                    "href": "/universites/"
+                },
+                {
+                    "label": "Domaines",
+                    "href": "/domaines/"
                 },
                 {
                     "label": "Orientation",
                     "href": "/orientation/"
+                }
+            ]
+        },
+        {
+            "section": "Établissements",
+            "links": [
+                {
+                    "label": "Tous les établissements",
+                    "href": "/etablissements/"
+                },
+                {
+                    "label": "Avantages",
+                    "href": "/avantages/"
+                },
+                {
+                    "label": "Formules et tarifs",
+                    "href": "/tarifs/"
+                }
+            ]
+        },
+        {
+            "section": "Edumada",
+            "links": [
+                {
+                    "label": "À propos",
+                    "href": "/a-propos/"
                 },
                 {
                     "label": "Actualités",
                     "href": "/actualites/"
                 },
                 {
-                    "label": "Établissements : nos formules",
-                    "href": "/tarifs/"
+                    "label": "Contact",
+                    "href": "/contact/"
+                },
+                {
+                    "label": "Mon espace",
+                    "href": "/espace/"
                 }
             ]
         },
         {
-            "section": "Aide",
+            "section": "Légal",
             "links": [
-                {
-                    "label": "Mon espace",
-                    "href": "/espace/"
-                },
-                {
-                    "label": "À propos",
-                    "href": "/a-propos/"
-                },
-                {
-                    "label": "Contact",
-                    "href": "/contact/"
-                },
                 {
                     "label": "Conditions d'utilisation",
                     "href": "/conditions/"
