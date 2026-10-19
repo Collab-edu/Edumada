@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import SectionHeader from '@/components/ui/section-header'
+import StudentSpaceSection from '@/features/marketing/components/StudentSpaceSection'
 
 const STEPS = [
     {
@@ -122,6 +123,8 @@ export default function OrientationPage() {
                     </ul>
                 </div>
             </section>
+
+            <StudentSpaceSection />
 
             {/* Appel à la recherche */}
             <section className='pb-20'>

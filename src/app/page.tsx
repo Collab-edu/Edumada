@@ -5,8 +5,7 @@ import FormationsSection from '@/features/formations/components/FormationsSectio
 import SchoolsSection from '@/features/etablissements/components/SchoolsSection'
 import Companies from '@/features/marketing/components/Companies'
 import RegisterCta from '@/features/marketing/components/RegisterCta'
-import Steps from '@/features/marketing/components/Steps'
-import StudentSpaceSection from '@/features/marketing/components/StudentSpaceSection'
+import HowItWorksPhones from '@/features/marketing/components/HowItWorksPhones'
 
 export default function Home() {
   return (
@@ -18,8 +17,7 @@ export default function Home() {
       <RegisterCta />
       <FormationsSection />
       <SchoolsSection />
-      <Steps />
-      <StudentSpaceSection />
+      <HowItWorksPhones />
     </main>
   )
 }
