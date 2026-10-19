@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import Link from 'next/link'
+import { DotPattern } from '@/components/ui/dot-pattern'
 import { Icon } from '@/components/ui/icon'
 import withBasePath from '@/lib/base-path'
 
@@ -19,9 +21,24 @@ const COMMITMENTS = [
 ]
 
 const AUDIENCES = [
-    { icon: 'tabler:school', title: 'Étudiants', text: 'Trouver la formation qui correspond à son projet, après le bac ou pour apprendre un métier.' },
-    { icon: 'tabler:users', title: 'Parents', text: 'Choisir une crèche, une école, un collège ou un lycée près de chez soi.' },
-    { icon: 'tabler:building', title: 'Établissements', text: 'Présenter ses formations et recevoir les demandes des futurs élèves.' },
+    {
+        icon: 'tabler:school',
+        title: 'Étudiants',
+        text: 'Trouver la formation qui correspond à son projet, après le bac ou pour apprendre un métier.',
+        link: { href: '/recherche/', label: 'Rechercher une formation' },
+    },
+    {
+        icon: 'tabler:users',
+        title: 'Parents',
+        text: 'Choisir une crèche, une école, un collège ou un lycée près de chez soi.',
+        link: { href: '/etablissements/', label: 'Voir les établissements' },
+    },
+    {
+        icon: 'tabler:building',
+        title: 'Établissements',
+        text: 'Présenter ses formations et recevoir les demandes des futurs élèves.',
+        link: { href: '/avantages/', label: 'Découvrir les avantages' },
+    },
 ]
 
 type AboutStoryProps = {
@@ -41,7 +58,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                     <h2 className='max-w-2xl text-3xl font-bold leading-tight md:text-4xl'>
                         Nous voulons que chaque jeune choisisse sa formation <span className='text-primary'>en connaissance de cause</span>
                     </h2>
-                    <div className='grid gap-8 md:grid-cols-2 md:gap-14'>
+                    <div className='grid gap-8 md:grid-cols-2 md:items-center md:gap-14'>
                         <div className='flex flex-col gap-4'>
                             <p className='text-black'>
                                 À Madagascar, trouver une formation se fait souvent au hasard : une affiche, une publication sur les réseaux sociaux, le
@@ -52,9 +69,9 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                 décider.
                             </p>
                         </div>
-                        <div className='flex flex-col gap-5 rounded-3xl border border-gray-200 bg-white p-6'>
+                        <div className='mx-auto flex aspect-square w-full max-w-sm flex-col items-center justify-center gap-6 rounded-3xl border border-gray-200 bg-white p-8 text-center shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
                             <span className='text-xs font-semibold uppercase tracking-wide text-primary'>Le constat</span>
-                            <div className='flex flex-wrap items-center gap-3'>
+                            <div className='flex flex-wrap items-center justify-center gap-3'>
                                 {SCATTERED.map((item) => (
                                     <span
                                         key={item.label}
@@ -63,8 +80,8 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                     </span>
                                 ))}
                             </div>
-                            <div className='flex items-center gap-3'>
-                                <Icon icon='tabler:arrow-narrow-right' className='text-2xl text-primary' />
+                            <div className='flex flex-col items-center gap-3'>
+                                <Icon icon='tabler:arrow-narrow-down' className='text-2xl text-primary' />
                                 <span className='inline-flex items-center gap-2 rounded-lg bg-secondary px-3 py-1.5 text-sm font-semibold text-white'>
                                     <Image src={withBasePath('/images/logo/edumada-logo-white.svg')} alt='' width={828} height={270} className='h-5 w-auto' />
                                     Tout au même endroit
@@ -79,14 +96,10 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
             <section>
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='grid items-center gap-12 lg:grid-cols-2 lg:gap-16'>
-                        <div className='relative pb-8 pr-4 sm:pr-10'>
+                        <div className='relative pr-4 sm:pr-10'>
                             <div className='relative h-72 overflow-hidden rounded-3xl sm:h-96'>
                                 <Image src={PHOTO} alt='Étudiants qui comparent des formations' fill sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
                             </div>
-                            <figure className='absolute bottom-0 left-6 max-w-[16rem] rounded-2xl bg-white px-5 py-4 shadow-lg'>
-                                <blockquote className='text-sm font-semibold text-secondary'>« Bien choisir, ensemble. »</blockquote>
-                                <figcaption className='mt-1 text-xs text-ink/60'>L’équipe Edumada</figcaption>
-                            </figure>
                             {schools > 0 && (
                                 <div className='absolute right-0 top-6 rounded-2xl bg-primary px-4 py-3 text-white shadow-lg'>
                                     <span className='block text-2xl font-bold leading-none'>{schools}</span>
@@ -97,7 +110,10 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
 
                         <div className='flex flex-col gap-5'>
                             <h2 className='text-3xl font-bold leading-tight md:text-4xl'>Nous rapprochons les jeunes et les établissements</h2>
-                            <p className='text-black'>Trois engagements guident tout ce que nous construisons :</p>
+                            <p className='text-black'>
+                                Edumada est présent partout à Madagascar, pour que l’offre des régions soit aussi visible que celle de la capitale. Trois
+                                engagements guident notre travail :
+                            </p>
                             <ol className='flex flex-col gap-3'>
                                 {COMMITMENTS.map((item, index) => (
                                     <li key={item.title} className='flex gap-3 text-black'>
@@ -108,10 +124,6 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                     </li>
                                 ))}
                             </ol>
-                            <blockquote className='border-l-4 border-primary pl-4 italic text-secondary'>
-                                « Que chaque jeune, à Antananarivo comme en région, puisse voir toutes les possibilités qui s’offrent à lui avant de faire
-                                son choix. »
-                            </blockquote>
                             {cities.length > 0 && (
                                 <ul className='flex flex-wrap gap-2'>
                                     {cities.map((city) => (
@@ -130,23 +142,39 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
             {/* Pour qui ? */}
             <section>
                 <div className='container mx-auto max-w-7xl px-4'>
-                    <div className='relative mx-auto flex max-w-2xl flex-col items-center gap-3 text-center'>
-                        <Icon icon='tabler:sparkles' className='absolute -left-2 top-0 hidden text-2xl text-primary/60 sm:block' aria-hidden='true' />
-                        <Icon icon='tabler:sparkles' className='absolute -right-4 bottom-2 hidden text-xl text-secondary/40 sm:block' aria-hidden='true' />
-                        <h2 className='text-3xl font-bold leading-tight md:text-4xl'>Une plateforme pour tous ceux qui cherchent ou proposent une formation</h2>
-                        <p className='text-black'>Étudiants, familles et établissements : chacun y trouve ce dont il a besoin.</p>
+                    <div className='relative overflow-hidden rounded-3xl bg-secondary px-6 py-12 sm:px-10 lg:py-16'>
+                        <DotPattern width={22} height={22} cr={1.2} className='fill-white/10' />
+                        <div className='pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border-[40px] border-white/5' aria-hidden='true' />
+                        <div className='pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full border-[32px] border-primary/20' aria-hidden='true' />
+
+                        <div className='relative mx-auto flex max-w-2xl flex-col items-center gap-3 text-center'>
+                            <span className='text-sm font-semibold uppercase tracking-wide text-primary'>Pour qui ?</span>
+                            <h2 className='text-3xl font-bold leading-tight text-white md:text-4xl'>
+                                Une plateforme pour tous ceux qui cherchent ou proposent une formation
+                            </h2>
+                            <p className='text-white/75'>Étudiants, familles et établissements : chacun y trouve ce dont il a besoin.</p>
+                        </div>
+
+                        <ul className='relative mt-12 grid gap-5 md:grid-cols-3'>
+                            {AUDIENCES.map((audience) => (
+                                <li key={audience.title}>
+                                    <Link
+                                        href={audience.link.href}
+                                        className='group flex h-full flex-col gap-3 rounded-2xl bg-white p-6 transition-transform duration-300 hover:-translate-y-1'>
+                                        <span className='flex h-14 w-14 items-center justify-center rounded-2xl bg-cream text-primary'>
+                                            <Icon icon={audience.icon} className='text-3xl' />
+                                        </span>
+                                        <h3 className='text-lg font-semibold text-secondary'>{audience.title}</h3>
+                                        <p className='text-black'>{audience.text}</p>
+                                        <span className='mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary'>
+                                            {audience.link.label}
+                                            <Icon icon='tabler:arrow-right' className='text-base transition-transform duration-300 group-hover:translate-x-1' />
+                                        </span>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-                    <ul className='mt-12 grid gap-10 md:grid-cols-3'>
-                        {AUDIENCES.map((audience) => (
-                            <li key={audience.title} className='flex flex-col items-center gap-3 text-center'>
-                                <span className='flex h-16 w-16 items-center justify-center rounded-full bg-cream text-primary'>
-                                    <Icon icon={audience.icon} className='text-3xl' />
-                                </span>
-                                <h3 className='text-lg font-semibold text-secondary'>{audience.title}</h3>
-                                <p className='max-w-xs text-black'>{audience.text}</p>
-                            </li>
-                        ))}
-                    </ul>
                 </div>
             </section>
         </>
