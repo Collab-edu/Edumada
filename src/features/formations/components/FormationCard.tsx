@@ -23,7 +23,7 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite, compact
             <div className={cn('relative overflow-hidden bg-cream', compact ? 'h-40' : 'h-48')}>
                 <Image src={imageOr(formation.imageSrc)} alt='' fill className='object-cover transition-transform duration-500 group-hover:scale-105' />
                 {formation.domain && (
-                    <span className='absolute bottom-3 left-3 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white'>{formation.domain}</span>
+                    <span className='absolute top-3 left-3 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white'>{formation.domain}</span>
                 )}
                 <button
                     type='button'
@@ -35,19 +35,18 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite, compact
                 </button>
             </div>
 
-            <div className='flex flex-1 flex-col gap-3 p-4'>
+            <div className='relative flex flex-1 flex-col gap-3 px-4 pb-4'>
+                {/* Logo de l'établissement, à cheval sur la photo */}
+                <SchoolLogo
+                    name={formation.school}
+                    logo={formation.schoolLogo}
+                    className='-mt-7 h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white'
+                />
                 <div className='flex flex-col gap-0.5'>
+                    <p className='truncate text-sm font-semibold text-secondary'>{formation.school}</p>
                     <h3 className='text-base font-bold leading-snug text-secondary group-hover:text-primary duration-300'>
                         {formation.title}
                     </h3>
-                    <p className='flex min-w-0 items-center gap-2 text-sm text-ink/60'>
-                        <SchoolLogo
-                            name={formation.school}
-                            logo={formation.schoolLogo}
-                            className='h-6 w-6 rounded-md border border-gray-100 text-[9px]'
-                        />
-                        <span className='truncate'>{formation.school}</span>
-                    </p>
                 </div>
                 <ul className='flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-ink/70'>
                     {offerFacts(formation).map((fact) => (

@@ -42,9 +42,17 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                 )}
             </div>
 
-            <div className='flex flex-1 flex-col gap-4 p-5'>
+            <div className='flex flex-1 flex-col gap-4 px-5 pb-5'>
                 <div className='flex items-start justify-between gap-4'>
-                    <div className='flex flex-col gap-1'>
+                    <div className='flex min-w-0 flex-col gap-1'>
+                        {/* Logo de l'établissement, à cheval sur la photo */}
+                        <Link href={`/etablissements/${formation.schoolId}`} aria-label={formation.school} className='-mt-8 mb-2 w-fit'>
+                            <SchoolLogo
+                                name={formation.school}
+                                logo={formation.schoolLogo}
+                                className='h-16 w-16 rounded-2xl text-base shadow-md ring-4 ring-white transition-transform duration-300 hover:scale-105'
+                            />
+                        </Link>
                         <span className={cn('w-fit rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>
                             {badge.label}
                         </span>
@@ -54,8 +62,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                         <p className='flex flex-wrap items-center gap-x-3 gap-y-1 text-black'>
                             <Link
                                 href={`/etablissements/${formation.schoolId}`}
-                                className='inline-flex items-center gap-1.5 hover:text-primary hover:underline'>
-                                <SchoolLogo name={formation.school} logo={formation.schoolLogo} className='h-8 w-8 rounded-md border border-gray-100 text-[10px]' />
+                                className='inline-flex items-center gap-1.5 font-semibold text-secondary hover:text-primary hover:underline'>
                                 {formation.school}
                             </Link>
                             <span className='inline-flex items-center gap-1.5'>
