@@ -11,20 +11,19 @@ import { cn } from '@/lib/utils'
 import { useAuth } from '../AuthProvider'
 import { SPACE_HOME, backofficeUrl, goTo } from '../types'
 import { nextUrl } from './SignIn'
+import { ESTABLISHMENT_START } from '@/features/marketing/plans'
 
 const ACCOUNT_TYPES = [
     { value: 'student', icon: 'tabler:school', title: 'Étudiant ou parent', text: 'Favoris, demandes et candidatures' },
     { value: 'establishment', icon: 'tabler:building-community', title: 'Établissement', text: 'Présenter vos offres, gratuitement' },
 ] as const
 
-/** Page d'inscription dédiée aux établissements. */
-const ESTABLISHMENT_SIGNUP = '/inscription-etablissement/'
 
 export const STUDY_LEVELS = ['Primaire', 'Collège', 'Lycée', 'BAC', 'BAC+2', 'BAC+3', 'BAC+5 et plus', 'Autre']
 
 /**
  * Création de compte. `studentOnly` (bouton « Inscription » de l'en-tête) : compte étudiant uniquement,
- * les établissements passent par la page dédiée /inscription-etablissement/.
+ * les établissements choisissent d'abord leur formule sur /tarifs/, puis s'inscrivent.
  */
 const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; studentOnly?: boolean }) => {
     const { register } = useAuth()
@@ -34,10 +33,10 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
     const [ready, setReady] = useState(false)
-    // Ancien lien /signup/?type=etablissement : les établissements ont leur propre page d'inscription.
+    // Ancien lien /signup/?type=etablissement : les établissements commencent par choisir leur formule.
     useEffect(() => {
         setReady(true)
-        if (!studentOnly && new URLSearchParams(window.location.search).get('type') === 'etablissement') router.replace(ESTABLISHMENT_SIGNUP)
+        if (!studentOnly && new URLSearchParams(window.location.search).get('type') === 'etablissement') router.replace(ESTABLISHMENT_START)
     }, [studentOnly, router])
     const set = (key: keyof typeof form) => (e: { target: { value: string } }) => setForm({ ...form, [key]: e.target.value })
 
@@ -93,7 +92,7 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                                 onChange={() => {
                                     if (type.value === 'establishment') {
                                         onSuccess?.()
-                                        router.push(ESTABLISHMENT_SIGNUP)
+                                        router.push(ESTABLISHMENT_START)
                                     } else setAccountType(type.value)
                                 }}
                                 className='sr-only'
@@ -143,7 +142,7 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
             {studentOnly && (
                 <p className='mt-3 text-sm text-black'>
                     Vous représentez un établissement ?
-                    <Link href={ESTABLISHMENT_SIGNUP} onClick={onSuccess} className='pl-1 font-semibold text-secondary hover:underline'>
+                    <Link href={ESTABLISHMENT_START} onClick={onSuccess} className='pl-1 font-semibold text-secondary hover:underline'>
                         Référencer mon établissement
                     </Link>
                 </p>

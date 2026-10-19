@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { Icon } from '@/components/ui/icon'
@@ -9,6 +9,9 @@ import { ApiError, apiEnabled } from '@/lib/api'
 import { useSiteData } from '@/data/site-data'
 import { useAuth } from '../AuthProvider'
 import { backofficeUrl, goTo } from '../types'
+import type { Plan } from '@/features/espace/types'
+import { formatAriary } from '@/features/espace/components/SpaceShell'
+import { ESTABLISHMENT_START, usePlans, type BillingCycle } from '@/features/marketing/plans'
 
 const EMPTY = {
     lastName: '',
@@ -60,6 +63,20 @@ export default function EstablishmentSignUp() {
     const { data: categories } = useSiteData('CategoryData')
     const { data: schools } = useSiteData('SchoolData')
     const [form, setForm] = useState(EMPTY)
+    const plans = usePlans()
+    // Formule choisie sur la page Tarifs (?formule=pro&rythme=yearly) ; Gratuit par défaut.
+    const [choice, setChoice] = useState<{ plan: Plan['code']; cycle: BillingCycle }>({ plan: 'free', cycle: 'monthly' })
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search)
+        const plan = params.get('formule')
+        if (plan === 'pro' || plan === 'premium' || plan === 'free') {
+            setChoice({ plan, cycle: params.get('rythme') === 'yearly' ? 'yearly' : 'monthly' })
+        }
+    }, [])
+    const chosen = plans.find((plan) => plan.code === choice.plan) ?? plans[0]
+    const yearly = choice.cycle === 'yearly' && chosen.yearlyPrice !== null
+    const chosenPrice =
+        chosen.code === 'free' ? 'Gratuit, sans engagement' : `${formatAriary(yearly ? chosen.yearlyPrice : chosen.monthlyPrice)} / ${yearly ? 'an' : 'mois'}`
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
 
@@ -91,8 +108,16 @@ export default function EstablishmentSignUp() {
                 },
             })
             toast.success('Votre compte est créé.')
-            toast('Connectez-vous à votre espace pour compléter la fiche de votre établissement.', { icon: '➡️' })
-            goTo(backofficeUrl(`/connexion?email=${encodeURIComponent(user.email)}`), router.push)
+            const email = `email=${encodeURIComponent(user.email)}`
+            if (chosen.code === 'free') {
+                toast('Connectez-vous à votre espace pour compléter la fiche de votre établissement.', { icon: '➡️' })
+                goTo(backofficeUrl(`/connexion?${email}`), router.push)
+            } else {
+                // Formule payante : après connexion, l'établissement arrive sur sa demande d'abonnement.
+                toast(`Connectez-vous pour finaliser la formule ${chosen.name}.`, { icon: '➡️' })
+                const next = `/formule/?plan=${chosen.code}&cycle=${yearly ? 'yearly' : 'monthly'}`
+                goTo(backofficeUrl(`/connexion?${email}&next=${encodeURIComponent(next)}`), router.push)
+            }
         } catch (err) {
             setError(err as ApiError)
         } finally {
@@ -145,6 +170,31 @@ export default function EstablishmentSignUp() {
                         <p className='text-black'>Gratuit, en quelques minutes.</p>
                     </div>
                     <div className='order-1 rounded-2xl border border-gray-200 bg-white p-6 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)] sm:p-8 lg:order-2'>
+                        {/* Formule choisie sur la page Tarifs */}
+                        <div className='mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/20 bg-cream/60 p-4'>
+                            <div className='flex items-center gap-3'>
+                                <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-white'>
+                                    <Icon icon='tabler:rosette' className='text-2xl' />
+                                </span>
+                                <div className='flex flex-col gap-1'>
+                                    <span className='text-xs font-semibold uppercase tracking-wide text-ink/60'>Formule choisie</span>
+                                    <span className='flex flex-wrap items-center gap-2'>
+                                        <span className='rounded-full bg-primary px-3 py-0.5 text-sm font-bold text-white'>{chosen.name}</span>
+                                        <span className='text-sm font-semibold text-secondary'>{chosenPrice}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <Link href={ESTABLISHMENT_START} className='text-sm font-semibold text-primary underline underline-offset-4 hover:text-primary/80'>
+                                Changer de formule
+                            </Link>
+                            {chosen.code !== 'free' && (
+                                <p className='w-full text-sm text-black'>
+                                    Le paiement se fait après la création du compte, depuis votre espace. Votre fiche reste en formule Gratuit jusqu&apos;à sa
+                                    confirmation.
+                                </p>
+                            )}
+                        </div>
+
                         {!apiEnabled && <FormAlert tone='info'>L&apos;inscription sera disponible quand le service en ligne d&apos;Edumada sera activé.</FormAlert>}
                         {error && Object.keys(error.errors).length === 0 && <FormAlert>{error.message}</FormAlert>}
                         {error && Object.keys(error.errors).length > 0 && <FormAlert>Certains champs sont à corriger : ils sont signalés en rouge.</FormAlert>}

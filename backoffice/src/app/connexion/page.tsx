@@ -17,7 +17,11 @@ const PERKS = [
 function LoginForm() {
     const { user, loading: sessionLoading, login } = useAuth()
     const router = useRouter()
-    const [email, setEmail] = useState(useSearchParams().get('email') ?? '')
+    const params = useSearchParams()
+    const [email, setEmail] = useState(params.get('email') ?? '')
+    // Page à ouvrir après connexion (ex. : /formule/?plan=pro depuis l'inscription) ; adresses internes uniquement.
+    const requested = params.get('next')
+    const next = requested && requested.startsWith('/') && !requested.startsWith('//') ? requested : '/dashboard/'
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<unknown>(null)
@@ -26,8 +30,8 @@ function LoginForm() {
     useEffect(() => setMounted(true), [])
 
     useEffect(() => {
-        if (!sessionLoading && user) router.replace('/dashboard/')
-    }, [sessionLoading, user, router])
+        if (!sessionLoading && user) router.replace(next)
+    }, [sessionLoading, user, router, next])
 
     const submit = async (e: FormEvent) => {
         e.preventDefault()
@@ -35,7 +39,7 @@ function LoginForm() {
         setError(null)
         try {
             await login(email, password)
-            router.replace('/dashboard/')
+            router.replace(next)
         } catch (err) {
             setError(err)
         } finally {
@@ -124,7 +128,7 @@ function LoginForm() {
                                 ))}
                             </ul>
                             <div>
-                                <CButton color='light' variant='outline' className='mt-2' href={`${SITE_URL}/inscription-etablissement/`}>
+                                <CButton color='light' variant='outline' className='mt-2' href={`${SITE_URL}/tarifs/`}>
                                     Créer un compte établissement
                                 </CButton>
                             </div>

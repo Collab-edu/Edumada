@@ -1,9 +1,8 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
-import { api, apiEnabled } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import type { Plan } from '@/features/espace/types'
 import { formatAriary } from '@/features/espace/components/SpaceShell'
@@ -12,13 +11,7 @@ import { backofficeUrl } from '@/features/auth/types'
 import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import SectionHeader from '@/components/ui/section-header'
 import Companies from './Companies'
-
-/** Formules affichées si l'API ne répond pas (mêmes hypothèses que la base). */
-const FALLBACK_PLANS: Plan[] = [
-    { code: 'free', name: 'Gratuit', monthlyPrice: 0, yearlyPrice: 0, maxPublishedOffers: 1, features: { inquiryInbox: false, statistics: 'none' } },
-    { code: 'pro', name: 'Pro', monthlyPrice: 75000, yearlyPrice: 600000, maxPublishedOffers: null, features: { inquiryInbox: true, statistics: 'standard' } },
-    { code: 'premium', name: 'Premium', monthlyPrice: 175000, yearlyPrice: null, maxPublishedOffers: null, features: { inquiryInbox: true, statistics: 'advanced', sponsoredPlacement: true } },
-]
+import { signupUrl, usePlans } from '../plans'
 
 /** Accroche et contenu de chaque formule, d'après le document « Les 4 types de comptes ». */
 const PLAN_DETAILS: Record<Plan['code'], { description: string; intro: string; features: (plan: Plan) => string[] }> = {
@@ -82,15 +75,16 @@ const FAQ = [
 
 export default function PricingPage() {
     const { user } = useAuth()
-    const [plans, setPlans] = useState<Plan[]>(FALLBACK_PLANS)
+    const plans = usePlans()
     const [yearly, setYearly] = useState(false)
 
-    useEffect(() => {
-        if (!apiEnabled) return
-        api<{ data: Plan[] }>('/plans', { token: null }).then((res) => setPlans(res.data)).catch(() => undefined)
-    }, [])
-
-    const cta = user?.role === 'establishment' ? backofficeUrl('/formule') : '/inscription-etablissement/'
+    // Le rythme réellement proposé : Premium n'existe qu'au mois.
+    const cycleOf = (plan: Plan) => (yearly && plan.yearlyPrice !== null ? 'yearly' : 'monthly')
+    // Un établissement déjà inscrit change de formule dans son espace ; les autres s'inscrivent avec la formule choisie.
+    const cta = (plan: Plan) =>
+        user?.role === 'establishment'
+            ? backofficeUrl(plan.code === 'free' ? '/formule/' : `/formule/?plan=${plan.code}&cycle=${cycleOf(plan)}`)
+            : signupUrl(plan.code, cycleOf(plan))
     const yearlySaving = 10
 
     return (
@@ -161,7 +155,7 @@ export default function PricingPage() {
                                                 </>
                                             )}
                                         </div>
-                                        <ButtonLink href={cta} variant={highlighted ? 'primary' : 'dark'} className='w-full justify-center'>
+                                        <ButtonLink href={cta(plan)} variant={highlighted ? 'primary' : 'dark'} className='w-full justify-center'>
                                             {plan.code === 'free' ? 'Référencer mon établissement' : `Choisir ${plan.name}`}
                                         </ButtonLink>
                                     </div>

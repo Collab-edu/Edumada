@@ -21,7 +21,7 @@ const SPOTS = [
 ]
 
 /** Pages où le bandeau ferait doublon : il y mène déjà. Le pied de page reprend alors sa marge normale. */
-export const hidesSchoolCta = (pathname: string | null) => !!pathname?.startsWith('/inscription-etablissement')
+export const hidesSchoolCta = (pathname: string | null) => !!pathname && ['/inscription-etablissement', '/tarifs'].some((page) => pathname.startsWith(page))
 
 const SchoolCta = () => {
     const pathname = usePathname()
@@ -61,7 +61,7 @@ const SchoolCta = () => {
                         </p>
                         <div className='flex flex-col items-center gap-5 sm:flex-row'>
                             <Link
-                                href='/inscription-etablissement/'
+                                href='/tarifs/'
                                 className='inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-4 font-bold text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:bg-primary/90 hover:-translate-y-0.5'>
                                 Référencer mon établissement
                                 <Icon icon='tabler:arrow-right' className='text-lg' />

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import {
     CAlert,
@@ -114,6 +114,18 @@ export default function Billing() {
     const [method, setMethod] = useState('mvola')
     const [error, setError] = useState<unknown>(null)
 
+    // Formule choisie sur la page Tarifs du site (/formule/?plan=pro&cycle=monthly) : on ouvre directement la demande.
+    useEffect(() => {
+        if (!data) return
+        const params = new URLSearchParams(window.location.search)
+        const wanted = data.data.plans.find((plan) => plan.code === params.get('plan') && plan.code !== 'free')
+        if (!wanted || wanted.code === data.data.plan.code) return
+        const requestedCycle = params.get('cycle')
+        setCycle(requestedCycle === 'monthly' || wanted.yearlyPrice === null ? 'monthly' : 'yearly')
+        setChoice(wanted)
+        window.history.replaceState(null, '', window.location.pathname)
+    }, [data])
+
     if (!data) return <Loading />
     const b = data.data
     const pending = b.invoices.find((i) => i.status === 'pending')
@@ -184,7 +196,11 @@ export default function Billing() {
                                     {PLAN_FEATURES[plan.code].map((f) => (
                                         <CListGroupItem key={f} className='px-0 border-0 py-1 bg-transparent'>
                                             <CIcon icon={cilCheckAlt} className='text-success me-2' />
-                                            {f.startsWith('Offres publiées') ? `${plan.maxPublishedOffers ?? 'Offres illimitées'} offres publiées` : f}
+                                            {f.startsWith('Offres publiées')
+                                                ? plan.maxPublishedOffers === null
+                                                    ? 'Offres illimitées'
+                                                    : `${plan.maxPublishedOffers} ${plan.maxPublishedOffers > 1 ? 'offres publiées' : 'offre publiée'}`
+                                                : f}
                                         </CListGroupItem>
                                     ))}
                                 </CListGroup>
