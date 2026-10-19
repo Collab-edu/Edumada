@@ -1,11 +1,8 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import StudentSpaceSection from '@/features/marketing/components/StudentSpaceSection'
-
-const STEPS_PHOTO = 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=70'
 
 /** Les questions à se poser avant de comparer les formations. */
 const QUESTIONS = [
@@ -83,8 +80,36 @@ export default function OrientationPage() {
                 </div>
             </section>
 
-            {/* Les bonnes questions */}
+            {/* Étapes */}
             <section className='pt-0'>
+                <div className='container mx-auto max-w-7xl px-4'>
+                    <ol className='grid gap-5 sm:grid-cols-2 lg:grid-cols-4'>
+                        {STEPS.map((step, index) => (
+                            <li
+                                key={step.title}
+                                className='flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-5 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
+                                <div className='flex items-center justify-between'>
+                                    <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary'>
+                                        <Icon icon={step.icon} className='text-2xl' />
+                                    </span>
+                                    <span className='text-sm font-semibold text-ink/40'>Étape {index + 1}</span>
+                                </div>
+                                <h2 className='text-lg font-semibold text-secondary'>{step.title}</h2>
+                                <p className='text-sm text-black'>{step.text}</p>
+                                {step.link && (
+                                    <Link href={step.link.href} className='mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline'>
+                                        {step.link.label}
+                                        <Icon icon='tabler:chevron-right' className='text-base' />
+                                    </Link>
+                                )}
+                            </li>
+                        ))}
+                    </ol>
+                </div>
+            </section>
+
+            {/* Les bonnes questions */}
+            <section>
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
                         <div className='flex max-w-2xl flex-col gap-5'>
@@ -117,45 +142,6 @@ export default function OrientationPage() {
                                     Votre parcours
                                 </span>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Étapes */}
-            <section>
-                <div className='container mx-auto max-w-7xl px-4'>
-                    <div className='grid items-center gap-12 lg:grid-cols-2 lg:gap-16'>
-                        <div className='relative pr-4 sm:pr-10'>
-                            <div className='relative h-72 overflow-hidden rounded-3xl sm:h-[28rem]'>
-                                <Image src={STEPS_PHOTO} alt='Élèves en classe' fill sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
-                            </div>
-                            <div className='absolute right-0 top-6 rounded-2xl bg-primary px-4 py-3 text-white shadow-lg'>
-                                <span className='block text-2xl font-bold leading-none'>4</span>
-                                <span className='text-xs text-white/85'>étapes pour bien choisir</span>
-                            </div>
-                        </div>
-
-                        <div className='flex flex-col gap-5'>
-                            <h2 className='text-3xl font-bold leading-tight md:text-4xl'>Une démarche simple, étape par étape</h2>
-                            <p className='text-black'>Suivez ces étapes dans l’ordre : chacune vous mène aux pages utiles d’Edumada.</p>
-                            <ol className='flex flex-col gap-5'>
-                                {STEPS.map((step, index) => (
-                                    <li key={step.title} className='flex gap-4'>
-                                        <span className='pt-0.5 font-bold text-primary'>0{index + 1}</span>
-                                        <div className='flex flex-col gap-1'>
-                                            <h3 className='font-semibold text-secondary'>{step.title}</h3>
-                                            <p className='text-black'>{step.text}</p>
-                                            {step.link && (
-                                                <Link href={step.link.href} className='inline-flex w-fit items-center gap-1 text-sm font-semibold text-primary hover:underline'>
-                                                    {step.link.label}
-                                                    <Icon icon='tabler:arrow-right' className='text-base' />
-                                                </Link>
-                                            )}
-                                        </div>
-                                    </li>
-                                ))}
-                            </ol>
                         </div>
                     </div>
                 </div>
