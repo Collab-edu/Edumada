@@ -153,6 +153,7 @@ export type Establishment = {
     coordinates: { lat: number; lng: number } | null
     admissionDocuments: string[]
     imageSrc: string
+    logo: string
     photos: string[]
     updatedAt: string
 }

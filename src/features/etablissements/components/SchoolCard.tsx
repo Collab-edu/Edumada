@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { Icon } from '@/components/ui/icon'
 import { Card, CardAction } from '@/components/ui/card'
 import type { SchoolType } from '../types'
+import SchoolLogo from './SchoolLogo'
 
 /** `compact` : version basse et large (bandeau défilant de l'accueil). */
 export function SchoolCard({ school, compact = false }: { school: SchoolType; compact?: boolean }) {
@@ -16,9 +17,12 @@ export function SchoolCard({ school, compact = false }: { school: SchoolType; co
 
             <div className={cn('flex flex-1 flex-col', compact ? 'gap-2.5 px-5 pb-4' : 'gap-3 px-5 pb-5')}>
                 {/* Logo de l'établissement, à cheval sur la photo */}
-                <span className={cn('relative flex items-center justify-center rounded-xl bg-secondary font-bold tracking-wide text-white ring-4 ring-white', compact ? '-mt-6 h-12 w-12 text-sm' : '-mt-7 h-14 w-14 text-sm')}>
-                    {school.initials}
-                </span>
+                <SchoolLogo
+                    name={school.name}
+                    initials={school.initials}
+                    logo={school.logo}
+                    className={cn('relative rounded-xl text-sm shadow-sm ring-4 ring-white', compact ? '-mt-6 h-12 w-12' : '-mt-7 h-14 w-14')}
+                />
                 <div className='flex flex-col gap-1'>
                     <h3 className='text-lg font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
                         {school.name}

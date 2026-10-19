@@ -15,6 +15,7 @@ import SchoolAdmission from './SchoolAdmission'
 import SchoolFaq from './SchoolFaq'
 import SchoolFormation from './SchoolFormation'
 import SchoolTestimonials from './SchoolTestimonials'
+import SchoolLogo from './SchoolLogo'
 import ReportDialog from './ReportDialog'
 import ReviewDialog from './ReviewDialog'
 
@@ -66,9 +67,13 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                     <Image src={imageOr(school.imageSrc)} alt={`Locaux de ${school.name}`} fill priority className='object-cover' />
                     <div aria-hidden='true' className='absolute inset-0 bg-gradient-to-t from-secondary via-secondary/60 to-transparent' />
                     <div className='absolute inset-x-0 bottom-0 flex flex-col md:flex-row md:items-end gap-4 p-6 md:p-8'>
-                        <span className='flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-white text-xl font-bold tracking-wide text-secondary shadow-lg'>
-                            {school.initials}
-                        </span>
+                        <SchoolLogo
+                            name={school.name}
+                            initials={school.initials}
+                            logo={school.logo}
+                            className='h-20 w-20 rounded-2xl text-xl shadow-lg'
+                            fallbackClassName='bg-white text-secondary'
+                        />
                         <div className='flex flex-col gap-2'>
                             <h1 className='text-3xl md:text-4xl font-bold leading-tight text-white'>{school.name}</h1>
                             <div className='flex flex-wrap items-center gap-2 text-sm'>

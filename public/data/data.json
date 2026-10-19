@@ -199,7 +199,8 @@
             "verification": {
                 "status": "Vérifié",
                 "date": "2026-09-15"
-            }
+            },
+            "logo": "/images/logos/institut-numerique-de-madagascar.svg"
         },
         {
             "id": "ecole-superieure-de-gestion",
@@ -250,7 +251,8 @@
             "verification": {
                 "status": "En cours",
                 "date": null
-            }
+            },
+            "logo": "/images/logos/ecole-superieure-de-gestion.svg"
         },
         {
             "id": "institut-de-formation-en-sante",
@@ -302,7 +304,8 @@
             "verification": {
                 "status": "En cours",
                 "date": null
-            }
+            },
+            "logo": "/images/logos/institut-de-formation-en-sante.svg"
         },
         {
             "id": "institut-de-tourisme-et-d-hotellerie",
@@ -351,7 +354,8 @@
             "verification": {
                 "status": "Vérifié",
                 "date": "2026-09-15"
-            }
+            },
+            "logo": "/images/logos/institut-de-tourisme-et-d-hotellerie.svg"
         },
         {
             "id": "centre-universitaire-d-informatique",
@@ -402,7 +406,8 @@
             "verification": {
                 "status": "En cours",
                 "date": null
-            }
+            },
+            "logo": "/images/logos/centre-universitaire-d-informatique.svg"
         },
         {
             "id": "institut-superieur-de-droit-de-toamasina",
@@ -454,7 +459,8 @@
             "verification": {
                 "status": "En cours",
                 "date": null
-            }
+            },
+            "logo": "/images/logos/institut-superieur-de-droit-de-toamasina.svg"
         },
         {
             "id": "pole-superieur-d-agronomie",
@@ -504,7 +510,8 @@
             "verification": {
                 "status": "Vérifié",
                 "date": "2026-09-15"
-            }
+            },
+            "logo": "/images/logos/pole-superieur-d-agronomie.svg"
         },
         {
             "id": "academie-numerique-d-antsirabe",
@@ -553,7 +560,8 @@
             "verification": {
                 "status": "En cours",
                 "date": null
-            }
+            },
+            "logo": "/images/logos/academie-numerique-d-antsirabe.svg"
         },
         {
             "id": "institut-des-langues-de-fianarantsoa",
@@ -604,7 +612,8 @@
             "verification": {
                 "status": "En cours",
                 "date": null
-            }
+            },
+            "logo": "/images/logos/institut-des-langues-de-fianarantsoa.svg"
         },
         {
             "id": "ecole-de-sante-de-mahajanga",
@@ -654,7 +663,8 @@
             "verification": {
                 "status": "Vérifié",
                 "date": "2026-09-15"
-            }
+            },
+            "logo": "/images/logos/ecole-de-sante-de-mahajanga.svg"
         },
         {
             "id": "institut-polytechnique-de-toliara",
@@ -702,7 +712,8 @@
             "verification": {
                 "status": "En cours",
                 "date": null
-            }
+            },
+            "logo": "/images/logos/institut-polytechnique-de-toliara.svg"
         },
         {
             "id": "ecole-superieure-de-tourisme-d-antsiranana",
@@ -754,7 +765,8 @@
             "verification": {
                 "status": "En cours",
                 "date": null
-            }
+            },
+            "logo": "/images/logos/ecole-superieure-de-tourisme-d-antsiranana.svg"
         },
         {
             "id": "business-school-de-toamasina",
@@ -804,7 +816,8 @@
             "verification": {
                 "status": "Vérifié",
                 "date": "2026-09-15"
-            }
+            },
+            "logo": "/images/logos/business-school-de-toamasina.svg"
         },
         {
             "id": "creche-les-petits-lemuriens",
@@ -853,7 +866,8 @@
             "verification": {
                 "status": "En cours",
                 "date": null
-            }
+            },
+            "logo": "/images/logos/creche-les-petits-lemuriens.svg"
         },
         {
             "id": "groupe-scolaire-les-flamboyants",
@@ -903,7 +917,8 @@
             "verification": {
                 "status": "Vérifié",
                 "date": "2026-10-01"
-            }
+            },
+            "logo": "/images/logos/groupe-scolaire-les-flamboyants.svg"
         },
         {
             "id": "centre-de-langues-vakoka",
@@ -949,7 +964,8 @@
             "verification": {
                 "status": "En cours",
                 "date": null
-            }
+            },
+            "logo": "/images/logos/centre-de-langues-vakoka.svg"
         },
         {
             "id": "centre-educatif-fanantenana",
@@ -995,7 +1011,8 @@
             "verification": {
                 "status": "En cours",
                 "date": null
-            }
+            },
+            "logo": "/images/logos/centre-educatif-fanantenana.svg"
         }
     ],
     "FormationData": [
@@ -1037,7 +1054,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-numerique-de-madagascar.svg"
         },
         {
             "id": "licence-gestion-esg",
@@ -1076,7 +1094,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/ecole-superieure-de-gestion.svg"
         },
         {
             "id": "soins-infirmiers-ifs",
@@ -1115,7 +1134,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-de-formation-en-sante.svg"
         },
         {
             "id": "bts-tourisme-ith",
@@ -1151,7 +1171,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-de-tourisme-et-d-hotellerie.svg"
         },
         {
             "id": "master-genie-logiciel-cui",
@@ -1186,7 +1207,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/centre-universitaire-d-informatique.svg"
         },
         {
             "id": "licence-droit-affaires-isdt",
@@ -1226,7 +1248,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-superieur-de-droit-de-toamasina.svg"
         },
         {
             "id": "master-agronomie-psa",
@@ -1261,7 +1284,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/pole-superieur-d-agronomie.svg"
         },
         {
             "id": "certificat-dev-web-ana",
@@ -1297,7 +1321,8 @@
             "kind": "formation",
             "category": "formation-pro",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/academie-numerique-d-antsirabe.svg"
         },
         {
             "id": "licence-anglais-ilf",
@@ -1337,7 +1362,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-des-langues-de-fianarantsoa.svg"
         },
         {
             "id": "doctorat-medecine-eds",
@@ -1375,7 +1401,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/ecole-de-sante-de-mahajanga.svg"
         },
         {
             "id": "bts-genie-civil-ipt",
@@ -1413,7 +1440,8 @@
             "kind": "formation",
             "category": "formation-pro",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-polytechnique-de-toliara.svg"
         },
         {
             "id": "master-management-tourisme-est",
@@ -1449,7 +1477,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/ecole-superieure-de-tourisme-d-antsiranana.svg"
         },
         {
             "id": "licence-commerce-international-bst",
@@ -1489,7 +1518,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/business-school-de-toamasina.svg"
         },
         {
             "id": "bts-en-reseaux-et-telecommunications-inm",
@@ -1529,7 +1559,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-numerique-de-madagascar.svg"
         },
         {
             "id": "master-en-science-des-donnees-inm",
@@ -1565,7 +1596,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-numerique-de-madagascar.svg"
         },
         {
             "id": "certificat-en-cybersecurite-inm",
@@ -1601,7 +1633,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-numerique-de-madagascar.svg"
         },
         {
             "id": "bts-en-comptabilite-et-gestion-esg",
@@ -1640,7 +1673,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/ecole-superieure-de-gestion.svg"
         },
         {
             "id": "master-en-management-des-organisations-esg",
@@ -1675,7 +1709,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/ecole-superieure-de-gestion.svg"
         },
         {
             "id": "formation-de-sage-femme-ifs",
@@ -1714,7 +1749,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-de-formation-en-sante.svg"
         },
         {
             "id": "certificat-d-aide-soignant-ifs",
@@ -1750,7 +1786,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-de-formation-en-sante.svg"
         },
         {
             "id": "licence-en-management-hotelier-ith",
@@ -1786,7 +1823,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-de-tourisme-et-d-hotellerie.svg"
         },
         {
             "id": "certificat-en-arts-culinaires-ith",
@@ -1822,7 +1860,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-de-tourisme-et-d-hotellerie.svg"
         },
         {
             "id": "licence-en-informatique-de-gestion-cui",
@@ -1860,7 +1899,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/centre-universitaire-d-informatique.svg"
         },
         {
             "id": "master-en-droit-public-isdt",
@@ -1896,7 +1936,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-superieur-de-droit-de-toamasina.svg"
         },
         {
             "id": "licence-en-agronomie-psa",
@@ -1934,7 +1975,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/pole-superieur-d-agronomie.svg"
         },
         {
             "id": "certificat-en-marketing-digital-ana",
@@ -1970,7 +2012,8 @@
             "kind": "formation",
             "category": "formation-pro",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/academie-numerique-d-antsirabe.svg"
         },
         {
             "id": "certificat-en-design-graphique-ana",
@@ -2006,7 +2049,8 @@
             "kind": "formation",
             "category": "formation-pro",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/academie-numerique-d-antsirabe.svg"
         },
         {
             "id": "licence-en-traduction-et-interpretariat-ilf",
@@ -2046,7 +2090,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-des-langues-de-fianarantsoa.svg"
         },
         {
             "id": "licence-en-sciences-infirmieres-esm",
@@ -2084,7 +2129,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/ecole-de-sante-de-mahajanga.svg"
         },
         {
             "id": "licence-en-genie-civil-ipt",
@@ -2122,7 +2168,8 @@
             "kind": "formation",
             "category": "formation-pro",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-polytechnique-de-toliara.svg"
         },
         {
             "id": "bts-en-electrotechnique-ipt",
@@ -2160,7 +2207,8 @@
             "kind": "formation",
             "category": "formation-pro",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/institut-polytechnique-de-toliara.svg"
         },
         {
             "id": "bts-en-guide-touristique-esta",
@@ -2196,7 +2244,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/ecole-superieure-de-tourisme-d-antsiranana.svg"
         },
         {
             "id": "master-en-commerce-international-bst",
@@ -2232,7 +2281,8 @@
             "kind": "formation",
             "category": "superieur",
             "ageRange": null,
-            "feesPeriod": "an"
+            "feesPeriod": "an",
+            "schoolLogo": "/images/logos/business-school-de-toamasina.svg"
         },
         {
             "id": "accueil-creche-pl",
@@ -2271,7 +2321,8 @@
             "ageRange": {
                 "min": 0.25,
                 "max": 3
-            }
+            },
+            "schoolLogo": "/images/logos/creche-les-petits-lemuriens.svg"
         },
         {
             "id": "maternelle-pl",
@@ -2310,7 +2361,8 @@
             "ageRange": {
                 "min": 3,
                 "max": 6
-            }
+            },
+            "schoolLogo": "/images/logos/creche-les-petits-lemuriens.svg"
         },
         {
             "id": "prescolaire-gsf",
@@ -2349,7 +2401,8 @@
             "ageRange": {
                 "min": 3,
                 "max": 5
-            }
+            },
+            "schoolLogo": "/images/logos/groupe-scolaire-les-flamboyants.svg"
         },
         {
             "id": "primaire-gsf",
@@ -2388,7 +2441,8 @@
             "ageRange": {
                 "min": 6,
                 "max": 10
-            }
+            },
+            "schoolLogo": "/images/logos/groupe-scolaire-les-flamboyants.svg"
         },
         {
             "id": "college-gsf",
@@ -2427,7 +2481,8 @@
             "ageRange": {
                 "min": 11,
                 "max": 14
-            }
+            },
+            "schoolLogo": "/images/logos/groupe-scolaire-les-flamboyants.svg"
         },
         {
             "id": "lycee-gsf",
@@ -2466,7 +2521,8 @@
             "ageRange": {
                 "min": 15,
                 "max": 17
-            }
+            },
+            "schoolLogo": "/images/logos/groupe-scolaire-les-flamboyants.svg"
         },
         {
             "id": "anglais-general-clv",
@@ -2502,7 +2558,8 @@
             "imageSrc": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70",
             "kind": "formation",
             "category": "formation-pro",
-            "ageRange": null
+            "ageRange": null,
+            "schoolLogo": "/images/logos/centre-de-langues-vakoka.svg"
         },
         {
             "id": "francais-professionnel-clv",
@@ -2537,7 +2594,8 @@
             "imageSrc": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70",
             "kind": "formation",
             "category": "formation-pro",
-            "ageRange": null
+            "ageRange": null,
+            "schoolLogo": "/images/logos/centre-de-langues-vakoka.svg"
         },
         {
             "id": "accompagnement-specialise-cef",
@@ -2576,7 +2634,8 @@
             "ageRange": {
                 "min": 6,
                 "max": 16
-            }
+            },
+            "schoolLogo": "/images/logos/centre-educatif-fanantenana.svg"
         }
     ],
     "FooterLinkData": [

@@ -8,6 +8,7 @@ import type { SchoolType } from '@/features/etablissements/types'
 import { offerFacts } from '../../format'
 import type { FormationType } from '../../types'
 import { DetailSection, SubTitle } from './parts'
+import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
 
 interface FormationSchoolProps {
     school: SchoolType
@@ -23,9 +24,7 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
         <DetailSection id='etablissement' title="L'établissement" icon='tabler:building-community'>
             <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
                 <div className='flex flex-col sm:flex-row sm:items-center gap-4 p-6'>
-                    <span className='flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-secondary text-lg font-bold text-white'>
-                        {school.initials}
-                    </span>
+                    <SchoolLogo name={school.name} initials={school.initials} logo={school.logo} className='h-16 w-16 rounded-2xl border border-gray-100 text-lg' />
                     <div className='flex flex-1 flex-col gap-1'>
                         <p className='text-xl font-bold text-secondary'>{school.name}</p>
                         <span className='text-ink/70'>

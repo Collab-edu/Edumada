@@ -141,6 +141,7 @@ class SiteDataSeeder extends Seeder
                 'longitude' => $item['coordinates']['lng'],
                 'admission_documents' => $item['admissionDocuments'],
                 'cover_image' => $item['imageSrc'],
+                'logo' => $item['logo'] ?? null,
                 'photos' => $item['photos'],
             ]);
             $establishment->status = EstablishmentStatus::Published;

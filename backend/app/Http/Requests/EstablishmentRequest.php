@@ -46,6 +46,7 @@ class EstablishmentRequest extends FormRequest
             'admissionDocuments' => ['sometimes', 'array', 'max:30'],
             'admissionDocuments.*' => ['string', 'max:255'],
             'imageSrc' => ['sometimes', 'nullable', 'url', 'max:2048'],
+            'logo' => ['sometimes', 'nullable', 'url', 'max:2048'],
             'photos' => ['sometimes', 'array', 'max:20'],
             'photos.*' => ['url', 'max:2048'],
         ];
@@ -106,6 +107,7 @@ class EstablishmentRequest extends FormRequest
             'accreditation' => 'accreditation',
             'admissionDocuments' => 'admission_documents',
             'imageSrc' => 'cover_image',
+            'logo' => 'logo',
             'photos' => 'photos',
         ];
         foreach ($direct as $input => $column) {

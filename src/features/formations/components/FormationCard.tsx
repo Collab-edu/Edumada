@@ -6,6 +6,7 @@ import { Icon } from '@/components/ui/icon'
 import { Card, CardAction } from '@/components/ui/card'
 import { OFFER_CTA, offerFacts } from '../format'
 import type { FormationType } from '../types'
+import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
 
 interface FormationCardProps {
     formation: FormationType
@@ -39,7 +40,14 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite, compact
                     <h3 className='text-base font-bold leading-snug text-secondary group-hover:text-primary duration-300'>
                         {formation.title}
                     </h3>
-                    <p className='truncate text-sm text-ink/60'>{formation.school}</p>
+                    <p className='flex min-w-0 items-center gap-2 text-sm text-ink/60'>
+                        <SchoolLogo
+                            name={formation.school}
+                            logo={formation.schoolLogo}
+                            className='h-6 w-6 rounded-md border border-gray-100 text-[9px]'
+                        />
+                        <span className='truncate'>{formation.school}</span>
+                    </p>
                 </div>
                 <ul className='flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-ink/70'>
                     {offerFacts(formation).map((fact) => (

@@ -47,6 +47,8 @@ export type FormationType = {
   housing: 'Disponible' | 'Non disponible' | 'Non renseigné'
   scholarship: 'Bourses disponibles' | 'Non renseigné'
   imageSrc: string
+  /** Logo de l'établissement, recopié pour les cartes d'offre. */
+  schoolLogo?: string
 }
 
 /** Montant d'un frais ; null = « Non communiqué ». */

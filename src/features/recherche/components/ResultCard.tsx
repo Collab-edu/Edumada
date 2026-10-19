@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { OFFER_CTA, formatFees, offerFacts } from '@/features/formations/format'
 import type { FormationType, RegistrationStatus } from '@/features/formations/types'
+import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
 
 const REGISTRATION_BADGE: Record<RegistrationStatus, { label: string; className: string }> = {
     Ouvertes: { label: 'Inscriptions ouvertes', className: 'bg-success/30 text-secondary' },
@@ -54,7 +55,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                             <Link
                                 href={`/etablissements/${formation.schoolId}`}
                                 className='inline-flex items-center gap-1.5 hover:text-primary hover:underline'>
-                                <Icon icon='tabler:building-community' className='text-secondary' />
+                                <SchoolLogo name={formation.school} logo={formation.schoolLogo} className='h-8 w-8 rounded-md border border-gray-100 text-[10px]' />
                                 {formation.school}
                             </Link>
                             <span className='inline-flex items-center gap-1.5'>

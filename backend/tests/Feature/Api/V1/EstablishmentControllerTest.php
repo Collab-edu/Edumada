@@ -141,6 +141,19 @@ class EstablishmentControllerTest extends TestCase
             ->assertJsonCount(3, 'data.infrastructures');
     }
 
+    public function test_logo_is_shown_on_the_fiche_and_on_its_offers(): void
+    {
+        [$owner, $establishment] = $this->establishmentOwner();
+        Offer::factory()->for($establishment)->create();
+
+        $this->actingAs($owner)->patchJson("/api/v1/establishments/{$establishment->slug}", [
+            'logo' => 'https://exemple.mg/logo.png',
+        ])->assertOk()->assertJsonPath('data.logo', 'https://exemple.mg/logo.png');
+
+        $this->getJson("/api/v1/establishments/{$establishment->slug}")->assertJsonPath('data.logo', 'https://exemple.mg/logo.png');
+        $this->getJson('/api/v1/offers')->assertJsonPath('data.0.schoolLogo', 'https://exemple.mg/logo.png');
+    }
+
     public function test_free_fiche_rejects_gallery_and_more_than_two_infrastructures(): void
     {
         [$owner, $establishment] = $this->establishmentOwner();

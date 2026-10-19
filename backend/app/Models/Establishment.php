@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
     'slug', 'name', 'initials', 'sector', 'category_id', 'sub_category_id',
     'city', 'address', 'phone', 'email', 'website', 'description',
     'social_links', 'infrastructures', 'accreditation', 'latitude', 'longitude',
-    'admission_documents', 'cover_image', 'photos',
+    'admission_documents', 'cover_image', 'logo', 'photos',
 ])]
 #[RouteKey('slug')]
 class Establishment extends Model

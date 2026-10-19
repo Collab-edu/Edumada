@@ -30,6 +30,8 @@ export type SchoolType = {
   admissionDocuments: string[]
   /** Photo de couverture. */
   imageSrc: string
+  /** Logo de l'établissement ; vide = initiales affichées à la place. */
+  logo?: string
   photos: string[]
   /** false : la formule de l'établissement (Gratuit) n'affiche pas d'avis. Absent dans les données locales. */
   reviewsEnabled?: boolean

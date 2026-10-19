@@ -54,6 +54,7 @@ class EstablishmentResource extends JsonResource
                 : null,
             'admissionDocuments' => $this->admission_documents ?? [],
             'imageSrc' => $this->cover_image ?? '',
+            'logo' => $this->logo ?? '',
             'photos' => $this->photos ?? [],
             'updatedAt' => $this->updated_at?->toDateString(),
             'reviewsEnabled' => $plan->hasFeature('reviews'),

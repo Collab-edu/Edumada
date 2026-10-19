@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 import type { SchoolType } from '@/features/etablissements/types'
 import { formatDate, formatTuition, offerFacts } from '../../format'
 import type { FormationDetailType, FormationType, RegistrationStatus } from '../../types'
+import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
 
 export const REGISTRATION_BADGE: Record<RegistrationStatus, { label: string; className: string }> = {
     Ouvertes: { label: 'Inscriptions ouvertes', className: 'bg-success/30 text-secondary' },
@@ -59,9 +60,7 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
             <div className='grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px]'>
                 <div className='flex flex-col gap-5 p-6 md:p-8'>
                     <div className='flex items-center gap-4'>
-                        <span className='flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-secondary text-lg font-bold tracking-wide text-white'>
-                            {school.initials}
-                        </span>
+                        <SchoolLogo name={school.name} initials={school.initials} logo={school.logo} className='h-16 w-16 rounded-2xl border border-gray-100 text-lg' />
                         <div className='flex flex-col'>
                             <Link href={`/etablissements/${school.id}`} className='font-semibold text-secondary hover:text-primary hover:underline'>
                                 {school.name}

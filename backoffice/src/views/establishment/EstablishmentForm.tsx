@@ -36,6 +36,7 @@ const initial = (e?: ManagedEstablishment) => ({
     lng: e?.coordinates ? String(e.coordinates.lng) : '',
     admissionDocuments: e?.admissionDocuments ?? [],
     imageSrc: e?.imageSrc ?? '',
+    logo: e?.logo ?? '',
     photos: e?.photos ?? [],
 })
 
@@ -81,6 +82,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
             description: form.description || null,
             accreditation: form.accreditation || null,
             imageSrc: form.imageSrc || null,
+            logo: form.logo || null,
             socialLinks: Object.fromEntries(Object.entries(form.socialLinks).filter(([, url]) => url)),
             coordinates: lat && lng ? { lat: Number(lat), lng: Number(lng) } : null,
         }
@@ -275,7 +277,8 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                 </CRow>
             </PageCard>
 
-            <PageCard title='Photos'>
+            <PageCard title='Logo et photos'>
+                <ImageUpload label='Logo (format carré conseillé)' value={form.logo} onChange={(v: string) => set('logo', v)} />
                 <ImageUpload label='Photo de couverture' value={form.imageSrc} onChange={(v: string) => set('imageSrc', v)} />
                 {gallery ? (
                     <ImageUpload label='Photos des locaux (8 au maximum)' value={form.photos} onChange={(v: string[]) => set('photos', v)} />
