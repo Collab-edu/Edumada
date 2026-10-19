@@ -69,6 +69,23 @@ class Establishment extends Model
     }
 
     /**
+     * Fiches dont la formule en vigueur inclut cette fonctionnalité (reviews, photoGallery…).
+     */
+    #[Scope]
+    protected function withFeature(Builder $query, string $feature): void
+    {
+        $plans = Plan::all()->filter(fn (Plan $plan) => $plan->hasFeature($feature));
+        $freeHasIt = $plans->contains(fn (Plan $plan) => $plan->code === PlanCode::Free);
+
+        $query->where(function (Builder $query) use ($plans, $freeHasIt): void {
+            $query->whereHas('subscriptions', fn (Builder $query) => $query->current()->whereIn('plan_id', $plans->modelKeys()));
+            if ($freeHasIt) {
+                $query->orWhereDoesntHave('subscriptions', fn (Builder $query) => $query->current());
+            }
+        });
+    }
+
+    /**
      * Fiches dont la formule en vigueur est celle donnée (Gratuit = aucun abonnement payant en cours).
      */
     #[Scope]

@@ -103,8 +103,8 @@ class BillingTest extends TestCase
         $this->artisan('subscriptions:process')->assertSuccessful();
         $this->assertSame(SubscriptionStatus::Expired, $subscription->refresh()->status);
         $this->assertSame(PlanCode::Free, $establishment->currentPlan()->code);
-        $this->assertSame(3, $establishment->offers()->where('status', OfferStatus::Published)->count());
-        $this->assertSame(2, $establishment->offers()->where('status', OfferStatus::Draft)->count());
+        $this->assertSame(1, $establishment->offers()->where('status', OfferStatus::Published)->count());
+        $this->assertSame(4, $establishment->offers()->where('status', OfferStatus::Draft)->count());
     }
 
     private function pendingInvoice($establishment, PlanCode $plan): Invoice

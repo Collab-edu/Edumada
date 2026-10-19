@@ -99,7 +99,8 @@ function EstablishmentDashboard({ e }: { e: ManagedEstablishment }) {
     const checklist = [
         { done: (e.description ?? '').length > 80, label: 'Présentation de quelques phrases' },
         { done: !!e.imageSrc, label: 'Photo de couverture' },
-        { done: e.photos.length >= 2, label: 'Au moins 2 photos des locaux' },
+        // La galerie n'existe qu'avec Pro et Premium.
+        ...(e.plan.features.photoGallery ? [{ done: e.photos.length >= 2, label: 'Au moins 2 photos des locaux' }] : []),
         { done: !!e.phone && !!e.email, label: 'Téléphone et e-mail' },
         { done: !!e.coordinates, label: 'Position sur la carte' },
         { done: e.admissionDocuments.length > 0, label: "Pièces demandées à l'inscription" },

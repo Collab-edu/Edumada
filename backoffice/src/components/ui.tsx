@@ -113,17 +113,23 @@ export function ListInput({
     onChange,
     placeholder,
     error,
+    max,
+    hint,
 }: {
     label: string
     value: string[]
     onChange: (value: string[]) => void
     placeholder?: string
     error?: string
+    /** Nombre maximum d'éléments (limite de la formule) ; au-delà, l'ajout est bloqué. */
+    max?: number | null
+    hint?: string
 }) {
     const [draft, setDraft] = useState('')
+    const full = max != null && value.length >= max
     const add = () => {
         const text = draft.trim()
-        if (text && !value.includes(text)) onChange([...value, text])
+        if (text && !full && !value.includes(text)) onChange([...value, text])
         setDraft('')
     }
     return (
@@ -150,7 +156,8 @@ export function ListInput({
             <CInputGroup>
                 <CFormInput
                     value={draft}
-                    placeholder={placeholder ?? 'Ajouter puis Entrée'}
+                    disabled={full}
+                    placeholder={full ? 'Limite atteinte' : (placeholder ?? 'Ajouter puis Entrée')}
                     onChange={(e) => setDraft(e.target.value)}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
@@ -160,10 +167,11 @@ export function ListInput({
                     }}
                     invalid={!!error}
                 />
-                <CButton color='secondary' variant='outline' onClick={add} aria-label={`Ajouter à ${label}`}>
+                <CButton color='secondary' variant='outline' onClick={add} disabled={full} aria-label={`Ajouter à ${label}`}>
                     <CIcon icon={cilPlus} />
                 </CButton>
             </CInputGroup>
+            {hint && <div className='form-text'>{hint}</div>}
             {error && (
                 <CFormFeedback invalid className='d-block'>
                     {error}

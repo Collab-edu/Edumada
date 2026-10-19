@@ -63,6 +63,7 @@ class AdminTest extends TestCase
     public function test_published_review_appears_on_the_site(): void
     {
         $offer = Offer::factory()->create();
+        $this->subscribe($offer->establishment, PlanCode::Pro);
         $review = $offer->establishment->reviews()->create([
             'offer_id' => $offer->id, 'author_name' => 'Hery R.', 'rating' => 5, 'quote' => 'Une formation très concrète.',
         ]);
@@ -71,6 +72,22 @@ class AdminTest extends TestCase
 
         $this->assertSame(ReviewStatus::Published, $review->refresh()->status);
         $this->getJson('/api/v1/reviews')->assertOk()->assertJsonPath('data.0.name', 'Hery R.');
+    }
+
+    public function test_reviews_of_a_free_fiche_are_not_shown(): void
+    {
+        $offer = Offer::factory()->create();
+        $review = $offer->establishment->reviews()->create([
+            'offer_id' => $offer->id, 'author_name' => 'Hery R.', 'rating' => 5, 'quote' => 'Une formation très concrète.',
+        ]);
+        $review->status = ReviewStatus::Published;
+        $review->save();
+
+        $this->getJson('/api/v1/reviews')->assertOk()->assertJsonCount(0, 'data');
+        $this->getJson("/api/v1/establishments/{$offer->establishment->slug}")
+            ->assertOk()
+            ->assertJsonPath('data.reviewsEnabled', false)
+            ->assertJsonCount(0, 'data.testimonials');
     }
 
     public function test_admin_adjusts_plan_prices_and_the_change_is_audited(): void

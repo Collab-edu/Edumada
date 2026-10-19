@@ -56,7 +56,18 @@ export type Plan = {
     monthlyPrice: number | null
     yearlyPrice: number | null
     maxPublishedOffers: number | null
-    features: { inquiryInbox?: boolean; statistics?: 'none' | 'standard' | 'advanced'; sponsoredPlacement?: boolean; prioritySupport?: boolean }
+    features: {
+        inquiryInbox?: boolean
+        statistics?: 'none' | 'standard' | 'advanced'
+        sponsoredPlacement?: boolean
+        prioritySupport?: boolean
+        /** Galerie photos, site web et réseaux sociaux, avis : affichés sur la fiche publique. */
+        photoGallery?: boolean
+        onlineLinks?: boolean
+        reviews?: boolean
+        /** Nombre d'infrastructures affichées ; null = illimité. */
+        maxInfrastructures?: number | null
+    }
 }
 
 export type FormationDetail = {

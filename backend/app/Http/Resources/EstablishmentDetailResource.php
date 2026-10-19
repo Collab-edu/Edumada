@@ -21,7 +21,8 @@ class EstablishmentDetailResource extends EstablishmentResource
             ...parent::toArray($request),
             'categoryDetails' => new CategoryResource($this->category),
             'offers' => OfferResource::collection($this->whenLoaded('publishedOffers')),
-            'testimonials' => ReviewResource::collection($this->whenLoaded('publishedReviews')),
+            // Formule Gratuit : pas d'avis sur la fiche.
+            'testimonials' => $this->hasFeature('reviews') ? ReviewResource::collection($this->whenLoaded('publishedReviews')) : [],
         ];
     }
 }

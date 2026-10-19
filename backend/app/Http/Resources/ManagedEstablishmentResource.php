@@ -21,6 +21,14 @@ class ManagedEstablishmentResource extends EstablishmentResource
     public const RELATIONS = ['category', 'subCategory', 'publishedOffers.domain', 'offers.domain', 'offers.establishment.category'];
 
     /**
+     * L'établissement voit toutes ses données, même celles que sa formule n'affiche pas.
+     */
+    protected function appliesPlanLimits(): bool
+    {
+        return false;
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array

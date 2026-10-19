@@ -21,7 +21,9 @@ class EstablishmentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $plan = $this->currentPlan();
+
+        $fiche = [
             'id' => $this->slug,
             'name' => $this->name,
             'initials' => $this->initials ?: self::initialsFrom($this->name),
@@ -54,7 +56,18 @@ class EstablishmentResource extends JsonResource
             'imageSrc' => $this->cover_image ?? '',
             'photos' => $this->photos ?? [],
             'updatedAt' => $this->updated_at?->toDateString(),
+            'reviewsEnabled' => $plan->hasFeature('reviews'),
         ];
+
+        return $this->appliesPlanLimits() ? PublicLimits::apply($fiche, $plan) : $fiche;
+    }
+
+    /**
+     * La fiche publique n'affiche que ce que permet la formule (voir PublicLimits).
+     */
+    protected function appliesPlanLimits(): bool
+    {
+        return true;
     }
 
     /**

@@ -134,7 +134,7 @@ class OfferRequest extends FormRequest
     }
 
     /**
-     * Publier une offre ne doit pas dépasser la limite de la formule (3 offres en Gratuit).
+     * Publier une offre ne doit pas dépasser la limite de la formule (1 offre en Gratuit).
      *
      * @return array<int, callable>
      */
@@ -154,10 +154,12 @@ class OfferRequest extends FormRequest
                 $establishment = $this->establishment();
                 if (! $establishment->canPublishAnotherOffer($offer instanceof Offer ? $offer : null)) {
                     $plan = $establishment->currentPlan();
+                    $limit = $plan->max_published_offers;
                     $validator->errors()->add('status', sprintf(
-                        'La formule %s permet %d offres publiées. Archivez une offre ou passez à une formule supérieure pour en publier davantage.',
+                        'La formule %s permet %d %s. Archivez une offre ou passez à une formule supérieure pour en publier davantage.',
                         $plan->name,
-                        $plan->max_published_offers,
+                        $limit,
+                        $limit > 1 ? 'offres publiées' : 'offre publiée',
                     ));
                 }
             },

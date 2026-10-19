@@ -28,7 +28,7 @@ class ReviewController extends Controller
 
         return ReviewResource::collection(
             Review::where('status', ReviewStatus::Published)
-                ->whereHas('establishment', fn (Builder $query) => $query->published())
+                ->whereHas('establishment', fn (Builder $query) => $query->published()->withFeature('reviews'))
                 ->when($filters['establishment'] ?? null, fn (Builder $query, string $slug) => $query->whereHas(
                     'establishment', fn (Builder $establishment) => $establishment->where('slug', $slug),
                 ))
@@ -46,6 +46,7 @@ class ReviewController extends Controller
     {
         abort_unless($request->user()->isStudent(), 403, 'Seul un compte étudiant peut laisser un avis.');
         abort_unless($establishment->status === EstablishmentStatus::Published, 404);
+        abort_unless($establishment->hasFeature('reviews'), 403, "Cet établissement ne reçoit pas d'avis sur Edumada.");
 
         $validated = $request->validate([
             'rating' => ['required', 'integer', 'between:1,5'],

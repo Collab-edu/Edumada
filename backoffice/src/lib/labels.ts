@@ -36,8 +36,24 @@ export const ACTION_LABELS: Record<string, string> = {
 
 /** Ce que comprend chaque formule (document « Les 4 types de comptes »). */
 export const PLAN_FEATURES: Record<'free' | 'pro' | 'premium', string[]> = {
-    free: ['Fiche établissement complète', 'Offres publiées : limite de la formule', 'Présence dans les résultats', 'Demandes reçues par e-mail'],
-    pro: ['Tout Gratuit', 'Offres illimitées', 'Boîte de réception des demandes', 'Statuts, filtres et export CSV', 'Statistiques standard'],
+    free: [
+        'Fiche établissement essentielle',
+        'Offres publiées : limite de la formule',
+        'Coordonnées : adresse, téléphone et e-mail',
+        'Jusqu’à 2 infrastructures',
+        'Présence dans les résultats',
+        'Demandes reçues par e-mail',
+    ],
+    pro: [
+        'Tout Gratuit',
+        'Offres illimitées',
+        'Galerie photos, site web et réseaux sociaux',
+        'Infrastructures illimitées',
+        'Avis des étudiants',
+        'Boîte de réception des demandes',
+        'Statuts, filtres et export CSV',
+        'Statistiques standard',
+    ],
     premium: ['Tout Pro', 'Campagnes « Sponsorisé »', 'Statistiques avancées par campagne', 'Accompagnement prioritaire'],
 }
 

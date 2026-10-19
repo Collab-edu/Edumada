@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Enums\EstablishmentSector;
+use App\Enums\PlanCode;
 use App\Models\Category;
+use App\Models\Plan;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -57,6 +59,18 @@ class EstablishmentRequest extends FormRequest
     public function after(): array
     {
         return [
+            function (Validator $validator): void {
+                // Limites de la formule : une nouvelle fiche démarre en Gratuit.
+                $plan = $this->route('establishment')?->currentPlan() ?? Plan::where('code', PlanCode::Free)->firstOrFail();
+
+                if (! $plan->hasFeature('photoGallery') && count($this->input('photos', [])) > 0) {
+                    $validator->errors()->add('photos', 'La galerie photos est réservée aux formules Pro et Premium.');
+                }
+                $max = $plan->limit('maxInfrastructures');
+                if ($max !== null && count($this->input('infrastructures', [])) > $max) {
+                    $validator->errors()->add('infrastructures', "Votre formule permet d'indiquer {$max} infrastructures au maximum.");
+                }
+            },
             function (Validator $validator): void {
                 if ($validator->errors()->hasAny(['category', 'subCategory']) || ! $this->filled('subCategory')) {
                     return;

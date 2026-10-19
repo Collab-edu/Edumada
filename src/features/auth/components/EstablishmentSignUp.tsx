@@ -29,7 +29,7 @@ const JOB_TITLES = ['Directeur ou directrice', 'Responsable des admissions', 'Re
 
 const PERKS = [
     { icon: 'tabler:id-badge-2', text: 'Une fiche gratuite, visible par les futurs étudiants' },
-    { icon: 'tabler:books', text: 'Jusqu’à 3 offres publiées sans frais' },
+    { icon: 'tabler:books', text: 'Une offre publiée sans frais' },
     { icon: 'tabler:rosette-discount-check', text: 'Une fiche vérifiée par l’équipe Edumada' },
 ]
 

@@ -1,6 +1,7 @@
 'use client'
 import { useState, type FormEvent } from 'react'
-import { CButton, CCol, CForm, CFormInput, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
+import Link from 'next/link'
+import { CAlert, CButton, CCol, CForm, CFormInput, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLocationPin, cilSave } from '@coreui/icons'
 import { api, fieldError, isGeneralError } from '@/lib/api'
@@ -53,6 +54,11 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
     const set = <K extends keyof FormState>(key: K, value: FormState[K]) => setForm((f) => ({ ...f, [key]: value }))
     const category = categories?.data.find((c) => c.id === form.category)
     const err = (field: string) => fieldError(error, field)
+    // Ce que la formule affiche sur la fiche publique ; une nouvelle fiche démarre en Gratuit.
+    const features = establishment?.plan.features ?? {}
+    const gallery = !!features.photoGallery
+    const onlineLinks = !!features.onlineLinks
+    const maxInfrastructures = establishment ? (features.maxInfrastructures ?? null) : 2
 
     const locate = () =>
         navigator.geolocation?.getCurrentPosition(
@@ -78,10 +84,17 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
             socialLinks: Object.fromEntries(Object.entries(form.socialLinks).filter(([, url]) => url)),
             coordinates: lat && lng ? { lat: Number(lat), lng: Number(lng) } : null,
         }
+        // Champs que la formule n'affiche pas : on ne les envoie pas, pour garder ce qui est déjà enregistré.
+        const payload: Partial<typeof body> = { ...body }
+        if (!gallery) delete payload.photos
+        if (!onlineLinks) {
+            delete payload.website
+            delete payload.socialLinks
+        }
         try {
             const res = establishment
-                ? await api<{ data: ManagedEstablishment }>(`/establishments/${establishment.id}`, { method: 'PATCH', body })
-                : await api<{ data: ManagedEstablishment }>('/establishments', { method: 'POST', body })
+                ? await api<{ data: ManagedEstablishment }>(`/establishments/${establishment.id}`, { method: 'PATCH', body: payload })
+                : await api<{ data: ManagedEstablishment }>('/establishments', { method: 'POST', body: payload })
             toast.success(establishment ? 'Fiche enregistrée' : 'Fiche créée : elle sera publiée après validation par Edumada.')
             onSaved(res.data)
         } catch (ex) {
@@ -197,6 +210,15 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                             feedbackInvalid={err('email')}
                         />
                     </CCol>
+                    {!onlineLinks && (
+                        <CCol md={12}>
+                            <CAlert color='info' className='mb-0'>
+                                Le site web et les réseaux sociaux s&apos;affichent sur la fiche avec les formules Pro et Premium.{' '}
+                                <Link href='/formule/'>Voir les formules</Link>
+                            </CAlert>
+                        </CCol>
+                    )}
+                    {onlineLinks && (
                     <CCol md={12}>
                         <CFormInput
                             label='Site web'
@@ -208,7 +230,8 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                             feedbackInvalid={err('website')}
                         />
                     </CCol>
-                    {SOCIALS.map(([key, label]) => (
+                    )}
+                    {onlineLinks && SOCIALS.map(([key, label]) => (
                         <CCol md={6} key={key}>
                             <CFormInput
                                 label={label}
@@ -254,12 +277,26 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
 
             <PageCard title='Photos'>
                 <ImageUpload label='Photo de couverture' value={form.imageSrc} onChange={(v: string) => set('imageSrc', v)} />
-                <ImageUpload label='Photos des locaux (8 au maximum)' value={form.photos} onChange={(v: string[]) => set('photos', v)} />
+                {gallery ? (
+                    <ImageUpload label='Photos des locaux (8 au maximum)' value={form.photos} onChange={(v: string[]) => set('photos', v)} />
+                ) : (
+                    <CAlert color='info' className='mb-0'>
+                        La galerie de photos des locaux est incluse dans les formules Pro et Premium. <Link href='/formule/'>Voir les formules</Link>
+                    </CAlert>
+                )}
             </PageCard>
 
             <PageCard title='Admission et infrastructures'>
                 <ListInput label='Pièces à fournir pour une inscription' value={form.admissionDocuments} onChange={(v) => set('admissionDocuments', v)} />
-                <ListInput label='Infrastructures' placeholder='Ex. : bibliothèque, cantine…' value={form.infrastructures} onChange={(v) => set('infrastructures', v)} />
+                <ListInput
+                    label='Infrastructures'
+                    placeholder='Ex. : bibliothèque, cantine…'
+                    value={form.infrastructures}
+                    onChange={(v) => set('infrastructures', v)}
+                    max={maxInfrastructures}
+                    hint={maxInfrastructures !== null ? `${maxInfrastructures} au maximum avec votre formule. Illimité avec Pro et Premium.` : undefined}
+                    error={err('infrastructures')}
+                />
                 <CFormInput
                     label='Reconnaissance / accréditation'
                     text='Affichée seulement après vérification par Edumada auprès des autorités.'

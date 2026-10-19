@@ -143,25 +143,25 @@ class OfferControllerTest extends TestCase
         $this->assertSame(['C', 'D'], $offer->bac_series);
     }
 
-    public function test_free_plan_rejects_publishing_a_fourth_offer_with_422(): void
+    public function test_free_plan_rejects_publishing_a_second_offer_with_422(): void
     {
         $owner = User::factory()->create(['role' => UserRole::Establishment]);
         $establishment = Establishment::factory()->ownedBy($owner)->create();
-        Offer::factory()->count(3)->for($establishment)->create();
+        Offer::factory()->for($establishment)->create();
 
         $this->actingAs($owner)
             ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload(['status' => 'published']))
             ->assertUnprocessable()
-            ->assertJsonValidationErrors(['status' => 'La formule Gratuit permet 3 offres publiées. Archivez une offre ou passez à une formule supérieure pour en publier davantage.']);
+            ->assertJsonValidationErrors(['status' => 'La formule Gratuit permet 1 offre publiée. Archivez une offre ou passez à une formule supérieure pour en publier davantage.']);
 
-        $this->assertSame(3, $establishment->offers()->count());
+        $this->assertSame(1, $establishment->offers()->count());
     }
 
-    public function test_free_plan_still_allows_saving_a_fourth_offer_as_draft(): void
+    public function test_free_plan_still_allows_saving_a_second_offer_as_draft(): void
     {
         $owner = User::factory()->create(['role' => UserRole::Establishment]);
         $establishment = Establishment::factory()->ownedBy($owner)->create();
-        Offer::factory()->count(3)->for($establishment)->create();
+        Offer::factory()->for($establishment)->create();
 
         $this->actingAs($owner)
             ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload())

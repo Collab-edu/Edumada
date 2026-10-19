@@ -40,9 +40,13 @@ Prix et limites cités ici : **prix de lancement indicatifs**, modifiables par l
 
 ### 1.3 Établissement — Gratuit
 - Inscription dédiée (`/inscription-etablissement/`) : responsable du compte et informations minimales de l'établissement.
-- Fiche complète : présentation, photos, coordonnées, carte, infrastructures, pièces à fournir, réseaux sociaux, accréditation.
+- Fiche essentielle : présentation, photo de couverture, carte, pièces à fournir, accréditation.
+- **Coordonnées limitées** à l'adresse, au téléphone et à l'e-mail public : pas de site web ni de réseaux sociaux sur la fiche.
+- **Pas de galerie photos** des locaux.
+- **2 infrastructures** au maximum.
+- **Pas d'avis** : la fiche n'en affiche pas, et les étudiants ne peuvent pas en déposer.
 - Création d'une autre fiche, ou revendication d'une fiche existante.
-- **3 offres publiées** au maximum.
+- **1 offre publiée** au maximum.
 - Présence dans les résultats standards.
 - Demandes reçues **par e-mail**.
 - Demande de vérification (badge « établissement vérifié »).
@@ -51,6 +55,8 @@ Prix et limites cités ici : **prix de lancement indicatifs**, modifiables par l
 ### 1.4 Établissement — Pro
 Tout Gratuit, plus :
 - offres illimitées ;
+- galerie photos, site web et réseaux sociaux, infrastructures illimitées sur la fiche ;
+- avis des étudiants ;
 - **boîte de réception** des demandes et candidatures, avec statuts, filtres et export CSV ;
 - statistiques standard : vues, clics de contact, clics vers le site, demandes.
 
@@ -143,7 +149,12 @@ Statuts : **Brouillon**, **En attente de validation**, **Publiée**, **Suspendue
 
 ### 2.7 Offres et limite de la formule
 - Statuts : **Brouillon**, **Publiée**, **Archivée**. Une offre n'est visible que si **elle et sa fiche** sont publiées.
-- Avant chaque publication, l'API vérifie la limite de la formule en vigueur (Gratuit : 3, Pro et Premium : illimité). Au-delà, la publication est refusée avec un message.
+- Avant chaque publication, l'API vérifie la limite de la formule en vigueur (Gratuit : 1, Pro et Premium : illimité). Au-delà, la publication est refusée avec un message.
+
+### 2.7 bis Ce que la formule affiche sur la fiche publique
+- L'API filtre la fiche publique selon la formule en vigueur (`PublicLimits`). En Gratuit, elle retire la galerie, le site web et les réseaux sociaux, et ne garde que les 2 premières infrastructures. Elle ne renvoie aucun avis : `reviewsEnabled` vaut `false`, et le site masque alors la section des avis et le bouton « Donner mon avis ».
+- Les données restent **enregistrées** et visibles par l'établissement dans son espace : elles réapparaissent dès le passage à Pro ou Premium.
+- À l'enregistrement d'une fiche Gratuit, l'API refuse une galerie non vide et plus de 2 infrastructures. Le back-office masque ces champs, n'envoie pas le site web et les réseaux, et bloque l'ajout d'une troisième infrastructure.
 
 ### 2.8 Formules, paiement et abonnements
 1. **Demande** : l'établissement choisit Pro ou Premium, mensuel ou annuel, et un moyen de paiement (MVola, Orange Money, Airtel Money, virement, espèces).
@@ -160,11 +171,11 @@ Statuts : **Brouillon**, **En attente de validation**, **Publiée**, **Suspendue
 5. **Tâche quotidienne** (6 h, commande `subscriptions:process`) :
    - **rappels** à 30, 7 et 1 jour de la fin, un seul par palier, même si la tâche a manqué un jour ;
    - à la date de fin, passage en **période de grâce** de **7 jours** (réglable) ;
-   - à la fin de la grâce, l'abonnement **expire** et la fiche repasse en Gratuit. Les offres en trop (au-delà de 3) repassent en **brouillon**, en gardant publiées les **plus récemment modifiées**. Un e-mail prévient l'établissement.
+   - à la fin de la grâce, l'abonnement **expire** et la fiche repasse en Gratuit. Les offres en trop (au-delà d'une) repassent en **brouillon**, en gardant publiée la **plus récemment modifiée**. Un e-mail prévient l'établissement.
 
 ### 2.9 Avis et signalements
 - **Avis** :
-  - réservé aux comptes étudiants, sur une fiche publiée ;
+  - réservé aux comptes étudiants, sur une fiche publiée en formule Pro ou Premium ;
   - note de 1 à 5 et texte de 20 à 1 500 caractères ;
   - publié **après modération** ;
   - l'auteur est affiché sous la forme « Prénom N. » (« Fanja Rakoto » donne « Fanja R. »).

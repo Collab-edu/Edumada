@@ -31,6 +31,8 @@ export type SchoolType = {
   /** Photo de couverture. */
   imageSrc: string
   photos: string[]
+  /** false : la formule de l'établissement (Gratuit) n'affiche pas d'avis. Absent dans les données locales. */
+  reviewsEnabled?: boolean
 }
 
 export type TestimonialType = {

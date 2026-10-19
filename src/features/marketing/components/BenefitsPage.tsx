@@ -9,7 +9,7 @@ const BENEFITS = [
     {
         icon: 'tabler:id-badge-2',
         title: 'Une fiche complète',
-        text: 'Présentation, photos des locaux, coordonnées, position sur la carte : tout ce qu’un futur étudiant veut savoir sur votre établissement.',
+        text: 'Présentation, coordonnées, position sur la carte, et avec Pro une galerie photos : tout ce qu’un futur étudiant veut savoir sur votre établissement.',
     },
     {
         icon: 'tabler:books',
@@ -62,8 +62,8 @@ const STEPS = [
 ]
 
 const PLANS = [
-    { name: 'Gratuit', text: 'Fiche complète et jusqu’à 3 offres publiées.' },
-    { name: 'Pro', text: 'Offres illimitées, boîte de réception et statistiques.', highlight: true },
+    { name: 'Gratuit', text: 'Fiche essentielle et une offre publiée.' },
+    { name: 'Pro', text: 'Offres illimitées, galerie photos, avis, boîte de réception et statistiques.', highlight: true },
     { name: 'Premium', text: 'Campagnes sponsorisées et accompagnement prioritaire.' },
 ]
 

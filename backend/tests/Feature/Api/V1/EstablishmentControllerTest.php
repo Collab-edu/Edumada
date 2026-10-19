@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api\V1;
 
 use App\Enums\EstablishmentStatus;
+use App\Enums\PlanCode;
 use App\Enums\UserRole;
 use App\Models\Category;
 use App\Models\Establishment;
@@ -107,6 +108,51 @@ class EstablishmentControllerTest extends TestCase
             'city' => 'Antananarivo',
         ])->assertUnprocessable()
             ->assertJsonValidationErrors(['subCategory' => 'Cette sous-catégorie n\'existe pas dans la catégorie choisie.']);
+    }
+
+    public function test_free_fiche_hides_gallery_online_links_and_extra_infrastructures(): void
+    {
+        [$owner, $establishment] = $this->establishmentOwner();
+        $establishment->update([
+            'website' => 'https://exemple.mg',
+            'social_links' => ['facebook' => 'https://facebook.com/exemple'],
+            'photos' => ['https://exemple.mg/a.jpg'],
+            'infrastructures' => ['Bibliothèque', 'Cantine', 'Salle informatique'],
+            'phone' => '034 00 000 00',
+        ]);
+
+        $this->getJson("/api/v1/establishments/{$establishment->slug}")
+            ->assertOk()
+            ->assertJsonPath('data.website', '')
+            ->assertJsonPath('data.photos', [])
+            ->assertJsonPath('data.infrastructures', ['Bibliothèque', 'Cantine'])
+            ->assertJsonPath('data.phone', '034 00 000 00');
+
+        // L'établissement garde toutes ses données dans son espace.
+        $this->actingAs($owner)->getJson("/api/v1/establishments/{$establishment->slug}/manage")
+            ->assertOk()
+            ->assertJsonPath('data.website', 'https://exemple.mg')
+            ->assertJsonCount(3, 'data.infrastructures');
+
+        $this->subscribe($establishment, PlanCode::Pro);
+        $this->getJson("/api/v1/establishments/{$establishment->slug}")
+            ->assertJsonPath('data.website', 'https://exemple.mg')
+            ->assertJsonCount(1, 'data.photos')
+            ->assertJsonCount(3, 'data.infrastructures');
+    }
+
+    public function test_free_fiche_rejects_gallery_and_more_than_two_infrastructures(): void
+    {
+        [$owner, $establishment] = $this->establishmentOwner();
+
+        $this->actingAs($owner)->patchJson("/api/v1/establishments/{$establishment->slug}", [
+            'photos' => ['https://exemple.mg/a.jpg'],
+            'infrastructures' => ['Bibliothèque', 'Cantine', 'Salle informatique'],
+        ])->assertUnprocessable()->assertJsonValidationErrors(['photos', 'infrastructures']);
+
+        $this->actingAs($owner)->patchJson("/api/v1/establishments/{$establishment->slug}", [
+            'infrastructures' => ['Bibliothèque', 'Cantine'],
+        ])->assertOk();
     }
 
     public function test_owner_updates_fields_but_cannot_self_verify(): void

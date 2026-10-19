@@ -14,7 +14,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * - inquiryInbox : boîte de réception centralisée des demandes et candidatures ;
  * - statistics : 'none' | 'standard' | 'advanced' ;
  * - sponsoredPlacement : mise en avant dans les emplacements promus ;
- * - prioritySupport : accompagnement prioritaire.
+ * - prioritySupport : accompagnement prioritaire ;
+ * - photoGallery : galerie de photos des locaux sur la fiche publique ;
+ * - onlineLinks : site web et réseaux sociaux affichés sur la fiche publique ;
+ * - reviews : avis des étudiants sur la fiche ;
+ * - maxInfrastructures : nombre d'infrastructures affichées (null = illimité).
  */
 #[Fillable(['code', 'name', 'monthly_price', 'yearly_price', 'max_published_offers', 'features', 'position'])]
 class Plan extends Model
@@ -36,6 +40,16 @@ class Plan extends Model
     public function hasFeature(string $feature): bool
     {
         return (bool) ($this->features[$feature] ?? false);
+    }
+
+    /**
+     * Limite chiffrée d'une fonctionnalité (maxInfrastructures…) ; null = illimité.
+     */
+    public function limit(string $feature): ?int
+    {
+        $value = $this->features[$feature] ?? null;
+
+        return $value === null ? null : (int) $value;
     }
 
     /**

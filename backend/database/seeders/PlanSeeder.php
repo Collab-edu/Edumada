@@ -21,8 +21,11 @@ class PlanSeeder extends Seeder
                 'name' => 'Gratuit',
                 'monthly_price' => 0,
                 'yearly_price' => 0,
-                'max_published_offers' => 3,
-                'features' => ['inquiryInbox' => false, 'statistics' => 'none', 'sponsoredPlacement' => false, 'prioritySupport' => false],
+                'max_published_offers' => 1,
+                'features' => [
+                    'inquiryInbox' => false, 'statistics' => 'none', 'sponsoredPlacement' => false, 'prioritySupport' => false,
+                    'photoGallery' => false, 'onlineLinks' => false, 'reviews' => false, 'maxInfrastructures' => 2,
+                ],
             ],
             [
                 'code' => PlanCode::Pro,
@@ -30,7 +33,10 @@ class PlanSeeder extends Seeder
                 'monthly_price' => 75000,
                 'yearly_price' => 600000,
                 'max_published_offers' => null,
-                'features' => ['inquiryInbox' => true, 'statistics' => 'standard', 'sponsoredPlacement' => false, 'prioritySupport' => false],
+                'features' => [
+                    'inquiryInbox' => true, 'statistics' => 'standard', 'sponsoredPlacement' => false, 'prioritySupport' => false,
+                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null,
+                ],
             ],
             [
                 'code' => PlanCode::Premium,
@@ -38,7 +44,10 @@ class PlanSeeder extends Seeder
                 'monthly_price' => 175000,
                 'yearly_price' => null,
                 'max_published_offers' => null,
-                'features' => ['inquiryInbox' => true, 'statistics' => 'advanced', 'sponsoredPlacement' => true, 'prioritySupport' => true],
+                'features' => [
+                    'inquiryInbox' => true, 'statistics' => 'advanced', 'sponsoredPlacement' => true, 'prioritySupport' => true,
+                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null,
+                ],
             ],
         ];
 

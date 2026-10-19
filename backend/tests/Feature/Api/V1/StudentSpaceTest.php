@@ -3,11 +3,13 @@
 namespace Tests\Feature\Api\V1;
 
 use App\Enums\InquiryType;
+use App\Enums\PlanCode;
 use App\Enums\ReviewStatus;
 use App\Models\Establishment;
 use App\Models\Inquiry;
 use App\Models\Offer;
 use App\Models\Review;
+use Database\Seeders\PlanSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -37,9 +39,24 @@ class StudentSpaceTest extends TestCase
         $this->actingAs($this->student())->putJson("/api/v1/me/favorites/{$offer->slug}")->assertNotFound();
     }
 
+    public function test_free_fiche_does_not_accept_reviews(): void
+    {
+        $this->seed(PlanSeeder::class);
+        $establishment = Establishment::factory()->create();
+
+        $this->actingAs($this->student())->postJson("/api/v1/establishments/{$establishment->slug}/reviews", [
+            'rating' => 4,
+            'quote' => 'Des enseignants disponibles et des cours très concrets.',
+        ])->assertForbidden();
+
+        $this->assertDatabaseCount('reviews', 0);
+    }
+
     public function test_student_review_waits_for_moderation(): void
     {
+        $this->seed(PlanSeeder::class);
         $establishment = Establishment::factory()->create();
+        $this->subscribe($establishment, PlanCode::Pro);
 
         $this->actingAs($this->student())->postJson("/api/v1/establishments/{$establishment->slug}/reviews", [
             'rating' => 4,

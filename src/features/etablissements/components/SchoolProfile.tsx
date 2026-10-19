@@ -185,6 +185,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             </div>
                         )}
 
+                        {school.reviewsEnabled !== false && (
                         <div id='temoignages' className='scroll-mt-28'>
                             <div className='mb-5 flex flex-wrap items-center justify-between gap-3'>
                                 <h2 className='font-bold'>{reviewsTitle}</h2>
@@ -197,6 +198,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             </div>
                             <SchoolTestimonials testimonials={testimonials} formations={formations} />
                         </div>
+                        )}
 
                         <div id='faq' className='scroll-mt-28'>
                             <h2 className='mb-5 font-bold'>Questions fréquentes</h2>
@@ -298,7 +300,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                     </aside>
                 </div>
             </div>
-            <ReviewDialog open={reviewOpen} onClose={() => setReviewOpen(false)} establishmentId={school.id} formations={formations} />
+            {school.reviewsEnabled !== false && <ReviewDialog open={reviewOpen} onClose={() => setReviewOpen(false)} establishmentId={school.id} formations={formations} />}
             <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} establishmentId={school.id} />
         </section>
     )

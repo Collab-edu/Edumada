@@ -47,7 +47,7 @@ const FAQ: FaqItem[] = [
     },
     {
         question: 'Comment référencer mon établissement ?',
-        answer: 'Créez un compte établissement et complétez votre fiche : l’équipe Edumada la vérifie avant sa mise en ligne. La formule Gratuit permet de publier jusqu’à 3 offres.',
+        answer: 'Créez un compte établissement et complétez votre fiche : l’équipe Edumada la vérifie avant sa mise en ligne. La formule Gratuit permet de publier une offre.',
     },
 ]
 

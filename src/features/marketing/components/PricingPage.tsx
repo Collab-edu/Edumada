@@ -15,7 +15,7 @@ import Companies from './Companies'
 
 /** Formules affichées si l'API ne répond pas (mêmes hypothèses que la base). */
 const FALLBACK_PLANS: Plan[] = [
-    { code: 'free', name: 'Gratuit', monthlyPrice: 0, yearlyPrice: 0, maxPublishedOffers: 3, features: { inquiryInbox: false, statistics: 'none' } },
+    { code: 'free', name: 'Gratuit', monthlyPrice: 0, yearlyPrice: 0, maxPublishedOffers: 1, features: { inquiryInbox: false, statistics: 'none' } },
     { code: 'pro', name: 'Pro', monthlyPrice: 75000, yearlyPrice: 600000, maxPublishedOffers: null, features: { inquiryInbox: true, statistics: 'standard' } },
     { code: 'premium', name: 'Premium', monthlyPrice: 175000, yearlyPrice: null, maxPublishedOffers: null, features: { inquiryInbox: true, statistics: 'advanced', sponsoredPlacement: true } },
 ]
@@ -26,8 +26,12 @@ const PLAN_DETAILS: Record<Plan['code'], { description: string; intro: string; f
         description: 'Pour être présent sur Edumada et publier vos premières offres.',
         intro: 'Ce qui est inclus :',
         features: (plan) => [
-            'Fiche établissement complète',
-            plan.maxPublishedOffers === null ? 'Offres illimitées' : `${plan.maxPublishedOffers} offres publiées`,
+            'Fiche établissement essentielle',
+            plan.maxPublishedOffers === null
+                ? 'Offres illimitées'
+                : `${plan.maxPublishedOffers} ${plan.maxPublishedOffers > 1 ? 'offres publiées' : 'offre publiée'}`,
+            'Coordonnées : adresse, téléphone et e-mail',
+            'Jusqu’à 2 infrastructures',
             'Présence dans les résultats standards',
             'Demandes reçues par e-mail',
         ],
@@ -35,7 +39,16 @@ const PLAN_DETAILS: Record<Plan['code'], { description: string; intro: string; f
     pro: {
         description: 'Pour gérer vos demandes et suivre vos résultats toute l’année.',
         intro: 'Tout Gratuit, plus :',
-        features: () => ['Offres illimitées', 'Boîte de réception des demandes et candidatures', 'Statuts, filtres et export CSV', 'Statistiques standard'],
+        features: () => [
+            'Offres illimitées',
+            'Galerie photos des locaux',
+            'Site web et réseaux sociaux sur la fiche',
+            'Infrastructures illimitées',
+            'Avis des étudiants',
+            'Boîte de réception des demandes et candidatures',
+            'Statuts, filtres et export CSV',
+            'Statistiques standard',
+        ],
     },
     premium: {
         description: 'Pour mettre vos formations en avant pendant vos recrutements.',
