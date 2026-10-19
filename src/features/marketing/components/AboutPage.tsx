@@ -11,16 +11,27 @@ import OrientationBanner from './OrientationBanner'
 
 const HERO_IMAGE = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=70'
 
+const MISSION_IMAGES = {
+    main: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=900&q=70',
+    side: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=70',
+}
+
 const COMMITMENTS = [
     {
+        icon: 'tabler:building-community',
+        image: 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=900&q=70',
         title: 'Rassembler',
         text: 'Universités, centres de formation, crèches et écoles : toute l’offre éducative du pays, au même endroit.',
     },
     {
+        icon: 'tabler:scale',
+        image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=70',
         title: 'Clarifier',
         text: 'Durée, coût, diplôme, conditions d’admission : les mêmes repères sur chaque fiche, pour comparer facilement.',
     },
     {
+        icon: 'tabler:message-circle',
+        image: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=900&q=70',
         title: 'Rapprocher',
         text: 'Un contact direct avec l’établissement, sans intermédiaire, depuis un simple téléphone.',
     },
@@ -96,33 +107,70 @@ export default function AboutPage() {
 
             {/* Mission */}
             <section>
-                <div className='container mx-auto max-w-7xl px-4'>
-                    <div className='grid gap-10 lg:grid-cols-2'>
+                <div className='container mx-auto max-w-7xl px-4 flex flex-col gap-14'>
+                    <div className='grid items-center gap-12 lg:grid-cols-2'>
                         <div className='flex flex-col gap-4'>
+                            <p className='font-semibold uppercase tracking-wide text-primary'>Notre mission</p>
                             <h2 className='font-bold'>Pourquoi nous avons créé Edumada</h2>
                             <p className='text-black'>
                                 À Madagascar, trouver une formation se fait souvent au hasard : une affiche, une publication sur les réseaux sociaux, le
                                 conseil d’un proche. Les informations sont dispersées et difficiles à comparer.
                             </p>
-                            <p className='text-black'>
-                                Nous voulons que chaque jeune, à Antananarivo comme en région, puisse voir toutes les possibilités qui s’offrent à lui
-                                avant de faire son choix.
-                            </p>
+                            <blockquote className='border-l-4 border-primary pl-4 text-lg font-semibold text-secondary'>
+                                Que chaque jeune, à Antananarivo comme en région, puisse voir toutes les possibilités qui s’offrent à lui avant de faire
+                                son choix.
+                            </blockquote>
                         </div>
-                        <ol className='flex flex-col gap-6'>
-                            {COMMITMENTS.map((item, index) => (
-                                <li key={item.title} className='flex gap-4'>
-                                    <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary font-bold text-white'>
-                                        {index + 1}
+
+                        {/* Photos superposées */}
+                        <div className='relative mx-auto w-full max-w-lg pb-10 pl-6 sm:pb-12 sm:pl-12'>
+                            <div className='relative h-64 overflow-hidden rounded-2xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-80'>
+                                <Image src={MISSION_IMAGES.main} alt='Étudiants diplômés' fill sizes='(min-width: 1024px) 40vw, 100vw' className='object-cover' />
+                            </div>
+                            <div className='absolute bottom-0 left-0 h-32 w-40 overflow-hidden rounded-2xl border-4 border-white shadow-lg sm:h-40 sm:w-52'>
+                                <Image src={MISSION_IMAGES.side} alt='Étudiants qui travaillent ensemble' fill sizes='220px' className='object-cover' />
+                            </div>
+                            {figures[0].value > 0 && (
+                                <div className='absolute right-3 top-3 flex items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-lg sm:-right-4 sm:top-6'>
+                                    <span className='flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white'>
+                                        <Icon icon='tabler:building-community' className='text-lg' />
                                     </span>
-                                    <div className='flex flex-col gap-1'>
-                                        <h3 className='text-lg font-semibold text-secondary'>{item.title}</h3>
-                                        <p className='text-black'>{item.text}</p>
-                                    </div>
-                                </li>
-                            ))}
-                        </ol>
+                                    <span className='leading-tight'>
+                                        <span className='block text-lg font-bold text-secondary'>{figures[0].value}</span>
+                                        <span className='block text-xs text-ink/60'>établissements réunis</span>
+                                    </span>
+                                </div>
+                            )}
+                        </div>
                     </div>
+
+                    {/* Nos trois engagements */}
+                    <ol className='grid gap-5 md:grid-cols-3'>
+                        {COMMITMENTS.map((item, index) => (
+                            <li
+                                key={item.title}
+                                className='group flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
+                                <div className='relative h-40 overflow-hidden'>
+                                    <Image
+                                        src={item.image}
+                                        alt=''
+                                        fill
+                                        sizes='(min-width: 768px) 33vw, 100vw'
+                                        className='object-cover transition-transform duration-500 group-hover:scale-105'
+                                    />
+                                    <div className='absolute inset-0 bg-gradient-to-b from-secondary/60 to-transparent' />
+                                    <span className='absolute top-3 right-4 text-4xl font-bold text-white/90'>0{index + 1}</span>
+                                </div>
+                                <div className='flex flex-col gap-2 p-5'>
+                                    <span className='relative z-10 -mt-11 flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white shadow-md ring-4 ring-white'>
+                                        <Icon icon={item.icon} className='text-2xl' />
+                                    </span>
+                                    <h3 className='text-lg font-semibold text-secondary'>{item.title}</h3>
+                                    <p className='text-black'>{item.text}</p>
+                                </div>
+                            </li>
+                        ))}
+                    </ol>
                 </div>
             </section>
 
