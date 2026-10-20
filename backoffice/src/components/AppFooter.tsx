@@ -10,6 +10,9 @@ export default function AppFooter() {
                 </a>
                 <span className='ms-1'>&copy; {new Date().getFullYear()} · Back-office</span>
             </div>
+            <div className='ms-auto bo-footer-tagline'>
+                Construisons ensemble l&apos;avenir de l&apos;éducation à Madagascar <span className='text-danger'>♥</span>
+            </div>
         </CFooter>
     )
 }

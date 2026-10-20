@@ -393,3 +393,92 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   font-size: .75rem;
   font-weight: 800;
 }
+
+/* ------------------------------------------------------------------ */
+/* Tableau de bord établissement                                       */
+/* ------------------------------------------------------------------ */
+.bo-cover-standalone { border-radius: 1rem; }
+.bo-cover-plan {
+  padding: .2rem .65rem;
+  border-radius: 999px;
+  background: var(--edu-red, #FF3B52);
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+.bo-tile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1rem;
+  color: #fff;
+  box-shadow: 0 10px 24px -14px rgba(15, 76, 92, .55);
+  .bo-tile-top { display: flex; gap: .75rem; padding: 1.15rem 1.15rem .75rem; flex: 1; }
+  .bo-tile-top > div:first-child { flex-shrink: 0; }
+  .bo-tile-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 2.4rem; height: 2.4rem; margin-bottom: .65rem;
+    border-radius: .7rem; background: rgba(255, 255, 255, .2);
+  }
+  .bo-tile-value { font-size: 1.75rem; font-weight: 700; line-height: 1.1; small { font-size: .95rem; opacity: .8; } }
+  .bo-tile-label { font-size: .85rem; opacity: .9; }
+  .bo-tile-chart { flex: 1; min-width: 0; align-self: flex-end; }
+  .bo-tile-chart canvas { max-height: 70px; }
+  .bo-tile-footer { padding: .6rem 1.15rem; background: rgba(0, 0, 0, .12); font-size: .8rem; }
+}
+.bo-tile-teal { background: linear-gradient(135deg, #0F4C5C 0%, #1a6f84 100%); }
+.bo-tile-red { background: linear-gradient(135deg, #e72a42 0%, #FF3B52 60%, #ff6b7d 100%); }
+.bo-tile-sage { background: linear-gradient(135deg, #5f8f82 0%, #7fa89c 100%); }
+.bo-tile-ink { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
+.bo-tile-bar {
+  height: 6px; margin-bottom: .5rem; border-radius: 99px; background: rgba(255, 255, 255, .25);
+  span { display: block; height: 100%; border-radius: inherit; background: #fff; }
+}
+
+.bo-activity {
+  li { position: relative; display: flex; gap: .75rem; padding-bottom: 1rem; }
+  li:last-child { padding-bottom: 0; }
+  li:not(:last-child)::before {
+    content: ""; position: absolute; left: 1rem; top: 2.1rem; bottom: .2rem;
+    border-left: 2px dashed var(--cui-border-color);
+  }
+  a { min-width: 0; color: inherit; }
+  strong { font-size: .9rem; }
+}
+.bo-activity-icon {
+  display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 50%; color: #fff;
+  &.is-red { background: #FF3B52; }
+  &.is-green { background: #2eb85c; }
+  &.is-teal { background: #0F4C5C; }
+  &.is-grey { background: #94a3b8; }
+}
+
+.bo-visibility {
+  padding: 1.35rem;
+  border: 1px solid #ffd0d7;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #FFE5E8 0%, #fff 100%);
+  color: #334155;
+  p { color: #334155; }
+}
+[data-coreui-theme="dark"] .bo-visibility { background: rgba(255, 59, 82, .12); border-color: rgba(255, 59, 82, .3); color: inherit; p { color: inherit; } }
+
+.bo-checklist {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .6rem 1.5rem;
+  margin-bottom: 1.25rem;
+  li { display: flex; align-items: center; gap: .55rem; }
+  @media (min-width: 576px) { grid-template-columns: 1fr 1fr; }
+}
+
+.bo-requests {
+  li { display: flex; align-items: center; gap: .75rem; padding: .65rem 0; border-bottom: 1px solid var(--cui-border-color); }
+  li:last-child { border-bottom: 0; }
+  a { color: inherit; }
+}
+
+.bo-footer-tagline { color: var(--cui-secondary-color); font-size: .85rem; }
