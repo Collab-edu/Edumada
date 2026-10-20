@@ -54,6 +54,8 @@ class ManagedEstablishmentResource extends EstablishmentResource
                 'id' => $member->id,
                 'name' => $member->name,
                 'email' => $member->email,
+                'phone' => $member->phone,
+                'jobTitle' => $member->job_title,
                 'role' => $member->pivot->role,
             ])),
             'createdAt' => $this->created_at?->toIso8601String(),

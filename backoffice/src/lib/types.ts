@@ -168,7 +168,7 @@ export type ManagedEstablishment = Establishment & {
     /** Formule payante choisie à l'inscription, tant qu'elle n'est pas activée. */
     requestedPlan?: { code: 'pro' | 'premium'; name: string; billingCycle: 'monthly' | 'yearly' } | null
     offers?: ManagedOffer[]
-    members?: { id: number; name: string; email: string; role: string }[]
+    members?: { id: number; name: string; email: string; phone?: string | null; jobTitle?: string | null; role: string }[]
     createdAt?: string
 }
 

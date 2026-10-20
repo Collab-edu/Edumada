@@ -41,7 +41,7 @@ import { useApi } from '@/lib/useApi'
 import { notifyEstablishmentsChanged, useEstablishmentCounts } from '@/lib/useEstablishmentCounts'
 import { formatDate, formatDateTime } from '@/lib/format'
 import type { ManagedEstablishment, Paginated, Plan } from '@/lib/types'
-import { EmptyState, ErrorAlert, Loading, PageCard, Pager, PlanBadge, RequestedPlanBadge, StatusBadge } from '@/components/ui'
+import { EmptyState, ErrorAlert, Loading, NumberedPager, PageCard, Pager, PlanBadge, RequestedPlanBadge, StatusBadge } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
 
 function Members({ establishment, onDone }: { establishment: ManagedEstablishment; onDone: () => void }) {
@@ -389,89 +389,104 @@ function EstablishmentList({ category }: { category: string | null }) {
                     </EmptyState>
                 ) : tab === 'nouveaux' ? (
                     <>
-                        <p className='small text-body-secondary mb-2'>
+                        <p className='small text-body-secondary mb-3'>
                             Vérifiez que l&apos;établissement existe et que ses coordonnées sont joignables avant d&apos;accepter : il est prévenu par e-mail de votre décision.
                         </p>
-                        <CTable align='middle' hover responsive className='mb-0'>
-                            <CTableHead className='text-nowrap'>
-                                <CTableRow>
-                                    <CTableHeaderCell>Établissement</CTableHeaderCell>
-                                    <CTableHeaderCell className='d-none d-lg-table-cell'>Contact</CTableHeaderCell>
-                                    <CTableHeaderCell className='d-none d-lg-table-cell'>Demandé par</CTableHeaderCell>
-                                    <CTableHeaderCell className='d-none d-lg-table-cell'>Date</CTableHeaderCell>
-                                    <CTableHeaderCell className='text-end'>Adhésion</CTableHeaderCell>
-                                </CTableRow>
-                            </CTableHead>
-                            <CTableBody>
-                                {data.data.map((e) => (
-                                    <CTableRow key={e.id}>
-                                        <CTableDataCell>
-                                            <button type='button' className='btn btn-link p-0 fw-semibold text-start text-decoration-none' onClick={() => setViewing(e)}>
-                                                {e.name}
-                                            </button>
-                                            <div className='small text-body-secondary'>{[e.subCategory || categoryLabel(e.category), e.type, e.city].filter(Boolean).join(' · ')}</div>
-                                            {e.requestedPlan && <RequestedPlanBadge plan={e.requestedPlan} className='mt-1' />}
-                                            {e.accreditation && <div className='small'>Accréditation déclarée : {e.accreditation}</div>}
-                                            {/* Petit écran : coordonnées et date sous le nom (colonnes masquées). */}
-                                            <div className='small d-lg-none mt-1'>
-                                                {[e.email, e.phone].filter(Boolean).join(' · ') || <span className='text-danger'>Aucune coordonnée</span>}
-                                                <div className='text-body-secondary'>Demande du {formatDate(e.createdAt ?? e.updatedAt)}</div>
+                        <div className='bo-rows bo-rows--requests' role='list'>
+                            <div className='bo-rows-head' aria-hidden='true'>
+                                <span>Établissement</span>
+                                <span>Contact</span>
+                                <span>Demandé par</span>
+                                <span>Reçue le</span>
+                                <span className='text-end'>Adhésion</span>
+                            </div>
+                            {data.data.map((e) => {
+                                const owner = e.members?.[0]
+                                const fallbackPhone = !e.phone ? owner?.phone : null
+                                return (
+                                    <div key={e.id} className='bo-row' role='listitem'>
+                                        <div className='bo-row-main'>
+                                            <div className='d-flex align-items-center gap-3' style={{ minWidth: 0 }}>
+                                                {e.logo ? (
+                                                    // eslint-disable-next-line @next/next/no-img-element
+                                                    <img src={assetUrl(e.logo)} alt='' className='bo-row-logo' />
+                                                ) : (
+                                                    <span className='bo-row-logo bo-row-logo--initials'>{e.initials.replace(/[^\p{L}\p{N}]/gu, '').slice(0, 3)}</span>
+                                                )}
+                                                <div style={{ minWidth: 0 }}>
+                                                    <button type='button' className='btn btn-link p-0 fw-semibold text-start text-decoration-none lh-sm' onClick={() => setViewing(e)}>
+                                                        {e.name}
+                                                    </button>
+                                                    <div className='small text-body-secondary text-truncate'>
+                                                        {[e.subCategory || categoryLabel(e.category), e.type, e.city].filter(Boolean).join(' · ')}
+                                                    </div>
+                                                    {e.requestedPlan && <RequestedPlanBadge plan={e.requestedPlan} className='mt-1' />}
+                                                </div>
                                             </div>
-                                        </CTableDataCell>
-                                        <CTableDataCell className='small text-nowrap d-none d-lg-table-cell'>
-                                            {e.email && (
-                                                <div>
-                                                    <a href={`mailto:${e.email}`} className='text-decoration-none'>
+                                            <div className='small bo-col-optional'>
+                                                {e.email && (
+                                                    <a href={`mailto:${e.email}`} className='d-block text-truncate text-decoration-none'>
                                                         <CIcon icon={cilEnvelopeClosed} className='me-1' />
                                                         {e.email}
                                                     </a>
-                                                </div>
-                                            )}
-                                            {e.phone && (
-                                                <div>
-                                                    <a href={`tel:${e.phone.replace(/\s/g, '')}`} className='text-decoration-none'>
+                                                )}
+                                                {e.phone && (
+                                                    <a href={`tel:${e.phone.replace(/\s/g, '')}`} className='d-block text-decoration-none'>
                                                         <CIcon icon={cilPhone} className='me-1' />
                                                         {e.phone}
                                                     </a>
-                                                </div>
-                                            )}
-                                            {!e.email && !e.phone && <span className='text-danger'>Aucune coordonnée</span>}
-                                        </CTableDataCell>
-                                        <CTableDataCell className='small d-none d-lg-table-cell'>
-                                            {e.members?.length ? (
-                                                e.members.map((m) => (
-                                                    <div key={m.id}>
-                                                        {m.name}
-                                                        <div className='text-body-secondary'>{m.email}</div>
-                                                    </div>
-                                                ))
-                                            ) : (
-                                                <span className='text-body-secondary'>Aucun compte rattaché</span>
-                                            )}
-                                        </CTableDataCell>
-                                        <CTableDataCell className='small text-body-secondary text-nowrap d-none d-lg-table-cell'>{formatDate(e.createdAt ?? e.updatedAt)}</CTableDataCell>
-                                        <CTableDataCell className='text-end'>
-                                            <div className='d-flex flex-column flex-sm-row justify-content-end gap-2'>
-                                            <CButton
-                                                size='sm'
-                                                color='success'
-                                                className='text-white text-nowrap'
-                                                onClick={() => moderate(e, { status: 'published' }, `${e.name} est inscrit et publié sur Edumada.`)}
-                                            >
-                                                <CIcon icon={cilCheckAlt} className='me-1' />
-                                                Accepter
-                                            </CButton>
-                                            <CButton size='sm' color='danger' variant='outline' className='text-nowrap' onClick={() => setRefusing(e)}>
-                                                <CIcon icon={cilX} className='me-1' />
-                                                Refuser
-                                            </CButton>
+                                                )}
+                                                {fallbackPhone && (
+                                                    <a href={`tel:${fallbackPhone.replace(/\s/g, '')}`} className='d-block text-decoration-none'>
+                                                        <CIcon icon={cilPhone} className='me-1' />
+                                                        {fallbackPhone}
+                                                        <span className='text-body-secondary'> (responsable)</span>
+                                                    </a>
+                                                )}
+                                                {!e.email && !e.phone && !fallbackPhone && <span className='text-warning-emphasis'>Fiche à compléter</span>}
                                             </div>
-                                        </CTableDataCell>
-                                    </CTableRow>
-                                ))}
-                            </CTableBody>
-                        </CTable>
-                        <Pager meta={data.meta} onChange={(page) => setFilters({ ...filters, page })} />
+                                            <div className='d-flex align-items-center gap-2 small bo-col-optional' style={{ minWidth: 0 }}>
+                                                {owner ? (
+                                                    <>
+                                                        <span className='bo-row-avatar' style={{ background: '#dbe7ea', color: '#0f4c5c' }}>
+                                                            {owner.name
+                                                                .split(/\s+/)
+                                                                .slice(0, 2)
+                                                                .map((w) => w[0]?.toUpperCase())
+                                                                .join('')}
+                                                        </span>
+                                                        <div style={{ minWidth: 0 }}>
+                                                            <div className='fw-semibold text-truncate'>{owner.name}</div>
+                                                            <div className='text-body-secondary text-truncate'>{owner.jobTitle || owner.email}</div>
+                                                            {owner.jobTitle && <div className='text-body-secondary text-truncate'>{owner.email}</div>}
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <span className='text-body-secondary'>Aucun compte rattaché</span>
+                                                )}
+                                            </div>
+                                            <span className='small text-body-secondary text-nowrap bo-col-optional'>{formatDate(e.createdAt ?? e.updatedAt)}</span>
+                                            <div className='d-flex justify-content-end gap-2'>
+                                                <CButton
+                                                    size='sm'
+                                                    color='success'
+                                                    className='text-white text-nowrap'
+                                                    onClick={() => moderate(e, { status: 'published' }, `${e.name} est inscrit et publié sur Edumada.`)}
+                                                >
+                                                    <CIcon icon={cilCheckAlt} className='me-1' />
+                                                    Accepter
+                                                </CButton>
+                                                <CButton size='sm' color='danger' variant='outline' className='text-nowrap' onClick={() => setRefusing(e)}>
+                                                    <CIcon icon={cilX} className='me-1' />
+                                                    Refuser
+                                                </CButton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <NumberedPager meta={data.meta} onChange={(page) => setFilters({ ...filters, page })} />
                     </>
                 ) : (
                     <>

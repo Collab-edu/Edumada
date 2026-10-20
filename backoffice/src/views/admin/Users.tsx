@@ -1,12 +1,12 @@
 'use client'
 import { useState } from 'react'
-import { CFormInput, CPagination, CPaginationItem } from '@coreui/react'
+import { CFormInput } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilChevronBottom, cilChevronTop, cilEnvelopeClosed } from '@coreui/icons'
 import { useApi } from '@/lib/useApi'
 import { formatDate } from '@/lib/format'
 import type { AdminUser, Paginated } from '@/lib/types'
-import { EmptyState, Loading, PageCard } from '@/components/ui'
+import { EmptyState, Loading, NumberedPager, PageCard } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
 
 /** Couleurs d'avatar, choisies d'après l'identifiant pour rester stables. */
@@ -30,47 +30,6 @@ function status(user: AdminUser) {
     return user.inquiriesCount > 0
         ? { label: 'Actif', color: '#16a34a', text: `${user.inquiriesCount} demande${user.inquiriesCount > 1 ? 's' : ''}` }
         : { label: 'Inscrit', color: '#94a3b8', text: 'Aucune demande' }
-}
-
-/** Pages affichées autour de la page courante : 1 … 4 5 6 … 12 */
-function pageNumbers(page: number, last: number): (number | '…')[] {
-    const pages = new Set([1, last, page - 1, page, page + 1].filter((p) => p >= 1 && p <= last))
-    const sorted = [...pages].sort((a, b) => a - b)
-    return sorted.flatMap((p, i) => (i > 0 && p - sorted[i - 1] > 1 ? ['…' as const, p] : [p]))
-}
-
-function Footer({ meta, onChange }: { meta: Paginated<AdminUser>['meta']; onChange: (page: number) => void }) {
-    const { current_page: page, last_page: last, total, per_page: perPage } = meta
-    const from = total === 0 ? 0 : (page - 1) * perPage + 1
-    const to = Math.min(page * perPage, total)
-    return (
-        <div className='d-flex flex-wrap align-items-center justify-content-between gap-3 mt-4'>
-            <span className='small text-body-secondary'>
-                Affichage {from}–{to} sur {total}
-            </span>
-            {last > 1 && (
-                <CPagination className='mb-0' aria-label='Pagination'>
-                    <CPaginationItem disabled={page <= 1} onClick={() => onChange(page - 1)} style={{ cursor: 'pointer' }} aria-label='Page précédente'>
-                        ‹
-                    </CPaginationItem>
-                    {pageNumbers(page, last).map((p, i) =>
-                        p === '…' ? (
-                            <CPaginationItem key={`gap-${i}`} disabled>
-                                …
-                            </CPaginationItem>
-                        ) : (
-                            <CPaginationItem key={p} active={p === page} onClick={() => onChange(p)} style={{ cursor: 'pointer' }}>
-                                {p}
-                            </CPaginationItem>
-                        )
-                    )}
-                    <CPaginationItem disabled={page >= last} onClick={() => onChange(page + 1)} style={{ cursor: 'pointer' }} aria-label='Page suivante'>
-                        ›
-                    </CPaginationItem>
-                </CPagination>
-            )}
-        </div>
-    )
 }
 
 /** Liste des étudiants inscrits, en lignes-cartes dépliables. */
@@ -186,7 +145,7 @@ export default function Users() {
                                 )
                             })}
                         </div>
-                        <Footer meta={data.meta} onChange={(page) => setFilters({ ...filters, page })} />
+                        <NumberedPager meta={data.meta} onChange={(page) => setFilters({ ...filters, page })} />
                     </>
                 )}
             </PageCard>

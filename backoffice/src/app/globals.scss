@@ -337,3 +337,34 @@ body {
     display: none;
   }
 }
+
+/* Demandes d'adhésion : établissement, contact, demandeur, date, décision. */
+.bo-rows--requests .bo-rows-head,
+.bo-rows--requests .bo-row-main {
+  grid-template-columns: minmax(0, 2.6fr) minmax(0, 1.3fr) minmax(0, 1.5fr) minmax(0, 0.9fr) auto;
+}
+.bo-row-logo {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border: 1px solid var(--cui-border-color);
+  border-radius: 0.65rem;
+  background: #fff;
+  object-fit: contain;
+  padding: 0.15rem;
+}
+.bo-row-logo--initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: var(--edu-teal);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+@media (max-width: 991.98px) {
+  .bo-rows--requests .bo-row-main {
+    grid-template-columns: 1fr;
+  }
+}
