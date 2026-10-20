@@ -32,6 +32,9 @@ export const ACTION_LABELS: Record<string, string> = {
     'user.role_changed': 'Type de compte modifié',
     'user.deleted': 'Compte supprimé',
     'campaign.created': 'Campagne créée',
+    'article.created': 'Article publié',
+    'article.updated': 'Article modifié',
+    'article.deleted': 'Article supprimé',
 }
 
 /** Ce que comprend chaque formule (document « Les 4 types de comptes »). */

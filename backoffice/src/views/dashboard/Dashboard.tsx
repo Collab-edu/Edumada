@@ -80,7 +80,7 @@ export function PeriodSwitch({ days, onChange }: { days: number; onChange: (days
 const blank = <div style={{ height: 86 }} />
 const bar = (value: number) => (
     <div className='mt-3 mx-3' style={{ height: 70 }}>
-        <CProgress thin color='white' className='bg-white bg-opacity-25 mt-5' value={value} />
+        <CProgress thin color='primary' className='mt-5' value={value} />
     </div>
 )
 
@@ -222,7 +222,7 @@ function EstablishmentDashboard({ e }: { e: ManagedEstablishment }) {
                                 {checklist.map((item) => (
                                     <CListGroupItem key={item.label} className='d-flex align-items-center gap-2 px-0 bg-transparent'>
                                         <CIcon icon={item.done ? cilCheckCircle : cilCircle} className={item.done ? 'text-success' : 'text-body-secondary'} />
-                                        <span className={item.done ? 'text-body-secondary text-decoration-line-through' : ''}>{item.label}</span>
+                                        <span className={item.done ? 'text-body-secondary' : 'fw-semibold'}>{item.label}</span>
                                     </CListGroupItem>
                                 ))}
                             </CListGroup>
@@ -403,7 +403,7 @@ function AdminDashboard() {
                                 {queues.map((q) => (
                                     <CListGroupItem key={q.label} as={Link} href={q.to} className='list-group-item-action d-flex justify-content-between align-items-center px-0 bg-transparent'>
                                         {q.label}
-                                        <StatusBadge status={q.value ? 'pending' : 'resolved'}>{q.value}</StatusBadge>
+                                        {q.value ? <StatusBadge status='pending'>{q.value}</StatusBadge> : <span className='small text-body-secondary'>0</span>}
                                     </CListGroupItem>
                                 ))}
                             </CListGroup>
