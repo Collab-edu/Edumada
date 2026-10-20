@@ -3,13 +3,13 @@ import { useState, type FormEvent } from 'react'
 import Link from 'next/link'
 import { CAlert, CButton, CCol, CForm, CFormInput, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilLocationPin, cilSave } from '@coreui/icons'
+import { cilClipboard, cilEducation, cilEnvelopeClosed, cilGlobeAlt, cilImage, cilLink, cilLocationPin, cilPhone, cilSave } from '@coreui/icons'
 import { api, fieldError, isGeneralError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import { CITIES } from '@/lib/labels'
 import type { Category, ManagedEstablishment } from '@/lib/types'
 import { useToast } from '@/context/ToastContext'
-import { ErrorAlert, ImageUpload, ListInput, PageCard } from '@/components/ui'
+import { ErrorAlert, IconInput, ImageUpload, ListInput, PageCard } from '@/components/ui'
 
 const SOCIALS = [
     ['facebook', 'Facebook'],
@@ -110,7 +110,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
     return (
         <CForm onSubmit={submit} noValidate>
             {isGeneralError(error) && <ErrorAlert error={error} />}
-            <PageCard title='Identité' subtitle='Informations affichées en haut de la fiche publique'>
+            <PageCard icon={cilEducation} title='Identité' subtitle='Informations affichées en haut de la fiche publique'>
                 <CRow className='g-3'>
                     <CCol md={12}>
                         <CFormInput
@@ -160,13 +160,14 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                         </CFormSelect>
                     </CCol>
                     <CCol md={6}>
-                        <CFormInput
+                        <IconInput
+                            id='bo-city'
                             label='Ville'
+                            icon={cilLocationPin}
                             list='bo-cities'
                             value={form.city}
                             onChange={(e) => set('city', e.target.value)}
-                            invalid={!!err('city')}
-                            feedbackInvalid={err('city')}
+                            error={err('city')}
                         />
                         <datalist id='bo-cities'>
                             {CITIES.map((c) => (
@@ -178,39 +179,27 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                         <CFormTextarea
                             label='Présentation'
                             rows={5}
+                            maxLength={5000}
                             value={form.description}
                             onChange={(e) => set('description', e.target.value)}
                             invalid={!!err('description')}
                             feedbackInvalid={err('description')}
                         />
+                        <div className='form-text text-end'>{form.description.length} / 5000</div>
                     </CCol>
                 </CRow>
             </PageCard>
 
-            <PageCard title='Coordonnées' subtitle="L'e-mail public reçoit aussi les demandes envoyées via Edumada">
+            <PageCard icon={cilLocationPin} title='Coordonnées' subtitle="L'e-mail public reçoit aussi les demandes envoyées via Edumada">
                 <CRow className='g-3'>
                     <CCol md={12}>
-                        <CFormInput label='Adresse' value={form.address} onChange={(e) => set('address', e.target.value)} />
+                        <IconInput id='bo-address' label='Adresse' icon={cilLocationPin} value={form.address} onChange={(e) => set('address', e.target.value)} />
                     </CCol>
                     <CCol md={6}>
-                        <CFormInput
-                            label='Téléphone'
-                            type='tel'
-                            value={form.phone}
-                            onChange={(e) => set('phone', e.target.value)}
-                            invalid={!!err('phone')}
-                            feedbackInvalid={err('phone')}
-                        />
+                        <IconInput id='bo-phone' label='Téléphone' icon={cilPhone} type='tel' value={form.phone} onChange={(e) => set('phone', e.target.value)} error={err('phone')} />
                     </CCol>
                     <CCol md={6}>
-                        <CFormInput
-                            label='E-mail public'
-                            type='email'
-                            value={form.email}
-                            onChange={(e) => set('email', e.target.value)}
-                            invalid={!!err('email')}
-                            feedbackInvalid={err('email')}
-                        />
+                        <IconInput id='bo-email' label='E-mail public' icon={cilEnvelopeClosed} type='email' value={form.email} onChange={(e) => set('email', e.target.value)} error={err('email')} />
                     </CCol>
                     {!onlineLinks && (
                         <CCol md={12}>
@@ -222,50 +211,54 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                     )}
                     {onlineLinks && (
                     <CCol md={12}>
-                        <CFormInput
+                        <IconInput
+                            id='bo-website'
                             label='Site web'
+                            icon={cilGlobeAlt}
                             type='url'
                             placeholder='https://'
                             value={form.website}
                             onChange={(e) => set('website', e.target.value)}
-                            invalid={!!err('website')}
-                            feedbackInvalid={err('website')}
+                            error={err('website')}
                         />
                     </CCol>
                     )}
                     {onlineLinks && SOCIALS.map(([key, label]) => (
                         <CCol md={6} key={key}>
-                            <CFormInput
+                            <IconInput
+                                id={`bo-social-${key}`}
                                 label={label}
+                                icon={cilLink}
                                 type='url'
                                 placeholder='https://'
                                 value={form.socialLinks[key] ?? ''}
                                 onChange={(e) => set('socialLinks', { ...form.socialLinks, [key]: e.target.value })}
-                                invalid={!!err(`socialLinks.${key}`)}
-                                feedbackInvalid={err(`socialLinks.${key}`)}
+                                error={err(`socialLinks.${key}`)}
                             />
                         </CCol>
                     ))}
                     <CCol md={4}>
-                        <CFormInput
+                        <IconInput
+                            id='bo-lat'
                             label='Latitude'
+                            icon={cilLocationPin}
                             inputMode='decimal'
                             placeholder='-18.8792'
                             value={form.lat}
                             onChange={(e) => set('lat', e.target.value)}
-                            invalid={!!err('coordinates.lat')}
-                            feedbackInvalid={err('coordinates.lat')}
+                            error={err('coordinates.lat')}
                         />
                     </CCol>
                     <CCol md={4}>
-                        <CFormInput
+                        <IconInput
+                            id='bo-lng'
                             label='Longitude'
+                            icon={cilLocationPin}
                             inputMode='decimal'
                             placeholder='47.5079'
                             value={form.lng}
                             onChange={(e) => set('lng', e.target.value)}
-                            invalid={!!err('coordinates.lng')}
-                            feedbackInvalid={err('coordinates.lng')}
+                            error={err('coordinates.lng')}
                         />
                     </CCol>
                     <CCol md={4} className='d-flex align-items-end'>
@@ -277,9 +270,15 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                 </CRow>
             </PageCard>
 
-            <PageCard title='Logo et photos'>
-                <ImageUpload label='Logo (format carré conseillé)' value={form.logo} onChange={(v: string) => set('logo', v)} />
-                <ImageUpload label='Photo de couverture' value={form.imageSrc} onChange={(v: string) => set('imageSrc', v)} />
+            <PageCard id='bo-photos' icon={cilImage} title='Logo et photos' subtitle='Mettez en avant votre établissement avec des visuels attractifs'>
+                <CRow className='g-3'>
+                    <CCol md={5}>
+                        <ImageUpload label='Logo (format carré conseillé)' value={form.logo} onChange={(v: string) => set('logo', v)} />
+                    </CCol>
+                    <CCol md={7}>
+                        <ImageUpload label='Photo de couverture' value={form.imageSrc} onChange={(v: string) => set('imageSrc', v)} />
+                    </CCol>
+                </CRow>
                 {gallery ? (
                     <ImageUpload label='Photos des locaux (8 au maximum)' value={form.photos} onChange={(v: string[]) => set('photos', v)} />
                 ) : (
@@ -289,8 +288,12 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                 )}
             </PageCard>
 
-            <PageCard title='Admission et infrastructures'>
+            <PageCard icon={cilClipboard} title='Admission et infrastructures' subtitle='Détails utiles pour les futurs étudiants'>
+                <CRow className='g-4'>
+                    <CCol md={6}>
                 <ListInput label='Pièces à fournir pour une inscription' value={form.admissionDocuments} onChange={(v) => set('admissionDocuments', v)} />
+                    </CCol>
+                    <CCol md={6} className='bo-col-divider'>
                 <ListInput
                     label='Infrastructures'
                     placeholder='Ex. : bibliothèque, cantine…'
@@ -300,6 +303,8 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                     hint={maxInfrastructures !== null ? `${maxInfrastructures} au maximum avec votre formule. Illimité avec Pro et Premium.` : undefined}
                     error={err('infrastructures')}
                 />
+                    </CCol>
+                </CRow>
                 <CFormInput
                     label='Reconnaissance / accréditation'
                     text='Affichée seulement après vérification par Edumada auprès des autorités.'
@@ -308,8 +313,8 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                 />
             </PageCard>
 
-            <div className='d-flex justify-content-end mb-4'>
-                <CButton color='primary' type='submit' disabled={saving}>
+            <div className='bo-save-fab'>
+                <CButton color='danger' className='text-white shadow' type='submit' disabled={saving}>
                     {saving ? <CSpinner size='sm' className='me-2' /> : <CIcon icon={cilSave} className='me-2' />}
                     {establishment ? 'Enregistrer la fiche' : 'Créer la fiche'}
                 </CButton>

@@ -1,0 +1,212 @@
+// Refonte « fiche » : menu, en-tête, couverture, onglets, cartes à icône.
+
+// Menu : entrée active en pastille rouge pleine.
+.sidebar.sidebar-dark .nav-link.active {
+  background: var(--edu-red) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 14px rgba(255, 59, 82, .3);
+  .nav-icon { color: #fff !important; }
+  &::before { display: none; }
+}
+.bo-sidebar-promo {
+  margin: .75rem;
+  padding: 1rem;
+  border-radius: .85rem;
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid rgba(255, 255, 255, .1);
+  color: #fff;
+  strong { display: block; font-size: .95rem; margin-bottom: .35rem; }
+  p { font-size: .8rem; color: rgba(255, 255, 255, .72); margin-bottom: .75rem; }
+}
+.sidebar-narrow .bo-sidebar-promo,
+.sidebar-narrow-unfoldable:not(:hover) .bo-sidebar-promo { display: none; }
+
+// En-tête : recherche et compteur de notifications.
+.bo-header-search {
+  position: relative;
+  align-items: center;
+  width: min(360px, 32vw);
+  input {
+    width: 100%;
+    padding: .5rem .85rem .5rem 2.4rem;
+    border: 1px solid var(--cui-border-color);
+    border-radius: .6rem;
+    background: var(--cui-tertiary-bg);
+    color: var(--cui-body-color);
+    font-size: .9rem;
+    &:focus { outline: none; border-color: var(--edu-teal); box-shadow: 0 0 0 .2rem rgba(15, 76, 92, .15); background: var(--cui-body-bg); }
+  }
+  .bo-header-search-icon { position: absolute; left: .8rem; color: var(--cui-secondary-color); }
+}
+.bo-bell-count {
+  position: absolute;
+  top: .15rem;
+  right: .05rem;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  padding: 0 .25rem;
+  border-radius: 999px;
+  background: var(--edu-red);
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 700;
+  line-height: 1.1rem;
+  text-align: center;
+}
+
+// Cartes : pastille d'icône devant le titre.
+.bo-card-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(255, 59, 82, .1);
+  color: var(--edu-red);
+}
+.bo-icon-input .input-group-text { background: transparent; color: var(--cui-secondary-color); }
+.bo-icon-input .input-group-text + .form-control { border-left: 0; }
+@media (min-width: 768px) {
+  .bo-col-divider { border-left: 1px solid var(--cui-border-color); }
+}
+.bo-empty-note {
+  padding: .85rem 1rem;
+  border: 1px solid var(--cui-border-color);
+  border-radius: .6rem;
+  color: var(--cui-secondary-color);
+}
+.bo-member-avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--edu-teal);
+  color: #fff;
+  font-weight: 700;
+}
+
+// Couverture de la fiche.
+.bo-cover {
+  position: relative;
+  overflow: hidden;
+  min-height: 190px;
+  border-radius: 1rem 1rem 0 0;
+  background: var(--edu-teal);
+  color: #fff;
+  .bo-cover-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(8, 42, 51, .92) 0%, rgba(8, 42, 51, .65) 55%, rgba(8, 42, 51, .2) 100%);
+  }
+}
+.bo-cover-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.75rem 1.5rem;
+  min-height: 190px;
+}
+.bo-cover-logo {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 92px;
+  height: 92px;
+  overflow: hidden;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+  img { width: 100%; height: 100%; object-fit: contain; padding: .35rem; }
+  span { font-size: 1.6rem; font-weight: 800; color: var(--edu-teal); }
+}
+.bo-cover-text {
+  flex: 1 1 260px;
+  min-width: 0;
+  h1 { margin: 0; font-size: 1.6rem; font-weight: 700; color: #fff; }
+  p { margin: .2rem 0 .5rem; color: rgba(255, 255, 255, .85); }
+}
+.bo-cover-actions { display: flex; flex-wrap: wrap; gap: .6rem; align-self: flex-end; }
+
+// Onglets sous la couverture.
+.bo-page-tabs {
+  display: flex;
+  gap: .25rem;
+  overflow-x: auto;
+  padding: 0 1rem;
+  border: 1px solid var(--cui-border-color);
+  border-top: 0;
+  border-radius: 0 0 1rem 1rem;
+  background: var(--cui-body-bg);
+  scrollbar-width: none;
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .9rem 1rem;
+    border-bottom: 3px solid transparent;
+    color: var(--cui-secondary-color);
+    font-weight: 600;
+    font-size: .9rem;
+    white-space: nowrap;
+    text-decoration: none;
+    &:hover { color: var(--edu-teal); }
+    &.active { color: var(--edu-red); border-bottom-color: var(--edu-red); }
+  }
+}
+
+// Encadré d'état de la fiche (colonne de droite).
+.bo-state-card {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid;
+  border-radius: 1rem;
+  text-decoration: none;
+  color: inherit;
+  strong, small { display: block; }
+  .bo-state-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    color: #fff;
+  }
+  &.is-success { background: rgba(47, 158, 116, .08); border-color: rgba(47, 158, 116, .3); strong, small { color: #1f7a57; } .bo-state-icon { background: #2f9e74; } }
+  &.is-warning { background: rgba(240, 160, 32, .1); border-color: rgba(240, 160, 32, .35); strong, small { color: #8a5a00; } .bo-state-icon { background: #f0a020; } }
+  &.is-danger { background: rgba(255, 59, 82, .08); border-color: rgba(255, 59, 82, .3); strong, small { color: #c2203a; } .bo-state-icon { background: var(--edu-red); } }
+  &.is-secondary { background: var(--cui-tertiary-bg); border-color: var(--cui-border-color); .bo-state-icon { background: #64748b; } }
+}
+a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
+
+// Bouton d'enregistrement flottant.
+.bo-save-fab {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 1030;
+  .btn { padding: .7rem 1.2rem; border-radius: .7rem; }
+}
+
+// Listes éditables : un intitulé long revient à la ligne au lieu de déborder.
+.card .badge.d-inline-flex.border {
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.3;
+}

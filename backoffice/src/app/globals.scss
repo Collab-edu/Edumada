@@ -8,6 +8,7 @@
   $warning: #f0a020,
 );
 @use "@coreui/chartjs/scss/coreui-chartjs";
+@use "./fiche";
 
 :root {
   --cui-body-font-family: var(--edu-font-body), system-ui, sans-serif;

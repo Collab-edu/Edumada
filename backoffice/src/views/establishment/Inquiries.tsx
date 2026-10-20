@@ -144,8 +144,15 @@ export default function Inquiries() {
     const { current: e } = useCurrentEstablishment()
     const toast = useToast()
     const router = useRouter()
-    const openId = useSearchParams().get('id')
-    const [filters, setFilters] = useState({ status: '', type: '', offer: '', q: '', page: 1 })
+    const params = useSearchParams()
+    const openId = params.get('id')
+    const [filters, setFilters] = useState({ status: params.get('status') ?? '', type: '', offer: '', q: params.get('q') ?? '', page: 1 })
+    // Recherche lancée depuis l'en-tête alors que la page est déjà ouverte.
+    const urlQuery = params.get('q')
+    const urlStatus = params.get('status')
+    useEffect(() => {
+        if (urlQuery !== null || urlStatus !== null) setFilters((f) => ({ ...f, q: urlQuery ?? f.q, status: urlStatus ?? f.status, page: 1 }))
+    }, [urlQuery, urlStatus])
     const hasInbox = !!e.plan.features.inquiryInbox
     const { data, loading, reload } = useApi<Inbox>(hasInbox ? `/establishments/${e.id}/inquiries` : null, filters)
     const [selected, setSelected] = useState<Inquiry | null>(null)

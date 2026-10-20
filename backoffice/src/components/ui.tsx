@@ -1,5 +1,5 @@
 'use client'
-import { useState, type ReactNode } from 'react'
+import { useState, type ComponentProps, type ReactNode } from 'react'
 import {
     CAlert,
     CBadge,
@@ -11,6 +11,7 @@ import {
     CFormInput,
     CFormLabel,
     CInputGroup,
+    CInputGroupText,
     CPagination,
     CPaginationItem,
     CSpinner,
@@ -28,6 +29,8 @@ export function PageCard({
     children,
     className = 'mb-4',
     bodyClassName,
+    icon,
+    id,
 }: {
     title?: ReactNode
     subtitle?: ReactNode
@@ -35,14 +38,24 @@ export function PageCard({
     children?: ReactNode
     className?: string
     bodyClassName?: string
+    /** Icône CoreUI affichée dans une pastille à gauche du titre. */
+    icon?: string[]
+    id?: string
 }) {
     return (
-        <CCard className={className}>
+        <CCard className={className} id={id}>
             {(title || actions) && (
                 <CCardHeader className='d-flex flex-wrap align-items-center gap-2 py-3'>
-                    <div className='me-auto'>
-                        <h5 className='mb-0'>{title}</h5>
-                        {subtitle && <div className='small text-body-secondary'>{subtitle}</div>}
+                    <div className='me-auto d-flex align-items-center gap-3' style={{ minWidth: 0 }}>
+                        {icon && (
+                            <span className='bo-card-icon' aria-hidden='true'>
+                                <CIcon icon={icon} />
+                            </span>
+                        )}
+                        <div style={{ minWidth: 0 }}>
+                            <h5 className='mb-0'>{title}</h5>
+                            {subtitle && <div className='small text-body-secondary'>{subtitle}</div>}
+                        </div>
                     </div>
                     {actions}
                 </CCardHeader>
@@ -336,5 +349,29 @@ export function PlanBadge({ code, className }: { code: string; className?: strin
         <CBadge color={plan.color} className={className}>
             {plan.label}
         </CBadge>
+    )
+}
+
+/** Champ texte précédé d'une icône (adresse, téléphone, liens…). */
+export function IconInput({
+    id,
+    label,
+    icon,
+    error,
+    text,
+    ...props
+}: { id: string; label: string; icon: string[]; error?: string; text?: string } & Omit<ComponentProps<typeof CFormInput>, 'id' | 'label'>) {
+    return (
+        <div>
+            <CFormLabel htmlFor={id}>{label}</CFormLabel>
+            <CInputGroup className='bo-icon-input'>
+                <CInputGroupText>
+                    <CIcon icon={icon} />
+                </CInputGroupText>
+                <CFormInput id={id} invalid={!!error} {...props} />
+            </CInputGroup>
+            {error && <CFormFeedback invalid className='d-block'>{error}</CFormFeedback>}
+            {text && <div className='form-text'>{text}</div>}
+        </div>
     )
 }

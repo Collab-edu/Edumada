@@ -277,7 +277,12 @@ function EstablishmentList({ category }: { category: string | null }) {
     const { data: counts, reload: reloadCounts } = useEstablishmentCounts(true, category)
     const requestedTab: Tab | null = params.get('status') === 'pending_review' ? 'nouveaux' : params.get('verification') ? 'toutes' : (params.get('onglet') as Tab | null)
     const [tab, setTab] = useState<Tab>(requestedTab ?? 'inscrits')
-    const [filters, setFilters] = useState({ plan: '', verification: params.get('verification') ?? '', q: '', page: 1 })
+    const [filters, setFilters] = useState({ plan: '', verification: params.get('verification') ?? '', q: params.get('q') ?? '', page: 1 })
+    // Recherche lancée depuis l'en-tête alors que la page est déjà ouverte.
+    const urlQuery = params.get('q')
+    useEffect(() => {
+        if (urlQuery !== null) setFilters((f) => ({ ...f, q: urlQuery, page: 1 }))
+    }, [urlQuery])
     const { data, loading, reload } = useApi<Paginated<ManagedEstablishment>>('/admin/establishments', {
         category,
         status: TAB_STATUS[tab],
