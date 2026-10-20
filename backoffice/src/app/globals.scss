@@ -239,3 +239,101 @@ body {
   body { background: #fff; }
   .card { box-shadow: none; }
 }
+
+/* Liste en lignes-cartes (étudiants) : chaque ligne est une carte, la ligne ouverte passe en sarcelle. */
+.bo-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.bo-rows-head,
+.bo-row-main {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 2.2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.1fr) 4.5rem minmax(0, 0.8fr) 4.75rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+}
+.bo-rows-head {
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cui-secondary-color);
+}
+.bo-row {
+  border: 1px solid var(--cui-border-color);
+  border-radius: 0.9rem;
+  background: var(--cui-body-bg);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.bo-row:hover {
+  box-shadow: 0 6px 18px rgba(15, 76, 92, 0.1);
+}
+.bo-row.is-open {
+  border-color: var(--edu-teal);
+  box-shadow: 0 10px 28px rgba(15, 76, 92, 0.28);
+}
+.bo-row.is-open .bo-row-main {
+  background: var(--edu-teal);
+  color: #fff;
+  border-radius: 0.85rem 0.85rem 0 0;
+}
+.bo-row.is-open .bo-row-main .text-body-secondary,
+.bo-row.is-open .bo-row-main a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+.bo-row-main > * {
+  min-width: 0;
+}
+.bo-row-avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.bo-row-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: var(--cui-tertiary-bg);
+  color: inherit;
+}
+.bo-row.is-open .bo-row-action {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+.bo-row-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem;
+  padding: 1rem 1.25rem 1.25rem;
+}
+.bo-status-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.4rem;
+  border-radius: 50%;
+}
+@media (max-width: 991.98px) {
+  .bo-rows-head {
+    display: none;
+  }
+  .bo-row-main {
+    grid-template-columns: 1fr auto;
+    gap: 0.35rem 1rem;
+  }
+  .bo-row-main > .bo-col-optional {
+    display: none;
+  }
+}

@@ -27,6 +27,7 @@ class AdminUserResource extends JsonResource
             'roleLabel' => $this->role->label(),
             'phone' => $this->phone,
             'city' => $this->city,
+            'studyLevel' => $this->study_level,
             'createdAt' => $this->created_at->toIso8601String(),
             'establishments' => $this->whenLoaded('establishments', fn () => $this->establishments->map(fn (Establishment $establishment) => [
                 'id' => $establishment->slug,
