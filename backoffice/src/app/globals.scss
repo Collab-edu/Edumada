@@ -17,9 +17,14 @@
   --edu-sage: #a7c4bc;
   --edu-cream: #ffe5e8;
   --edu-offwhite: #f6f8fa;
-  --edu-ink: #334155;
-  --edu-body-bg: #f6f8fa;
+  --edu-ink: #1e293b;
+  --edu-body-bg: #f8fafc;
   --edu-card-head-bg: #ffffff;
+  --edu-border: #e2e8f0;
+  --edu-muted: #64748b;
+  --edu-teal-soft: rgba(15, 76, 92, .08);
+  --cui-border-color: var(--edu-border);
+  --cui-border-radius: .65rem;
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .card-title, .modal-title {
@@ -45,44 +50,60 @@ body {
   min-height: 100%;
 }
 
-// --- Barre latérale : sarcelle uni, entrée active marquée en rouge.
-.sidebar.sidebar-dark {
-  --cui-sidebar-bg: #0f4c5c;
-  --cui-sidebar-nav-title-color: var(--edu-sage);
-  --cui-sidebar-nav-link-color: rgba(255, 255, 255, .78);
-  --cui-sidebar-nav-link-icon-color: rgba(167, 196, 188, .9);
-  --cui-sidebar-nav-link-hover-bg: rgba(255, 255, 255, .08);
-  --cui-sidebar-nav-link-active-bg: rgba(255, 59, 82, .16);
-  --cui-sidebar-nav-link-active-icon-color: #ff8a99;
+// --- Barre latérale claire : fond blanc, entrée active en sarcelle clair avec repère rouge.
+.sidebar.sidebar-light {
+  --cui-sidebar-bg: #ffffff;
+  --cui-sidebar-color: var(--edu-ink);
+  --cui-sidebar-nav-title-color: #94a3b8;
+  --cui-sidebar-nav-link-color: #475569;
+  --cui-sidebar-nav-link-icon-color: #94a3b8;
+  --cui-sidebar-nav-link-hover-color: var(--edu-teal);
+  --cui-sidebar-nav-link-hover-bg: #f1f5f9;
+  --cui-sidebar-nav-link-hover-icon-color: var(--edu-teal);
+  --cui-sidebar-nav-link-active-color: var(--edu-teal);
+  --cui-sidebar-nav-link-active-bg: var(--edu-teal-soft);
+  --cui-sidebar-nav-link-active-icon-color: var(--edu-teal);
+  --cui-sidebar-toggler-indicator-color: #94a3b8;
   background: var(--cui-sidebar-bg);
-  border: 0 !important;
-  
+  border-inline-end: 1px solid var(--edu-border) !important;
 
-  .sidebar-header {
-    border-color: rgba(255, 255, 255, .08) !important;
-    background: rgba(0, 0, 0, .12);
-  }
-  .sidebar-footer { border-color: rgba(255, 255, 255, .08) !important; }
-  .nav-title { letter-spacing: .08em; font-size: .7rem; }
+  .sidebar-header, .sidebar-footer { border-color: var(--edu-border) !important; }
+  .nav-title { letter-spacing: .08em; font-size: .7rem; font-weight: 700; }
   .nav-link {
     margin: 1px .5rem;
-    border-radius: .5rem;
+    border-radius: .6rem;
     position: relative;
+    transition: background-color .2s ease, color .2s ease;
   }
   .bo-nav-label { white-space: normal; line-height: 1.25; }
   .nav-link.active {
     font-weight: 600;
-    color: #fff;
     &::before {
       content: "";
       position: absolute;
-      inset-block: .45rem;
+      inset-block: .5rem;
       inset-inline-start: -.5rem;
-      width: 4px;
-      border-radius: 0 4px 4px 0;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
       background: var(--edu-red);
     }
   }
+}
+.bo-logo-dark { display: none; }
+[data-coreui-theme=dark] {
+  .sidebar.sidebar-light {
+    --cui-sidebar-bg: #0f1a20;
+    --cui-sidebar-nav-link-color: #cbd5e1;
+    --cui-sidebar-nav-link-hover-bg: rgba(255, 255, 255, .05);
+    --cui-sidebar-nav-link-hover-color: #fff;
+    --cui-sidebar-nav-link-active-color: #fff;
+    --cui-sidebar-nav-link-active-bg: rgba(108, 192, 212, .14);
+    --cui-sidebar-nav-link-active-icon-color: #9fd3df;
+    border-color: rgba(255, 255, 255, .08) !important;
+    .sidebar-header, .sidebar-footer { border-color: rgba(255, 255, 255, .08) !important; }
+  }
+  .bo-logo-light { display: none; }
+  .bo-logo-dark { display: inline; }
 }
 
 .sidebar-header {
@@ -95,12 +116,12 @@ body {
   .sidebar-toggler { margin-inline-end: auto; }
 }
 
-// --- En-tête : blanc, fin liseré rouge.
+// --- En-tête : blanc translucide et léger flou, fine bordure.
 .header {
-  --cui-header-bg: #ffffff;
-  border-top: 3px solid var(--edu-red);
-  border-bottom: 0;
-  > .container-fluid { min-height: calc(4rem + 1px); } // stylelint-disable-line function-disallowed-list
+  --cui-header-bg: rgba(255, 255, 255, .85);
+  backdrop-filter: saturate(180%) blur(12px);
+  border: 0;
+  > .container-fluid { min-height: calc(4rem + 1px); border-color: var(--edu-border) !important; } // stylelint-disable-line function-disallowed-list
   > .container-fluid + .container-fluid { min-height: 2.75rem; }
 }
 .breadcrumb {
@@ -153,26 +174,58 @@ body {
   .bo-banner-icon { background: rgba(159, 211, 223, .12); }
 }
 
-// --- Cartes : ombre douce, en-tête teinté.
+// --- Cartes : fond blanc, fine bordure, coins arrondis, sans ombre lourde.
 .card {
-  border: 0;
-  border-radius: .75rem;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, .08);
+  border: 1px solid var(--edu-border);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
 }
 .card > .card-header:first-child {
   background: var(--edu-card-head-bg);
-  border-bottom: 1px solid rgba(15, 76, 92, .08);
-  border-radius: .75rem .75rem 0 0;
+  border-bottom: 1px solid var(--edu-border);
+  border-radius: 1rem 1rem 0 0;
   h5 { color: var(--edu-teal); font-weight: 600; }
 }
+.card-title { color: var(--edu-ink); font-weight: 700; }
+.table {
+  --cui-table-hover-bg: #f8fafc;
+  > :not(caption) > * > * { border-color: var(--edu-border); }
+}
 .table > thead th {
-  background: rgba(15, 76, 92, .05);
-  color: var(--edu-teal);
-  font-size: .78rem;
+  background: #f8fafc;
+  color: var(--edu-muted);
+  font-size: .75rem;
   text-transform: uppercase;
-  letter-spacing: .04em;
+  letter-spacing: .05em;
   font-weight: 600;
 }
+.form-control, .form-select, .input-group-text {
+  border-color: var(--edu-border);
+  border-radius: .6rem;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--edu-teal);
+  box-shadow: 0 0 0 .2rem rgba(15, 76, 92, .15);
+}
+.form-label { font-weight: 500; color: var(--edu-ink); }
+.btn {
+  border-radius: .6rem;
+  font-weight: 600;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.badge {
+  border-radius: 999px;
+  font-weight: 600;
+  padding: .38em .7em;
+}
+.list-group-item { border-color: var(--edu-border); }
+.dropdown-menu {
+  border: 1px solid var(--edu-border);
+  border-radius: .8rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, .1);
+}
+.modal-content { border: 0; border-radius: 1rem; }
+.page-link { border-radius: .5rem !important; margin-inline: 2px; border-color: var(--edu-border); }
 
 // --- Indicateurs du tableau de bord : carte claire, liseré de couleur en haut, chiffre en grand.
 // Le rouge reste réservé aux appels à l'action et aux erreurs : il n'habille plus un indicateur.
@@ -237,15 +290,15 @@ body {
   background: var(--cui-tertiary-bg);
 }
 
-// --- Écran de connexion.
+// --- Écran de connexion : fond clair, panneau de présentation en sarcelle.
 .bo-login {
   min-height: 100vh;
-  background: var(--edu-teal);
-  .card { box-shadow: 0 8px 24px rgba(0, 0, 0, .2); }
+  background: var(--edu-body-bg);
+  .card { box-shadow: 0 10px 30px rgba(15, 23, 42, .08); }
   .bo-login-aside {
-    background: rgba(255, 255, 255, .06);
+    background: var(--edu-teal);
     color: #fff;
-    border: 1px solid rgba(255, 255, 255, .12);
+    border: 0;
   }
 }
 
@@ -258,6 +311,8 @@ body {
   .card { box-shadow: 0 6px 20px rgba(0, 0, 0, .3); }
   .card > .card-header:first-child h5, .table > thead th { color: var(--edu-sage); }
   .table > thead th { background: rgba(167, 196, 188, .06); }
+  --edu-border: rgba(255, 255, 255, .1);
+  .header { --cui-header-bg: rgba(18, 25, 30, .85); }
   .bo-icon-chip { background: rgba(167, 196, 188, .12); color: var(--edu-sage); }
 }
 
@@ -412,3 +467,20 @@ body {
 
 // Mode sombre : le fil d'Ariane garde un contraste suffisant.
 [data-coreui-theme=dark] .breadcrumb a { color: #9fd3df; }
+
+// Mode sombre : liens et boutons sarcelle éclaircis pour rester lisibles (contraste 4.5:1).
+[data-coreui-theme=dark] {
+  --cui-link-color: #9fd3df;
+  --cui-link-hover-color: #c7e8ef;
+  --cui-link-color-rgb: 159, 211, 223;
+  .btn-outline-primary { --cui-btn-color: #9fd3df; --cui-btn-border-color: rgba(159, 211, 223, .5); }
+  .btn-link { --cui-btn-color: #9fd3df; }
+  .text-primary { color: #9fd3df !important; }
+  .footer a { color: #9fd3df; }
+}
+
+// Connexion : pastilles et textes lisibles sur le panneau sarcelle.
+.bo-login .bo-login-aside {
+  .bo-icon-chip { background: rgba(255, 255, 255, .14); color: #fff; }
+  .text-white-50 { color: rgba(255, 255, 255, .82) !important; }
+}
