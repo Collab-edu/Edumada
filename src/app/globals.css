@@ -113,7 +113,7 @@ html {
   }
 }
 
-/* Carte des établissements : fond sans libellés teinté aux couleurs du site. */
+/* Carte des établissements : fond OpenStreetMap aux couleurs adoucies. */
 .edu-map {
   background: #e7eef0;
 }
@@ -122,7 +122,7 @@ html {
   font-family: inherit;
 }
 .edu-map .leaflet-tile-pane {
-  filter: sepia(0.35) hue-rotate(140deg) saturate(0.9) brightness(1.02) contrast(0.96);
+  filter: saturate(0.55) contrast(1.02) brightness(1.03);
 }
 .edu-map::after {
   content: "";

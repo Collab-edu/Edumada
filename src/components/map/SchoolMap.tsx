@@ -5,8 +5,7 @@ import type { Map as LeafletMap } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 /**
- * Carte d'un établissement aux couleurs du site : fond clair sans libellés,
- * teinté sarcelle, marqueur Edumada et boutons de zoom maison.
+ * Carte d'un établissement aux couleurs du site : fond OpenStreetMap adouci, marqueur Edumada et boutons de zoom maison.
  */
 export default function SchoolMap({
     lat,
@@ -32,17 +31,17 @@ export default function SchoolMap({
             const m = L.map(container.current, {
                 center: [lat, lng],
                 zoom: 15,
-                maxZoom: 16,
+                maxZoom: 19,
                 zoomControl: false,
                 scrollWheelZoom: false,
                 attributionControl: true,
             })
             m.attributionControl.setPrefix(false)
             m.attributionControl.setPosition('topleft')
-            // Fond gris clair sans libellés (Esri), sans clé d'API.
-            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-                maxZoom: 16,
-                attribution: '© Esri · HERE · OpenStreetMap',
+            // Fond OpenStreetMap : le plus complet à Madagascar ; couleurs adoucies en CSS.
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
             }).addTo(m)
             L.marker([lat, lng], {
                 title: name,
