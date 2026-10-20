@@ -15,7 +15,6 @@ import {
     cilList,
     cilNewspaper,
     cilPeople,
-    cilPlus,
     cilShieldAlt,
     cilSpeedometer,
     cilUser,
@@ -95,7 +94,6 @@ export function buildNav({
         item('Tableau de bord', '/dashboard', cilSpeedometer),
         ...(current ? [title('Mon établissement'), ...establishmentItems] : []),
         title('Compte'),
-        item('Ajouter un établissement', '/nouvel-etablissement', cilPlus),
         item('Mon compte', '/compte', cilUser),
     ]
 }
