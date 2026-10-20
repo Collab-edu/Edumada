@@ -92,7 +92,7 @@ export function ErrorAlert({ error }: { error: unknown }) {
     return <CAlert color='danger'>{errorMessage(error)}</CAlert>
 }
 
-const STATUS_COLORS: Record<string, string> = {
+export const STATUS_COLORS: Record<string, string> = {
     draft: 'secondary',
     pending_review: 'warning',
     published: 'success',

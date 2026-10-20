@@ -8,29 +8,22 @@ import {
     CButton,
     CCloseButton,
     CCol,
+    CInputGroup,
+    CInputGroupText,
     CFormInput,
     CFormSelect,
     CFormTextarea,
     CListGroup,
     CListGroupItem,
-    CNav,
-    CNavItem,
-    CNavLink,
     COffcanvas,
     COffcanvasBody,
     COffcanvasHeader,
     COffcanvasTitle,
     CRow,
     CSpinner,
-    CTable,
-    CTableBody,
-    CTableDataCell,
-    CTableHead,
-    CTableHeaderCell,
-    CTableRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilCloudDownload, cilEnvelopeClosed, cilPaperclip, cilPhone } from '@coreui/icons'
+import { cilChevronRight, cilEnvelopeClosed, cilPaperclip, cilPhone, cilSearch, cilVerticalAlignBottom } from '@coreui/icons'
 import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useToast } from '@/context/ToastContext'
 import { api, downloadFile, errorMessage } from '@/lib/api'
@@ -38,7 +31,7 @@ import { useApi } from '@/lib/useApi'
 import { formatDateTime } from '@/lib/format'
 import { INQUIRY_STATUS_LABELS as STATUS_LABELS } from '@/lib/labels'
 import type { Inquiry, InquiryStatus, Paginated } from '@/lib/types'
-import { EmptyState, Loading, PageCard, Pager, StatusBadge } from '@/components/ui'
+import { EmptyState, Loading, PageCard, Pager, STATUS_COLORS, StatusBadge } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
 
 function InquiryDetail({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (updated: Inquiry) => void }) {
@@ -138,6 +131,14 @@ function InquiryDetail({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (u
     )
 }
 
+const initials = (name: string) =>
+    name
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((word) => word[0].toUpperCase())
+        .join('')
+
 type Inbox = Paginated<Inquiry> & { counts?: Partial<Record<InquiryStatus, number>> }
 
 export default function Inquiries() {
@@ -189,45 +190,64 @@ export default function Inquiries() {
     const total = Object.values(counts).reduce((a, b) => a + Number(b), 0)
     const close = () => router.push('/demandes/')
 
+    const tabs: [string, string, number][] = [
+        ['', 'Toutes', total],
+        ...Object.entries(STATUS_LABELS).map(([key, label]) => [key, label, Number(counts[key as InquiryStatus] ?? 0)] as [string, string, number]),
+    ]
+    const openRow = (id: number | string) => router.push(`/demandes/?id=${id}`)
+
     return (
         <>
-            <PageBanner
-                description={counts.new ? `${counts.new} nouvelle(s) demande(s) à traiter.` : undefined}
-                actions={
-                    <CButton
-                        color='light'
-                        onClick={() =>
-                            downloadFile(
-                                `/establishments/${e.id}/inquiries/export?status=${filters.status}&type=${filters.type}&offer=${filters.offer}`,
-                                `demandes-${e.id}.csv`
-                            ).catch((err) => toast.error(errorMessage(err)))
-                        }
-                    >
-                        <CIcon icon={cilCloudDownload} className='me-2' />
-                        Exporter (CSV)
-                    </CButton>
-                }
-            />
-            <PageCard>
-                <CNav variant='underline-border' className='mb-3 flex-nowrap bo-tabs'>
-                    {[['', `Toutes (${total})`], ...Object.entries(STATUS_LABELS).map(([key, label]) => [key, `${label} (${counts[key as InquiryStatus] ?? 0})`])].map(
-                        ([value, label]) => (
-                            <CNavItem key={value}>
-                                <CNavLink
-                                    as='button'
-                                    active={filters.status === value}
-                                    onClick={() => setFilters({ ...filters, status: value, page: 1 })}
-                                    className='text-nowrap'
-                                >
-                                    {label}
-                                </CNavLink>
-                            </CNavItem>
-                        )
-                    )}
-                </CNav>
-                <CRow className='g-2 mb-3'>
+            <div className='bo-page-head'>
+                <div>
+                    <h1>Demandes</h1>
+                    <p>{counts.new ? `${counts.new} nouvelle(s) demande(s) à traiter.` : 'Demandes d’information et candidatures reçues.'}</p>
+                </div>
+                <CButton
+                    className='bo-btn-white'
+                    onClick={() =>
+                        downloadFile(
+                            `/establishments/${e.id}/inquiries/export?status=${filters.status}&type=${filters.type}&offer=${filters.offer}`,
+                            `demandes-${e.id}.csv`
+                        ).catch((err) => toast.error(errorMessage(err)))
+                    }
+                >
+                    <CIcon icon={cilVerticalAlignBottom} className='me-2' />
+                    Exporter (CSV)
+                </CButton>
+            </div>
+
+            <div className='card bo-list-card'>
+                <div className='bo-list-tools'>
+                    <div className='bo-segmented' role='tablist' aria-label='Statut'>
+                        {tabs.map(([value, label, count]) => (
+                            <button
+                                key={value}
+                                type='button'
+                                role='tab'
+                                aria-selected={filters.status === value}
+                                className={filters.status === value ? 'is-active' : ''}
+                                onClick={() => setFilters({ ...filters, status: value, page: 1 })}
+                            >
+                                {label}
+                                <span className='bo-segmented-count'>{count}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+                <CRow className='g-2 bo-list-filters'>
                     <CCol md={4}>
-                        <CFormInput placeholder='Rechercher un nom ou un e-mail' value={filters.q} onChange={(ev) => setFilters({ ...filters, q: ev.target.value, page: 1 })} />
+                        <CInputGroup className='bo-icon-input'>
+                            <CInputGroupText>
+                                <CIcon icon={cilSearch} />
+                            </CInputGroupText>
+                            <CFormInput
+                                placeholder='Rechercher un nom ou un e-mail'
+                                aria-label='Rechercher un nom ou un e-mail'
+                                value={filters.q}
+                                onChange={(ev) => setFilters({ ...filters, q: ev.target.value, page: 1 })}
+                            />
+                        </CInputGroup>
                     </CCol>
                     <CCol md={4}>
                         <CFormSelect value={filters.type} onChange={(ev) => setFilters({ ...filters, type: ev.target.value, page: 1 })} aria-label='Type'>
@@ -249,42 +269,71 @@ export default function Inquiries() {
                 </CRow>
 
                 {loading && !data ? (
-                    <Loading />
+                    <div className='p-4'>
+                        <Loading />
+                    </div>
                 ) : !data?.data.length ? (
-                    <EmptyState title='Aucune demande'>Les demandes des étudiants apparaîtront ici.</EmptyState>
+                    <div className='p-4'>
+                        <EmptyState title='Aucune demande'>Les demandes des étudiants apparaîtront ici.</EmptyState>
+                    </div>
                 ) : (
                     <>
-                        <CTable align='middle' hover responsive className='mb-0'>
-                            <CTableHead>
-                                <CTableRow>
-                                    <CTableHeaderCell>Étudiant</CTableHeaderCell>
-                                    <CTableHeaderCell>Type</CTableHeaderCell>
-                                    <CTableHeaderCell>Offre</CTableHeaderCell>
-                                    <CTableHeaderCell>Statut</CTableHeaderCell>
-                                    <CTableHeaderCell>Reçue</CTableHeaderCell>
-                                </CTableRow>
-                            </CTableHead>
-                            <CTableBody>
-                                {data.data.map((i) => (
-                                    <CTableRow key={i.id} role='button' onClick={() => router.push(`/demandes/?id=${i.id}`)} className={i.status === 'new' ? 'fw-semibold' : ''}>
-                                        <CTableDataCell>
-                                            {i.name}
-                                            <div className='small text-body-secondary fw-normal'>{i.email}</div>
-                                        </CTableDataCell>
-                                        <CTableDataCell>{i.typeLabel}</CTableDataCell>
-                                        <CTableDataCell>{i.offer?.title ?? '—'}</CTableDataCell>
-                                        <CTableDataCell>
-                                            <StatusBadge status={i.status}>{STATUS_LABELS[i.status]}</StatusBadge>
-                                        </CTableDataCell>
-                                        <CTableDataCell className='small text-body-secondary text-nowrap'>{formatDateTime(i.createdAt)}</CTableDataCell>
-                                    </CTableRow>
-                                ))}
-                            </CTableBody>
-                        </CTable>
-                        <Pager meta={data.meta} onChange={(page) => setFilters({ ...filters, page })} />
+                        <div className='table-responsive'>
+                            <table className='bo-list-table'>
+                                <thead>
+                                    <tr>
+                                        <th>Étudiant</th>
+                                        <th>Type</th>
+                                        <th>Offre</th>
+                                        <th>Statut</th>
+                                        <th>Reçue</th>
+                                        <th aria-hidden='true' />
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {data.data.map((i) => (
+                                        <tr
+                                            key={i.id}
+                                            role='button'
+                                            tabIndex={0}
+                                            onClick={() => openRow(i.id)}
+                                            onKeyDown={(ev) => ev.key === 'Enter' && openRow(i.id)}
+                                            className={i.status === 'new' ? 'is-new' : ''}
+                                        >
+                                            <td>
+                                                <div className='d-flex align-items-center gap-3'>
+                                                    <span className='bo-list-avatar'>{initials(i.name)}</span>
+                                                    <div style={{ minWidth: 0 }}>
+                                                        <div className='bo-list-name'>{i.name}</div>
+                                                        <div className='bo-list-sub'>{i.email}</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span className='bo-tag'>{i.typeLabel}</span>
+                                            </td>
+                                            <td className='bo-list-offer'>{i.offer?.title ?? '—'}</td>
+                                            <td>
+                                                <span className={`bo-pill bo-pill-${STATUS_COLORS[i.status] ?? 'secondary'}`}>{STATUS_LABELS[i.status]}</span>
+                                            </td>
+                                            <td className='text-nowrap'>{formatDateTime(i.createdAt)}</td>
+                                            <td className='bo-list-chevron'>
+                                                <CIcon icon={cilChevronRight} size='sm' />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className='bo-list-foot'>
+                            <span>
+                                {data.meta.total} résultat{data.meta.total > 1 ? 's' : ''}
+                            </span>
+                            <Pager meta={data.meta} onChange={(page) => setFilters({ ...filters, page })} />
+                        </div>
                     </>
                 )}
-            </PageCard>
+            </div>
 
             <COffcanvas placement='end' visible={!!selected} onHide={close} style={{ width: 'min(480px, 100vw)' }}>
                 <COffcanvasHeader>
