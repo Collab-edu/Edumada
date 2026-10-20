@@ -18,6 +18,7 @@ import SchoolTestimonials from './SchoolTestimonials'
 import SchoolLogo from './SchoolLogo'
 import ReportDialog from './ReportDialog'
 import ReviewDialog from './ReviewDialog'
+import SchoolMap from '@/components/map/SchoolMap'
 
 interface SchoolProfileProps {
     school: SchoolType
@@ -216,11 +217,9 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         {map && (
                         <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
                             <p className='px-6 pt-5 pb-3 text-lg font-bold text-secondary'>Localisation</p>
-                            <iframe
-                                title={`Carte : ${school.name}`}
-                                src={map.embed}
-                                className='h-64 w-full border-0'
-                            />
+                            {school.coordinates && (
+                                <SchoolMap lat={school.coordinates.lat} lng={school.coordinates.lng} name={school.name} address={school.city} className='h-80 w-full' />
+                            )}
                             <a
                                 href={map.link}
                                 target='_blank'

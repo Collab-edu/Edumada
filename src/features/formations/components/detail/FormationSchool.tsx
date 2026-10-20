@@ -2,13 +2,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Icon } from '@/components/ui/icon'
-import { mapUrls } from '@/lib/media'
 import { track } from '@/lib/track'
 import type { SchoolType } from '@/features/etablissements/types'
 import { offerFacts } from '../../format'
 import type { FormationType } from '../../types'
 import { DetailSection, SubTitle } from './parts'
 import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
+import SchoolMap from '@/components/map/SchoolMap'
 
 interface FormationSchoolProps {
     school: SchoolType
@@ -18,7 +18,6 @@ interface FormationSchoolProps {
 
 /* 8. Présentation de l'établissement */
 export function FormationSchool({ school, otherFormations }: FormationSchoolProps) {
-    const map = mapUrls(school.coordinates)
 
     return (
         <DetailSection id='etablissement' title="L'établissement" icon='tabler:building-community'>
@@ -58,8 +57,8 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                             : 'Reconnaissance officielle et accréditations en cours de vérification par Edumada.'}
                     </p>
 
-                    <div id='contact' className='scroll-mt-40 grid grid-cols-1 md:grid-cols-2 gap-5'>
-                        <div className='flex flex-col gap-3'>
+                    <div id='contact' className='scroll-mt-40 grid grid-cols-1 md:grid-cols-5 gap-5'>
+                        <div className='flex flex-col gap-3 md:col-span-2'>
                             <SubTitle>Coordonnées</SubTitle>
                             {school.phone && (
                             <a href={`tel:${school.phone.replace(/\s/g, '')}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='flex min-h-10 items-center gap-2 text-ink/80 hover:text-primary'>
@@ -76,7 +75,15 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                                 <Icon icon='tabler:map-pin' className='mt-0.5 text-lg text-secondary' /> {school.address}
                             </span>
                         </div>
-                        {map && <iframe title={`Carte : ${school.name}`} src={map.embed} loading='lazy' className='h-56 w-full rounded-xl border-0' />}
+                        {school.coordinates && (
+                            <SchoolMap
+                                lat={school.coordinates.lat}
+                                lng={school.coordinates.lng}
+                                name={school.name}
+                                address={school.city}
+                                className='h-72 w-full rounded-2xl ring-1 ring-gray-100 md:col-span-3 md:h-80'
+                            />
+                        )}
                     </div>
 
                     {otherFormations.length > 0 && (

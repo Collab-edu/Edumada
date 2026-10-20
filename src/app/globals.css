@@ -112,3 +112,78 @@ html {
     bottom: 5.5rem;
   }
 }
+
+/* Carte des établissements : fond sans libellés teinté aux couleurs du site. */
+.edu-map {
+  background: #e7eef0;
+}
+.edu-map .leaflet-container {
+  background: #e7eef0;
+  font-family: inherit;
+}
+.edu-map .leaflet-tile-pane {
+  filter: sepia(0.35) hue-rotate(140deg) saturate(0.9) brightness(1.02) contrast(0.96);
+}
+.edu-map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 400;
+  pointer-events: none;
+  box-shadow: inset 0 0 60px rgba(15, 76, 92, 0.12);
+}
+.edu-map .leaflet-control-attribution {
+  margin: 0.4rem 0 0 0.4rem !important;
+  padding: 0 0.35rem;
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(51, 65, 85, 0.6);
+  font-size: 9px;
+  line-height: 1.5;
+}
+.edu-map .leaflet-control-attribution a {
+  color: inherit;
+}
+.edu-map-marker {
+  position: relative;
+}
+.edu-map-pin {
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  width: 36px;
+  height: 36px;
+  margin-left: -18px;
+  border: 3px solid #fff;
+  border-radius: 50% 50% 50% 0;
+  background: var(--color-primary);
+  box-shadow: 0 6px 14px rgba(255, 59, 82, 0.45);
+  transform: rotate(-45deg);
+}
+.edu-map-pin span {
+  position: absolute;
+  inset: 0;
+  width: 12px;
+  height: 12px;
+  margin: auto;
+  border-radius: 50%;
+  background: #fff;
+}
+.edu-map-pulse {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 44px;
+  height: 16px;
+  margin-left: -22px;
+  border-radius: 50%;
+  background: rgba(15, 76, 92, 0.25);
+  animation: edu-map-pulse 2s ease-out infinite;
+}
+@keyframes edu-map-pulse {
+  0% { transform: scale(0.4); opacity: 1; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .edu-map-pulse { animation: none; }
+}
