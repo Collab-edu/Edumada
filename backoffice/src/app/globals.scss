@@ -368,3 +368,40 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Tableau épuré (liste des étudiants) : en-têtes discrets, lignes séparées par un fin trait. */
+.bo-table-clean {
+  > thead th {
+    background: transparent !important;
+    color: var(--cui-secondary-color) !important;
+    font-size: .72rem !important;
+    padding-block: .9rem;
+  }
+  > tbody > tr > td { padding-block: .9rem; }
+  > tbody > tr:last-child > td { border-bottom: 0; }
+  > tbody > tr:hover > td { background: rgba(15, 76, 92, .03); }
+  a:hover { color: var(--edu-teal) !important; }
+}
+.bo-table-avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: .7rem;
+  font-size: .85rem;
+  font-weight: 700;
+}
+.bo-status-pill {
+  display: inline-block;
+  padding: .3em .7em;
+  border-radius: .45rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: #fff;
+  &.is-active { background: #2f9e74; }
+  &.is-idle { background: #64748b; }
+}
