@@ -43,6 +43,7 @@ import { formatDate, formatDateTime } from '@/lib/format'
 import type { ManagedEstablishment, Paginated, Plan } from '@/lib/types'
 import { EmptyState, ErrorAlert, Loading, NumberedPager, PageCard, Pager, PlanBadge, RequestedPlanBadge, StatusBadge } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
+import ActivatePlanModal from './ActivatePlanModal'
 
 function Members({ establishment, onDone }: { establishment: ManagedEstablishment; onDone: () => void }) {
     const toast = useToast()
@@ -165,11 +166,13 @@ function EstablishmentDetail({
     categoryLabel,
     onClose,
     onAccept,
+    onActivatePlan,
 }: {
     establishment: ManagedEstablishment
     categoryLabel: string
     onClose: () => void
     onAccept?: () => void
+    onActivatePlan: () => void
 }) {
     const rows: [string, ReactNode][] = [
         ['Catégorie', [e.subCategory || categoryLabel, e.type].filter(Boolean).join(' · ')],
@@ -243,6 +246,9 @@ function EstablishmentDetail({
                 <CButton color='secondary' variant='outline' onClick={onClose}>
                     Fermer
                 </CButton>
+                <CButton color='primary' variant='outline' onClick={onActivatePlan}>
+                    Activer une formule
+                </CButton>
                 {onAccept && (
                     <CButton color='success' className='text-white' onClick={onAccept}>
                         <CIcon icon={cilCheckAlt} className='me-1' />
@@ -283,6 +289,7 @@ function EstablishmentList({ category }: { category: string | null }) {
     const [team, setTeam] = useState<ManagedEstablishment | null>(null)
     const [refusing, setRefusing] = useState<ManagedEstablishment | null>(null)
     const [viewing, setViewing] = useState<ManagedEstablishment | null>(null)
+    const [activating, setActivating] = useState<ManagedEstablishment | null>(null)
 
     const scope = category ? counts?.data.categories.find((c) => c.id === category) : counts?.data.total
 
@@ -482,6 +489,16 @@ function EstablishmentList({ category }: { category: string | null }) {
                                                 </CButton>
                                             </div>
                                         </div>
+                                        {e.requestedPlan && (
+                                            <div className='d-flex flex-wrap align-items-center justify-content-between gap-2 border-top px-4 py-2 small'>
+                                                <span className='text-body-secondary'>
+                                                    A choisi la formule <strong>{e.requestedPlan.name}</strong> : activez-la dès que le paiement est reçu.
+                                                </span>
+                                                <CButton size='sm' color='primary' variant='outline' onClick={() => setActivating(e)}>
+                                                    Activer {e.requestedPlan.name}
+                                                </CButton>
+                                            </div>
+                                        )}
                                     </div>
                                 )
                             })}
@@ -577,6 +594,9 @@ function EstablishmentList({ category }: { category: string | null }) {
                                                         </CDropdownItem>
                                                     )}
                                                     <CDropdownDivider />
+                                                    <CDropdownItem as='button' onClick={() => setActivating(e)}>
+                                                        Activer une formule
+                                                    </CDropdownItem>
                                                     <CDropdownItem as='button' onClick={() => setTeam(e)}>
                                                         Gérer l&apos;équipe
                                                     </CDropdownItem>
@@ -614,11 +634,25 @@ function EstablishmentList({ category }: { category: string | null }) {
                 </CModalBody>
             </CModal>
 
+            {activating && (
+                <ActivatePlanModal
+                    establishment={activating}
+                    onClose={() => setActivating(null)}
+                    onDone={() => {
+                        setActivating(null)
+                        refresh()
+                    }}
+                />
+            )}
             {viewing && (
                 <EstablishmentDetail
                     establishment={viewing}
                     categoryLabel={categoryLabel(viewing.category)}
                     onClose={() => setViewing(null)}
+                    onActivatePlan={() => {
+                        setActivating(viewing)
+                        setViewing(null)
+                    }}
                     onAccept={
                         viewing.status === 'pending_review'
                             ? () => {

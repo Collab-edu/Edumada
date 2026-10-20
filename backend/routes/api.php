@@ -123,6 +123,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::get('audit-logs', [ModerationController::class, 'auditLogs'])->name('audit-logs.index');
             Route::get('invoices', [AdminBillingController::class, 'invoices'])->name('invoices.index');
             Route::put('invoices/{invoice}/confirm', [AdminBillingController::class, 'confirmInvoice'])->name('invoices.confirm');
+            Route::post('establishments/{establishment}/activate-plan', [AdminBillingController::class, 'activatePlan'])->name('establishments.activate-plan');
             Route::put('invoices/{invoice}/cancel', [AdminBillingController::class, 'cancelInvoice'])->name('invoices.cancel');
             Route::get('subscriptions', [AdminBillingController::class, 'subscriptions'])->name('subscriptions.index');
             Route::put('subscriptions/{subscription}/cancel', [AdminBillingController::class, 'cancelSubscription'])->name('subscriptions.cancel');

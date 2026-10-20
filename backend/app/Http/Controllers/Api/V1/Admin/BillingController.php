@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
+use App\Enums\BillingCycle;
 use App\Enums\InvoiceStatus;
+use App\Enums\PaymentMethod;
+use App\Enums\PlanCode;
 use App\Enums\SubscriptionStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CampaignResource;
@@ -11,6 +14,7 @@ use App\Http\Resources\PlanResource;
 use App\Http\Resources\SubscriptionResource;
 use App\Models\AuditLog;
 use App\Models\Campaign;
+use App\Models\Establishment;
 use App\Models\Invoice;
 use App\Models\Plan;
 use App\Models\Subscription;
@@ -49,8 +53,61 @@ class BillingController extends Controller
             throw ValidationException::withMessages(['invoice' => 'Seule une facture en attente peut être confirmée.']);
         }
 
+        $this->activate($invoice);
+
+        return new InvoiceResource($invoice->load(['plan', 'establishment']));
+    }
+
+    /**
+     * Activation manuelle d'une formule payante, pour n'importe quel établissement : paiement reçu
+     * hors plateforme (Mobile Money, virement, espèces). Une facture payée est créée, ou la facture
+     * en attente de l'établissement est réutilisée, puis la formule est activée ou prolongée.
+     */
+    public function activatePlan(Request $request, Establishment $establishment): InvoiceResource
+    {
+        $validated = $request->validate([
+            'plan' => ['required', Rule::in([PlanCode::Pro->value, PlanCode::Premium->value])],
+            'billingCycle' => ['required', Rule::enum(BillingCycle::class)],
+            'paymentMethod' => ['required', Rule::enum(PaymentMethod::class)],
+            'paymentReference' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $plan = Plan::where('code', $validated['plan'])->firstOrFail();
+        $amount = $validated['billingCycle'] === BillingCycle::Yearly->value ? $plan->yearly_price : $plan->monthly_price;
+        if ($amount === null) {
+            throw ValidationException::withMessages(['billingCycle' => "La formule {$plan->name} n'est pas proposée avec ce rythme de paiement."]);
+        }
+
+        $attributes = [
+            'plan_id' => $plan->id,
+            'billing_cycle' => $validated['billingCycle'],
+            'amount' => $amount,
+            'payment_method' => $validated['paymentMethod'],
+            'payment_reference' => $validated['paymentReference'] ?? null,
+        ];
+        $invoice = $establishment->invoices()->where('status', InvoiceStatus::Pending)->latest()->first();
+        if ($invoice) {
+            $invoice->update($attributes);
+        } else {
+            $invoice = $establishment->invoices()->create([...$attributes, 'number' => Invoice::nextNumber(), 'requested_by' => $request->user()->id]);
+        }
+
+        $this->activate($invoice, manual: true);
+
+        return new InvoiceResource($invoice->load(['plan', 'establishment']));
+    }
+
+    /**
+     * Facture réglée : abonnement activé ou prolongé, journalisé, établissement prévenu.
+     */
+    private function activate(Invoice $invoice, bool $manual = false): void
+    {
         $subscription = $invoice->markAsPaid();
-        AuditLog::record('subscription.activated', $subscription, ['invoice' => $invoice->number, 'plan' => $subscription->plan->code->value]);
+        AuditLog::record('subscription.activated', $subscription, [
+            'invoice' => $invoice->number,
+            'plan' => $subscription->plan->code->value,
+            'manual' => $manual,
+        ]);
 
         $establishment = $subscription->establishment;
         $notice = new SubscriptionNotice($subscription, SubscriptionNotice::ACTIVATED);
@@ -58,8 +115,6 @@ class BillingController extends Controller
         if ($establishment->email) {
             Notification::route('mail', $establishment->email)->notify($notice);
         }
-
-        return new InvoiceResource($invoice->load(['plan', 'establishment']));
     }
 
     public function cancelInvoice(Invoice $invoice): InvoiceResource

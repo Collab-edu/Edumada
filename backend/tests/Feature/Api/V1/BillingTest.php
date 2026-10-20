@@ -76,6 +76,52 @@ class BillingTest extends TestCase
         $this->assertNull($establishment->refresh()->requested_plan);
     }
 
+    public function test_admin_activates_a_plan_manually_for_any_establishment(): void
+    {
+        [$owner, $establishment] = $this->establishmentOwner();
+        $establishment->forceFill(['requested_plan' => 'premium', 'requested_billing_cycle' => 'monthly'])->save();
+
+        $this->actingAs($this->admin())->postJson("/api/v1/admin/establishments/{$establishment->slug}/activate-plan", [
+            'plan' => 'premium',
+            'billingCycle' => 'monthly',
+            'paymentMethod' => 'cash',
+            'paymentReference' => 'Reçu n° 42',
+        ])->assertCreated()
+            ->assertJsonPath('data.status', 'paid')
+            ->assertJsonPath('data.amount', 175000);
+
+        $this->assertSame(PlanCode::Premium, $establishment->currentPlan()->code);
+        $this->assertNull($establishment->refresh()->requested_plan);
+        $this->assertDatabaseHas('audit_logs', ['action' => 'subscription.activated']);
+        Notification::assertSentTo($owner, SubscriptionNotice::class, fn (SubscriptionNotice $notice) => $notice->kind === SubscriptionNotice::ACTIVATED);
+    }
+
+    public function test_manual_activation_reuses_the_pending_invoice(): void
+    {
+        [, $establishment] = $this->establishmentOwner();
+        $invoice = $this->pendingInvoice($establishment, PlanCode::Pro);
+
+        $this->actingAs($this->admin())->postJson("/api/v1/admin/establishments/{$establishment->slug}/activate-plan", [
+            'plan' => 'pro',
+            'billingCycle' => 'monthly',
+            'paymentMethod' => 'mvola',
+        ])->assertOk()->assertJsonPath('data.number', $invoice->number);
+
+        $this->assertSame(1, $establishment->invoices()->count());
+        $this->assertSame(75000, $invoice->refresh()->amount);
+    }
+
+    public function test_manual_activation_is_reserved_to_admins_and_rejects_unpriced_cycles(): void
+    {
+        [$owner, $establishment] = $this->establishmentOwner();
+        $url = "/api/v1/admin/establishments/{$establishment->slug}/activate-plan";
+        $body = ['plan' => 'premium', 'billingCycle' => 'yearly', 'paymentMethod' => 'cash'];
+
+        $this->actingAs($owner)->postJson($url, $body)->assertForbidden();
+        $this->actingAs($this->admin())->postJson($url, $body)->assertUnprocessable()->assertJsonValidationErrors('billingCycle');
+        $this->assertSame(PlanCode::Free, $establishment->currentPlan()->code);
+    }
+
     public function test_paying_the_same_plan_again_extends_the_current_period(): void
     {
         [, $establishment] = $this->establishmentOwner();
