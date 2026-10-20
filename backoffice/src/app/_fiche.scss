@@ -258,3 +258,103 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
 
 // Pagination arrondie.
 .page-link { border-radius: .5rem !important; margin-inline: 2px; }
+
+// ===== Création / modification d'une offre : étapes repliables =====
+.bo-offer-head {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  h1 { color: var(--edu-teal); font-weight: 700; }
+}
+.bo-offer-head-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: .9rem;
+  background: var(--edu-red);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(255, 59, 82, .3);
+}
+.bo-offer-progress { width: min(240px, 100%); }
+
+.bo-step {
+  overflow: hidden;
+  transition: box-shadow .2s ease;
+  &.is-open { border-left: 4px solid #2f9e74 !important; box-shadow: 0 6px 18px rgba(15, 23, 42, .07); }
+}
+.bo-step-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: .9rem 1.25rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  strong { display: block; color: var(--edu-teal); }
+  small { display: block; color: var(--cui-secondary-color); }
+  &:hover { background: rgba(15, 76, 92, .03); }
+}
+.bo-step.is-open .bo-step-head { border-bottom: 1px solid var(--cui-border-color); }
+.bo-step-num {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: rgba(15, 76, 92, .1);
+  color: var(--edu-teal);
+  font-weight: 700;
+}
+.bo-step.is-open .bo-step-num { background: #2f9e74; color: #fff; }
+.bo-step.is-done .bo-step-num, .bo-step-num.is-done { background: #2f9e74; color: #fff; }
+.bo-step-state { font-size: .8rem; color: var(--edu-red); white-space: nowrap; &::before { content: "● "; } }
+.bo-step.is-done .bo-step-state { color: #2f9e74; }
+.bo-step-body { padding: 1.25rem; }
+
+.bo-steps-aside {
+  position: sticky;
+  top: 8rem;
+  overflow: hidden;
+  padding-bottom: .5rem;
+}
+.bo-steps-aside-item {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  width: 100%;
+  padding: .65rem 1rem;
+  border: 0;
+  border-top: 1px solid var(--cui-border-color);
+  background: transparent;
+  color: inherit;
+  font-size: .9rem;
+  small { font-size: .75rem; }
+  &:hover { background: rgba(15, 76, 92, .04); }
+  &.is-open { background: rgba(47, 158, 116, .08); }
+}
+
+// Barre d'actions collée en bas de l'écran.
+.bo-actionbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 1020;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
+  margin: 1.5rem 0 0;
+  border-radius: .75rem .75rem 0 0;
+  padding: .85rem 1.5rem;
+  border-top: 1px solid var(--cui-border-color);
+  background: var(--cui-body-bg);
+  box-shadow: 0 -6px 18px rgba(15, 23, 42, .06);
+}

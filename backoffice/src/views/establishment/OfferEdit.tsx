@@ -3,14 +3,13 @@ import { useState, type ReactNode } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { CAlert, CButton, CCol, CForm, CFormCheck, CFormInput, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBriefcase, cilCalendar, cilClipboard, cilEducation, cilList, cilMoney, cilNotes, cilPlus, cilSend, cilTrash } from '@coreui/icons'
+import { cilCheckAlt, cilChevronBottom, cilChevronRight, cilChevronTop, cilEducation, cilPlus, cilSave, cilSend, cilTrash } from '@coreui/icons'
 import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useToast } from '@/context/ToastContext'
 import { api, ApiError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import type { Category, CategoryFields, Domain, ManagedEstablishment, ManagedOffer, ReferenceData } from '@/lib/types'
 import { EmptyState, ImageUpload, ListInput, PageCard } from '@/components/ui'
-import PageBanner from '@/components/PageBanner'
 
 const DEFAULT_FIELDS: CategoryFields = { diplomas: true, programme: true, level: true, childAge: true, duration: true, careers: true }
 const KIND_LABEL: Record<string, string> = { formation: 'Formation', niveau: 'Niveau scolaire', accueil: 'Accueil (crèche, garderie…)' }
@@ -138,6 +137,29 @@ function toPayload(s: State, fields: CategoryFields, status?: string) {
     }
 }
 
+type StepMeta = { key: string; n: number; title: string; subtitle: string; done: boolean }
+
+/** Étape repliable du formulaire : numéro, titre, état de complétion. */
+function Step({ meta, open, onToggle, children }: { meta?: StepMeta; open: boolean; onToggle: () => void; children: ReactNode }) {
+    if (!meta) return null
+    return (
+        <section id={`step-${meta.key}`} className={`bo-step card mb-3${open ? ' is-open' : ''}${meta.done ? ' is-done' : ''}`}>
+            <button type='button' className='bo-step-head' onClick={onToggle} aria-expanded={open} aria-controls={`step-body-${meta.key}`}>
+                <span className='bo-step-num'>{meta.done ? <CIcon icon={cilCheckAlt} /> : meta.n}</span>
+                <span className='me-auto text-start'>
+                    <strong>{meta.title}</strong>
+                    <small>{meta.subtitle}</small>
+                </span>
+                <span className='bo-step-state d-none d-sm-inline'>{meta.done ? 'Complété' : 'Non complété'}</span>
+                <CIcon icon={open ? cilChevronTop : cilChevronBottom} />
+            </button>
+            <div id={`step-body-${meta.key}`} className='bo-step-body' hidden={!open}>
+                {children}
+            </div>
+        </section>
+    )
+}
+
 function OfferForm({ offer }: { offer?: ManagedOffer }) {
     const { current: e, reload } = useCurrentEstablishment()
     const router = useRouter()
@@ -157,6 +179,28 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
     const err = (field: string) => apiError?.field(field)
     const opts = (list?: string[]) => (list ?? []).map((v) => <option key={v}>{v}</option>)
 
+    const steps: StepMeta[] = [
+        { key: 'main', title: 'Informations principales', subtitle: 'Les informations de base sur votre offre.', done: !!s.title.trim() && !!s.domain },
+        { key: 'presentation', title: 'Présentation', subtitle: 'Le contenu détaillé de votre offre.', done: !!s.description.trim() },
+        ...(fields.programme
+            ? [{ key: 'programme', title: 'Programme', subtitle: 'Les matières et le déroulement du cursus.', done: s.subjects.length > 0 || s.program.some((x) => x.period.trim()) }]
+            : []),
+        { key: 'admission', title: 'Admission', subtitle: 'Les conditions d’admission et prérequis.', done: s.prerequisites.length > 0 },
+        { key: 'frais', title: 'Frais et financement', subtitle: 'Les coûts, bourses et modalités de paiement.', done: s.fees.trim() !== '' },
+        { key: 'organisation', title: 'Organisation et calendrier', subtitle: 'Les dates, horaires et lieu des cours.', done: !!s.startDate || !!s.schedule.trim() || s.rhythm.length > 0 },
+        ...(fields.careers ? [{ key: 'debouches', title: 'Débouchés', subtitle: 'Les métiers et secteurs d’activité.', done: s.jobs.length > 0 }] : []),
+        { key: 'candidature', title: 'Candidature', subtitle: 'Les modalités de candidature et documents.', done: s.onlineApplication || !!s.brochureUrl.trim() },
+    ].map((step, i) => ({ ...step, n: i + 1 }))
+    const stepOf = (key: string) => steps.find((step) => step.key === key)
+    const [openSteps, setOpenSteps] = useState<string[]>(['main'])
+    const isOpen = (key: string) => openSteps.includes(key)
+    const toggleStep = (key: string) => setOpenSteps((list) => (list.includes(key) ? list.filter((k) => k !== key) : [...list, key]))
+    const goTo = (key: string) => {
+        setOpenSteps((list) => (list.includes(key) ? list : [...list, key]))
+        requestAnimationFrame(() => document.getElementById(`step-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+    }
+    const doneCount = steps.filter((step) => step.done).length
+
     const save = async (status?: string) => {
         setSaving(status ?? 'save')
         setError(null)
@@ -169,6 +213,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
             router.push('/offres/')
         } catch (ex) {
             setError(ex)
+            setOpenSteps(steps.map((step) => step.key))
             toast.error((ex instanceof ApiError && ex.field('status')) || 'Vérifiez les champs signalés.')
         } finally {
             setSaving(null)
@@ -206,6 +251,28 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
             }}
             noValidate
         >
+            <div className='bo-offer-head card mb-4'>
+                <span className='bo-offer-head-icon' aria-hidden='true'>
+                    <CIcon icon={cilEducation} size='xl' />
+                </span>
+                <div className='me-auto' style={{ minWidth: 0 }}>
+                    <h1 className='h4 mb-1 text-truncate'>{offer ? offer.title : 'Nouvelle offre'}</h1>
+                    <p className='small text-body-secondary mb-0'>
+                        {offer ? `${offer.statusLabel} · ${e.name}` : 'Ajoutez une nouvelle offre de formation ou de cursus proposée par votre établissement.'}
+                    </p>
+                </div>
+                <div className='bo-offer-progress'>
+                    <div className='small fw-semibold mb-1'>
+                        {doneCount} / {steps.length} étapes complétées
+                    </div>
+                    <div className='progress' style={{ height: 6 }} role='progressbar' aria-valuenow={doneCount} aria-valuemin={0} aria-valuemax={steps.length} aria-label='Avancement'>
+                        <div className='progress-bar bg-danger' style={{ width: `${(doneCount / steps.length) * 100}%` }} />
+                    </div>
+                </div>
+            </div>
+
+            <CRow className='g-4'>
+            <CCol xl={9}>
             {!!error && (
                 <CAlert color='danger'>
                     {apiError?.field('status') ??
@@ -213,7 +280,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 </CAlert>
             )}
 
-            <PageCard icon={cilEducation} title='Informations principales'>
+            <Step meta={stepOf('main')} open={isOpen('main')} onToggle={() => toggleStep('main')}>
                 <CRow className='g-3'>
                     <CCol md={12}>
                         <CFormInput
@@ -304,16 +371,16 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                         <ImageUpload label="Image de l'offre" value={s.imageSrc} onChange={(v: string) => set('imageSrc', v)} />
                     </CCol>
                 </CRow>
-            </PageCard>
+            </Step>
 
-            <PageCard icon={cilNotes} title='Présentation'>
+            <Step meta={stepOf('presentation')} open={isOpen('presentation')} onToggle={() => toggleStep('presentation')}>
                 <CFormTextarea label='Description' rows={5} className='mb-3' value={s.description} onChange={(ev) => set('description', ev.target.value)} />
                 <ListInput label='Objectifs' value={s.objectives} onChange={(v) => set('objectives', v)} />
                 <ListInput label={s.kind === 'formation' ? 'Compétences acquises' : "Ce que l'enfant développe"} value={s.skills} onChange={(v) => set('skills', v)} />
-            </PageCard>
+            </Step>
 
             {fields.programme && (
-                <PageCard icon={cilList} title='Programme'>
+                <Step meta={stepOf('programme')} open={isOpen('programme')} onToggle={() => toggleStep('programme')}>
                     <ListInput label='Matières principales' value={s.subjects} onChange={(v) => set('subjects', v)} />
                     <div className='form-label'>Programme détaillé</div>
                     {rowEditor(
@@ -332,10 +399,10 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                         <ListInput label="Méthodes d'enseignement" value={s.teachingMethods} onChange={(v) => set('teachingMethods', v)} />
                         <CFormTextarea label='Évaluation' rows={2} value={s.evaluation} onChange={(ev) => set('evaluation', ev.target.value)} />
                     </div>
-                </PageCard>
+                </Step>
             )}
 
-            <PageCard icon={cilClipboard} title='Admission'>
+            <Step meta={stepOf('admission')} open={isOpen('admission')} onToggle={() => toggleStep('admission')}>
                 <CRow className='g-3 mb-3'>
                     {fields.level && (
                         <CCol md={4}>
@@ -370,9 +437,10 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 </CRow>
                 <ListInput label='Prérequis' value={s.prerequisites} onChange={(v) => set('prerequisites', v)} />
                 <CFormTextarea label='Conditions particulières' rows={2} value={s.specialConditions} onChange={(ev) => set('specialConditions', ev.target.value)} />
-            </PageCard>
+            </Step>
 
-            <PageCard icon={cilMoney} title='Frais et financement' subtitle="Laissez vide si vous ne savez pas : « Non communiqué » vaut mieux qu'un montant approximatif">
+            <Step meta={stepOf('frais')} open={isOpen('frais')} onToggle={() => toggleStep('frais')}>
+                <p className='small text-body-secondary'>Laissez vide si vous ne savez pas : « Non communiqué » vaut mieux qu&apos;un montant approximatif.</p>
                 <CRow className='g-3 mb-3'>
                     <CCol xs={8} md={4}>
                         <CFormInput
@@ -439,9 +507,9 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                     <CFormTextarea label='Bourses : précisions' rows={2} className='mb-3' value={s.scholarshipsInfo} onChange={(ev) => set('scholarshipsInfo', ev.target.value)} />
                     <CFormTextarea label='Réductions' rows={2} value={s.discounts} onChange={(ev) => set('discounts', ev.target.value)} />
                 </div>
-            </PageCard>
+            </Step>
 
-            <PageCard icon={cilCalendar} title='Organisation et calendrier'>
+            <Step meta={stepOf('organisation')} open={isOpen('organisation')} onToggle={() => toggleStep('organisation')}>
                 <CRow className='g-3 mb-3'>
                     <CCol md={4}>
                         <CFormInput label='Début des inscriptions' type='date' value={s.registrationStart} onChange={(ev) => set('registrationStart', ev.target.value)} />
@@ -483,19 +551,20 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                     ),
                     'Ajouter une étape'
                 )}
-            </PageCard>
+            </Step>
 
             {fields.careers && (
-                <PageCard icon={cilBriefcase} title='Débouchés' subtitle='Uniquement les partenariats confirmés'>
+                <Step meta={stepOf('debouches')} open={isOpen('debouches')} onToggle={() => toggleStep('debouches')}>
+                <p className='small text-body-secondary'>Uniquement les partenariats confirmés.</p>
                     <ListInput label='Métiers' value={s.jobs} onChange={(v) => set('jobs', v)} />
                     <ListInput label="Secteurs d'activité" value={s.sectors} onChange={(v) => set('sectors', v)} />
                     <ListInput label="Poursuite d'études" value={s.furtherStudies} onChange={(v) => set('furtherStudies', v)} />
                     <CFormTextarea label='Stage' rows={2} className='mb-3' value={s.internship} onChange={(ev) => set('internship', ev.target.value)} />
                     <ListInput label='Partenariats' value={s.partnerships} onChange={(v) => set('partnerships', v)} />
-                </PageCard>
+                </Step>
             )}
 
-            <PageCard icon={cilSend} title='Candidature'>
+            <Step meta={stepOf('candidature')} open={isOpen('candidature')} onToggle={() => toggleStep('candidature')}>
                 <CFormCheck
                     id='online-application'
                     className='mb-3'
@@ -512,12 +581,31 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                     invalid={!!err('details.brochureUrl')}
                     feedbackInvalid={err('details.brochureUrl')}
                 />
-            </PageCard>
+            </Step>
 
-            <div className='d-flex flex-wrap justify-content-end gap-2 mb-4'>
-                <CButton color='secondary' variant='ghost' onClick={() => router.push('/offres/')}>
+            </CCol>
+            <CCol xl={3} className='d-none d-xl-block'>
+                <nav className='bo-steps-aside card' aria-label='Étapes de la création'>
+                    <h2 className='h6 fw-bold px-3 pt-3 mb-2'>Étapes de la création</h2>
+                    {steps.map((step) => (
+                        <button key={step.key} type='button' className={`bo-steps-aside-item${isOpen(step.key) ? ' is-open' : ''}`} onClick={() => goTo(step.key)}>
+                            <span className={`bo-step-num${step.done ? ' is-done' : ''}`}>{step.done ? <CIcon icon={cilCheckAlt} /> : step.n}</span>
+                            <span className='me-auto text-start'>
+                                <span className='d-block fw-semibold'>{step.title}</span>
+                                <small className={step.done ? 'text-success' : 'text-danger'}>{step.done ? '● Complété' : '● Non complété'}</small>
+                            </span>
+                            <CIcon icon={cilChevronRight} />
+                        </button>
+                    ))}
+                </nav>
+            </CCol>
+            </CRow>
+
+            <div className='bo-actionbar'>
+                <CButton color='secondary' variant='outline' onClick={() => router.push('/offres/')}>
                     Annuler
                 </CButton>
+                <div className='ms-auto d-flex flex-wrap gap-2'>
                 {offer ? (
                     <>
                         <CButton type='submit' color={offer.status === 'published' ? 'primary' : 'secondary'} disabled={!!saving}>
@@ -525,23 +613,25 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                             Enregistrer
                         </CButton>
                         {offer.status !== 'published' && (
-                            <CButton color='primary' disabled={!!saving} onClick={() => save('published')}>
-                                {saving === 'published' && <CSpinner size='sm' className='me-2' />}
+                            <CButton color='danger' className='text-white' disabled={!!saving} onClick={() => save('published')}>
+                                {saving === 'published' ? <CSpinner size='sm' className='me-2' /> : <CIcon icon={cilSend} className='me-2' />}
                                 Enregistrer et publier
                             </CButton>
                         )}
                     </>
                 ) : (
                     <>
-                        <CButton type='submit' color='secondary' disabled={!!saving}>
+                        <CButton type='submit' color='secondary' variant='outline' disabled={!!saving}>
+                            <CIcon icon={cilSave} className='me-2' />
                             Enregistrer le brouillon
                         </CButton>
-                        <CButton color='primary' disabled={!!saving} onClick={() => save('published')}>
-                            {saving === 'published' && <CSpinner size='sm' className='me-2' />}
+                        <CButton color='danger' className='text-white' disabled={!!saving} onClick={() => save('published')}>
+                            {saving === 'published' ? <CSpinner size='sm' className='me-2' /> : <CIcon icon={cilSend} className='me-2' />}
                             Publier
                         </CButton>
                     </>
                 )}
+                </div>
             </div>
         </CForm>
     )
@@ -552,16 +642,12 @@ export default function OfferEdit() {
     const id = useSearchParams().get('id')
     const { current } = useCurrentEstablishment()
     const offer = id ? current.offers?.find((o) => o.id === id) : undefined
-    return (
-        <>
-            <PageBanner title={offer?.title} description={offer ? `${offer.statusLabel} · ${current.name}` : undefined} />
-            {id && !offer ? (
-                <PageCard>
-                    <EmptyState title='Offre introuvable'>Elle a peut-être été supprimée.</EmptyState>
-                </PageCard>
-            ) : (
-                <OfferForm key={offer?.updatedAt ?? 'new'} offer={offer} />
-            )}
-        </>
-    )
+    if (id && !offer) {
+        return (
+            <PageCard>
+                <EmptyState title='Offre introuvable'>Elle a peut-être été supprimée.</EmptyState>
+            </PageCard>
+        )
+    }
+    return <OfferForm key={offer?.updatedAt ?? 'new'} offer={offer} />
 }
