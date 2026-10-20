@@ -218,7 +218,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
                             <p className='px-6 pt-5 pb-3 text-lg font-bold text-secondary'>Localisation</p>
                             {school.coordinates && (
-                                <SchoolMap lat={school.coordinates.lat} lng={school.coordinates.lng} name={school.name} address={school.city} className='h-80 w-full' />
+                                <SchoolMap lat={school.coordinates.lat} lng={school.coordinates.lng} name={school.name} address={school.city} className='[&>div+div]:mx-3 [&>div+div]:shadow-none' mapClassName='h-80 w-full' />
                             )}
                             <a
                                 href={map.link}

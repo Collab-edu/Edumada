@@ -81,7 +81,8 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                                 lng={school.coordinates.lng}
                                 name={school.name}
                                 address={school.city}
-                                className='h-72 w-full rounded-2xl ring-1 ring-gray-100 md:col-span-3 md:h-80'
+                                className='md:col-span-3'
+                                mapClassName='h-72 w-full rounded-2xl ring-1 ring-gray-100 md:h-80'
                             />
                         )}
                     </div>
