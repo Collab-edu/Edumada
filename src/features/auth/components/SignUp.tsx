@@ -109,11 +109,6 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
 
     return (
         <div className='text-left'>
-            <div className='mb-5 text-center'>
-                <p className='text-2xl font-bold text-secondary'>Edumada</p>
-                <p className='mt-1 text-sm text-ink/70'>Créez votre compte en quelques secondes</p>
-            </div>
-
             {!apiEnabled && <FormAlert tone='info'>L&apos;inscription sera disponible quand le service en ligne d&apos;Edumada sera activé.</FormAlert>}
 
             <form onSubmit={submit} className='flex flex-col gap-4' noValidate>
