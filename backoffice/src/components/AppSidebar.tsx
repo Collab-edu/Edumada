@@ -8,7 +8,6 @@ import { useEstablishment } from '@/context/EstablishmentContext'
 import { useLayout } from '@/context/LayoutContext'
 import { useApi } from '@/lib/useApi'
 import { useEstablishmentCounts } from '@/lib/useEstablishmentCounts'
-import { SITE_URL } from '@/lib/api'
 
 type Overview = { data: { queues: { establishmentsPending: number; verificationsPending: number; claimsPending: number; reviewsPending: number; reportsOpen: number; invoicesPending: number } } }
 
@@ -58,15 +57,6 @@ export default function AppSidebar() {
                 <CCloseButton className='d-lg-none' dark onClick={() => setSidebarShow(false)} />
             </CSidebarHeader>
             <AppSidebarNav items={buildNav({ user, current, counts, categories: establishmentCounts?.data.categories })} onNavigate={closeOnMobile} />
-            {!admin && current && (
-                <div className='bo-sidebar-promo'>
-                    <strong>Votre établissement en valeur</strong>
-                    <p>Une fiche complète, avec photos et offres à jour, attire plus de candidats.</p>
-                    <a href={`${SITE_URL}/avantages/`} target='_blank' rel='noopener noreferrer' className='btn btn-danger btn-sm text-white'>
-                        Découvrir les conseils →
-                    </a>
-                </div>
-            )}
             <CSidebarFooter className='border-top d-none d-lg-flex'>
                 <CSidebarToggler onClick={() => setSidebarUnfoldable(!sidebarUnfoldable)} aria-label='Réduire le menu' />
             </CSidebarFooter>

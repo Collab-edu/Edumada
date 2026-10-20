@@ -18,6 +18,8 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilImagePlus, cilPlus, cilTrash, cilX } from '@coreui/icons'
+import { usePathname } from 'next/navigation'
+import { findRoute } from '@/routes'
 import { api, assetUrl, errorMessage } from '@/lib/api'
 import type { Paginated } from '@/lib/types'
 
@@ -42,14 +44,16 @@ export function PageCard({
     icon?: string[]
     id?: string
 }) {
+    const route = findRoute(usePathname())
+    const shownIcon = icon ?? route?.icon
     return (
         <CCard className={className} id={id}>
             {(title || actions) && (
                 <CCardHeader className='d-flex flex-wrap align-items-center gap-2 py-3'>
                     <div className='me-auto d-flex align-items-center gap-3' style={{ minWidth: 0 }}>
-                        {icon && (
+                        {shownIcon && title && (
                             <span className='bo-card-icon' aria-hidden='true'>
-                                <CIcon icon={icon} />
+                                <CIcon icon={shownIcon} />
                             </span>
                         )}
                         <div style={{ minWidth: 0 }}>

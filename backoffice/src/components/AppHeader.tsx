@@ -124,7 +124,6 @@ export default function AppHeader() {
     const headerRef = useRef<HTMLDivElement>(null)
     const { colorMode, setColorMode } = useColorModes('edumada-backoffice-theme')
     const { sidebarShow, setSidebarShow } = useLayout()
-    const { current } = useEstablishment()
 
     useEffect(() => {
         const handleScroll = () => headerRef.current?.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0)

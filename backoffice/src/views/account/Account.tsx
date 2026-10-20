@@ -6,6 +6,7 @@ import { useToast } from '@/context/ToastContext'
 import { api, ApiError } from '@/lib/api'
 import type { User } from '@/lib/types'
 import { ErrorAlert, PageCard } from '@/components/ui'
+import { cilLockLocked, cilUser } from '@coreui/icons'
 import PageBanner from '@/components/PageBanner'
 
 export default function Account() {
@@ -45,7 +46,7 @@ export default function Account() {
             {error instanceof ApiError && Object.keys(error.errors).length === 0 && <ErrorAlert error={error} />}
             <CRow>
                 <CCol lg={6}>
-                    <PageCard title='Mes informations'>
+                    <PageCard icon={cilUser} title='Mes informations'>
                         <CForm onSubmit={saveProfile}>
                             <CFormInput
                                 className='mb-3'
@@ -78,7 +79,7 @@ export default function Account() {
                     </PageCard>
                 </CCol>
                 <CCol lg={6}>
-                    <PageCard title='Mot de passe'>
+                    <PageCard icon={cilLockLocked} title='Mot de passe'>
                         <CForm onSubmit={savePassword}>
                             <CFormInput
                                 className='mb-3'

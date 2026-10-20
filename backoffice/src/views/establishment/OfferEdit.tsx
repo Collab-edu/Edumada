@@ -3,7 +3,7 @@ import { useState, type ReactNode } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { CAlert, CButton, CCol, CForm, CFormCheck, CFormInput, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilPlus, cilTrash } from '@coreui/icons'
+import { cilBriefcase, cilCalendar, cilClipboard, cilEducation, cilList, cilMoney, cilNotes, cilPlus, cilSend, cilTrash } from '@coreui/icons'
 import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useToast } from '@/context/ToastContext'
 import { api, ApiError } from '@/lib/api'
@@ -213,7 +213,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 </CAlert>
             )}
 
-            <PageCard title='Informations principales'>
+            <PageCard icon={cilEducation} title='Informations principales'>
                 <CRow className='g-3'>
                     <CCol md={12}>
                         <CFormInput
@@ -306,14 +306,14 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 </CRow>
             </PageCard>
 
-            <PageCard title='Présentation'>
+            <PageCard icon={cilNotes} title='Présentation'>
                 <CFormTextarea label='Description' rows={5} className='mb-3' value={s.description} onChange={(ev) => set('description', ev.target.value)} />
                 <ListInput label='Objectifs' value={s.objectives} onChange={(v) => set('objectives', v)} />
                 <ListInput label={s.kind === 'formation' ? 'Compétences acquises' : "Ce que l'enfant développe"} value={s.skills} onChange={(v) => set('skills', v)} />
             </PageCard>
 
             {fields.programme && (
-                <PageCard title='Programme'>
+                <PageCard icon={cilList} title='Programme'>
                     <ListInput label='Matières principales' value={s.subjects} onChange={(v) => set('subjects', v)} />
                     <div className='form-label'>Programme détaillé</div>
                     {rowEditor(
@@ -335,7 +335,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 </PageCard>
             )}
 
-            <PageCard title='Admission'>
+            <PageCard icon={cilClipboard} title='Admission'>
                 <CRow className='g-3 mb-3'>
                     {fields.level && (
                         <CCol md={4}>
@@ -372,7 +372,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 <CFormTextarea label='Conditions particulières' rows={2} value={s.specialConditions} onChange={(ev) => set('specialConditions', ev.target.value)} />
             </PageCard>
 
-            <PageCard title='Frais et financement' subtitle="Laissez vide si vous ne savez pas : « Non communiqué » vaut mieux qu'un montant approximatif">
+            <PageCard icon={cilMoney} title='Frais et financement' subtitle="Laissez vide si vous ne savez pas : « Non communiqué » vaut mieux qu'un montant approximatif">
                 <CRow className='g-3 mb-3'>
                     <CCol xs={8} md={4}>
                         <CFormInput
@@ -441,7 +441,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 </div>
             </PageCard>
 
-            <PageCard title='Organisation et calendrier'>
+            <PageCard icon={cilCalendar} title='Organisation et calendrier'>
                 <CRow className='g-3 mb-3'>
                     <CCol md={4}>
                         <CFormInput label='Début des inscriptions' type='date' value={s.registrationStart} onChange={(ev) => set('registrationStart', ev.target.value)} />
@@ -486,7 +486,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
             </PageCard>
 
             {fields.careers && (
-                <PageCard title='Débouchés' subtitle='Uniquement les partenariats confirmés'>
+                <PageCard icon={cilBriefcase} title='Débouchés' subtitle='Uniquement les partenariats confirmés'>
                     <ListInput label='Métiers' value={s.jobs} onChange={(v) => set('jobs', v)} />
                     <ListInput label="Secteurs d'activité" value={s.sectors} onChange={(v) => set('sectors', v)} />
                     <ListInput label="Poursuite d'études" value={s.furtherStudies} onChange={(v) => set('furtherStudies', v)} />
@@ -495,7 +495,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 </PageCard>
             )}
 
-            <PageCard title='Candidature'>
+            <PageCard icon={cilSend} title='Candidature'>
                 <CFormCheck
                     id='online-application'
                     className='mb-3'
