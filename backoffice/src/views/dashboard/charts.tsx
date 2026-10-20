@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { CChartBar, CChartLine } from '@coreui/react-chartjs'
 import { getStyle } from '@coreui/utils'
 import type { Chart } from 'chart.js'
@@ -113,6 +113,119 @@ export function ChartLegend({ series, datasets }: { series: SeriesPoint[]; datas
                     <strong>{series.reduce((sum, point) => sum + value(point, d.key), 0)}</strong>
                 </div>
             ))}
+        </div>
+    )
+}
+
+/** Indicateur clé : icône dans un carré plein, libellé et chiffre à droite, évolution en pied. */
+export function KpiCard({
+    icon,
+    title,
+    value,
+    change,
+    caption,
+}: {
+    icon: ReactNode
+    title: string
+    value: ReactNode
+    /** Évolution en % par rapport à la période précédente ; null = pas de comparaison possible. */
+    change?: number | null
+    caption: string
+}) {
+    return (
+        <div className='bo-kpi card h-100'>
+            <div className='bo-kpi-body'>
+                <span className='bo-kpi-icon' aria-hidden='true'>
+                    {icon}
+                </span>
+                <div className='text-end'>
+                    <div className='bo-kpi-title'>{title}</div>
+                    <div className='bo-kpi-value'>{value}</div>
+                </div>
+            </div>
+            <div className='bo-kpi-footer'>
+                {change !== undefined && change !== null && (
+                    <strong className={change >= 0 ? 'text-success' : 'text-danger'}>
+                        {change > 0 ? '+' : ''}
+                        {change} %{' '}
+                    </strong>
+                )}
+                <span>{caption}</span>
+            </div>
+        </div>
+    )
+}
+
+/** Carte graphique : courbe ou barres d'une seule série, titre, résumé et pied daté. */
+export function ChartCard({
+    series,
+    dataKey,
+    type = 'line',
+    color,
+    title,
+    subtitle,
+    footer,
+}: {
+    series: SeriesPoint[]
+    dataKey: string
+    type?: 'line' | 'bar'
+    /** Couleur de marque (hexadécimal). */
+    color: string
+    title: string
+    subtitle: string
+    footer: string
+}) {
+    const values = series.map((point) => Number(point[dataKey] ?? 0))
+    const labels = series.map((point) => formatDay(String(point.date)))
+    const grid = { color: 'rgba(100, 116, 139, .18)', borderDash: [4, 4] }
+    const ticks = { color: '#64748b', maxTicksLimit: 6, precision: 0, maxRotation: 0, autoSkipPadding: 12 }
+    const options = {
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { grid: { ...grid, drawTicks: false }, border: { dash: [4, 4], display: false }, ticks },
+            y: { beginAtZero: true, grid: { ...grid, drawTicks: false }, border: { dash: [4, 4], display: false }, ticks: { ...ticks, maxTicksLimit: 6 } },
+        },
+    }
+    return (
+        <div className='bo-chart-card card h-100'>
+            <div className='bo-chart-area'>
+                {type === 'bar' ? (
+                    <CChartBar
+                        style={{ height: '200px' }}
+                        data={{ labels, datasets: [{ data: values, backgroundColor: color, borderRadius: 4, barPercentage: 0.35, label: title }] }}
+                        options={options}
+                    />
+                ) : (
+                    <CChartLine
+                        style={{ height: '200px' }}
+                        data={{
+                            labels,
+                            datasets: [
+                                {
+                                    data: values,
+                                    label: title,
+                                    borderColor: color,
+                                    backgroundColor: color,
+                                    pointBackgroundColor: color,
+                                    borderWidth: 3,
+                                    tension: 0,
+                                    pointRadius: values.length > 14 ? 2 : 4,
+                                },
+                            ],
+                        }}
+                        options={options}
+                    />
+                )}
+            </div>
+            <div className='bo-chart-text'>
+                <h3 className='h6 fw-bold mb-1'>{title}</h3>
+                <p className='small text-body-secondary mb-0'>{subtitle}</p>
+            </div>
+            <div className='bo-chart-footer'>
+                <span className='bo-clock' aria-hidden='true' />
+                {footer}
+            </div>
         </div>
     )
 }

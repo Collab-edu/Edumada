@@ -1,28 +1,22 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { CButton, CCard, CCardBody, CCardFooter, CCol, CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow, CWidgetStatsF } from '@coreui/react'
+import { CButton, CCol, CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilBullhorn, cilCheckCircle, cilInbox, cilPhone, cilScreenDesktop } from '@coreui/icons'
 import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useApi } from '@/lib/useApi'
-import { formatDate, formatNumber, percentChange } from '@/lib/format'
+import { formatDate, formatDay, formatNumber, percentChange } from '@/lib/format'
 import type { EstablishmentStats } from '@/lib/types'
 import { EmptyState, Loading, PageCard } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
-import { ChartLegend, TrafficChart, type ChartDataset } from '../dashboard/charts'
+import { ChartCard, KpiCard } from '../dashboard/charts'
 import { PeriodSwitch } from '../dashboard/Dashboard'
 
-const trendText = (current: number, previous?: number | null) => {
-    const change = percentChange(current, previous)
-    return change === null ? 'pas de période précédente comparable' : `${change > 0 ? '+' : ''}${change} % vs période précédente`
-}
+/** Couleurs de la charte pour les graphiques. */
+const COLORS = { teal: '#0f4c5c', sage: '#2f9e74', red: '#ff3b52' }
 
-const DATASETS: ChartDataset[] = [
-    { key: 'views', label: 'Vues', color: 'primary' },
-    { key: 'contactClicks', label: 'Clics de contact', color: 'success' },
-    { key: 'inquiries', label: 'Demandes', color: 'danger' },
-]
+const sum = (values: number[]) => values.reduce((total, value) => total + value, 0)
 
 export default function Stats() {
     const { current: e } = useCurrentEstablishment()
@@ -55,56 +49,79 @@ export default function Stats() {
     const p = s.previousTotals
     const processed = t.inquiries + t.applications ? Math.round((t.processed / (t.inquiries + t.applications)) * 100) : null
 
+    const contacts = t.contactClicks + t.websiteClicks
+    const requests = t.inquiries + t.applications
+    const comparison = p ? 'vs période précédente' : 'aucune période à comparer'
+    const period = `Du ${formatDate(s.period.from)} au ${formatDate(s.period.to)}`
+    const shortPeriod = `${formatDay(s.period.from)} → ${formatDay(s.period.to)}`
+    const best = (key: string) => {
+        const top = [...s.series].sort((x, y) => Number(y[key] ?? 0) - Number(x[key] ?? 0))[0]
+        return top && Number(top[key] ?? 0) > 0 ? ` · pic le ${formatDay(String(top.date))}` : ''
+    }
+
     const tiles = [
-        { icon: cilScreenDesktop, chip: '', title: 'Vues des fiches', value: formatNumber(t.views), footer: trendText(t.views, p?.views) },
+        { icon: cilScreenDesktop, title: 'Vues des fiches', value: formatNumber(t.views), change: p ? percentChange(t.views, p.views) : null, caption: comparison },
         {
             icon: cilPhone,
-            chip: 'chip-sage',
             title: 'Clics de contact',
-            value: formatNumber(t.contactClicks + t.websiteClicks),
-            footer: trendText(t.contactClicks + t.websiteClicks, p ? p.contactClicks + p.websiteClicks : 0),
+            value: formatNumber(contacts),
+            change: p ? percentChange(contacts, p.contactClicks + p.websiteClicks) : null,
+            caption: comparison,
         },
-        { icon: cilInbox, chip: 'chip-red', title: 'Demandes reçues', value: formatNumber(t.inquiries + t.applications), footer: `dont ${t.applications} candidature(s)` },
-        { icon: cilCheckCircle, chip: '', title: 'Demandes traitées', value: processed === null ? '—' : `${processed} %`, footer: 'statut changé au moins une fois' },
+        {
+            icon: cilInbox,
+            title: 'Demandes reçues',
+            value: formatNumber(requests),
+            change: p ? percentChange(requests, p.inquiries + p.applications) : null,
+            caption: `dont ${t.applications} candidature${t.applications > 1 ? 's' : ''}`,
+        },
+        { icon: cilCheckCircle, title: 'Demandes traitées', value: processed === null ? '—' : `${processed} %`, change: null, caption: 'avec un statut mis à jour' },
     ]
 
     return (
         <>
-            <PageBanner description={`Du ${formatDate(s.period.from)} au ${formatDate(s.period.to)}`} />
+            <PageBanner description={period} actions={<PeriodSwitch days={days} onChange={setDays} />} />
             <CRow xs={{ gutter: 4 }} className='mb-4'>
                 {tiles.map((tile) => (
                     <CCol sm={6} xl={3} key={tile.title}>
-                        <CWidgetStatsF
-                            className='h-100'
-                            icon={
-                                <span className={`bo-icon-chip ${tile.chip}`}>
-                                    <CIcon width={24} icon={tile.icon} size='xl' />
-                                </span>
-                            }
-                            padding={false}
-                            title={tile.title}
-                            value={tile.value}
-                            footer={<span className='small text-body-secondary'>{tile.footer}</span>}
-                        />
+                        <KpiCard icon={<CIcon icon={tile.icon} size='lg' />} title={tile.title} value={tile.value} change={tile.change} caption={tile.caption} />
                     </CCol>
                 ))}
             </CRow>
 
-            <CCard className='mb-4'>
-                <CCardBody>
-                    <div className='d-flex flex-wrap align-items-start gap-2'>
-                        <div className='me-auto'>
-                            <h4 className='card-title mb-0'>Évolution</h4>
-                            <div className='small text-body-secondary'>{days} derniers jours</div>
-                        </div>
-                        <PeriodSwitch days={days} onChange={setDays} />
-                    </div>
-                    <TrafficChart series={s.series} datasets={DATASETS} />
-                </CCardBody>
-                <CCardFooter>
-                    <ChartLegend series={s.series} datasets={DATASETS} />
-                </CCardFooter>
-            </CCard>
+            <CRow xs={{ gutter: 4 }} className='mb-4'>
+                <CCol lg={4}>
+                    <ChartCard
+                        series={s.series}
+                        dataKey='views'
+                        type='bar'
+                        color={COLORS.teal}
+                        title='Vues des fiches'
+                        subtitle={`${formatNumber(sum(s.series.map((x) => Number(x.views ?? 0))))} vues sur ${days} jours${best('views')}`}
+                        footer={shortPeriod}
+                    />
+                </CCol>
+                <CCol lg={4}>
+                    <ChartCard
+                        series={s.series}
+                        dataKey='contactClicks'
+                        color={COLORS.sage}
+                        title='Clics de contact'
+                        subtitle={`Appels, e-mails et visites de votre site${best('contactClicks')}`}
+                        footer={shortPeriod}
+                    />
+                </CCol>
+                <CCol lg={4}>
+                    <ChartCard
+                        series={s.series}
+                        dataKey='inquiries'
+                        color={COLORS.red}
+                        title='Demandes reçues'
+                        subtitle={`Demandes d’information et candidatures${best('inquiries')}`}
+                        footer={shortPeriod}
+                    />
+                </CCol>
+            </CRow>
 
             <PageCard title='Par offre' subtitle='Les offres qui génèrent le plus de demandes en premier'>
                 <CTable align='middle' hover responsive className='mb-0'>
