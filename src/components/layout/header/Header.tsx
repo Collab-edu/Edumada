@@ -197,7 +197,7 @@ const Header: React.FC = () => {
             )}
             {isSignUpOpen && (
                 <Modal panelRef={signUpRef} label="Fermer la fenêtre d'inscription" onClose={() => setIsSignUpOpen(false)}>
-                    <SignUp studentOnly onSuccess={() => setIsSignUpOpen(false)} />
+                    <SignUp onSuccess={() => setIsSignUpOpen(false)} />
                 </Modal>
             )}
 
