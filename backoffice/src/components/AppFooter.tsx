@@ -10,7 +10,6 @@ export default function AppFooter() {
                 </a>
                 <span className='ms-1'>&copy; {new Date().getFullYear()} · Back-office</span>
             </div>
-            <div className='ms-auto small text-body-secondary'>Interface basée sur CoreUI (licence MIT)</div>
         </CFooter>
     )
 }
