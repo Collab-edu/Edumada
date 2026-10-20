@@ -114,12 +114,14 @@ body {
   border-top: 1px solid rgba(15, 76, 92, .08);
 }
 
-// --- En-tête de page : titre, description et actions, sans aplat (la barre latérale porte déjà la couleur).
+// --- Bandeau de page : titre de la page sur dégradé de marque.
 .bo-banner {
   position: relative;
-  padding: .25rem 0 1.25rem;
+  border-radius: .75rem;
+  padding: 1.25rem 1.25rem 1.35rem;
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--cui-border-color);
+  color: #fff;
+  background: var(--edu-teal);
   .bo-banner-icon {
     flex: none;
     display: grid;
@@ -127,30 +129,15 @@ body {
     width: 48px;
     height: 48px;
     border-radius: .85rem;
-    background: rgba(15, 76, 92, .08);
-    color: var(--edu-teal);
+    background: rgba(255, 255, 255, .12);
   }
-  h1 { font-size: 1.35rem; font-weight: 700; margin: 0; color: var(--edu-teal); }
-  p { margin: .25rem 0 0; font-size: .95rem; color: var(--cui-secondary-color); }
+  h1 { font-size: 1.35rem; font-weight: 700; margin: 0; color: #fff; }
+  p { margin: .25rem 0 0; font-size: .95rem; color: rgba(255, 255, 255, .82); }
   .bo-banner-actions { position: relative; z-index: 1; }
-  // Les actions du bandeau étaient prévues en blanc sur sarcelle : on les passe en bouton principal.
-  .bo-banner-actions .btn-light {
-    --cui-btn-bg: var(--edu-teal);
-    --cui-btn-border-color: var(--edu-teal);
-    --cui-btn-color: #fff;
-    --cui-btn-hover-bg: var(--edu-teal-dark);
-    --cui-btn-hover-border-color: var(--edu-teal-dark);
-    --cui-btn-hover-color: #fff;
-    --cui-btn-active-bg: var(--edu-teal-dark);
-    --cui-btn-active-color: #fff;
-  }
   @include media-breakpoint-up(md) {
+    padding: 1.5rem 1.75rem;
     h1 { font-size: 1.6rem; }
   }
-}
-[data-coreui-theme=dark] .bo-banner {
-  h1, .bo-banner-icon { color: #9fd3df; }
-  .bo-banner-icon { background: rgba(159, 211, 223, .12); }
 }
 
 // --- Cartes : ombre douce, en-tête teinté.
@@ -174,33 +161,18 @@ body {
   font-weight: 600;
 }
 
-// --- Indicateurs du tableau de bord : carte claire, liseré de couleur en haut, chiffre en grand.
-// Le rouge reste réservé aux appels à l'action et aux erreurs : il n'habille plus un indicateur.
+// --- Indicateurs du tableau de bord : aplats aux couleurs d'Edumada.
 .bo-widget {
   --bo-color: #0f4c5c;
-  height: 100%;
-  overflow: hidden;
-  padding-bottom: .5rem;
-  border: 1px solid var(--cui-border-color) !important;
-  border-top: 4px solid var(--bo-color) !important;
-  background: var(--cui-card-bg, #fff) !important;
-  color: var(--cui-body-color) !important; // CWidgetStatsA ajoute « text-white »
-  box-shadow: 0 1px 2px rgba(15, 23, 42, .05);
-  transition: box-shadow .2s ease;
-  &:hover { box-shadow: 0 6px 18px rgba(15, 76, 92, .1); }
+  border: 0;
+  color: #fff;
+  background: var(--bo-color) !important;
+  .text-body-secondary, .text-white-50 { color: rgba(255, 255, 255, .8) !important; }
   .card-header, .card-body { background: transparent; color: inherit; }
-  .fs-4 { color: var(--bo-color); font-weight: 700; }
-  .text-body-secondary, .text-white-50 { color: var(--cui-secondary-color) !important; }
   &.bo-widget-teal { --bo-color: #0f4c5c; }
-  &.bo-widget-red { --bo-color: #2a7f95; }
-  &.bo-widget-sage { --bo-color: #2f6f62; }
-  &.bo-widget-ink { --bo-color: #475569; }
-}
-[data-coreui-theme=dark] .bo-widget {
-  &.bo-widget-teal { --bo-color: #6cc0d4; }
-  &.bo-widget-red { --bo-color: #7fd0e0; }
-  &.bo-widget-sage { --bo-color: #8cc7b8; }
-  &.bo-widget-ink { --bo-color: #cbd5e1; }
+  &.bo-widget-red { --bo-color: #ff3b52; }
+  &.bo-widget-sage { --bo-color: #4f7d71; }
+  &.bo-widget-ink { --bo-color: #334155; }
 }
 
 // Pastille d'icône colorée (cartes de statistiques).
@@ -396,19 +368,3 @@ body {
     grid-template-columns: 1fr;
   }
 }
-
-// --- Accessibilité : focus clavier toujours visible, animations réduites si demandées.
-:is(a, button, .btn, .nav-link, .page-link, .form-control, .form-select, .form-check-input, [tabindex]):focus-visible {
-  outline: 3px solid rgba(255, 59, 82, .55);
-  outline-offset: 2px;
-  box-shadow: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: .01ms !important;
-    animation-duration: .01ms !important;
-  }
-}
-
-// Mode sombre : le fil d'Ariane garde un contraste suffisant.
-[data-coreui-theme=dark] .breadcrumb a { color: #9fd3df; }

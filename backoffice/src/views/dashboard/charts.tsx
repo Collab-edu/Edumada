@@ -20,7 +20,7 @@ export function Sparkline({ values, type = 'line' }: { values: number[]; type?: 
                 style={{ height: '70px' }}
                 data={{
                     labels: values.map((_, i) => i + 1),
-                    datasets: [{ backgroundColor: 'rgba(42,127,149,.35)', borderColor: 'rgba(42,127,149,.6)', data: values, barPercentage: 0.6 }],
+                    datasets: [{ backgroundColor: 'rgba(255,255,255,.35)', borderColor: 'rgba(255,255,255,.55)', data: values, barPercentage: 0.6 }],
                 }}
                 options={common}
             />
@@ -32,7 +32,7 @@ export function Sparkline({ values, type = 'line' }: { values: number[]; type?: 
             style={{ height: '70px' }}
             data={{
                 labels: values.map((_, i) => i + 1),
-                datasets: [{ backgroundColor: 'transparent', borderColor: 'rgba(15,76,92,.55)', pointBackgroundColor: 'rgba(15,76,92,.8)', data: values }],
+                datasets: [{ backgroundColor: 'transparent', borderColor: 'rgba(255,255,255,.6)', pointBackgroundColor: 'rgba(255,255,255,.9)', data: values }],
             }}
             options={{
                 ...common,
