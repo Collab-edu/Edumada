@@ -18,7 +18,7 @@ export default function AppBreadcrumb() {
                     <Link href={`${parent.path}/`}>{parent.name}</Link>
                 </CBreadcrumbItem>
             )}
-            {route && route.path !== '/dashboard' && <CBreadcrumbItem active>{route.name}</CBreadcrumbItem>}
+            {route && <CBreadcrumbItem active>{route.name}</CBreadcrumbItem>}
         </CBreadcrumb>
     )
 }
