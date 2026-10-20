@@ -80,7 +80,7 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
     const [ready, setReady] = useState(false)
-    // Ancien lien /signup/?type=etablissement : les établissements commencent par choisir leur formule.
+    // Ancien lien /inscription/?type=etablissement : les établissements commencent par choisir leur formule.
     useEffect(() => {
         setReady(true)
         if (!studentOnly && new URLSearchParams(window.location.search).get('type') === 'etablissement') router.replace(ESTABLISHMENT_START)

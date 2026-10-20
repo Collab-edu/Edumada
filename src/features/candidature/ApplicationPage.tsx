@@ -116,7 +116,7 @@ export default function ApplicationPage() {
                                 <p className='text-black'>Pour postuler et suivre votre dossier, connectez-vous ou créez un compte gratuit.</p>
                                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                                     <ButtonLink href={`/signin/?next=${encodeURIComponent(here)}`} variant='secondary'>Se connecter</ButtonLink>
-                                    <ButtonLink href={`/signup/?next=${encodeURIComponent(here)}`}>Créer un compte</ButtonLink>
+                                    <ButtonLink href={`/inscription/?next=${encodeURIComponent(here)}`}>Créer un compte</ButtonLink>
                                 </div>
                             </div>
                         ) : user.role !== 'student' ? (

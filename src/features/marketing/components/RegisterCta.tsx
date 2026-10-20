@@ -26,7 +26,7 @@ const RegisterCta = () => {
                             </span>
                         </p>
                         <Link
-                            href='/signup'
+                            href='/inscription/'
                             className='shrink-0 rounded-full bg-white px-8 py-4 text-sm font-bold uppercase tracking-wide text-secondary shadow-lg transition-all duration-300 hover:bg-primary hover:text-white hover:-translate-y-0.5'>
                             S&apos;inscrire maintenant
                         </Link>

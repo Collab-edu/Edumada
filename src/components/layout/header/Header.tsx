@@ -167,7 +167,7 @@ const Header: React.FC = () => {
                                     Connexion
                                 </button>
                                 <Link
-                                    href='/signup/'
+                                    href='/inscription/'
                                     className='hidden lg:block bg-primary text-white border border-primary hover:bg-transparent hover:text-primary duration-300 px-6 py-2 rounded-lg font-medium'>
                                     Inscription
                                 </Link>
@@ -233,7 +233,7 @@ const Header: React.FC = () => {
                                     Connexion
                                 </button>
                                 <Link
-                                    href='/signup/'
+                                    href='/inscription/'
                                     onClick={() => setNavbarOpen(false)}
                                     className='bg-primary text-white px-4 py-2 text-center rounded-lg border border-primary hover:text-primary hover:bg-transparent transition duration-300 ease-in-out'>
                                     Inscription

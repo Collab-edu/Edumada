@@ -94,7 +94,7 @@ export default function StudentSpaceSection() {
                                 </li>
                             ))}
                         </ul>
-                        <ButtonLink href='/signup/' className='w-full justify-center sm:w-auto sm:self-start'>
+                        <ButtonLink href='/inscription/' className='w-full justify-center sm:w-auto sm:self-start'>
                             Créer mon compte gratuit
                         </ButtonLink>
                     </div>

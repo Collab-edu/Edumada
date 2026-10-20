@@ -50,7 +50,7 @@ export function ReviewDialog({ open, onClose, establishmentId, formations }: Rev
                     <p className='text-black'>Connectez-vous avec un compte étudiant pour partager votre expérience.</p>
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                         <ButtonLink href={`/signin/?next=${encodeURIComponent(here)}`} variant='secondary'>Se connecter</ButtonLink>
-                        <ButtonLink href={`/signup/?next=${encodeURIComponent(here)}`}>Créer un compte</ButtonLink>
+                        <ButtonLink href={`/inscription/?next=${encodeURIComponent(here)}`}>Créer un compte</ButtonLink>
                     </div>
                 </div>
             ) : user.role !== 'student' ? (
