@@ -82,7 +82,7 @@ export default function AppHeader() {
     return (
         <CHeader position='sticky' className='mb-4 p-0' ref={headerRef}>
             <CContainer className='border-bottom px-3 px-md-4 flex-nowrap' fluid>
-                <CHeaderToggler onClick={() => setSidebarShow(!sidebarShow)} style={{ marginInlineStart: '-0.5rem' }} aria-label='Menu'>
+                <CHeaderToggler onClick={() => setSidebarShow(!sidebarShow)} style={{ marginInlineStart: '-14px' }} aria-label='Menu'>
                     <CIcon icon={cilMenu} size='lg' />
                 </CHeaderToggler>
                 <CHeaderNav className='d-flex me-auto ms-1 ms-md-2 min-w-0 overflow-hidden'>

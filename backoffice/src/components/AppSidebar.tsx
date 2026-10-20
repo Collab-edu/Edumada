@@ -38,7 +38,7 @@ export default function AppSidebar() {
 
     return (
         <CSidebar
-            colorScheme='light'
+            colorScheme='dark'
             position='fixed'
             unfoldable={sidebarUnfoldable}
             visible={sidebarShow}
@@ -47,16 +47,14 @@ export default function AppSidebar() {
             <CSidebarHeader className='border-bottom'>
                 <Link href='/dashboard/' className='sidebar-brand text-decoration-none d-flex align-items-center gap-2' onClick={closeOnMobile}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src='/edumada-logo.svg' alt='Edumada' height={34} className='sidebar-brand-full bo-logo-light' />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src='/edumada-logo-white.svg' alt='' height={34} className='sidebar-brand-full bo-logo-dark' />
-                    <span className='sidebar-brand-full small text-uppercase fw-semibold ms-1' style={{ color: 'var(--cui-secondary-color)', letterSpacing: '.08em' }}>
+                    <img src='/edumada-logo-white.svg' alt='Edumada' height={34} className='sidebar-brand-full' />
+                    <span className='sidebar-brand-full small text-uppercase fw-semibold ms-1' style={{ color: 'var(--edu-sage)' }}>
                         Back-office
                     </span>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src='/favicon.svg' alt='Edumada' height={30} className='sidebar-brand-narrow' />
                 </Link>
-                {sidebarShow && <CCloseButton className='d-lg-none' onClick={() => setSidebarShow(false)} aria-label='Fermer le menu' />}
+                <CCloseButton className='d-lg-none' dark onClick={() => setSidebarShow(false)} />
             </CSidebarHeader>
             <AppSidebarNav items={buildNav({ user, current, counts, categories: establishmentCounts?.data.categories })} onNavigate={closeOnMobile} />
             <CSidebarFooter className='border-top d-none d-lg-flex'>
