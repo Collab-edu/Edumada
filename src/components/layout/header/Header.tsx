@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
 import { Icon } from '@/components/ui/icon'
 import Signin from '@/features/auth/components/SignIn'
-import SignUp from '@/features/auth/components/SignUp'
 import { useSiteData } from '@/data/site-data'
 import Link from 'next/link'
 import { useAuth } from '@/features/auth/AuthProvider'
@@ -75,10 +74,8 @@ const Header: React.FC = () => {
     const [navbarOpen, setNavbarOpen] = useState(false)
     const [sticky, setSticky] = useState(false)
     const [isSignInOpen, setIsSignInOpen] = useState(false)
-    const [isSignUpOpen, setIsSignUpOpen] = useState(false)
 
     const signInRef = useRef<HTMLDivElement>(null)
-    const signUpRef = useRef<HTMLDivElement>(null)
     const mobileMenuRef = useRef<HTMLDivElement>(null)
 
     const handleScroll = () => {
@@ -88,9 +85,6 @@ const Header: React.FC = () => {
     const handleClickOutside = (event: MouseEvent) => {
         if (signInRef.current && !signInRef.current.contains(event.target as Node)) {
             setIsSignInOpen(false)
-        }
-        if (signUpRef.current && !signUpRef.current.contains(event.target as Node)) {
-            setIsSignUpOpen(false)
         }
         if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node) && navbarOpen) {
             setNavbarOpen(false)
@@ -104,15 +98,15 @@ const Header: React.FC = () => {
             window.removeEventListener('scroll', handleScroll)
             document.removeEventListener('mousedown', handleClickOutside)
         }
-    }, [navbarOpen, isSignInOpen, isSignUpOpen])
+    }, [navbarOpen, isSignInOpen])
 
     useEffect(() => {
-        if (isSignInOpen || isSignUpOpen || navbarOpen) {
+        if (isSignInOpen || navbarOpen) {
             document.body.style.overflow = 'hidden'
         } else {
             document.body.style.overflow = ''
         }
-    }, [isSignInOpen, isSignUpOpen, navbarOpen])
+    }, [isSignInOpen, navbarOpen])
 
     const openSignIn = () => setIsSignInOpen(true)
 
@@ -172,11 +166,11 @@ const Header: React.FC = () => {
                                     className='hidden lg:block bg-transparent text-primary border border-primary hover:bg-primary hover:text-white duration-300 px-6 py-2 rounded-lg hover:cursor-pointer'>
                                     Connexion
                                 </button>
-                                <button
-                                    onClick={() => setIsSignUpOpen(true)}
-                                    className='hidden lg:block bg-primary text-white border border-primary hover:bg-transparent hover:text-primary duration-300 px-6 py-2 rounded-lg font-medium hover:cursor-pointer'>
+                                <Link
+                                    href='/signup/'
+                                    className='hidden lg:block bg-primary text-white border border-primary hover:bg-transparent hover:text-primary duration-300 px-6 py-2 rounded-lg font-medium'>
                                     Inscription
-                                </button>
+                                </Link>
                                 {/* Petit écran : accès au compte par l'icône (Connexion et Inscription sont aussi dans le menu). */}
                                 <IconButton label='Connexion' icon='tabler:user' onClick={openSignIn} className='lg:hidden' />
                             </>
@@ -193,11 +187,6 @@ const Header: React.FC = () => {
             {isSignInOpen && (
                 <Modal panelRef={signInRef} label='Fermer la fenêtre de connexion' onClose={() => setIsSignInOpen(false)}>
                     <Signin onSuccess={() => setIsSignInOpen(false)} />
-                </Modal>
-            )}
-            {isSignUpOpen && (
-                <Modal panelRef={signUpRef} label="Fermer la fenêtre d'inscription" onClose={() => setIsSignUpOpen(false)}>
-                    <SignUp onSuccess={() => setIsSignUpOpen(false)} />
                 </Modal>
             )}
 
@@ -243,14 +232,12 @@ const Header: React.FC = () => {
                                     }}>
                                     Connexion
                                 </button>
-                                <button
-                                    className='bg-primary text-white px-4 py-2 rounded-lg border border-primary hover:text-primary hover:bg-transparent hover:cursor-pointer transition duration-300 ease-in-out'
-                                    onClick={() => {
-                                        setIsSignUpOpen(true)
-                                        setNavbarOpen(false)
-                                    }}>
+                                <Link
+                                    href='/signup/'
+                                    onClick={() => setNavbarOpen(false)}
+                                    className='bg-primary text-white px-4 py-2 text-center rounded-lg border border-primary hover:text-primary hover:bg-transparent transition duration-300 ease-in-out'>
                                     Inscription
-                                </button>
+                                </Link>
                             </>
                         )}
                         <Link
