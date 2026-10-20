@@ -26,4 +26,26 @@ class UploadController extends Controller
 
         return response()->json(['url' => Storage::disk('public')->url($path)], 201);
     }
+
+    /**
+     * Document public d'une offre (brochure) : PDF de 10 Mo au plus, téléchargeable sur le site.
+     */
+    public function storeDocument(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        abort_unless($user->isAdmin() || $user->isEstablishmentAccount(), 403);
+
+        $request->validate([
+            'file' => ['required', 'file', 'mimes:pdf', 'mimetypes:application/pdf', 'max:10240'],
+        ]);
+
+        $file = $request->file('file');
+        $path = $file->store('documents/'.now()->format('Y/m'), 'public');
+
+        return response()->json([
+            'url' => Storage::disk('public')->url($path),
+            'name' => mb_substr($file->getClientOriginalName(), 0, 255),
+            'size' => $file->getSize(),
+        ], 201);
+    }
 }

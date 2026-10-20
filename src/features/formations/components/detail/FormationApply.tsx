@@ -83,7 +83,7 @@ export function ExtraInfoSection({ detail, faq, onReport }: { detail: FormationD
                         </div>
                     </div>
                     {detail.brochureUrl ? (
-                        <a href={detail.brochureUrl} download className='rounded-lg border border-primary px-4 py-2 font-semibold text-primary hover:bg-primary hover:text-white'>
+                        <a href={detail.brochureUrl} download target='_blank' rel='noopener noreferrer' className='rounded-lg border border-primary px-4 py-2 font-semibold text-primary hover:bg-primary hover:text-white'>
                             Télécharger
                         </a>
                     ) : null}

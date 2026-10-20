@@ -17,7 +17,7 @@ import {
     CSpinner,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilImagePlus, cilPlus, cilTrash, cilX } from '@coreui/icons'
+import { cilCloudUpload, cilImagePlus, cilPlus, cilTrash, cilX } from '@coreui/icons'
 import { usePathname } from 'next/navigation'
 import { findRoute } from '@/routes'
 import { api, assetUrl, errorMessage } from '@/lib/api'
@@ -376,6 +376,73 @@ export function IconInput({
             </CInputGroup>
             {error && <CFormFeedback invalid className='d-block'>{error}</CFormFeedback>}
             {text && <div className='form-text'>{text}</div>}
+        </div>
+    )
+}
+
+/** Document PDF téléversé (brochure) : glisser-déposer ou clic, puis aperçu, ouverture et retrait. */
+export function FileUpload({ label, value, onChange, hint, error }: { label: string; value: string; onChange: (url: string) => void; hint?: string; error?: string }) {
+    const [busy, setBusy] = useState(false)
+    const [uploadError, setUploadError] = useState('')
+    const [dragging, setDragging] = useState(false)
+
+    const upload = async (file: File | undefined) => {
+        if (!file) return
+        if (file.type !== 'application/pdf') {
+            setUploadError('Seuls les fichiers PDF sont acceptés.')
+            return
+        }
+        setBusy(true)
+        setUploadError('')
+        try {
+            const body = new FormData()
+            body.append('file', file)
+            onChange((await api<{ url: string }>('/uploads/documents', { method: 'POST', body })).url)
+        } catch (err) {
+            setUploadError(errorMessage(err))
+        } finally {
+            setBusy(false)
+        }
+    }
+
+    return (
+        <div className='mb-3'>
+            <CFormLabel>{label}</CFormLabel>
+            {value ? (
+                <div className='bo-file d-flex align-items-center gap-3'>
+                    <span className='bo-file-icon'>PDF</span>
+                    <div className='me-auto' style={{ minWidth: 0 }}>
+                        <div className='fw-semibold'>Brochure (PDF)</div>
+                        <a href={assetUrl(value)} target='_blank' rel='noopener noreferrer' className='small'>
+                            Ouvrir le document
+                        </a>
+                    </div>
+                    <CButton color='danger' variant='ghost' size='sm' aria-label='Retirer le document' onClick={() => onChange('')}>
+                        <CIcon icon={cilTrash} />
+                    </CButton>
+                </div>
+            ) : (
+                <label
+                    className={`bo-dropzone${dragging ? ' is-dragging' : ''}`}
+                    onDragOver={(e) => {
+                        e.preventDefault()
+                        setDragging(true)
+                    }}
+                    onDragLeave={() => setDragging(false)}
+                    onDrop={(e) => {
+                        e.preventDefault()
+                        setDragging(false)
+                        upload(e.dataTransfer.files[0])
+                    }}
+                >
+                    {busy ? <CSpinner size='sm' /> : <CIcon icon={cilCloudUpload} size='xl' />}
+                    <span className='fw-semibold'>{busy ? 'Envoi en cours…' : 'Glissez votre PDF ici ou cliquez pour parcourir'}</span>
+                    <span className='small text-body-secondary'>Format accepté : PDF. Taille maximale : 10 Mo.</span>
+                    <input type='file' accept='application/pdf' hidden disabled={busy} onChange={(e) => upload(e.target.files?.[0])} />
+                </label>
+            )}
+            {hint && <div className='form-text'>{hint}</div>}
+            {(uploadError || error) && <div className='small text-danger mt-1'>{uploadError || error}</div>}
         </div>
     )
 }

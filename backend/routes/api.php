@@ -84,6 +84,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
         // Tableau de bord établissement : fiche, offres, demandes, statistiques, formule, campagnes.
         Route::post('uploads', [UploadController::class, 'store'])->middleware('throttle:60,60')->name('uploads.store');
+        Route::post('uploads/documents', [UploadController::class, 'storeDocument'])->middleware('throttle:30,60')->name('uploads.documents.store');
         Route::apiResource('establishments', EstablishmentController::class)->only(['store', 'update', 'destroy']);
         Route::put('establishments/{establishment}/moderation', [EstablishmentModerationController::class, 'update'])->name('establishments.moderation');
         Route::post('establishments/{establishment}/verification-request', [VerificationRequestController::class, 'store'])->name('establishments.verification-request');

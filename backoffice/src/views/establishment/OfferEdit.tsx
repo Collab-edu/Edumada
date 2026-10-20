@@ -9,7 +9,7 @@ import { useToast } from '@/context/ToastContext'
 import { api, ApiError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import type { Category, CategoryFields, Domain, ManagedEstablishment, ManagedOffer, ReferenceData } from '@/lib/types'
-import { EmptyState, ImageUpload, ListInput, PageCard } from '@/components/ui'
+import { EmptyState, FileUpload, ImageUpload, ListInput, PageCard } from '@/components/ui'
 
 const DEFAULT_FIELDS: CategoryFields = { diplomas: true, programme: true, level: true, childAge: true, duration: true, careers: true }
 const KIND_LABEL: Record<string, string> = { formation: 'Formation', niveau: 'Niveau scolaire', accueil: 'Accueil (crèche, garderie…)' }
@@ -572,14 +572,12 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                     checked={s.onlineApplication}
                     onChange={(ev) => set('onlineApplication', ev.target.checked)}
                 />
-                <CFormInput
-                    label='Brochure (lien vers un PDF)'
-                    type='url'
-                    placeholder='https://'
+                <FileUpload
+                    label='Brochure de la formation'
                     value={s.brochureUrl}
-                    onChange={(ev) => set('brochureUrl', ev.target.value)}
-                    invalid={!!err('details.brochureUrl')}
-                    feedbackInvalid={err('details.brochureUrl')}
+                    onChange={(url) => set('brochureUrl', url)}
+                    hint='Les visiteurs pourront la télécharger depuis la fiche de l’offre sur le site.'
+                    error={err('details.brochureUrl')}
                 />
             </Step>
 
