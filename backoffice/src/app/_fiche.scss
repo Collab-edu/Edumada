@@ -1134,3 +1134,18 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   .is-verified & { border-color: #22a06b; color: #1a8a55; }
 }
 .bo-adm-docs li > .me-auto { font-size: .875rem; }
+// « Ajouter une pièce » : séparé de la liste et marqué comme une action.
+.bo-adm-docs + .bo-adm-add,
+.bo-adm-docs + .bo-adm-add-row { margin-top: 1rem; }
+.bo-adm-add {
+  justify-content: center;
+  padding: .6rem .9rem;
+  border-color: rgba(15, 76, 92, .35);
+  background: rgba(15, 76, 92, .04);
+  color: #0F4C5C;
+  font-size: .85rem;
+  font-weight: 600;
+  &:hover { border-color: #0F4C5C; background: rgba(15, 76, 92, .08); }
+}
+[data-coreui-theme="dark"] .bo-adm-add { border-color: rgba(167, 196, 188, .4); background: rgba(167, 196, 188, .06); color: #A7C4BC; }
+.bo-adm-add-row { font-size: .875rem; }
