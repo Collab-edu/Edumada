@@ -1,4 +1,5 @@
 import HeroFilters from './HeroFilters'
+import MobileSearch from './MobileSearch'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import ParallaxFloatingSymbols from '@/components/ui/m-parallax-floating-3'
 import Image from 'next/image'
@@ -26,10 +27,14 @@ const Banner = () => {
             <div className='relative w-full px-6 lg:px-8'>
                 <div className='container'>
                     <div className='flex flex-col gap-4 text-center'>
-                        <h1 className='text-[30px] sm:text-[38px] lg:text-[45px] leading-tight font-bold max-w-4xl mx-auto'>
+                        <h1 className='text-[28px] sm:text-[38px] lg:text-[45px] leading-tight font-bold max-w-4xl mx-auto'>
                             Trouvez votre formation à Madagascar et construisez votre{' '}
                             <span className='text-primary'>avenir</span>.
                         </h1>
+                        {/* Mobile : la recherche juste sous le titre (la barre complète est masquée). */}
+                        <div className='mt-1 mb-2 sm:hidden'>
+                            <MobileSearch />
+                        </div>
                         <p className='text-base leading-7 text-black max-w-3xl mx-auto'>
                             Explorez les formations, comparez les établissements et trouvez le
                             parcours adapté à vos ambitions, à votre budget et à votre projet

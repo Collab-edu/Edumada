@@ -6,7 +6,7 @@ import SuggestInput from './SuggestInput'
 import { FILTER_UI, TOP_FILTERS, useFilterSuggestions } from '../useFilterSuggestions'
 
 // Le type d'établissement (public / privé) reste filtrable sur la page /recherche.
-const HERO_FILTERS = TOP_FILTERS.filter((filter) => filter.param !== 'type')
+export const HERO_FILTERS = TOP_FILTERS.filter((filter) => filter.param !== 'type')
 
 const HeroFilters = () => {
     const { suggestions } = useFilterSuggestions()
@@ -22,7 +22,7 @@ const HeroFilters = () => {
     const searchHref = query ? `/recherche?${query}` : '/recherche'
 
     return (
-        <div className='relative mx-auto max-w-6xl mt-8 sm:mt-12'>
+        <div className='relative mx-auto mt-8 hidden max-w-6xl sm:mt-12 sm:block'>
             {/* Lueur colorée derrière la barre */}
             <div
                 aria-hidden='true'
