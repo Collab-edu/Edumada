@@ -963,3 +963,234 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   &:hover { border-color: var(--edu-red); background: var(--edu-red); color: #fff; }
   .icon { width: 1rem; height: 1rem; }
 }
+
+/* ------------------------------------------------------------------ */
+/* Fiche : section Admission et infrastructures                        */
+/* ------------------------------------------------------------------ */
+.bo-adm-hero {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 1rem;
+  h2 { margin: 0; font-size: 1.5rem; font-weight: 700; color: #0f2a33; }
+  p { margin: .2rem 0 0; color: var(--cui-secondary-color); }
+}
+[data-coreui-theme="dark"] .bo-adm-hero h2 { color: var(--cui-emphasis-color); }
+.bo-adm-hero-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 50%;
+  background: #FFE5E8;
+  color: #FF3B52;
+}
+.bo-adm-state {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .55rem 1rem;
+  border-radius: 999px;
+  background: #fff3d6;
+  color: #a76a00;
+  font-size: .85rem;
+  font-weight: 600;
+  &.is-done { background: #e3f6ec; color: #1a8a55; }
+}
+
+.bo-adm-card { overflow: hidden; border-radius: 1rem; }
+.bo-adm-head {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  padding: 1.15rem 1.35rem;
+  border-bottom: 1px solid var(--cui-border-color-translucent);
+  h3 { margin: 0; font-size: 1.1rem; font-weight: 700; color: var(--cui-emphasis-color); }
+  p { margin: .15rem 0 0; font-size: .85rem; color: var(--cui-secondary-color); }
+}
+.bo-adm-head-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 50%;
+  background: #e8f0f2;
+  color: #0F4C5C;
+  .icon { width: 1.3rem; height: 1.3rem; }
+  &.is-green { background: #e3f6ec; color: #1a8a55; }
+}
+[data-coreui-theme="dark"] .bo-adm-head-icon { background: rgba(167, 196, 188, .15); color: #A7C4BC; }
+.bo-adm-body { padding: 1.15rem 1.35rem 1.35rem; }
+
+// Pièces à fournir.
+.bo-adm-docs {
+  display: grid;
+  gap: .65rem;
+  margin-bottom: .65rem;
+  li {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    padding: .75rem .9rem;
+    border: 1px solid var(--cui-border-color);
+    border-radius: .7rem;
+    background: var(--cui-body-bg);
+  }
+}
+.bo-adm-doc-icon { flex-shrink: 0; width: 1.15rem !important; height: 1.15rem !important; color: #0F4C5C; }
+.bo-adm-remove {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #FF3B52;
+  .icon { width: .85rem; height: .85rem; }
+  &:hover { background: #FFE5E8; }
+}
+.bo-adm-add,
+.bo-adm-add-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  width: 100%;
+  padding: .75rem .9rem;
+  border: 1.5px dashed var(--cui-border-color);
+  border-radius: .7rem;
+  background: transparent;
+  color: var(--cui-body-color);
+  font-size: .9rem;
+  text-align: left;
+}
+.bo-adm-add:hover { border-color: #0F4C5C; color: #0F4C5C; }
+.bo-adm-add-row {
+  border-style: solid;
+  border-color: #0F4C5C;
+  box-shadow: 0 0 0 3px rgba(15, 76, 92, .1);
+  input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--cui-body-color); }
+}
+.bo-adm-kbd { padding: .1rem .4rem; border: 1px solid var(--cui-border-color); border-radius: .3rem; color: var(--cui-secondary-color); font-size: .7rem; }
+.bo-adm-add-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: #0F4C5C;
+  color: #fff;
+  .icon { width: .75rem; height: .75rem; }
+  &.is-green { background: #22a06b; }
+}
+
+// Infrastructures.
+.bo-adm-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-bottom: 1rem;
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .45rem .45rem .45rem .9rem;
+    border: 1px solid var(--cui-border-color);
+    border-radius: 999px;
+    background: var(--cui-tertiary-bg);
+    color: var(--cui-emphasis-color);
+    font-size: .9rem;
+    > .icon { width: 1.1rem; height: 1.1rem; color: #0F4C5C; }
+  }
+}
+.bo-adm-suggest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 1.25rem;
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .35rem .75rem;
+    border: 1.5px dashed var(--cui-border-color);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--cui-secondary-color);
+    font-size: .82rem;
+    .icon { width: .7rem; height: .7rem; }
+    &:hover { border-color: #0F4C5C; color: #0F4C5C; }
+  }
+}
+.bo-adm-label {
+  display: block;
+  margin-bottom: .45rem;
+  font-weight: 600;
+  color: var(--cui-emphasis-color);
+  span { font-weight: 400; font-size: .85rem; color: var(--cui-secondary-color); }
+}
+.bo-adm-input {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--cui-border-color);
+  border-radius: .6rem;
+  background: var(--cui-body-bg);
+  &:focus-within { border-color: #0F4C5C; box-shadow: 0 0 0 3px rgba(15, 76, 92, .1); }
+  input { flex: 1; min-width: 0; padding: .7rem .9rem; border: 0; outline: 0; background: transparent; color: var(--cui-body-color); }
+  input:disabled { background: var(--cui-tertiary-bg); }
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.9rem;
+    border: 0;
+    border-left: 1px solid var(--cui-border-color);
+    background: transparent;
+    color: #0F4C5C;
+    &:disabled { color: var(--cui-tertiary-color); }
+    &:not(:disabled):hover { background: #0F4C5C; color: #fff; }
+  }
+}
+.bo-adm-hint { margin: .5rem 0 0; font-size: .8rem; color: var(--cui-secondary-color); }
+
+// Reconnaissance / accréditation.
+.bo-adm-accr {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  padding: .55rem .6rem .55rem 1rem;
+  border: 1px solid var(--cui-border-color);
+  border-radius: .7rem;
+  background: var(--cui-body-bg);
+  flex-wrap: wrap;
+  &:focus-within { border-color: #0F4C5C; box-shadow: 0 0 0 3px rgba(15, 76, 92, .1); }
+  input { flex: 1 1 14rem; min-width: 0; padding: .35rem 0; border: 0; outline: 0; background: transparent; color: var(--cui-emphasis-color); }
+  &.is-verified { border-color: rgba(34, 160, 107, .35); background: rgba(34, 160, 107, .04); }
+}
+.bo-adm-accr-icon { flex-shrink: 0; width: 1.35rem !important; height: 1.35rem !important; color: var(--cui-tertiary-color); .is-verified & { color: #22a06b; } }
+.bo-adm-badge {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: .35rem;
+  padding: .4rem .8rem;
+  border: 1px solid var(--cui-border-color);
+  border-radius: .5rem;
+  color: var(--cui-secondary-color);
+  font-size: .82rem;
+  font-weight: 600;
+  .icon { width: .95rem; height: .95rem; }
+  .is-verified & { border-color: #22a06b; color: #1a8a55; }
+}

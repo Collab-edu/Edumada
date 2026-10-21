@@ -3,13 +3,14 @@ import { useState, type FormEvent } from 'react'
 import Link from 'next/link'
 import { CAlert, CButton, CCol, CForm, CFormInput, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilClipboard, cilEducation, cilEnvelopeClosed, cilGlobeAlt, cilImage, cilLink, cilLocationPin, cilPhone, cilSave } from '@coreui/icons'
+import { cilEducation, cilEnvelopeClosed, cilGlobeAlt, cilImage, cilLink, cilLocationPin, cilPhone, cilSave } from '@coreui/icons'
 import { api, fieldError, isGeneralError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import { CITIES } from '@/lib/labels'
 import type { Category, ManagedEstablishment } from '@/lib/types'
 import { useToast } from '@/context/ToastContext'
-import { ErrorAlert, IconInput, ImageUpload, ListInput, PageCard } from '@/components/ui'
+import { ErrorAlert, IconInput, ImageUpload, PageCard } from '@/components/ui'
+import AdmissionSection from './AdmissionSection'
 
 const SOCIALS = [
     ['facebook', 'Facebook'],
@@ -288,30 +289,17 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                 )}
             </PageCard>
 
-            <PageCard icon={cilClipboard} title='Admission et infrastructures' subtitle='Détails utiles pour les futurs étudiants'>
-                <CRow className='g-4'>
-                    <CCol md={6}>
-                <ListInput label='Pièces à fournir pour une inscription' value={form.admissionDocuments} onChange={(v) => set('admissionDocuments', v)} />
-                    </CCol>
-                    <CCol md={6} className='bo-col-divider'>
-                <ListInput
-                    label='Infrastructures'
-                    placeholder='Ex. : bibliothèque, cantine…'
-                    value={form.infrastructures}
-                    onChange={(v) => set('infrastructures', v)}
-                    max={maxInfrastructures}
-                    hint={maxInfrastructures !== null ? `${maxInfrastructures} au maximum avec votre formule. Illimité avec Pro et Premium.` : undefined}
-                    error={err('infrastructures')}
-                />
-                    </CCol>
-                </CRow>
-                <CFormInput
-                    label='Reconnaissance / accréditation'
-                    text='Affichée seulement après vérification par Edumada auprès des autorités.'
-                    value={form.accreditation}
-                    onChange={(e) => set('accreditation', e.target.value)}
-                />
-            </PageCard>
+            <AdmissionSection
+                documents={form.admissionDocuments}
+                onDocuments={(v) => set('admissionDocuments', v)}
+                infrastructures={form.infrastructures}
+                onInfrastructures={(v) => set('infrastructures', v)}
+                maxInfrastructures={maxInfrastructures}
+                infrastructuresError={err('infrastructures')}
+                accreditation={form.accreditation}
+                onAccreditation={(v) => set('accreditation', v)}
+                accreditationVerified={!!establishment?.accreditationVerified}
+            />
 
             <div className='bo-save-fab'>
                 <CButton color='danger' className='text-white shadow' type='submit' disabled={saving}>
