@@ -43,7 +43,7 @@ class DailyStat extends Model
                 'count' => $count,
             ]],
             ['date', 'establishment_id', 'offer_id', 'campaign_id', 'metric'],
-            ['count' => DB::raw('count + '.$count)],
+            ['count' => DB::raw('daily_stats.count + '.$count)],
         );
     }
 }

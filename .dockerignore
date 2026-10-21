@@ -1,0 +1,24 @@
+# Image Docker de l'API (backend/Dockerfile, contexte = racine du dépôt) :
+# seuls le dossier backend/ et les données du site sont envoyés.
+*
+!backend/
+!public/data/
+
+backend/vendor/
+backend/node_modules/
+backend/.env
+backend/.env.*
+!backend/.env.example
+backend/tests/
+backend/public/build/
+backend/public/hot
+backend/public/storage
+backend/storage/app/public/*
+backend/storage/app/private/*
+backend/storage/logs/*
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/bootstrap/cache/*.php
+backend/database/*.sqlite
+backend/.phpunit.cache/

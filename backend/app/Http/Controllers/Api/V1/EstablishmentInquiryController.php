@@ -86,7 +86,7 @@ class EstablishmentInquiryController extends Controller
             ->when($filters['type'] ?? null, fn (Builder $query, string $type) => $query->where('type', $type))
             ->when($filters['offer'] ?? null, fn (Builder $query, string $slug) => $query->whereHas('offer', fn (Builder $offer) => $offer->where('slug', $slug)))
             ->when($filters['q'] ?? null, fn (Builder $query, string $text) => $query->where(
-                fn (Builder $query) => $query->where('name', 'like', "%{$text}%")->orWhere('email', 'like', "%{$text}%"),
+                fn (Builder $query) => $query->whereContains('name', $text)->orWhereContains('email', $text),
             ));
     }
 }

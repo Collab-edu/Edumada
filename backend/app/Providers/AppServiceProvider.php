@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
@@ -27,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->registerSearchMacros();
+
         // Hors production : erreur sur le chargement paresseux (N+1) et les attributs non autorisés.
         Model::shouldBeStrict(! $this->app->isProduction());
 
@@ -43,5 +46,23 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('admin', fn (User $user) => $user->isAdmin());
 
         RateLimiter::for('register', fn (Request $request) => Limit::perHour(10)->by($request->ip()));
+    }
+
+    /**
+     * « Contient ce texte », sans tenir compte de la casse ni des accents : « ecole » trouve
+     * « École » sous MySQL / MariaDB (collation), PostgreSQL (extension unaccent) et SQLite (casse).
+     */
+    private function registerSearchMacros(): void
+    {
+        $contains = function (Builder $query, string $column, string $text, string $boolean): Builder {
+            if ($query->getConnection()->getDriverName() === 'pgsql') {
+                return $query->whereRaw('unaccent('.$query->getGrammar()->wrap($column).'::text) ilike unaccent(?)', ["%{$text}%"], $boolean);
+            }
+
+            return $query->whereLike($column, "%{$text}%", false, $boolean);
+        };
+
+        Builder::macro('whereContains', fn (string $column, string $text) => $contains($this, $column, $text, 'and'));
+        Builder::macro('orWhereContains', fn (string $column, string $text) => $contains($this, $column, $text, 'or'));
     }
 }

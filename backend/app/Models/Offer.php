@@ -137,8 +137,8 @@ class Offer extends Model
 
         $query
             ->when($filters['q'] ?? null, fn (Builder $query, string $text) => $query->where(
-                fn (Builder $query) => $query->where('title', 'like', "%{$text}%")
-                    ->orWhereHas('domain', fn (Builder $domain) => $domain->where('name', 'like', "%{$text}%")),
+                fn (Builder $query) => $query->whereContains('title', $text)
+                    ->orWhereHas('domain', fn (Builder $domain) => $domain->whereContains('name', $text)),
             ))
             ->when($filters['domain'] ?? null, fn (Builder $query, string $name) => $query->whereHas(
                 'domain', fn (Builder $domain) => $domain->where('name', $name),
@@ -152,7 +152,7 @@ class Offer extends Model
                     $establishment
                         ->when($establishmentFilters['city'] ?? null, fn (Builder $q, string $city) => $q->where('city', $city))
                         ->when($establishmentFilters['type'] ?? null, fn (Builder $q, string $type) => $q->where('sector', EstablishmentSector::fromLabel($type)))
-                        ->when($establishmentFilters['school'] ?? null, fn (Builder $q, string $name) => $q->where('name', 'like', "%{$name}%"));
+                        ->when($establishmentFilters['school'] ?? null, fn (Builder $q, string $name) => $q->whereContains('name', $name));
                 }),
             )
             ->when($filters['kind'] ?? null, fn (Builder $query, string $kind) => $query->where('kind', OfferKind::fromLabel($kind)))
@@ -225,8 +225,16 @@ class Offer extends Model
     {
         $known = ['Français', 'Malgache', 'Anglais'];
 
-        if ($query->getConnection()->getDriverName() === 'sqlite') {
+        $driver = $query->getConnection()->getDriverName();
+
+        if ($driver === 'sqlite') {
             $query->whereRaw('exists (select 1 from json_each(offers.languages) where value not in (?, ?, ?))', $known);
+
+            return;
+        }
+
+        if ($driver === 'pgsql') {
+            $query->whereRaw('exists (select 1 from json_array_elements_text(offers.languages::json) as language(value) where language.value not in (?, ?, ?))', $known);
 
             return;
         }

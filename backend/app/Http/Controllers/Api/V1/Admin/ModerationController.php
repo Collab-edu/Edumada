@@ -112,7 +112,7 @@ class ModerationController extends Controller
 
         return AuditLogResource::collection(
             AuditLog::with('user')
-                ->when($action, fn (Builder $query) => $query->where('action', 'like', "{$action}%"))
+                ->when($action, fn (Builder $query) => $query->whereLike('action', "{$action}%"))
                 ->latest('id')
                 ->paginate(50)
                 ->withQueryString(),

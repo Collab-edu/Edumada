@@ -49,7 +49,7 @@ class Invoice extends Model
     public static function nextNumber(): string
     {
         $year = now()->year;
-        $count = self::where('number', 'like', "EDU-{$year}-%")->count() + 1;
+        $count = self::whereLike('number', "EDU-{$year}-%")->count() + 1;
 
         do {
             $number = sprintf('EDU-%d-%05d', $year, $count++);

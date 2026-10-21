@@ -43,7 +43,7 @@ class EstablishmentController extends Controller
                 ->when($filters['category'] ?? null, fn (Builder $query, string $slug) => $query->whereHas('category', fn (Builder $query) => $query->where('slug', $slug)))
                 ->when($filters['plan'] ?? null, fn (Builder $query, string $plan) => $query->onPlan(PlanCode::from($plan)))
                 ->when($filters['q'] ?? null, fn (Builder $query, string $text) => $query->where(
-                    fn (Builder $query) => $query->where('name', 'like', "%{$text}%")->orWhere('city', 'like', "%{$text}%"),
+                    fn (Builder $query) => $query->whereContains('name', $text)->orWhereContains('city', $text),
                 ))
                 ->latest('updated_at')
                 ->paginate(20)

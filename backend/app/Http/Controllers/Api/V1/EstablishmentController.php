@@ -39,7 +39,7 @@ class EstablishmentController extends Controller
 
         $establishments = Establishment::published()
             ->with(['category', 'subCategory', 'publishedOffers.domain'])
-            ->when($filters['q'] ?? null, fn (Builder $query, string $text) => $query->where('name', 'like', "%{$text}%"))
+            ->when($filters['q'] ?? null, fn (Builder $query, string $text) => $query->whereContains('name', $text))
             ->when($filters['category'] ?? null, fn (Builder $query, string $category) => $query->whereHas(
                 'category', fn (Builder $categories) => $categories->where('slug', $category)->orWhere('short_label', $category),
             ))
