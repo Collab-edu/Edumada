@@ -113,11 +113,11 @@ export default function EstablishmentSignUp() {
             toast.success('Votre compte est créé.')
             const email = `email=${encodeURIComponent(user.email)}`
             if (chosen.code === 'free') {
-                toast('Connectez-vous à votre espace pour compléter la fiche de votre établissement.', { icon: '➡️' })
+                toast('Connectez-vous à votre espace pour compléter la fiche de votre établissement.', { icon: <Icon icon='tabler:arrow-right' className='shrink-0 text-xl text-secondary' /> })
                 goTo(backofficeUrl(`/connexion?${email}`), router.push)
             } else {
                 // Formule payante : après connexion, l'établissement arrive sur sa demande d'abonnement.
-                toast(`Connectez-vous pour finaliser la formule ${chosen.name}.`, { icon: '➡️' })
+                toast(`Connectez-vous pour finaliser la formule ${chosen.name}.`, { icon: <Icon icon='tabler:arrow-right' className='shrink-0 text-xl text-secondary' /> })
                 const next = `/formule/?plan=${chosen.code}&cycle=${yearly ? 'yearly' : 'monthly'}`
                 goTo(backofficeUrl(`/connexion?${email}&next=${encodeURIComponent(next)}`), router.push)
             }

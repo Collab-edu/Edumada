@@ -38,7 +38,7 @@ export default function StudentSpaceSection() {
                     {/* Téléphone */}
                     <PhoneMockup tabs={TABS}>
                         <div>
-                            <p className='font-bold text-secondary'>Bonjour Aina 👋</p>
+                            <p className='font-bold text-secondary'>Bonjour Aina <Icon icon='material-symbols:waving-hand-outline' aria-hidden='true' className='inline-block align-[-0.125em] text-amber-400' /></p>
                             <p className='!text-xs text-ink/60'>Quelle formation cherches-tu ?</p>
                         </div>
                         <div className='flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-ink/50'>

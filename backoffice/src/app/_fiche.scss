@@ -316,7 +316,7 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
 }
 .bo-step.is-open .bo-step-num { background: #2f9e74; color: #fff; }
 .bo-step.is-done .bo-step-num, .bo-step-num.is-done { background: #2f9e74; color: #fff; }
-.bo-step-state { font-size: .8rem; color: var(--edu-red); white-space: nowrap; &::before { content: "● "; } }
+.bo-step-state { font-size: .8rem; color: var(--edu-red); white-space: nowrap; }
 .bo-step.is-done .bo-step-state { color: #2f9e74; }
 .bo-step-body { padding: 1.25rem; }
 

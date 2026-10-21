@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { api, apiEnabled, getToken, setToken } from '@/lib/api'
 import type { User } from './types'
+import { Icon } from '@/components/ui/icon'
 
 type RegisterData = {
     name: string
@@ -110,7 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const toggleFavorite = useCallback(async (offerId: string) => {
         if (!user) {
-            toast('Connectez-vous avec un compte étudiant pour enregistrer vos favoris.', { icon: '💡' })
+            toast('Connectez-vous avec un compte étudiant pour enregistrer vos favoris.', { icon: <Icon icon='tabler:bulb' className='shrink-0 text-xl text-primary' /> })
             router.push(`/signin/?next=${encodeURIComponent(window.location.pathname + window.location.search)}`)
             return
         }

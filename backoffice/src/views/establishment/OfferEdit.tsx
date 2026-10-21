@@ -9,7 +9,7 @@ import { useToast } from '@/context/ToastContext'
 import { api, ApiError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import type { Category, CategoryFields, Domain, ManagedEstablishment, ManagedOffer, ReferenceData } from '@/lib/types'
-import { EmptyState, FileUpload, ImageUpload, ListInput, PageCard } from '@/components/ui'
+import { EmptyState, FileUpload, ImageUpload, ListInput, PageCard, StatusDot } from '@/components/ui'
 
 const DEFAULT_FIELDS: CategoryFields = { diplomas: true, programme: true, level: true, childAge: true, duration: true, careers: true }
 const KIND_LABEL: Record<string, string> = { formation: 'Formation', niveau: 'Niveau scolaire', accueil: 'Accueil (crèche, garderie…)' }
@@ -150,7 +150,10 @@ function Step({ meta, open, onToggle, children }: { meta?: StepMeta; open: boole
                     <strong>{meta.title}</strong>
                     <small>{meta.subtitle}</small>
                 </span>
-                <span className='bo-step-state d-none d-sm-inline'>{meta.done ? 'Complété' : 'Non complété'}</span>
+                <span className='bo-step-state d-none d-sm-inline'>
+                    <StatusDot />
+                    {meta.done ? 'Complété' : 'Non complété'}
+                </span>
                 <CIcon icon={open ? cilChevronTop : cilChevronBottom} />
             </button>
             <div id={`step-body-${meta.key}`} className='bo-step-body' hidden={!open}>
@@ -590,7 +593,10 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                             <span className={`bo-step-num${step.done ? ' is-done' : ''}`}>{step.done ? <CIcon icon={cilCheckAlt} /> : step.n}</span>
                             <span className='me-auto text-start'>
                                 <span className='d-block fw-semibold'>{step.title}</span>
-                                <small className={step.done ? 'text-success' : 'text-danger'}>{step.done ? '● Complété' : '● Non complété'}</small>
+                                <small className={step.done ? 'text-success' : 'text-danger'}>
+                                    <StatusDot />
+                                    {step.done ? 'Complété' : 'Non complété'}
+                                </small>
                             </span>
                             <CIcon icon={cilChevronRight} />
                         </button>

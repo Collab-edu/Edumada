@@ -1,4 +1,6 @@
 import { CFooter } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { cilHeartFilled } from '@/lib/icons'
 import { SITE_URL } from '@/lib/api'
 
 export default function AppFooter() {
@@ -11,7 +13,7 @@ export default function AppFooter() {
                 <span className='ms-1'>&copy; {new Date().getFullYear()} · Back-office</span>
             </div>
             <div className='ms-auto bo-footer-tagline'>
-                Construisons ensemble l&apos;avenir de l&apos;éducation à Madagascar <span className='text-danger'>♥</span>
+                Construisons ensemble l&apos;avenir de l&apos;éducation à Madagascar <CIcon icon={cilHeartFilled} size='sm' className='text-danger' aria-label='avec amour' />
             </div>
         </CFooter>
     )

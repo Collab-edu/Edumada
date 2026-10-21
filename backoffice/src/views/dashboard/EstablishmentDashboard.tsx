@@ -22,6 +22,7 @@ import {
     cilPencil,
 } from '@coreui/icons'
 import { useApi } from '@/lib/useApi'
+import { cilEyeOpen } from '@/lib/icons'
 import { assetUrl, SITE_URL } from '@/lib/api'
 import { formatDate, formatDateTime, formatNumber, percentChange } from '@/lib/format'
 import type { EstablishmentStats, Inquiry, ManagedEstablishment, Paginated, SeriesPoint } from '@/lib/types'
@@ -29,12 +30,6 @@ import { EmptyState, Loading, StatusBadge } from '@/components/ui'
 import { ChartLegend, TrafficChart, type ChartDataset } from './charts'
 
 type Inbox = Paginated<Inquiry> & { counts?: Record<string, number> }
-
-// Œil (absent du jeu d'icônes libres CoreUI).
-const cilEyeOpen = [
-    '24 24',
-    '<path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>',
-]
 
 const PERIODS = [7, 30, 90]
 

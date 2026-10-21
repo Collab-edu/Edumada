@@ -119,6 +119,15 @@ export const STATUS_COLORS: Record<string, string> = {
     rejected: 'secondary',
 }
 
+/** Pastille d'état (point plein) dans la couleur du texte. */
+export function StatusDot({ className = 'me-1' }: { className?: string }) {
+    return (
+        <svg viewBox='0 0 8 8' width='0.5em' height='0.5em' aria-hidden='true' className={className} style={{ verticalAlign: '0.1em' }}>
+            <circle cx='4' cy='4' r='4' fill='currentColor' />
+        </svg>
+    )
+}
+
 export function StatusBadge({ status, children }: { status: string; children: ReactNode }) {
     return <CBadge color={STATUS_COLORS[status] ?? 'secondary'}>{children}</CBadge>
 }

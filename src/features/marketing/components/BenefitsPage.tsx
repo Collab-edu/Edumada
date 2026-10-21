@@ -127,7 +127,7 @@ export default function BenefitsPage() {
                     <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
                         <PhoneMockup tabs={PHONE_TABS}>
                             <div>
-                                <p className='font-bold text-secondary'>Bienvenue 👋</p>
+                                <p className='font-bold text-secondary'>Bienvenue <Icon icon='material-symbols:waving-hand-outline' aria-hidden='true' className='inline-block align-[-0.125em] text-amber-400' /></p>
                                 <p className='!text-xs text-ink/60'>Votre fiche est presque prête.</p>
                             </div>
                             <div className='flex flex-col gap-2 rounded-lg bg-white p-3'>
