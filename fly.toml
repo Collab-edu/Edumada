@@ -1,0 +1,36 @@
+# API Edumada (Laravel) sur Fly.io — à lancer depuis la RACINE du dépôt : fly deploy
+# Le site et le back-office restent sur Vercel ; seule l'API (backend/) est déployée ici.
+# Procédure complète : docs/DEPLOIEMENT-FLY.md
+
+app = "edumada-api"
+primary_region = "fra"
+
+[build]
+  # Contexte de construction = racine du dépôt (le seeder lit aussi public/data du site).
+  dockerfile = "backend/Dockerfile"
+
+[env]
+  PORT = "8080"
+  DB_CONNECTION = "pgsql"
+  QUEUE_CONNECTION = "sync"
+  MAIL_MAILER = "log"
+  LOG_CHANNEL = "stderr"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Une machine toujours allumée : les tâches planifiées (rappels d'abonnement) tournent en continu.
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "60s"
+    interval = "30s"
+    timeout = "5s"
+    method = "GET"
+    path = "/up"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
