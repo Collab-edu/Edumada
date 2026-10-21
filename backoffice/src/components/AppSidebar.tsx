@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import CIcon from '@coreui/icons-react'
 import { cilAccountLogout } from '@coreui/icons'
-import { CCloseButton, CSidebar, CSidebarFooter, CSidebarHeader, CSidebarToggler } from '@coreui/react'
+import { CCloseButton, CSidebar, CSidebarFooter, CSidebarHeader } from '@coreui/react'
 import { AppSidebarNav } from './AppSidebarNav'
 import { buildNav } from '@/nav'
 import { useAuth } from '@/context/AuthContext'
@@ -10,12 +10,12 @@ import { useEstablishment } from '@/context/EstablishmentContext'
 import { useLayout } from '@/context/LayoutContext'
 import { useApi } from '@/lib/useApi'
 import { useEstablishmentCounts } from '@/lib/useEstablishmentCounts'
-import { assetUrl, SITE_URL } from '@/lib/api'
+import { assetUrl } from '@/lib/api'
 
 type Overview = { data: { queues: { establishmentsPending: number; verificationsPending: number; claimsPending: number; reviewsPending: number; reportsOpen: number; invoicesPending: number } } }
 
 export default function AppSidebar() {
-    const { sidebarShow, setSidebarShow, sidebarUnfoldable, setSidebarUnfoldable } = useLayout()
+    const { sidebarShow, setSidebarShow, sidebarUnfoldable } = useLayout()
     const { user, logout } = useAuth()
     const { current } = useEstablishment()
 
@@ -87,17 +87,10 @@ export default function AppSidebar() {
             </CSidebarHeader>
             <AppSidebarNav items={buildNav({ user, current, counts, categories: establishmentCounts?.data.categories })} onNavigate={closeOnMobile} />
             <CSidebarFooter className='border-top bo-sidebar-footer'>
-                {brand && (
-                    <a href={SITE_URL} target='_blank' rel='noopener noreferrer' className='bo-sidebar-edumada sidebar-brand-full' title='Edumada'>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src='/edumada-logo-white.svg' alt='Edumada' height={20} />
-                    </a>
-                )}
                 <button type='button' className='bo-sidebar-logout' onClick={logout} title='Se déconnecter'>
                     <CIcon icon={cilAccountLogout} />
                     <span className='sidebar-brand-full'>Déconnexion</span>
                 </button>
-                <CSidebarToggler className='d-none d-lg-flex ms-auto' onClick={() => setSidebarUnfoldable(!sidebarUnfoldable)} aria-label='Réduire le menu' />
             </CSidebarFooter>
         </CSidebar>
     )

@@ -945,25 +945,13 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   strong { display: -webkit-box; overflow: hidden; font-size: .92rem; color: #fff; white-space: normal; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
   small { margin-top: .15rem; font-size: .72rem; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--edu-sage); }
 }
-.bo-sidebar-footer { display: flex; align-items: center; gap: .4rem; padding-right: .5rem !important; padding-left: .75rem !important; }
-.bo-sidebar-edumada {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  opacity: .8;
-  color: var(--edu-sage);
-  font-size: .68rem;
-  font-weight: 600;
-  letter-spacing: .04em;
-  text-decoration: none;
-  text-transform: uppercase;
-  &:hover { opacity: 1; color: var(--edu-sage); }
-}
+.bo-sidebar-footer { display: flex; align-items: center; }
 
 .bo-sidebar-logout {
   display: inline-flex;
-  flex-shrink: 0;
+  flex: 1;
   align-items: center;
+  justify-content: center;
   gap: .35rem;
   padding: .35rem .55rem;
   border: 1px solid rgba(255, 255, 255, .18);
@@ -975,4 +963,3 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   &:hover { border-color: var(--edu-red); background: var(--edu-red); color: #fff; }
   .icon { width: 1rem; height: 1rem; }
 }
-.bo-sidebar-footer .sidebar-toggler { flex: 0 0 2.25rem; }
