@@ -22,6 +22,15 @@ export const TOP_FILTERS = [
     { param: 'type', label: "Type d'établissement" },
 ] as const
 
+/** Mots courants qui mènent à chaque catégorie (on tape « crèche », on trouve « Petite enfance »). */
+const CATEGORY_KEYWORDS: Record<string, string[]> = {
+    'Enseignement supérieur': ['Université', 'Faculté', 'Institut', 'École supérieure', 'Licence', 'Master', 'BTS', 'Doctorat'],
+    'Petite enfance': ['Crèche', 'Garderie', 'Jardin d’enfants', 'Maternelle'],
+    'Formation professionnelle': ['CFP', 'Centre de formation', 'Métier', 'Apprentissage', 'Formation courte'],
+    'Primaire et secondaire': ['École primaire', 'EPP', 'Collège', 'CEG', 'Lycée', 'BEPC', 'Baccalauréat'],
+    'Autres établissements': ['Langues', 'Musique', 'Soutien scolaire'],
+}
+
 const offersLabel = (count: number) => `${count} offre${count > 1 ? 's' : ''}`
 
 /**
@@ -53,7 +62,7 @@ export function useFilterSuggestions() {
                             : filter.param === 'type'
                                 ? count((f) => f.schoolType === value)
                                 : count((f) => categories.find((c) => c.id === f.category)?.shortLabel === value)
-                return { value, hint: formations.length ? offersLabel(n) : undefined }
+                return { value, hint: formations.length ? offersLabel(n) : undefined, keywords: filter.param === 'categorie' ? CATEGORY_KEYWORDS[value] : undefined }
             })
         }
         return result
