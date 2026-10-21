@@ -8,7 +8,8 @@ PORT="${PORT:-10000}"
 sed -i "s/^Listen .*/Listen ${PORT}/" /etc/apache2/ports.conf
 sed -i "s/<VirtualHost \*:[0-9]*>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
 
-# Disque persistant monté sur storage/app/public : dossiers recréés à chaque démarrage.
+# Fichiers envoyés (storage/app/public) : dossiers recréés à chaque démarrage. Sans disque persistant
+# monté à cet endroit, ils sont perdus à chaque redéploiement.
 mkdir -p storage/app/public/uploads storage/app/public/documents
 
 php artisan storage:link --force >/dev/null 2>&1 || true

@@ -1,6 +1,8 @@
 # Déployer l'API (Laravel) sur Render avec Docker
 
-L'API tourne dans un conteneur Docker (PHP 8.4 + Apache) décrit par [backend/Dockerfile](../backend/Dockerfile), avec une base **PostgreSQL de Render** et un **disque persistant** pour les fichiers envoyés (photos, logos, brochures, pièces jointes).
+L'API tourne dans un conteneur Docker (PHP 8.4 + Apache) décrit par [backend/Dockerfile](../backend/Dockerfile), avec une base **PostgreSQL de Render**.
+
+> **Fichiers envoyés (photos, logos, brochures, pièces jointes)** : pour l'instant, ils sont gardés dans le conteneur, **sans stockage durable**. Ils sont perdus à chaque redéploiement ou redémarrage du service. Pour les conserver plus tard, voir l'étape 3.
 
 ## 1. Créer la base PostgreSQL
 
@@ -18,21 +20,21 @@ Render → **New → Web Service** → dépôt `Collab-edu/Edumada`, branche `ma
 | Root Directory | *(vide)* |
 | Dockerfile Path | `./backend/Dockerfile` |
 | Docker Build Context Directory | `.` |
-| Instance | Starter ou plus (les disques ne sont pas disponibles en gratuit) |
+| Instance | Free pour commencer (Starter ou plus pour éviter la mise en veille) |
 | Health Check Path | `/up` |
 
 Laisser vides les champs *Build Command* et *Start Command* : le Dockerfile s'en charge.
 
-## 3. Disque persistant
+## 3. Plus tard : conserver les fichiers envoyés
 
-Service → **Disks → Add disk**.
+Non activé pour l'instant. Le jour venu, sur une instance Starter ou plus : Service → **Disks → Add disk**.
 
 | Réglage | Valeur |
 |---|---|
 | Mount Path | `/var/www/html/storage/app/public` |
 | Taille | 1 Go pour commencer |
 
-Sans ce disque, les fichiers envoyés sont perdus à chaque redéploiement.
+Aucune modification de code n'est nécessaire : l'image est déjà prête pour ce disque.
 
 ## 4. Variables d'environnement
 
