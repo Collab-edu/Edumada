@@ -967,68 +967,7 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
 /* ------------------------------------------------------------------ */
 /* Fiche : section Admission et infrastructures                        */
 /* ------------------------------------------------------------------ */
-.bo-adm-hero {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem 1.25rem;
-  margin-bottom: 1.5rem;
-  padding: 1.25rem 1.5rem;
-  border-radius: 1rem;
-  h2 { margin: 0; font-size: 1.5rem; font-weight: 700; color: #0f2a33; }
-  p { margin: .2rem 0 0; color: var(--cui-secondary-color); }
-}
-[data-coreui-theme="dark"] .bo-adm-hero h2 { color: var(--cui-emphasis-color); }
-.bo-adm-hero-icon {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 3.75rem;
-  height: 3.75rem;
-  border-radius: 50%;
-  background: #FFE5E8;
-  color: #FF3B52;
-}
-.bo-adm-state {
-  display: inline-flex;
-  align-items: center;
-  gap: .45rem;
-  padding: .55rem 1rem;
-  border-radius: 999px;
-  background: #fff3d6;
-  color: #a76a00;
-  font-size: .85rem;
-  font-weight: 600;
-  &.is-done { background: #e3f6ec; color: #1a8a55; }
-}
 
-.bo-adm-card { overflow: hidden; border-radius: 1rem; }
-.bo-adm-head {
-  display: flex;
-  align-items: center;
-  gap: .9rem;
-  padding: 1.15rem 1.35rem;
-  border-bottom: 1px solid var(--cui-border-color-translucent);
-  h3 { margin: 0; font-size: 1.1rem; font-weight: 700; color: var(--cui-emphasis-color); }
-  p { margin: .15rem 0 0; font-size: .85rem; color: var(--cui-secondary-color); }
-}
-.bo-adm-head-icon {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 2.9rem;
-  height: 2.9rem;
-  border-radius: 50%;
-  background: #e8f0f2;
-  color: #0F4C5C;
-  .icon { width: 1.3rem; height: 1.3rem; }
-  &.is-green { background: #e3f6ec; color: #1a8a55; }
-}
-[data-coreui-theme="dark"] .bo-adm-head-icon { background: rgba(167, 196, 188, .15); color: #A7C4BC; }
-.bo-adm-body { padding: 1.15rem 1.35rem 1.35rem; }
 
 // Pièces à fournir.
 .bo-adm-docs {

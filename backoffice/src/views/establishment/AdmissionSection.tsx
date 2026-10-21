@@ -1,5 +1,6 @@
 'use client'
 import { useRef, useState, type KeyboardEvent } from 'react'
+import { CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
     cilBasketball,
@@ -9,6 +10,7 @@ import {
     cilBusAlt,
     cilCarAlt,
     cilCheckCircle,
+    cilClipboard,
     cilClock,
     cilCoffee,
     cilDescription,
@@ -22,6 +24,7 @@ import {
     cilWifiSignal4,
     cilX,
 } from '@coreui/icons'
+import { PageCard } from '@/components/ui'
 
 // Icône d'une infrastructure d'après son nom (« Salle informatique » → écran…).
 const INFRA_ICONS: [RegExp, string[]][] = [
@@ -44,23 +47,8 @@ const SUGGESTIONS = ['Salles de cours équipées', 'Bibliothèque', 'Salle infor
 
 const sameText = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase()
 
-/** En-tête de carte : icône ronde, titre et sous-titre. */
-function CardHead({ icon, tone, title, subtitle }: { icon: string[]; tone: 'teal' | 'green'; title: React.ReactNode; subtitle: string }) {
-    return (
-        <div className='bo-adm-head'>
-            <span className={`bo-adm-head-icon is-${tone}`} aria-hidden='true'>
-                <CIcon icon={icon} />
-            </span>
-            <div>
-                <h3>{title}</h3>
-                <p>{subtitle}</p>
-            </div>
-        </div>
-    )
-}
-
 /**
- * Section « Admission et infrastructures » de la fiche : pièces à fournir,
+ * Carte « Admission et infrastructures » de la fiche : pièces à fournir,
  * infrastructures (avec icône et suggestions) et reconnaissance officielle.
  */
 export default function AdmissionSection({
@@ -88,9 +76,7 @@ export default function AdmissionSection({
     const [addingDoc, setAddingDoc] = useState(false)
     const [infraDraft, setInfraDraft] = useState('')
     const docInput = useRef<HTMLInputElement>(null)
-    const infraInput = useRef<HTMLInputElement>(null)
     const infraFull = maxInfrastructures !== null && infrastructures.length >= maxInfrastructures
-    const complete = documents.length > 0 && infrastructures.length > 0
 
     const addDoc = () => {
         const text = docDraft.trim()
@@ -114,157 +100,117 @@ export default function AdmissionSection({
     const suggestions = SUGGESTIONS.filter((s) => !infrastructures.some((i) => sameText(i, s))).slice(0, 4)
 
     return (
-        <section id='bo-admission' className='bo-adm mb-4'>
-            {/* En-tête de section */}
-            <div className='bo-adm-hero card'>
-                <span className='bo-adm-hero-icon' aria-hidden='true'>
-                    <CIcon icon={cilRoom} size='xl' />
-                </span>
-                <div className='me-auto'>
-                    <h2>Admission et infrastructures</h2>
-                    <p>Détails utiles pour les futurs étudiants</p>
-                </div>
-                <span className={`bo-adm-state${complete ? ' is-done' : ''}`}>
-                    <CIcon icon={complete ? cilCheckCircle : cilClock} />
-                    {complete ? 'Informations complètes' : 'À compléter'}
-                </span>
-            </div>
-
-            <div className='row g-4'>
+        <PageCard id='bo-admission' icon={cilClipboard} title='Admission et infrastructures' subtitle='Détails utiles pour les futurs étudiants'>
+            <CRow className='g-4 mb-4'>
                 {/* Pièces à fournir */}
-                <div className='col-lg-6'>
-                    <div className='card bo-adm-card h-100'>
-                        <CardHead icon={cilDescription} tone='teal' title='Pièces à fournir pour une inscription' subtitle='Indiquez les documents que les candidats doivent fournir.' />
-                        <div className='bo-adm-body'>
-                            <ul className='bo-adm-docs list-unstyled mb-0'>
-                                {documents.map((doc, i) => (
-                                    <li key={`${doc}-${i}`}>
-                                        <CIcon icon={cilDescription} className='bo-adm-doc-icon' />
-                                        <span className='me-auto'>{doc}</span>
-                                        <button type='button' className='bo-adm-remove' onClick={() => onDocuments(documents.filter((_, j) => j !== i))} aria-label={`Retirer « ${doc} »`}>
-                                            <CIcon icon={cilX} />
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                            {addingDoc ? (
-                                <div className='bo-adm-add-row'>
-                                    <CIcon icon={cilDescription} className='bo-adm-doc-icon' />
-                                    <input
-                                        ref={docInput}
-                                        autoFocus
-                                        value={docDraft}
-                                        onChange={(e) => setDocDraft(e.target.value)}
-                                        onKeyDown={onEnter(addDoc)}
-                                        onBlur={() => {
-                                            addDoc()
-                                            setAddingDoc(false)
-                                        }}
-                                        placeholder='Ex. : Copie du dernier diplôme obtenu'
-                                        aria-label='Nouvelle pièce à fournir'
-                                    />
-                                    <span className='bo-adm-kbd'>Entrée</span>
-                                </div>
-                            ) : (
-                                <button type='button' className='bo-adm-add' onClick={() => setAddingDoc(true)}>
-                                    <span className='bo-adm-add-icon is-green'>
-                                        <CIcon icon={cilPlus} />
-                                    </span>
-                                    Ajouter une pièce à fournir
+                <CCol md={6}>
+                    <span className='bo-adm-label'>Pièces à fournir pour une inscription</span>
+                    <ul className='bo-adm-docs list-unstyled mb-0'>
+                        {documents.map((doc, i) => (
+                            <li key={`${doc}-${i}`}>
+                                <CIcon icon={cilDescription} className='bo-adm-doc-icon' />
+                                <span className='me-auto'>{doc}</span>
+                                <button type='button' className='bo-adm-remove' onClick={() => onDocuments(documents.filter((_, j) => j !== i))} aria-label={`Retirer « ${doc} »`}>
+                                    <CIcon icon={cilX} />
                                 </button>
-                            )}
+                            </li>
+                        ))}
+                    </ul>
+                    {addingDoc ? (
+                        <div className='bo-adm-add-row'>
+                            <CIcon icon={cilDescription} className='bo-adm-doc-icon' />
+                            <input
+                                ref={docInput}
+                                autoFocus
+                                value={docDraft}
+                                onChange={(e) => setDocDraft(e.target.value)}
+                                onKeyDown={onEnter(addDoc)}
+                                onBlur={() => {
+                                    addDoc()
+                                    setAddingDoc(false)
+                                }}
+                                placeholder='Ex. : Copie du dernier diplôme obtenu'
+                                aria-label='Nouvelle pièce à fournir'
+                            />
+                            <span className='bo-adm-kbd'>Entrée</span>
                         </div>
-                    </div>
-                </div>
+                    ) : (
+                        <button type='button' className='bo-adm-add' onClick={() => setAddingDoc(true)}>
+                            <span className='bo-adm-add-icon is-green'>
+                                <CIcon icon={cilPlus} />
+                            </span>
+                            Ajouter une pièce à fournir
+                        </button>
+                    )}
+                </CCol>
 
                 {/* Infrastructures */}
-                <div className='col-lg-6'>
-                    <div className='card bo-adm-card h-100'>
-                        <CardHead icon={cilPeople} tone='teal' title='Infrastructures' subtitle='Les infrastructures disponibles dans l’établissement.' />
-                        <div className='bo-adm-body'>
-                            {infrastructures.length > 0 && (
-                                <ul className='bo-adm-chips list-unstyled'>
-                                    {infrastructures.map((item, i) => (
-                                        <li key={`${item}-${i}`}>
-                                            <CIcon icon={infraIcon(item)} />
-                                            {item}
-                                            <button type='button' className='bo-adm-remove' onClick={() => onInfrastructures(infrastructures.filter((_, j) => j !== i))} aria-label={`Retirer « ${item} »`}>
-                                                <CIcon icon={cilX} />
-                                            </button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-
-                            {!infraFull && suggestions.length > 0 && (
-                                <div className='bo-adm-suggest'>
-                                    {suggestions.map((s) => (
-                                        <button key={s} type='button' onClick={() => addInfra(s)}>
-                                            <CIcon icon={cilPlus} />
-                                            {s}
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-
-                            <label htmlFor='bo-infra-input' className='bo-adm-label'>
-                                Autres infrastructures <span>(optionnel)</span>
-                            </label>
-                            <div className='bo-adm-input'>
-                                <input
-                                    id='bo-infra-input'
-                                    ref={infraInput}
-                                    value={infraDraft}
-                                    disabled={infraFull}
-                                    onChange={(e) => setInfraDraft(e.target.value)}
-                                    onKeyDown={onEnter(() => addInfra())}
-                                    placeholder={infraFull ? 'Limite de votre formule atteinte' : 'Ex. : bibliothèque, cantine…'}
-                                />
-                                <button type='button' onClick={() => addInfra()} disabled={infraFull || !infraDraft.trim()} aria-label='Ajouter l’infrastructure'>
+                <CCol md={6} className='bo-col-divider'>
+                    <span className='bo-adm-label'>Infrastructures</span>
+                    {infrastructures.length > 0 && (
+                        <ul className='bo-adm-chips list-unstyled'>
+                            {infrastructures.map((item, i) => (
+                                <li key={`${item}-${i}`}>
+                                    <CIcon icon={infraIcon(item)} />
+                                    {item}
+                                    <button type='button' className='bo-adm-remove' onClick={() => onInfrastructures(infrastructures.filter((_, j) => j !== i))} aria-label={`Retirer « ${item} »`}>
+                                        <CIcon icon={cilX} />
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                    {!infraFull && suggestions.length > 0 && (
+                        <div className='bo-adm-suggest'>
+                            {suggestions.map((s) => (
+                                <button key={s} type='button' onClick={() => addInfra(s)}>
                                     <CIcon icon={cilPlus} />
+                                    {s}
                                 </button>
-                            </div>
-                            {infrastructuresError ? (
-                                <p className='bo-adm-hint text-danger'>{infrastructuresError}</p>
-                            ) : maxInfrastructures !== null ? (
-                                <p className='bo-adm-hint'>
-                                    {infrastructures.length} / {maxInfrastructures} avec votre formule. Illimité avec Pro et Premium.
-                                </p>
-                            ) : null}
+                            ))}
                         </div>
+                    )}
+                    <div className='bo-adm-input'>
+                        <input
+                            value={infraDraft}
+                            disabled={infraFull}
+                            onChange={(e) => setInfraDraft(e.target.value)}
+                            onKeyDown={onEnter(() => addInfra())}
+                            placeholder={infraFull ? 'Limite de votre formule atteinte' : 'Ex. : bibliothèque, cantine…'}
+                            aria-label='Ajouter une infrastructure'
+                        />
+                        <button type='button' onClick={() => addInfra()} disabled={infraFull || !infraDraft.trim()} aria-label='Ajouter l’infrastructure'>
+                            <CIcon icon={cilPlus} />
+                        </button>
                     </div>
-                </div>
-            </div>
+                    {infrastructuresError ? (
+                        <p className='bo-adm-hint text-danger'>{infrastructuresError}</p>
+                    ) : maxInfrastructures !== null ? (
+                        <p className='bo-adm-hint'>
+                            {infrastructures.length} / {maxInfrastructures} avec votre formule. Illimité avec Pro et Premium.
+                        </p>
+                    ) : null}
+                </CCol>
+            </CRow>
 
             {/* Reconnaissance / accréditation */}
-            <div className='card bo-adm-card mt-4'>
-                <CardHead
-                    icon={cilShieldAlt}
-                    tone='green'
-                    title={
-                        <>
-                            <span className='text-success'>Reconnaissance</span> / accréditation
-                        </>
-                    }
-                    subtitle='Informations sur la reconnaissance de votre établissement.'
+            <label htmlFor='bo-accreditation' className='bo-adm-label'>
+                Reconnaissance / accréditation
+            </label>
+            <div className={`bo-adm-accr${accreditationVerified ? ' is-verified' : ''}`}>
+                <CIcon icon={accreditationVerified ? cilCheckCircle : cilShieldAlt} className='bo-adm-accr-icon' />
+                <input
+                    id='bo-accreditation'
+                    value={accreditation}
+                    onChange={(e) => onAccreditation(e.target.value)}
+                    placeholder='Ex. : Établissement privé habilité par le ministère de l’Enseignement supérieur'
                 />
-                <div className='bo-adm-body'>
-                    <div className={`bo-adm-accr${accreditationVerified ? ' is-verified' : ''}`}>
-                        <CIcon icon={accreditationVerified ? cilCheckCircle : cilShieldAlt} className='bo-adm-accr-icon' />
-                        <input
-                            value={accreditation}
-                            onChange={(e) => onAccreditation(e.target.value)}
-                            placeholder='Ex. : Établissement privé habilité par le ministère de l’Enseignement supérieur'
-                            aria-label='Reconnaissance ou accréditation'
-                        />
-                        <span className='bo-adm-badge'>
-                            <CIcon icon={accreditationVerified ? cilCheckCircle : cilClock} />
-                            {accreditationVerified ? 'Vérifié' : 'À vérifier'}
-                        </span>
-                    </div>
-                    <p className='bo-adm-hint'>Affichée sur votre fiche seulement après vérification par Edumada auprès des autorités.</p>
-                </div>
+                <span className='bo-adm-badge'>
+                    <CIcon icon={accreditationVerified ? cilCheckCircle : cilClock} />
+                    {accreditationVerified ? 'Vérifié' : 'À vérifier'}
+                </span>
             </div>
-        </section>
+            <p className='bo-adm-hint'>Affichée seulement après vérification par Edumada auprès des autorités.</p>
+        </PageCard>
     )
 }
