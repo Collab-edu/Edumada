@@ -144,7 +144,13 @@ Statuts : **Brouillon**, **En attente de validation**, **Publiée**, **Suspendue
   - Dans les deux cas, un e-mail part, avec la note éventuelle de l'administrateur.
 - **Demande de vérification** : la vérification passe à « en cours », et une fiche en brouillon repasse **en attente de validation**.
 - **Vérification** : seul l'administrateur l'attribue, avec la date du jour. Elle **ne s'achète pas**. L'accréditation n'est affichée sur le site que si elle est vérifiée.
-- **Revendication** : un compte établissement qui ne gère pas déjà la fiche envoie un message (20 caractères au moins). Une seule demande en attente par personne et par fiche. L'administrateur la traite.
+- **Revendication** : un compte établissement **sans fiche** envoie un message (20 caractères au moins). Une seule demande en attente par personne et par fiche. L'administrateur la traite.
+- **Un compte = un établissement** : un compte ne gère qu'une seule fiche. Créer une deuxième fiche, en revendiquer une autre ou être ajouté à une autre équipe est refusé.
+- **Équipe** : une fiche peut être gérée par plusieurs comptes, avec deux rôles.
+  - **Propriétaire** : tout, y compris l'équipe, la formule et les factures. Une fiche garde toujours au moins un propriétaire : le dernier ne peut être ni retiré ni rétrogradé.
+  - **Éditeur** : la fiche, les offres et les demandes. Il voit l'équipe mais ne la modifie pas.
+  - Le propriétaire ajoute un membre depuis la page **Équipe** du back-office. Pour une adresse inconnue, le compte est créé avec un mot de passe provisoire choisi ou généré, affiché une seule fois. Un compte établissement existant sans fiche est simplement rattaché. Un compte étudiant ou administrateur est refusé.
+  - La personne ajoutée reçoit un e-mail avec le lien de connexion. Un membre retiré perd aussitôt l'accès (ses sessions sont fermées). Chaque ajout, changement de rôle et retrait est inscrit au journal d'audit.
 - **Identifiant (slug)** : tiré du nom (« Institut de Toliara » donne `institut-de-toliara`), avec un suffixe `-2`, `-3`… en cas de doublon. Pour une offre, on part de l'intitulé et du sigle (ou du nom) de l'établissement.
 
 ### 2.7 Offres et limite de la formule

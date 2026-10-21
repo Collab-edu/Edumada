@@ -4,11 +4,13 @@ import { useEstablishment } from '@/context/EstablishmentContext'
 import { useAuth } from '@/context/AuthContext'
 import PageBanner from '@/components/PageBanner'
 import EstablishmentForm from './EstablishmentForm'
+import AlreadyManaged from './AlreadyManaged'
 
 /** Nouvelle fiche : créée « en attente de validation », publiée après contrôle par Edumada. */
 export default function NewEstablishment() {
-    const { select } = useEstablishment()
+    const { select, current } = useEstablishment()
     const { refresh } = useAuth()
+    if (current) return <AlreadyManaged name={current.name} />
 
     return (
         <>

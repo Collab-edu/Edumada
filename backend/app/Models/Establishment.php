@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EstablishmentMemberRole;
 use App\Enums\EstablishmentSector;
 use App\Enums\EstablishmentStatus;
 use App\Enums\OfferStatus;
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Fiche établissement. Le statut de publication, la vérification et l'accréditation vérifiée
@@ -147,6 +149,29 @@ class Establishment extends Model
     public function publishedReviews(): HasMany
     {
         return $this->reviews()->where('status', ReviewStatus::Published);
+    }
+
+    /**
+     * Donne la gestion de la fiche à un compte. Un compte ne gère qu'un seul établissement :
+     * s'il fait déjà partie de l'équipe d'une autre fiche, l'ajout est refusé.
+     *
+     * @throws ValidationException
+     */
+    public function addMember(User $user, EstablishmentMemberRole $role, string $field = 'email'): void
+    {
+        if ($user->establishments()->whereKeyNot($this->getKey())->exists()) {
+            throw ValidationException::withMessages([$field => 'Ce compte gère déjà un autre établissement : un compte ne peut gérer qu\'un seul établissement.']);
+        }
+
+        $this->members()->syncWithoutDetaching([$user->id => ['role' => $role->value]]);
+    }
+
+    /**
+     * Nombre de propriétaires : une fiche en garde toujours au moins un.
+     */
+    public function ownersCount(): int
+    {
+        return $this->members()->wherePivot('role', EstablishmentMemberRole::Owner->value)->count();
     }
 
     /**

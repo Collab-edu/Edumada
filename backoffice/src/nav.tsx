@@ -68,6 +68,7 @@ export function buildNav({
               item('Statistiques', '/statistiques', cilChartLine),
               item('Campagnes', '/campagnes', cilBullhorn, current.plan.code === 'premium' ? undefined : { color: 'secondary', text: 'PREMIUM' }),
               item('Formule et factures', '/formule', cilCreditCard),
+              item('Équipe', '/equipe', cilPeople),
           ]
         : []
 

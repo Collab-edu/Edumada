@@ -3,11 +3,8 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
-    CBadge,
     CContainer,
     CDropdown,
-    CDropdownDivider,
-    CDropdownHeader,
     CDropdownItem,
     CDropdownMenu,
     CDropdownToggle,
@@ -18,7 +15,7 @@ import {
     useColorModes,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBank, cilBell, cilContrast, cilExternalLink, cilMenu, cilMoon, cilSearch, cilSun } from '@coreui/icons'
+import { cilBell, cilContrast, cilExternalLink, cilMenu, cilMoon, cilSearch, cilSun } from '@coreui/icons'
 import AppBreadcrumb from './AppBreadcrumb'
 import AppHeaderDropdown from './AppHeaderDropdown'
 import { useAuth } from '@/context/AuthContext'
@@ -26,48 +23,6 @@ import { useEstablishment } from '@/context/EstablishmentContext'
 import { useLayout } from '@/context/LayoutContext'
 import { SITE_URL } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
-
-export const PLAN_COLORS = { free: 'secondary', pro: 'primary', premium: 'danger' } as const
-
-/** Choix de l'établissement géré (compte établissement avec une ou plusieurs fiches). */
-function EstablishmentSwitcher() {
-    const { user } = useAuth()
-    const { establishments, current, select } = useEstablishment()
-    if (!user || user.role !== 'establishment' || !current) return null
-
-    return (
-        <CDropdown variant='nav-item' placement='bottom-start'>
-            <CDropdownToggle className='d-flex align-items-center gap-2 text-truncate' style={{ maxWidth: 'min(320px, 42vw)' }}>
-                <CIcon icon={cilBank} className='text-primary flex-none' />
-                <span className='text-truncate fw-semibold'>{current ? current.name : 'Aucun établissement géré'}</span>
-                {current && (
-                    <CBadge color={PLAN_COLORS[current.plan.code]} className='d-none d-md-inline'>
-                        {current.plan.name}
-                    </CBadge>
-                )}
-            </CDropdownToggle>
-            <CDropdownMenu>
-                {establishments.length > 0 && <CDropdownHeader className='bg-body-secondary fw-semibold'>Mes établissements</CDropdownHeader>}
-                {establishments.map((e) => (
-                    <CDropdownItem key={e.id} as='button' active={current?.id === e.id} onClick={() => select(e.id)}>
-                        {e.name}
-                    </CDropdownItem>
-                ))}
-                {current && (
-                    <>
-                        <CDropdownDivider />
-                        {current.status === 'published' && (
-                            <CDropdownItem href={`${SITE_URL}/etablissements/${current.id}/`} target='_blank' rel='noopener noreferrer'>
-                                <CIcon icon={cilExternalLink} className='me-2' />
-                                Voir la fiche sur le site
-                            </CDropdownItem>
-                        )}
-                    </>
-                )}
-            </CDropdownMenu>
-        </CDropdown>
-    )
-}
 
 /** Recherche rapide : demandes (établissement) ou fiches (administration). */
 function HeaderSearch() {
@@ -139,7 +94,6 @@ export default function AppHeader() {
                 </CHeaderToggler>
                 <CHeaderNav className='d-flex align-items-center gap-3 me-auto ms-1 ms-md-2 min-w-0'>
                     <HeaderSearch />
-                    <EstablishmentSwitcher />
                 </CHeaderNav>
                 <CHeaderNav className='ms-auto'>
                     <Notifications />

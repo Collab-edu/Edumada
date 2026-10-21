@@ -49,6 +49,7 @@ export const routes: RouteMeta[] = [
     { path: '/statistiques', name: 'Statistiques', description: 'Vues, clics et demandes sur la période.', icon: cilChartLine, establishment: true, roles: ESTABLISHMENT },
     { path: '/campagnes', name: 'Campagnes', description: 'Mettez une offre en avant avec le badge « Sponsorisé ».', icon: cilBullhorn, establishment: true, roles: ESTABLISHMENT },
     { path: '/formule', name: 'Formule et factures', description: 'Votre abonnement, vos paiements et vos factures.', icon: cilCreditCard, establishment: true, roles: ESTABLISHMENT },
+    { path: '/equipe', name: 'Équipe', description: 'Les personnes qui gèrent votre établissement sur Edumada.', icon: cilPeople, establishment: true, roles: ESTABLISHMENT },
     { path: '/facture', name: 'Facture', description: 'Détail et impression de la facture.', icon: cilFile },
     { path: '/nouvel-etablissement', name: 'Nouvel établissement', description: 'Créez la fiche de votre établissement.', icon: cilPlus, roles: ESTABLISHMENT },
     { path: '/revendiquer', name: 'Revendiquer une fiche', description: 'Demandez la gestion d’une fiche déjà présente sur Edumada.', icon: cilFlagAlt, roles: ESTABLISHMENT },

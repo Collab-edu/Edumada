@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\V1\PlanController;
 use App\Http\Controllers\Api\V1\ReferenceDataController;
 use App\Http\Controllers\Api\V1\ReportController;
 use App\Http\Controllers\Api\V1\ReviewController;
+use App\Http\Controllers\Api\V1\TeamController;
 use App\Http\Controllers\Api\V1\TrackController;
 use App\Http\Controllers\Api\V1\UploadController;
 use App\Http\Controllers\Api\V1\VerificationRequestController;
@@ -89,6 +90,10 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::put('establishments/{establishment}/moderation', [EstablishmentModerationController::class, 'update'])->name('establishments.moderation');
         Route::post('establishments/{establishment}/verification-request', [VerificationRequestController::class, 'store'])->name('establishments.verification-request');
         Route::post('establishments/{establishment}/claims', [EstablishmentClaimController::class, 'store'])->name('establishments.claims.store');
+        Route::get('establishments/{establishment}/members', [TeamController::class, 'index'])->name('establishments.team.index');
+        Route::post('establishments/{establishment}/members', [TeamController::class, 'store'])->middleware('throttle:20,60')->name('establishments.team.store');
+        Route::put('establishments/{establishment}/members/{user}', [TeamController::class, 'update'])->name('establishments.team.update');
+        Route::delete('establishments/{establishment}/members/{user}', [TeamController::class, 'destroy'])->name('establishments.team.destroy');
         Route::post('establishments/{establishment}/offers', [OfferController::class, 'store'])->name('establishments.offers.store');
         Route::apiResource('offers', OfferController::class)->only(['update', 'destroy']);
         Route::get('establishments/{establishment}/inquiries', [EstablishmentInquiryController::class, 'index'])->name('establishments.inquiries.index');

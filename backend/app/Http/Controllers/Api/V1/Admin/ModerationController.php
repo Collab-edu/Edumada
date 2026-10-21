@@ -98,7 +98,7 @@ class ModerationController extends Controller
             $claim->save();
 
             if ($claim->status === ClaimStatus::Approved) {
-                $claim->establishment->members()->syncWithoutDetaching([$claim->user_id => ['role' => EstablishmentMemberRole::Owner->value]]);
+                $claim->establishment->addMember($claim->user, EstablishmentMemberRole::Owner, 'status');
             }
             AuditLog::record('establishment.claim_'.$claim->status->value, $claim->establishment, ['user' => $claim->user->email]);
         });

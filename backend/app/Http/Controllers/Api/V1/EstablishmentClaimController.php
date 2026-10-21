@@ -22,6 +22,9 @@ class EstablishmentClaimController extends Controller
         if ($user->managesEstablishment($establishment)) {
             return response()->json(['message' => 'Vous gérez déjà cette fiche.'], 422);
         }
+        if ($user->establishments()->exists()) {
+            return response()->json(['message' => 'Votre compte gère déjà un établissement : un compte ne peut gérer qu\'un seul établissement.'], 422);
+        }
 
         $validated = $request->validate([
             'message' => ['required', 'string', 'min:20', 'max:2000'],

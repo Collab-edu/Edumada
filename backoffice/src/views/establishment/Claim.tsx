@@ -7,6 +7,8 @@ import { useApi } from '@/lib/useApi'
 import type { Establishment } from '@/lib/types'
 import { EmptyState, ErrorAlert, Loading, PageCard } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
+import { useEstablishment } from '@/context/EstablishmentContext'
+import AlreadyManaged from './AlreadyManaged'
 
 /** Revendiquer une fiche existante (/revendiquer/?fiche=slug) : Edumada vérifie le lien avec l'établissement. */
 export default function Claim() {
@@ -15,6 +17,9 @@ export default function Claim() {
     const [message, setMessage] = useState('')
     const [error, setError] = useState<unknown>(null)
     const [done, setDone] = useState('')
+    const { current } = useEstablishment()
+
+    if (current) return <AlreadyManaged name={current.name} />
 
     if (!slug)
         return (

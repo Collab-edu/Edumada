@@ -112,7 +112,7 @@ class EstablishmentController extends Controller
             throw ValidationException::withMessages(['email' => 'Ce compte n\'est pas un compte établissement.']);
         }
 
-        $establishment->members()->syncWithoutDetaching([$user->id => ['role' => $validated['role']]]);
+        $establishment->addMember($user, EstablishmentMemberRole::from($validated['role']));
         AuditLog::record('establishment.member_added', $establishment, ['user' => $user->email, 'role' => $validated['role']]);
 
         return response()->json(['message' => "{$user->name} peut désormais gérer cette fiche."], 201);
