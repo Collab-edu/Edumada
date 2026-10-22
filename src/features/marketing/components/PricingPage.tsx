@@ -12,6 +12,7 @@ import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import SectionHeader from '@/components/ui/section-header'
 import Companies from './Companies'
 import { signupUrl, usePlans } from '../plans'
+import { Eyebrow } from '@/components/ui/eyebrow'
 
 /** Accroche et contenu de chaque formule, d'après le document « Les 4 types de comptes ». */
 const PLAN_DETAILS: Record<Plan['code'], { description: string; intro: string; features: (plan: Plan) => string[] }> = {
@@ -139,7 +140,7 @@ export default function PricingPage() {
                                     <div className={cn('flex flex-col gap-4 p-6', highlighted && 'bg-cream/60')}>
                                         <div className='flex items-center justify-between gap-2'>
                                             <p className='text-xl font-bold text-secondary'>{plan.name}</p>
-                                            {highlighted && <span className='rounded-full bg-cream px-3 py-1 text-xs font-semibold text-primary'>Recommandée</span>}
+                                            {highlighted && <Eyebrow>Recommandée</Eyebrow>}
                                         </div>
                                         <p className='min-h-12 text-sm text-black'>{details.description}</p>
                                         <div className='min-h-16'>

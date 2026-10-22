@@ -57,9 +57,7 @@ function LoginForm() {
                         <CCard className='p-2 p-sm-4 h-100'>
                             <CCardBody>
                                 <CForm onSubmit={submit} method='post'>
-                                    <span className='badge rounded-pill mb-3' style={{ background: 'var(--edu-cream)', color: 'var(--edu-red)' }}>
-                                        Back-office
-                                    </span>
+                                    <span className='bo-eyebrow mb-3'>Back-office</span>
                                     <h1 className='h2 fw-bold' style={{ color: 'var(--edu-teal)' }}>
                                         Connexion
                                     </h1>

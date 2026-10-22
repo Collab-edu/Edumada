@@ -1149,3 +1149,16 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
 }
 [data-coreui-theme="dark"] .bo-adm-add { border-color: rgba(167, 196, 188, .4); background: rgba(167, 196, 188, .06); color: #A7C4BC; }
 .bo-adm-add-row { font-size: .875rem; }
+
+// Petite étiquette au-dessus d'un titre : capitales espacées en rouge, précédées d'un court trait.
+.bo-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--edu-red);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  &::before { content: ""; width: 1.25rem; height: 2px; border-radius: 2px; background: currentColor; }
+}

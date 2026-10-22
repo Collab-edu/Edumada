@@ -34,7 +34,7 @@ function SearchScreen({ results }: { results: FormationType[] }) {
             </div>
             <div className='flex flex-wrap gap-1.5'>
                 {['Antananarivo', 'Licence', '< 2,5 M Ar'].map((chip) => (
-                    <span key={chip} className='rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary'>
+                    <span key={chip} className='rounded-full border border-primary/40 px-2 py-0.5 text-[10px] font-semibold text-primary'>
                         {chip}
                     </span>
                 ))}

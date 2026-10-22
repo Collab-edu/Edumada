@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { Icon } from '@/components/ui/icon'
 import { useSiteData } from '@/data/site-data'
 import { imageOr } from '@/lib/media'
+import { Eyebrow } from '@/components/ui/eyebrow'
 
 /** Emplacement des photos rondes autour du texte (en % de la carte), taille en px et décalage d'animation. */
 const SPOTS = [
@@ -50,10 +51,7 @@ const SchoolCta = () => {
                     </div>
 
                     <div className='relative mx-auto flex max-w-xl flex-col items-center gap-5 text-center'>
-                        <span className='inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary'>
-                            <Icon icon='tabler:building' className='text-base' />
-                            {schools.length > 0 ? `Déjà ${schools.length} établissements sur Edumada` : 'Espace établissements'}
-                        </span>
+                        <Eyebrow>{schools.length > 0 ? `Déjà ${schools.length} établissements sur Edumada` : 'Espace établissements'}</Eyebrow>
                         <h2 className='font-bold text-secondary'>Vous êtes un établissement de formation ?</h2>
                         <p className='text-black leading-relaxed'>
                             Présentez vos formations, améliorez votre visibilité et permettez aux futurs étudiants de découvrir votre

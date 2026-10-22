@@ -6,6 +6,7 @@ import type { CategoryType } from '@/features/categories/types'
 import { ADMISSION_LEVEL_LABEL, formatAgeRange, formatDate, formatDuration, formatFees } from '../../format'
 import type { FormationDetailType, FormationType } from '../../types'
 import { CheckList, ChipList, DetailSection, Fact, NOT_PROVIDED, Panel, SubTitle } from './parts'
+import { Eyebrow } from '@/components/ui/eyebrow'
 
 type Props = { formation: FormationType; detail: FormationDetailType; school: SchoolType; fields: CategoryType['fields'] }
 
@@ -153,7 +154,7 @@ export function CostsSection({ formation, detail }: Props) {
                                         <span className='inline-flex items-center gap-2 font-semibold text-secondary'>
                                             {formatFees(row.amount)}
                                             {costs.status === 'Estimés' && (
-                                                <span className='rounded-full bg-cream px-2 py-0.5 text-xs font-semibold text-primary'>Estimé</span>
+                                                <Eyebrow bar={false} className='text-[11px] tracking-wider'>Estimé</Eyebrow>
                                             )}
                                         </span>
                                     )}
