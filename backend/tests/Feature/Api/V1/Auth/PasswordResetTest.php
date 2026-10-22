@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
+use Symfony\Component\Mailer\Exception\TransportException;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
@@ -48,6 +49,16 @@ class PasswordResetTest extends TestCase
             ->assertJsonPath('message', fn (string $message) => str_starts_with($message, 'Si un compte existe'));
 
         Notification::assertNothingSent();
+    }
+
+    public function test_a_mail_server_failure_gives_a_clear_message(): void
+    {
+        $user = User::factory()->create();
+        Password::shouldReceive('sendResetLink')->andThrow(new TransportException('535 Incorrect authentication data'));
+
+        $this->postJson('/api/v1/auth/forgot-password', ['email' => $user->email])
+            ->assertStatus(503)
+            ->assertJsonPath('message', fn (string $message) => str_contains($message, "n'a pas pu être envoyé"));
     }
 
     public function test_the_link_sets_a_new_password_and_closes_other_sessions(): void

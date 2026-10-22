@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password as PasswordRule;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 /**
  * Mot de passe oublié : envoi d'un lien par e-mail, puis choix d'un nouveau mot de passe.
@@ -24,7 +25,16 @@ class PasswordResetController extends Controller
     {
         $validated = $request->validate(['email' => ['required', 'email']]);
 
-        Password::sendResetLink(['email' => $validated['email']]);
+        try {
+            Password::sendResetLink(['email' => $validated['email']]);
+        } catch (TransportExceptionInterface $exception) {
+            // Serveur d'e-mails injoignable ou mal configuré : erreur enregistrée, message clair pour la personne.
+            report($exception);
+
+            return response()->json([
+                'message' => "L'e-mail n'a pas pu être envoyé pour le moment. Réessayez dans quelques minutes.",
+            ], 503);
+        }
 
         return response()->json([
             'message' => 'Si un compte existe avec cette adresse, un e-mail vient de vous être envoyé avec un lien pour choisir un nouveau mot de passe.',
