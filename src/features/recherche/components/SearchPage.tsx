@@ -6,6 +6,7 @@ import { useAuth } from '@/features/auth/AuthProvider'
 import { track } from '@/lib/track'
 import { cn } from '@/lib/utils'
 import SuggestInput from './SuggestInput'
+import { placePosition, searchPlaces } from '../places'
 import ResultCard from './ResultCard'
 import SearchFiltersPanel from './SearchFiltersPanel'
 import {
@@ -61,8 +62,11 @@ const SearchPage = () => {
                         placeholder={FILTER_UI[param].placeholder}
                         suggestions={suggestions[param] ?? []}
                         value={filters[param]}
-                        onChange={(value) => setFilters((prev) => ({ ...prev, [param]: value }))}
+                        onChange={(value, place) =>
+                            setFilters((prev) => ({ ...prev, [param]: value, ...(param === 'ville' ? { pos: placePosition(place) } : {}) }))
+                        }
                         allowFreeText={param === 'ville'}
+                        loadSuggestions={param === 'ville' ? searchPlaces : undefined}
                     />
                 </div>
             )

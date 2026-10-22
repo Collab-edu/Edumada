@@ -47,6 +47,8 @@ export type SearchFilters = {
     categorie: string
     domaine: string
     ville: string
+    /** Position du lieu choisi sur la carte (« lat,lng »), vide sinon : sert à chercher autour de ce lieu. */
+    pos: string
     type: string
     /** Filtres avancés : à l'intérieur d'un groupe, les choix se combinent en « OU ». */
     budgets: string[]
@@ -69,6 +71,7 @@ export const EMPTY_FILTERS: SearchFilters = {
     categorie: '',
     domaine: '',
     ville: '',
+    pos: '',
     type: '',
     budgets: [],
     durations: [],
@@ -99,6 +102,7 @@ export function filtersFromParams(params: URLSearchParams): SearchFilters {
         categorie: params.get('categorie') ?? '',
         domaine: params.get('domaine') ?? '',
         ville: params.get('ville') ?? '',
+        pos: params.get('pos') ?? '',
         type: params.get('type') ?? '',
         diplomas: niveau ? [HERO_LEVEL_TO_DIPLOMA[niveau] ?? niveau] : [],
     }
@@ -198,7 +202,7 @@ export type ActiveFilter = { id: string; label: string; remove: (f: SearchFilter
 
 export function activeFilters(filters: SearchFilters): ActiveFilter[] {
     const chips: ActiveFilter[] = []
-    const text = (key: 'q' | 'categorie' | 'domaine' | 'ville' | 'type' | 'school', prefix = '') => {
+    const text = (key: 'q' | 'categorie' | 'domaine' | 'type' | 'school', prefix = '') => {
         if (filters[key]) chips.push({ id: key, label: prefix + filters[key], remove: (f) => ({ ...f, [key]: '' }) })
     }
     const list = (
@@ -218,7 +222,7 @@ export function activeFilters(filters: SearchFilters): ActiveFilter[] {
     if (filters.q) chips[chips.length - 1].label += ' »'
     text('categorie')
     text('domaine')
-    text('ville')
+    if (filters.ville) chips.push({ id: 'ville', label: filters.ville, remove: (f) => ({ ...f, ville: '', pos: '' }) })
     text('type')
     list('budgets')
     list('durations')

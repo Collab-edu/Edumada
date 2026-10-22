@@ -5,6 +5,7 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { Icon } from '@/components/ui/icon'
 import SuggestInput from './SuggestInput'
 import { HERO_FILTERS } from './HeroFilters'
+import { placePosition, searchPlaces } from '../places'
 import { FILTER_UI, useFilterSuggestions } from '../useFilterSuggestions'
 
 /** Raccourcis vers les catégories les plus cherchées. */
@@ -28,6 +29,7 @@ export default function MobileSearch() {
     for (const { param } of HERO_FILTERS) {
         if (selected[param]) params.set(param, selected[param])
     }
+    if (selected.ville && selected.pos) params.set('pos', selected.pos)
     const query = params.toString()
     const searchHref = query ? `/recherche?${query}` : '/recherche'
     const summary = HERO_FILTERS.map(({ param }) => selected[param]).filter(Boolean).join(' · ')
@@ -80,8 +82,11 @@ export default function MobileSearch() {
                                     placeholder={FILTER_UI[filter.param].placeholder}
                                     suggestions={suggestions[filter.param] ?? []}
                                     value={selected[filter.param] ?? ''}
-                                    onChange={(value) => setSelected((prev) => ({ ...prev, [filter.param]: value }))}
+                                    onChange={(value, place) =>
+                                        setSelected((prev) => ({ ...prev, [filter.param]: value, ...(filter.param === 'ville' ? { pos: placePosition(place) } : {}) }))
+                                    }
                                     allowFreeText={filter.param === 'ville'}
+                                    loadSuggestions={filter.param === 'ville' ? searchPlaces : undefined}
                                 />
                             </div>
                         ))}

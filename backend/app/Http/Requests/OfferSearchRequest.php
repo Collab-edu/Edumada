@@ -39,6 +39,8 @@ class OfferSearchRequest extends FormRequest
             'category' => ['nullable', 'string', 'max:100'],
             'domain' => ['nullable', 'string', 'max:100'],
             'city' => ['nullable', 'string', 'max:100'],
+            // Position du lieu choisi (« latitude,longitude ») : évite toute ambiguïté entre homonymes (plusieurs Ivato).
+            'near' => ['nullable', 'string', 'regex:/^-?\d{1,2}(\.\d+)?,-?\d{1,3}(\.\d+)?$/'],
             'type' => ['nullable', Rule::in(EstablishmentSector::labels())],
             'kind' => ['nullable', Rule::in(OfferKind::labels())],
             'school' => ['nullable', 'string', 'max:255'],

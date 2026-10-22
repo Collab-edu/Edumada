@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\V1\InquiryController;
 use App\Http\Controllers\Api\V1\InquiryStatusController;
 use App\Http\Controllers\Api\V1\ManagedEstablishmentController;
 use App\Http\Controllers\Api\V1\OfferController;
+use App\Http\Controllers\Api\V1\PlaceController;
 use App\Http\Controllers\Api\V1\PlanController;
 use App\Http\Controllers\Api\V1\ReferenceDataController;
 use App\Http\Controllers\Api\V1\ReportController;
@@ -45,6 +46,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::apiResource('domains', DomainController::class)->only(['index']);
     Route::apiResource('establishments', EstablishmentController::class)->only(['index', 'show']);
     Route::apiResource('offers', OfferController::class)->only(['index', 'show']);
+    Route::get('places', [PlaceController::class, 'index'])->middleware('throttle:places')->name('places.index');
     Route::get('reviews', [ReviewController::class, 'index'])->name('reviews.index');
     Route::get('plans', [PlanController::class, 'index'])->name('plans.index');
     Route::get('sponsored', [CampaignController::class, 'sponsored'])->name('sponsored');

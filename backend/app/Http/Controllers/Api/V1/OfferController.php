@@ -33,7 +33,7 @@ class OfferController extends Controller
 
         // Aucune offre dans ce lieu (« Talatamaty ») : les plus proches, de la plus près à la plus loin.
         if ($offers->total() === 0 && $city !== '') {
-            $point = $places->locate($city);
+            $point = $this->pointFrom($filters['near'] ?? null, $city) ?? $places->locate($city);
             if ($point === null) {
                 return OfferResource::collection($offers)->additional(['near' => null, 'placeNotFound' => true]);
             }
@@ -49,6 +49,21 @@ class OfferController extends Controller
         }
 
         return OfferResource::collection($offers);
+    }
+
+    /**
+     * Position transmise par le site (lieu choisi dans les suggestions), si elle est à Madagascar.
+     *
+     * @return array{lat: float, lng: float, label: string}|null
+     */
+    private function pointFrom(?string $near, string $label): ?array
+    {
+        if (! $near) {
+            return null;
+        }
+        [$lat, $lng] = array_map('floatval', explode(',', $near));
+
+        return $lat >= -26 && $lat <= -11 && $lng >= 42 && $lng <= 51 ? ['lat' => $lat, 'lng' => $lng, 'label' => $label] : null;
     }
 
     /**

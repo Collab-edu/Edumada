@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Icon } from '@/components/ui/icon'
 import SuggestInput from './SuggestInput'
+import { placePosition, searchPlaces } from '../places'
 import { FILTER_UI, TOP_FILTERS, useFilterSuggestions } from '../useFilterSuggestions'
 
 // Le type d'établissement (public / privé) reste filtrable sur la page /recherche.
@@ -18,6 +19,7 @@ const HeroFilters = () => {
     for (const { param } of HERO_FILTERS) {
         if (selected[param]) params.set(param, selected[param])
     }
+    if (selected.ville && selected.pos) params.set('pos', selected.pos)
     const query = params.toString()
     const searchHref = query ? `/recherche?${query}` : '/recherche'
 
@@ -44,8 +46,11 @@ const HeroFilters = () => {
                                 placeholder={FILTER_UI[filter.param].placeholder}
                                 suggestions={suggestions[filter.param] ?? []}
                                 value={selected[filter.param] ?? ''}
-                                onChange={(value) => setSelected((prev) => ({ ...prev, [filter.param]: value }))}
+                                onChange={(value, place) =>
+                                    setSelected((prev) => ({ ...prev, [filter.param]: value, ...(filter.param === 'ville' ? { pos: placePosition(place) } : {}) }))
+                                }
                                 allowFreeText={filter.param === 'ville'}
+                                loadSuggestions={filter.param === 'ville' ? searchPlaces : undefined}
                             />
                         </div>
                     ))}

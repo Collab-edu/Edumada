@@ -19,6 +19,7 @@ export function toApiQuery(filters: SearchFilters, sort: SortValue) {
         category: filters.categorie,
         domain: filters.domaine,
         city: filters.ville,
+        near: filters.pos,
         type: filters.type,
         school: filters.school.trim(),
         feeRanges: BUDGET_RANGES.filter((r) => filters.budgets.includes(r.label)).map((r) => `${r.min}-${Number.isFinite(r.max) ? r.max : ''}`),
