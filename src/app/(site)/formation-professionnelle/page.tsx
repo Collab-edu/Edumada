@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import ProTrainingPage from '@/features/formations/components/ProTrainingPage'
+import CategoryOffersPage from '@/features/formations/components/CategoryOffersPage'
 
 export const metadata: Metadata = {
   title: 'Formation professionnelle',
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function FormationProfessionnellePage() {
   return (
     <main>
-      <ProTrainingPage />
+      <CategoryOffersPage variant='formation-pro' />
     </main>
   )
 }

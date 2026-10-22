@@ -34,19 +34,6 @@ const VARIANTS = {
         noun: ['établissement', 'établissements'],
         cta: { title: 'Vous dirigez un établissement ?', text: 'Présentez vos formations gratuitement et recevez les demandes des futurs élèves et étudiants.' },
     },
-    /** Enseignement supérieur uniquement, filtré par filière (domaines enseignés). */
-    universites: {
-        categoryId: 'superieur',
-        eyebrow: 'Universités',
-        title: 'Trouvez votre université',
-        intro: 'Universités, instituts supérieurs, écoles supérieures et grandes écoles à Madagascar : comparez les cursus après le bac, puis contactez directement l’établissement.',
-        image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70',
-        imageAlt: 'Étudiants de l’enseignement supérieur',
-        listTitle: 'Les universités et écoles supérieures',
-        firstFilter: { label: 'Filière', icon: FILTER_UI.domaine.icon, placeholder: 'Ex. : informatique, droit…' },
-        noun: ['établissement', 'établissements'],
-        cta: { title: 'Vous dirigez une université ou une école supérieure ?', text: 'Présentez vos cursus gratuitement et recevez les demandes des futurs étudiants.' },
-    },
 } as const
 
 /** Valeurs distinctes triées, avec le nombre d'établissements correspondants. */
@@ -58,7 +45,7 @@ const toSuggestions = (values: string[]) =>
             return { value, hint: `${count} établissement${count > 1 ? 's' : ''}` }
         })
 
-/** Liste d'établissements filtrable : tous (par catégorie) ou les universités (par filière). */
+/** Liste de tous les établissements, filtrable par catégorie et par ville. */
 export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeof VARIANTS }) {
     const config = VARIANTS[variant]
     const { data: allSchools, loading } = useSiteData('SchoolData')
