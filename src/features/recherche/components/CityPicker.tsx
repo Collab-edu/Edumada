@@ -179,10 +179,8 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
     return (
         <div ref={root} className='@container relative w-full text-left'>
             <div className='flex items-center justify-between gap-2'>
-                <label htmlFor={`${id}-trigger`} className='flex min-w-0 items-center gap-2 text-base font-semibold whitespace-nowrap text-secondary'>
-                    <span className='grid size-7 shrink-0 place-items-center rounded-lg bg-cream text-primary'>
-                        <Icon icon='tabler:map-pin-filled' className='text-base' />
-                    </span>
+                <label htmlFor={`${id}-trigger`} className='flex min-w-0 items-center gap-1.5 text-base font-medium whitespace-nowrap text-gray-500'>
+                    <Icon icon='tabler:map-pin' className='shrink-0 text-base text-secondary' />
                     {label}
                 </label>
                 <button
@@ -191,7 +189,7 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
                     disabled={locating}
                     aria-label='Utiliser ma position actuelle'
                     title='Utiliser ma position actuelle'
-                    className='inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full px-2 py-1 text-sm font-semibold text-primary hover:bg-cream hover:cursor-pointer disabled:opacity-60'>
+                    className='-my-1 inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full px-2 py-1 text-sm font-semibold text-primary hover:bg-cream hover:cursor-pointer disabled:opacity-60'>
                     <Icon icon={locating ? 'tabler:loader-2' : 'tabler:current-location'} className={cn('text-lg', locating && 'animate-spin')} />
                     {/* Libellé selon la place disponible dans la barre : complet, court, ou icône seule. */}
                     <span className='hidden @sm:inline'>{locating ? 'Localisation…' : 'Ma position actuelle'}</span>
@@ -199,7 +197,8 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
                 </button>
             </div>
 
-            <div className='relative mt-2'>
+            {/* Même allure que les autres champs de la barre : texte sur le fond, sans cadre. */}
+            <div className='relative mt-1'>
                 <button
                     ref={trigger}
                     id={`${id}-trigger`}
@@ -208,25 +207,20 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
                     aria-expanded={open}
                     onClick={() => (open ? close() : setOpen(true))}
                     className={cn(
-                        'flex min-h-11 w-full items-center gap-2 rounded-xl border bg-white py-2 pr-9 pl-3 text-left transition-colors hover:cursor-pointer',
-                        open ? 'border-secondary ring-2 ring-secondary/10' : 'border-secondary/20 hover:border-secondary/40'
+                        'flex w-full items-center gap-1.5 py-1 pr-8 text-left text-base outline-hidden hover:cursor-pointer',
+                        open && 'text-primary'
                     )}>
-                    <Icon icon={value === MY_POSITION ? 'tabler:current-location' : 'tabler:map-pin'} className='shrink-0 text-lg text-ink/50' />
+                    {value === MY_POSITION && <Icon icon='tabler:current-location' className='shrink-0 text-primary' />}
                     <span className={cn('truncate', value ? 'font-semibold text-ink' : 'text-ink/40')}>{shown || placeholder}</span>
                 </button>
-                {value ? (
+                {value && (
                     <button
                         type='button'
                         onClick={() => onChange('')}
                         aria-label={`Effacer ${label}`}
-                        className='absolute inset-y-0 right-0 flex items-center px-3 text-ink/40 hover:text-primary hover:cursor-pointer'>
+                        className='absolute inset-y-0 right-0 flex items-center px-1 text-gray-400 hover:text-primary hover:cursor-pointer'>
                         <Icon icon='tabler:x' className='text-lg' />
                     </button>
-                ) : (
-                    <Icon
-                        icon='tabler:chevron-down'
-                        className={cn('pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-lg text-ink/60 transition-transform', open && 'rotate-180')}
-                    />
                 )}
             </div>
             {locateError && (
@@ -278,7 +272,7 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
                                     <Icon icon={locating ? 'tabler:loader-2' : 'tabler:current-location'} className={cn('shrink-0 text-lg text-secondary', locating && 'animate-spin')} />
                                     <span className='flex min-w-0 flex-1 flex-col'>
                                         <span className='truncate font-medium text-ink'>
-                                            {locating ? 'Localisation en cours…' : here ? (hereName ?? 'Ma position') : 'Détecter ma position'}
+                                            {locating ? 'Localisation en cours…' : here ? (hereName ?? 'Ma position') : 'Me localiser'}
                                         </span>
                                         {here?.place?.detail && <span className='truncate text-xs text-ink/60'>{here.place.detail}</span>}
                                     </span>
