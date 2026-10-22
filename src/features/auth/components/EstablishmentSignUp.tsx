@@ -1,10 +1,12 @@
 'use client'
 import Link from 'next/link'
-import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { Icon } from '@/components/ui/icon'
-import { Button, FormAlert, SelectField, TextField } from '@/components/ui/form'
+import { Button, Field, FormAlert, SelectField, TextField, inputClassName } from '@/components/ui/form'
+import PlaceField from '@/features/recherche/components/PlaceField'
+import type { Point } from '@/features/recherche/places'
 import { ApiError, apiEnabled } from '@/lib/api'
 import { useSiteData } from '@/data/site-data'
 import { cn } from '@/lib/utils'
@@ -62,8 +64,9 @@ export default function EstablishmentSignUp() {
     const { register } = useAuth()
     const router = useRouter()
     const { data: categories } = useSiteData('CategoryData')
-    const { data: schools } = useSiteData('SchoolData')
     const [form, setForm] = useState(EMPTY)
+    // Position du lieu choisi dans les suggestions (null si saisie libre).
+    const [cityPoint, setCityPoint] = useState<Point | null>(null)
     const plans = usePlans()
     // Formule choisie sur la page Tarifs (?formule=pro&rythme=yearly) ; Gratuit par défaut.
     const [choice, setChoice] = useState<{ plan: Plan['code']; cycle: BillingCycle }>({ plan: 'free', cycle: 'monthly' })
@@ -81,7 +84,6 @@ export default function EstablishmentSignUp() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
 
-    const cities = useMemo(() => [...new Set(schools.map((school) => school.city).filter(Boolean))].sort(), [schools])
     const set = (key: keyof typeof EMPTY) => (e: { target: { value: string } }) => setForm({ ...form, [key]: e.target.value })
     const fieldError = (name: string) => error?.field(name)
 
@@ -106,6 +108,7 @@ export default function EstablishmentSignUp() {
                     name: form.establishmentName,
                     category: form.category,
                     city: form.city,
+                    coordinates: cityPoint,
                     email: form.establishmentEmail || null,
                     website: withScheme(form.website.trim()) || null,
                 },
@@ -272,20 +275,22 @@ export default function EstablishmentSignUp() {
                                         onChange={set('category')}
                                         error={fieldError('establishment.category')}
                                     />
-                                    <TextField
-                                        label='Ville'
-                                        required
-                                        list='establishment-cities'
-                                        autoComplete='address-level2'
-                                        value={form.city}
-                                        onChange={set('city')}
-                                        error={fieldError('establishment.city')}
-                                    />
-                                    <datalist id='establishment-cities'>
-                                        {cities.map((city) => (
-                                            <option key={city} value={city} />
-                                        ))}
-                                    </datalist>
+                                    <Field label='Ville' required error={fieldError('establishment.city')}>
+                                        {(id, describedBy) => (
+                                            <PlaceField
+                                                id={id}
+                                                describedBy={describedBy}
+                                                required
+                                                value={form.city}
+                                                invalid={!!fieldError('establishment.city')}
+                                                onChange={(city, place) => {
+                                                    setForm((f) => ({ ...f, city }))
+                                                    setCityPoint(place?.lat !== undefined && place.lng !== undefined ? { lat: place.lat, lng: place.lng } : null)
+                                                }}
+                                                className={cn(inputClassName, fieldError('establishment.city') && 'border-primary')}
+                                            />
+                                        )}
+                                    </Field>
                                 </div>
                                 <div className='grid gap-4 sm:grid-cols-2'>
                                     <TextField

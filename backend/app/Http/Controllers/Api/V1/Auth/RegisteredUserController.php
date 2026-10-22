@@ -48,6 +48,11 @@ class RegisteredUserController extends Controller
                     'email' => $data['email'] ?? null,
                     'website' => $data['website'] ?? null,
                 ]);
+                // Position approximative (celle de la localité), à préciser ensuite dans la fiche.
+                if (isset($data['coordinates'])) {
+                    $establishment->latitude = $data['coordinates']['lat'];
+                    $establishment->longitude = $data['coordinates']['lng'];
+                }
                 $establishment->slug = Establishment::uniqueSlug($establishment->name);
                 $establishment->status = EstablishmentStatus::PendingReview;
                 $establishment->verification_status = VerificationStatus::Unverified;

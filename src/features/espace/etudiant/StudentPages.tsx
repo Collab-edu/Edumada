@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { Icon } from '@/components/ui/icon'
 import toast from 'react-hot-toast'
 import Dialog from '@/components/ui/dialog'
-import { Badge, Button, ButtonLink, EmptyState, FormAlert, SelectField, TextField } from '@/components/ui/form'
+import { Badge, Button, ButtonLink, EmptyState, Field, FormAlert, SelectField, TextField, inputClassName } from '@/components/ui/form'
+import PlaceField from '@/features/recherche/components/PlaceField'
 import { api, ApiError } from '@/lib/api'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { STUDY_LEVELS } from '@/features/auth/components/SignUp'
@@ -241,7 +242,9 @@ export function ProfileForms() {
                     <TextField label='Téléphone (facultatif)' type='tel' value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} error={error?.field('phone')} />
                     {user.role === 'student' && (
                         <>
-                            <TextField label='Ville' value={profile.city} onChange={(e) => setProfile({ ...profile, city: e.target.value })} />
+                            <Field label='Ville'>
+                                {(id) => <PlaceField id={id} value={profile.city} onChange={(city) => setProfile((p) => ({ ...p, city }))} className={inputClassName} />}
+                            </Field>
                             <SelectField label="Niveau d'études" placeholder='Choisir…' options={STUDY_LEVELS} value={profile.studyLevel} onChange={(e) => setProfile({ ...profile, studyLevel: e.target.value })} />
                         </>
                     )}

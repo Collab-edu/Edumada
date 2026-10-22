@@ -58,6 +58,7 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite, compact
                     <li className='flex items-center gap-1.5'>
                         <Icon icon='tabler:map-pin' className='shrink-0 text-base text-secondary' />
                         {formation.city}
+                        {formation.distanceKm !== undefined && <span className='font-semibold text-primary'>· à {formation.distanceKm.toLocaleString('fr-FR')} km</span>}
                     </li>
                 </ul>
                 <CardAction href={`/formations/${formation.id}`} className='py-2.5 text-sm'>

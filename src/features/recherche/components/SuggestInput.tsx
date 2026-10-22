@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, Label } from '@headlessui/react'
 import { Icon } from '@/components/ui/icon'
+import { MY_POSITION, locateMe } from '../places'
 
 /** Comparaison sans accents ni majuscules : « creche » trouve « Crèche ». */
 export const normalize = (text: string) =>
@@ -26,6 +27,8 @@ interface SuggestInputProps {
     allowFreeText?: boolean
     /** Suggestions supplémentaires chargées à la frappe (lieux de la carte). */
     loadSuggestions?: (query: string) => Promise<Suggestion[]>
+    /** Bouton « Autour de moi » : la position de la personne remplace la saisie. */
+    locate?: boolean
 }
 
 const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
@@ -53,11 +56,22 @@ function Highlight({ text, query }: { text: string; query: string }) {
  * une saisie qui correspond exactement à une suggestion, ou à une seule, est retenue.
  * Vider le champ retire le filtre.
  */
-export function SuggestInput({ label, icon, placeholder, suggestions, value, onChange, allowFreeText = false, loadSuggestions }: SuggestInputProps) {
+export function SuggestInput({ label, icon, placeholder, suggestions, value, onChange, allowFreeText = false, loadSuggestions, locate = false }: SuggestInputProps) {
     const [query, setQuery] = useState('')
     const [places, setPlaces] = useState<Suggestion[]>([])
     // Un choix fait dans la liste ne doit pas être remplacé par la saisie en cours à la fermeture.
     const picked = useRef(false)
+    const [locating, setLocating] = useState(false)
+    const [locateError, setLocateError] = useState('')
+
+    const useMyPosition = () => {
+        setLocating(true)
+        setLocateError('')
+        locateMe()
+            .then((point) => onChange(MY_POSITION, { value: MY_POSITION, ...point }))
+            .catch((error: Error) => setLocateError(error.message))
+            .finally(() => setLocating(false))
+    }
 
     // Lieux de la carte : demandés après une courte pause dans la frappe.
     useEffect(() => {
@@ -130,10 +144,22 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
             }}
             onClose={settle}>
             <div className='w-full'>
-                <Label className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
-                    {icon && <Icon icon={icon} className='text-base text-secondary' />}
-                    {label}
-                </Label>
+                <div className='flex items-center justify-between gap-2'>
+                    <Label className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
+                        {icon && <Icon icon={icon} className='text-base text-secondary' />}
+                        {label}
+                    </Label>
+                    {locate && (
+                        <button
+                            type='button'
+                            onClick={useMyPosition}
+                            disabled={locating}
+                            className='inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold text-primary hover:bg-cream hover:cursor-pointer disabled:opacity-60'>
+                            <Icon icon={locating ? 'tabler:loader-2' : 'tabler:current-location'} className={locating ? 'animate-spin' : ''} />
+                            {locating ? 'Localisation…' : 'Autour de moi'}
+                        </button>
+                    )}
+                </div>
                 <div className='relative mt-1'>
                     <ComboboxInput
                         displayValue={(selected: string | null) => (selected?.startsWith(PLACE) ? '' : (selected ?? ''))}
@@ -156,6 +182,7 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                             <Icon icon='tabler:x' className='text-lg' />
                         </button>
                     )}
+                    {locateError && <p className='mt-1 text-xs text-primary' role='alert'>{locateError}</p>}
                     {query.trim() !== '' && (
                         <ComboboxOptions className='absolute left-0 z-20 mt-2 max-h-80 w-full min-w-80 overflow-auto rounded-xl bg-white py-1 text-left text-base shadow-lg ring-1 ring-black/5 empty:invisible'>
                             {filtered.length === 0 && mapPlaces.length === 0 && !freeTextOption && (

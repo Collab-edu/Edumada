@@ -6,7 +6,7 @@ import { useAuth } from '@/features/auth/AuthProvider'
 import { track } from '@/lib/track'
 import { cn } from '@/lib/utils'
 import SuggestInput from './SuggestInput'
-import { placePosition, searchPlaces } from '../places'
+import { MY_POSITION, placePosition, searchPlaces } from '../places'
 import ResultCard from './ResultCard'
 import SearchFiltersPanel from './SearchFiltersPanel'
 import {
@@ -67,6 +67,7 @@ const SearchPage = () => {
                         }
                         allowFreeText={param === 'ville'}
                         loadSuggestions={param === 'ville' ? searchPlaces : undefined}
+                        locate={param === 'ville'}
                     />
                 </div>
             )
@@ -205,7 +206,13 @@ const SearchPage = () => {
                             <p className='flex items-start gap-2 rounded-xl border border-secondary/15 bg-white px-4 py-3 text-sm text-black' role='status'>
                                 <Icon icon='tabler:current-location' className='mt-0.5 shrink-0 text-lg text-primary' />
                                 <span>
-                                    Aucune formation à <strong>{near.place}</strong> pour le moment. Voici les plus proches, de la plus près à la plus loin.
+                                    {near.place === MY_POSITION ? (
+                                        <>Voici les formations les plus proches de <strong>votre position</strong>, de la plus près à la plus loin.</>
+                                    ) : (
+                                        <>
+                                            Aucune formation à <strong>{near.place}</strong> pour le moment. Voici les plus proches, de la plus près à la plus loin.
+                                        </>
+                                    )}
                                 </span>
                             </p>
                         )}

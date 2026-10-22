@@ -1162,3 +1162,21 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   text-transform: uppercase;
   &::before { content: ""; width: 1.25rem; height: 2px; border-radius: 2px; background: currentColor; }
 }
+
+// Suggestions de lieux (champ Ville).
+.bo-place-list {
+  position: absolute;
+  z-index: 1050;
+  left: 0;
+  right: 0;
+  max-height: 18rem;
+  margin: .25rem 0 0;
+  padding: .25rem 0;
+  overflow-y: auto;
+  border-radius: .6rem;
+  background: var(--cui-body-bg);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, .15);
+  border: 1px solid var(--cui-border-color);
+  li { display: flex; align-items: center; gap: .6rem; padding: .45rem .8rem; cursor: pointer; font-size: .9rem; }
+  li.is-active { background: var(--cui-tertiary-bg); }
+}

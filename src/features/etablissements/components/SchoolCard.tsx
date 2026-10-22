@@ -12,7 +12,8 @@ import SchoolLogo from './SchoolLogo'
 const MAX_OFFERS = 3
 
 /** `compact` : version basse et large (bandeau défilant de l'accueil). */
-export function SchoolCard({ school, compact = false }: { school: SchoolType; compact?: boolean }) {
+/** `distanceKm` : distance au lieu recherché, affichée à côté de la ville. */
+export function SchoolCard({ school, compact = false, distanceKm }: { school: SchoolType; compact?: boolean; distanceKm?: number }) {
     const { data: formations } = useSiteData('FormationData')
     const { data: categories } = useSiteData('CategoryData')
     const category = categories.find((c) => c.id === school.category)
@@ -69,6 +70,7 @@ export function SchoolCard({ school, compact = false }: { school: SchoolType; co
                     <li className='flex items-center gap-1.5'>
                         <Icon icon='tabler:map-pin' className='shrink-0 text-base text-secondary' />
                         {school.city}
+                        {distanceKm !== undefined && <span className='font-semibold text-primary'>· à {distanceKm.toLocaleString('fr-FR')} km</span>}
                     </li>
                 </ul>
                 <CardAction href={`/etablissements/${school.id}`} className='py-2.5 text-sm'>

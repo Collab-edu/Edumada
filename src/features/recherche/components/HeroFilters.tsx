@@ -51,6 +51,7 @@ const HeroFilters = () => {
                                 }
                                 allowFreeText={filter.param === 'ville'}
                                 loadSuggestions={filter.param === 'ville' ? searchPlaces : undefined}
+                                locate={filter.param === 'ville'}
                             />
                         </div>
                     ))}

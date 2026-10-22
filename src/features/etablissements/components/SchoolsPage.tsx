@@ -7,6 +7,7 @@ import SectionHeader from '@/components/ui/section-header'
 import { CardSkeletonGrid } from '@/components/ui/card'
 import { useSiteData } from '@/data/site-data'
 import SuggestInput from '@/features/recherche/components/SuggestInput'
+import { MY_POSITION, filterByPlace, placePosition, searchPlaces } from '@/features/recherche/places'
 import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
 import SchoolCard from './SchoolCard'
 import type { SchoolType } from '../types'
@@ -61,7 +62,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
     const config = VARIANTS[variant]
     const { data: allSchools, loading } = useSiteData('SchoolData')
     const { data: categories } = useSiteData('CategoryData')
-    const [filters, setFilters] = useState({ kind: '', city: '' })
+    const [filters, setFilters] = useState({ kind: '', city: '', pos: '' })
 
     const schools = useMemo(() => (config.categoryId ? allSchools.filter((s) => s.category === config.categoryId) : allSchools), [allSchools, config.categoryId])
     // Premier filtre : catégorie (tous les établissements) ou filières enseignées (universités).
@@ -72,7 +73,15 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
     }, [categories, config.categoryId])
     const kindSuggestions = useMemo(() => toSuggestions(schools.flatMap(kindsOf)), [schools, kindsOf])
     const citySuggestions = useMemo(() => toSuggestions(schools.map((s) => s.city)), [schools])
-    const shown = schools.filter((s) => (!filters.kind || kindsOf(s).includes(filters.kind)) && (!filters.city || s.city === filters.city))
+    // Ville exacte, sinon établissements les plus proches du lieu choisi (ou de ma position).
+    const byPlace = filterByPlace(
+        schools.filter((s) => !filters.kind || kindsOf(s).includes(filters.kind)),
+        filters.city,
+        filters.pos,
+        (s) => s.city,
+        (s) => s.coordinates
+    )
+    const shown = byPlace.items
     const filtered = !!(filters.kind || filters.city)
 
     return (
@@ -126,13 +135,18 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                     placeholder={field.placeholder}
                                     suggestions={field.suggestions}
                                     value={filters[field.key]}
-                                    onChange={(value) => setFilters((prev) => ({ ...prev, [field.key]: value }))}
+                                    onChange={(value, place) =>
+                                        setFilters((prev) => ({ ...prev, [field.key]: value, ...(field.key === 'city' ? { pos: placePosition(place) } : {}) }))
+                                    }
+                                    allowFreeText={field.key === 'city'}
+                                    loadSuggestions={field.key === 'city' ? searchPlaces : undefined}
+                                    locate={field.key === 'city'}
                                 />
                             </div>
                         ))}
                         <button
                             type='button'
-                            onClick={() => setFilters({ kind: '', city: '' })}
+                            onClick={() => setFilters({ kind: '', city: '', pos: '' })}
                             disabled={!filtered}
                             className='h-11 rounded-lg px-4 text-sm font-semibold text-primary hover:underline disabled:hidden sm:disabled:block sm:disabled:invisible hover:cursor-pointer'>
                             Réinitialiser
@@ -147,12 +161,21 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                         </p>
                     ) : (
                         <>
+                            {byPlace.near && (
+                                <p className='mb-4 flex items-start gap-2 rounded-xl border border-secondary/15 bg-white px-4 py-3 text-sm text-black' role='status'>
+                                    <Icon icon='tabler:current-location' className='mt-0.5 shrink-0 text-lg text-primary' />
+                                    <span>
+                                        {filters.city === MY_POSITION ? 'Les plus proches de votre position' : `Aucun établissement à ${filters.city} : voici les plus proches`}, du plus
+                                        près au plus loin.
+                                    </span>
+                                </p>
+                            )}
                             <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
                                 {shown.length} {config.noun[shown.length > 1 ? 1 : 0]}
                             </p>
                             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
                                 {shown.map((school) => (
-                                    <SchoolCard key={school.id} school={school} compact />
+                                    <SchoolCard key={school.id} school={school} compact distanceKm={school.distanceKm} />
                                 ))}
                             </div>
                         </>

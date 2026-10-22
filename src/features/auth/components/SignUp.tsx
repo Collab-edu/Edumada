@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils'
 import { useAuth } from '../AuthProvider'
 import { SPACE_HOME, backofficeUrl, goTo } from '../types'
 import { nextUrl } from './SignIn'
+import PlaceField from '@/features/recherche/components/PlaceField'
 import { ESTABLISHMENT_START } from '@/features/marketing/plans'
 
 const ACCOUNT_TYPES = [
@@ -224,7 +225,9 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                             </div>
                         )}
                     </Row>
-                    <Input label='Ville' autoComplete='address-level2' value={form.city} onChange={set('city')} />
+                    <Row label='Ville'>
+                        {(id) => <PlaceField id={id} value={form.city} onChange={(city) => setForm((f) => ({ ...f, city }))} className={inputClassName} />}
+                    </Row>
                 </div>
 
                 <Row label="Niveau d'études">

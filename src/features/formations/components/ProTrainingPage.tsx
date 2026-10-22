@@ -9,6 +9,7 @@ import { useSiteData } from '@/data/site-data'
 import { useAuth } from '@/features/auth/AuthProvider'
 import SchoolCard from '@/features/etablissements/components/SchoolCard'
 import SuggestInput from '@/features/recherche/components/SuggestInput'
+import { MY_POSITION, filterByPlace, placePosition, searchPlaces } from '@/features/recherche/places'
 import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
 import FormationCard from './FormationCard'
 
@@ -29,7 +30,7 @@ export default function ProTrainingPage() {
     const { data: schools, loading: schoolsLoading } = useSiteData('SchoolData')
     const { data: categories } = useSiteData('CategoryData')
     const { isFavorite, toggleFavorite } = useAuth()
-    const [filters, setFilters] = useState({ domain: '', city: '' })
+    const [filters, setFilters] = useState({ domain: '', city: '', pos: '' })
 
     const category = categories.find((c) => c.id === CATEGORY_ID)
     const searchHref = `/recherche?categorie=${encodeURIComponent(category?.shortLabel ?? 'Formation professionnelle')}`
@@ -45,7 +46,16 @@ export default function ProTrainingPage() {
             })
     const domains = useMemo(() => sorted(offers.map((f) => f.domain)), [offers])
     const cities = useMemo(() => sorted(offers.map((f) => f.city)), [offers])
-    const shown = offers.filter((f) => (!filters.domain || f.domain === filters.domain) && (!filters.city || f.city === filters.city))
+    // Ville exacte, sinon formations des centres les plus proches du lieu choisi (ou de ma position).
+    const centerPoint = useMemo(() => new Map(centers.map((c) => [c.id, c.coordinates])), [centers])
+    const byPlace = filterByPlace(
+        offers.filter((f) => !filters.domain || f.domain === filters.domain),
+        filters.city,
+        filters.pos,
+        (f) => f.city,
+        (f) => centerPoint.get(f.schoolId)
+    )
+    const shown = byPlace.items
     const filtered = !!(filters.domain || filters.city)
 
     return (
@@ -102,13 +112,18 @@ export default function ProTrainingPage() {
                                     placeholder={field.ui.placeholder}
                                     suggestions={field.suggestions}
                                     value={filters[field.key]}
-                                    onChange={(value) => setFilters((prev) => ({ ...prev, [field.key]: value }))}
+                                    onChange={(value, place) =>
+                                        setFilters((prev) => ({ ...prev, [field.key]: value, ...(field.key === 'city' ? { pos: placePosition(place) } : {}) }))
+                                    }
+                                    allowFreeText={field.key === 'city'}
+                                    loadSuggestions={field.key === 'city' ? searchPlaces : undefined}
+                                    locate={field.key === 'city'}
                                 />
                             </div>
                         ))}
                         <button
                             type='button'
-                            onClick={() => setFilters({ domain: '', city: '' })}
+                            onClick={() => setFilters({ domain: '', city: '', pos: '' })}
                             disabled={!filtered}
                             className='h-11 rounded-lg px-4 text-sm font-semibold text-primary hover:underline disabled:hidden sm:disabled:block sm:disabled:invisible hover:cursor-pointer'>
                             Réinitialiser
@@ -121,6 +136,16 @@ export default function ProTrainingPage() {
                             {filtered ? 'Aucune formation ne correspond à ces critères.' : 'Aucune formation professionnelle publiée pour le moment.'}
                         </p>
                     ) : (
+                        <>
+                        {byPlace.near && (
+                            <p className='mb-4 flex items-start gap-2 rounded-xl border border-secondary/15 bg-white px-4 py-3 text-sm text-black' role='status'>
+                                <Icon icon='tabler:current-location' className='mt-0.5 shrink-0 text-lg text-primary' />
+                                <span>
+                                    {filters.city === MY_POSITION ? 'Les formations les plus proches de votre position' : `Aucune formation à ${filters.city} : voici les plus proches`}, de
+                                    la plus près à la plus loin.
+                                </span>
+                            </p>
+                        )}
                         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
                             {shown.map((formation) => (
                                 <FormationCard
@@ -132,6 +157,7 @@ export default function ProTrainingPage() {
                                 />
                             ))}
                         </div>
+                        </>
                     )}
                 </div>
             </section>

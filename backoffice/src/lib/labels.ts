@@ -57,4 +57,3 @@ export const PLAN_FEATURES: Record<'free' | 'pro' | 'premium', string[]> = {
     premium: ['Tout Pro', 'Campagnes « Sponsorisé »', 'Statistiques avancées par campagne', 'Accompagnement prioritaire'],
 }
 
-export const CITIES = ['Antananarivo', 'Antsirabe', 'Fianarantsoa', 'Toamasina', 'Mahajanga', 'Toliara', 'Antsiranana']

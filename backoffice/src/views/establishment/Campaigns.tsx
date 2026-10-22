@@ -27,7 +27,7 @@ import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useToast } from '@/context/ToastContext'
 import { api, errorMessage, fieldError, isGeneralError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
-import { CITIES } from '@/lib/labels'
+import PlaceInput from '@/components/PlaceInput'
 import type { Campaign, Category, Domain } from '@/lib/types'
 import { ErrorAlert, ImageUpload, Loading, PageCard, StatusBadge } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
@@ -155,12 +155,14 @@ function CampaignForm({ onDone }: { onDone: () => void }) {
                     </CFormSelect>
                 </CCol>
                 <CCol md={4}>
-                    <CFormSelect label='Ville' value={form.targetCity} onChange={(ev) => set('targetCity', ev.target.value)}>
-                        <option value=''>Toutes</option>
-                        {CITIES.map((c) => (
-                            <option key={c}>{c}</option>
-                        ))}
-                    </CFormSelect>
+                    <PlaceInput
+                        id='bo-campaign-city'
+                        label='Ville'
+                        placeholder='Toutes les villes'
+                        value={form.targetCity}
+                        onChange={(city) => set('targetCity', city)}
+                        text='Laissez vide pour toutes les villes.'
+                    />
                 </CCol>
                 <CCol md={12} className='text-end'>
                     <CButton type='submit' color='primary'>

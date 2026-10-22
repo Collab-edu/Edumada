@@ -33,12 +33,16 @@ class RegisterRequest extends FormRequest
             'jobTitle' => ['nullable', 'required_with:establishment', 'string', 'max:255'],
 
             // Fiche minimale créée en brouillon avec le compte.
-            'establishment' => ['sometimes', 'array:name,category,city,email,website', Rule::prohibitedIf($this->input('accountType') !== UserRole::Establishment->value)],
+            'establishment' => ['sometimes', 'array:name,category,city,email,website,coordinates', Rule::prohibitedIf($this->input('accountType') !== UserRole::Establishment->value)],
             'establishment.name' => ['required_with:establishment', 'string', 'max:255'],
             'establishment.category' => ['required_with:establishment', 'string', Rule::exists('categories', 'slug')],
             'establishment.city' => ['required_with:establishment', 'string', 'max:255'],
             'establishment.email' => ['nullable', 'email', 'max:255'],
             'establishment.website' => ['nullable', 'url', 'max:255'],
+            // Position du lieu choisi dans les suggestions : la fiche apparaît tout de suite dans les recherches « à proximité ».
+            'establishment.coordinates' => ['nullable', 'array:lat,lng'],
+            'establishment.coordinates.lat' => ['required_with:establishment.coordinates', 'numeric', 'between:-26,-11'],
+            'establishment.coordinates.lng' => ['required_with:establishment.coordinates', 'numeric', 'between:42,51'],
 
             // Formule choisie sur la page Tarifs : enregistrée sur la fiche, l'abonnement se fait ensuite.
             'plan' => ['nullable', Rule::in(['free', 'pro', 'premium'])],

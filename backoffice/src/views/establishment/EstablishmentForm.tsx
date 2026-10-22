@@ -6,10 +6,10 @@ import CIcon from '@coreui/icons-react'
 import { cilEducation, cilEnvelopeClosed, cilGlobeAlt, cilImage, cilLink, cilLocationPin, cilPhone, cilSave } from '@coreui/icons'
 import { api, fieldError, isGeneralError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
-import { CITIES } from '@/lib/labels'
 import type { Category, ManagedEstablishment } from '@/lib/types'
 import { useToast } from '@/context/ToastContext'
 import { ErrorAlert, IconInput, ImageUpload, PageCard } from '@/components/ui'
+import PlaceInput from '@/components/PlaceInput'
 import AdmissionSection from './AdmissionSection'
 
 const SOCIALS = [
@@ -161,20 +161,20 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                         </CFormSelect>
                     </CCol>
                     <CCol md={6}>
-                        <IconInput
+                        <PlaceInput
                             id='bo-city'
                             label='Ville'
-                            icon={cilLocationPin}
-                            list='bo-cities'
                             value={form.city}
-                            onChange={(e) => set('city', e.target.value)}
                             error={err('city')}
+                            onChange={(city, place) => {
+                                setForm((f) => {
+                                    // Position encore vide : celle de la localité choisie, à préciser plus bas si besoin.
+                                    const fill = place && !f.lat && !f.lng
+                                    return { ...f, city, ...(fill ? { lat: place.lat.toFixed(6), lng: place.lng.toFixed(6) } : {}) }
+                                })
+                                if (place && !form.lat && !form.lng) toast.info(`Position sur la carte remplie d'après ${place.name}. Précisez-la plus bas si besoin.`)
+                            }}
                         />
-                        <datalist id='bo-cities'>
-                            {CITIES.map((c) => (
-                                <option key={c} value={c} />
-                            ))}
-                        </datalist>
                     </CCol>
                     <CCol md={12}>
                         <CFormTextarea

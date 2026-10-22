@@ -74,6 +74,41 @@ class RegisteredUserControllerTest extends TestCase
         $this->assertSame('yearly', $establishment->requested_billing_cycle);
     }
 
+    public function test_establishment_signup_keeps_the_position_of_the_chosen_place(): void
+    {
+        Category::factory()->create(['slug' => 'formation-pro']);
+
+        $this->postJson('/api/v1/auth/register', [
+            'name' => 'Hery Randria',
+            'firstName' => 'Hery',
+            'lastName' => 'Randria',
+            'jobTitle' => 'Directeur',
+            'email' => 'hery@talatamaty.mg',
+            'phone' => '034 00 000 00',
+            'password' => 'secret123',
+            'password_confirmation' => 'secret123',
+            'accountType' => 'establishment',
+            'establishment' => [
+                'name' => 'Centre de Talatamaty',
+                'category' => 'formation-pro',
+                'city' => 'Talatamaty',
+                'coordinates' => ['lat' => -18.84, 'lng' => 47.46],
+            ],
+        ])->assertCreated();
+
+        $establishment = Establishment::firstWhere('name', 'Centre de Talatamaty');
+        $this->assertEqualsWithDelta(-18.84, (float) $establishment->latitude, 0.0001);
+        $this->assertEqualsWithDelta(47.46, (float) $establishment->longitude, 0.0001);
+
+        // Hors de Madagascar : refusé.
+        $this->postJson('/api/v1/auth/register', [
+            'name' => 'Autre', 'firstName' => 'A', 'lastName' => 'B', 'jobTitle' => 'C',
+            'email' => 'autre@exemple.mg', 'phone' => '034 00 000 01',
+            'password' => 'secret123', 'password_confirmation' => 'secret123', 'accountType' => 'establishment',
+            'establishment' => ['name' => 'Ailleurs', 'category' => 'formation-pro', 'city' => 'Paris', 'coordinates' => ['lat' => 48.85, 'lng' => 2.35]],
+        ])->assertUnprocessable()->assertJsonValidationErrors('establishment.coordinates.lat');
+    }
+
     public function test_establishment_signup_requires_manager_details_and_valid_category(): void
     {
         $response = $this->postJson('/api/v1/auth/register', [

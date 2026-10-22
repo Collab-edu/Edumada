@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 /* Champs de formulaire aux couleurs d'Edumada (zones tactiles ≥ 44 px) */
 /* ------------------------------------------------------------------ */
 
-const inputClassName =
+export const inputClassName =
     'w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-base text-ink outline-hidden transition placeholder:text-ink/40 focus:border-primary focus:ring-2 focus:ring-primary/15 disabled:bg-offwhite disabled:text-ink/50'
 
 interface FieldProps {
