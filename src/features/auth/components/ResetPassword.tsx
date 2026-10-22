@@ -95,7 +95,6 @@ export default function ResetPassword() {
                     autoComplete='new-password'
                     required
                     hint='8 caractères au moins, avec des lettres et des chiffres.'
-                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     error={error?.field('password')}
                 />
@@ -104,7 +103,6 @@ export default function ResetPassword() {
                     type='password'
                     autoComplete='new-password'
                     required
-                    value={confirmation}
                     onChange={(e) => setConfirmation(e.target.value)}
                     error={mismatch ? 'Les deux mots de passe ne correspondent pas.' : undefined}
                 />

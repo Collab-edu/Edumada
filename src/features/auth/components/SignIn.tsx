@@ -72,7 +72,6 @@ const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
                     type='password'
                     autoComplete='current-password'
                     required
-                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     error={error?.field('password')}
                 />

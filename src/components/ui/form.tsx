@@ -42,11 +42,16 @@ export function Field({ label, hint, error, required, className, children }: Fie
 
 type BaseFieldProps = { label: string; hint?: string; error?: string; className?: string }
 
-export function TextField({ label, hint, error, className, required, ...props }: BaseFieldProps & ComponentProps<'input'>) {
+/** Champ de mot de passe (autoComplete « …password ») : sa valeur n'est jamais recopiée dans le HTML. */
+export const isPasswordField = (autoComplete?: string) => !!autoComplete?.endsWith('password')
+
+export function TextField({ label, hint, error, className, required, value, ...props }: BaseFieldProps & ComponentProps<'input'>) {
+    // Mot de passe : champ non contrôlé, sinon React écrit la saisie dans l'attribut value (lisible dans l'inspecteur).
+    const valueProps = isPasswordField(props.autoComplete) ? {} : { value }
     return (
         <Field label={label} hint={hint} error={error} required={required} className={className}>
             {(id, describedBy) => (
-                <input id={id} required={required} aria-invalid={!!error} aria-describedby={describedBy} className={cn(inputClassName, error && 'border-primary')} {...props} />
+                <input id={id} required={required} aria-invalid={!!error} aria-describedby={describedBy} className={cn(inputClassName, error && 'border-primary')} {...props} {...valueProps} />
             )}
         </Field>
     )

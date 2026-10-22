@@ -80,7 +80,6 @@ function ResetForm() {
                                             label='Nouveau mot de passe'
                                             autoComplete='new-password'
                                             text='8 caractères au moins, avec des lettres et des chiffres.'
-                                            value={password}
                                             invalid={!!fieldError(error, 'password')}
                                             feedbackInvalid={fieldError(error, 'password')}
                                             onChange={(e) => setPassword(e.target.value)}
@@ -90,7 +89,6 @@ function ResetForm() {
                                             type='password'
                                             label='Confirmez le mot de passe'
                                             autoComplete='new-password'
-                                            value={confirmation}
                                             invalid={mismatch}
                                             feedbackInvalid='Les deux mots de passe ne correspondent pas.'
                                             onChange={(e) => setConfirmation(e.target.value)}

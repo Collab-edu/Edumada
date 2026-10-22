@@ -28,12 +28,15 @@ export default function Account() {
         }
     }
 
-    const savePassword = async (e: FormEvent) => {
+    const savePassword = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        const form = e.currentTarget
         setError(null)
         try {
             await api('/me/password', { method: 'PUT', body: passwords })
             setPasswords({ currentPassword: '', password: '', password_confirmation: '' })
+            // Champs non contrôlés (le mot de passe n'est pas recopié dans le HTML) : on vide le formulaire.
+            form.reset()
             toast.success('Mot de passe modifié')
         } catch (ex) {
             setError(ex)
@@ -86,7 +89,6 @@ export default function Account() {
                                 label='Mot de passe actuel'
                                 type='password'
                                 autoComplete='current-password'
-                                value={passwords.currentPassword}
                                 onChange={(e) => setPasswords({ ...passwords, currentPassword: e.target.value })}
                                 invalid={!!err('currentPassword')}
                                 feedbackInvalid={err('currentPassword')}
@@ -97,7 +99,6 @@ export default function Account() {
                                 text='8 caractères au moins, avec des lettres et des chiffres.'
                                 type='password'
                                 autoComplete='new-password'
-                                value={passwords.password}
                                 onChange={(e) => setPasswords({ ...passwords, password: e.target.value })}
                                 invalid={!!err('password')}
                                 feedbackInvalid={err('password')}
@@ -107,7 +108,6 @@ export default function Account() {
                                 label='Confirmation'
                                 type='password'
                                 autoComplete='new-password'
-                                value={passwords.password_confirmation}
                                 onChange={(e) => setPasswords({ ...passwords, password_confirmation: e.target.value })}
                             />
                             <CButton type='submit' color='secondary'>

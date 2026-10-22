@@ -177,7 +177,6 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                                 required
                                 aria-invalid={!!error?.field('password')}
                                 aria-describedby={describedBy}
-                                value={form.password}
                                 onChange={set('password')}
                                 className={cn(inputClassName, 'pr-20', error?.field('password') && 'border-primary')}
                             />
@@ -197,7 +196,6 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                     type={showPassword ? 'text' : 'password'}
                     autoComplete='new-password'
                     required
-                    value={form.password_confirmation}
                     onChange={set('password_confirmation')}
                     error={mismatch ? 'Les deux mots de passe ne correspondent pas.' : undefined}
                 />

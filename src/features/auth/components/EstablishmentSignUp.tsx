@@ -236,7 +236,6 @@ export default function EstablishmentSignUp() {
                                         autoComplete='new-password'
                                         required
                                         hint='8 caractères au moins, avec des lettres et des chiffres.'
-                                        value={form.password}
                                         onChange={set('password')}
                                         error={fieldError('password')}
                                     />
@@ -245,7 +244,6 @@ export default function EstablishmentSignUp() {
                                         type='password'
                                         autoComplete='new-password'
                                         required
-                                        value={form.password_confirmation}
                                         onChange={set('password_confirmation')}
                                     />
                                 </div>

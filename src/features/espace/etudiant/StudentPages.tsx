@@ -199,13 +199,16 @@ export function ProfileForms() {
         }
     }
 
-    const savePassword = async (e: FormEvent) => {
+    const savePassword = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        const form = e.currentTarget
         setSaving('password')
         setError(null)
         try {
             await api('/me/password', { method: 'PUT', body: passwords })
             setPasswords({ currentPassword: '', password: '', password_confirmation: '' })
+            // Champs non contrôlés : on vide le formulaire lui-même.
+            form.reset()
             toast.success('Mot de passe modifié')
         } catch (err) {
             setError(err as ApiError)
@@ -250,9 +253,9 @@ export function ProfileForms() {
 
             <Panel title='Mot de passe'>
                 <form onSubmit={savePassword} className='grid grid-cols-1 sm:grid-cols-3 gap-4 items-start'>
-                    <TextField label='Mot de passe actuel' type='password' autoComplete='current-password' value={passwords.currentPassword} onChange={(e) => setPasswords({ ...passwords, currentPassword: e.target.value })} error={error?.field('currentPassword')} />
-                    <TextField label='Nouveau mot de passe' type='password' autoComplete='new-password' value={passwords.password} onChange={(e) => setPasswords({ ...passwords, password: e.target.value })} error={error?.field('password')} />
-                    <TextField label='Confirmation' type='password' autoComplete='new-password' value={passwords.password_confirmation} onChange={(e) => setPasswords({ ...passwords, password_confirmation: e.target.value })} />
+                    <TextField label='Mot de passe actuel' type='password' autoComplete='current-password' onChange={(e) => setPasswords({ ...passwords, currentPassword: e.target.value })} error={error?.field('currentPassword')} />
+                    <TextField label='Nouveau mot de passe' type='password' autoComplete='new-password' onChange={(e) => setPasswords({ ...passwords, password: e.target.value })} error={error?.field('password')} />
+                    <TextField label='Confirmation' type='password' autoComplete='new-password' onChange={(e) => setPasswords({ ...passwords, password_confirmation: e.target.value })} />
                     <div className='sm:col-span-3'>
                         <Button type='submit' variant='secondary' loading={saving === 'password'}>Changer le mot de passe</Button>
                     </div>
@@ -272,7 +275,7 @@ export function ProfileForms() {
             <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)} title='Supprimer mon compte ?' description='Toutes vos données seront effacées définitivement.'>
                 <div className='flex flex-col gap-4'>
                     <FormAlert>Cette action ne peut pas être annulée.</FormAlert>
-                    <TextField label='Votre mot de passe' type='password' autoComplete='current-password' value={deletePassword} onChange={(e) => setDeletePassword(e.target.value)} />
+                    <TextField label='Votre mot de passe' type='password' autoComplete='current-password' onChange={(e) => setDeletePassword(e.target.value)} />
                     <Button variant='danger' onClick={deleteAccount} loading={saving === 'delete'} disabled={!deletePassword}>Supprimer définitivement</Button>
                 </div>
             </Dialog>
