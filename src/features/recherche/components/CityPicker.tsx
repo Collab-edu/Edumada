@@ -187,12 +187,12 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
                     type='button'
                     onClick={() => locate(true)}
                     disabled={locating}
-                    aria-label='Voir le plus proche de ma position'
-                    title='Voir le plus proche de ma position'
+                    aria-label='Voir les résultats à proximité de ma position'
+                    title='Voir les résultats à proximité de ma position'
                     className='-my-1 inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full px-2 py-1 text-sm font-semibold text-primary hover:bg-cream hover:cursor-pointer disabled:opacity-60'>
                     <Icon icon={locating ? 'tabler:loader-2' : 'tabler:current-location'} className={cn('text-lg', locating && 'animate-spin')} />
                     {/* Libellé quand la place le permet, sinon icône seule. */}
-                    <span className='hidden @[20rem]:inline'>{locating ? 'Localisation…' : 'Le plus proche'}</span>
+                    <span className='hidden @[20rem]:inline'>{locating ? 'Localisation…' : 'À proximité'}</span>
                 </button>
             </div>
 
