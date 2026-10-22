@@ -1,5 +1,6 @@
 'use client'
 import { Suspense, useEffect, useState, type FormEvent } from 'react'
+import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { CAlert, CButton, CCard, CCardBody, CCol, CContainer, CForm, CFormInput, CInputGroup, CInputGroupText, CRow, CSpinner } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
@@ -87,7 +88,7 @@ function LoginForm() {
                                             onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </CInputGroup>
-                                    <CInputGroup className='mb-4'>
+                                    <CInputGroup className='mb-2'>
                                         <CInputGroupText>
                                             <CIcon icon={cilLockLocked} />
                                         </CInputGroupText>
@@ -101,6 +102,11 @@ function LoginForm() {
                                             onChange={(e) => setPassword(e.target.value)}
                                         />
                                     </CInputGroup>
+                                    <div className='text-end mb-4'>
+                                        <Link href={`/mot-de-passe-oublie/${email ? `?email=${encodeURIComponent(email)}` : ''}`} className='small fw-semibold text-decoration-none'>
+                                            Mot de passe oublié ?
+                                        </Link>
+                                    </div>
                                     <CButton color='danger' className='px-4 w-100 text-white fw-semibold' type='submit' disabled={loading || !mounted}>
                                         {loading && <CSpinner size='sm' className='me-2' />}
                                         Se connecter

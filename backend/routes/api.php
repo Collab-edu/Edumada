@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Admin\OverviewController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
 use App\Http\Controllers\Api\V1\ArticleController;
 use App\Http\Controllers\Api\V1\Auth\CurrentUserController;
+use App\Http\Controllers\Api\V1\Auth\PasswordResetController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\RegisteredUserController;
 use App\Http\Controllers\Api\V1\Auth\TokenController;
@@ -57,6 +58,8 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::prefix('auth')->name('auth.')->group(function () {
         Route::post('register', [RegisteredUserController::class, 'store'])->middleware('throttle:register')->name('register');
         Route::post('login', [TokenController::class, 'store'])->middleware('throttle:login')->name('login');
+        Route::post('forgot-password', [PasswordResetController::class, 'forgot'])->middleware('throttle:password-reset')->name('password.forgot');
+        Route::post('reset-password', [PasswordResetController::class, 'reset'])->middleware('throttle:password-reset')->name('password.reset');
     });
 
     Route::middleware('auth:sanctum')->group(function () {

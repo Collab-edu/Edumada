@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\EstablishmentMemberRole;
 use App\Enums\UserRole;
+use App\Notifications\ResetPasswordLink;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -78,6 +79,14 @@ class User extends Authenticatable
     public function inquiries(): HasMany
     {
         return $this->hasMany(Inquiry::class);
+    }
+
+    /**
+     * E-mail « mot de passe oublié » en français, avec un lien vers le site ou le back-office.
+     */
+    public function sendPasswordResetNotification(#[\SensitiveParameter] $token): void
+    {
+        $this->notify(new ResetPasswordLink($token));
     }
 
     public function isAdmin(): bool

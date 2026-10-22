@@ -76,6 +76,9 @@ const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
                     onChange={(e) => setPassword(e.target.value)}
                     error={error?.field('password')}
                 />
+                <Link href='/mot-de-passe-oublie/' onClick={onSuccess} className='-mt-2 self-end text-sm font-semibold text-secondary hover:text-primary hover:underline'>
+                    Mot de passe oublié ?
+                </Link>
                 <Button type='submit' loading={loading} disabled={!apiEnabled || !ready} className='mt-2 w-full py-3 text-lg'>
                     Se connecter
                 </Button>
