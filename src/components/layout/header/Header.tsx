@@ -5,6 +5,7 @@ import { Icon } from '@/components/ui/icon'
 import Signin from '@/features/auth/components/SignIn'
 import { useSiteData } from '@/data/site-data'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { SPACE_HOME } from '@/features/auth/types'
 import { cn } from '@/lib/utils'
@@ -77,6 +78,12 @@ const Header: React.FC = () => {
 
     const signInRef = useRef<HTMLDivElement>(null)
     const mobileMenuRef = useRef<HTMLDivElement>(null)
+
+    // Nouvelle page : le menu mobile se referme, on voit tout de suite la page ouverte.
+    const pathname = usePathname()
+    useEffect(() => {
+        setNavbarOpen(false)
+    }, [pathname])
 
     const handleScroll = () => {
         setSticky(window.scrollY >= 10)

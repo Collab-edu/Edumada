@@ -1,9 +1,16 @@
 import { useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { HeaderItem } from '@/types/navigation'
+import { cn } from '@/lib/utils'
+
+const samePath = (a: string, b: string) => a.replace(/\/+$/, '') === b.replace(/\/+$/, '')
 
 const MobileHeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
   const [submenuOpen, setSubmenuOpen] = useState(false)
+  const path = usePathname()
+  // Page en cours (ou une de ses sous-pages) : mise en évidence dans le menu.
+  const active = samePath(path, item.href) || !!item.submenu?.some((sub) => samePath(path, sub.href))
 
   const handleToggle = () => {
     setSubmenuOpen(!submenuOpen)
@@ -14,7 +21,11 @@ const MobileHeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
       <Link
         href={item.href}
         onClick={item.submenu ? handleToggle : undefined}
-        className='flex items-center justify-between w-full py-2 text-black focus:outline-hidden'>
+        aria-current={samePath(path, item.href) ? 'page' : undefined}
+        className={cn(
+          'flex items-center justify-between w-full rounded-lg px-3 py-2.5 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/40',
+          active ? 'bg-cream font-semibold text-primary' : 'text-black hover:bg-offwhite'
+        )}>
         {item.label}
         {item.submenu && (
           <svg
@@ -39,7 +50,8 @@ const MobileHeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
             <Link
               key={index}
               href={subItem.href}
-              className='block py-2 text-gray-500 hover:bg-gray-200'>
+              aria-current={samePath(path, subItem.href) ? 'page' : undefined}
+              className={cn('block rounded-lg px-3 py-2', samePath(path, subItem.href) ? 'font-semibold text-primary' : 'text-gray-500 hover:bg-gray-200')}>
               {subItem.label}
             </Link>
           ))}
