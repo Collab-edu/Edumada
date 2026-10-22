@@ -36,6 +36,24 @@ export function searchPlaces(query: string): Promise<Suggestion[]> {
     return cache.get(key)!
 }
 
+/** Lieu où se trouve la personne (quartier ou localité, et leur district et région), ou null. */
+export function placeAt(point: Point): Promise<Suggestion | null> {
+    if (!apiEnabled) return Promise.resolve(null)
+    return api<{ data: Place | null }>('/places/here', { query: { lat: point.lat.toFixed(5), lng: point.lng.toFixed(5) }, token: null })
+        .then((res) => (res.data ? { value: res.data.name, hint: res.data.kind, detail: res.data.detail, lat: res.data.lat, lng: res.data.lng } : null))
+        .catch(() => null)
+}
+
+/** Grandes villes proposées avant toute saisie (chefs-lieux des anciennes provinces). */
+export const POPULAR_CITIES: Suggestion[] = [
+    { value: 'Antananarivo', detail: 'Analamanga', lat: -18.8792, lng: 47.5079 },
+    { value: 'Toamasina', detail: 'Atsinanana', lat: -18.1492, lng: 49.4023 },
+    { value: 'Fianarantsoa', detail: 'Haute Matsiatra', lat: -21.4536, lng: 47.0858 },
+    { value: 'Mahajanga', detail: 'Boeny', lat: -15.7167, lng: 46.3167 },
+    { value: 'Toliara', detail: 'Atsimo-Andrefana', lat: -23.35, lng: 43.6667 },
+    { value: 'Antsiranana', detail: 'Diana', lat: -12.2787, lng: 49.2917 },
+]
+
 /** « -18.84000,47.46000 » : position transmise à la recherche (paramètre pos). */
 export const placePosition = (place?: Partial<Point>) =>
     place?.lat !== undefined && place.lng !== undefined ? `${place.lat.toFixed(5)},${place.lng.toFixed(5)}` : ''

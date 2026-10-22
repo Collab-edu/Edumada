@@ -47,6 +47,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::apiResource('establishments', EstablishmentController::class)->only(['index', 'show']);
     Route::apiResource('offers', OfferController::class)->only(['index', 'show']);
     Route::get('places', [PlaceController::class, 'index'])->middleware('throttle:places')->name('places.index');
+    Route::get('places/here', [PlaceController::class, 'here'])->middleware('throttle:places')->name('places.here');
     Route::get('reviews', [ReviewController::class, 'index'])->name('reviews.index');
     Route::get('plans', [PlanController::class, 'index'])->name('plans.index');
     Route::get('sponsored', [CampaignController::class, 'sponsored'])->name('sponsored');

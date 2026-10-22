@@ -53,6 +53,87 @@ class PlaceController extends Controller
     }
 
     /**
+     * Lieu où se trouve la personne (bouton « Ma position actuelle ») : quartier ou localité et
+     * leur commune, district et région, d'après le géocodage inverse d'OpenStreetMap (Nominatim).
+     * Position arrondie à une centaine de mètres pour le cache (30 jours).
+     */
+    public function here(Request $request): JsonResponse
+    {
+        $point = $request->validate([
+            'lat' => ['required', 'numeric', 'between:-26,-11'],
+            'lng' => ['required', 'numeric', 'between:42,51'],
+        ]);
+        $lat = round((float) $point['lat'], 3);
+        $lng = round((float) $point['lng'], 3);
+
+        $key = "places:here:{$lat},{$lng}";
+        $place = Cache::get($key);
+        if ($place === null) {
+            $place = $this->reverse($lat, $lng);
+            if ($place !== null) {
+                Cache::put($key, $place, now()->addDays(30));
+            }
+        }
+
+        return response()->json(['data' => $place ?: null]);
+    }
+
+    /**
+     * @return array{name: string, kind: string, detail: string, lat: float, lng: float}|false|null false si aucun lieu, null si Nominatim n'a pas répondu
+     */
+    private function reverse(float $lat, float $lng): array|false|null
+    {
+        try {
+            $response = Http::timeout(6)
+                ->withHeaders(['User-Agent' => 'Edumada/1.0 ('.config('edumada.frontend_url').')'])
+                ->get('https://nominatim.openstreetmap.org/reverse', [
+                    'lat' => $lat,
+                    'lon' => $lng,
+                    'zoom' => 16,
+                    'format' => 'jsonv2',
+                    'accept-language' => 'fr',
+                ]);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return null;
+        }
+        if (! $response->successful()) {
+            return null;
+        }
+
+        $address = $response->json('address') ?? [];
+        if (($address['country_code'] ?? '') !== 'mg') {
+            return false;
+        }
+
+        // Le plus précis d'abord : quartier, puis village ou ville.
+        $levels = [
+            'Quartier' => ['suburb', 'quarter', 'neighbourhood'],
+            'Village' => ['village', 'hamlet'],
+            'Ville' => ['town', 'city'],
+            'Commune' => ['municipality'],
+            'District' => ['county'],
+        ];
+        foreach ($levels as $kind => $keys) {
+            foreach ($keys as $part) {
+                if (! empty($address[$part])) {
+                    $name = $address[$part];
+                    $detail = collect([$address['city'] ?? $address['town'] ?? $address['village'] ?? null, $address['county'] ?? null, $address['state'] ?? null])
+                        ->filter(fn (?string $value) => $value && $value !== $name)
+                        ->unique()
+                        ->take(2)
+                        ->implode(', ');
+
+                    return ['name' => $name, 'kind' => $kind, 'detail' => $detail, 'lat' => $lat, 'lng' => $lng];
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @return array<int, array{name: string, kind: string, detail: string, lat: float, lng: float}>|null null si Photon n'a pas répondu
      */
     private function search(string $query): ?array

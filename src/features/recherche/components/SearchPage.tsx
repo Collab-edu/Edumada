@@ -5,8 +5,9 @@ import { Icon } from '@/components/ui/icon'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { track } from '@/lib/track'
 import { cn } from '@/lib/utils'
+import CityPicker from './CityPicker'
 import SuggestInput from './SuggestInput'
-import { MY_POSITION, placePosition, searchPlaces } from '../places'
+import { MY_POSITION, placePosition } from '../places'
 import ResultCard from './ResultCard'
 import SearchFiltersPanel from './SearchFiltersPanel'
 import {
@@ -56,19 +57,24 @@ const SearchPage = () => {
         TOP_FILTERS.map(({ param, label }) => {
             return (
                 <div key={param} className={className}>
+                    {param === 'ville' ? (
+                        <CityPicker
+                            label={label}
+                            placeholder='Ex. : Antananarivo, Toamasina…'
+                            suggestions={suggestions.ville ?? []}
+                            value={filters.ville}
+                            onChange={(value, place) => setFilters((prev) => ({ ...prev, ville: value, pos: placePosition(place) }))}
+                        />
+                    ) : (
                     <SuggestInput
                         icon={FILTER_UI[param].icon}
                         label={FILTER_UI[param].label ?? label}
                         placeholder={FILTER_UI[param].placeholder}
                         suggestions={suggestions[param] ?? []}
                         value={filters[param]}
-                        onChange={(value, place) =>
-                            setFilters((prev) => ({ ...prev, [param]: value, ...(param === 'ville' ? { pos: placePosition(place) } : {}) }))
-                        }
-                        allowFreeText={param === 'ville'}
-                        loadSuggestions={param === 'ville' ? searchPlaces : undefined}
-                        locate={param === 'ville'}
+                        onChange={(value) => setFilters((prev) => ({ ...prev, [param]: value }))}
                     />
+                    )}
                 </div>
             )
         })

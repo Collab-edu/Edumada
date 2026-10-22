@@ -3,9 +3,10 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { Icon } from '@/components/ui/icon'
+import CityPicker from './CityPicker'
 import SuggestInput from './SuggestInput'
 import { HERO_FILTERS } from './HeroFilters'
-import { placePosition, searchPlaces } from '../places'
+import { placePosition } from '../places'
 import { FILTER_UI, useFilterSuggestions } from '../useFilterSuggestions'
 
 /** Raccourcis vers les catégories les plus cherchées. */
@@ -76,19 +77,24 @@ export default function MobileSearch() {
                     <div className='flex flex-col gap-3 p-4'>
                         {HERO_FILTERS.map((filter) => (
                             <div key={filter.param} className='rounded-2xl bg-white px-4 py-3 ring-1 ring-gray-100 focus-within:ring-2 focus-within:ring-primary/30'>
+                                {filter.param === 'ville' ? (
+                                    <CityPicker
+                                        label={filter.label}
+                                        placeholder='Ex. : Antananarivo, Toamasina…'
+                                        suggestions={suggestions.ville ?? []}
+                                        value={selected.ville ?? ''}
+                                        onChange={(value, place) => setSelected((prev) => ({ ...prev, ville: value, pos: placePosition(place) }))}
+                                    />
+                                ) : (
                                 <SuggestInput
                                     icon={FILTER_UI[filter.param].icon}
                                     label={FILTER_UI[filter.param].label ?? filter.label}
                                     placeholder={FILTER_UI[filter.param].placeholder}
                                     suggestions={suggestions[filter.param] ?? []}
                                     value={selected[filter.param] ?? ''}
-                                    onChange={(value, place) =>
-                                        setSelected((prev) => ({ ...prev, [filter.param]: value, ...(filter.param === 'ville' ? { pos: placePosition(place) } : {}) }))
-                                    }
-                                    allowFreeText={filter.param === 'ville'}
-                                    loadSuggestions={filter.param === 'ville' ? searchPlaces : undefined}
-                                    locate={filter.param === 'ville'}
+                                    onChange={(value) => setSelected((prev) => ({ ...prev, [filter.param]: value }))}
                                 />
+                                )}
                             </div>
                         ))}
 

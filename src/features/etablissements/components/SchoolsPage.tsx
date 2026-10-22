@@ -6,8 +6,9 @@ import { ButtonLink } from '@/components/ui/form'
 import SectionHeader from '@/components/ui/section-header'
 import { CardSkeletonGrid } from '@/components/ui/card'
 import { useSiteData } from '@/data/site-data'
+import CityPicker from '@/features/recherche/components/CityPicker'
 import SuggestInput from '@/features/recherche/components/SuggestInput'
-import { MY_POSITION, filterByPlace, placePosition, searchPlaces } from '@/features/recherche/places'
+import { MY_POSITION, filterByPlace, placePosition } from '@/features/recherche/places'
 import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
 import SchoolCard from './SchoolCard'
 import type { SchoolType } from '../types'
@@ -129,19 +130,24 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                             { key: 'city' as const, label: 'Ville / Localisation', icon: FILTER_UI.ville.icon, placeholder: FILTER_UI.ville.placeholder, suggestions: citySuggestions },
                         ].map((field) => (
                             <div key={field.key} className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
+                                {field.key === 'city' ? (
+                                    <CityPicker
+                                        label={field.label}
+                                        placeholder='Ex. : Antananarivo, Toamasina…'
+                                        suggestions={field.suggestions}
+                                        value={filters.city}
+                                        onChange={(value, place) => setFilters((prev) => ({ ...prev, city: value, pos: placePosition(place) }))}
+                                    />
+                                ) : (
                                 <SuggestInput
                                     icon={field.icon}
                                     label={field.label}
                                     placeholder={field.placeholder}
                                     suggestions={field.suggestions}
                                     value={filters[field.key]}
-                                    onChange={(value, place) =>
-                                        setFilters((prev) => ({ ...prev, [field.key]: value, ...(field.key === 'city' ? { pos: placePosition(place) } : {}) }))
-                                    }
-                                    allowFreeText={field.key === 'city'}
-                                    loadSuggestions={field.key === 'city' ? searchPlaces : undefined}
-                                    locate={field.key === 'city'}
+                                    onChange={(value) => setFilters((prev) => ({ ...prev, [field.key]: value }))}
                                 />
+                                )}
                             </div>
                         ))}
                         <button

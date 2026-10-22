@@ -80,4 +80,32 @@ class PlaceSearchTest extends TestCase
         Http::assertNothingSent();
         $this->getJson('/api/v1/offers?city=Ivato&near=abc')->assertUnprocessable()->assertJsonValidationErrors('near');
     }
+
+    public function test_it_names_the_place_around_a_position(): void
+    {
+        Http::fake(['nominatim.openstreetmap.org/*' => Http::response([
+            'address' => ['suburb' => 'Talatamaty', 'town' => 'Ambohidratrimo', 'county' => 'Ambohidratrimo', 'state' => 'Analamanga', 'country_code' => 'mg'],
+        ])]);
+
+        $this->getJson('/api/v1/places/here?lat=-18.83312&lng=47.45471')
+            ->assertOk()
+            ->assertJsonPath('data.name', 'Talatamaty')
+            ->assertJsonPath('data.kind', 'Quartier')
+            ->assertJsonPath('data.detail', 'Ambohidratrimo, Analamanga')
+            ->assertJsonPath('data.lat', -18.833);
+
+        // Même endroit à quelques mètres près : réponse du cache.
+        $this->getJson('/api/v1/places/here?lat=-18.83301&lng=47.45479')->assertOk()->assertJsonPath('data.name', 'Talatamaty');
+        Http::assertSentCount(1);
+
+        // Hors de Madagascar : refusé.
+        $this->getJson('/api/v1/places/here?lat=48.85&lng=2.35')->assertUnprocessable();
+    }
+
+    public function test_a_position_without_place_returns_null(): void
+    {
+        Http::fake(['nominatim.openstreetmap.org/*' => Http::response(['error' => 'Unable to geocode'])]);
+
+        $this->getJson('/api/v1/places/here?lat=-20&lng=44')->assertOk()->assertJsonPath('data', null);
+    }
 }
