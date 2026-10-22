@@ -2,7 +2,6 @@
 #
 # Contexte de construction : la RACINE du dépôt (le seeder lit les données du site dans public/data).
 #   docker build -f backend/Dockerfile -t edumada-api .
-# Sur Render : Dockerfile Path = ./backend/Dockerfile, Docker Build Context Directory = .
 
 # 1. Assets de la page d'accueil Laravel (Vite).
 FROM node:22-alpine AS assets
@@ -44,7 +43,7 @@ ENV APP_ENV=production \
     LOG_CHANNEL=stderr \
     LOG_LEVEL=info \
     EDUMADA_SITE_DATA_PATH=/var/www/site-data \
-    PORT=10000
+    PORT=8080
 
 # Composer a été lancé sans scripts : découverte des paquets Laravel (Sanctum…).
 RUN rm -f .env bootstrap/cache/*.php && php artisan package:discover --ansi
@@ -53,7 +52,7 @@ RUN mkdir -p storage/app/public \
     storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs \
     && chown -R www-data:www-data storage bootstrap/cache
 
-EXPOSE 10000
+EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s CMD curl -fs "http://127.0.0.1:${PORT}/up" || exit 1
 
 CMD ["edumada-entrypoint"]

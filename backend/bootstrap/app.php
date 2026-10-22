@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Derrière le proxy HTTPS de l'hébergeur (Render) : schéma https et adresse réelle du visiteur.
+        // Derrière le proxy HTTPS de l'hébergeur : schéma https et adresse réelle du visiteur.
         $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {

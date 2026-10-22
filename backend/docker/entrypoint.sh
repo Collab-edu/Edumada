@@ -3,8 +3,8 @@
 set -e
 cd /var/www/html
 
-# Render (et la plupart des hébergeurs) imposent le port d'écoute via $PORT.
-PORT="${PORT:-10000}"
+# Port d'écoute : $PORT s'il est imposé par l'hébergeur, 8080 sinon.
+PORT="${PORT:-8080}"
 sed -i "s/^Listen .*/Listen ${PORT}/" /etc/apache2/ports.conf
 sed -i "s/<VirtualHost \*:[0-9]*>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
 
