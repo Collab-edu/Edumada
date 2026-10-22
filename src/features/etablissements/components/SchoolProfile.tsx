@@ -81,9 +81,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 <span className='inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 font-semibold text-secondary'>
                                     <Icon icon={category.icon} /> {school.subCategory}
                                 </span>
-                                <span className='rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>
-                                    {school.type === 'Public' ? 'Public' : 'Privé'}
-                                </span>
+                                {school.type && <span className='rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>{school.type}</span>}
                                 <span className='inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>
                                     <Icon icon='tabler:map-pin' /> {school.city}
                                 </span>
@@ -236,7 +234,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             <ul>
                                 <InfoRow icon='tabler:building-community' label='Nom'>{school.name}</InfoRow>
                                 <InfoRow icon={category.icon} label='Type et catégorie'>
-                                    {school.subCategory} · {category.label} · {school.type === 'Public' ? 'public' : 'privé'}
+                                    {[school.subCategory, category.label, school.type?.toLowerCase()].filter(Boolean).join(' · ')}
                                 </InfoRow>
                                 <InfoRow icon='tabler:map-pin' label='Adresse'>{school.address}</InfoRow>
                                 {school.phone && (

@@ -32,9 +32,11 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
         <Card id={sponsored ? undefined : formation.id} className={cn('flex h-full flex-col overflow-hidden scroll-mt-28', sponsored && 'ring-2 ring-primary/20')}>
             <div className='relative h-44 shrink-0 bg-cream'>
                 <Image src={imageOr(formation.imageSrc)} alt={formation.title} fill className='object-cover' />
-                <span className='absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-secondary backdrop-blur-sm'>
-                    {formation.schoolType}
-                </span>
+                {formation.schoolType && (
+                    <span className='absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-secondary backdrop-blur-sm'>
+                        {formation.schoolType}
+                    </span>
+                )}
                 {sponsored && (
                     <span className='absolute top-3 right-3 rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-white'>
                         Sponsorisé

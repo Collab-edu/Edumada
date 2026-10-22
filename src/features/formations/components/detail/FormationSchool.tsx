@@ -27,7 +27,7 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                     <div className='flex flex-1 flex-col gap-1'>
                         <p className='text-xl font-bold text-secondary'>{school.name}</p>
                         <span className='text-ink/70'>
-                            Établissement {school.type.toLowerCase()} · {school.city}
+                            {school.type ? `Établissement ${school.type.toLowerCase()} · ` : ''}{school.city}
                         </span>
                     </div>
                     <Link

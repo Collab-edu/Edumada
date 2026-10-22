@@ -14,7 +14,8 @@ export type FormationType = {
   school: string
   /** Identifiant de l'établissement (SchoolType.id). */
   schoolId: string
-  schoolType: 'Public' | 'Privé'
+  /** Public ou privé ; null tant que l'établissement ne l'a pas précisé. */
+  schoolType: 'Public' | 'Privé' | null
   city: string
   /** Domaine, avec les mêmes libellés que le filtre « Domaine d'études ». */
   domain: string

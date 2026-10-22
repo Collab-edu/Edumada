@@ -3,7 +3,8 @@ export type SchoolType = {
   id: string
   name: string
   initials: string
-  type: 'Public' | 'Privé'
+  /** Public ou privé ; null tant que l'établissement ne l'a pas précisé. */
+  type: 'Public' | 'Privé' | null
   /** Catégorie principale (CategoryType.id) et sous-catégorie libre. */
   category: string
   subCategory: string

@@ -50,7 +50,8 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
 
     const facts = [
         { icon: 'tabler:map-pin', label: formation.city },
-        { icon: 'tabler:building-community', label: `Établissement ${formation.schoolType.toLowerCase()}` },
+        // Public / privé : affiché seulement quand l'établissement l'a précisé.
+        ...(formation.schoolType ? [{ icon: 'tabler:building-community', label: `Établissement ${formation.schoolType.toLowerCase()}` }] : []),
         ...offerFacts(formation),
         { icon: 'tabler:coin', label: tuition ?? 'Frais non communiqués' },
     ]
