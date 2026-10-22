@@ -125,6 +125,34 @@ class Offer extends Model
     }
 
     /**
+     * Offres triées de la plus proche à la plus lointaine d'un point, avec `distance_sq`
+     * (distance au carré, en km²). Projection équirectangulaire : quelques centaines de mètres
+     * d'écart à l'échelle de Madagascar, et uniquement de l'arithmétique (MariaDB, PostgreSQL, SQLite).
+     *
+     * @param  Builder<self>  $query
+     */
+    #[Scope]
+    protected function nearest(Builder $query, float $lat, float $lng): void
+    {
+        $kmPerDegreeLat = 111.32;
+        $kmPerDegreeLng = 111.32 * cos(deg2rad($lat));
+
+        $distance = Establishment::query()
+            ->selectRaw(
+                '((latitude - ?) * ?) * ((latitude - ?) * ?) + ((longitude - ?) * ?) * ((longitude - ?) * ?)',
+                [$lat, $kmPerDegreeLat, $lat, $kmPerDegreeLat, $lng, $kmPerDegreeLng, $lng, $kmPerDegreeLng],
+            )
+            ->whereColumn('establishments.id', 'offers.establishment_id');
+
+        $query->whereHas('establishment', fn (Builder $establishment) => $establishment->whereNotNull('latitude')->whereNotNull('longitude'))
+            ->select('offers.*')
+            ->selectSub($distance, 'distance_sq')
+            ->reorder()
+            ->orderBy('distance_sq')
+            ->orderBy('offers.id');
+    }
+
+    /**
      * Filtres et tri de la page /recherche (voir OfferSearchRequest). Valeurs = libellés du site.
      *
      * @param  Builder<self>  $query

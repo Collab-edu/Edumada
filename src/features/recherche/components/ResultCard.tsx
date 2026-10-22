@@ -68,6 +68,9 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                             <span className='inline-flex items-center gap-1.5'>
                                 <Icon icon='tabler:map-pin' className='text-secondary' />
                                 {formation.city}
+                                {formation.distanceKm !== undefined && (
+                                    <span className='font-semibold text-primary'>· à {formation.distanceKm.toLocaleString('fr-FR')} km</span>
+                                )}
                             </span>
                         </p>
                     </div>

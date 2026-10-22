@@ -11,6 +11,7 @@ use App\Http\Resources\OfferResource;
 use App\Models\AuditLog;
 use App\Models\Establishment;
 use App\Models\Offer;
+use App\Services\PlaceLocator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -21,13 +22,31 @@ class OfferController extends Controller
     /**
      * Recherche des offres publiées (filtres de la page /recherche).
      */
-    public function index(OfferSearchRequest $request): AnonymousResourceCollection
+    public function index(OfferSearchRequest $request, PlaceLocator $places): AnonymousResourceCollection
     {
-        $offers = Offer::published()
-            ->with(['establishment.category', 'domain'])
-            ->matchingSearch($request->validated())
-            ->paginate($request->validated('perPage') ?? 24)
-            ->withQueryString();
+        $filters = $request->validated();
+        $perPage = $filters['perPage'] ?? 24;
+        $search = fn (array $filters) => Offer::published()->with(['establishment.category', 'domain'])->matchingSearch($filters);
+
+        $offers = $search($filters)->paginate($perPage)->withQueryString();
+        $city = trim($filters['city'] ?? '');
+
+        // Aucune offre dans ce lieu (« Talatamaty ») : les plus proches, de la plus près à la plus loin.
+        if ($offers->total() === 0 && $city !== '') {
+            $point = $places->locate($city);
+            if ($point === null) {
+                return OfferResource::collection($offers)->additional(['near' => null, 'placeNotFound' => true]);
+            }
+
+            $nearby = $search([...$filters, 'city' => null])
+                ->nearest($point['lat'], $point['lng'])
+                ->paginate($perPage)
+                ->withQueryString();
+
+            return OfferResource::collection($nearby)->additional([
+                'near' => ['place' => $city, 'label' => $point['label'], 'lat' => $point['lat'], 'lng' => $point['lng']],
+            ]);
+        }
 
         return OfferResource::collection($offers);
     }

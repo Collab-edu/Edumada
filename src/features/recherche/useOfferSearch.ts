@@ -36,8 +36,15 @@ export function toApiQuery(filters: SearchFilters, sort: SortValue) {
     }
 }
 
+/** Recherche autour d'un lieu sans offre (« Talatamaty ») : résultats triés par distance. */
+export type NearPlace = { place: string; label: string; lat: number; lng: number }
+
+type SearchResponse = Paginated<FormationType> & { near?: NearPlace | null; placeNotFound?: boolean }
+
 type SearchState = {
     results: FormationType[]
+    near: NearPlace | null
+    placeNotFound: boolean
     total: number
     loading: boolean
     loadingMore: boolean
@@ -58,7 +65,7 @@ const MAX_LOADING_MS = 3000
 export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchState {
     const { data: formations, loading: localLoading } = useSiteData('FormationData')
     const { data: categories } = useSiteData('CategoryData')
-    const [remote, setRemote] = useState<{ results: FormationType[]; total: number; page: number; lastPage: number } | null>(null)
+    const [remote, setRemote] = useState<{ results: FormationType[]; total: number; page: number; lastPage: number; near: NearPlace | null; placeNotFound: boolean } | null>(null)
     const [loading, setLoading] = useState(apiEnabled)
     const [loadingMore, setLoadingMore] = useState(false)
     const [offline, setOffline] = useState(!apiEnabled)
@@ -80,9 +87,16 @@ export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchS
         setLoading(true)
         // Petite attente pour ne pas interroger l'API à chaque lettre tapée.
         const timer = setTimeout(() => {
-            api<Paginated<FormationType>>('/offers', { query: { ...query, perPage: PAGE_SIZE }, signal: controller.signal, token: null })
+            api<SearchResponse>('/offers', { query: { ...query, perPage: PAGE_SIZE }, signal: controller.signal, token: null })
                 .then((res) => {
-                    setRemote({ results: res.data, total: res.meta.total, page: 1, lastPage: res.meta.last_page })
+                    setRemote({
+                        results: res.data,
+                        total: res.meta.total,
+                        page: 1,
+                        lastPage: res.meta.last_page,
+                        near: res.near ?? null,
+                        placeNotFound: !!res.placeNotFound,
+                    })
                     setOffline(false)
                 })
                 .catch((error) => {
@@ -120,7 +134,7 @@ export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchS
     }
 
     if (offline) {
-        return { results: local, total: local.length, loading: localLoading || pacing, loadingMore: false, hasMore: false, offline: apiEnabled, loadMore }
+        return { results: local, total: local.length, loading: localLoading || pacing, loadingMore: false, hasMore: false, offline: apiEnabled, loadMore, near: null, placeNotFound: false }
     }
     return {
         results: remote?.results ?? [],
@@ -130,6 +144,8 @@ export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchS
         hasMore: !!remote && remote.page < remote.lastPage,
         offline: false,
         loadMore,
+        near: remote?.near ?? null,
+        placeNotFound: remote?.placeNotFound ?? false,
     }
 }
 

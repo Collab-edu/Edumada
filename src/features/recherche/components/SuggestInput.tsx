@@ -18,7 +18,11 @@ interface SuggestInputProps {
     /** Valeur choisie ; chaîne vide = pas de filtre. */
     value: string
     onChange: (value: string) => void
+    /** Accepte un lieu absent des suggestions (« Talatamaty ») : la recherche se fait alors autour de ce lieu. */
+    allowFreeText?: boolean
 }
+
+const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1)
 
 /** Met en gras la partie du libellé qui correspond à la saisie. */
 function Highlight({ text, query }: { text: string; query: string }) {
@@ -40,7 +44,7 @@ function Highlight({ text, query }: { text: string; query: string }) {
  * une saisie qui correspond exactement à une suggestion, ou à une seule, est retenue.
  * Vider le champ retire le filtre.
  */
-export function SuggestInput({ label, icon, placeholder, suggestions, value, onChange }: SuggestInputProps) {
+export function SuggestInput({ label, icon, placeholder, suggestions, value, onChange, allowFreeText = false }: SuggestInputProps) {
     const [query, setQuery] = useState('')
 
     // Mot-clé qui correspond à la saisie, quand le libellé lui-même ne correspond pas.
@@ -55,6 +59,10 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
             .sort((a, b) => Number(!startsWith(a, q)) - Number(!startsWith(b, q)))
     }, [query, suggestions])
 
+    // Lieu hors liste : proposé en premier choix tant qu'aucune suggestion ne lui correspond exactement.
+    const freeTextOption =
+        allowFreeText && query.trim().length >= 2 && !suggestions.some((s) => normalize(s.value) === normalize(query)) ? capitalize(query.trim()) : null
+
     // Saisie non choisie dans la liste : retenue si elle désigne sans ambiguïté une suggestion.
     const settle = () => {
         const q = normalize(query)
@@ -63,6 +71,7 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                 suggestions.find((s) => normalize(s.value) === q || s.keywords?.some((k) => normalize(k) === q)) ??
                 (filtered.length === 1 ? filtered[0] : undefined)
             if (match) onChange(match.value)
+            else if (allowFreeText) onChange(capitalize(query.trim()))
         }
         setQuery('')
     }
@@ -107,7 +116,7 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                     <ComboboxOptions
                         className='absolute left-0 z-20 mt-2 max-h-72 w-full min-w-72 overflow-auto rounded-xl bg-white py-1 text-left text-base shadow-lg ring-1 ring-black/5 empty:invisible'>
                         {filtered.length === 0 ? (
-                            <div className='px-4 py-3 text-sm text-ink/60'>Aucune suggestion pour « {query} »</div>
+                            !freeTextOption && <div className='px-4 py-3 text-sm text-ink/60'>Aucune suggestion pour « {query} »</div>
                         ) : (
                             filtered.map((s) => (
                                 <ComboboxOption
@@ -127,6 +136,16 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                                     {s.hint && <span className='shrink-0 text-xs text-ink/50'>{s.hint}</span>}
                                 </ComboboxOption>
                             ))
+                        )}
+                        {freeTextOption && (
+                            <ComboboxOption
+                                value={freeTextOption}
+                                className='flex min-h-11 cursor-pointer items-center gap-2 px-4 py-2 text-ink data-[focus]:bg-cream data-[focus]:text-primary'>
+                                <Icon icon='tabler:current-location' className='shrink-0 text-primary' />
+                                <span className='truncate'>
+                                    Chercher autour de « <strong>{freeTextOption}</strong> »
+                                </span>
+                            </ComboboxOption>
                         )}
                     </ComboboxOptions>
                     )}

@@ -28,7 +28,7 @@ const SearchPage = () => {
     const [filters, setFilters] = useState<SearchFilters>(() => filtersFromParams(searchParams))
     const [sort, setSort] = useState<SortValue>('pertinence')
     const [panelOpen, setPanelOpen] = useState(false)
-    const { results, total, loading, loadingMore, hasMore, offline, loadMore } = useOfferSearch(filters, sort)
+    const { results, total, loading, loadingMore, hasMore, offline, loadMore, near, placeNotFound } = useOfferSearch(filters, sort)
     const sponsored = useSponsoredOffers(filters)
 
     // Impressions des emplacements sponsorisés (statistiques Premium).
@@ -62,6 +62,7 @@ const SearchPage = () => {
                         suggestions={suggestions[param] ?? []}
                         value={filters[param]}
                         onChange={(value) => setFilters((prev) => ({ ...prev, [param]: value }))}
+                        allowFreeText={param === 'ville'}
                     />
                 </div>
             )
@@ -194,6 +195,23 @@ const SearchPage = () => {
                                     </button>
                                 ))}
                             </div>
+                        )}
+
+                        {!loading && near && (
+                            <p className='flex items-start gap-2 rounded-xl border border-secondary/15 bg-white px-4 py-3 text-sm text-black' role='status'>
+                                <Icon icon='tabler:current-location' className='mt-0.5 shrink-0 text-lg text-primary' />
+                                <span>
+                                    Aucune formation à <strong>{near.place}</strong> pour le moment. Voici les plus proches, de la plus près à la plus loin.
+                                </span>
+                            </p>
+                        )}
+                        {!loading && placeNotFound && (
+                            <p className='flex items-start gap-2 rounded-xl bg-cream px-4 py-3 text-sm text-black' role='status'>
+                                <Icon icon='tabler:map-pin-off' className='mt-0.5 shrink-0 text-lg text-primary' />
+                                <span>
+                                    Lieu « <strong>{filters.ville}</strong> » introuvable à Madagascar. Vérifiez l&apos;orthographe ou choisissez une ville proposée.
+                                </span>
+                            </p>
                         )}
 
                         {offline && (

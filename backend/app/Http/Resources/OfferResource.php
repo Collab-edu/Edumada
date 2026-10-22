@@ -55,6 +55,8 @@ class OfferResource extends JsonResource
             'housing' => $this->housing->label(),
             'scholarship' => $this->scholarship->label(),
             'imageSrc' => $this->image ?? '',
+            // Recherche « autour d'un lieu » : distance en km, à 0,1 près.
+            'distanceKm' => $this->when(isset($this->distance_sq), fn () => round(sqrt(max(0, (float) $this->distance_sq)), 1)),
         ];
     }
 }

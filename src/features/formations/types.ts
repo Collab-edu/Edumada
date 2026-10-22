@@ -8,6 +8,8 @@ export type AdmissionSelection = 'Inscription directe' | 'Sur dossier' | 'Dossie
 
 export type FormationType = {
   id: string
+  /** Recherche autour d'un lieu : distance à ce lieu, en km (absente sinon). */
+  distanceKm?: number
   title: string
   school: string
   /** Identifiant de l'établissement (SchoolType.id). */

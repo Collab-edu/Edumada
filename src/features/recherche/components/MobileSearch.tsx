@@ -81,6 +81,7 @@ export default function MobileSearch() {
                                     suggestions={suggestions[filter.param] ?? []}
                                     value={selected[filter.param] ?? ''}
                                     onChange={(value) => setSelected((prev) => ({ ...prev, [filter.param]: value }))}
+                                    allowFreeText={filter.param === 'ville'}
                                 />
                             </div>
                         ))}
