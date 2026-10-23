@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { Caveat } from 'next/font/google'
+import withBasePath from '@/lib/base-path'
 import HeroFilters from './HeroFilters'
 import HeroLogos from './HeroLogos'
 import MobileSearch from './MobileSearch'
@@ -7,10 +8,12 @@ import MobileSearch from './MobileSearch'
 /** Écriture manuscrite de la phrase d'accroche (décorative). */
 const handwriting = Caveat({ subsets: ['latin'], weight: ['500'], display: 'swap' })
 
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=2000&q=75'
+const HERO_IMAGE = withBasePath('/images/banner/fournitures-scolaires-sac-a-dos-livres-madagascar.webp')
+// Texte alternatif descriptif (référencement et lecteurs d'écran).
+const HERO_ALT = 'Sac à dos jaune, livres colorés et lampe de bureau : les fournitures scolaires pour bien commencer sa formation à Madagascar'
 
 /**
- * Essai : hero de l'accueil en photo plein cadre (étudiants en extérieur), contenu centré,
+ * Essai : hero de l'accueil en photo plein cadre (fournitures scolaires sur fond blanc), contenu centré,
  * barre de recherche à cheval sur le bas de la photo, puis les logos des établissements qui défilent.
  */
 export default function HeroPhoto() {
@@ -19,8 +22,8 @@ export default function HeroPhoto() {
             {/* Photo et voile : clair au centre pour le texte, la photo se dévoile sur les bords */}
             {/* La photo occupe la hauteur restante : le hero tient tout l'écran à l'ouverture. */}
             <div className='relative flex flex-1 flex-col justify-center overflow-hidden pt-28 pb-10 sm:pt-32 sm:pb-40 lg:pb-44'>
-                <Image src={HERO_IMAGE} alt='' fill priority sizes='100vw' className='object-cover object-[65%_center]' />
-                <div aria-hidden='true' className='absolute inset-0 bg-white/80 sm:bg-transparent sm:bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.95)_0%,rgba(255,255,255,0.86)_42%,rgba(255,255,255,0.55)_85%)]' />
+                <Image src={HERO_IMAGE} alt={HERO_ALT} fill priority sizes='100vw' className='object-cover object-center' />
+                <div aria-hidden='true' className='absolute inset-0 bg-white/60 sm:bg-transparent sm:bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.88)_0%,rgba(255,255,255,0.7)_30%,rgba(255,255,255,0)_58%)]' />
                 <div aria-hidden='true' className='absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/70 to-transparent' />
 
                 {/* Vague rouge (bas à gauche) et courbe claire qui ferme la photo */}
@@ -33,7 +36,7 @@ export default function HeroPhoto() {
                     {/* Phrase manuscrite (grand écran) */}
                     <p
                         aria-hidden='true'
-                        className={`${handwriting.className} absolute top-24 right-6 hidden -rotate-12 text-right text-3xl leading-tight text-white drop-shadow-[0_2px_8px_rgba(15,76,92,0.9)] lg:block xl:text-4xl`}>
+                        className={`${handwriting.className} absolute top-24 right-6 hidden -rotate-12 text-right text-3xl leading-tight text-secondary lg:block xl:text-4xl`}>
                         Plus qu&apos;une formation…
                         <br />
                         un avenir !
