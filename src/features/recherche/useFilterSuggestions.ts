@@ -8,7 +8,7 @@ export const FILTER_UI: Record<string, { icon: string; placeholder: string; labe
     categorie: { icon: 'tabler:category', placeholder: 'Ex. : crèche, université…', label: 'Catégorie' },
     domaine: { icon: 'tabler:book-2', placeholder: 'Ex. : informatique, santé…' },
     ville: { icon: 'tabler:map-pin', placeholder: 'Ex. : Antananarivo…' },
-    type: { icon: 'tabler:building-community', placeholder: 'Public ou privé' },
+    type: { icon: 'tabler:building-community', placeholder: 'Public, privé, semi-privé' },
 }
 
 /**

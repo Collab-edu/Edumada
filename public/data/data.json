@@ -120,9 +120,10 @@
             "label": "Type d'établissement",
             "param": "type",
             "options": [
-                "Public et Privé",
+                "Tous les types",
                 "Public",
-                "Privé"
+                "Privé",
+                "Semi-privé"
             ]
         }
     ],

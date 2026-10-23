@@ -158,6 +158,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                         <CFormSelect label='Statut' value={form.type} onChange={(e) => set('type', e.target.value)}>
                             <option>Privé</option>
                             <option>Public</option>
+                            <option>Semi-privé</option>
                         </CFormSelect>
                     </CCol>
                     <CCol md={6}>

@@ -4,6 +4,7 @@ namespace Tests\Feature\Api\V1;
 
 use App\Enums\AdmissionLevel;
 use App\Enums\BillingCycle;
+use App\Enums\EstablishmentSector;
 use App\Enums\Modality;
 use App\Enums\OfferStatus;
 use App\Enums\PlanCode;
@@ -81,6 +82,18 @@ class OfferControllerTest extends TestCase
 
         $this->getJson('/api/v1/offers?category=Enseignement supérieur')->assertOk()->assertJsonCount(2, 'data');
         $this->getJson('/api/v1/offers?category=École supérieure')->assertOk()->assertJsonPath('data.0.id', $inSchool->slug);
+    }
+
+    public function test_index_filters_semi_private_establishments(): void
+    {
+        $semiPrivate = Offer::factory()->for(Establishment::factory()->state(['sector' => EstablishmentSector::SemiPrivate]))->create();
+        Offer::factory()->create();
+
+        $this->getJson('/api/v1/offers?type=Semi-privé')
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $semiPrivate->slug)
+            ->assertJsonPath('data.0.schoolType', 'Semi-privé');
     }
 
     public function test_index_filters_by_modality_and_student_level(): void
