@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import { CardSkeletonGrid } from '@/components/ui/card'
+import { ShowMoreButton, useShowMore } from '@/components/ui/show-more'
 import SectionHeader from '@/components/ui/section-header'
 import { useSiteData } from '@/data/site-data'
 import { useAuth } from '@/features/auth/AuthProvider'
@@ -111,6 +112,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     )
     const shown = byPlace.items
     const filtered = !!(filters.sub || filters.domain || filters.city)
+    const page = useShowMore(shown, JSON.stringify(filters))
 
     return (
         <>
@@ -220,8 +222,8 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                             <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
                                 {plural(shown.length)}
                             </p>
-                            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
-                                {shown.map((formation) => (
+                            <div ref={page.listRef} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
+                                {page.visible.map((formation) => (
                                     <FormationCard
                                         key={formation.id}
                                         formation={formation}
@@ -231,6 +233,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                     />
                                 ))}
                             </div>
+                            <ShowMoreButton {...page} onClick={page.showMore} noun={{ one: 'formation', many: 'formations', feminine: true }} />
                         </>
                     )}
                 </div>

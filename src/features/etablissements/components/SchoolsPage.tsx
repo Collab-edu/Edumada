@@ -5,6 +5,7 @@ import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import SectionHeader from '@/components/ui/section-header'
 import { CardSkeletonGrid } from '@/components/ui/card'
+import { ShowMoreButton, useShowMore } from '@/components/ui/show-more'
 import { useSiteData } from '@/data/site-data'
 import CityPicker from '@/features/recherche/components/CityPicker'
 import SuggestInput from '@/features/recherche/components/SuggestInput'
@@ -71,6 +72,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
     )
     const shown = byPlace.items
     const filtered = !!(filters.kind || filters.city)
+    const page = useShowMore(shown, JSON.stringify(filters))
 
     return (
         <>
@@ -166,11 +168,12 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                             <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
                                 {shown.length} {config.noun[shown.length > 1 ? 1 : 0]}
                             </p>
-                            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
-                                {shown.map((school) => (
+                            <div ref={page.listRef} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
+                                {page.visible.map((school) => (
                                     <SchoolCard key={school.id} school={school} compact distanceKm={school.distanceKm} />
                                 ))}
                             </div>
+                            <ShowMoreButton {...page} onClick={page.showMore} noun={{ one: 'établissement', many: 'établissements' }} />
                         </>
                     )}
                 </div>
