@@ -23,7 +23,7 @@ export default function HeroPhoto() {
             {/* La photo occupe la hauteur restante : le hero tient tout l'écran à l'ouverture. */}
             <div className='relative flex flex-1 flex-col justify-center overflow-hidden pt-28 pb-10 sm:pt-32 sm:pb-40 lg:pb-44'>
                 <Image src={HERO_IMAGE} alt={HERO_ALT} fill priority sizes='100vw' className='object-cover object-center' />
-                <div aria-hidden='true' className='absolute inset-0 bg-white/60 sm:bg-transparent sm:bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.88)_0%,rgba(255,255,255,0.7)_30%,rgba(255,255,255,0)_58%)]' />
+                <div aria-hidden='true' className='absolute inset-0 bg-white/75 sm:bg-transparent sm:bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.93)_0%,rgba(255,255,255,0.82)_35%,rgba(255,255,255,0.45)_75%)]' />
                 <div aria-hidden='true' className='absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/70 to-transparent' />
 
                 {/* Vague rouge (bas à gauche) et courbe claire qui ferme la photo */}
