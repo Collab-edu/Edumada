@@ -27,7 +27,7 @@ export default function HeroLogos() {
                         alt={logoName(item.imgSrc)}
                         width={140}
                         height={40}
-                        className='h-7 w-auto max-w-full object-contain opacity-70 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 sm:h-9'
+                        className='h-7 w-auto max-w-full object-contain sm:h-9'
                     />
                 </div>
             ))}
