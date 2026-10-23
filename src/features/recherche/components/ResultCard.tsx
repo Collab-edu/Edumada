@@ -33,12 +33,14 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
         <Card id={sponsored ? undefined : formation.id} className={cn('flex h-full flex-col overflow-hidden scroll-mt-28', sponsored && 'ring-2 ring-primary/20')}>
             <div className='relative h-44 shrink-0 bg-cream'>
                 <Image src={imageOr(formation.imageSrc)} alt={formation.title} fill className='object-cover' />
-                {formation.schoolType && (
-                    <span className='absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-secondary backdrop-blur-sm'>
-                        {formation.schoolType}
-                    </span>
-                )}
-                <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} />
+                <div className='absolute top-3 left-3 flex max-w-[75%] items-center gap-2'>
+                    <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} className='static max-w-full min-w-0' />
+                    {formation.schoolType && (
+                        <span className='shrink-0 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-secondary backdrop-blur-sm'>
+                            {formation.schoolType}
+                        </span>
+                    )}
+                </div>
                 {sponsored && (
                     <span className='absolute top-3 right-3 rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-white'>
                         Sponsorisé

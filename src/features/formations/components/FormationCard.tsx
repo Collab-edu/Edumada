@@ -17,15 +17,12 @@ interface FormationCardProps {
     compact?: boolean
 }
 
-/** Carte d'offre : photo avec le domaine, titre, établissement, infos clés et bouton vers la fiche. */
+/** Carte d'offre : photo avec le type d'établissement, titre, établissement, infos clés et bouton vers la fiche. */
 export function FormationCard({ formation, isFavorite, onToggleFavorite, compact = false }: FormationCardProps) {
     return (
         <Card className='flex h-full flex-col overflow-hidden'>
             <div className={cn('relative overflow-hidden bg-cream', compact ? 'h-40' : 'h-48')}>
                 <Image src={imageOr(formation.imageSrc)} alt='' fill className='object-cover transition-transform duration-500 group-hover:scale-105' />
-                {formation.domain && (
-                    <span className='absolute top-3 left-3 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white'>{formation.domain}</span>
-                )}
                 <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} />
                 <button
                     type='button'
@@ -57,6 +54,12 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite, compact
                             {fact.label}
                         </li>
                     ))}
+                    {formation.domain && (
+                        <li className='flex items-center gap-1.5'>
+                            <Icon icon='tabler:book-2' className='shrink-0 text-base text-secondary' />
+                            {formation.domain}
+                        </li>
+                    )}
                     <li className='flex items-center gap-1.5'>
                         <Icon icon='tabler:map-pin' className='shrink-0 text-base text-secondary' />
                         {formation.city}
