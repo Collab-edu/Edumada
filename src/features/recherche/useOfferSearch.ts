@@ -66,6 +66,7 @@ const MAX_LOADING_MS = 3000
 export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchState {
     const { data: formations, loading: localLoading } = useSiteData('FormationData')
     const { data: categories } = useSiteData('CategoryData')
+    const { data: schools } = useSiteData('SchoolData')
     const [remote, setRemote] = useState<{ results: FormationType[]; total: number; page: number; lastPage: number; near: NearPlace | null; placeNotFound: boolean } | null>(null)
     const [loading, setLoading] = useState(apiEnabled)
     const [loadingMore, setLoadingMore] = useState(false)
@@ -119,9 +120,9 @@ export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchS
 
     const local = useMemo(() => {
         if (!offline) return []
-        const labelOf = (id: string) => categories.find((c) => c.id === id)?.shortLabel
-        return sortFormations(formations.filter((f) => matchesFilters(f, filters, labelOf)), sort)
-    }, [offline, formations, categories, filters, sort])
+        const kindsOf = (f: FormationType) => [categories.find((c) => c.id === f.category)?.shortLabel, schools.find((s) => s.id === f.schoolId)?.subCategory]
+        return sortFormations(formations.filter((f) => matchesFilters(f, filters, kindsOf)), sort)
+    }, [offline, formations, categories, schools, filters, sort])
 
     const loadMore = () => {
         if (!remote || remote.page >= remote.lastPage || loadingMore) return

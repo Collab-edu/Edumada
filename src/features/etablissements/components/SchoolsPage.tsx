@@ -22,9 +22,8 @@ const BENEFITS = [
 
 /** Textes et périmètre de chaque variante de la page. */
 const VARIANTS = {
-    /** Tous les établissements, filtrés par catégorie. */
+    /** Tous les établissements, filtrés par type (sous-catégorie). */
     all: {
-        categoryId: null,
         eyebrow: 'Établissements',
         title: 'Trouvez l’établissement qui vous correspond',
         intro: 'Universités, écoles, crèches et centres de formation à Madagascar : consultez leur fiche, découvrez les formations qu’ils proposent, puis contactez-les directement.',
@@ -53,13 +52,12 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
     const { data: categories } = useSiteData('CategoryData')
     const [filters, setFilters] = useState({ kind: '', city: '', pos: '' })
 
-    const schools = useMemo(() => (config.categoryId ? allSchools.filter((s) => s.category === config.categoryId) : allSchools), [allSchools, config.categoryId])
-    // Premier filtre : catégorie (tous les établissements) ou filières enseignées (universités).
+    const schools = allSchools
+    // Premier filtre : sous-catégorie (Université, Crèche…), sinon la catégorie de l'établissement.
     const kindsOf = useMemo(() => {
-        if (config.categoryId) return (s: SchoolType) => s.tags
         const labels = new Map(categories.map((c) => [c.id, c.shortLabel]))
-        return (s: SchoolType) => [labels.get(s.category) ?? '']
-    }, [categories, config.categoryId])
+        return (s: SchoolType) => [s.subCategory || (labels.get(s.category) ?? '')]
+    }, [categories])
     const kindSuggestions = useMemo(() => toSuggestions(schools.flatMap(kindsOf)), [schools, kindsOf])
     const citySuggestions = useMemo(() => toSuggestions(schools.map((s) => s.city)), [schools])
     // Ville exacte, sinon établissements les plus proches du lieu choisi (ou de ma position).

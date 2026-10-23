@@ -171,8 +171,11 @@ class Offer extends Model
             ->when($filters['domain'] ?? null, fn (Builder $query, string $name) => $query->whereHas(
                 'domain', fn (Builder $domain) => $domain->where('name', $name),
             ))
+            // Catégorie (« Enseignement supérieur ») ou sous-catégorie de l'établissement (« Université », « Crèche »).
             ->when($filters['category'] ?? null, fn (Builder $query, string $category) => $query->whereHas(
-                'establishment.category', fn (Builder $categories) => $categories->where('slug', $category)->orWhere('short_label', $category),
+                'establishment', fn (Builder $establishment) => $establishment
+                    ->whereHas('category', fn (Builder $categories) => $categories->where('slug', $category)->orWhere('short_label', $category))
+                    ->orWhereHas('subCategory', fn (Builder $subCategories) => $subCategories->where('label', $category)),
             ))
             ->when(
                 array_filter(array_intersect_key($filters, array_flip(['city', 'type', 'school']))),

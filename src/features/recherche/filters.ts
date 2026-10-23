@@ -134,9 +134,9 @@ const REGISTRATION_VALUE: Record<string, string> = {
 const matchesAny = (selected: string[], value: string | null) =>
     selected.length === 0 || (value !== null && selected.includes(value))
 
-/** `categoryLabel` traduit l'identifiant de catégorie d'une offre en libellé (« Petite enfance »…). */
-export function matchesFilters(f: FormationType, filters: SearchFilters, categoryLabel: (id: string) => string | undefined = () => undefined): boolean {
-    if (filters.categorie && categoryLabel(f.category) !== filters.categorie) return false
+/** `kindsOf` : libellés de catégorie et de sous-catégorie d'une offre (« Enseignement supérieur », « Université »). */
+export function matchesFilters(f: FormationType, filters: SearchFilters, kindsOf: (f: FormationType) => (string | undefined)[] = () => []): boolean {
+    if (filters.categorie && !kindsOf(f).includes(filters.categorie)) return false
     if (filters.q && !normalize(`${f.title} ${f.domain}`).includes(normalize(filters.q))) return false
     if (filters.domaine && f.domain !== filters.domaine) return false
     if (filters.ville && f.city !== filters.ville) return false

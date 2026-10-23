@@ -9,6 +9,7 @@ use App\Enums\OfferStatus;
 use App\Enums\PlanCode;
 use App\Enums\SubscriptionStatus;
 use App\Enums\UserRole;
+use App\Models\Category;
 use App\Models\Domain;
 use App\Models\Establishment;
 use App\Models\Offer;
@@ -62,6 +63,24 @@ class OfferControllerTest extends TestCase
             ->assertOk()
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.id', $visible->slug);
+    }
+
+    public function test_index_filters_by_category_or_sub_category(): void
+    {
+        $category = Category::factory()->create(['short_label' => 'Enseignement supérieur']);
+        $university = $category->subCategories()->create(['label' => 'Université']);
+        $school = $category->subCategories()->create(['label' => 'École supérieure']);
+        $inUniversity = Offer::factory()->for(Establishment::factory()->state(['category_id' => $category->id, 'sub_category_id' => $university->id]))->create();
+        $inSchool = Offer::factory()->for(Establishment::factory()->state(['category_id' => $category->id, 'sub_category_id' => $school->id]))->create();
+        Offer::factory()->create();
+
+        $this->getJson('/api/v1/offers?category=Université')
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $inUniversity->slug);
+
+        $this->getJson('/api/v1/offers?category=Enseignement supérieur')->assertOk()->assertJsonCount(2, 'data');
+        $this->getJson('/api/v1/offers?category=École supérieure')->assertOk()->assertJsonPath('data.0.id', $inSchool->slug);
     }
 
     public function test_index_filters_by_modality_and_student_level(): void

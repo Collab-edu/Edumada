@@ -83,7 +83,9 @@ class CampaignController extends Controller
             ->whereHas('offer', fn (Builder $offer) => $offer->published())
             ->when($filters['category'] ?? null, fn (Builder $query, string $category) => $query->where(fn (Builder $query) => $query
                 ->whereNull('target_category_id')
-                ->orWhereHas('targetCategory', fn (Builder $categories) => $categories->where('slug', $category)->orWhere('short_label', $category))))
+                // Une sous-catégorie (« Université ») retient les campagnes de sa catégorie.
+                ->orWhereHas('targetCategory', fn (Builder $categories) => $categories->where('slug', $category)->orWhere('short_label', $category)
+                    ->orWhereHas('subCategories', fn (Builder $subCategories) => $subCategories->where('label', $category)))))
             ->when($filters['domain'] ?? null, fn (Builder $query, string $domain) => $query->where(fn (Builder $query) => $query
                 ->whereNull('target_domain_id')
                 ->orWhereHas('targetDomain', fn (Builder $domains) => $domains->where('name', $domain))))

@@ -22,19 +22,10 @@ export const TOP_FILTERS = [
     { param: 'type', label: "Type d'établissement" },
 ] as const
 
-/** Mots courants qui mènent à chaque catégorie (on tape « crèche », on trouve « Petite enfance »). */
-const CATEGORY_KEYWORDS: Record<string, string[]> = {
-    'Enseignement supérieur': ['Université', 'Faculté', 'Institut', 'École supérieure', 'Licence', 'Master', 'BTS', 'Doctorat'],
-    'Petite enfance': ['Crèche', 'Garderie', 'Jardin d’enfants', 'Maternelle'],
-    'Formation professionnelle': ['CFP', 'Centre de formation', 'Métier', 'Apprentissage', 'Formation courte'],
-    'Primaire et secondaire': ['École primaire', 'EPP', 'Collège', 'CEG', 'Lycée', 'BEPC', 'Baccalauréat'],
-    'Autres établissements': ['Langues', 'Musique', 'Soutien scolaire'],
-}
-
 const offersLabel = (count: number) => `${count} offre${count > 1 ? 's' : ''}`
 
 /**
- * Suggestions des filtres principaux (catégorie, domaine, ville, type), avec le nombre d'offres
+ * Suggestions des filtres principaux (sous-catégorie, domaine, ville, type), avec le nombre d'offres
  * correspondantes. Partagées par la barre de l'accueil et la page /recherche.
  */
 export function useFilterSuggestions() {
@@ -46,7 +37,19 @@ export function useFilterSuggestions() {
     const suggestions = useMemo(() => {
         const count = (predicate: (f: (typeof formations)[number]) => boolean) => formations.filter(predicate).length
         const result: Record<string, Suggestion[]> = {}
+        // Sous-catégorie de l'établissement de chaque offre.
+        const subOf = new Map(schools.map((s) => [s.id, s.subCategory]))
         for (const filter of filters) {
+            if (filter.param === 'categorie') {
+                // Sous-catégories (Université, Crèche, Lycée…), dans l'ordre des catégories.
+                // Sans offre publiée : pas proposée (aucun résultat derrière).
+                result.categorie = categories
+                    .flatMap((category) => category.subCategories)
+                    .map((value) => ({ value, n: count((f) => subOf.get(f.schoolId) === value) }))
+                    .filter(({ n }) => !formations.length || n > 0)
+                    .map(({ value, n }) => ({ value, hint: formations.length ? offersLabel(n) : undefined }))
+                continue
+            }
             // La première option (« Toutes les… ») correspond à un champ vide.
             let values = filter.options.slice(1)
             if (filter.param === 'ville') {
@@ -59,10 +62,8 @@ export function useFilterSuggestions() {
                         ? count((f) => f.domain === value)
                         : filter.param === 'ville'
                             ? count((f) => f.city === value)
-                            : filter.param === 'type'
-                                ? count((f) => f.schoolType === value)
-                                : count((f) => categories.find((c) => c.id === f.category)?.shortLabel === value)
-                return { value, hint: formations.length ? offersLabel(n) : undefined, keywords: filter.param === 'categorie' ? CATEGORY_KEYWORDS[value] : undefined }
+                            : count((f) => f.schoolType === value)
+                return { value, hint: formations.length ? offersLabel(n) : undefined }
             })
         }
         return result
