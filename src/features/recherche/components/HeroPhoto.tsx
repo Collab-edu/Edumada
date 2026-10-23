@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { Caveat } from 'next/font/google'
 import withBasePath from '@/lib/base-path'
 import HeroFilters from './HeroFilters'
@@ -9,6 +8,8 @@ import MobileSearch from './MobileSearch'
 const handwriting = Caveat({ subsets: ['latin'], weight: ['500'], display: 'swap' })
 
 const HERO_IMAGE = withBasePath('/images/banner/fournitures-scolaires-sac-a-dos-livres-madagascar.webp')
+// Image transparente d'un pixel (mobile, où l'image est remplacée par un dégradé).
+const EMPTY_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 // Texte alternatif descriptif (référencement et lecteurs d'écran).
 const HERO_ALT = 'Sac à dos jaune, livres colorés et lampe de bureau : les fournitures scolaires pour bien commencer sa formation à Madagascar'
 
@@ -22,9 +23,15 @@ export default function HeroPhoto() {
             {/* Photo et voile : clair au centre pour le texte, la photo se dévoile sur les bords */}
             {/* La photo occupe la hauteur restante : le hero tient tout l'écran à l'ouverture. */}
             <div className='relative flex flex-1 flex-col justify-center overflow-hidden pt-28 pb-10 sm:pt-32 sm:pb-40 lg:pb-44'>
-                <Image src={HERO_IMAGE} alt={HERO_ALT} fill priority sizes='100vw' className='object-cover object-center' />
-                <div aria-hidden='true' className='absolute inset-0 bg-white/75 sm:bg-transparent sm:bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.93)_0%,rgba(255,255,255,0.82)_35%,rgba(255,255,255,0.45)_75%)]' />
-                <div aria-hidden='true' className='absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/70 to-transparent' />
+                {/* Mobile : dégradé aux couleurs de la charte, sans image (rien à télécharger). */}
+                <div aria-hidden='true' className='absolute inset-0 bg-gradient-to-br from-cream via-white to-success/40 sm:hidden' />
+                {/* Dès la tablette (640 px) : l'image ; le mobile ne reçoit qu'un pixel vide, rien n'est téléchargé. */}
+                <picture className='absolute inset-0 hidden sm:block'>
+                    <source media='(min-width: 640px)' srcSet={HERO_IMAGE} />
+                    <img src={EMPTY_PIXEL} alt={HERO_ALT} fetchPriority='high' className='h-full w-full object-cover object-center' />
+                </picture>
+                <div aria-hidden='true' className='absolute inset-0 hidden sm:block sm:bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.93)_0%,rgba(255,255,255,0.82)_35%,rgba(255,255,255,0.45)_75%)]' />
+                <div aria-hidden='true' className='absolute inset-x-0 top-0 hidden h-28 bg-gradient-to-b from-white/70 to-transparent sm:block' />
 
                 {/* Vague rouge (bas à gauche) et courbe claire qui ferme la photo */}
                 <svg aria-hidden='true' viewBox='0 0 1440 160' preserveAspectRatio='none' className='absolute inset-x-0 bottom-0 hidden h-24 w-full sm:block lg:h-32'>
