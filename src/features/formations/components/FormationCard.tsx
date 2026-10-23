@@ -7,6 +7,7 @@ import { Card, CardAction } from '@/components/ui/card'
 import { OFFER_CTA, offerFacts } from '../format'
 import type { FormationType } from '../types'
 import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
+import CategoryTag from '@/features/categories/components/CategoryTag'
 
 interface FormationCardProps {
     formation: FormationType
@@ -25,6 +26,7 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite, compact
                 {formation.domain && (
                     <span className='absolute top-3 left-3 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white'>{formation.domain}</span>
                 )}
+                <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} />
                 <button
                     type='button'
                     onClick={onToggleFavorite}

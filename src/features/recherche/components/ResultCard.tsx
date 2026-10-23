@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { OFFER_CTA, formatFees, offerFacts } from '@/features/formations/format'
 import type { FormationType, RegistrationStatus } from '@/features/formations/types'
 import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
+import CategoryTag from '@/features/categories/components/CategoryTag'
 
 const REGISTRATION_BADGE: Record<RegistrationStatus, { label: string; className: string }> = {
     Ouvertes: { label: 'Inscriptions ouvertes', className: 'bg-success/30 text-secondary' },
@@ -37,6 +38,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                         {formation.schoolType}
                     </span>
                 )}
+                <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} />
                 {sponsored && (
                     <span className='absolute top-3 right-3 rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-white'>
                         Sponsorisé

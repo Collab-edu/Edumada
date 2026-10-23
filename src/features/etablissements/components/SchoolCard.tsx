@@ -7,6 +7,7 @@ import { Card, CardAction } from '@/components/ui/card'
 import { useSiteData } from '@/data/site-data'
 import type { SchoolType } from '../types'
 import SchoolLogo from './SchoolLogo'
+import CategoryTag from '@/features/categories/components/CategoryTag'
 
 /** Nombre d'offres listées sur la carte ; au-delà, « + N autres offres ». */
 const MAX_OFFERS = 3
@@ -17,7 +18,6 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
     const { data: formations } = useSiteData('FormationData')
     const { data: categories } = useSiteData('CategoryData')
     const category = categories.find((c) => c.id === school.category)
-    const typeLabel = school.subCategory || category?.shortLabel
     const offers = formations.filter((formation) => formation.schoolId === school.id)
     const shown = offers.slice(0, MAX_OFFERS)
 
@@ -25,13 +25,8 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
         <Card className='flex h-full flex-col overflow-hidden'>
             <div className={cn('relative overflow-hidden bg-cream', compact ? 'h-40' : 'h-48')}>
                 <Image src={imageOr(school.imageSrc)} alt={`Locaux de ${school.name}`} fill className='object-cover transition-transform duration-500 group-hover:scale-105' />
-                {/* Type d'établissement, comme le domaine sur la carte de formation */}
-                {typeLabel && (
-                    <span className='absolute top-3 left-3 inline-flex max-w-[70%] items-center gap-1.5 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white'>
-                        {category && <Icon icon={category.icon} className='shrink-0 text-sm' />}
-                        <span className='truncate'>{typeLabel}</span>
-                    </span>
-                )}
+                {/* Type d'établissement, comme sur les cartes de formation */}
+                <CategoryTag categoryId={school.category} subCategory={school.subCategory} />
                 {school.type && (
                     <span className='absolute top-3 right-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-secondary shadow-sm backdrop-blur-sm'>
                         {school.type}
