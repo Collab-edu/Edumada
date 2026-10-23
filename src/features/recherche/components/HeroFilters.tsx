@@ -67,6 +67,7 @@ const HeroFilters = () => {
                             className='flex items-center justify-center gap-2 bg-primary w-full text-white font-bold py-4 px-3 rounded-xl shadow-lg shadow-primary/30 hover:bg-primary/90 hover:shadow-primary/50 hover:-translate-y-0.5 duration-300'>
                             <Icon icon='tabler:search' className='text-xl' />
                             Rechercher
+                            <Icon icon='tabler:arrow-right' className='text-xl' />
                         </Link>
                     </div>
                 </div>

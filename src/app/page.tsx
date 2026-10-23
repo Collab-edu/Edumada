@@ -1,4 +1,5 @@
-import Hero from '@/features/recherche/components/Hero'
+// Essai du hero en photo ; l'ancien reste disponible : '@/features/recherche/components/Hero'.
+import Hero from '@/features/recherche/components/HeroPhoto'
 import CategoriesSection from '@/features/categories/components/CategoriesSection'
 import DomainsSection from '@/features/domaines/components/DomainsSection'
 import FormationsSection from '@/features/formations/components/FormationsSection'
