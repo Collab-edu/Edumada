@@ -13,6 +13,8 @@ type AuthContextValue = {
     user: User | null
     loading: boolean
     login: (email: string, password: string) => Promise<User>
+    /** Connexion avec le jeton « Se connecter avec Google ». */
+    loginWithGoogle: (credential: string) => Promise<User>
     logout: () => Promise<void>
     refresh: () => Promise<void>
     setUser: (user: User) => void
@@ -47,11 +49,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return () => window.removeEventListener('edumada:logout', onLogout)
     }, [refresh])
 
-    const login = useCallback(async (email: string, password: string) => {
-        const res = await api<{ token: string; user: User }>('/auth/login', {
-            method: 'POST',
-            body: { email, password, deviceName: 'back-office' },
-        })
+    /** Session ouverte par l'API : refusée aux comptes étudiants. */
+    const open = useCallback(async (res: { token: string; user: User }) => {
         if (!(BACKOFFICE_ROLES as readonly string[]).includes(res.user.role)) {
             // Un étudiant n'a rien à faire ici : on ne garde pas sa session.
             setToken(res.token)
@@ -64,13 +63,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return res.user
     }, [])
 
+    const login = useCallback(
+        async (email: string, password: string) =>
+            open(await api<{ token: string; user: User }>('/auth/login', { method: 'POST', body: { email, password, deviceName: 'back-office' } })),
+        [open]
+    )
+
+    const loginWithGoogle = useCallback(
+        async (credential: string) => open(await api<{ token: string; user: User }>('/auth/google', { method: 'POST', body: { credential } })),
+        [open]
+    )
+
     const logout = useCallback(async () => {
         await api('/auth/logout', { method: 'POST' }).catch(() => undefined)
         setToken(null)
         setUser(null)
     }, [])
 
-    const value = useMemo(() => ({ user, loading, login, logout, refresh, setUser }), [user, loading, login, logout, refresh])
+    const value = useMemo(() => ({ user, loading, login, loginWithGoogle, logout, refresh, setUser }), [user, loading, login, loginWithGoogle, logout, refresh])
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 

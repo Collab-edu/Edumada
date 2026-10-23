@@ -20,8 +20,10 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users', 'email')],
-            'password' => ['required', 'confirmed', Password::defaults()],
+            // Inscription avec Google (établissements) : le jeton Google remplace l'e-mail et le mot de passe.
+            'googleCredential' => ['sometimes', 'string', 'max:4096', Rule::prohibitedIf($this->input('accountType') !== UserRole::Establishment->value)],
+            'email' => ['required_without:googleCredential', 'prohibits:googleCredential', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users', 'email')],
+            'password' => ['required_without:googleCredential', 'confirmed', Password::defaults()],
             'accountType' => ['required', Rule::in([UserRole::Student->value, UserRole::Establishment->value])],
             'phone' => ['nullable', 'required_with:establishment', 'string', 'max:30'],
             'city' => ['nullable', 'string', 'max:255'],

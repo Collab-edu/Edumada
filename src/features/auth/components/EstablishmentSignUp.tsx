@@ -11,6 +11,7 @@ import { ApiError, apiEnabled } from '@/lib/api'
 import { useSiteData } from '@/data/site-data'
 import { cn } from '@/lib/utils'
 import { useAuth } from '../AuthProvider'
+import GoogleButton, { GOOGLE_CLIENT_ID, readGoogleCredential } from './GoogleButton'
 import { backofficeUrl, goTo } from '../types'
 import type { Plan } from '@/features/espace/types'
 import { formatAriary } from '@/features/espace/components/SpaceShell'
@@ -83,6 +84,15 @@ export default function EstablishmentSignUp() {
         chosen.code === 'free' ? 'sans engagement' : `${formatAriary(yearly ? chosen.yearlyPrice : chosen.monthlyPrice)} / ${yearly ? 'an' : 'mois'}`
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
+    // Compte Google choisi : il remplace l'adresse e-mail et le mot de passe.
+    const [google, setGoogle] = useState<{ credential: string; email: string } | null>(null)
+
+    const chooseGoogle = (credential: string) => {
+        const account = readGoogleCredential(credential)
+        setGoogle({ credential, email: account.email })
+        setForm((f) => ({ ...f, firstName: f.firstName || account.firstName, lastName: f.lastName || account.lastName }))
+        setError(null)
+    }
 
     const set = (key: keyof typeof EMPTY) => (e: { target: { value: string } }) => setForm({ ...form, [key]: e.target.value })
     const fieldError = (name: string) => error?.field(name)
@@ -98,10 +108,10 @@ export default function EstablishmentSignUp() {
                 firstName: form.firstName,
                 lastName: form.lastName,
                 jobTitle: form.jobTitle,
-                email: form.email,
                 phone: form.phone,
-                password: form.password,
-                password_confirmation: form.password_confirmation,
+                ...(google
+                    ? { googleCredential: google.credential }
+                    : { email: form.email, password: form.password, password_confirmation: form.password_confirmation }),
                 plan: chosen.code,
                 billingCycle: yearly ? 'yearly' : 'monthly',
                 establishment: {
@@ -114,7 +124,8 @@ export default function EstablishmentSignUp() {
                 },
             })
             toast.success('Votre compte est créé.')
-            const email = `email=${encodeURIComponent(user.email)}`
+            // Compte Google : la connexion au back-office se fait aussi avec Google.
+            const email = `email=${encodeURIComponent(user.email)}${google ? '&google=1' : ''}`
             if (chosen.code === 'free') {
                 toast('Connectez-vous à votre espace pour compléter la fiche de votre établissement.', { icon: <Icon icon='tabler:arrow-right' className='shrink-0 text-xl text-secondary' /> })
                 goTo(backofficeUrl(`/connexion?${email}`), router.push)
@@ -126,6 +137,8 @@ export default function EstablishmentSignUp() {
             }
         } catch (err) {
             setError(err as ApiError)
+            // Jeton Google refusé ou expiré : on redemande le compte Google.
+            if ((err as ApiError).field?.('googleCredential')) setGoogle(null)
         } finally {
             setLoading(false)
         }
@@ -202,10 +215,37 @@ export default function EstablishmentSignUp() {
 
                         {!apiEnabled && <FormAlert tone='info'>L&apos;inscription sera disponible quand le service en ligne d&apos;Edumada sera activé.</FormAlert>}
                         {error && Object.keys(error.errors).length === 0 && <FormAlert>{error.message}</FormAlert>}
-                        {error && Object.keys(error.errors).length > 0 && <FormAlert>Certains champs sont à corriger : ils sont signalés en rouge.</FormAlert>}
+                        {error?.field('googleCredential') && <FormAlert>{error.field('googleCredential')}</FormAlert>}
+                        {error && Object.keys(error.errors).length > 0 && !error.field('googleCredential') && (
+                            <FormAlert>Certains champs sont à corriger : ils sont signalés en rouge.</FormAlert>
+                        )}
 
                         <form onSubmit={submit} className='flex flex-col gap-8' noValidate>
                             <FormSection number={1} title='Responsable du compte' text='La personne qui inscrit l’établissement et qui gérera son compte.'>
+                                {GOOGLE_CLIENT_ID && !google && (
+                                    <div className='flex flex-col gap-3'>
+                                        <GoogleButton text='signup_with' onCredential={chooseGoogle} />
+                                        <p className='flex items-center gap-3 text-sm text-ink/60'>
+                                            <span className='h-px flex-1 bg-gray-200' />
+                                            ou avec votre adresse e-mail
+                                            <span className='h-px flex-1 bg-gray-200' />
+                                        </p>
+                                    </div>
+                                )}
+                                {google && (
+                                    <div className='flex flex-wrap items-center justify-between gap-3 rounded-lg border border-success bg-success/15 p-3'>
+                                        <p className='flex min-w-0 items-center gap-2 text-sm text-secondary'>
+                                            <Icon icon='tabler:brand-google' className='shrink-0 text-lg' />
+                                            <span className='min-w-0'>
+                                                Compte Google : <strong className='break-all'>{google.email}</strong>
+                                                <span className='block text-xs text-ink/60'>Vous vous connecterez avec Google, sans mot de passe.</span>
+                                            </span>
+                                        </p>
+                                        <button type='button' onClick={() => setGoogle(null)} className='text-sm font-semibold text-primary hover:underline hover:cursor-pointer'>
+                                            Utiliser une adresse e-mail
+                                        </button>
+                                    </div>
+                                )}
                                 <div className='grid gap-4 sm:grid-cols-2'>
                                     <TextField label='Nom' autoComplete='family-name' required value={form.lastName} onChange={set('lastName')} error={fieldError('lastName')} />
                                     <TextField label='Prénom' autoComplete='given-name' required value={form.firstName} onChange={set('firstName')} error={fieldError('firstName')} />
@@ -220,6 +260,7 @@ export default function EstablishmentSignUp() {
                                     error={fieldError('jobTitle')}
                                 />
                                 <div className='grid gap-4 sm:grid-cols-2'>
+                                    {!google && (
                                     <TextField
                                         label='Adresse e-mail professionnelle'
                                         type='email'
@@ -230,8 +271,10 @@ export default function EstablishmentSignUp() {
                                         onChange={set('email')}
                                         error={fieldError('email')}
                                     />
+                                    )}
                                     <TextField label='Téléphone' type='tel' autoComplete='tel' required placeholder='034 00 000 00' value={form.phone} onChange={set('phone')} error={fieldError('phone')} />
                                 </div>
+                                {!google && (
                                 <div className='grid gap-4 sm:grid-cols-2'>
                                     <TextField
                                         label='Mot de passe'
@@ -250,6 +293,7 @@ export default function EstablishmentSignUp() {
                                         onChange={set('password_confirmation')}
                                     />
                                 </div>
+                                )}
                                 <p className='flex items-start gap-2 rounded-lg bg-cream/60 p-3 text-sm text-black'>
                                     <Icon icon='tabler:info-circle' className='mt-0.5 shrink-0 text-lg text-primary' />
                                     Le responsable du compte n&apos;est pas forcément le propriétaire ou le directeur de l&apos;établissement.

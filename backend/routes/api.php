@@ -61,6 +61,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::prefix('auth')->name('auth.')->group(function () {
         Route::post('register', [RegisteredUserController::class, 'store'])->middleware('throttle:register')->name('register');
         Route::post('login', [TokenController::class, 'store'])->middleware('throttle:login')->name('login');
+        Route::post('google', [TokenController::class, 'google'])->middleware('throttle:google')->name('google');
         Route::post('forgot-password', [PasswordResetController::class, 'forgot'])->middleware('throttle:password-reset')->name('password.forgot');
         Route::post('reset-password', [PasswordResetController::class, 'reset'])->middleware('throttle:password-reset')->name('password.reset');
     });

@@ -8,9 +8,11 @@ import { Icon } from '@/components/ui/icon'
 
 type RegisterData = {
     name: string
-    email: string
-    password: string
-    password_confirmation: string
+    /** Absents avec `googleCredential` (inscription d'un établissement avec Google). */
+    email?: string
+    password?: string
+    password_confirmation?: string
+    googleCredential?: string
     accountType: 'student' | 'establishment'
     phone?: string
     city?: string

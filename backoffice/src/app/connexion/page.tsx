@@ -8,6 +8,7 @@ import { cilBullhorn, cilChartLine, cilEnvelopeClosed, cilInbox, cilLockLocked }
 import { StudentAccountError, useAuth } from '@/context/AuthContext'
 import { SITE_URL, errorMessage } from '@/lib/api'
 import { Loading } from '@/components/ui'
+import GoogleButton, { GOOGLE_CLIENT_ID } from '@/components/GoogleButton'
 
 const PERKS = [
     { icon: cilInbox, text: 'Recevez et suivez les demandes des futurs étudiants' },
@@ -16,7 +17,7 @@ const PERKS = [
 ]
 
 function LoginForm() {
-    const { user, loading: sessionLoading, login } = useAuth()
+    const { user, loading: sessionLoading, login, loginWithGoogle } = useAuth()
     const router = useRouter()
     const params = useSearchParams()
     const [email, setEmail] = useState(params.get('email') ?? '')
@@ -48,7 +49,22 @@ function LoginForm() {
         }
     }
 
+    const withGoogle = async (credential: string) => {
+        setLoading(true)
+        setError(null)
+        try {
+            await loginWithGoogle(credential)
+            router.replace(next)
+        } catch (err) {
+            setError(err)
+        } finally {
+            setLoading(false)
+        }
+    }
+
     const student = error instanceof StudentAccountError
+    // Compte créé avec Google sur le site : on le rappelle.
+    const googleAccount = params.get('google') === '1'
 
     return (
         <div className='bo-login d-flex flex-row align-items-center py-4'>
@@ -73,6 +89,17 @@ function LoginForm() {
                                                 </>
                                             )}
                                         </CAlert>
+                                    )}
+                                    {GOOGLE_CLIENT_ID && (
+                                        <>
+                                            {googleAccount && <p className='small fw-semibold mb-2'>Votre compte a été créé avec Google : connectez-vous avec Google.</p>}
+                                            <GoogleButton onCredential={withGoogle} />
+                                            <div className='d-flex align-items-center gap-3 my-3 small text-body-secondary'>
+                                                <span className='flex-grow-1 border-top' />
+                                                ou avec votre adresse e-mail
+                                                <span className='flex-grow-1 border-top' />
+                                            </div>
+                                        </>
                                     )}
                                     <CInputGroup className='mb-3'>
                                         <CInputGroupText>

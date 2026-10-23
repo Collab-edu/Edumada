@@ -203,10 +203,12 @@ Statuts : **Brouillon**, **En attente de validation**, **Publiée**, **Suspendue
   - obligatoires : nom, prénom, fonction, e-mail professionnel, téléphone, mot de passe, nom officiel, type d'établissement et ville ;
   - facultatifs : e-mail de l'établissement et site web (`https://` est ajouté si besoin) ;
   - après l'inscription, l'établissement est envoyé vers la connexion du back-office, avec son e-mail déjà rempli.
+- **Avec Google (établissements)** : sur la page d'inscription, « S'inscrire avec Google » remplace l'e-mail et le mot de passe (nom et prénom pré-remplis) ; sur la connexion du back-office, « Continuer avec Google » ouvre le compte qui porte la même adresse. L'API vérifie le jeton auprès de Google (destinataire = notre identifiant client, adresse confirmée, non expiré) ; l'adresse est alors considérée comme confirmée. Adresse déjà inscrite : « connectez-vous » ; aucun compte : invitation à créer le compte établissement. Un étudiant ne peut pas s'inscrire avec Google. Sans `GOOGLE_CLIENT_ID` (API) et `NEXT_PUBLIC_GOOGLE_CLIENT_ID` (site et back-office), les boutons sont masqués et l'API répond 503. Pour ajouter un mot de passe, « Mot de passe oublié ».
 - **Mot de passe** : règle par défaut de Laravel, avec confirmation.
 - **Règles de l'inscription** : un compte administrateur ne peut pas être créé par cette voie, et un étudiant ne peut pas joindre d'établissement.
 - **Limites par adresse IP** :
   - connexion : 5 essais par minute ;
+  - connexion avec Google : 10 par minute ;
   - inscription : 10 par heure ;
   - formulaire de contact : 5 par heure.
 - **Journal d'audit** : modération, abonnements, factures et demandes de vérification sont enregistrés.
