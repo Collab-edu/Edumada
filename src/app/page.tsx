@@ -4,15 +4,14 @@ import CategoriesSection from '@/features/categories/components/CategoriesSectio
 import DomainsSection from '@/features/domaines/components/DomainsSection'
 import FormationsSection from '@/features/formations/components/FormationsSection'
 import SchoolsSection from '@/features/etablissements/components/SchoolsSection'
-import Companies from '@/features/marketing/components/Companies'
 import RegisterCta from '@/features/marketing/components/RegisterCta'
 import HowItWorksPhones from '@/features/marketing/components/HowItWorksPhones'
 
 export default function Home() {
   return (
     <main>
+      {/* Les logos qui défilent sont dans le hero (ancienne section : Companies). */}
       <Hero />
-      <Companies />
       <CategoriesSection />
       <DomainsSection />
       <RegisterCta />
