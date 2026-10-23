@@ -3,11 +3,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { Icon } from '@/components/ui/icon'
-import CityPicker from './CityPicker'
-import SuggestInput from './SuggestInput'
-import { HERO_FILTERS } from './HeroFilters'
-import { placePosition } from '../places'
-import { FILTER_UI, useFilterSuggestions } from '../useFilterSuggestions'
+import HeroSearchFields, { EMPTY_HERO_SEARCH, heroSearchHref } from './HeroSearchFields'
+import { useFilterSuggestions } from '../useFilterSuggestions'
 
 /** Raccourcis vers les catégories les plus cherchées. */
 const SHORTCUTS = [
@@ -19,21 +16,14 @@ const SHORTCUTS = [
 
 /**
  * Recherche sur mobile : un seul grand champ, juste sous le titre, qui ouvre un panneau plein écran
- * avec les champs à suggestions (catégorie, domaine, ville). Sur grand écran, HeroFilters prend le relais.
+ * avec les champs de la recherche rapide (que recherchez-vous, quelle formation, où). Sur grand écran, HeroFilters prend le relais.
  */
 export default function MobileSearch() {
     const { suggestions } = useFilterSuggestions()
     const [open, setOpen] = useState(false)
-    const [selected, setSelected] = useState<Record<string, string>>({})
-
-    const params = new URLSearchParams()
-    for (const { param } of HERO_FILTERS) {
-        if (selected[param]) params.set(param, selected[param])
-    }
-    if (selected.ville && selected.pos) params.set('pos', selected.pos)
-    const query = params.toString()
-    const searchHref = query ? `/recherche?${query}` : '/recherche'
-    const summary = HERO_FILTERS.map(({ param }) => selected[param]).filter(Boolean).join(' · ')
+    const [search, setSearch] = useState(EMPTY_HERO_SEARCH)
+    const searchHref = heroSearchHref(search, (suggestions.domaine ?? []).map((s) => s.value))
+    const summary = [search.categorie, search.formation, search.ville].filter(Boolean).join(' · ')
 
     return (
         <div className='sm:hidden'>
@@ -75,28 +65,11 @@ export default function MobileSearch() {
                     </div>
 
                     <div className='flex flex-col gap-3 p-4'>
-                        {HERO_FILTERS.map((filter) => (
-                            <div key={filter.param} className='rounded-2xl bg-white px-4 py-3 ring-1 ring-gray-100 focus-within:ring-2 focus-within:ring-primary/30'>
-                                {filter.param === 'ville' ? (
-                                    <CityPicker
-                                        label={filter.label}
-                                        placeholder='Ex. : Antananarivo, Toamasina…'
-                                        suggestions={suggestions.ville ?? []}
-                                        value={selected.ville ?? ''}
-                                        onChange={(value, place) => setSelected((prev) => ({ ...prev, ville: value, pos: placePosition(place) }))}
-                                    />
-                                ) : (
-                                <SuggestInput
-                                    icon={FILTER_UI[filter.param].icon}
-                                    label={FILTER_UI[filter.param].label ?? filter.label}
-                                    placeholder={FILTER_UI[filter.param].placeholder}
-                                    suggestions={suggestions[filter.param] ?? []}
-                                    value={selected[filter.param] ?? ''}
-                                    onChange={(value) => setSelected((prev) => ({ ...prev, [filter.param]: value }))}
-                                />
-                                )}
-                            </div>
-                        ))}
+                        <HeroSearchFields
+                            search={search}
+                            onChange={setSearch}
+                            fieldClassName='rounded-2xl bg-white px-4 py-3 ring-1 ring-gray-100 focus-within:ring-2 focus-within:ring-primary/30'
+                        />
 
                         <Link
                             href={searchHref}

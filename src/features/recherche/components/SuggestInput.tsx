@@ -21,6 +21,8 @@ interface SuggestInputProps {
     /** Valeur choisie ; chaîne vide = pas de filtre. */
     value: string
     onChange: (value: string) => void
+    /** Accepte une saisie hors suggestions (« comptabilité »), proposée en fin de liste. */
+    allowFreeText?: boolean
 }
 
 /** Met en gras la partie du libellé qui correspond à la saisie. */
@@ -43,7 +45,7 @@ function Highlight({ text, query }: { text: string; query: string }) {
  * une saisie qui correspond exactement à une suggestion, ou à une seule, est retenue.
  * Vider le champ retire le filtre.
  */
-export function SuggestInput({ label, icon, placeholder, suggestions, value, onChange }: SuggestInputProps) {
+export function SuggestInput({ label, icon, placeholder, suggestions, value, onChange, allowFreeText = false }: SuggestInputProps) {
     const [query, setQuery] = useState('')
     // Un choix fait dans la liste ne doit pas être remplacé par la saisie en cours à la fermeture.
     const picked = useRef(false)
@@ -73,9 +75,13 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                 suggestions.find((s) => normalize(s.value) === q || s.keywords?.some((k) => normalize(k) === q)) ??
                 (filtered.length === 1 ? filtered[0] : undefined)
             if (match) onChange(match.value)
+            else if (allowFreeText) onChange(query.trim())
         }
         setQuery('')
     }
+
+    // Saisie libre : proposée tant qu'aucune suggestion ne lui correspond exactement.
+    const freeText = allowFreeText && query.trim() && !suggestions.some((s) => normalize(s.value) === normalize(query)) ? query.trim() : null
 
     return (
         <Combobox
@@ -96,8 +102,9 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                         displayValue={(selected: string | null) => selected ?? ''}
                         onChange={(e) => {
                             setQuery(e.target.value)
-                            // Effacer complètement la saisie retire le filtre.
-                            if (e.target.value === '') onChange('')
+                            // Effacer complètement la saisie retire le filtre ; une saisie libre est retenue
+                            // dès la frappe (le bouton Rechercher peut être cliqué sans quitter le champ).
+                            if (e.target.value === '' || allowFreeText) onChange(e.target.value.trim())
                         }}
                         placeholder={placeholder}
                         autoComplete='off'
@@ -113,9 +120,10 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                             <Icon icon='tabler:x' className='text-lg' />
                         </button>
                     )}
+                    {/* Non modale : le reste de la page (bouton Rechercher…) reste cliquable pendant la saisie. */}
                     {query.trim() !== '' && (
-                        <ComboboxOptions className='absolute left-0 z-20 mt-2 max-h-80 w-full min-w-80 overflow-auto rounded-xl bg-white py-1 text-left text-base shadow-lg ring-1 ring-black/5 empty:invisible'>
-                            {filtered.length === 0 && (
+                        <ComboboxOptions modal={false} className='absolute left-0 z-20 mt-2 max-h-80 w-full min-w-80 overflow-auto rounded-xl bg-white py-1 text-left text-base shadow-lg ring-1 ring-black/5 empty:invisible'>
+                            {filtered.length === 0 && !freeText && (
                                 <div className='px-4 py-3 text-sm text-ink/60'>Aucune suggestion pour « {query} »</div>
                             )}
                             {filtered.map((s) => (
@@ -136,6 +144,16 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                                     {s.hint && <span className='shrink-0 text-xs text-ink/50'>{s.hint}</span>}
                                 </ComboboxOption>
                             ))}
+                            {freeText && (
+                                <ComboboxOption
+                                    value={freeText}
+                                    className='flex min-h-11 cursor-pointer items-center gap-2 px-4 py-2 text-ink data-[focus]:bg-cream data-[focus]:text-primary'>
+                                    <Icon icon='tabler:search' className='shrink-0 text-primary' />
+                                    <span className='truncate'>
+                                        Rechercher « <strong>{freeText}</strong> »
+                                    </span>
+                                </ComboboxOption>
+                            )}
                         </ComboboxOptions>
                     )}
                 </div>

@@ -2,27 +2,14 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Icon } from '@/components/ui/icon'
-import SuggestInput from './SuggestInput'
-import CityPicker from './CityPicker'
-import { placePosition } from '../places'
-import { FILTER_UI, TOP_FILTERS, useFilterSuggestions } from '../useFilterSuggestions'
+import HeroSearchFields, { EMPTY_HERO_SEARCH, heroSearchHref } from './HeroSearchFields'
+import { useFilterSuggestions } from '../useFilterSuggestions'
 
-// Le type d'établissement (public / privé) reste filtrable sur la page /recherche.
-export const HERO_FILTERS = TOP_FILTERS.filter((filter) => filter.param !== 'type')
-
+/** Barre de recherche de l'accueil (grand écran) : que recherchez-vous, quelle formation, où. */
 const HeroFilters = () => {
     const { suggestions } = useFilterSuggestions()
-    // Valeur saisie par filtre (paramètre d'URL → valeur) ; vide = pas de filtre.
-    const [selected, setSelected] = useState<Record<string, string>>({})
-
-    // Seuls les filtres renseignés passent dans l'URL de la page /recherche.
-    const params = new URLSearchParams()
-    for (const { param } of HERO_FILTERS) {
-        if (selected[param]) params.set(param, selected[param])
-    }
-    if (selected.ville && selected.pos) params.set('pos', selected.pos)
-    const query = params.toString()
-    const searchHref = query ? `/recherche?${query}` : '/recherche'
+    const [search, setSearch] = useState(EMPTY_HERO_SEARCH)
+    const searchHref = heroSearchHref(search, (suggestions.domaine ?? []).map((s) => s.value))
 
     return (
         <div className='relative mx-auto mt-8 hidden max-w-6xl sm:mt-12 sm:block'>
@@ -37,30 +24,11 @@ const HeroFilters = () => {
                     Trouvez l&apos;établissement qui vous correspond
                 </div>
                 <div className='grid grid-cols-1 gap-2 sm:grid-cols-3 lg:grid-cols-4 lg:items-center'>
-                    {HERO_FILTERS.map((filter) => (
-                        <div
-                            key={filter.param}
-                            className='rounded-xl px-4 py-3 text-left transition-colors duration-200 focus-within:bg-offwhite hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none'>
-                            {filter.param === 'ville' ? (
-                                <CityPicker
-                                    label={filter.label}
-                                    placeholder='Ex. : Antananarivo, Toamasina…'
-                                    suggestions={suggestions.ville ?? []}
-                                    value={selected.ville ?? ''}
-                                    onChange={(value, place) => setSelected((prev) => ({ ...prev, ville: value, pos: placePosition(place) }))}
-                                />
-                            ) : (
-                            <SuggestInput
-                                icon={FILTER_UI[filter.param].icon}
-                                label={FILTER_UI[filter.param].label ?? filter.label}
-                                placeholder={FILTER_UI[filter.param].placeholder}
-                                suggestions={suggestions[filter.param] ?? []}
-                                value={selected[filter.param] ?? ''}
-                                onChange={(value) => setSelected((prev) => ({ ...prev, [filter.param]: value }))}
-                            />
-                            )}
-                        </div>
-                    ))}
+                    <HeroSearchFields
+                        search={search}
+                        onChange={setSearch}
+                        fieldClassName='rounded-xl px-4 py-3 text-left transition-colors duration-200 focus-within:bg-offwhite hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none'
+                    />
                     <div className='p-1 sm:col-span-3 lg:col-span-1'>
                         <Link
                             href={searchHref}

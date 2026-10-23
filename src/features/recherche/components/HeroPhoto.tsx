@@ -21,9 +21,10 @@ const TRUST = [
  */
 export default function HeroPhoto() {
     return (
-        <section id='Home' className='relative bg-offwhite pb-10 sm:pb-14'>
+        <section id='Home' className='relative flex min-h-svh flex-col bg-offwhite pb-8 sm:pb-10'>
             {/* Photo et voiles : clair à gauche pour le texte, la photo se dévoile à droite */}
-            <div className='relative overflow-hidden pt-28 pb-10 sm:pt-36 sm:pb-40 lg:pb-48'>
+            {/* La photo occupe la hauteur restante : le hero tient tout l'écran à l'ouverture. */}
+            <div className='relative flex flex-1 flex-col justify-center overflow-hidden pt-28 pb-10 sm:pt-32 sm:pb-40 lg:pb-44'>
                 <Image src={HERO_IMAGE} alt='' fill priority sizes='100vw' className='object-cover object-[65%_center]' />
                 <div aria-hidden='true' className='absolute inset-0 bg-white/80 sm:bg-transparent sm:bg-gradient-to-r sm:from-white sm:from-20% sm:via-white/75 sm:via-45% sm:to-transparent sm:to-70%' />
                 <div aria-hidden='true' className='absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/70 to-transparent' />
@@ -52,7 +53,7 @@ export default function HeroPhoto() {
                         <svg aria-hidden='true' viewBox='0 0 40 40' className='absolute -top-6 -left-2 hidden h-10 w-10 text-primary sm:block lg:-left-10'>
                             <path d='M8 22 L 20 26 M12 10 L 22 20 M26 4 L 28 16' fill='none' stroke='currentColor' strokeWidth='3.5' strokeLinecap='round' />
                         </svg>
-                        <h1 className='text-[32px] leading-[1.1] font-extrabold text-secondary sm:text-5xl lg:text-6xl'>
+                        <h1 className='text-[28px] leading-[1.15] font-extrabold text-secondary sm:text-4xl lg:text-5xl'>
                             Trouvez votre formation à Madagascar et construisez votre <span className='text-primary'>avenir</span>.
                         </h1>
 
