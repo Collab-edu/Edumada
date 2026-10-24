@@ -1,5 +1,5 @@
 'use client'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { useEffect, useState, type FormEvent } from 'react'
 import { useRouter } from '@/i18n/client'
 import toast from 'react-hot-toast'
@@ -18,6 +18,7 @@ export function nextUrl(): string | null {
 }
 
 const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
+    const t = useT()
     const { login } = useAuth()
     const router = useRouter()
     const [email, setEmail] = useState('')
@@ -38,7 +39,7 @@ const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
             onSuccess?.()
             if (user.role === 'student') goTo(nextUrl() ?? SPACE_HOME.student, router.push)
             else {
-                toast('Votre espace de gestion est le back-office : connectez-vous-y avec le même compte.', { icon: <Icon icon='tabler:arrow-right' className='shrink-0 text-xl text-secondary' /> })
+                toast(t('Votre espace de gestion est le back-office : connectez-vous-y avec le même compte.'), { icon: <Icon icon='tabler:arrow-right' className='shrink-0 text-xl text-secondary' /> })
                 goTo(backofficeUrl(`/connexion?email=${encodeURIComponent(user.email)}`), router.push)
             }
         } catch (err) {
@@ -76,17 +77,17 @@ const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
                     error={error?.field('password')}
                 />
                 <Link href='/mot-de-passe-oublie/' onClick={onSuccess} className='-mt-2 self-end text-sm font-semibold text-secondary hover:text-primary hover:underline'>
-                    Mot de passe oublié ?
+                    {t('Mot de passe oublié ?')}
                 </Link>
                 <Button type='submit' loading={loading} disabled={!apiEnabled || !ready} className='mt-2 w-full py-3 text-lg'>
-                    Se connecter
+                    {t('Se connecter')}
                 </Button>
             </form>
 
             <p className='mt-6 text-center text-base text-black'>
-                Pas encore de compte ?{' '}
+                {t('Pas encore de compte ?')}{' '}
                 <Link href='/inscription/' onClick={onSuccess} className='font-semibold text-primary hover:underline'>
-                    Créer un compte
+                    {t('Créer un compte')}
                 </Link>
             </p>
         </>

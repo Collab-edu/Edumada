@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
+import { useT } from '@/i18n/client'
 
 /**
  * Barre de progression en haut de l'écran : elle démarre au clic sur un lien interne et
@@ -8,6 +9,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
  * pendant le chargement (connexion lente, ou compilation de la page en développement).
  */
 export default function NavigationProgress() {
+    const t = useT()
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const [state, setState] = useState<'idle' | 'loading' | 'done'>('idle')
@@ -42,7 +44,7 @@ export default function NavigationProgress() {
     if (state === 'idle') return null
 
     return (
-        <div className='pointer-events-none fixed inset-x-0 top-0 z-[100] h-1' role='progressbar' aria-label='Chargement de la page'>
+        <div className='pointer-events-none fixed inset-x-0 top-0 z-[100] h-1' role='progressbar' aria-label={t('Chargement de la page')}>
             <div
                 className={
                     state === 'loading'

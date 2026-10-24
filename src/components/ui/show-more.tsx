@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { Icon } from '@/components/ui/icon'
+import { useT } from '@/i18n/client'
 
 /** Nombre de cartes affichées au départ, puis à chaque clic : rangées complètes sur 4, 2 ou 1 colonne. */
 export const SHOW_MORE_STEP = 12
@@ -45,12 +46,13 @@ export type ListNoun = { one: string; many: string; feminine?: boolean }
 
 /** Compteur et bouton « Voir plus » sous la liste ; rien quand tout est affiché. */
 export function ShowMoreButton({ shown, total, hasMore, step, onClick, noun }: { shown: number; total: number; hasMore: boolean; step: number; onClick: () => void; noun: ListNoun }) {
+    const t = useT()
     if (!hasMore) return null
     const next = Math.min(step, total - shown)
     return (
         <div className='mt-8 flex flex-col items-center gap-3'>
             <p className='text-sm text-ink/60'>
-                {shown} {noun.many} affiché{noun.feminine ? 'es' : 's'} sur {total}
+                {t(`{shown} ${noun.many} affiché${noun.feminine ? 'es' : 's'} sur {total}`, { shown, total })}
             </p>
             <div className='h-1 w-48 overflow-hidden rounded-full bg-secondary/10' aria-hidden='true'>
                 <div className='h-full rounded-full bg-primary' style={{ width: `${(shown / total) * 100}%` }} />
@@ -60,7 +62,7 @@ export function ShowMoreButton({ shown, total, hasMore, step, onClick, noun }: {
                 onClick={onClick}
                 className='inline-flex min-h-11 items-center gap-2 rounded-lg border border-primary px-6 py-3 font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white hover:cursor-pointer'>
                 <Icon icon='tabler:chevron-down' className='text-lg' />
-                Voir {next} {next > 1 ? noun.many : noun.one} de plus
+                {t(`Voir {next} ${next > 1 ? noun.many : noun.one} de plus`, { next })}
             </button>
         </div>
     )

@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { useRouter } from '@/i18n/client'
+import { useRouter, useT } from '@/i18n/client'
 import toast from 'react-hot-toast'
 import { api, apiEnabled, getToken, setToken } from '@/lib/api'
 import type { User } from './types'
@@ -45,6 +45,7 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+    const t = useT()
     const router = useRouter()
     const [user, setUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
@@ -113,24 +114,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const toggleFavorite = useCallback(async (offerId: string) => {
         if (!user) {
-            toast('Connectez-vous avec un compte étudiant pour enregistrer vos favoris.', { icon: <Icon icon='tabler:bulb' className='shrink-0 text-xl text-primary' /> })
+            toast(t('Connectez-vous avec un compte étudiant pour enregistrer vos favoris.'), { icon: <Icon icon='tabler:bulb' className='shrink-0 text-xl text-primary' /> })
             router.push(`/signin/?next=${encodeURIComponent(window.location.pathname + window.location.search)}`)
             return
         }
         if (user.role !== 'student') {
-            toast.error('Les favoris sont réservés aux comptes étudiants.')
+            toast.error(t('Les favoris sont réservés aux comptes étudiants.'))
             return
         }
         const wasFavorite = favorites.includes(offerId)
         setFavorites((prev) => (wasFavorite ? prev.filter((id) => id !== offerId) : [...prev, offerId]))
         try {
             await api(`/me/favorites/${offerId}`, { method: wasFavorite ? 'DELETE' : 'PUT' })
-            toast.success(wasFavorite ? 'Retiré de vos favoris' : 'Ajouté à vos favoris')
+            toast.success(wasFavorite ? t('Retiré de vos favoris') : t('Ajouté à vos favoris'))
         } catch (error) {
             setFavorites((prev) => (wasFavorite ? [...prev, offerId] : prev.filter((id) => id !== offerId)))
             toast.error((error as Error).message)
         }
-    }, [favorites, router, user])
+    }, [favorites, router, user, t])
 
     const value = useMemo<AuthContextValue>(
         () => ({

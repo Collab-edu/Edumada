@@ -1,6 +1,6 @@
 'use client'
 import { useId, useState, type ComponentProps, type ReactNode } from 'react'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 
@@ -22,19 +22,20 @@ interface FieldProps {
 
 /** Libellé, aide et message d'erreur autour d'un champ. */
 export function Field({ label, hint, error, required, className, children }: FieldProps) {
+    const t = useT()
     const id = useId()
     const describedBy = error ? `${id}-error` : hint ? `${id}-hint` : undefined
     return (
         <div className={cn('flex flex-col gap-1.5', className)}>
             <label htmlFor={id} className='text-sm font-semibold text-secondary'>
-                {label}
+                {t(label)}
                 {required && <span className='text-primary'> *</span>}
             </label>
             {children(id, describedBy)}
             {error ? (
-                <p id={`${id}-error`} className='text-sm text-primary'>{error}</p>
+                <p id={`${id}-error`} className='text-sm text-primary'>{t(error)}</p>
             ) : hint ? (
-                <p id={`${id}-hint`} className='text-sm text-ink/60'>{hint}</p>
+                <p id={`${id}-hint`} className='text-sm text-ink/60'>{t(hint)}</p>
             ) : null}
         </div>
     )
@@ -46,22 +47,24 @@ type BaseFieldProps = { label: string; hint?: string; error?: string; className?
 export const isPasswordField = (autoComplete?: string) => !!autoComplete?.endsWith('password')
 
 export function TextField({ label, hint, error, className, required, value, ...props }: BaseFieldProps & ComponentProps<'input'>) {
+    const t = useT()
     // Mot de passe : champ non contrôlé, sinon React écrit la saisie dans l'attribut value (lisible dans l'inspecteur).
     const valueProps = isPasswordField(props.autoComplete) ? {} : { value }
     return (
         <Field label={label} hint={hint} error={error} required={required} className={className}>
             {(id, describedBy) => (
-                <input id={id} required={required} aria-invalid={!!error} aria-describedby={describedBy} className={cn(inputClassName, error && 'border-primary')} {...props} {...valueProps} />
+                <input id={id} required={required} aria-invalid={!!error} aria-describedby={describedBy} className={cn(inputClassName, error && 'border-primary')} {...props} placeholder={props.placeholder && t(props.placeholder)} {...valueProps} />
             )}
         </Field>
     )
 }
 
 export function TextArea({ label, hint, error, className, required, rows = 4, ...props }: BaseFieldProps & ComponentProps<'textarea'>) {
+    const t = useT()
     return (
         <Field label={label} hint={hint} error={error} required={required} className={className}>
             {(id, describedBy) => (
-                <textarea id={id} rows={rows} required={required} aria-invalid={!!error} aria-describedby={describedBy} className={cn(inputClassName, 'resize-y', error && 'border-primary')} {...props} />
+                <textarea id={id} rows={rows} required={required} aria-invalid={!!error} aria-describedby={describedBy} className={cn(inputClassName, 'resize-y', error && 'border-primary')} {...props} placeholder={props.placeholder && t(props.placeholder)} />
             )}
         </Field>
     )
@@ -70,14 +73,15 @@ export function TextArea({ label, hint, error, className, required, rows = 4, ..
 type Option = string | { value: string; label: string }
 
 export function SelectField({ label, hint, error, className, required, options, placeholder, ...props }: BaseFieldProps & ComponentProps<'select'> & { options: Option[]; placeholder?: string }) {
+    const t = useT()
     return (
         <Field label={label} hint={hint} error={error} required={required} className={className}>
             {(id, describedBy) => (
                 <select id={id} required={required} aria-invalid={!!error} aria-describedby={describedBy} className={cn(inputClassName, 'hover:cursor-pointer', error && 'border-primary')} {...props}>
-                    {placeholder !== undefined && <option value=''>{placeholder}</option>}
+                    {placeholder !== undefined && <option value=''>{t(placeholder)}</option>}
                     {options.map((option) => {
                         const { value, label: text } = typeof option === 'string' ? { value: option, label: option } : option
-                        return <option key={value} value={value}>{text}</option>
+                        return <option key={value} value={value}>{t(text)}</option>
                     })}
                 </select>
             )}
@@ -87,12 +91,13 @@ export function SelectField({ label, hint, error, className, required, options, 
 
 /** Case à cocher avec son libellé, cliquable sur toute la ligne. */
 export function Checkbox({ label, hint, className, ...props }: { label: string; hint?: string; className?: string } & ComponentProps<'input'>) {
+    const t = useT()
     return (
         <label className={cn('flex min-h-11 items-start gap-3 hover:cursor-pointer', className)}>
             <input type='checkbox' className='mt-1 h-5 w-5 shrink-0 accent-primary' {...props} />
             <span className='flex flex-col'>
-                <span className='font-medium text-ink'>{label}</span>
-                {hint && <span className='text-sm text-ink/60'>{hint}</span>}
+                <span className='font-medium text-ink'>{t(label)}</span>
+                {hint && <span className='text-sm text-ink/60'>{t(hint)}</span>}
             </span>
         </label>
     )
@@ -102,6 +107,7 @@ export function Checkbox({ label, hint, className, ...props }: { label: string; 
  * Liste de textes éditable (objectifs, pièces à fournir, infrastructures…) : une ligne par élément.
  */
 export function ListField({ label, hint, error, value, onChange, placeholder, className }: BaseFieldProps & { value: string[]; onChange: (value: string[]) => void; placeholder?: string }) {
+    const t = useT()
     const [draft, setDraft] = useState('')
     const add = () => {
         const text = draft.trim()
@@ -120,7 +126,7 @@ export function ListField({ label, hint, error, value, onChange, placeholder, cl
                                     <button
                                         type='button'
                                         onClick={() => onChange(value.filter((_, j) => j !== i))}
-                                        aria-label={`Retirer « ${item} »`}
+                                        aria-label={t('Retirer « {item} »', { item })}
                                         className='flex h-9 w-9 items-center justify-center rounded-full text-ink/60 hover:bg-cream hover:text-primary hover:cursor-pointer'>
                                         <Icon icon='tabler:x' />
                                     </button>
@@ -133,7 +139,7 @@ export function ListField({ label, hint, error, value, onChange, placeholder, cl
                             id={id}
                             aria-describedby={describedBy}
                             value={draft}
-                            placeholder={placeholder ?? 'Ajouter un élément'}
+                            placeholder={t(placeholder ?? 'Ajouter un élément')}
                             onChange={(e) => setDraft(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
@@ -143,7 +149,7 @@ export function ListField({ label, hint, error, value, onChange, placeholder, cl
                             }}
                             className={inputClassName}
                         />
-                        <Button type='button' variant='secondary' onClick={add} aria-label={`Ajouter à « ${label} »`}>
+                        <Button type='button' variant='secondary' onClick={add} aria-label={t('Ajouter à « {label} »', { label: t(label) })}>
                             <Icon icon='tabler:plus' className='text-lg' />
                         </Button>
                     </div>
@@ -204,6 +210,7 @@ export function ButtonLink({ variant = 'primary', size = 'md', className, ...pro
 
 /** Message d'erreur générale d'un formulaire. */
 export function FormAlert({ children, tone = 'error' }: { children: ReactNode; tone?: 'error' | 'info' | 'success' }) {
+    const t = useT()
     const tones = {
         error: 'bg-cream text-primary',
         info: 'bg-secondary/10 text-secondary',
@@ -213,7 +220,7 @@ export function FormAlert({ children, tone = 'error' }: { children: ReactNode; t
     return (
         <p role={tone === 'error' ? 'alert' : 'status'} className={cn('flex items-start gap-2 rounded-lg px-4 py-3 text-sm font-medium', tones[tone])}>
             <Icon icon={icons[tone]} className='mt-0.5 shrink-0 text-lg' />
-            <span>{children}</span>
+            <span>{typeof children === 'string' ? t(children) : children}</span>
         </p>
     )
 }
@@ -232,13 +239,14 @@ export function Badge({ children, tone = 'neutral', className }: { children: Rea
 
 /** Liste vide : explication et action suivante. */
 export function EmptyState({ icon, title, children, action }: { icon: string; title: string; children?: ReactNode; action?: ReactNode }) {
+    const t = useT()
     return (
         <div className='flex flex-col items-center gap-3 rounded-2xl border border-dashed border-secondary/20 bg-white px-6 py-12 text-center'>
             <span className='flex h-14 w-14 items-center justify-center rounded-full bg-cream text-primary'>
                 <Icon icon={icon} className='text-2xl' />
             </span>
-            <p className='text-lg font-bold text-secondary'>{title}</p>
-            {children && <div className='max-w-md text-ink/70'>{children}</div>}
+            <p className='text-lg font-bold text-secondary'>{t(title)}</p>
+            {children && <div className='max-w-md text-ink/70'>{typeof children === 'string' ? t(children) : children}</div>}
             {action}
         </div>
     )

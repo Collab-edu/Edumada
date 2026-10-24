@@ -1,5 +1,5 @@
 'use client'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { useEffect, useState, type FormEvent } from 'react'
 import { Icon } from '@/components/ui/icon'
 import { Button, FormAlert, TextField } from '@/components/ui/form'
@@ -10,6 +10,7 @@ import { ApiError, api, apiEnabled } from '@/lib/api'
  * Le lien ne sert qu'une fois et expire au bout de 60 minutes.
  */
 export default function ResetPassword() {
+    const t = useT()
     const [link, setLink] = useState<{ token: string; email: string } | null>(null)
     const [password, setPassword] = useState('')
     const [confirmation, setConfirmation] = useState('')
@@ -49,10 +50,10 @@ export default function ResetPassword() {
                 <span className='flex h-14 w-14 items-center justify-center rounded-full bg-success/30 text-secondary'>
                     <Icon icon='tabler:lock-check' className='text-3xl' />
                 </span>
-                <h2 className='text-xl font-bold text-secondary'>Mot de passe modifié</h2>
-                <p className='text-black'>{done}</p>
+                <h2 className='text-xl font-bold text-secondary'>{t('Mot de passe modifié')}</h2>
+                <p className='text-black'>{t(done)}</p>
                 <Link href='/signin/' className='mt-2 inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 font-semibold text-white hover:bg-primary/90'>
-                    Se connecter
+                    {t('Se connecter')}
                 </Link>
             </div>
         )
@@ -63,7 +64,7 @@ export default function ResetPassword() {
             <div className='flex flex-col items-center gap-4 text-center'>
                 <FormAlert>Ce lien est incomplet. Ouvrez le lien reçu par e-mail en entier, ou demandez-en un nouveau.</FormAlert>
                 <Link href='/mot-de-passe-oublie/' className='font-semibold text-primary hover:underline'>
-                    Demander un nouveau lien
+                    {t('Demander un nouveau lien')}
                 </Link>
             </div>
         )
@@ -84,7 +85,7 @@ export default function ResetPassword() {
                     <FormAlert>
                         {tokenError}{' '}
                         <Link href='/mot-de-passe-oublie/' className='font-semibold underline'>
-                            Demander un nouveau lien
+                            {t('Demander un nouveau lien')}
                         </Link>
                     </FormAlert>
                 )}
@@ -104,7 +105,7 @@ export default function ResetPassword() {
                     autoComplete='new-password'
                     required
                     onChange={(e) => setConfirmation(e.target.value)}
-                    error={mismatch ? 'Les deux mots de passe ne correspondent pas.' : undefined}
+                    error={mismatch ? t('Les deux mots de passe ne correspondent pas.') : undefined}
                 />
                 <Button type='submit' loading={loading} disabled={!apiEnabled || !link || !password || mismatch} className='mt-2 w-full py-3 text-lg'>
                     Enregistrer le mot de passe
