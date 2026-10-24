@@ -1,5 +1,5 @@
 'use client'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { useEffect, useId, useState, type ComponentProps, type FormEvent, type ReactNode } from 'react'
 import { useRouter } from '@/i18n/client'
 import toast from 'react-hot-toast'
@@ -25,17 +25,18 @@ const inputClassName =
 
 /** Libellé compact, aide et erreur autour d'un champ du formulaire d'inscription. */
 function Row({ label, required, hint, error, className, children }: { label: string; required?: boolean; hint?: ReactNode; error?: string; className?: string; children: (id: string, describedBy?: string) => ReactNode }) {
+    const t = useT()
     const id = useId()
     const describedBy = error ? `${id}-error` : hint ? `${id}-hint` : undefined
     return (
         <div className={cn('flex flex-col gap-1.5', className)}>
             <label htmlFor={id} className='text-xs font-semibold text-black'>
-                {label}
+                {t(label)}
                 {required && <span className='text-primary'> *</span>}
             </label>
             {children(id, describedBy)}
             {error ? (
-                <p id={`${id}-error`} className='text-xs text-primary'>{error}</p>
+                <p id={`${id}-error`} className='text-xs text-primary'>{t(error)}</p>
             ) : hint ? (
                 <div id={`${id}-hint`} className='text-xs text-ink/60'>{hint}</div>
             ) : null}
@@ -74,6 +75,7 @@ const STRENGTH = [
  * Le choix « Établissement » envoie vers les formules (/tarifs/), d'où part l'inscription établissement.
  */
 const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; studentOnly?: boolean }) => {
+    const t = useT()
     const { register } = useAuth()
     const router = useRouter()
     const [form, setForm] = useState({ name: '', email: '', password: '', password_confirmation: '', phone: '', city: '', studyLevel: '' })
@@ -97,7 +99,7 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
         try {
             const phone = form.phone.trim() ? `+261 ${form.phone.trim().replace(/^\+?261\s*/, '').replace(/^0/, '')}` : ''
             const user = await register({ ...form, phone, accountType: 'student' })
-            toast.success('Votre compte est créé.')
+            toast.success(t('Votre compte est créé.'))
             onSuccess?.()
             if (user.role === 'establishment') goTo(backofficeUrl(`/connexion?email=${encodeURIComponent(user.email)}`), router.push)
             else goTo(nextUrl() ?? SPACE_HOME.student, router.push)
@@ -115,7 +117,7 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
             <form onSubmit={submit} className='flex flex-col gap-4' noValidate>
                 {!studentOnly && (
                     <fieldset>
-                        <legend className='mb-2 text-xs font-semibold text-black'>Je crée un compte</legend>
+                        <legend className='mb-2 text-xs font-semibold text-black'>{t('Je crée un compte')}</legend>
                         <div className='grid grid-cols-2 gap-1.5 rounded-xl bg-offwhite p-1.5'>
                             {ACCOUNT_TYPES.map((type) => {
                                 const active = type.value === 'student'
@@ -140,8 +142,8 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                                             className='sr-only'
                                         />
                                         <Icon icon={type.icon} className='text-xl text-primary' />
-                                        <span className='text-sm font-semibold leading-tight text-secondary'>{type.title}</span>
-                                        <span className='text-[11px] leading-snug text-ink/60'>{type.text}</span>
+                                        <span className='text-sm font-semibold leading-tight text-secondary'>{t(type.title)}</span>
+                                        <span className='text-[11px] leading-snug text-ink/60'>{t(type.text)}</span>
                                     </label>
                                 )
                             })}
@@ -165,8 +167,8 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                                     <span key={n} className={cn('h-1 rounded-full transition-colors', n <= score ? STRENGTH[score].color : 'bg-gray-200')} />
                                 ))}
                             </span>
-                            8 caractères au moins, avec des lettres et des chiffres.
-                            {score > 0 && <span className='sr-only'> Force : {STRENGTH[score].label}.</span>}
+                            {t('8 caractères au moins, avec des lettres et des chiffres.')}
+                            {score > 0 && <span className='sr-only'> {t('Force :')} {t(STRENGTH[score].label)}.</span>}
                         </>
                     }>
                     {(id, describedBy) => (
@@ -186,7 +188,7 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                                 onClick={() => setShowPassword((v) => !v)}
                                 aria-pressed={showPassword}
                                 className='absolute inset-y-0 right-0 px-3.5 text-xs font-semibold text-black hover:text-primary hover:cursor-pointer'>
-                                {showPassword ? 'Masquer' : 'Afficher'}
+                                {showPassword ? t('Masquer') : t('Afficher')}
                             </button>
                         </div>
                     )}
@@ -198,12 +200,12 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                     autoComplete='new-password'
                     required
                     onChange={set('password_confirmation')}
-                    error={mismatch ? 'Les deux mots de passe ne correspondent pas.' : undefined}
+                    error={mismatch ? t('Les deux mots de passe ne correspondent pas.') : undefined}
                 />
 
                 <div className='flex items-center gap-3 pt-1 text-[11px] font-semibold tracking-wider text-ink/50 uppercase'>
                     <span className='h-px flex-1 bg-gray-200' />
-                    Facultatif
+                    {t('Facultatif')}
                     <span className='h-px flex-1 bg-gray-200' />
                 </div>
 
@@ -233,28 +235,28 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                 <Row label="Niveau d'études">
                     {(id) => (
                         <select id={id} value={form.studyLevel} onChange={set('studyLevel')} className={cn(inputClassName, 'hover:cursor-pointer')}>
-                            <option value=''>Choisir…</option>
+                            <option value=''>{t('Choisir…')}</option>
                             {STUDY_LEVELS.map((level) => (
-                                <option key={level}>{level}</option>
+                                <option key={level} value={level}>{t(level)}</option>
                             ))}
                         </select>
                     )}
                 </Row>
 
                 <Button type='submit' loading={loading} disabled={!apiEnabled || !ready} className='mt-2 w-full py-3 text-base shadow-lg shadow-primary/25'>
-                    Créer mon compte
+                    {t('Créer mon compte')}
                 </Button>
             </form>
 
             <p className='mt-5 text-center text-xs text-ink/70'>
-                En créant un compte, vous acceptez nos{' '}
-                <Link href='/conditions/' className='text-primary hover:underline'>conditions d&apos;utilisation</Link> et notre{' '}
-                <Link href='/confidentialite/' className='text-primary hover:underline'>politique de confidentialité</Link>.
+                {t('En créant un compte, vous acceptez nos')}{' '}
+                <Link href='/conditions/' className='text-primary hover:underline'>{t('conditions d’utilisation')}</Link> {t('et notre')}{' '}
+                <Link href='/confidentialite/' className='text-primary hover:underline'>{t('politique de confidentialité')}</Link>.
             </p>
             <p className='mt-3 text-center text-sm text-black'>
-                Vous avez déjà un compte ?
+                {t('Vous avez déjà un compte ?')}
                 <Link href='/signin/' onClick={onSuccess} className='pl-1 font-semibold text-primary hover:underline'>
-                    Se connecter
+                    {t('Se connecter')}
                 </Link>
             </p>
         </div>

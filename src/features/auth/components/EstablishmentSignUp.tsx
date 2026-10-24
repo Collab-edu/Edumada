@@ -1,5 +1,5 @@
 'use client'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { useEffect, useState, type FormEvent, type ReactNode } from 'react'
 import { useRouter } from '@/i18n/client'
 import toast from 'react-hot-toast'
@@ -46,13 +46,14 @@ const NEXT_STEPS = ['Créez votre compte', 'Complétez la fiche dans votre espac
 const withScheme = (url: string) => (url && !/^https?:\/\//i.test(url) ? `https://${url}` : url)
 
 function FormSection({ number, title, text, children }: { number: number; title: string; text: string; children: ReactNode }) {
+    const t = useT()
     return (
         <fieldset className='flex flex-col gap-4'>
             <legend className='mb-4 flex items-start gap-3'>
                 <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary font-bold text-white'>{number}</span>
                 <span className='flex flex-col gap-0.5'>
-                    <span className='text-lg font-semibold text-secondary'>{title}</span>
-                    <span className='text-sm text-black'>{text}</span>
+                    <span className='text-lg font-semibold text-secondary'>{t(title)}</span>
+                    <span className='text-sm text-black'>{t(text)}</span>
                 </span>
             </legend>
             {children}
@@ -62,6 +63,7 @@ function FormSection({ number, title, text, children }: { number: number; title:
 
 /** Inscription d'un établissement : responsable du compte et informations minimales de l'établissement. */
 export default function EstablishmentSignUp() {
+    const t = useT()
     const { register } = useAuth()
     const router = useRouter()
     const { data: categories } = useSiteData('CategoryData')
@@ -81,7 +83,7 @@ export default function EstablishmentSignUp() {
     const chosen = plans.find((plan) => plan.code === choice.plan) ?? plans[0]
     const yearly = choice.cycle === 'yearly' && chosen.yearlyPrice !== null
     const chosenPrice =
-        chosen.code === 'free' ? 'sans engagement' : `${formatAriary(yearly ? chosen.yearlyPrice : chosen.monthlyPrice)} / ${yearly ? 'an' : 'mois'}`
+        chosen.code === 'free' ? t('sans engagement') : `${formatAriary(yearly ? chosen.yearlyPrice : chosen.monthlyPrice)} / ${yearly ? t('an') : t('mois')}`
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
     // Compte Google choisi : il remplace l'adresse e-mail et le mot de passe.
@@ -123,15 +125,15 @@ export default function EstablishmentSignUp() {
                     website: withScheme(form.website.trim()) || null,
                 },
             })
-            toast.success('Votre compte est créé.')
+            toast.success(t('Votre compte est créé.'))
             // Compte Google : la connexion au back-office se fait aussi avec Google.
             const email = `email=${encodeURIComponent(user.email)}${google ? '&google=1' : ''}`
             if (chosen.code === 'free') {
-                toast('Connectez-vous à votre espace pour compléter la fiche de votre établissement.', { icon: <Icon icon='tabler:arrow-right' className='shrink-0 text-xl text-secondary' /> })
+                toast(t('Connectez-vous à votre espace pour compléter la fiche de votre établissement.'), { icon: <Icon icon='tabler:arrow-right' className='shrink-0 text-xl text-secondary' /> })
                 goTo(backofficeUrl(`/connexion?${email}`), router.push)
             } else {
                 // Formule payante : après connexion, l'établissement arrive sur sa demande d'abonnement.
-                toast(`Connectez-vous pour finaliser la formule ${chosen.name}.`, { icon: <Icon icon='tabler:arrow-right' className='shrink-0 text-xl text-secondary' /> })
+                toast(t('Connectez-vous pour finaliser la formule {plan}.', { plan: t(chosen.name) }), { icon: <Icon icon='tabler:arrow-right' className='shrink-0 text-xl text-secondary' /> })
                 const next = `/formule/?plan=${chosen.code}&cycle=${yearly ? 'yearly' : 'monthly'}`
                 goTo(backofficeUrl(`/connexion?${email}&next=${encodeURIComponent(next)}`), router.push)
             }
@@ -151,9 +153,9 @@ export default function EstablishmentSignUp() {
                     {/* Présentation */}
                     <aside className='order-2 flex flex-col gap-6 rounded-2xl bg-secondary p-6 text-white sm:p-8 lg:sticky lg:top-28 lg:order-1'>
                         <div className='flex flex-col gap-3'>
-                            <p className='font-semibold uppercase tracking-wide text-primary'>Établissements</p>
-                            <h1 className='text-3xl font-bold text-white md:text-4xl'>Référencez votre établissement</h1>
-                            <p className='text-white/80'>Créez votre compte en quelques minutes. Vous compléterez ensuite la fiche publique depuis votre espace.</p>
+                            <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
+                            <h1 className='text-3xl font-bold text-white md:text-4xl'>{t('Référencez votre établissement')}</h1>
+                            <p className='text-white/80'>{t('Créez votre compte en quelques minutes. Vous compléterez ensuite la fiche publique depuis votre espace.')}</p>
                         </div>
                         <ul className='flex flex-col gap-3'>
                             {PERKS.map((perk) => (
@@ -161,54 +163,54 @@ export default function EstablishmentSignUp() {
                                     <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-primary'>
                                         <Icon icon={perk.icon} className='text-xl' />
                                     </span>
-                                    <span className='font-medium'>{perk.text}</span>
+                                    <span className='font-medium'>{t(perk.text)}</span>
                                 </li>
                             ))}
                         </ul>
                         <div className='flex flex-col gap-3 border-t border-white/15 pt-6'>
-                            <p className='text-sm font-semibold uppercase tracking-wide text-white/60'>Et ensuite ?</p>
+                            <p className='text-sm font-semibold uppercase tracking-wide text-white/60'>{t('Et ensuite ?')}</p>
                             <ol className='flex flex-col gap-3'>
                                 {NEXT_STEPS.map((step, index) => (
                                     <li key={step} className='flex items-center gap-3 text-white/90'>
                                         <span className='flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-secondary'>{index + 1}</span>
-                                        {step}
+                                        {t(step)}
                                     </li>
                                 ))}
                             </ol>
                         </div>
                         <Link href='/avantages/' className='inline-flex items-center gap-1 font-semibold text-white underline underline-offset-4 decoration-white/40 hover:text-cream'>
-                            Découvrir les avantages
+                            {t('Découvrir les avantages')}
                             <Icon icon='tabler:arrow-right' />
                         </Link>
                     </aside>
 
                     {/* Formulaire */}
                     <div className='order-1 flex flex-col gap-2 lg:hidden' aria-hidden='true'>
-                        <p className='font-semibold uppercase tracking-wide text-primary'>Établissements</p>
-                        <p className='text-3xl font-bold text-secondary'>Référencez votre établissement</p>
-                        <p className='text-black'>Gratuit, en quelques minutes.</p>
+                        <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
+                        <p className='text-3xl font-bold text-secondary'>{t('Référencez votre établissement')}</p>
+                        <p className='text-black'>{t('Gratuit, en quelques minutes.')}</p>
                     </div>
                     <div className='order-1 rounded-2xl border border-gray-200 bg-white p-6 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)] sm:p-8 lg:order-2'>
                         {/* Formule choisie sur la page Tarifs : rappel discret, modifiable */}
                         <div className='mb-6 flex flex-col gap-2 border-b border-gray-100 pb-5'>
                             <div className='flex flex-wrap items-center justify-between gap-3'>
                                 <div className='inline-flex items-center gap-2 rounded-full border border-gray-200 bg-offwhite py-1 pl-3 pr-1 text-sm'>
-                                    <span className='text-ink/60'>Formule</span>
+                                    <span className='text-ink/60'>{t('Formule')}</span>
                                     <span className='inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-0.5 font-semibold text-secondary shadow-sm'>
                                         <span className={cn('h-2 w-2 rounded-full', chosen.code === 'free' ? 'bg-success' : 'bg-primary')} />
-                                        {chosen.name}
+                                        {t(chosen.name)}
                                         <span className='font-normal text-ink/60'>· {chosenPrice}</span>
                                     </span>
                                 </div>
                                 <Link href={ESTABLISHMENT_START} className='inline-flex items-center gap-1 text-sm font-medium text-ink/60 hover:text-primary duration-300'>
                                     <Icon icon='tabler:pencil' className='text-base' />
-                                    Modifier
+                                    {t('Modifier')}
                                 </Link>
                             </div>
                             {chosen.code !== 'free' && (
                                 <p className='flex items-start gap-1.5 !text-xs text-ink/60'>
                                     <Icon icon='tabler:info-circle' className='mt-px shrink-0 text-sm' />
-                                    Paiement après la création du compte, depuis votre espace. La fiche reste en Gratuit jusqu&apos;à sa confirmation.
+                                    {t('Paiement après la création du compte, depuis votre espace. La fiche reste en Gratuit jusqu’à sa confirmation.')}
                                 </p>
                             )}
                         </div>
@@ -227,7 +229,7 @@ export default function EstablishmentSignUp() {
                                         <GoogleButton text='signup_with' onCredential={chooseGoogle} />
                                         <p className='flex items-center gap-3 text-sm text-ink/60'>
                                             <span className='h-px flex-1 bg-gray-200' />
-                                            ou avec votre adresse e-mail
+                                            {t('ou avec votre adresse e-mail')}
                                             <span className='h-px flex-1 bg-gray-200' />
                                         </p>
                                     </div>
@@ -237,12 +239,12 @@ export default function EstablishmentSignUp() {
                                         <p className='flex min-w-0 items-center gap-2 text-sm text-secondary'>
                                             <Icon icon='tabler:brand-google' className='shrink-0 text-lg' />
                                             <span className='min-w-0'>
-                                                Compte Google : <strong className='break-all'>{google.email}</strong>
-                                                <span className='block text-xs text-ink/60'>Vous vous connecterez avec Google, sans mot de passe.</span>
+                                                {t('Compte Google :')} <strong className='break-all'>{google.email}</strong>
+                                                <span className='block text-xs text-ink/60'>{t('Vous vous connecterez avec Google, sans mot de passe.')}</span>
                                             </span>
                                         </p>
                                         <button type='button' onClick={() => setGoogle(null)} className='text-sm font-semibold text-primary hover:underline hover:cursor-pointer'>
-                                            Utiliser une adresse e-mail
+                                            {t('Utiliser une adresse e-mail')}
                                         </button>
                                     </div>
                                 )}
@@ -296,7 +298,7 @@ export default function EstablishmentSignUp() {
                                 )}
                                 <p className='flex items-start gap-2 rounded-lg bg-cream/60 p-3 text-sm text-black'>
                                     <Icon icon='tabler:info-circle' className='mt-0.5 shrink-0 text-lg text-primary' />
-                                    Le responsable du compte n&apos;est pas forcément le propriétaire ou le directeur de l&apos;établissement.
+                                    {t('Le responsable du compte n’est pas forcément le propriétaire ou le directeur de l’établissement.')}
                                 </p>
                             </FormSection>
 
@@ -360,17 +362,17 @@ export default function EstablishmentSignUp() {
 
                             <div className='flex flex-col gap-4'>
                                 <Button type='submit' loading={loading} disabled={!apiEnabled} className='w-full py-3 text-lg'>
-                                    Créer mon compte établissement
+                                    {t('Créer mon compte établissement')}
                                 </Button>
                                 <p className='text-sm text-black'>
-                                    En créant un compte, vous acceptez nos{' '}
-                                    <Link href='/conditions/' className='text-primary hover:underline'>conditions d&apos;utilisation</Link> et notre{' '}
-                                    <Link href='/confidentialite/' className='text-primary hover:underline'>politique de confidentialité</Link>.
+                                    {t('En créant un compte, vous acceptez nos')}{' '}
+                                    <Link href='/conditions/' className='text-primary hover:underline'>{t('conditions d’utilisation')}</Link> {t('et notre')}{' '}
+                                    <Link href='/confidentialite/' className='text-primary hover:underline'>{t('politique de confidentialité')}</Link>.
                                 </p>
                                 <p className='text-black'>
-                                    Vous avez déjà un compte ?
+                                    {t('Vous avez déjà un compte ?')}
                                     <Link href={backofficeUrl('/connexion')} className='pl-2 font-semibold text-primary hover:underline'>
-                                        Se connecter
+                                        {t('Se connecter')}
                                     </Link>
                                 </p>
                             </div>

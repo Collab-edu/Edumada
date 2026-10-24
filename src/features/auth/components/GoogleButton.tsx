@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
+import { useLocale } from '@/i18n/client'
 
 /** Identifiant client OAuth de Google (vide : bouton masqué). */
 export const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''
@@ -51,6 +52,7 @@ export function readGoogleCredential(credential: string): { email: string; first
 export default function GoogleButton({ onCredential, text = 'continue_with' }: { onCredential: (credential: string) => void; text?: 'signup_with' | 'continue_with' }) {
     const container = useRef<HTMLDivElement>(null)
     const callback = useRef(onCredential)
+    const locale = useLocale()
     callback.current = onCredential
 
     useEffect(() => {
@@ -66,7 +68,7 @@ export default function GoogleButton({ onCredential, text = 'continue_with' }: {
                     size: 'large',
                     shape: 'rectangular',
                     text,
-                    locale: 'fr',
+                    locale,
                     logo_alignment: 'center',
                     width: Math.min(container.current.offsetWidth || 400, 400),
                 })
@@ -75,7 +77,7 @@ export default function GoogleButton({ onCredential, text = 'continue_with' }: {
         return () => {
             active = false
         }
-    }, [text])
+    }, [text, locale])
 
     if (!GOOGLE_CLIENT_ID) return null
     return <div ref={container} className='flex min-h-11 w-full justify-center' />
