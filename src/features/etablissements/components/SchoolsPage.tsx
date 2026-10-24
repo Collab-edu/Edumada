@@ -13,6 +13,7 @@ import { MY_POSITION, filterByPlace, placePosition } from '@/features/recherche/
 import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
 import SchoolCard from './SchoolCard'
 import type { SchoolType } from '../types'
+import { useT } from '@/i18n/client'
 
 const BENEFITS = [
     { icon: 'tabler:id-badge-2', title: 'Des fiches complètes', text: 'Présentation, formations proposées, conditions d’admission et pièces à fournir, au même endroit.' },
@@ -47,6 +48,7 @@ const toSuggestions = (values: string[]) =>
 
 /** Liste de tous les établissements, filtrable par catégorie et par ville. */
 export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeof VARIANTS }) {
+    const t = useT()
     const config = VARIANTS[variant]
     const { data: allSchools, loading } = useSiteData('SchoolData')
     const { data: categories } = useSiteData('CategoryData')
@@ -79,21 +81,21 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='grid gap-8 lg:grid-cols-2 lg:items-center'>
                         <div className='flex max-w-3xl flex-col gap-4'>
-                            <p className='font-semibold uppercase tracking-wide text-primary'>{config.eyebrow}</p>
-                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{config.title}</h1>
-                            <p className='text-black'>{config.intro}</p>
+                            <p className='font-semibold uppercase tracking-wide text-primary'>{t(config.eyebrow)}</p>
+                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t(config.title)}</h1>
+                            <p className='text-black'>{t(config.intro)}</p>
                             <div className='flex flex-wrap gap-3'>
                                 <ButtonLink href='/recherche/'>
                                     <Icon icon='tabler:search' className='text-lg' />
-                                    Rechercher une formation
+                                    {t('Rechercher une formation')}
                                 </ButtonLink>
                                 <ButtonLink href='/tarifs/' variant='secondary'>
-                                    Référencer mon établissement
+                                    {t('Référencer mon établissement')}
                                 </ButtonLink>
                             </div>
                         </div>
                         <div className='relative h-56 overflow-hidden rounded-2xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
-                            <Image src={config.image} alt={config.imageAlt} fill priority sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
+                            <Image src={config.image} alt={t(config.imageAlt)} fill priority sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
                         </div>
                     </div>
                 </div>
@@ -104,12 +106,12 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                 <div className='container mx-auto max-w-7xl px-4'>
                     <SectionHeader
                         title={config.listTitle}
-                        description={`Filtrez par ${config.firstFilter.label.toLowerCase()} et par ville pour trouver l’établissement qui correspond à votre projet.`}
+                        description={t('Filtrez par catégorie et par ville pour trouver l’établissement qui correspond à votre projet.')}
                     />
                     {/* Filtre : catégorie ou filière, et localisation */}
                     <form
                         role='search'
-                        aria-label='Filtrer les établissements'
+                        aria-label={t('Filtrer les établissements')}
                         onSubmit={(e) => e.preventDefault()}
                         className='mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:grid-cols-[1fr_1fr_auto] sm:items-center'>
                         {[
@@ -142,7 +144,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                             onClick={() => setFilters({ kind: '', city: '', pos: '' })}
                             disabled={!filtered}
                             className='h-11 rounded-lg px-4 text-sm font-semibold text-primary hover:underline disabled:hidden sm:disabled:block sm:disabled:invisible hover:cursor-pointer'>
-                            Réinitialiser
+                            {t('Réinitialiser')}
                         </button>
                     </form>
 
@@ -150,7 +152,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                         <CardSkeletonGrid count={8} className='h-[360px]' />
                     ) : shown.length === 0 ? (
                         <p className='rounded-xl bg-white p-8 text-center text-black'>
-                            {filtered ? 'Aucun établissement ne correspond à ces critères.' : 'Aucun établissement publié pour le moment.'}
+                            {filtered ? t('Aucun établissement ne correspond à ces critères.') : t('Aucun établissement publié pour le moment.')}
                         </p>
                     ) : (
                         <>
@@ -158,13 +160,14 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                 <p className='mb-4 flex items-start gap-2 rounded-xl border border-secondary/15 bg-white px-4 py-3 text-sm text-black' role='status'>
                                     <Icon icon='tabler:current-location' className='mt-0.5 shrink-0 text-lg text-primary' />
                                     <span>
-                                        {filters.city === MY_POSITION ? 'Les plus proches de votre position' : `Aucun établissement à ${filters.city} : voici les plus proches`}, du plus
-                                        près au plus loin.
+                                        {filters.city === MY_POSITION
+                                            ? t('Les plus proches de votre position, du plus près au plus loin.')
+                                            : t('Aucun établissement à {city} : voici les plus proches, du plus près au plus loin.', { city: filters.city })}
                                     </span>
                                 </p>
                             )}
                             <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
-                                {shown.length} {config.noun[shown.length > 1 ? 1 : 0]}
+                                {t(`${shown.length} ${config.noun[shown.length > 1 ? 1 : 0]}`)}
                             </p>
                             <div ref={page.listRef} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
                                 {page.visible.map((school) => (
@@ -187,8 +190,8 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                     <Icon icon={b.icon} className='text-2xl' />
                                 </span>
                                 <div>
-                                    <h2 className='text-base font-semibold text-secondary'>{b.title}</h2>
-                                    <p className='text-sm text-black'>{b.text}</p>
+                                    <h2 className='text-base font-semibold text-secondary'>{t(b.title)}</h2>
+                                    <p className='text-sm text-black'>{t(b.text)}</p>
                                 </div>
                             </li>
                         ))}
@@ -201,11 +204,11 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
-                            <h2 className='text-2xl font-bold text-white'>{config.cta.title}</h2>
-                            <p className='text-white/80'>{config.cta.text}</p>
+                            <h2 className='text-2xl font-bold text-white'>{t(config.cta.title)}</h2>
+                            <p className='text-white/80'>{t(config.cta.text)}</p>
                         </div>
                         <ButtonLink href='/tarifs/' className='shrink-0'>
-                            Référencer mon établissement
+                            {t('Référencer mon établissement')}
                         </ButtonLink>
                     </div>
                 </div>

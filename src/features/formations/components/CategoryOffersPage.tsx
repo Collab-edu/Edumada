@@ -15,6 +15,7 @@ import { MY_POSITION, filterByPlace, placePosition } from '@/features/recherche/
 import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
 import { cn } from '@/lib/utils'
 import FormationCard from './FormationCard'
+import { useT } from '@/i18n/client'
 
 /** Textes et périmètre de chaque page (catégorie de CategoryData). */
 const VARIANTS = {
@@ -68,6 +69,7 @@ const plural = (n: number) => `${n} formation${n > 1 ? 's' : ''}`
 
 /** Page d'une catégorie : ses offres (formations), filtrables, et selon la page les établissements. */
 export default function CategoryOffersPage({ variant }: { variant: keyof typeof VARIANTS }) {
+    const t = useT()
     const config = VARIANTS[variant]
     const { data: formations, loading } = useSiteData('FormationData')
     const { data: schools, loading: schoolsLoading } = useSiteData('SchoolData')
@@ -121,21 +123,21 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='grid gap-8 lg:grid-cols-2 lg:items-center'>
                         <div className='flex max-w-3xl flex-col gap-4'>
-                            <p className='font-semibold uppercase tracking-wide text-primary'>{config.eyebrow}</p>
-                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{config.title}</h1>
-                            <p className='text-black'>{config.intro}</p>
+                            <p className='font-semibold uppercase tracking-wide text-primary'>{t(config.eyebrow)}</p>
+                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t(config.title)}</h1>
+                            <p className='text-black'>{t(config.intro)}</p>
                             <div className='flex flex-wrap gap-3'>
                                 <ButtonLink href={searchHref}>
                                     <Icon icon='tabler:search' className='text-lg' />
-                                    {config.searchLabel}
+                                    {t(config.searchLabel)}
                                 </ButtonLink>
                                 <ButtonLink href='/tarifs/' variant='secondary'>
-                                    {config.cta.button}
+                                    {t(config.cta.button)}
                                 </ButtonLink>
                             </div>
                         </div>
                         <div className='relative h-56 overflow-hidden rounded-2xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
-                            <Image src={config.image} alt={config.imageAlt} fill priority sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
+                            <Image src={config.image} alt={t(config.imageAlt)} fill priority sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
                         </div>
                     </div>
                 </div>
@@ -148,7 +150,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
 
                     {/* Sous-catégories : pastilles à choix unique */}
                     {subCategories.length > 1 && (
-                        <div role='group' aria-label="Type d'établissement" className='-mx-4 mb-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0'>
+                        <div role='group' aria-label={t("Type d'établissement")} className='-mx-4 mb-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0'>
                             {[{ value: '', label: 'Toutes', count: offers.length }, ...subCategories.map((s) => ({ ...s, label: s.value }))].map((chip) => {
                                 const active = filters.sub === chip.value
                                 return (
@@ -161,7 +163,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                             'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-semibold whitespace-nowrap transition-colors hover:cursor-pointer',
                                             active ? 'border-secondary bg-secondary text-white' : 'border-secondary/20 bg-white text-secondary hover:border-secondary/50'
                                         )}>
-                                        {chip.label}
+                                        {t(chip.label)}
                                         <span className={cn('rounded-full px-2 py-0.5 text-xs', active ? 'bg-white/20 text-white' : 'bg-offwhite text-ink/70')}>{chip.count}</span>
                                     </button>
                                 )
@@ -172,7 +174,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                     {/* Filtre simple : domaine et localisation */}
                     <form
                         role='search'
-                        aria-label='Filtrer les formations'
+                        aria-label={t('Filtrer les formations')}
                         onSubmit={(e) => e.preventDefault()}
                         className='mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:grid-cols-[1fr_1fr_auto] sm:items-center'>
                         <div className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
@@ -199,14 +201,14 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                             onClick={() => setFilters({ sub: '', domain: '', city: '', pos: '' })}
                             disabled={!filtered}
                             className='h-11 rounded-lg px-4 text-sm font-semibold text-primary hover:underline disabled:hidden sm:disabled:block sm:disabled:invisible hover:cursor-pointer'>
-                            Réinitialiser
+                            {t('Réinitialiser')}
                         </button>
                     </form>
                     {loading ? (
                         <CardSkeletonGrid count={4} className='h-[360px]' />
                     ) : shown.length === 0 ? (
                         <p className='rounded-xl bg-white p-8 text-center text-black'>
-                            {filtered ? 'Aucune formation ne correspond à ces critères.' : 'Aucune formation publiée pour le moment.'}
+                            {filtered ? t('Aucune formation ne correspond à ces critères.') : t('Aucune formation publiée pour le moment.')}
                         </p>
                     ) : (
                         <>
@@ -214,13 +216,14 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                 <p className='mb-4 flex items-start gap-2 rounded-xl border border-secondary/15 bg-white px-4 py-3 text-sm text-black' role='status'>
                                     <Icon icon='tabler:current-location' className='mt-0.5 shrink-0 text-lg text-primary' />
                                     <span>
-                                        {filters.city === MY_POSITION ? 'Les formations les plus proches de votre position' : `Aucune formation à ${filters.city} : voici les plus proches`}, de
-                                        la plus près à la plus loin.
+                                        {filters.city === MY_POSITION
+                                            ? t('Les formations les plus proches de votre position, de la plus près à la plus loin.')
+                                            : t('Aucune formation à {city} : voici les plus proches, de la plus près à la plus loin.', { city: filters.city })}
                                     </span>
                                 </p>
                             )}
                             <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
-                                {plural(shown.length)}
+                                {t(plural(shown.length))}
                             </p>
                             <div ref={page.listRef} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
                                 {page.visible.map((formation) => (
@@ -249,8 +252,8 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                     <Icon icon={b.icon} className='text-2xl' />
                                 </span>
                                 <div>
-                                    <h2 className='text-base font-semibold text-secondary'>{b.title}</h2>
-                                    <p className='text-sm text-black'>{b.text}</p>
+                                    <h2 className='text-base font-semibold text-secondary'>{t(b.title)}</h2>
+                                    <p className='text-sm text-black'>{t(b.text)}</p>
                                 </div>
                             </li>
                         ))}
@@ -281,11 +284,11 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
-                            <h2 className='text-2xl font-bold text-white'>{config.cta.title}</h2>
-                            <p className='text-white/80'>{config.cta.text}</p>
+                            <h2 className='text-2xl font-bold text-white'>{t(config.cta.title)}</h2>
+                            <p className='text-white/80'>{t(config.cta.text)}</p>
                         </div>
                         <ButtonLink href='/tarifs/' className='shrink-0'>
-                            {config.cta.button}
+                            {t(config.cta.button)}
                         </ButtonLink>
                     </div>
                 </div>
