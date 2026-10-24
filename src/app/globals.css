@@ -32,6 +32,27 @@
   }
 
   --animate-float: float 6s ease-in-out infinite;
+  /* Points du hero mobile : glissent d'une case (20 px) en boucle, sans saut. */
+  --animate-dots-drift: dots-drift 4s linear infinite;
+  --animate-halo: halo 9s ease-in-out infinite;
+
+  @keyframes dots-drift {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(20px, 20px);
+    }
+  }
+
+  @keyframes halo {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(18px, 14px) scale(1.12);
+    }
+  }
   --animate-nav-progress: nav-progress 8s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
 
   @keyframes nav-progress {

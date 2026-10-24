@@ -26,17 +26,20 @@ export default function HeroPhoto() {
             <div className='relative flex flex-1 flex-col justify-center overflow-hidden pt-28 pb-10 sm:pt-32 sm:pb-40 lg:pb-44'>
                 {/* Mobile : fond blanc cassé, fins points bleu sarcelle et halos flous (sans image, rien à télécharger). */}
                 <div aria-hidden='true' className='absolute inset-0 overflow-hidden bg-offwhite sm:hidden'>
-                    <div className='absolute -top-24 -left-24 h-72 w-72 rounded-full bg-cream blur-3xl' />
-                    <div className='absolute -right-20 -bottom-24 h-80 w-80 rounded-full bg-success/45 blur-3xl' />
-                    <div className='absolute top-1/3 -right-16 h-48 w-48 rounded-full bg-primary/10 blur-3xl' />
-                    <DotPattern
-                        width={20}
-                        height={20}
-                        cx={1.5}
-                        cy={1.5}
-                        cr={1.2}
-                        className='fill-secondary/25 [mask-image:radial-gradient(ellipse_at_center,white_25%,transparent_80%)]'
-                    />
+                    <div className='absolute -top-24 -left-24 h-72 w-72 animate-halo rounded-full bg-cream blur-3xl motion-reduce:animate-none' />
+                    <div className='absolute -right-20 -bottom-24 h-80 w-80 animate-halo rounded-full bg-success/45 blur-3xl [animation-delay:-4s] motion-reduce:animate-none' />
+                    <div className='absolute top-1/3 -right-16 h-48 w-48 animate-halo rounded-full bg-primary/10 blur-3xl [animation-delay:-2s] motion-reduce:animate-none' />
+                    {/* Masque fixe ; dessous, les points glissent d'une case en boucle (le motif déborde d'une case). */}
+                    <div className='absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white_25%,transparent_80%)]'>
+                        <DotPattern
+                            width={20}
+                            height={20}
+                            cx={1.5}
+                            cy={1.5}
+                            cr={1.2}
+                            className='-top-5 -left-5 h-[calc(100%+20px)] w-[calc(100%+20px)] animate-dots-drift fill-secondary/30 motion-reduce:animate-none'
+                        />
+                    </div>
                 </div>
                 {/* Dès la tablette (640 px) : l'image ; le mobile ne reçoit qu'un pixel vide, rien n'est téléchargé. */}
                 <picture className='absolute inset-0 hidden sm:block'>
