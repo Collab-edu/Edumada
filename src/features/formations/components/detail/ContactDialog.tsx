@@ -8,6 +8,7 @@ import { track } from '@/lib/track'
 import { useAuth } from '@/features/auth/AuthProvider'
 import type { SchoolType } from '@/features/etablissements/types'
 import type { FormationType } from '../../types'
+import { useT } from '@/i18n/client'
 
 interface ContactDialogProps {
     open: boolean
@@ -21,6 +22,7 @@ interface ContactDialogProps {
  * (compte étudiant), qui arrive dans la boîte de réception de l'établissement ou par e-mail.
  */
 export function ContactDialog({ open, onClose, formation, school }: ContactDialogProps) {
+    const t = useT()
     const { user } = useAuth()
     const [message, setMessage] = useState('')
     const [phone, setPhone] = useState('')
@@ -49,7 +51,7 @@ export function ContactDialog({ open, onClose, formation, school }: ContactDialo
     ].filter(Boolean) as { icon: string; label: string; href: string }[]
 
     return (
-        <Dialog open={open} onClose={onClose} title={`Contacter ${school.name}`} description={formation.title}>
+        <Dialog open={open} onClose={onClose} title={t('Contacter {school}', { school: school.name })} description={formation.title}>
             {directLinks.length > 0 && (
                 <div className='mb-6 flex flex-col gap-2'>
                     <p className='text-sm font-semibold text-secondary'>Directement</p>
@@ -68,17 +70,17 @@ export function ContactDialog({ open, onClose, formation, school }: ContactDialo
             <p className='mb-3 text-sm font-semibold text-secondary'>Par Edumada</p>
             {sent ? (
                 <div className='flex flex-col gap-4'>
-                    <FormAlert tone='success'>Votre demande a été envoyée. Vous serez prévenu par e-mail de la réponse.</FormAlert>
+                    <FormAlert tone='success'>{t('Votre demande a été envoyée. Vous serez prévenu par e-mail de la réponse.')}</FormAlert>
                     <ButtonLink href='/espace/etudiant/' variant='secondary'>Suivre mes demandes</ButtonLink>
                 </div>
             ) : !apiEnabled ? (
                 <FormAlert tone='info'>L&apos;envoi de demandes en ligne sera bientôt disponible. Utilisez les coordonnées ci-dessus.</FormAlert>
             ) : !user ? (
                 <div className='flex flex-col gap-3'>
-                    <p className='text-black'>Créez un compte gratuit pour envoyer votre question et suivre la réponse depuis votre espace.</p>
+                    <p className='text-black'>{t('Créez un compte gratuit pour envoyer votre question et suivre la réponse depuis votre espace.')}</p>
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                         <ButtonLink href={`/signin/?next=${encodeURIComponent(here)}`} variant='secondary'>Se connecter</ButtonLink>
-                        <ButtonLink href={`/inscription/?next=${encodeURIComponent(here)}`}>Créer un compte</ButtonLink>
+                        <ButtonLink href={`/inscription/?next=${encodeURIComponent(here)}`}>{t('Créer un compte')}</ButtonLink>
                     </div>
                 </div>
             ) : user.role !== 'student' ? (
@@ -106,10 +108,10 @@ export function ContactDialog({ open, onClose, formation, school }: ContactDialo
                         error={error?.field('phone')}
                     />
                     <p className='text-sm text-ink/60'>
-                        L&apos;établissement recevra votre nom, votre e-mail ({user.email}), votre téléphone s&apos;il est indiqué, et ce message.
+                        {t('L’établissement recevra votre nom, votre e-mail ({email}), votre téléphone s’il est indiqué, et ce message.', { email: user.email })}
                     </p>
                     <Button type='submit' loading={loading}>
-                        <Icon icon='tabler:send' /> Envoyer ma demande
+                        <Icon icon='tabler:send' /> {t('Envoyer ma demande')}
                     </Button>
                 </form>
             )}

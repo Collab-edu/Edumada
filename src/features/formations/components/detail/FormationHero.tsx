@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { imageOr } from '@/lib/media'
 import { track } from '@/lib/track'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import type { SchoolType } from '@/features/etablissements/types'
@@ -29,6 +29,7 @@ interface FormationHeroProps {
 
 /** Haut de page : informations principales et actions. */
 export function FormationHero({ formation, detail, school, isFavorite, onToggleFavorite, onContact, onApply }: FormationHeroProps) {
+    const t = useT()
     const [copied, setCopied] = useState(false)
     const badge = REGISTRATION_BADGE[formation.registration]
     const tuition = formatTuition(formation)
@@ -51,9 +52,9 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
     const facts = [
         { icon: 'tabler:map-pin', label: formation.city },
         // Public / privé : affiché seulement quand l'établissement l'a précisé.
-        ...(formation.schoolType ? [{ icon: 'tabler:building-community', label: `Établissement ${formation.schoolType.toLowerCase()}` }] : []),
+        ...(formation.schoolType ? [{ icon: 'tabler:building-community', label: t(`Établissement ${formation.schoolType.toLowerCase()}`) }] : []),
         ...offerFacts(formation),
-        { icon: 'tabler:coin', label: tuition ?? 'Frais non communiqués' },
+        { icon: 'tabler:coin', label: tuition ? t(tuition) : t('Frais non communiqués') },
     ]
 
     return (
@@ -67,9 +68,9 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                                 {school.name}
                             </Link>
                             <span className={cn('mt-1 w-fit rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>
-                                {badge.label}
+                                {t(badge.label)}
                                 {formation.registrationPeriod && formation.registration !== 'Fermées' && (
-                                    <> · jusqu&apos;au {formatDate(formation.registrationPeriod.end)}</>
+                                    <> · {t('jusqu’au {date}', { date: t(formatDate(formation.registrationPeriod.end)) })}</>
                                 )}
                             </span>
                         </div>
@@ -81,7 +82,7 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                         {facts.map((fact) => (
                             <li key={fact.label} className='inline-flex items-center gap-1.5 rounded-full bg-offwhite px-3 py-1.5 text-sm text-ink/80'>
                                 <Icon icon={fact.icon} className='text-secondary' />
-                                {fact.label}
+                                {t(fact.label)}
                             </li>
                         ))}
                     </ul>
@@ -93,7 +94,7 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                                 href={`/candidature/?offre=${formation.id}`}
                                 onClick={onApply}
                                 className='inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-white shadow-lg shadow-primary/30 transition-all duration-300 hover:bg-primary/90 hover:-translate-y-0.5'>
-                                <Icon icon='tabler:send' className='text-lg' /> Postuler maintenant
+                                <Icon icon='tabler:send' className='text-lg' /> {t('Postuler maintenant')}
                             </Link>
                         ) : null}
                         <button
@@ -105,7 +106,7 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                                     ? 'border border-secondary/20 text-secondary hover:border-primary hover:text-primary'
                                     : 'bg-primary text-white shadow-lg shadow-primary/30 hover:bg-primary/90'
                             )}>
-                            <Icon icon='tabler:message-circle' className='text-lg' /> Contacter l&apos;établissement
+                            <Icon icon='tabler:message-circle' className='text-lg' /> {t('Contacter l’établissement')}
                         </button>
                         <button
                             type='button'
@@ -122,7 +123,7 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                                 rel='noopener noreferrer'
                                 onClick={() => track({ type: 'website_click', establishment: school.id, offer: formation.id })}
                                 className='inline-flex items-center gap-2 px-2 py-3 font-semibold text-secondary hover:text-primary'>
-                                <Icon icon='tabler:world' className='text-lg' /> Site de l&apos;établissement
+                                <Icon icon='tabler:world' className='text-lg' /> {t('Site de l’établissement')}
                             </a>
                         )}
                         <button
@@ -130,13 +131,13 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                             onClick={share}
                             className='inline-flex items-center gap-2 px-2 py-3 font-semibold text-secondary hover:text-primary hover:cursor-pointer'>
                             <Icon icon={copied ? 'tabler:check' : 'tabler:share'} className='text-lg' />
-                            {copied ? 'Lien copié' : 'Partager'}
+                            {copied ? t('Lien copié') : t('Partager')}
                         </button>
                     </div>
 
                     <p className='flex items-center gap-1.5 text-sm text-ink/60'>
                         <Icon icon='tabler:shield-check' className='text-success' />
-                        Informations vérifiées par Edumada le {formatDate(detail.lastVerified)}
+                        {t('Informations vérifiées par Edumada le {date}', { date: t(formatDate(detail.lastVerified)) })}
                     </p>
                 </div>
 

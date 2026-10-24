@@ -2,16 +2,18 @@
 import type { ReactNode } from 'react'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
+import { useT } from '@/i18n/client'
 
 /** Section de la page formation, avec ancre pour la navigation interne. */
 export function DetailSection({ id, title, icon, children }: { id: string; title: string; icon: string; children: ReactNode }) {
+    const t = useT()
     return (
         <section id={id} className='scroll-mt-40 py-0'>
             <h2 className='mb-5 flex items-center gap-3 font-bold'>
                 <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary'>
                     <Icon icon={icon} className='text-xl' />
                 </span>
-                {title}
+                {t(title)}
             </h2>
             <div className='flex flex-col gap-6'>{children}</div>
         </section>
@@ -20,19 +22,21 @@ export function DetailSection({ id, title, icon, children }: { id: string; title
 
 /** Sous-titre à l'intérieur d'une section. */
 export function SubTitle({ children }: { children: ReactNode }) {
-    return <h3 className='mb-3 text-lg font-semibold text-secondary'>{children}</h3>
+    const t = useT()
+    return <h3 className='mb-3 text-lg font-semibold text-secondary'>{typeof children === 'string' ? t(children) : children}</h3>
 }
 
 /** Une information clé : icône, libellé, valeur. */
 export function Fact({ icon, label, children }: { icon: string; label: string; children: ReactNode }) {
+    const t = useT()
     return (
         <div className='flex gap-3 rounded-xl border border-gray-100 bg-white p-4'>
             <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary/10 text-secondary'>
                 <Icon icon={icon} className='text-lg' />
             </span>
             <div className='flex min-w-0 flex-col'>
-                <span className='text-sm text-ink/60'>{label}</span>
-                <span className='font-medium text-ink'>{children}</span>
+                <span className='text-sm text-ink/60'>{t(label)}</span>
+                <span className='font-medium text-ink'>{typeof children === 'string' ? t(children) : children}</span>
             </div>
         </div>
     )

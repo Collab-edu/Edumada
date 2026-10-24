@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { track } from '@/lib/track'
 import type { SchoolType } from '@/features/etablissements/types'
@@ -19,6 +19,8 @@ interface FormationSchoolProps {
 /* 8. Présentation de l'établissement */
 export function FormationSchool({ school, otherFormations }: FormationSchoolProps) {
 
+    const t = useT()
+
     return (
         <DetailSection id='etablissement' title="L'établissement" icon='tabler:building-community'>
             <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
@@ -27,13 +29,13 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                     <div className='flex flex-1 flex-col gap-1'>
                         <p className='text-xl font-bold text-secondary'>{school.name}</p>
                         <span className='text-ink/70'>
-                            {school.type ? `Établissement ${school.type.toLowerCase()} · ` : ''}{school.city}
+                            {school.type ? `${t(`Établissement ${school.type.toLowerCase()}`)} · ` : ''}{school.city}
                         </span>
                     </div>
                     <Link
                         href={`/etablissements/${school.id}`}
                         className='inline-flex items-center gap-2 rounded-xl bg-secondary px-5 py-3 font-semibold text-white transition-colors duration-300 hover:bg-primary'>
-                        Découvrir l&apos;établissement <Icon icon='tabler:arrow-right' />
+                        {t('Découvrir l’établissement')} <Icon icon='tabler:arrow-right' />
                     </Link>
                 </div>
 
@@ -53,8 +55,8 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                     <p className='flex items-start gap-2 rounded-xl bg-offwhite p-4 text-sm text-black'>
                         <Icon icon={school.accreditationVerified ? 'tabler:rosette-discount-check' : 'tabler:info-circle'} className='mt-0.5 shrink-0 text-lg text-secondary' />
                         {school.accreditationVerified && school.accreditation
-                            ? `Reconnaissance officielle vérifiée : ${school.accreditation}.`
-                            : 'Reconnaissance officielle et accréditations en cours de vérification par Edumada.'}
+                            ? t('Reconnaissance officielle vérifiée : {accreditation}.', { accreditation: school.accreditation })
+                            : t('Reconnaissance officielle et accréditations en cours de vérification par Edumada.')}
                     </p>
 
                     <div id='contact' className='scroll-mt-40 grid grid-cols-1 md:grid-cols-5 gap-5'>
@@ -96,7 +98,7 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                                         <Link href={`/formations/${f.id}`} className='group flex items-center justify-between gap-3 px-4 py-3 hover:bg-offwhite'>
                                             <span className='flex flex-col'>
                                                 <span className='font-medium text-secondary group-hover:text-primary'>{f.title}</span>
-                                                <span className='text-sm text-ink/60'>{[...offerFacts(f).map((fact) => fact.label), f.modality].join(' · ')}</span>
+                                                <span className='text-sm text-ink/60'>{[...offerFacts(f).map((fact) => t(fact.label)), t(f.modality)].join(' · ')}</span>
                                             </span>
                                             <Icon icon='tabler:chevron-right' className='shrink-0 text-ink/40 group-hover:text-primary' />
                                         </Link>

@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import { track } from '@/lib/track'
@@ -41,6 +41,7 @@ interface FormationDetailPageProps {
 
 /** Page complète d'une formation, dans l'ordre recommandé : infos clés, contenu, admission, frais, organisation, débouchés, établissement, candidature. */
 export function FormationDetailPage({ formation, detail, school, category, otherFormations, similar, faq }: FormationDetailPageProps) {
+    const t = useT()
     const { fields } = category
     // Sections affichées selon la catégorie : pas de programme ni de débouchés pour une crèche, par exemple.
     const showProgramme = fields.programme && (detail.program.length > 0 || detail.subjects.length > 0)
@@ -91,10 +92,10 @@ export function FormationDetailPage({ formation, detail, school, category, other
     return (
         <div className='pt-24 pb-32 sm:pt-28 lg:pb-20'>
             <div className='container mx-auto max-w-7xl px-4'>
-                <nav aria-label="Fil d'Ariane" className='mb-4 text-sm text-ink/60'>
-                    <Link href='/' className='inline-block py-2 hover:text-primary'>Accueil</Link>
+                <nav aria-label={t("Fil d'Ariane")} className='mb-4 text-sm text-ink/60'>
+                    <Link href='/' className='inline-block py-2 hover:text-primary'>{t('Accueil')}</Link>
                     <span className='mx-2'>/</span>
-                    <Link href='/recherche' className='inline-block py-2 hover:text-primary'>Recherche</Link>
+                    <Link href='/recherche' className='inline-block py-2 hover:text-primary'>{t('Recherche')}</Link>
                     <span className='mx-2'>/</span>
                     <span className='text-secondary'>{formation.title}</span>
                 </nav>
@@ -115,7 +116,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
                                         'block rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200',
                                         active === item.id ? 'bg-secondary text-white' : 'bg-white text-secondary hover:bg-secondary/10'
                                     )}>
-                                    {item.label}
+                                    {t(item.label)}
                                 </a>
                             </li>
                         ))}
@@ -138,8 +139,8 @@ export function FormationDetailPage({ formation, detail, school, category, other
                     {/* Résumé latéral */}
                     <aside className='hidden lg:block'>
                         <div className='sticky top-40 flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm'>
-                            <p className='text-lg font-bold text-secondary'>En bref</p>
-                            <span className={cn('w-fit rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>{badge.label}</span>
+                            <p className='text-lg font-bold text-secondary'>{t('En bref')}</p>
+                            <span className={cn('w-fit rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>{t(badge.label)}</span>
                             <dl className='flex flex-col gap-3 text-sm'>
                                 {[
                                     ['Frais de scolarité', tuition ?? 'Non communiqués'],
@@ -148,8 +149,8 @@ export function FormationDetailPage({ formation, detail, school, category, other
                                     ['Date limite', formation.registrationPeriod ? formatDate(formation.registrationPeriod.end) : 'Non communiquée'],
                                 ].map(([label, value]) => (
                                     <div key={label} className='flex justify-between gap-3 border-b border-gray-100 pb-2 last:border-0'>
-                                        <dt className='text-ink/60'>{label}</dt>
-                                        <dd className='text-right font-semibold text-secondary'>{value}</dd>
+                                        <dt className='text-ink/60'>{t(label)}</dt>
+                                        <dd className='text-right font-semibold text-secondary'>{t(value)}</dd>
                                     </div>
                                 ))}
                             </dl>
@@ -158,7 +159,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
                                     href={`/candidature/?offre=${formation.id}`}
                                     onClick={applyClick}
                                     className='flex items-center justify-center gap-2 rounded-xl bg-primary py-3 font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90'>
-                                    <Icon icon='tabler:send' /> Postuler maintenant
+                                    <Icon icon='tabler:send' /> {t('Postuler maintenant')}
                                 </Link>
                             ) : null}
                             <button
@@ -170,7 +171,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
                                         ? 'border border-secondary/20 text-secondary hover:border-primary hover:text-primary'
                                         : 'bg-primary text-white shadow-lg shadow-primary/30 hover:bg-primary/90'
                                 )}>
-                                <Icon icon='tabler:message-circle' /> Contacter l&apos;établissement
+                                <Icon icon='tabler:message-circle' /> {t('Contacter l’établissement')}
                             </button>
                             <button
                                 type='button'
@@ -200,7 +201,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
                     type='button'
                     onClick={toggleFavorite}
                     aria-pressed={isFavorite}
-                    aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+                    aria-label={isFavorite ? t('Retirer des favoris') : t('Ajouter aux favoris')}
                     className='flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-secondary/20 text-secondary'>
                     <Icon icon={isFavorite ? 'tabler:heart-filled' : 'tabler:heart'} className={cn('text-xl', isFavorite && 'text-primary')} />
                 </button>
@@ -211,14 +212,14 @@ export function FormationDetailPage({ formation, detail, school, category, other
                         'flex h-12 flex-1 items-center justify-center gap-2 rounded-xl font-bold hover:cursor-pointer',
                         detail.onlineApplication ? 'border border-secondary/20 text-secondary' : 'bg-primary text-white'
                     )}>
-                    <Icon icon='tabler:message-circle' /> Contacter
+                    <Icon icon='tabler:message-circle' /> {t('Contacter')}
                 </button>
                 {detail.onlineApplication && (
                     <Link
                         href={`/candidature/?offre=${formation.id}`}
                         onClick={applyClick}
                         className='flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-primary font-bold text-white'>
-                        <Icon icon='tabler:send' /> Postuler
+                        <Icon icon='tabler:send' /> {t('Postuler')}
                     </Link>
                 )}
             </div>

@@ -1,5 +1,5 @@
 'use client'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import type { FaqItem } from '@/features/etablissements/faq'
@@ -12,6 +12,7 @@ type Props = { formation: FormationType; detail: FormationDetailType; school: Sc
 
 /* 9. Comment postuler ? */
 export function ApplySection({ formation, detail, school, onContact, onApply }: Props) {
+    const t = useT()
     const steps = [
         { title: "Vérifiez les conditions d'admission", href: '#admission' },
         { title: 'Préparez les documents demandés', href: '#admission' },
@@ -27,9 +28,9 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
                     <li key={step.title} className='flex flex-col gap-2 rounded-xl border border-gray-100 bg-white p-4'>
                         <span className='flex h-8 w-8 items-center justify-center rounded-full bg-primary font-bold text-white'>{i + 1}</span>
                         {step.href ? (
-                            <a href={step.href} className='font-medium text-secondary hover:text-primary hover:underline'>{step.title}</a>
+                            <a href={step.href} className='font-medium text-secondary hover:text-primary hover:underline'>{t(step.title)}</a>
                         ) : (
-                            <span className='font-medium text-secondary'>{step.title}</span>
+                            <span className='font-medium text-secondary'>{t(step.title)}</span>
                         )}
                     </li>
                 ))}
@@ -38,14 +39,14 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
             <div className='flex flex-col md:flex-row md:items-center justify-between gap-5 rounded-2xl bg-secondary p-6 text-white'>
                 <div className='flex flex-col gap-1'>
                     <p className='text-lg font-bold'>
-                        {detail.onlineApplication ? 'Candidature en ligne disponible' : 'Candidature auprès de l’établissement'}
+                        {detail.onlineApplication ? t('Candidature en ligne disponible') : t('Candidature auprès de l’établissement')}
                     </p>
                     <span className='text-white/80'>
                         {detail.onlineApplication
-                            ? 'Créez votre compte, remplissez le formulaire et suivez le statut de votre dossier depuis votre espace.'
-                            : `Contactez ${school.name} pour recevoir le dossier de candidature.`}
+                            ? t('Créez votre compte, remplissez le formulaire et suivez le statut de votre dossier depuis votre espace.')
+                            : t('Contactez {school} pour recevoir le dossier de candidature.', { school: school.name })}
                         {formation.registrationPeriod && formation.registration !== 'Fermées' && (
-                            <> Date limite : {formatDate(formation.registrationPeriod.end)}.</>
+                            <> {t('Date limite :')} {t(formatDate(formation.registrationPeriod.end))}.</>
                         )}
                     </span>
                 </div>
@@ -54,14 +55,14 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
                         href={`/candidature/?offre=${formation.id}`}
                         onClick={onApply}
                         className='inline-flex shrink-0 items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-white transition-colors duration-300 hover:bg-white hover:text-primary'>
-                        <Icon icon='tabler:send' /> Postuler maintenant
+                        <Icon icon='tabler:send' /> {t('Postuler maintenant')}
                     </Link>
                 ) : (
                     <button
                         type='button'
                         onClick={onContact}
                         className='inline-flex shrink-0 items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-white transition-colors duration-300 hover:bg-white hover:text-primary hover:cursor-pointer'>
-                        <Icon icon='tabler:message-circle' /> Contacter l&apos;établissement
+                        <Icon icon='tabler:message-circle' /> {t('Contacter l’établissement')}
                     </button>
                 )}
             </div>
@@ -71,6 +72,7 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
 
 /* 10. Informations complémentaires */
 export function ExtraInfoSection({ detail, faq, onReport }: { detail: FormationDetailType; faq: FaqItem[]; onReport: () => void }) {
+    const t = useT()
     return (
         <DetailSection id='infos' title='Informations complémentaires' icon='tabler:file-description'>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
@@ -84,19 +86,19 @@ export function ExtraInfoSection({ detail, faq, onReport }: { detail: FormationD
                     </div>
                     {detail.brochureUrl ? (
                         <a href={detail.brochureUrl} download target='_blank' rel='noopener noreferrer' className='rounded-lg border border-primary px-4 py-2 font-semibold text-primary hover:bg-primary hover:text-white'>
-                            Télécharger
+                            {t('Télécharger')}
                         </a>
                     ) : null}
                 </Panel>
                 <Panel className='flex items-center gap-3'>
                     <Icon icon='tabler:shield-check' className='text-3xl text-success' />
                     <div className='flex flex-col'>
-                        <span className='font-semibold text-secondary'>Dernière vérification</span>
+                        <span className='font-semibold text-secondary'>{t('Dernière vérification')}</span>
                         <span className='text-sm text-ink/60'>
-                            Informations vérifiées par Edumada le {formatDate(detail.lastVerified)}
+                            {t('Informations vérifiées par Edumada le {date}', { date: t(formatDate(detail.lastVerified)) })}
                         </span>
                         <button type='button' onClick={onReport} className='mt-1 w-fit text-sm font-semibold text-primary hover:underline hover:cursor-pointer'>
-                            Signaler une information erronée
+                            {t('Signaler une information erronée')}
                         </button>
                     </div>
                 </Panel>

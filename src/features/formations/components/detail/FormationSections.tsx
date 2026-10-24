@@ -7,6 +7,7 @@ import { ADMISSION_LEVEL_LABEL, formatAgeRange, formatDate, formatDuration, form
 import type { FormationDetailType, FormationType } from '../../types'
 import { CheckList, ChipList, DetailSection, Fact, NOT_PROVIDED, Panel, SubTitle } from './parts'
 import { Eyebrow } from '@/components/ui/eyebrow'
+import { useT } from '@/i18n/client'
 
 type Props = { formation: FormationType; detail: FormationDetailType; school: SchoolType; fields: CategoryType['fields'] }
 
@@ -85,6 +86,7 @@ export function ProgramSection({ detail }: Props) {
 
 /* 4. Conditions d'admission */
 export function AdmissionSection({ formation, detail, school, fields }: Props) {
+    const t = useT()
     const { level, bacSeries, selection } = formation.admission
     return (
         <DetailSection id='admission' title="Conditions d'admission" icon='tabler:clipboard-check'>
@@ -106,8 +108,8 @@ export function AdmissionSection({ formation, detail, school, fields }: Props) {
                     <SubTitle>Diplômes et prérequis</SubTitle>
                     <CheckList items={detail.admission.prerequisites} />
                     <p className='mt-4 text-sm text-black'>
-                        <span className='font-semibold text-secondary'>Conditions particulières : </span>
-                        {detail.admission.specialConditions ?? 'Aucune condition particulière communiquée.'}
+                        <span className='font-semibold text-secondary'>{t('Conditions particulières :')} </span>
+                        {detail.admission.specialConditions ?? t('Aucune condition particulière communiquée.')}
                     </p>
                 </Panel>
                 <Panel>
@@ -127,6 +129,7 @@ const STATUS_BANNER = {
 } as const
 
 export function CostsSection({ formation, detail }: Props) {
+    const t = useT()
     const { costs } = detail
     const banner = STATUS_BANNER[costs.status]
     const rows = [
@@ -138,23 +141,23 @@ export function CostsSection({ formation, detail }: Props) {
     return (
         <DetailSection id='frais' title='Frais et financement' icon='tabler:coin'>
             <p className={cn('flex items-center gap-2 rounded-xl px-4 py-3 font-medium', banner.className)}>
-                <Icon icon={banner.icon} className='shrink-0 text-lg' /> {banner.text}
+                <Icon icon={banner.icon} className='shrink-0 text-lg' /> {t(banner.text)}
             </p>
             <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
                 <table className='w-full text-left'>
-                    <caption className='sr-only'>Détail des frais</caption>
+                    <caption className='sr-only'>{t('Détail des frais')}</caption>
                     <tbody className='divide-y divide-gray-100'>
                         {rows.map((row) => (
                             <tr key={row.label}>
-                                <th scope='row' className='px-5 py-3.5 font-medium text-ink/80'>{row.label}</th>
+                                <th scope='row' className='px-5 py-3.5 font-medium text-ink/80'>{t(row.label)}</th>
                                 <td className='px-5 py-3.5 text-right'>
                                     {row.amount === null ? (
-                                        <span className='text-ink/50'>{NOT_PROVIDED}</span>
+                                        <span className='text-ink/50'>{t(NOT_PROVIDED)}</span>
                                     ) : (
                                         <span className='inline-flex items-center gap-2 font-semibold text-secondary'>
                                             {formatFees(row.amount)}
                                             {costs.status === 'Estimés' && (
-                                                <Eyebrow bar={false} className='text-[11px] tracking-wider'>Estimé</Eyebrow>
+                                                <Eyebrow bar={false} className='text-[11px] tracking-wider'>{t('Estimé')}</Eyebrow>
                                             )}
                                         </span>
                                     )}
@@ -215,6 +218,7 @@ export function OrganisationSection({ formation, detail }: Props) {
 
 /* 7. Débouchés */
 export function CareersSection({ detail }: Props) {
+    const t = useT()
     const { careers } = detail
     return (
         <DetailSection id='debouches' title='Débouchés professionnels' icon='tabler:briefcase'>
@@ -227,9 +231,9 @@ export function CareersSection({ detail }: Props) {
                     <SubTitle>Secteurs d&apos;activité</SubTitle>
                     <ChipList items={careers.sectors} />
                     <SubTitle>
-                        <span className='mt-5 block'>Poursuite d&apos;études</span>
+                        <span className='mt-5 block'>{t('Poursuite d’études')}</span>
                     </SubTitle>
-                    {careers.furtherStudies.length > 0 ? <CheckList items={careers.furtherStudies} /> : <p className='text-ink/60'>{NOT_PROVIDED}</p>}
+                    {careers.furtherStudies.length > 0 ? <CheckList items={careers.furtherStudies} /> : <p className='text-ink/60'>{t(NOT_PROVIDED)}</p>}
                 </Panel>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>

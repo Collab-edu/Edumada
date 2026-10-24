@@ -20,12 +20,24 @@ const COUNTED: { fr: RegExp; en: [string, string]; mg: string }[] = [
     { fr: /^(\d+) avis$/, en: ['review', 'reviews'], mg: 'hevitra' },
 ]
 
-/** Durées et âges (« 3 ans », « 6 mois », « 3 à 6 ans », « 3 mois à 3 ans ») ; « ans » vaut aussi pour l'âge. */
+const MONTHS = {
+    fr: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+    en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    mg: ['Janoary', 'Febroary', 'Martsa', 'Aprily', 'Mey', 'Jona', 'Jolay', 'Aogositra', 'Septambra', 'Oktobra', 'Novambra', 'Desambra'],
+}
+const DATE = new RegExp(`^(1er|\\d{1,2}) (${MONTHS.fr.join('|')}) (\\d{4})$`)
+
+/** Durées, âges, frais et dates (« 3 ans », « 6 mois », « 3 à 6 ans », « 1 800 000 Ar / an », « 15 janvier 2027 »). */
 const SHAPES: { fr: RegExp; en: (m: RegExpMatchArray) => string; mg: (m: RegExpMatchArray) => string }[] = [
     { fr: /^([\d,.]+) ans?$/, en: (m) => `${m[1]} year${m[1] === '1' ? '' : 's'}`, mg: (m) => `${m[1]} taona` },
     { fr: /^([\d,.]+) mois$/, en: (m) => `${m[1]} month${m[1] === '1' ? '' : 's'}`, mg: (m) => `${m[1]} volana` },
     { fr: /^([\d,.]+) à ([\d,.]+) ans$/, en: (m) => `${m[1]} to ${m[2]} years`, mg: (m) => `${m[1]} ka hatramin’ny ${m[2]} taona` },
     { fr: /^([\d,.]+) mois à ([\d,.]+) ans?$/, en: (m) => `${m[1]} months to ${m[2]} years`, mg: (m) => `${m[1]} volana ka hatramin’ny ${m[2]} taona` },
+    // Frais : « 1 800 000 Ar / an », « 180 000 Ar / mois ».
+    { fr: /^(.+ Ar) \/ an$/, en: (m) => `${m[1]} / year`, mg: (m) => `${m[1]} / taona` },
+    { fr: /^(.+ Ar) \/ mois$/, en: (m) => `${m[1]} / month`, mg: (m) => `${m[1]} / volana` },
+    // Dates : « 1er septembre 2026 », « 15 janvier 2027 ».
+    { fr: DATE, en: (m) => `${MONTHS.en[MONTHS.fr.indexOf(m[2])]} ${m[1].replace('er', '')}, ${m[3]}`, mg: (m) => `${m[1].replace('er', '')} ${MONTHS.mg[MONTHS.fr.indexOf(m[2])]} ${m[3]}` },
 ]
 
 function counted(locale: Exclude<Locale, 'fr'>, text: string): string | undefined {
