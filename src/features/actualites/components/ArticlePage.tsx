@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { PageSkeleton, PageUnavailable } from '@/components/ui/page-state'
 import { formatArticleDate, useArticle } from '../articles'
@@ -31,6 +31,7 @@ function ArticleBody({ content }: { content: string }) {
 
 /** Page d'un article : /actualites/voir/?id=… */
 export default function ArticlePage({ id }: { id: string }) {
+    const t = useT()
     const { article, loading, error } = useArticle(id)
 
     if (loading) return <PageSkeleton />
@@ -47,10 +48,10 @@ export default function ArticlePage({ id }: { id: string }) {
             <div className='container mx-auto max-w-3xl px-4'>
                 <Link href='/actualites/' className='mb-6 inline-flex items-center gap-1 text-sm font-semibold text-secondary hover:text-primary'>
                     <Icon icon='tabler:arrow-left' className='text-base' />
-                    Toutes les actualités
+                    {t('Toutes les actualités')}
                 </Link>
                 <div className='flex flex-wrap items-center gap-3 text-sm'>
-                    <span className='rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white'>{article.categoryLabel}</span>
+                    <span className='rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white'>{t(article.categoryLabel)}</span>
                     <span className='flex items-center gap-1.5 text-ink/60'>
                         <Icon icon='tabler:calendar' className='text-base text-secondary' />
                         {formatArticleDate(article.publishedAt)}

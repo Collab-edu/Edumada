@@ -1,9 +1,11 @@
+'use client'
 import React from "react";
 import Image from "next/image";
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import withBasePath from '@/lib/base-path'
 
 const NotFound = () => {
+    const t = useT()
     return (
         <section className="bg-white pt-36 pb-20">
             <div className="container mx-auto">
@@ -57,16 +59,16 @@ const NotFound = () => {
                                 </svg>
                             </div>
                             <h3 className="mb-5 text-2xl font-semibold text-secondary">
-                                Nous ne trouvons pas la page que vous cherchez.
+                                {t('Nous ne trouvons pas la page que vous cherchez.')}
                             </h3>
                             <p className="mb-8 text-black">
-                                Oups ! Cette page n&apos;existe pas ou a été déplacée.
+                                {t('Oups ! Cette page n’existe pas ou a été déplacée.')}
                             </p>
                             <Link
                                 href="/"
                                 className="rounded-md px-7 py-3 text-base font-medium text-white transition hover:bg-primary/90 bg-primary"
                             >
-                                Retour à l&apos;accueil
+                                {t('Retour à l’accueil')}
                             </Link>
                         </div>
                     </div>
