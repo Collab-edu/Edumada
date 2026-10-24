@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState, type FormEvent } from 'react'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { useSearchParams } from 'next/navigation'
 import { Icon } from '@/components/ui/icon'
 import { Button, ButtonLink, FormAlert, TextArea, TextField } from '@/components/ui/form'
@@ -18,6 +18,7 @@ const MAX_SIZE = 5 * 1024 * 1024
  * On ne demande que le nécessaire ; les documents restent privés (étudiant et établissement destinataire).
  */
 export default function ApplicationPage() {
+    const t = useT()
     const id = useSearchParams().get('offre') ?? ''
     const { user, loading: authLoading } = useAuth()
     const [offer, setOffer] = useState<OfferPage | null>(null)
@@ -48,7 +49,7 @@ export default function ApplicationPage() {
         const next = [...files, ...Array.from(list)]
         if (next.length > MAX_FILES) return setFileError(`${MAX_FILES} documents au maximum.`)
         const tooBig = next.find((f) => f.size > MAX_SIZE)
-        if (tooBig) return setFileError(`« ${tooBig.name} » dépasse 5 Mo.`)
+        if (tooBig) return setFileError(t('« {name} » dépasse 5 Mo.', { name: tooBig.name }))
         setFileError('')
         setFiles(next)
     }
@@ -83,9 +84,9 @@ export default function ApplicationPage() {
     return (
         <section className='pt-28 pb-20'>
             <div className='container mx-auto max-w-2xl px-4 flex flex-col gap-6'>
-                <nav aria-label="Fil d'Ariane" className='text-sm text-ink/60'>
+                <nav aria-label={t("Fil d'Ariane")} className='text-sm text-ink/60'>
                     <Link href={offerUrl} className='inline-flex items-center gap-1 py-2 hover:text-primary'>
-                        <Icon icon='tabler:arrow-left' /> Retour à l&apos;offre
+                        <Icon icon='tabler:arrow-left' /> {t('Retour à l’offre')}
                     </Link>
                 </nav>
 
@@ -95,7 +96,7 @@ export default function ApplicationPage() {
                     <p className='mt-1 text-black'>{offer.school} · {offer.city}</p>
                     {offer.registrationPeriod && offer.registration !== 'Fermées' && (
                         <p className='mt-3 inline-flex items-center gap-2 rounded-full bg-success/30 px-3 py-1 text-sm font-semibold text-secondary'>
-                            <Icon icon='tabler:calendar' /> Date limite : {formatDate(offer.registrationPeriod.end)}
+                            <Icon icon='tabler:calendar' /> {t('Date limite :')} {t(formatDate(offer.registrationPeriod.end))}
                         </p>
                     )}
 
@@ -103,20 +104,20 @@ export default function ApplicationPage() {
                         {sent ? (
                             <div className='flex flex-col gap-4'>
                                 <FormAlert tone='success'>
-                                    Votre candidature est envoyée à {offer.school}. Vous serez prévenu par e-mail à chaque étape.
+                                    {t('Votre candidature est envoyée à {school}. Vous serez prévenu par e-mail à chaque étape.', { school: offer.school })}
                                 </FormAlert>
                                 <ButtonLink href='/espace/etudiant/'>Suivre ma candidature</ButtonLink>
                             </div>
                         ) : !offer.details.onlineApplication ? (
                             <FormAlert tone='info'>
-                                Cet établissement ne reçoit pas encore de candidatures en ligne. <Link href={offerUrl} className='underline'>Contactez-le depuis la fiche de l&apos;offre</Link>.
+                                {t('Cet établissement ne reçoit pas encore de candidatures en ligne.')} <Link href={offerUrl} className='underline'>{t('Contactez-le depuis la fiche de l’offre')}</Link>.
                             </FormAlert>
                         ) : !user ? (
                             <div className='flex flex-col gap-3'>
-                                <p className='text-black'>Pour postuler et suivre votre dossier, connectez-vous ou créez un compte gratuit.</p>
+                                <p className='text-black'>{t('Pour postuler et suivre votre dossier, connectez-vous ou créez un compte gratuit.')}</p>
                                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                                     <ButtonLink href={`/signin/?next=${encodeURIComponent(here)}`} variant='secondary'>Se connecter</ButtonLink>
-                                    <ButtonLink href={`/inscription/?next=${encodeURIComponent(here)}`}>Créer un compte</ButtonLink>
+                                    <ButtonLink href={`/inscription/?next=${encodeURIComponent(here)}`}>{t('Créer un compte')}</ButtonLink>
                                 </div>
                             </div>
                         ) : user.role !== 'student' ? (
@@ -126,7 +127,7 @@ export default function ApplicationPage() {
                                 {error && <FormAlert>{error.field('type') ?? error.field('attachments') ?? error.message}</FormAlert>}
 
                                 <div className='rounded-xl bg-offwhite p-4 text-sm text-ink/80'>
-                                    <p className='font-semibold text-secondary'>Envoyé avec votre candidature</p>
+                                    <p className='font-semibold text-secondary'>{t('Envoyé avec votre candidature')}</p>
                                     <p>{user.name} · {user.email}</p>
                                 </div>
 
@@ -143,7 +144,7 @@ export default function ApplicationPage() {
 
                                 {offer.establishment.admissionDocuments.length > 0 && (
                                     <div>
-                                        <p className='text-sm font-semibold text-secondary'>Pièces demandées par l&apos;établissement</p>
+                                        <p className='text-sm font-semibold text-secondary'>{t('Pièces demandées par l’établissement')}</p>
                                         <ul className='mt-2 flex flex-col gap-1 text-sm text-ink/80'>
                                             {offer.establishment.admissionDocuments.map((doc) => (
                                                 <li key={doc} className='flex items-start gap-2'>
@@ -157,8 +158,8 @@ export default function ApplicationPage() {
                                 <div className='flex flex-col gap-2'>
                                     <label className='flex min-h-24 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-secondary/20 bg-white p-4 text-center hover:border-primary hover:cursor-pointer'>
                                         <Icon icon='tabler:upload' className='text-2xl text-primary' />
-                                        <span className='font-semibold text-secondary'>Ajouter des documents</span>
-                                        <span className='text-sm text-ink/60'>PDF, JPG ou PNG · 5 Mo maximum · {MAX_FILES} fichiers</span>
+                                        <span className='font-semibold text-secondary'>{t('Ajouter des documents')}</span>
+                                        <span className='text-sm text-ink/60'>{t('PDF, JPG ou PNG · 5 Mo maximum · {n} fichiers', { n: MAX_FILES })}</span>
                                         <input type='file' multiple accept='.pdf,.jpg,.jpeg,.png' className='sr-only' onChange={(e) => addFiles(e.target.files)} />
                                     </label>
                                     {fileError && <p className='text-sm text-primary'>{fileError}</p>}
@@ -170,7 +171,7 @@ export default function ApplicationPage() {
                                                     <span className='flex-1 truncate'>{file.name}</span>
                                                     <button
                                                         type='button'
-                                                        aria-label={`Retirer ${file.name}`}
+                                                        aria-label={t('Retirer « {item} »', { item: file.name })}
                                                         onClick={() => setFiles(files.filter((_, j) => j !== i))}
                                                         className='flex h-9 w-9 items-center justify-center rounded-full hover:bg-cream hover:text-primary hover:cursor-pointer'>
                                                         <Icon icon='tabler:x' />
@@ -182,10 +183,10 @@ export default function ApplicationPage() {
                                 </div>
 
                                 <p className='text-sm text-ink/60'>
-                                    Vos documents ne sont visibles que par vous et par {offer.school}. Vous pouvez supprimer votre compte et vos données à tout moment.
+                                    {t('Vos documents ne sont visibles que par vous et par {school}. Vous pouvez supprimer votre compte et vos données à tout moment.', { school: offer.school })}
                                 </p>
                                 <Button type='submit' loading={sending} className='py-3 text-lg'>
-                                    <Icon icon='tabler:send' /> Envoyer ma candidature
+                                    <Icon icon='tabler:send' /> {t('Envoyer ma candidature')}
                                 </Button>
                             </form>
                         )}

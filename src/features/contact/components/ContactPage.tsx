@@ -5,6 +5,7 @@ import { FormAlert, SelectField, TextArea, TextField } from '@/components/ui/for
 import { api, ApiError, apiEnabled } from '@/lib/api'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { CONTACT } from '@/components/layout/social-links'
+import { useT } from '@/i18n/client'
 
 /** Mêmes valeurs que ContactController::SUBJECTS côté API. */
 const SUBJECTS = [
@@ -26,6 +27,7 @@ const CHANNELS = [
 
 /** Page Contact : titre centré, coordonnées et formulaire. */
 export default function ContactPage() {
+    const t = useT()
     const { user } = useAuth()
     const [form, setForm] = useState({ ...EMPTY, name: user?.name ?? '', email: user?.email ?? '' })
     const [loading, setLoading] = useState(false)
@@ -54,11 +56,10 @@ export default function ContactPage() {
             <div className='container mx-auto max-w-7xl px-4'>
                 <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
                     <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
-                        Contactez-nous <span className='text-primary'>dès aujourd&apos;hui</span>
+                        {t('Contactez-nous')} <span className='text-primary'>{t('dès aujourd’hui')}</span>
                     </h1>
                     <p className='max-w-2xl text-black'>
-                        Une question sur une formation, un établissement à référencer ou un souci avec votre compte ? Écrivez-nous, l&apos;équipe Edumada vous
-                        répond rapidement.
+                        {t('Une question sur une formation, un établissement à référencer ou un souci avec votre compte ? Écrivez-nous, l’équipe Edumada vous répond rapidement.')}
                     </p>
                     <ul className='mt-2 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-medium text-secondary'>
                         {CHANNELS.map((channel) => {
@@ -67,7 +68,7 @@ export default function ContactPage() {
                                     <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary'>
                                         <Icon icon={channel.icon} className='text-lg' />
                                     </span>
-                                    {channel.label}
+                                    {t(channel.label)}
                                 </>
                             )
                             return (
@@ -89,14 +90,14 @@ export default function ContactPage() {
                 <div className='mx-auto mt-12 max-w-2xl rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:p-8'>
                     {sent ? (
                         <div className='flex flex-col items-start gap-4'>
-                            <FormAlert tone='success'>Merci ! Votre message a bien été envoyé, nous vous répondrons rapidement.</FormAlert>
+                            <FormAlert tone='success'>{t('Merci ! Votre message a bien été envoyé, nous vous répondrons rapidement.')}</FormAlert>
                             <button type='button' onClick={() => setSent(false)} className='font-semibold text-secondary underline hover:text-primary hover:cursor-pointer'>
-                                Envoyer un autre message
+                                {t('Envoyer un autre message')}
                             </button>
                         </div>
                     ) : !apiEnabled ? (
                         <FormAlert tone='info'>
-                            Le formulaire en ligne sera bientôt disponible. En attendant, écrivez-nous à{' '}
+                            {t('Le formulaire en ligne sera bientôt disponible. En attendant, écrivez-nous à')}{' '}
                             <a href={`mailto:${CONTACT.email}`} className='underline'>
                                 {CONTACT.email}
                             </a>
@@ -155,7 +156,7 @@ export default function ContactPage() {
                                             <Icon icon='tabler:send' className='text-lg' />
                                         )}
                                     </span>
-                                    Envoyer
+                                    {t('Envoyer')}
                                 </button>
                             </div>
                         </form>
