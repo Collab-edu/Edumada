@@ -1,5 +1,5 @@
 'use client'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import type { FaqItem } from '@/features/etablissements/faq'

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import HeroVideo from '@/components/ui/hero-video'
 import { Icon } from '@/components/ui/icon'

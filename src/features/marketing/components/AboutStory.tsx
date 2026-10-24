@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import { Icon } from '@/components/ui/icon'
 import withBasePath from '@/lib/base-path'

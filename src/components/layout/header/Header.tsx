@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'rea
 import { Icon } from '@/components/ui/icon'
 import Signin from '@/features/auth/components/SignIn'
 import { useSiteData } from '@/data/site-data'
-import Link from 'next/link'
+import Link, { useT } from '@/i18n/client'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { SPACE_HOME } from '@/features/auth/types'
@@ -13,6 +13,7 @@ import Logo from './Logo'
 import HeaderLink from './HeaderLink'
 import MobileHeaderLink from './MobileHeaderLink'
 import { CONTACT, SOCIAL_LINKS } from '../social-links'
+import LanguageSwitcher from '@/i18n/LanguageSwitcher'
 
 /** Bouton carré à icône de la barre principale (compte). */
 const iconButtonClassName =
@@ -69,6 +70,7 @@ function Modal({ panelRef, label, onClose, children }: { panelRef: RefObject<HTM
 }
 
 const Header: React.FC = () => {
+    const t = useT()
     const { data: headerData } = useSiteData('HeaderData')
     const { user, logout } = useAuth()
 
@@ -133,10 +135,11 @@ const Header: React.FC = () => {
                         </a>
                         <span className='flex items-center gap-2'>
                             <Icon icon='tabler:map-pin' className='text-lg text-primary' />
-                            Partout à Madagascar
+                            {t('Partout à Madagascar')}
                         </span>
                     </div>
                     <div className='flex h-full items-center gap-5'>
+                        <LanguageSwitcher tone='light' />
                         <div className='flex items-center gap-4'>
                             {SOCIAL_LINKS.map((social) => (
                                 <Link key={social.label} href={social.href} scroll={false} aria-label={social.label} className='text-white/90 hover:text-primary duration-300'>
@@ -145,7 +148,7 @@ const Header: React.FC = () => {
                             ))}
                         </div>
                         <Link href='/tarifs/' className='flex h-full items-center bg-primary px-5 font-semibold hover:bg-primary/90 duration-300'>
-                            Référencer mon établissement
+                            {t('Référencer mon établissement')}
                         </Link>
                     </div>
                 </div>
@@ -161,28 +164,28 @@ const Header: React.FC = () => {
                         ))}
                     </nav>
                     <div className='flex items-center gap-3'>
-                        {user && <IconButton label='Mon espace' icon='tabler:user' href={SPACE_HOME[user.role]} />}
+                        {user && <IconButton label={t('Mon espace')} icon='tabler:user' href={SPACE_HOME[user.role]} />}
                         {user ? (
                             <button onClick={logout} className='hidden lg:block px-2 py-2 text-sm font-medium text-secondary hover:text-primary hover:cursor-pointer'>
-                                Déconnexion
+                                {t('Déconnexion')}
                             </button>
                         ) : (
                             <>
                                 <button
                                     onClick={openSignIn}
                                     className='hidden lg:block bg-transparent text-primary border border-primary hover:bg-primary hover:text-white duration-300 px-6 py-2 rounded-lg hover:cursor-pointer'>
-                                    Connexion
+                                    {t('Connexion')}
                                 </button>
                                 <Link
                                     href='/inscription/'
                                     className='hidden lg:block bg-primary text-white border border-primary hover:bg-transparent hover:text-primary duration-300 px-6 py-2 rounded-lg font-medium'>
-                                    Inscription
+                                    {t('Inscription')}
                                 </Link>
                                 {/* Petit écran : accès au compte par l'icône (Connexion et Inscription sont aussi dans le menu). */}
-                                <IconButton label='Connexion' icon='tabler:user' onClick={openSignIn} className='lg:hidden' />
+                                <IconButton label={t('Connexion')} icon='tabler:user' onClick={openSignIn} className='lg:hidden' />
                             </>
                         )}
-                        <button onClick={() => setNavbarOpen(!navbarOpen)} className='block xl:hidden p-2 rounded-lg' aria-label='Ouvrir le menu'>
+                        <button onClick={() => setNavbarOpen(!navbarOpen)} className='block xl:hidden p-2 rounded-lg' aria-label={t('Ouvrir le menu')}>
                             <span className='block w-6 h-0.5 bg-black'></span>
                             <span className='block w-6 h-0.5 bg-black mt-1.5'></span>
                             <span className='block w-6 h-0.5 bg-black mt-1.5'></span>
@@ -192,7 +195,7 @@ const Header: React.FC = () => {
             </div>
 
             {isSignInOpen && (
-                <Modal panelRef={signInRef} label='Fermer la fenêtre de connexion' onClose={() => setIsSignInOpen(false)}>
+                <Modal panelRef={signInRef} label={t('Fermer la fenêtre de connexion')} onClose={() => setIsSignInOpen(false)}>
                     <Signin onSuccess={() => setIsSignInOpen(false)} />
                 </Modal>
             )}
@@ -203,7 +206,7 @@ const Header: React.FC = () => {
                 className={`xl:hidden fixed top-0 right-0 h-full w-full bg-white shadow-lg transform transition-transform duration-300 max-w-xs ${navbarOpen ? 'translate-x-0' : 'translate-x-full'} z-50`}>
                 <div className='flex items-center justify-between p-4'>
                     <Logo />
-                    <button onClick={() => setNavbarOpen(false)} className='bg-black/30 rounded-full p-1 text-white' aria-label='Fermer le menu'>
+                    <button onClick={() => setNavbarOpen(false)} className='bg-black/30 rounded-full p-1 text-white' aria-label={t('Fermer le menu')}>
                         <Icon icon={'material-symbols:close-rounded'} width={24} height={24} />
                     </button>
                 </div>
@@ -218,7 +221,7 @@ const Header: React.FC = () => {
                                     href={SPACE_HOME[user.role]}
                                     onClick={() => setNavbarOpen(false)}
                                     className='inline-flex items-center justify-center gap-2 bg-primary text-white px-4 py-3 rounded-lg border border-primary font-medium'>
-                                    <Icon icon='tabler:user-circle' className='text-xl' /> Mon espace
+                                    <Icon icon='tabler:user-circle' className='text-xl' /> {t('Mon espace')}
                                 </Link>
                                 <button
                                     onClick={() => {
@@ -226,7 +229,7 @@ const Header: React.FC = () => {
                                         logout()
                                     }}
                                     className='px-4 py-3 rounded-lg border border-secondary/20 font-medium text-secondary hover:cursor-pointer'>
-                                    Déconnexion
+                                    {t('Déconnexion')}
                                 </button>
                             </>
                         ) : (
@@ -237,13 +240,13 @@ const Header: React.FC = () => {
                                         setIsSignInOpen(true)
                                         setNavbarOpen(false)
                                     }}>
-                                    Connexion
+                                    {t('Connexion')}
                                 </button>
                                 <Link
                                     href='/inscription/'
                                     onClick={() => setNavbarOpen(false)}
                                     className='bg-primary text-white px-4 py-2 text-center rounded-lg border border-primary hover:text-primary hover:bg-transparent transition duration-300 ease-in-out'>
-                                    Inscription
+                                    {t('Inscription')}
                                 </Link>
                             </>
                         )}
@@ -251,8 +254,12 @@ const Header: React.FC = () => {
                             href='/tarifs/'
                             onClick={() => setNavbarOpen(false)}
                             className='px-4 py-2 text-center rounded-lg border border-secondary/30 font-medium text-secondary'>
-                            Référencer mon établissement
+                            {t('Référencer mon établissement')}
                         </Link>
+                        <div className='mt-2 flex items-center justify-between border-t border-gray-100 pt-4'>
+                            <span className='text-sm font-medium text-ink/60'>{t('Langue')}</span>
+                            <LanguageSwitcher />
+                        </div>
                     </div>
                 </nav>
             </div>

@@ -1,6 +1,6 @@
 'use client'
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/client'
 import { apiEnabled } from '@/lib/api'
 import { getBasePath } from '@/lib/base-path'
 

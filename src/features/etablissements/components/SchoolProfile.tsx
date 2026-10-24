@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { imageOr, mapUrls } from '@/lib/media'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import type { CategoryType } from '@/features/categories/types'
 import { formatDate } from '@/features/formations/format'

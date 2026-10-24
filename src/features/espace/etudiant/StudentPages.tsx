@@ -1,6 +1,6 @@
 'use client'
 import { useState, type FormEvent } from 'react'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import toast from 'react-hot-toast'
 import Dialog from '@/components/ui/dialog'

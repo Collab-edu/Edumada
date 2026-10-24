@@ -1,5 +1,5 @@
 'use client'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { useEffect, useState, type FormEvent } from 'react'
 import { Icon } from '@/components/ui/icon'
 import { Button, FormAlert, TextField } from '@/components/ui/form'

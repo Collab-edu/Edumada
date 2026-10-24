@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState, type FormEvent } from 'react'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { useSearchParams } from 'next/navigation'
 import { Icon } from '@/components/ui/icon'
 import { Button, ButtonLink, FormAlert, TextArea, TextField } from '@/components/ui/form'

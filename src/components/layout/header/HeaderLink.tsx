@@ -1,12 +1,14 @@
 'use client'
 import { useState } from 'react'
-import Link from 'next/link'
+import Link, { useT } from '@/i18n/client'
 import { HeaderItem } from '@/types/navigation'
 import { usePathname } from 'next/navigation'
+import { stripLocale } from '@/i18n/config'
 
 const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
+  const t = useT()
   const [submenuOpen, setSubmenuOpen] = useState(false)
-  const path = usePathname()
+  const path = stripLocale(usePathname())
   const handleMouseEnter = () => {
     if (item.submenu) {
       setSubmenuOpen(true)
@@ -26,7 +28,7 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
         className={`text-base flex whitespace-nowrap font-medium hover:text-primary capitalized  ${
           path.replace(/\/+$/, '') === item.href.replace(/\/+$/, '') ? 'text-primary ' : 'text-black'
         }`}>
-        {item.label}
+        {t(item.label)}
         {item.submenu && (
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -58,7 +60,7 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
                   ? 'bg-primary text-white'
                   : 'text-black dark:text-white hover:bg-primary'
               }`}>
-              {subItem.label}
+              {t(subItem.label)}
             </Link>
           ))}
         </div>

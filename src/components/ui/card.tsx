@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { cn } from '@/lib/utils'
 
 /** Style commun des cartes du site : fond blanc, coins arrondis, effet de survol. */

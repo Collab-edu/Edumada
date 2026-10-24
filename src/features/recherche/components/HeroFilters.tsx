@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import HeroSearchFields, { EMPTY_HERO_SEARCH, heroSearchHref } from './HeroSearchFields'
 import { useFilterSuggestions } from '../useFilterSuggestions'

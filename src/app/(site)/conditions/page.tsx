@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { LegalPage } from '@/components/ui/legal-page'
 
 export const metadata: Metadata = { title: "Conditions d'utilisation" }

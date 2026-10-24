@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { PageSkeleton, PageUnavailable } from '@/components/ui/page-state'
 import { formatArticleDate, useArticle } from '../articles'

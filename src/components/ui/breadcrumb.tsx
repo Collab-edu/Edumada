@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from '@/i18n/client'
 
 interface BreadcrumbProps {
   pageName: string;

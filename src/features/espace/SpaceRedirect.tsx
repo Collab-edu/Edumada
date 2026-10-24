@@ -1,6 +1,6 @@
 'use client'
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/client'
 import { PageSkeleton } from '@/components/ui/page-state'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { SPACE_HOME, goTo } from '@/features/auth/types'

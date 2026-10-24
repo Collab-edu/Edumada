@@ -1,11 +1,12 @@
 'use client'
 import Image from 'next/image'
-import Link from 'next/link'
+import Link, { useT } from '@/i18n/client'
 import { usePathname } from 'next/navigation'
 import { Icon } from '@/components/ui/icon'
 import { useSiteData } from '@/data/site-data'
 import { imageOr } from '@/lib/media'
 import { Eyebrow } from '@/components/ui/eyebrow'
+import { stripLocale } from '@/i18n/config'
 
 /** Emplacement des photos rondes autour du texte (en % de la carte), taille en px et décalage d'animation. */
 const SPOTS = [
@@ -22,9 +23,10 @@ const SPOTS = [
 ]
 
 /** Pages où le bandeau ferait doublon : il y mène déjà. Le pied de page reprend alors sa marge normale. */
-export const hidesSchoolCta = (pathname: string | null) => !!pathname && ['/inscription-etablissement', '/tarifs'].some((page) => pathname.startsWith(page))
+export const hidesSchoolCta = (pathname: string | null) => !!pathname && ['/inscription-etablissement', '/tarifs'].some((page) => stripLocale(pathname).startsWith(page))
 
 const SchoolCta = () => {
+    const t = useT()
     const pathname = usePathname()
     const { data: schools } = useSiteData('SchoolData')
     const photos = [...new Set(schools.map((school) => imageOr(school.imageSrc)))].slice(0, SPOTS.length)
@@ -51,23 +53,22 @@ const SchoolCta = () => {
                     </div>
 
                     <div className='relative mx-auto flex max-w-xl flex-col items-center gap-5 text-center'>
-                        <Eyebrow>{schools.length > 0 ? `Déjà ${schools.length} établissements sur Edumada` : 'Espace établissements'}</Eyebrow>
-                        <h2 className='font-bold text-secondary'>Vous êtes un établissement de formation ?</h2>
+                        <Eyebrow>{schools.length > 0 ? t('Déjà {n} établissements sur Edumada', { n: schools.length }) : t('Espace établissements')}</Eyebrow>
+                        <h2 className='font-bold text-secondary'>{t('Vous êtes un établissement de formation ?')}</h2>
                         <p className='text-black leading-relaxed'>
-                            Présentez vos formations, améliorez votre visibilité et permettez aux futurs étudiants de découvrir votre
-                            établissement. La fiche est gratuite.
+                            {t('Présentez vos formations, améliorez votre visibilité et permettez aux futurs étudiants de découvrir votre établissement. La fiche est gratuite.')}
                         </p>
                         <div className='flex flex-col items-center gap-5 sm:flex-row'>
                             <Link
                                 href='/tarifs/'
                                 className='inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-4 font-bold text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:bg-primary/90 hover:-translate-y-0.5'>
-                                Référencer mon établissement
+                                {t('Référencer mon établissement')}
                                 <Icon icon='tabler:arrow-right' className='text-lg' />
                             </Link>
                             <Link
                                 href='/avantages/'
                                 className='font-semibold text-secondary underline underline-offset-4 decoration-secondary/40 transition-colors duration-300 hover:text-primary hover:decoration-primary'>
-                                Découvrir les avantages
+                                {t('Découvrir les avantages')}
                             </Link>
                         </div>
                     </div>

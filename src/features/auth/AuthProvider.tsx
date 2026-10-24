@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/client'
 import toast from 'react-hot-toast'
 import { api, apiEnabled, getToken, setToken } from '@/lib/api'
 import type { User } from './types'

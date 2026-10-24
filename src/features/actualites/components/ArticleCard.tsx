@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { imageOr } from '@/lib/media'
 import { Icon } from '@/components/ui/icon'
 import { Card } from '@/components/ui/card'

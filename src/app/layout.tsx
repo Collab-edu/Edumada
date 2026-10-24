@@ -9,6 +9,7 @@ import NavigationProgress from "@/components/layout/NavigationProgress";
 import { Suspense } from "react";
 import Aoscompo from "@/lib/aos";
 import Providers from "@/components/Providers";
+import { HtmlLang } from "@/i18n/LanguageSwitcher";
 /**
  * Polices d'Edumada : Plus Jakarta Sans pour les titres et accroches, Inter pour les textes,
  * formulaires et filtres. Alternatives retenues (non chargées) : DM Sans, Nunito Sans.
@@ -36,6 +37,7 @@ export default function RootLayout({
                 <Suspense fallback={null}>
                     <NavigationProgress />
                 </Suspense>
+                <HtmlLang />
                 <Providers>
                     <Aoscompo>
                         <Header />

@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import { track } from '@/lib/track'
