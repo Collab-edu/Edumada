@@ -4,6 +4,7 @@ import Dialog from '@/components/ui/dialog'
 import { Button, FormAlert, SelectField, TextArea, TextField } from '@/components/ui/form'
 import { api, ApiError, apiEnabled } from '@/lib/api'
 import { useAuth } from '@/features/auth/AuthProvider'
+import { useT } from '@/i18n/client'
 
 const REASONS = [
     { value: 'wrong_information', label: 'Information erronée' },
@@ -22,6 +23,7 @@ interface ReportDialogProps {
 
 /** Signaler une information erronée : Edumada vérifie et corrige avec l'établissement. */
 export function ReportDialog({ open, onClose, establishmentId, offerId }: ReportDialogProps) {
+    const t = useT()
     const { user } = useAuth()
     const [form, setForm] = useState({ reason: 'wrong_information', message: '', email: '' })
     const [loading, setLoading] = useState(false)
@@ -48,7 +50,7 @@ export function ReportDialog({ open, onClose, establishmentId, offerId }: Report
     return (
         <Dialog open={open} onClose={onClose} title='Signaler une information erronée' description='Merci : vos signalements aident à garder les fiches exactes.'>
             {sent ? (
-                <FormAlert tone='success'>Merci ! Edumada va vérifier cette information avec l&apos;établissement.</FormAlert>
+                <FormAlert tone='success'>{t('Merci ! Edumada va vérifier cette information avec l’établissement.')}</FormAlert>
             ) : !apiEnabled ? (
                 <FormAlert tone='info'>Le signalement en ligne sera bientôt disponible.</FormAlert>
             ) : (

@@ -7,6 +7,7 @@ import { api, ApiError } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/features/auth/AuthProvider'
 import type { FormationType } from '@/features/formations/types'
+import { useT } from '@/i18n/client'
 
 interface ReviewDialogProps {
     open: boolean
@@ -17,6 +18,7 @@ interface ReviewDialogProps {
 
 /** Avis d'un étudiant ou d'un parent ; publié seulement après vérification par Edumada. */
 export function ReviewDialog({ open, onClose, establishmentId, formations }: ReviewDialogProps) {
+    const t = useT()
     const { user } = useAuth()
     const [form, setForm] = useState({ rating: 0, quote: '', status: '', formationId: '' })
     const [loading, setLoading] = useState(false)
@@ -44,13 +46,13 @@ export function ReviewDialog({ open, onClose, establishmentId, formations }: Rev
     return (
         <Dialog open={open} onClose={onClose} title='Donner mon avis' description='Votre prénom et l’initiale de votre nom seront affichés.'>
             {sent ? (
-                <FormAlert tone='success'>Merci ! Votre avis sera publié après vérification par Edumada.</FormAlert>
+                <FormAlert tone='success'>{t('Merci ! Votre avis sera publié après vérification par Edumada.')}</FormAlert>
             ) : !user ? (
                 <div className='flex flex-col gap-3'>
-                    <p className='text-black'>Connectez-vous avec un compte étudiant pour partager votre expérience.</p>
+                    <p className='text-black'>{t('Connectez-vous avec un compte étudiant pour partager votre expérience.')}</p>
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                         <ButtonLink href={`/signin/?next=${encodeURIComponent(here)}`} variant='secondary'>Se connecter</ButtonLink>
-                        <ButtonLink href={`/inscription/?next=${encodeURIComponent(here)}`}>Créer un compte</ButtonLink>
+                        <ButtonLink href={`/inscription/?next=${encodeURIComponent(here)}`}>{t('Créer un compte')}</ButtonLink>
                     </div>
                 </div>
             ) : user.role !== 'student' ? (
@@ -69,7 +71,7 @@ export function ReviewDialog({ open, onClose, establishmentId, formations }: Rev
                                 </label>
                             ))}
                         </div>
-                        {error?.field('rating') && <p className='text-sm text-primary'>Choisissez une note de 1 à 5.</p>}
+                        {error?.field('rating') && <p className='text-sm text-primary'>{t('Choisissez une note de 1 à 5.')}</p>}
                     </fieldset>
                     {formations.length > 0 && (
                         <SelectField

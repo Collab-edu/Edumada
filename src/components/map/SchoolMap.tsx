@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Icon } from '@/components/ui/icon'
 import type { LayerGroup, Map as LeafletMap } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import { useT } from '@/i18n/client'
 
 type Mode = 'car' | 'foot'
 
@@ -77,6 +78,7 @@ export default function SchoolMap({
     /** Classes de la carte elle-même (hauteur, arrondis). */
     mapClassName?: string
 }) {
+    const t = useT()
     const container = useRef<HTMLDivElement>(null)
     const map = useRef<LeafletMap | null>(null)
     const leaflet = useRef<typeof import('leaflet') | null>(null)
@@ -170,10 +172,10 @@ export default function SchoolMap({
             const denied = (err as GeolocationPositionError)?.code === 1
             setError(
                 denied
-                    ? 'Autorisez l’accès à votre position pour calculer le trajet, ou ouvrez l’itinéraire dans Google Maps.'
+                    ? t('Autorisez l’accès à votre position pour calculer le trajet, ou ouvrez l’itinéraire dans Google Maps.')
                     : (err as Error)?.message === 'no-route'
-                      ? 'Aucun trajet trouvé depuis votre position.'
-                      : 'Impossible de calculer le trajet pour le moment. Réessayez ou ouvrez Google Maps.'
+                      ? t('Aucun trajet trouvé depuis votre position.')
+                      : t('Impossible de calculer le trajet pour le moment. Réessayez ou ouvrez Google Maps.')
             )
             setState('error')
         }
@@ -193,14 +195,14 @@ export default function SchoolMap({
     return (
         <div className={className}>
             <div className={`edu-map relative isolate overflow-hidden ${mapClassName}`}>
-                <div ref={container} className='absolute inset-0' role='region' aria-label={`Carte : ${name}`} />
+                <div ref={container} className='absolute inset-0' role='region' aria-label={t('Carte : {name}', { name })} />
 
                 <div className='absolute top-3 right-3 z-[500] flex flex-col overflow-hidden rounded-xl bg-white shadow-md'>
-                    <button type='button' onClick={() => zoom(1)} aria-label='Zoomer' className='flex h-10 w-10 items-center justify-center text-secondary hover:bg-offwhite hover:cursor-pointer'>
+                    <button type='button' onClick={() => zoom(1)} aria-label={t('Zoomer')} className='flex h-10 w-10 items-center justify-center text-secondary hover:bg-offwhite hover:cursor-pointer'>
                         <Icon icon='tabler:plus' className='text-lg' />
                     </button>
                     <span className='h-px bg-gray-100' />
-                    <button type='button' onClick={() => zoom(-1)} aria-label='Dézoomer' className='flex h-10 w-10 items-center justify-center text-secondary hover:bg-offwhite hover:cursor-pointer'>
+                    <button type='button' onClick={() => zoom(-1)} aria-label={t('Dézoomer')} className='flex h-10 w-10 items-center justify-center text-secondary hover:bg-offwhite hover:cursor-pointer'>
                         <Icon icon='tabler:minus' className='text-lg' />
                     </button>
                 </div>
@@ -226,7 +228,7 @@ export default function SchoolMap({
                             disabled={busy}
                             className='pointer-events-auto ml-auto inline-flex min-h-10 items-center gap-2 rounded-xl bg-secondary px-4 py-2 text-sm font-semibold text-white shadow-md hover:bg-secondary/90 hover:cursor-pointer disabled:opacity-80'>
                             <Icon icon={busy ? 'tabler:loader-2' : 'tabler:route'} className={busy ? 'animate-spin' : ''} />
-                            {state === 'locating' ? 'Localisation…' : state === 'loading' ? 'Calcul du trajet…' : 'Itinéraire'}
+                            {state === 'locating' ? t('Localisation…') : state === 'loading' ? t('Calcul du trajet…') : t('Itinéraire')}
                         </button>
                     )}
                 </div>
@@ -235,7 +237,7 @@ export default function SchoolMap({
             {(state === 'done' || state === 'error' || busy) && (
                 <div className='mt-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm'>
                     <div className='flex flex-wrap items-center gap-2'>
-                        <div className='inline-flex rounded-xl bg-offwhite p-1' role='group' aria-label='Mode de déplacement'>
+                        <div className='inline-flex rounded-xl bg-offwhite p-1' role='group' aria-label={t('Mode de déplacement')}>
                             {(
                                 [
                                     ['car', 'tabler:car', 'Voiture'],
@@ -249,32 +251,32 @@ export default function SchoolMap({
                                     disabled={busy}
                                     onClick={() => showRoute(value)}
                                     className={`inline-flex min-h-9 items-center gap-1.5 rounded-lg px-3 text-sm font-medium hover:cursor-pointer ${mode === value ? 'bg-white text-secondary shadow-sm' : 'text-ink/70 hover:text-secondary'}`}>
-                                    <Icon icon={icon} /> {label}
+                                    <Icon icon={icon} /> {t(label)}
                                 </button>
                             ))}
                         </div>
                         <button type='button' onClick={clearRoute} className='ml-auto inline-flex min-h-9 items-center gap-1 rounded-lg px-2 text-sm text-ink/70 hover:text-primary hover:cursor-pointer'>
-                            <Icon icon='tabler:x' /> Effacer
+                            <Icon icon='tabler:x' /> {t('Effacer')}
                         </button>
                     </div>
 
-                    {busy && <p className='mt-3 text-sm text-ink/70'>{state === 'locating' ? 'Recherche de votre position…' : 'Calcul du meilleur trajet…'}</p>}
+                    {busy && <p className='mt-3 text-sm text-ink/70'>{state === 'locating' ? t('Recherche de votre position…') : t('Calcul du meilleur trajet…')}</p>}
                     {state === 'error' && <p className='mt-3 text-sm text-primary'>{error}</p>}
 
                     {route && state === 'done' && (
                         <>
                             <div className='mt-4 flex flex-wrap items-end gap-x-3 gap-y-1'>
                                 <span className='whitespace-nowrap text-2xl font-bold text-secondary'>{formatDuration(route.duration)}</span>
-                                <span className='pb-1 text-ink/70'>{formatDistance(route.distance)} · depuis votre position</span>
+                                <span className='pb-1 text-ink/70'>{formatDistance(route.distance)} · {t('depuis votre position')}</span>
                             </div>
-                            <p className='mt-1 text-xs text-ink/60'>Durée indicative, hors embouteillages.</p>
+                            <p className='mt-1 text-xs text-ink/60'>{t('Durée indicative, hors embouteillages.')}</p>
 
                             <button
                                 type='button'
                                 onClick={() => setShowSteps((v) => !v)}
                                 aria-expanded={showSteps}
                                 className='mt-3 inline-flex items-center gap-1 text-sm font-semibold text-secondary hover:text-primary hover:cursor-pointer'>
-                                {showSteps ? 'Masquer' : 'Voir'} les {route.steps.length} étapes
+                                {t(showSteps ? 'Masquer les {n} étapes' : 'Voir les {n} étapes', { n: route.steps.length })}
                                 <Icon icon='tabler:chevron-down' className={`transition-transform ${showSteps ? 'rotate-180' : ''}`} />
                             </button>
                             {showSteps && (
@@ -298,7 +300,7 @@ export default function SchoolMap({
                         target='_blank'
                         rel='noopener noreferrer'
                         className='mt-4 flex min-h-11 items-center justify-center gap-2 rounded-xl border border-secondary px-4 text-sm font-semibold text-secondary hover:bg-secondary hover:text-white'>
-                        <Icon icon='tabler:navigation' /> Lancer la navigation (Google Maps)
+                        <Icon icon='tabler:navigation' /> {t('Lancer la navigation (Google Maps)')}
                     </a>
                 </div>
             )}

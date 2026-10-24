@@ -4,6 +4,7 @@ import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import type { Suggestion } from './SuggestInput'
 import { searchPlaces } from '../places'
+import { useT } from '@/i18n/client'
 
 /**
  * Champ « Ville » d'un formulaire : texte libre, avec les lieux de Madagascar de la carte proposés
@@ -29,6 +30,7 @@ export default function PlaceField({
     invalid?: boolean
     describedBy?: string
 }) {
+    const t = useT()
     const listId = useId()
     const [places, setPlaces] = useState<Suggestion[]>([])
     const [open, setOpen] = useState(false)
@@ -92,7 +94,7 @@ export default function PlaceField({
                 aria-describedby={describedBy}
                 autoComplete='off'
                 required={required}
-                placeholder={placeholder}
+                placeholder={t(placeholder)}
                 value={value}
                 onChange={(e) => {
                     typed.current = true
@@ -122,7 +124,7 @@ export default function PlaceField({
                             <Icon icon='tabler:map-pin' className='shrink-0 text-secondary' />
                             <span className='flex min-w-0 flex-col'>
                                 <span className='truncate text-sm font-semibold text-ink'>{p.value}</span>
-                                <span className='truncate text-xs text-ink/60'>{[p.hint, p.detail].filter(Boolean).join(' · ')}</span>
+                                <span className='truncate text-xs text-ink/60'>{[p.hint && t(p.hint), p.detail].filter(Boolean).join(' · ')}</span>
                             </span>
                         </li>
                     ))}
