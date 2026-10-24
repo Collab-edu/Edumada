@@ -1,5 +1,6 @@
 import { Caveat } from 'next/font/google'
 import withBasePath from '@/lib/base-path'
+import { DotPattern } from '@/components/ui/dot-pattern'
 import HeroFilters from './HeroFilters'
 import HeroLogos from './HeroLogos'
 import MobileSearch from './MobileSearch'
@@ -23,8 +24,20 @@ export default function HeroPhoto() {
             {/* Photo et voile : clair au centre pour le texte, la photo se dévoile sur les bords */}
             {/* La photo occupe la hauteur restante : le hero tient tout l'écran à l'ouverture. */}
             <div className='relative flex flex-1 flex-col justify-center overflow-hidden pt-28 pb-10 sm:pt-32 sm:pb-40 lg:pb-44'>
-                {/* Mobile : dégradé aux couleurs de la charte, sans image (rien à télécharger). */}
-                <div aria-hidden='true' className='absolute inset-0 bg-gradient-to-br from-cream via-white to-success/40 sm:hidden' />
+                {/* Mobile : fond blanc cassé, fins points bleu sarcelle et halos flous (sans image, rien à télécharger). */}
+                <div aria-hidden='true' className='absolute inset-0 overflow-hidden bg-offwhite sm:hidden'>
+                    <div className='absolute -top-24 -left-24 h-72 w-72 rounded-full bg-cream blur-3xl' />
+                    <div className='absolute -right-20 -bottom-24 h-80 w-80 rounded-full bg-success/45 blur-3xl' />
+                    <div className='absolute top-1/3 -right-16 h-48 w-48 rounded-full bg-primary/10 blur-3xl' />
+                    <DotPattern
+                        width={20}
+                        height={20}
+                        cx={1.5}
+                        cy={1.5}
+                        cr={1.2}
+                        className='fill-secondary/25 [mask-image:radial-gradient(ellipse_at_center,white_25%,transparent_80%)]'
+                    />
+                </div>
                 {/* Dès la tablette (640 px) : l'image ; le mobile ne reçoit qu'un pixel vide, rien n'est téléchargé. */}
                 <picture className='absolute inset-0 hidden sm:block'>
                     <source media='(min-width: 640px)' srcSet={HERO_IMAGE} />
