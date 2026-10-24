@@ -1,4 +1,5 @@
-import Link from '@/i18n/client'
+'use client'
+import Link, { useT } from '@/i18n/client'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import HeroVideo from '@/components/ui/hero-video'
 import { Icon } from '@/components/ui/icon'
@@ -70,17 +71,17 @@ const PROFILES = [
 
 /** Page Orientation : la démarche pour choisir une formation, puis des entrées par profil. */
 export default function OrientationPage() {
+    const t = useT()
     return (
         <>
             <section className='pt-28 pb-10 sm:pt-32'>
                 <div className='container mx-auto max-w-7xl px-4'>
-                    <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label='Cours dans une salle de classe' className='mb-10 h-56 sm:h-80 lg:h-96' />
+                    <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label={t('Cours dans une salle de classe')} className='mb-10 h-56 sm:h-80 lg:h-96' />
                     <div className='flex max-w-3xl flex-col gap-4'>
-                        <p className='font-semibold uppercase tracking-wide text-primary'>Orientation</p>
-                        <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Trouvez la voie qui vous correspond</h1>
+                        <p className='font-semibold uppercase tracking-wide text-primary'>{t('Orientation')}</p>
+                        <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t('Trouvez la voie qui vous correspond')}</h1>
                         <p className='text-black'>
-                            Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et
-                            comparer les possibilités à Madagascar.
+                            {t('Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et comparer les possibilités à Madagascar.')}
                         </p>
                     </div>
                 </div>
@@ -98,13 +99,13 @@ export default function OrientationPage() {
                                     <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary'>
                                         <Icon icon={step.icon} className='text-2xl' />
                                     </span>
-                                    <span className='text-sm font-semibold text-ink/40'>Étape {index + 1}</span>
+                                    <span className='text-sm font-semibold text-ink/40'>{t('Étape {n}', { n: index + 1 })}</span>
                                 </div>
-                                <h2 className='text-lg font-semibold text-secondary'>{step.title}</h2>
-                                <p className='text-sm text-black'>{step.text}</p>
+                                <h2 className='text-lg font-semibold text-secondary'>{t(step.title)}</h2>
+                                <p className='text-sm text-black'>{t(step.text)}</p>
                                 {step.link && (
                                     <Link href={step.link.href} className='mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline'>
-                                        {step.link.label}
+                                        {t(step.link.label)}
                                         <Icon icon='tabler:chevron-right' className='text-base' />
                                     </Link>
                                 )}
@@ -120,24 +121,23 @@ export default function OrientationPage() {
                     <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
                         <div className='flex max-w-2xl flex-col gap-5'>
                             <h2 className='text-3xl font-bold leading-tight md:text-4xl'>
-                                Avant de choisir, posez-vous <span className='text-primary'>les bonnes questions</span>
+                                {t('Avant de choisir, posez-vous')} <span className='text-primary'>{t('les bonnes questions')}</span>
                             </h2>
                             <p className='text-black'>
-                                Le bon choix ne dépend pas seulement de la réputation d’un établissement. Il dépend de votre projet, de votre niveau, de
-                                votre budget et de l’endroit où vous voulez étudier.
+                                {t('Le bon choix ne dépend pas seulement de la réputation d’un établissement. Il dépend de votre projet, de votre niveau, de votre budget et de l’endroit où vous voulez étudier.')}
                             </p>
                             <p className='text-black'>
-                                Prenez le temps d’y répondre : vous saurez quelles formations comparer, et lesquelles écarter.
+                                {t('Prenez le temps d’y répondre : vous saurez quelles formations comparer, et lesquelles écarter.')}
                             </p>
                         </div>
                         <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-3xl border border-gray-200 bg-white p-6 text-center shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
-                            <span className='text-xs font-semibold uppercase tracking-wide text-primary'>Vos questions</span>
+                            <span className='text-xs font-semibold uppercase tracking-wide text-primary'>{t('Vos questions')}</span>
                             <div className='flex flex-wrap items-center justify-center gap-3'>
                                 {QUESTIONS.map((item) => (
                                     <span
                                         key={item.label}
                                         className={`${item.rotate} rounded-lg border border-dashed border-gray-300 bg-offwhite px-3 py-1.5 text-sm text-secondary`}>
-                                        {item.label}
+                                        {t(item.label)}
                                     </span>
                                 ))}
                             </div>
@@ -145,7 +145,7 @@ export default function OrientationPage() {
                                 <Icon icon='tabler:arrow-narrow-down' className='text-2xl text-primary' />
                                 <span className='inline-flex items-center gap-2 rounded-lg bg-secondary px-3 py-1.5 text-sm font-semibold text-white'>
                                     <Icon icon='tabler:route' className='text-base' />
-                                    Votre parcours
+                                    {t('Votre parcours')}
                                 </span>
                             </div>
                         </div>
@@ -162,9 +162,9 @@ export default function OrientationPage() {
                         <div className='pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full border-[32px] border-primary/20' aria-hidden='true' />
 
                         <div className='relative mx-auto flex max-w-2xl flex-col items-center gap-3 text-center'>
-                            <span className='text-sm font-semibold uppercase tracking-wide text-primary'>Par où commencer ?</span>
-                            <h2 className='text-3xl font-bold leading-tight text-white md:text-4xl'>Choisissez la situation qui vous ressemble</h2>
-                            <p className='text-white/75'>Chaque profil vous mène directement aux formations ou aux établissements qui vous concernent.</p>
+                            <span className='text-sm font-semibold uppercase tracking-wide text-primary'>{t('Par où commencer ?')}</span>
+                            <h2 className='text-3xl font-bold leading-tight text-white md:text-4xl'>{t('Choisissez la situation qui vous ressemble')}</h2>
+                            <p className='text-white/75'>{t('Chaque profil vous mène directement aux formations ou aux établissements qui vous concernent.')}</p>
                         </div>
 
                         <ul className='relative mt-12 grid gap-5 md:grid-cols-3'>
@@ -176,10 +176,10 @@ export default function OrientationPage() {
                                         <span className='flex h-14 w-14 items-center justify-center rounded-2xl bg-cream text-primary'>
                                             <Icon icon={profile.icon} className='text-3xl' />
                                         </span>
-                                        <h3 className='text-lg font-semibold text-secondary'>{profile.title}</h3>
-                                        <p className='text-black'>{profile.text}</p>
+                                        <h3 className='text-lg font-semibold text-secondary'>{t(profile.title)}</h3>
+                                        <p className='text-black'>{t(profile.text)}</p>
                                         <span className='mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary'>
-                                            {profile.cta}
+                                            {t(profile.cta)}
                                             <Icon icon='tabler:arrow-right' className='text-base transition-transform duration-300 group-hover:translate-x-1' />
                                         </span>
                                     </Link>
@@ -197,12 +197,12 @@ export default function OrientationPage() {
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
-                            <h2 className='text-2xl font-bold text-white'>Vous savez déjà ce que vous cherchez ?</h2>
-                            <p className='text-white/80'>Filtrez les formations par domaine, ville, durée et budget.</p>
+                            <h2 className='text-2xl font-bold text-white'>{t('Vous savez déjà ce que vous cherchez ?')}</h2>
+                            <p className='text-white/80'>{t('Filtrez les formations par domaine, ville, durée et budget.')}</p>
                         </div>
                         <ButtonLink href='/recherche/' className='shrink-0'>
                             <Icon icon='tabler:search' className='text-lg' />
-                            Rechercher une formation
+                            {t('Rechercher une formation')}
                         </ButtonLink>
                     </div>
                 </div>
