@@ -3,9 +3,11 @@ import { useState } from 'react'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import type { FaqItem } from '../faq'
+import { useT } from '@/i18n/client'
 
 /** Questions fréquentes en accordéon : une seule réponse ouverte à la fois. */
 export function SchoolFaq({ items }: { items: FaqItem[] }) {
+    const t = useT()
     const [openIndex, setOpenIndex] = useState<number | null>(0)
 
     return (
@@ -27,7 +29,7 @@ export function SchoolFaq({ items }: { items: FaqItem[] }) {
                                 aria-expanded={open}
                                 aria-controls={id}
                                 className='flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-semibold text-secondary hover:cursor-pointer'>
-                                {item.question}
+                                {t(item.question)}
                                 <span
                                     className={cn(
                                         'flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors duration-300',
@@ -39,7 +41,7 @@ export function SchoolFaq({ items }: { items: FaqItem[] }) {
                         </h3>
                         {open && (
                             <p id={id} className='px-5 pb-5 text-black leading-relaxed'>
-                                {item.answer}
+                                {t(item.answer)}
                             </p>
                         )}
                     </div>

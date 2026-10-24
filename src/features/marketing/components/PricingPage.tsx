@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import { cn } from '@/lib/utils'
@@ -75,6 +75,7 @@ const FAQ = [
 ]
 
 export default function PricingPage() {
+    const t = useT()
     const { user } = useAuth()
     const plans = usePlans()
     const [yearly, setYearly] = useState(false)
@@ -94,16 +95,15 @@ export default function PricingPage() {
             <section className='pt-28 sm:pt-32'>
                 <div className='container mx-auto max-w-7xl px-4 flex flex-col gap-10'>
                     <div className='mx-auto flex max-w-3xl flex-col items-center gap-4 text-center'>
-                        <p className='font-semibold uppercase tracking-wide text-primary'>Établissements</p>
+                        <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
                         <h1 className='text-3xl md:text-5xl font-bold text-secondary'>
-                            Des formules adaptées à <span className='text-primary'>votre établissement</span>
+                            {t('Des formules adaptées à')} <span className='text-primary'>{t('votre établissement')}</span>
                         </h1>
                         <p className='text-black'>
-                            Commencez gratuitement. Passez à Pro pour gérer vos demandes et candidatures, à Premium pour mettre vos formations en
-                            avant pendant vos recrutements.
+                            {t('Commencez gratuitement. Passez à Pro pour gérer vos demandes et candidatures, à Premium pour mettre vos formations en avant pendant vos recrutements.')}
                         </p>
 
-                        <div className='mt-2 inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white p-1 shadow-[3px_3px_0_0_rgba(15,76,92,0.18)]' role='group' aria-label='Période de paiement'>
+                        <div className='mt-2 inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white p-1 shadow-[3px_3px_0_0_rgba(15,76,92,0.18)]' role='group' aria-label={t('Période de paiement')}>
                             {[false, true].map((value) => (
                                 <button
                                     key={String(value)}
@@ -114,7 +114,7 @@ export default function PricingPage() {
                                         'flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 hover:cursor-pointer',
                                         yearly === value ? 'bg-secondary text-white' : 'text-secondary hover:text-primary'
                                     )}>
-                                    {value ? 'Annuel' : 'Mensuel'}
+                                    {value ? t('Annuel') : t('Mensuel')}
                                     {value && yearlySaving ? (
                                         <span className={cn('rounded-full px-2 py-0.5 text-xs', yearly ? 'bg-white/20 text-white' : 'bg-primary/10 text-primary')}>
                                             −{yearlySaving} %
@@ -139,10 +139,10 @@ export default function PricingPage() {
                                     )}>
                                     <div className={cn('flex flex-col gap-4 p-6', highlighted && 'bg-cream/60')}>
                                         <div className='flex items-center justify-between gap-2'>
-                                            <p className='text-xl font-bold text-secondary'>{plan.name}</p>
-                                            {highlighted && <Eyebrow>Recommandée</Eyebrow>}
+                                            <p className='text-xl font-bold text-secondary'>{t(plan.name)}</p>
+                                            {highlighted && <Eyebrow>{t('Recommandée')}</Eyebrow>}
                                         </div>
-                                        <p className='min-h-12 text-sm text-black'>{details.description}</p>
+                                        <p className='min-h-12 text-sm text-black'>{t(details.description)}</p>
                                         <div className='min-h-16'>
                                             {plan.code === 'free' ? (
                                                 <p className='text-4xl font-bold text-secondary'>0 Ar</p>
@@ -150,23 +150,23 @@ export default function PricingPage() {
                                                 <>
                                                     <p className='text-4xl font-bold text-secondary'>
                                                         {formatAriary(showYearly ? plan.yearlyPrice : plan.monthlyPrice)}
-                                                        <span className='text-base font-normal text-ink/60'> / {showYearly ? 'an' : 'mois'}</span>
+                                                        <span className='text-base font-normal text-ink/60'> / {showYearly ? t('an') : t('mois')}</span>
                                                     </p>
-                                                    {yearly && plan.yearlyPrice === null && <p className='text-sm text-ink/60'>Au mois uniquement, selon vos besoins</p>}
+                                                    {yearly && plan.yearlyPrice === null && <p className='text-sm text-ink/60'>{t('Au mois uniquement, selon vos besoins')}</p>}
                                                 </>
                                             )}
                                         </div>
                                         <ButtonLink href={cta(plan)} variant={highlighted ? 'primary' : 'dark'} className='w-full justify-center'>
-                                            {plan.code === 'free' ? 'Référencer mon établissement' : `Choisir ${plan.name}`}
+                                            {plan.code === 'free' ? t('Référencer mon établissement') : t('Choisir {plan}', { plan: t(plan.name) })}
                                         </ButtonLink>
                                     </div>
                                     <div className='flex flex-1 flex-col gap-3 border-t border-gray-100 p-6'>
-                                        <p className='text-sm font-semibold text-secondary'>{details.intro}</p>
+                                        <p className='text-sm font-semibold text-secondary'>{t(details.intro)}</p>
                                         <ul className='flex flex-col gap-2.5'>
                                             {details.features(plan).map((feature) => (
                                                 <li key={feature} className='flex items-start gap-2 text-sm text-ink/80'>
                                                     <Icon icon='tabler:circle-check-filled' className='mt-0.5 shrink-0 text-lg text-primary' />
-                                                    {feature}
+                                                    {t(feature)}
                                                 </li>
                                             ))}
                                         </ul>
@@ -175,7 +175,7 @@ export default function PricingPage() {
                             )
                         })}
                     </div>
-                    <p className='text-center text-sm text-ink/60'>Prix de lancement indicatifs, susceptibles d&apos;évoluer. Aucun nombre de candidats n&apos;est garanti.</p>
+                    <p className='text-center text-sm text-ink/60'>{t('Prix de lancement indicatifs, susceptibles d’évoluer. Aucun nombre de candidats n’est garanti.')}</p>
                 </div>
             </section>
 
@@ -187,9 +187,9 @@ export default function PricingPage() {
                     <SectionHeader title='Questions fréquentes' description='Tout savoir sur les formules et le paiement.' className='text-center sm:justify-center' />
                     <SchoolFaq items={FAQ} />
                     <p className='mt-6 text-black'>
-                        Vous ne trouvez pas votre réponse ?{' '}
+                        {t('Vous ne trouvez pas votre réponse ?')}{' '}
                         <Link href='/contact/' className='font-semibold text-primary underline underline-offset-4'>
-                            Écrivez à notre équipe
+                            {t('Écrivez à notre équipe')}
                         </Link>
                     </p>
                 </div>
