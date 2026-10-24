@@ -83,7 +83,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
     // Sur mobile, la barre d'onglets défile horizontalement : on garde l'onglet actif visible.
     // On fait défiler la barre seule (et non la page, ce qui interromprait la lecture).
     useEffect(() => {
-        const nav = document.querySelector<HTMLElement>('nav[aria-label="Sections de la page"]')
+        const nav = document.querySelector<HTMLElement>('nav[data-section-nav]')
         const tab = nav?.querySelector<HTMLElement>(`a[href="#${active}"]`)
         if (!nav || !tab) return
         nav.scrollTo({ left: tab.offsetLeft - nav.clientWidth / 2 + tab.clientWidth / 2, behavior: 'smooth' })
@@ -104,7 +104,8 @@ export function FormationDetailPage({ formation, detail, school, category, other
 
                 {/* Navigation interne */}
                 <nav
-                    aria-label='Sections de la page'
+                    data-section-nav
+                    aria-label={t('Sections de la page')}
                     className='sticky top-20 z-30 -mx-4 mt-6 overflow-x-auto bg-offwhite/95 px-4 py-3 backdrop-blur-sm'>
                     <ul className='flex w-max gap-2'>
                         {NAV.map((item) => (
