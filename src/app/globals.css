@@ -35,6 +35,19 @@
   /* Points du hero mobile : glissent d'une case (20 px) en boucle, sans saut. */
   --animate-dots-drift: dots-drift 4s linear infinite;
   --animate-halo: halo 9s ease-in-out infinite;
+  /* Traits rouges du titre : petite étincelle qui jaillit en boucle. */
+  --animate-spark: spark 2.4s ease-in-out infinite;
+
+  @keyframes spark {
+    0%, 100% {
+      transform: scale(0.7);
+      opacity: 0.35;
+    }
+    45% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+  }
 
   @keyframes dots-drift {
     from {

@@ -69,9 +69,18 @@ export default function HeroPhoto() {
                     </p>
 
                     <div className='relative mx-auto max-w-3xl text-center'>
-                        {/* Traits rouges décoratifs */}
+                        {/* Traits rouges décoratifs : étincelle animée, chaque trait jaillit à son tour depuis le titre */}
                         <svg aria-hidden='true' viewBox='0 0 40 40' className='absolute -top-6 left-0 hidden h-10 w-10 text-primary sm:block lg:-left-6'>
-                            <path d='M8 22 L 20 26 M12 10 L 22 20 M26 4 L 28 16' fill='none' stroke='currentColor' strokeWidth='3.5' strokeLinecap='round' />
+                            <g fill='none' stroke='currentColor' strokeWidth='3.5' strokeLinecap='round'>
+                                {['M8 22 L 20 26', 'M12 10 L 22 20', 'M26 4 L 28 16'].map((d, i) => (
+                                    <path
+                                        key={d}
+                                        d={d}
+                                        style={{ animationDelay: `${i * 0.25}s` }}
+                                        className='origin-[30px_32px] animate-spark [transform-box:view-box] motion-reduce:animate-none'
+                                    />
+                                ))}
+                            </g>
                         </svg>
                         <h1 className='text-[28px] leading-[1.2] font-extrabold text-secondary sm:text-[32px] lg:text-[35px]'>
                             Trouvez votre formation à Madagascar et construisez votre <span className='text-primary'>avenir</span>.
