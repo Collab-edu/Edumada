@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, type ReactNode } from 'react'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { usePathname } from 'next/navigation'
 import { useRouter } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
@@ -30,6 +30,7 @@ interface SpaceShellProps {
  * Un visiteur non connecté est renvoyé vers la connexion ; un autre type de compte vers son propre espace.
  */
 export function SpaceShell({ roles, title, subtitle, nav, actions, banner, children }: SpaceShellProps) {
+    const t = useT()
     const { user, loading } = useAuth()
     const router = useRouter()
     const pathname = usePathname()
@@ -44,7 +45,7 @@ export function SpaceShell({ roles, title, subtitle, nav, actions, banner, child
         return (
             <section className='pt-32 pb-20'>
                 <div className='container mx-auto max-w-xl px-4'>
-                    <FormAlert tone='info'>Les espaces personnels seront disponibles quand le service en ligne d&apos;Edumada sera activé (NEXT_PUBLIC_API_URL).</FormAlert>
+                    <FormAlert tone='info'>{t('Les espaces personnels seront disponibles quand le service en ligne d’Edumada sera activé.')}</FormAlert>
                 </div>
             </section>
         )
@@ -61,7 +62,7 @@ export function SpaceShell({ roles, title, subtitle, nav, actions, banner, child
             <div className='container mx-auto max-w-7xl px-4'>
                 <div className='mb-5 flex flex-col sm:flex-row sm:items-end justify-between gap-3'>
                     <div className='flex flex-col gap-1'>
-                        <h1 className='text-2xl sm:text-3xl font-bold text-secondary'>{title}</h1>
+                        <h1 className='text-2xl sm:text-3xl font-bold text-secondary'>{t(title)}</h1>
                         {subtitle && <div className='text-ink/70'>{subtitle}</div>}
                     </div>
                     {actions && <div className='flex flex-wrap gap-2'>{actions}</div>}
@@ -70,7 +71,7 @@ export function SpaceShell({ roles, title, subtitle, nav, actions, banner, child
                 {banner}
 
                 <div className='grid grid-cols-1 lg:grid-cols-[230px_minmax(0,1fr)] gap-6'>
-                    <nav aria-label='Menu de mon espace' className='-mx-4 overflow-x-auto px-4 lg:mx-0 lg:overflow-visible lg:px-0'>
+                    <nav aria-label={t('Menu de mon espace')} className='-mx-4 overflow-x-auto px-4 lg:mx-0 lg:overflow-visible lg:px-0'>
                         <ul className='flex w-max gap-2 lg:w-auto lg:flex-col lg:gap-1 lg:sticky lg:top-28'>
                             {nav.map((item) => (
                                 <li key={item.href}>
@@ -82,7 +83,7 @@ export function SpaceShell({ roles, title, subtitle, nav, actions, banner, child
                                             isActive(item.href) ? 'bg-secondary text-white' : 'bg-white text-secondary hover:bg-secondary/10'
                                         )}>
                                         <Icon icon={item.icon} className='text-lg' />
-                                        {item.label}
+                                        {t(item.label)}
                                         {!!item.badge && (
                                             <span className='ml-auto rounded-full bg-primary px-2 py-0.5 text-xs font-bold text-white'>{item.badge}</span>
                                         )}
@@ -100,13 +101,14 @@ export function SpaceShell({ roles, title, subtitle, nav, actions, banner, child
 
 /** Bloc blanc de l'espace, avec titre facultatif. */
 export function Panel({ title, description, actions, children, className }: { title?: string; description?: ReactNode; actions?: ReactNode; children: ReactNode; className?: string }) {
+    const t = useT()
     return (
         <div className={cn('rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6', className)}>
             {(title || actions) && (
                 <div className='mb-4 flex flex-col sm:flex-row sm:items-start justify-between gap-3'>
                     <div className='flex flex-col gap-1'>
-                        {title && <h2 className='text-xl font-bold'>{title}</h2>}
-                        {description && <div className='text-sm text-ink/70'>{description}</div>}
+                        {title && <h2 className='text-xl font-bold'>{t(title)}</h2>}
+                        {description && <div className='text-sm text-ink/70'>{typeof description === 'string' ? t(description) : description}</div>}
                     </div>
                     {actions && <div className='flex flex-wrap gap-2'>{actions}</div>}
                 </div>
@@ -118,13 +120,14 @@ export function Panel({ title, description, actions, children, className }: { ti
 
 /** Chiffre clé d'un tableau de bord. */
 export function StatCard({ label, value, icon, hint, href }: { label: string; value: ReactNode; icon: string; hint?: ReactNode; href?: string }) {
+    const t = useT()
     const content = (
         <>
             <span className='flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary'>
                 <Icon icon={icon} className='text-xl' />
             </span>
             <span className='text-2xl font-bold text-secondary'>{value}</span>
-            <span className='text-sm text-ink/70'>{label}</span>
+            <span className='text-sm text-ink/70'>{t(label)}</span>
             {hint && <span className='text-xs text-ink/50'>{hint}</span>}
         </>
     )
@@ -138,15 +141,16 @@ export function StatCard({ label, value, icon, hint, href }: { label: string; va
 
 /** Petite pagination « Précédent / Suivant ». */
 export function Pager({ page, lastPage, onChange }: { page: number; lastPage: number; onChange: (page: number) => void }) {
+    const t = useT()
     if (lastPage <= 1) return null
     return (
         <div className='flex items-center justify-center gap-3 pt-2'>
             <button type='button' disabled={page <= 1} onClick={() => onChange(page - 1)} className='min-h-11 rounded-lg border border-secondary/20 px-4 font-semibold text-secondary disabled:opacity-40 hover:cursor-pointer'>
-                Précédent
+                {t('Précédent')}
             </button>
-            <span className='text-sm text-ink/70'>Page {page} sur {lastPage}</span>
+            <span className='text-sm text-ink/70'>{t('Page {page} sur {last}', { page, last: lastPage })}</span>
             <button type='button' disabled={page >= lastPage} onClick={() => onChange(page + 1)} className='min-h-11 rounded-lg border border-secondary/20 px-4 font-semibold text-secondary disabled:opacity-40 hover:cursor-pointer'>
-                Suivant
+                {t('Suivant')}
             </button>
         </div>
     )

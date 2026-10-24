@@ -1,6 +1,6 @@
 'use client'
 import { useState, type FormEvent } from 'react'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import toast from 'react-hot-toast'
 import Dialog from '@/components/ui/dialog'
@@ -17,12 +17,13 @@ import { INQUIRY_STATUS_TONE, type Inquiry } from '../types'
 
 /** Détail d'une démarche vue par l'étudiant : message, documents, historique des statuts. */
 function InquiryDetail({ inquiry }: { inquiry: Inquiry }) {
+    const t = useT()
     return (
         <div className='flex flex-col gap-5'>
             <div className='flex flex-wrap items-center gap-2'>
                 <Badge tone={inquiry.type === 'application' ? 'info' : 'neutral'}>{inquiry.typeLabel}</Badge>
                 <Badge tone={INQUIRY_STATUS_TONE[inquiry.status]}>{inquiry.statusLabel}</Badge>
-                <span className='text-sm text-ink/60'>Envoyée le {formatDateTime(inquiry.createdAt)}</span>
+                <span className='text-sm text-ink/60'>{t('Envoyée le {date}', { date: formatDateTime(inquiry.createdAt) })}</span>
             </div>
             {inquiry.message && <p className='whitespace-pre-line text-black'>{inquiry.message}</p>}
             {inquiry.attachments && inquiry.attachments.length > 0 && (
@@ -57,9 +58,10 @@ const NAV = [
 ]
 
 function Shell({ title, children }: { title: string; children: React.ReactNode }) {
+    const t = useT()
     const { user } = useAuth()
     return (
-        <SpaceShell roles={['student']} title={title} subtitle={user ? `Bonjour ${user.name.split(' ')[0]} !` : undefined} nav={NAV} actions={<ButtonLink href='/recherche/' variant='secondary'><Icon icon='tabler:search' /> Rechercher</ButtonLink>}>
+        <SpaceShell roles={['student']} title={title} subtitle={user ? t('Bonjour {name} !', { name: user.name.split(' ')[0] }) : undefined} nav={NAV} actions={<ButtonLink href='/recherche/' variant='secondary'><Icon icon='tabler:search' /> {t('Rechercher')}</ButtonLink>}>
             {children}
         </SpaceShell>
     )
@@ -70,6 +72,7 @@ function Shell({ title, children }: { title: string; children: React.ReactNode }
 /* ------------------------------------------------------------------ */
 
 function Inquiries() {
+    const t = useT()
     const { favorites } = useAuth()
     const { data, loading } = useApi<{ data: Inquiry[] }>('/me/inquiries')
     const [selected, setSelected] = useState<Inquiry | null>(null)
@@ -88,8 +91,8 @@ function Inquiries() {
                 {loading ? (
                     <div className='h-32 rounded-xl bg-offwhite animate-pulse' />
                 ) : inquiries.length === 0 ? (
-                    <EmptyState icon='tabler:send' title='Aucune démarche pour le moment' action={<ButtonLink href='/recherche/'>Trouver une formation</ButtonLink>}>
-                        Contactez un établissement ou postulez depuis la fiche d&apos;une offre : vous suivrez la réponse ici.
+                    <EmptyState icon='tabler:send' title='Aucune démarche pour le moment' action={<ButtonLink href='/recherche/'>{t('Trouver une formation')}</ButtonLink>}>
+                        {t('Contactez un établissement ou postulez depuis la fiche d’une offre : vous suivrez la réponse ici.')}
                     </EmptyState>
                 ) : (
                     <ul className='flex flex-col gap-3'>
@@ -101,7 +104,7 @@ function Inquiries() {
                                         <Badge tone={INQUIRY_STATUS_TONE[inquiry.status]}>{inquiry.statusLabel}</Badge>
                                     </span>
                                     <span className='font-semibold text-secondary'>{inquiry.offer?.title ?? inquiry.establishment.name}</span>
-                                    <span className='text-sm text-ink/60'>{inquiry.establishment.name} · envoyée le {formatDateTime(inquiry.createdAt)}</span>
+                                    <span className='text-sm text-ink/60'>{inquiry.establishment.name} · {t('envoyée le {date}', { date: formatDateTime(inquiry.createdAt) })}</span>
                                     {inquiry.history && inquiry.history.length > 1 && inquiry.history[inquiry.history.length - 1].note && (
                                         <span className='rounded-lg bg-cream/60 px-3 py-2 text-sm text-ink/80'>
                                             <Icon icon='tabler:message' className='mr-1 inline text-primary' />
@@ -140,18 +143,19 @@ export function StudentDashboardPage() {
 /* ------------------------------------------------------------------ */
 
 function Favorites() {
+    const t = useT()
     const { isFavorite, toggleFavorite, favorites } = useAuth()
     const { data, loading } = useApi<{ data: FormationType[] }>('/me/favorites')
     // On garde la carte affichée après un retrait pour permettre de l'annuler.
     const offers = data?.data ?? []
 
     return (
-        <Panel title='Mes favoris' description={`${favorites.length} offre(s) enregistrée(s).`}>
+        <Panel title='Mes favoris' description={t('{n} offre(s) enregistrée(s).', { n: favorites.length })}>
             {loading ? (
                 <div className='h-64 rounded-xl bg-offwhite animate-pulse' />
             ) : offers.length === 0 ? (
-                <EmptyState icon='tabler:heart' title='Aucun favori' action={<ButtonLink href='/recherche/'>Explorer les formations</ButtonLink>}>
-                    Touchez le cœur d&apos;une offre pour la retrouver ici et la comparer.
+                <EmptyState icon='tabler:heart' title='Aucun favori' action={<ButtonLink href='/recherche/'>{t('Explorer les formations')}</ButtonLink>}>
+                    {t('Touchez le cœur d’une offre pour la retrouver ici et la comparer.')}
                 </EmptyState>
             ) : (
                 <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5'>
@@ -177,6 +181,7 @@ export function StudentFavoritesPage() {
 /* ------------------------------------------------------------------ */
 
 export function ProfileForms() {
+    const t = useT()
     const { user, setUser, logout } = useAuth()
     const [profile, setProfile] = useState({ name: user?.name ?? '', email: user?.email ?? '', phone: user?.phone ?? '', city: user?.city ?? '', studyLevel: user?.studyLevel ?? '' })
     const [passwords, setPasswords] = useState({ currentPassword: '', password: '', password_confirmation: '' })
@@ -192,7 +197,7 @@ export function ProfileForms() {
         try {
             const res = await api<{ data: NonNullable<typeof user> }>('/me', { method: 'PATCH', body: profile })
             setUser(res.data)
-            toast.success('Profil enregistré')
+            toast.success(t('Profil enregistré'))
         } catch (err) {
             setError(err as ApiError)
         } finally {
@@ -210,7 +215,7 @@ export function ProfileForms() {
             setPasswords({ currentPassword: '', password: '', password_confirmation: '' })
             // Champs non contrôlés : on vide le formulaire lui-même.
             form.reset()
-            toast.success('Mot de passe modifié')
+            toast.success(t('Mot de passe modifié'))
         } catch (err) {
             setError(err as ApiError)
         } finally {
@@ -222,7 +227,7 @@ export function ProfileForms() {
         setSaving('delete')
         try {
             await api('/me', { method: 'DELETE', body: { password: deletePassword } })
-            toast.success('Votre compte et vos données ont été supprimés.')
+            toast.success(t('Votre compte et vos données ont été supprimés.'))
             await logout()
         } catch (err) {
             toast.error((err as ApiError).field('password') ?? (err as Error).message)
@@ -249,7 +254,7 @@ export function ProfileForms() {
                         </>
                     )}
                     <div className='sm:col-span-2'>
-                        <Button type='submit' loading={saving === 'profile'}>Enregistrer</Button>
+                        <Button type='submit' loading={saving === 'profile'}>{t('Enregistrer')}</Button>
                     </div>
                 </form>
             </Panel>
@@ -260,7 +265,7 @@ export function ProfileForms() {
                     <TextField label='Nouveau mot de passe' type='password' autoComplete='new-password' onChange={(e) => setPasswords({ ...passwords, password: e.target.value })} error={error?.field('password')} />
                     <TextField label='Confirmation' type='password' autoComplete='new-password' onChange={(e) => setPasswords({ ...passwords, password_confirmation: e.target.value })} />
                     <div className='sm:col-span-3'>
-                        <Button type='submit' variant='secondary' loading={saving === 'password'}>Changer le mot de passe</Button>
+                        <Button type='submit' variant='secondary' loading={saving === 'password'}>{t('Changer le mot de passe')}</Button>
                     </div>
                 </form>
             </Panel>
@@ -268,10 +273,10 @@ export function ProfileForms() {
             <Panel title='Mes données' description='Vos demandes et documents ne sont visibles que par vous et par les établissements à qui vous les avez envoyés.'>
                 <div className='flex flex-col gap-3'>
                     <p className='text-black'>
-                        Supprimer votre compte efface vos informations, vos favoris, vos demandes et vos documents. Cette action est définitive.{' '}
-                        <Link href='/confidentialite/' className='text-primary underline'>Politique de confidentialité</Link>
+                        {t('Supprimer votre compte efface vos informations, vos favoris, vos demandes et vos documents. Cette action est définitive.')}{' '}
+                        <Link href='/confidentialite/' className='text-primary underline'>{t('Politique de confidentialité')}</Link>
                     </p>
-                    <Button variant='danger' className='w-fit' onClick={() => setDeleteOpen(true)}>Supprimer mon compte</Button>
+                    <Button variant='danger' className='w-fit' onClick={() => setDeleteOpen(true)}>{t('Supprimer mon compte')}</Button>
                 </div>
             </Panel>
 
@@ -279,7 +284,7 @@ export function ProfileForms() {
                 <div className='flex flex-col gap-4'>
                     <FormAlert>Cette action ne peut pas être annulée.</FormAlert>
                     <TextField label='Votre mot de passe' type='password' autoComplete='current-password' onChange={(e) => setDeletePassword(e.target.value)} />
-                    <Button variant='danger' onClick={deleteAccount} loading={saving === 'delete'} disabled={!deletePassword}>Supprimer définitivement</Button>
+                    <Button variant='danger' onClick={deleteAccount} loading={saving === 'delete'} disabled={!deletePassword}>{t('Supprimer définitivement')}</Button>
                 </div>
             </Dialog>
         </>

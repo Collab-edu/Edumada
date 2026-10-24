@@ -227,6 +227,7 @@ export function FormAlert({ children, tone = 'error' }: { children: ReactNode; t
 
 /** Pastille de statut. */
 export function Badge({ children, tone = 'neutral', className }: { children: ReactNode; tone?: 'neutral' | 'success' | 'warning' | 'danger' | 'info'; className?: string }) {
+    const t = useT()
     const tones = {
         neutral: 'bg-gray-100 text-ink/70',
         success: 'bg-success/40 text-secondary',
@@ -234,7 +235,7 @@ export function Badge({ children, tone = 'neutral', className }: { children: Rea
         danger: 'bg-cream text-primary',
         info: 'bg-secondary/10 text-secondary',
     }
-    return <span className={cn('inline-flex w-fit items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold', tones[tone], className)}>{children}</span>
+    return <span className={cn('inline-flex w-fit items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold', tones[tone], className)}>{typeof children === 'string' ? t(children) : children}</span>
 }
 
 /** Liste vide : explication et action suivante. */
