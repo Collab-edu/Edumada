@@ -1,15 +1,3 @@
-import { Metadata } from 'next'
-import ArticlesPage from '@/features/actualites/components/ArticlesPage'
-
-export const metadata: Metadata = {
-  title: 'Actualités',
-  description: 'Rentrées, concours, conseils d’orientation et événements : les actualités de l’éducation à Madagascar.',
-}
-
-export default function ActualitesPage() {
-  return (
-    <main>
-      <ArticlesPage />
-    </main>
-  )
-}
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/actualites/index.tsx
+export { default, metadata } from '@/routes/actualites'

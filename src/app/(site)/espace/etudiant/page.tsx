@@ -1,20 +1,3 @@
-import { Suspense } from 'react'
-import { Metadata } from 'next'
-import { PageSkeleton } from '@/components/ui/page-state'
-import { StudentDashboardPage as Page } from '@/features/espace/etudiant/StudentPages'
-
-export const metadata: Metadata = {
-  title: 'Mon espace',
-  robots: { index: false },
-}
-
-// Espace connecté : rendu dans le navigateur, avec les paramètres d'URL (?e=…).
-export default function Route() {
-  return (
-    <main>
-      <Suspense fallback={<PageSkeleton />}>
-        <Page />
-      </Suspense>
-    </main>
-  )
-}
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/espace/etudiant/index.tsx
+export { default, metadata } from '@/routes/espace/etudiant'

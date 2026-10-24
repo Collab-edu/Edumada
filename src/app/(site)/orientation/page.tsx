@@ -1,15 +1,3 @@
-import { Metadata } from 'next'
-import OrientationPage from '@/features/orientation/components/OrientationPage'
-
-export const metadata: Metadata = {
-  title: 'Orientation',
-  description: 'Choisir sa formation ou un établissement à Madagascar : les étapes pour s’orienter, selon votre profil.',
-}
-
-export default function OrientationRoute() {
-  return (
-    <main>
-      <OrientationPage />
-    </main>
-  )
-}
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/orientation/index.tsx
+export { default, metadata } from '@/routes/orientation'

@@ -9,9 +9,10 @@ type PageModule = {
 }
 
 /** Liens hreflang d'une page vers ses trois versions (référencement multilingue). */
-export function languageAlternates(path: string): Metadata['alternates'] {
+export function languageAlternates(path: string, locale: Locale = 'fr'): Metadata['alternates'] {
     return {
-        canonical: path,
+        // Adresse de référence : la page dans sa propre langue.
+        canonical: localizePath(path, locale),
         languages: Object.fromEntries([...LOCALES.map((l) => [LOCALE_TAGS[l], localizePath(path, l)]), ['x-default', localizePath(path, 'fr')]]),
     }
 }
@@ -20,11 +21,11 @@ export function languageAlternates(path: string): Metadata['alternates'] {
  * Métadonnées d'une page dans une autre langue (/en/…, /mg/…) : celles de la page française,
  * titre et description traduits, avec les liens vers les autres langues.
  */
-export function localizedMetadata(module: object, path: string) {
+export function localizedMetadata(module: object, path: string, lang: Locale) {
     const page = module as PageModule
     return async ({ params }: { params: Promise<Record<string, string>> }): Promise<Metadata> => {
         const resolved = await params
-        const locale = resolved.lang as Locale
+        const locale = lang
         const base = page.generateMetadata ? await page.generateMetadata({ params: Promise.resolve(resolved) as Promise<never> }) : (page.metadata ?? {})
         const tr = (value: unknown) => (typeof value === 'string' ? translate(locale, value) : value)
         // Chemin de la page, avec l'identifiant pour une fiche (/etablissements/[id]/).
@@ -34,7 +35,7 @@ export function localizedMetadata(module: object, path: string) {
             ...base,
             ...(base.title ? { title: tr(base.title) as Metadata['title'] } : {}),
             ...(base.description ? { description: tr(base.description) as Metadata['description'] } : {}),
-            alternates: languageAlternates(concrete),
+            alternates: languageAlternates(concrete, locale),
         }
     }
 }

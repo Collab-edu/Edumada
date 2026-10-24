@@ -1,16 +1,3 @@
-import { Metadata } from 'next'
-import CategoryOffersPage from '@/features/formations/components/CategoryOffersPage'
-
-export const metadata: Metadata = {
-  title: 'Formation professionnelle',
-  description:
-    'Formations professionnelles à Madagascar : centres de formation, instituts techniques et écoles de métiers. Comparez les formations courtes et certifiantes.',
-}
-
-export default function FormationProfessionnellePage() {
-  return (
-    <main>
-      <CategoryOffersPage variant='formation-pro' />
-    </main>
-  )
-}
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/formation-professionnelle/index.tsx
+export { default, metadata } from '@/routes/formation-professionnelle'

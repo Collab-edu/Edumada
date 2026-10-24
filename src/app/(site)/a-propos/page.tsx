@@ -1,15 +1,3 @@
-import { Metadata } from 'next'
-import AboutPage from '@/features/marketing/components/AboutPage'
-
-export const metadata: Metadata = {
-  title: 'À propos',
-  description: 'Edumada aide les étudiants et les familles à trouver une formation ou un établissement à Madagascar.',
-}
-
-export default function AboutRoute() {
-  return (
-    <main>
-      <AboutPage />
-    </main>
-  )
-}
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/a-propos/index.tsx
+export { default, metadata } from '@/routes/a-propos'

@@ -1,16 +1,3 @@
-import { Metadata } from 'next'
-import CategoryOffersPage from '@/features/formations/components/CategoryOffersPage'
-
-export const metadata: Metadata = {
-  title: 'Universités',
-  description:
-    'Formations des universités, instituts supérieurs, écoles supérieures et grandes écoles à Madagascar : filtrez par type d’établissement, par filière et par ville.',
-}
-
-export default function UniversitesPage() {
-  return (
-    <main>
-      <CategoryOffersPage variant='universites' />
-    </main>
-  )
-}
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/universites/index.tsx
+export { default, metadata } from '@/routes/universites'

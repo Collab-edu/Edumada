@@ -1,15 +1,3 @@
-import { Metadata } from 'next'
-import SpaceRedirect from '@/features/espace/SpaceRedirect'
-
-export const metadata: Metadata = {
-  title: 'Mon espace',
-  robots: { index: false },
-}
-
-export default function EspacePage() {
-  return (
-    <main>
-      <SpaceRedirect />
-    </main>
-  )
-}
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/espace/index.tsx
+export { default, metadata } from '@/routes/espace'

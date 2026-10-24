@@ -1,23 +1,3 @@
-import Signin from "@/features/auth/components/SignIn";
-import Breadcrumb from "@/components/ui/breadcrumb";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Connexion",
-};
-
-const SigninPage = () => {
-  return (
-    <>
-      <Breadcrumb pageName="Connexion" />
-
-      <div className='mx-auto w-full max-w-md px-4 pb-20'>
-        <div className='rounded-2xl bg-white px-6 py-8 text-center shadow-sm ring-1 ring-gray-100 sm:px-8'>
-          <Signin />
-        </div>
-      </div>
-    </>
-  );
-};
-
-export default SigninPage;
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/signin/index.tsx
+export { default, metadata } from '@/routes/signin'

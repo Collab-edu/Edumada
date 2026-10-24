@@ -1,15 +1,3 @@
-import { Metadata } from 'next'
-import SchoolsPage from '@/features/etablissements/components/SchoolsPage'
-
-export const metadata: Metadata = {
-  title: 'Établissements',
-  description: 'Universités, écoles, crèches et centres de formation à Madagascar : filtrez par catégorie et par ville.',
-}
-
-export default function EtablissementsPage() {
-  return (
-    <main>
-      <SchoolsPage />
-    </main>
-  )
-}
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/etablissements/index.tsx
+export { default, metadata } from '@/routes/etablissements'

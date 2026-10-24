@@ -1,15 +1,3 @@
-import { Metadata } from 'next'
-import ContactPage from '@/features/contact/components/ContactPage'
-
-export const metadata: Metadata = {
-  title: 'Contact',
-  description: 'Une question, une remarque ou besoin d’aide pour choisir votre formation ? Écrivez à l’équipe Edumada.',
-}
-
-export default function ContactRoute() {
-  return (
-    <main>
-      <ContactPage />
-    </main>
-  )
-}
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/contact/index.tsx
+export { default, metadata } from '@/routes/contact'

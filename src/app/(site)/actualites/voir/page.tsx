@@ -1,19 +1,3 @@
-import { Suspense } from 'react'
-import { Metadata } from 'next'
-import { PageSkeleton } from '@/components/ui/page-state'
-import QueryArticlePage from './QueryArticlePage'
-
-export const metadata: Metadata = {
-  title: 'Actualité',
-}
-
-/** Page d'un article : /actualites/voir/?id=… */
-export default function VoirArticlePage() {
-  return (
-    <main>
-      <Suspense fallback={<PageSkeleton />}>
-        <QueryArticlePage />
-      </Suspense>
-    </main>
-  )
-}
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/actualites/voir/index.tsx
+export { default, metadata } from '@/routes/actualites/voir'

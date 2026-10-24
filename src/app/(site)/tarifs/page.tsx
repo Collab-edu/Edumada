@@ -1,16 +1,3 @@
-import { Metadata } from 'next'
-import PricingPage from '@/features/marketing/components/PricingPage'
-
-export const metadata: Metadata = {
-  title: 'Établissements : nos formules',
-  description:
-    'Référencez votre établissement gratuitement sur Edumada. Formule Pro pour gérer vos demandes, Premium pour promouvoir vos formations. Accès toujours gratuit pour les étudiants.',
-}
-
-export default function TarifsPage() {
-  return (
-    <main>
-      <PricingPage />
-    </main>
-  )
-}
+// Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
+// Contenu de la page : src/routes/tarifs/index.tsx
+export { default, metadata } from '@/routes/tarifs'
