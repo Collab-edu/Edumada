@@ -5,6 +5,7 @@ import type { CategoryType } from '@/features/categories/types'
 import { ADMISSION_LEVEL_LABEL, formatAgeRange, formatDate } from '@/features/formations/format'
 import type { FormationType } from '@/features/formations/types'
 import type { SchoolType } from '../types'
+import { useT } from '@/i18n/client'
 
 const STEPS = [
     { icon: 'tabler:list-check', title: 'Vérifiez les prérequis', text: "Âge, niveau ou prérequis demandés pour l'offre choisie." },
@@ -29,6 +30,7 @@ export function SchoolAdmission({
     formations: FormationType[]
     fields: CategoryType['fields']
 }) {
+    const t = useT()
     // Seules les colonnes pertinentes pour la catégorie (et renseignées) sont affichées.
     const columns: { label: string; value: (f: FormationType) => string }[] = [
         ...(fields.level ? [{ label: 'Niveau requis', value: (f: FormationType) => ADMISSION_LEVEL_LABEL[f.admission.level] }] : []),
@@ -46,8 +48,8 @@ export function SchoolAdmission({
                     <li key={step.title} className='relative rounded-xl border border-gray-100 bg-white p-4'>
                         <span className='absolute top-3 right-4 text-3xl font-bold text-secondary/10'>{i + 1}</span>
                         <Icon icon={step.icon} className='mb-2 text-2xl text-primary' />
-                        <p className='font-semibold text-secondary'>{step.title}</p>
-                        <span className='text-sm text-ink/70'>{step.text}</span>
+                        <p className='font-semibold text-secondary'>{t(step.title)}</p>
+                        <span className='text-sm text-ink/70'>{t(step.text)}</span>
                     </li>
                 ))}
             </ol>
@@ -59,7 +61,7 @@ export function SchoolAdmission({
                         <tr>
                             <th scope='col' className='px-4 py-3 font-semibold'>Offre</th>
                             {columns.map((col) => (
-                                <th key={col.label} scope='col' className='px-4 py-3 font-semibold'>{col.label}</th>
+                                <th key={col.label} scope='col' className='px-4 py-3 font-semibold'>{t(col.label)}</th>
                             ))}
                         </tr>
                     </thead>
@@ -70,7 +72,7 @@ export function SchoolAdmission({
                                     <a href={`#${f.id}`} className='hover:text-primary'>{f.title}</a>
                                 </th>
                                 {columns.map((col) => (
-                                    <td key={col.label} className='px-4 py-3'>{col.value(f)}</td>
+                                    <td key={col.label} className='px-4 py-3'>{t(col.value(f))}</td>
                                 ))}
                             </tr>
                         ))}
@@ -84,8 +86,8 @@ export function SchoolAdmission({
                         <dl className='grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-ink/80'>
                             {columns.map((col) => (
                                 <Fragment key={col.label}>
-                                    <dt className='text-ink/60'>{col.label}</dt>
-                                    <dd>{col.value(f)}</dd>
+                                    <dt className='text-ink/60'>{t(col.label)}</dt>
+                                    <dd>{t(col.value(f))}</dd>
                                 </Fragment>
                             ))}
                         </dl>
@@ -94,7 +96,7 @@ export function SchoolAdmission({
             </div>
             {/* Pièces du dossier */}
             <div className='rounded-2xl bg-secondary/[0.06] p-6'>
-                <p className='mb-3 font-semibold text-secondary'>Pièces à fournir</p>
+                <p className='mb-3 font-semibold text-secondary'>{t('Pièces à fournir')}</p>
                 <ul className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2'>
                     {school.admissionDocuments.map((doc) => (
                         <li key={doc} className='flex items-start gap-2 text-ink/80'>
@@ -104,7 +106,7 @@ export function SchoolAdmission({
                     ))}
                 </ul>
                 <p className='mt-4 text-sm text-ink/60'>
-                    La liste peut varier selon la formation : confirmez-la auprès de l&apos;établissement avant de déposer votre dossier.
+                    {t('La liste peut varier selon la formation : confirmez-la auprès de l’établissement avant de déposer votre dossier.')}
                 </p>
             </div>
         </div>

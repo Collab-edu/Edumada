@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { imageOr } from '@/lib/media'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import type { CategoryType } from '@/features/categories/types'
@@ -16,14 +16,15 @@ const REGISTRATION_BADGE: Record<RegistrationStatus, { label: string; className:
 }
 
 function Detail({ icon, label, children }: { icon: string; label: string; children: React.ReactNode }) {
+    const t = useT()
     return (
         <div className='flex gap-3'>
             <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary/10 text-secondary'>
                 <Icon icon={icon} className='text-lg' />
             </span>
             <div className='flex flex-col'>
-                <span className='text-sm text-ink/60'>{label}</span>
-                <span className='font-medium text-ink'>{children}</span>
+                <span className='text-sm text-ink/60'>{t(label)}</span>
+                <span className='font-medium text-ink'>{typeof children === 'string' ? t(children) : children}</span>
             </div>
         </div>
     )
@@ -34,6 +35,7 @@ function Detail({ icon, label, children }: { icon: string; label: string; childr
  * S'ouvre automatiquement quand l'URL vise cette formation (…#id-de-la-formation).
  */
 export function SchoolFormation({ formation, fields }: { formation: FormationType; fields: CategoryType['fields'] }) {
+    const t = useT()
     const [open, setOpen] = useState(false)
     const badge = REGISTRATION_BADGE[formation.registration]
     const { level, bacSeries } = formation.admission
@@ -63,7 +65,7 @@ export function SchoolFormation({ formation, fields }: { formation: FormationTyp
                 </div>
                 <div className='flex flex-1 flex-col gap-3 p-5'>
                     <div className='flex flex-wrap items-center gap-2'>
-                        <span className={cn('rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>{badge.label}</span>
+                        <span className={cn('rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>{t(badge.label)}</span>
                         {(formation.diploma || formation.ageRange) && (
                             <span className='rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold text-secondary'>
                                 {formation.diploma ?? formatAgeRange(formation.ageRange!)}
@@ -83,7 +85,7 @@ export function SchoolFormation({ formation, fields }: { formation: FormationTyp
                             <Icon icon='tabler:device-laptop' className='text-secondary' /> {formation.modality}
                         </li>
                         <li className='inline-flex items-center gap-1.5'>
-                            <Icon icon='tabler:coin' className='text-secondary' /> {tuition ?? 'Frais non renseignés'}
+                            <Icon icon='tabler:coin' className='text-secondary' /> {tuition ? t(tuition) : t('Frais non renseignés')}
                         </li>
                     </ul>
                     <div className='mt-auto flex flex-wrap items-center gap-3 pt-1'>
@@ -93,13 +95,13 @@ export function SchoolFormation({ formation, fields }: { formation: FormationTyp
                             aria-expanded={open}
                             aria-controls={detailsId}
                             className='inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-primary/90 hover:cursor-pointer'>
-                            {open ? 'Masquer le détail' : 'Voir le détail'}
+                            {open ? t('Masquer le détail') : t('Voir le détail')}
                             <Icon icon='tabler:chevron-down' className={cn('transition-transform duration-200', open && 'rotate-180')} />
                         </button>
                         <Link
                             href={`/formations/${formation.id}`}
                             className='py-2 font-semibold text-secondary underline underline-offset-4 decoration-secondary/30 hover:text-primary hover:decoration-primary'>
-                            Fiche complète
+                            {t('Fiche complète')}
                         </Link>
                     </div>
                 </div>
@@ -131,12 +133,12 @@ export function SchoolFormation({ formation, fields }: { formation: FormationTyp
                     </div>
 
                     <div className='mt-5 rounded-xl bg-offwhite p-4'>
-                        <p className='mb-1 font-semibold text-secondary'>Conditions d&apos;admission</p>
+                        <p className='mb-1 font-semibold text-secondary'>{t('Conditions d’admission')}</p>
                         <ul className='flex flex-col gap-1 text-ink/80'>
-                            {fields.level && <li>Niveau requis : {ADMISSION_LEVEL_LABEL[level]}</li>}
-                            <li>Sélection : {formation.admission.selection}</li>
+                            {fields.level && <li>{t('Niveau requis :')} {t(ADMISSION_LEVEL_LABEL[level])}</li>}
+                            <li>{t('Sélection :')} {t(formation.admission.selection)}</li>
                             {fields.level && level === 'BAC' && (
-                                <li>Séries du BAC acceptées : {bacSeries.length > 0 ? bacSeries.join(', ') : 'toutes les séries'}</li>
+                                <li>{t('Séries du BAC acceptées :')} {bacSeries.length > 0 ? bacSeries.join(', ') : t('toutes les séries')}</li>
                             )}
                         </ul>
                     </div>

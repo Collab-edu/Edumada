@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { imageOr, mapUrls } from '@/lib/media'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import type { CategoryType } from '@/features/categories/types'
 import { formatDate } from '@/features/formations/format'
@@ -29,12 +29,13 @@ interface SchoolProfileProps {
 }
 
 function InfoRow({ icon, label, children }: { icon: string; label: string; children: React.ReactNode }) {
+    const t = useT()
     return (
         <li className='flex gap-3 py-3 border-b border-gray-100 last:border-b-0'>
             <Icon icon={icon} className='mt-0.5 shrink-0 text-xl text-secondary' />
             <div className='flex min-w-0 flex-col'>
-                <span className='text-sm text-ink/60'>{label}</span>
-                <span className='break-words text-ink'>{children}</span>
+                <span className='text-sm text-ink/60'>{t(label)}</span>
+                <span className='break-words text-ink'>{typeof children === 'string' ? t(children) : children}</span>
             </div>
         </li>
     )
@@ -42,6 +43,7 @@ function InfoRow({ icon, label, children }: { icon: string; label: string; child
 
 /** Fiche complète d'un établissement : présentation, formations, photos, contact et localisation. */
 export function SchoolProfile({ school, category, formations, testimonials, faq }: SchoolProfileProps) {
+    const t = useT()
     const { fields } = category
     // Les avis viennent des étudiants dans le supérieur, des familles ailleurs.
     const reviewsTitle = category.id === 'petite-enfance' ? 'Avis des parents' : fields.careers ? "Témoignages d'étudiants" : 'Avis des familles et des élèves'
@@ -55,10 +57,10 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
         <section className='pt-24 pb-20 sm:pt-28'>
             <div className='container mx-auto max-w-7xl px-4'>
                 {/* Fil d'Ariane */}
-                <nav aria-label="Fil d'Ariane" className='mb-4 text-sm text-ink/60'>
-                    <Link href='/' className='inline-block py-2 hover:text-primary'>Accueil</Link>
+                <nav aria-label={t("Fil d'Ariane")} className='mb-4 text-sm text-ink/60'>
+                    <Link href='/' className='inline-block py-2 hover:text-primary'>{t('Accueil')}</Link>
                     <span className='mx-2'>/</span>
-                    <Link href='/etablissements/' className='inline-block py-2 hover:text-primary'>Établissements</Link>
+                    <Link href='/etablissements/' className='inline-block py-2 hover:text-primary'>{t('Établissements')}</Link>
                     <span className='mx-2'>/</span>
                     <span className='text-secondary'>{school.name}</span>
                 </nav>
@@ -87,12 +89,12 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 </span>
                                 {school.verification.status === 'Vérifié' && (
                                     <span className='inline-flex items-center gap-1 rounded-full bg-success px-3 py-1 font-semibold text-secondary'>
-                                        <Icon icon='tabler:shield-check' /> Fiche vérifiée
+                                        <Icon icon='tabler:shield-check' /> {t('Fiche vérifiée')}
                                     </span>
                                 )}
                                 {school.accreditationVerified && (
                                     <span className='inline-flex items-center gap-1 rounded-full bg-success px-3 py-1 font-semibold text-secondary'>
-                                        <Icon icon='tabler:rosette-discount-check' /> Reconnu
+                                        <Icon icon='tabler:rosette-discount-check' /> {t('Reconnu')}
                                     </span>
                                 )}
                             </div>
@@ -115,7 +117,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 href={`tel:${school.phone.replace(/\s/g, '')}`}
                                 onClick={() => track({ type: 'contact_click', establishment: school.id })}
                                 className='inline-flex items-center gap-2 rounded-lg border border-secondary/20 bg-white px-4 py-2.5 font-semibold text-secondary transition-colors duration-300 hover:border-primary hover:text-primary'>
-                                <Icon icon='tabler:phone' className='text-lg' /> Appeler
+                                <Icon icon='tabler:phone' className='text-lg' /> {t('Appeler')}
                             </a>
                         )}
                         {school.website && (
@@ -125,7 +127,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 rel='noopener noreferrer'
                                 onClick={() => track({ type: 'website_click', establishment: school.id })}
                                 className='inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 font-semibold text-white shadow-lg shadow-primary/30 transition-colors duration-300 hover:bg-primary/90'>
-                                <Icon icon='tabler:world' className='text-lg' /> Site web
+                                <Icon icon='tabler:world' className='text-lg' /> {t('Site web')}
                             </a>
                         )}
                     </div>
@@ -135,13 +137,13 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                     {/* Colonne principale */}
                     <div className='flex flex-col gap-10'>
                         <div>
-                            <h2 className='mb-3 font-bold'>À propos</h2>
+                            <h2 className='mb-3 font-bold'>{t('À propos')}</h2>
                             <p className='text-black leading-relaxed'>{school.description}</p>
                         </div>
 
                         <div>
                             <h2 className='mb-5 font-bold'>
-                                {category.offersLabel} <span className='text-ink/50'>({formations.length})</span>
+                                {t(category.offersLabel)} <span className='text-ink/50'>({formations.length})</span>
                             </h2>
                             {formations.length > 0 ? (
                                 <div className='grid grid-cols-1 md:grid-cols-2 items-start gap-5'>
@@ -150,13 +152,13 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                     ))}
                                 </div>
                             ) : (
-                                <p className='text-ink/60'>Aucune offre n&apos;est encore référencée pour cet établissement.</p>
+                                <p className='text-ink/60'>{t('Aucune offre n’est encore référencée pour cet établissement.')}</p>
                             )}
                         </div>
 
                         {formations.length > 0 && (
                             <div id='admission' className='scroll-mt-28'>
-                                <h2 className='mb-5 font-bold'>Conditions d&apos;admission</h2>
+                                <h2 className='mb-5 font-bold'>{t('Conditions d’admission')}</h2>
                                 <SchoolAdmission school={school} formations={formations} fields={fields} />
                             </div>
                         )}
@@ -192,12 +194,12 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         {school.reviewsEnabled !== false && (
                         <div id='temoignages' className='scroll-mt-28'>
                             <div className='mb-5 flex flex-wrap items-center justify-between gap-3'>
-                                <h2 className='font-bold'>{reviewsTitle}</h2>
+                                <h2 className='font-bold'>{t(reviewsTitle)}</h2>
                                 <button
                                     type='button'
                                     onClick={() => setReviewOpen(true)}
                                     className='inline-flex min-h-11 items-center gap-2 rounded-lg border border-primary px-4 py-2 font-semibold text-primary hover:bg-primary hover:text-white hover:cursor-pointer'>
-                                    <Icon icon='tabler:message-star' /> Donner mon avis
+                                    <Icon icon='tabler:message-star' /> {t('Donner mon avis')}
                                 </button>
                             </div>
                             <SchoolTestimonials testimonials={testimonials} formations={formations} />
@@ -205,7 +207,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         )}
 
                         <div id='faq' className='scroll-mt-28'>
-                            <h2 className='mb-5 font-bold'>Questions fréquentes</h2>
+                            <h2 className='mb-5 font-bold'>{t('Questions fréquentes')}</h2>
                             <SchoolFaq items={faq} />
                         </div>
                     </div>
@@ -223,7 +225,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 target='_blank'
                                 rel='noopener noreferrer'
                                 className='flex items-center justify-between px-6 py-4 font-semibold text-primary hover:underline'>
-                                Ouvrir dans OpenStreetMap
+                                {t('Ouvrir dans OpenStreetMap')}
                                 <Icon icon='tabler:external-link' />
                             </a>
                         </div>
@@ -234,7 +236,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             <ul>
                                 <InfoRow icon='tabler:building-community' label='Nom'>{school.name}</InfoRow>
                                 <InfoRow icon={category.icon} label='Type et catégorie'>
-                                    {[school.subCategory, category.label, school.type?.toLowerCase()].filter(Boolean).join(' · ')}
+                                    {[school.subCategory, category.label, school.type].filter((v): v is string => Boolean(v)).map((v) => t(v)).join(' · ')}
                                 </InfoRow>
                                 <InfoRow icon='tabler:map-pin' label='Adresse'>{school.address}</InfoRow>
                                 {school.phone && (
@@ -278,7 +280,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 </InfoRow>
                                 <InfoRow icon='tabler:shield-check' label='Statut sur Edumada'>
                                     {school.verification.status === 'Vérifié' && school.verification.date
-                                        ? `Fiche vérifiée le ${formatDate(school.verification.date)}`
+                                        ? t('Fiche vérifiée le {date}', { date: t(formatDate(school.verification.date)) })
                                         : school.verification.status === 'En cours'
                                             ? 'Vérification en cours'
                                             : 'Fiche non vérifiée'}
@@ -286,17 +288,17 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             </ul>
                         </div>
                         <div className='rounded-2xl border border-gray-100 bg-white p-6 shadow-sm flex flex-col gap-3'>
-                            <p className='text-lg font-bold text-secondary'>Une information à corriger ?</p>
+                            <p className='text-lg font-bold text-secondary'>{t('Une information à corriger ?')}</p>
                             <button
                                 type='button'
                                 onClick={() => setReportOpen(true)}
                                 className='flex min-h-11 items-center gap-2 font-semibold text-primary hover:underline hover:cursor-pointer'>
-                                <Icon icon='tabler:flag' /> Signaler une information erronée
+                                <Icon icon='tabler:flag' /> {t('Signaler une information erronée')}
                             </button>
                             <Link
                                 href={backofficeUrl(`/revendiquer?fiche=${school.id}`)}
                                 className='flex min-h-11 items-center gap-2 font-semibold text-secondary hover:text-primary'>
-                                <Icon icon='tabler:building-community' /> Vous représentez cet établissement ? Gérez cette fiche
+                                <Icon icon='tabler:building-community' /> {t('Vous représentez cet établissement ? Gérez cette fiche')}
                             </Link>
                         </div>
                     </aside>

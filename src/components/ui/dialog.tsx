@@ -2,6 +2,7 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
+import { useT } from '@/i18n/client'
 
 interface DialogProps {
     open: boolean
@@ -17,6 +18,7 @@ interface DialogProps {
  * Échap et clic à l'extérieur la ferment ; le défilement de la page est bloqué pendant l'ouverture.
  */
 export function Dialog({ open, onClose, title, description, children, className }: DialogProps) {
+    const t = useT()
     const titleId = useId()
     const panelRef = useRef<HTMLDivElement>(null)
 
@@ -47,13 +49,13 @@ export function Dialog({ open, onClose, title, description, children, className 
                 )}>
                 <div className='mb-5 flex items-start justify-between gap-4'>
                     <div className='flex flex-col gap-1'>
-                        <h2 id={titleId} className='text-xl font-bold text-secondary'>{title}</h2>
+                        <h2 id={titleId} className='text-xl font-bold text-secondary'>{t(title)}</h2>
                         {description && <p className='text-sm text-black'>{description}</p>}
                     </div>
                     <button
                         type='button'
                         onClick={onClose}
-                        aria-label='Fermer'
+                        aria-label={t('Fermer')}
                         className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-offwhite text-ink hover:bg-cream hover:text-primary hover:cursor-pointer'>
                         <Icon icon='tabler:x' className='text-xl' />
                     </button>

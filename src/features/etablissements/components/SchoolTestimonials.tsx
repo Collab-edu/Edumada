@@ -4,12 +4,13 @@ import AutoScroll from '@/components/ui/auto-scroll'
 import { cn } from '@/lib/utils'
 import type { FormationType } from '@/features/formations/types'
 import type { TestimonialType } from '../types'
+import { useT } from '@/i18n/client'
 
 const AVATAR_COLORS = ['bg-primary text-white', 'bg-secondary text-white', 'bg-success text-secondary', 'bg-cream text-primary']
 
 function Stars({ rating, className }: { rating: number; className?: string }) {
     return (
-        <span className={cn('inline-flex text-[#FBBC04]', className)} aria-label={`${rating} sur 5`}>
+        <span className={cn('inline-flex text-[#FBBC04]', className)} aria-label={`${rating} / 5`}>
             {Array.from({ length: 5 }).map((_, i) => (
                 <Icon key={i} icon={i < Math.round(rating) ? 'tabler:star-filled' : 'tabler:star'} />
             ))}
@@ -33,8 +34,9 @@ export function SchoolTestimonials({
     testimonials: TestimonialType[]
     formations: FormationType[]
 }) {
+    const tr = useT()
     if (testimonials.length === 0) {
-        return <p className='text-ink/60'>Aucun témoignage pour le moment.</p>
+        return <p className='text-ink/60'>{tr('Aucun témoignage pour le moment.')}</p>
     }
     const average = testimonials.reduce((sum, t) => sum + t.rating, 0) / testimonials.length
     const titleOf = (id: string) => formations.find((f) => f.id === id)?.title
@@ -44,7 +46,7 @@ export function SchoolTestimonials({
             <div className='flex items-center gap-2 text-sm text-ink/70'>
                 <Stars rating={average} />
                 <span className='font-semibold text-secondary'>{average.toFixed(1).replace('.', ',')}</span>
-                <span>· {testimonials.length} avis</span>
+                <span>· {tr(`${testimonials.length} avis`)}</span>
             </div>
 
             <AutoScroll duration={30} itemClassName='w-[340px]'>
