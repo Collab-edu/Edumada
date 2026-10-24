@@ -104,6 +104,8 @@ export function filtersFromParams(params: URLSearchParams): SearchFilters {
         ville: params.get('ville') ?? '',
         pos: params.get('pos') ?? '',
         type: params.get('type') ?? '',
+        // Âge de l'enfant choisi dans la recherche rapide (petite enfance).
+        childAge: params.get('age') ?? '',
         diplomas: niveau ? [HERO_LEVEL_TO_DIPLOMA[niveau] ?? niveau] : [],
     }
 }

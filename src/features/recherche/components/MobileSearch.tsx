@@ -23,7 +23,9 @@ export default function MobileSearch() {
     const [open, setOpen] = useState(false)
     const [search, setSearch] = useState(EMPTY_HERO_SEARCH)
     const searchHref = heroSearchHref(search, (suggestions.domaine ?? []).map((s) => s.value))
-    const summary = [search.categorie, search.formation, search.ville].filter(Boolean).join(' · ')
+    const summary = [search.categorie, search.formation, search.age && `${search.age === '0.5' ? 'moins d’un an' : `${search.age} an${search.age === '1' ? '' : 's'}`}`, search.ville]
+        .filter(Boolean)
+        .join(' · ')
 
     return (
         <div className='sm:hidden'>
