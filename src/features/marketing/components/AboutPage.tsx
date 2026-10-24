@@ -8,6 +8,7 @@ import HeroVideo from '@/components/ui/hero-video'
 import StudentSpaceSection from './StudentSpaceSection'
 import OrientationBanner from './OrientationBanner'
 import AboutStory from './AboutStory'
+import { useT } from '@/i18n/client'
 
 const HERO_IMAGE = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=70'
 /** Vidéo libre de droits (Pexels), en attendant une vidéo d'Edumada. */
@@ -34,6 +35,7 @@ const FAQ: FaqItem[] = [
 
 /** Page À propos : mission d'Edumada, ses engagements, ses publics et quelques questions fréquentes. */
 export default function AboutPage() {
+    const t = useT()
     const { data: schools } = useSiteData('SchoolData')
     const { data: formations } = useSiteData('FormationData')
     const cities = new Set(schools.map((school) => school.city).filter(Boolean))
@@ -51,21 +53,20 @@ export default function AboutPage() {
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
                         <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
-                            Bien choisir sa formation, <span className='text-primary'>partout à Madagascar</span>
+                            {t('Bien choisir sa formation,')} <span className='text-primary'>{t('partout à Madagascar')}</span>
                         </h1>
                         <p className='max-w-2xl text-black'>
-                            Edumada aide les jeunes et leurs familles à découvrir les formations et les établissements du pays, à les comparer, puis à
-                            les contacter directement.
+                            {t('Edumada aide les jeunes et leurs familles à découvrir les formations et les établissements du pays, à les comparer, puis à les contacter directement.')}
                         </p>
                     </div>
 
                     <div className='relative mt-10'>
-                        <HeroVideo src={HERO_VIDEO} poster={HERO_IMAGE} label='Élèves en classe' className='h-56 sm:h-80 lg:h-96' />
+                        <HeroVideo src={HERO_VIDEO} poster={HERO_IMAGE} label={t('Élèves en classe')} className='h-56 sm:h-80 lg:h-96' />
                         <ul className='relative mx-4 -mt-10 grid grid-cols-3 divide-x divide-gray-200 rounded-xl border border-gray-200 bg-white py-4 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)] sm:mx-auto sm:max-w-2xl sm:py-6'>
                             {figures.map((figure) => (
                                 <li key={figure.label} className='flex flex-col items-center gap-1 px-2 text-center'>
                                     <span className='text-2xl sm:text-4xl font-bold text-secondary'>{figure.value || '–'}</span>
-                                    <span className='text-xs sm:text-sm text-ink/70'>{figure.label}</span>
+                                    <span className='text-xs sm:text-sm text-ink/70'>{t(figure.label)}</span>
                                 </li>
                             ))}
                         </ul>
@@ -85,7 +86,7 @@ export default function AboutPage() {
                     <SectionHeader title='Questions fréquentes' />
                     <SchoolFaq items={FAQ} />
                     <p className='mt-6 text-black'>
-                        Une autre question ? Écrivez-nous :{' '}
+                        {t('Une autre question ? Écrivez-nous :')}{' '}
                         <a href={`mailto:${CONTACT.email}`} className='font-semibold text-primary underline underline-offset-4'>
                             {CONTACT.email}
                         </a>

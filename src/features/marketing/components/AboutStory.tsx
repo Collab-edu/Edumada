@@ -1,5 +1,6 @@
+'use client'
 import Image from 'next/image'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import { Icon } from '@/components/ui/icon'
 import withBasePath from '@/lib/base-path'
@@ -48,6 +49,7 @@ type AboutStoryProps = {
 
 /** Récit de la page À propos : le constat, notre réponse, puis les publics d'Edumada. */
 export default function AboutStory({ figures, cities }: AboutStoryProps) {
+    const t = useT()
     const schools = figures[0]?.value ?? 0
 
     return (
@@ -58,15 +60,13 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                     <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
                         <div className='flex max-w-2xl flex-col gap-5'>
                             <h2 className='text-3xl font-bold leading-tight md:text-4xl'>
-                                Nous voulons que chaque jeune choisisse sa formation <span className='text-primary'>en connaissance de cause</span>
+                                {t('Nous voulons que chaque jeune choisisse sa formation')} <span className='text-primary'>{t('en connaissance de cause')}</span>
                             </h2>
                             <p className='text-black'>
-                                À Madagascar, trouver une formation se fait souvent au hasard : une affiche, une publication sur les réseaux sociaux, le
-                                conseil d’un proche. Les informations sont dispersées, incomplètes et difficiles à comparer.
+                                {t('À Madagascar, trouver une formation se fait souvent au hasard : une affiche, une publication sur les réseaux sociaux, le conseil d’un proche. Les informations sont dispersées, incomplètes et difficiles à comparer.')}
                             </p>
                             <p className='text-black'>
-                                Edumada rassemble ces informations au même endroit, présentées de la même façon, pour que chacun puisse comparer avant de
-                                décider.
+                                {t('Edumada rassemble ces informations au même endroit, présentées de la même façon, pour que chacun puisse comparer avant de décider.')}
                             </p>
                         </div>
                         <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-3xl border border-gray-200 bg-white p-6 text-center shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
@@ -76,7 +76,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                     <span
                                         key={item.label}
                                         className={`${item.rotate} rounded-lg border border-dashed border-gray-300 bg-offwhite px-3 py-1.5 text-sm text-ink/50 line-through decoration-primary/60`}>
-                                        {item.label}
+                                        {t(item.label)}
                                     </span>
                                 ))}
                             </div>
@@ -84,7 +84,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                 <Icon icon='tabler:arrow-narrow-down' className='text-2xl text-primary' />
                                 <span className='inline-flex items-center gap-2 rounded-lg bg-secondary px-3 py-1.5 text-sm font-semibold text-white'>
                                     <Image src={withBasePath('/images/logo/edumada-logo-white.svg')} alt='' width={828} height={270} className='h-5 w-auto' />
-                                    Tout au même endroit
+                                    {t('Tout au même endroit')}
                                 </span>
                             </div>
                         </div>
@@ -98,28 +98,27 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                     <div className='grid items-center gap-12 lg:grid-cols-2 lg:gap-16'>
                         <div className='relative pr-4 sm:pr-10'>
                             <div className='relative h-72 overflow-hidden rounded-3xl sm:h-96'>
-                                <Image src={PHOTO} alt='Étudiants qui comparent des formations' fill sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
+                                <Image src={PHOTO} alt={t('Étudiants qui comparent des formations')} fill sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
                             </div>
                             {schools > 0 && (
                                 <div className='absolute right-0 top-6 rounded-2xl bg-primary px-4 py-3 text-white shadow-lg'>
                                     <span className='block text-2xl font-bold leading-none'>{schools}</span>
-                                    <span className='text-xs text-white/85'>établissements réunis</span>
+                                    <span className='text-xs text-white/85'>{t('établissements réunis')}</span>
                                 </div>
                             )}
                         </div>
 
                         <div className='flex flex-col gap-5'>
-                            <h2 className='text-3xl font-bold leading-tight md:text-4xl'>Nous rapprochons les jeunes et les établissements</h2>
+                            <h2 className='text-3xl font-bold leading-tight md:text-4xl'>{t('Nous rapprochons les jeunes et les établissements')}</h2>
                             <p className='text-black'>
-                                Edumada est présent partout à Madagascar, pour que l’offre des régions soit aussi visible que celle de la capitale. Trois
-                                engagements guident notre travail :
+                                {t('Edumada est présent partout à Madagascar, pour que l’offre des régions soit aussi visible que celle de la capitale. Trois engagements guident notre travail :')}
                             </p>
                             <ol className='flex flex-col gap-3'>
                                 {COMMITMENTS.map((item, index) => (
                                     <li key={item.title} className='flex gap-3 text-black'>
                                         <span className='font-bold text-primary'>0{index + 1}</span>
                                         <span>
-                                            <strong className='font-semibold text-secondary'>{item.title}</strong> : {item.text}
+                                            <strong className='font-semibold text-secondary'>{t(item.title)}</strong> : {t(item.text)}
                                         </span>
                                     </li>
                                 ))}
@@ -148,11 +147,11 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                         <div className='pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full border-[32px] border-primary/20' aria-hidden='true' />
 
                         <div className='relative mx-auto flex max-w-2xl flex-col items-center gap-3 text-center'>
-                            <span className='text-sm font-semibold uppercase tracking-wide text-primary'>Pour qui ?</span>
+                            <span className='text-sm font-semibold uppercase tracking-wide text-primary'>{t('Pour qui ?')}</span>
                             <h2 className='text-3xl font-bold leading-tight text-white md:text-4xl'>
-                                Une plateforme pour tous ceux qui cherchent ou proposent une formation
+                                {t('Une plateforme pour tous ceux qui cherchent ou proposent une formation')}
                             </h2>
-                            <p className='text-white/75'>Étudiants, familles et établissements : chacun y trouve ce dont il a besoin.</p>
+                            <p className='text-white/75'>{t('Étudiants, familles et établissements : chacun y trouve ce dont il a besoin.')}</p>
                         </div>
 
                         <ul className='relative mt-12 grid gap-5 md:grid-cols-3'>
@@ -164,10 +163,10 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                         <span className='flex h-14 w-14 items-center justify-center rounded-2xl bg-cream text-primary'>
                                             <Icon icon={audience.icon} className='text-3xl' />
                                         </span>
-                                        <h3 className='text-lg font-semibold text-secondary'>{audience.title}</h3>
-                                        <p className='text-black'>{audience.text}</p>
+                                        <h3 className='text-lg font-semibold text-secondary'>{t(audience.title)}</h3>
+                                        <p className='text-black'>{t(audience.text)}</p>
                                         <span className='mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary'>
-                                            {audience.link.label}
+                                            {t(audience.link.label)}
                                             <Icon icon='tabler:arrow-right' className='text-base transition-transform duration-300 group-hover:translate-x-1' />
                                         </span>
                                     </Link>
