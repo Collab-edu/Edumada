@@ -1,6 +1,8 @@
+'use client'
 import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
+import { useT } from '@/i18n/client'
 
 const PHOTO = 'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?auto=format&fit=crop&w=600&h=700&q=75'
 
@@ -12,6 +14,7 @@ const POINTS = [
 
 /** Bandeau vers la page Orientation : accroche, photo et points forts. */
 export default function OrientationBanner() {
+    const t = useT()
     return (
         <section>
             <div className='container mx-auto max-w-7xl px-4'>
@@ -21,10 +24,10 @@ export default function OrientationBanner() {
                             <Icon icon='tabler:compass' className='text-lg' />
                             Orientation
                         </span>
-                        <h2 className='font-bold text-white'>Un accompagnement à chaque étape</h2>
-                        <p className='text-white/75'>Des repères et des outils pour vous aider à faire le bon choix de formation.</p>
+                        <h2 className='font-bold text-white'>{t('Un accompagnement à chaque étape')}</h2>
+                        <p className='text-white/75'>{t('Des repères et des outils pour vous aider à faire le bon choix de formation.')}</p>
                         <ButtonLink href='/orientation/'>
-                            Commencer
+                            {t('Commencer')}
                             <Icon icon='tabler:arrow-right' className='text-lg' />
                         </ButtonLink>
                     </div>
@@ -42,7 +45,7 @@ export default function OrientationBanner() {
                                 <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-primary'>
                                     <Icon icon={point.icon} className='text-xl' />
                                 </span>
-                                <span className='font-medium'>{point.text}</span>
+                                <span className='font-medium'>{t(point.text)}</span>
                             </li>
                         ))}
                     </ul>

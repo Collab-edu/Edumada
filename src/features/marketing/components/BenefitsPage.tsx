@@ -1,4 +1,5 @@
-import Link from '@/i18n/client'
+'use client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import SectionHeader from '@/components/ui/section-header'
@@ -69,6 +70,7 @@ const PLANS = [
 
 /** Page Avantages : ce qu'Edumada apporte aux établissements référencés. */
 export default function BenefitsPage() {
+    const t = useT()
     return (
         <>
             {/* En-tête */}
@@ -76,26 +78,25 @@ export default function BenefitsPage() {
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
                         <div className='flex flex-col gap-4'>
-                            <p className='font-semibold uppercase tracking-wide text-primary'>Établissements</p>
-                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Faites découvrir vos formations aux futurs étudiants</h1>
+                            <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
+                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t('Faites découvrir vos formations aux futurs étudiants')}</h1>
                             <p className='text-black'>
-                                Edumada est le lieu où les jeunes et leurs familles cherchent une formation à Madagascar. Référencez votre
-                                établissement gratuitement et soyez là où ils vous cherchent.
+                                {t('Edumada est le lieu où les jeunes et leurs familles cherchent une formation à Madagascar. Référencez votre établissement gratuitement et soyez là où ils vous cherchent.')}
                             </p>
                             <div className='flex flex-wrap gap-3'>
                                 <ButtonLink href='/tarifs/'>
-                                    Référencer mon établissement
+                                    {t('Référencer mon établissement')}
                                     <Icon icon='tabler:arrow-right' className='text-lg' />
                                 </ButtonLink>
                                 <ButtonLink href='/tarifs/' variant='secondary'>
-                                    Voir les formules
+                                    {t('Voir les formules')}
                                 </ButtonLink>
                             </div>
                         </div>
 
                         <div>
                             <DashboardPreview />
-                            <p className='mt-4 text-center !text-xs text-ink/50'>Aperçu illustratif de l’espace établissement</p>
+                            <p className='mt-4 text-center !text-xs text-ink/50'>{t('Aperçu illustratif de l’espace établissement')}</p>
                         </div>
                     </div>
                 </div>
@@ -113,8 +114,8 @@ export default function BenefitsPage() {
                                 <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary'>
                                     <Icon icon={benefit.icon} className='text-2xl' />
                                 </span>
-                                <h3 className='text-lg font-semibold text-secondary'>{benefit.title}</h3>
-                                <p className='text-black'>{benefit.text}</p>
+                                <h3 className='text-lg font-semibold text-secondary'>{t(benefit.title)}</h3>
+                                <p className='text-black'>{t(benefit.text)}</p>
                             </li>
                         ))}
                     </ul>
@@ -127,12 +128,12 @@ export default function BenefitsPage() {
                     <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
                         <PhoneMockup tabs={PHONE_TABS}>
                             <div>
-                                <p className='font-bold text-secondary'>Bienvenue <Icon icon='material-symbols:waving-hand-outline' aria-hidden='true' className='inline-block align-[-0.125em] text-amber-400' /></p>
-                                <p className='!text-xs text-ink/60'>Votre fiche est presque prête.</p>
+                                <p className='font-bold text-secondary'>{t('Bienvenue')} <Icon icon='material-symbols:waving-hand-outline' aria-hidden='true' className='inline-block align-[-0.125em] text-amber-400' /></p>
+                                <p className='!text-xs text-ink/60'>{t('Votre fiche est presque prête.')}</p>
                             </div>
                             <div className='flex flex-col gap-2 rounded-lg bg-white p-3'>
                                 <div className='flex items-center justify-between text-xs'>
-                                    <span className='font-semibold text-secondary'>Fiche complétée</span>
+                                    <span className='font-semibold text-secondary'>{t('Fiche complétée')}</span>
                                     <span className='font-bold text-primary'>83 %</span>
                                 </div>
                                 <div className='h-2 overflow-hidden rounded-full bg-secondary/10'>
@@ -146,13 +147,13 @@ export default function BenefitsPage() {
                                             className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${item.done ? 'bg-success/50 text-secondary' : 'border border-dashed border-primary text-primary'}`}>
                                             <Icon icon={item.done ? 'tabler:check' : 'tabler:plus'} className='text-xs' />
                                         </span>
-                                        <span className={item.done ? '' : 'font-semibold'}>{item.label}</span>
+                                        <span className={item.done ? '' : 'font-semibold'}>{t(item.label)}</span>
                                     </li>
                                 ))}
                             </ul>
                             <div className='flex items-center gap-2 rounded-lg bg-secondary px-3 py-2 text-[11px] font-semibold text-white'>
                                 <Icon icon='tabler:send' className='text-sm' />
-                                Envoyer pour vérification
+                                {t('Envoyer pour vérification')}
                             </div>
                         </PhoneMockup>
                         <div>
@@ -162,8 +163,8 @@ export default function BenefitsPage() {
                                     <li key={step.title} className='flex gap-4 rounded-xl bg-white p-5'>
                                         <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary font-bold text-white'>{index + 1}</span>
                                         <div className='flex flex-col gap-1'>
-                                            <h3 className='text-lg font-semibold text-secondary'>{step.title}</h3>
-                                            <p className='text-black'>{step.text}</p>
+                                            <h3 className='text-lg font-semibold text-secondary'>{t(step.title)}</h3>
+                                            <p className='text-black'>{t(step.text)}</p>
                                         </div>
                                     </li>
                                 ))}
@@ -187,13 +188,13 @@ export default function BenefitsPage() {
                                 <Link
                                     href='/tarifs/'
                                     className={`group flex h-full flex-col gap-2 rounded-xl border bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 ${plan.highlight ? 'border-primary' : 'border-gray-200 hover:border-primary/40'}`}>
-                                    <span className='text-xl font-bold text-secondary group-hover:text-primary duration-300'>{plan.name}</span>
-                                    <p className='text-black'>{plan.text}</p>
+                                    <span className='text-xl font-bold text-secondary group-hover:text-primary duration-300'>{t(plan.name)}</span>
+                                    <p className='text-black'>{t(plan.text)}</p>
                                 </Link>
                             </li>
                         ))}
                     </ul>
-                    <p className='mt-6 text-sm text-ink/60'>Paiement par MVola, Orange Money, Airtel Money, virement ou espèces. Aucun nombre de candidats n’est garanti.</p>
+                    <p className='mt-6 text-sm text-ink/60'>{t('Paiement par MVola, Orange Money, Airtel Money, virement ou espèces. Aucun nombre de candidats n’est garanti.')}</p>
                 </div>
             </section>
         </>

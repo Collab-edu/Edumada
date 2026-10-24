@@ -5,6 +5,7 @@ import { ButtonLink } from '@/components/ui/form'
 import { useSiteData } from '@/data/site-data'
 import { imageOr } from '@/lib/media'
 import PhoneMockup, { type PhoneTab } from './PhoneMockup'
+import { useT } from '@/i18n/client'
 
 const FEATURES = [
     { icon: 'tabler:heart', text: 'Enregistrez vos formations favorites' },
@@ -28,6 +29,7 @@ const TABS: PhoneTab[] = [
 
 /** Section « Espace étudiant » : aperçu sur téléphone et ce que l'on peut y faire. */
 export default function StudentSpaceSection() {
+    const t = useT()
     const { data: formations } = useSiteData('FormationData')
     const favorites = formations.filter((formation) => formation.kind === 'formation').slice(0, 2)
 
@@ -38,12 +40,12 @@ export default function StudentSpaceSection() {
                     {/* Téléphone */}
                     <PhoneMockup tabs={TABS}>
                         <div>
-                            <p className='font-bold text-secondary'>Bonjour Aina <Icon icon='material-symbols:waving-hand-outline' aria-hidden='true' className='inline-block align-[-0.125em] text-amber-400' /></p>
-                            <p className='!text-xs text-ink/60'>Quelle formation cherches-tu ?</p>
+                            <p className='font-bold text-secondary'>{t('Bonjour {name}', { name: 'Aina' })} <Icon icon='material-symbols:waving-hand-outline' aria-hidden='true' className='inline-block align-[-0.125em] text-amber-400' /></p>
+                            <p className='!text-xs text-ink/60'>{t('Quelle formation cherches-tu ?')}</p>
                         </div>
                         <div className='flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-ink/50'>
                             <Icon icon='tabler:search' className='text-sm' />
-                            Rechercher une formation…
+                            {t('Rechercher une formation…')}
                         </div>
                         <div className='grid grid-cols-3 gap-2'>
                             {SHORTCUTS.map((shortcut) => (
@@ -51,7 +53,7 @@ export default function StudentSpaceSection() {
                                     <span className='flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary'>
                                         <Icon icon={shortcut.icon} className='text-sm' />
                                     </span>
-                                    {shortcut.label}
+                                    {t(shortcut.label)}
                                 </div>
                             ))}
                         </div>
@@ -81,8 +83,8 @@ export default function StudentSpaceSection() {
                             <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white'>
                                 <Icon icon='tabler:layout-dashboard' className='text-2xl' />
                             </span>
-                            <h2 className='font-bold'>Votre espace étudiant</h2>
-                            <p className='text-black'>Un compte gratuit pour garder vos formations à portée de main et suivre vos démarches.</p>
+                            <h2 className='font-bold'>{t('Votre espace étudiant')}</h2>
+                            <p className='text-black'>{t('Un compte gratuit pour garder vos formations à portée de main et suivre vos démarches.')}</p>
                         </div>
                         <ul className='flex flex-col gap-4'>
                             {FEATURES.map((feature) => (
@@ -90,12 +92,12 @@ export default function StudentSpaceSection() {
                                     <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-primary shadow-sm'>
                                         <Icon icon={feature.icon} className='text-lg' />
                                     </span>
-                                    {feature.text}
+                                    {t(feature.text)}
                                 </li>
                             ))}
                         </ul>
                         <ButtonLink href='/inscription/' className='w-full justify-center sm:w-auto sm:self-start'>
-                            Créer mon compte gratuit
+                            {t('Créer mon compte gratuit')}
                         </ButtonLink>
                     </div>
                 </div>

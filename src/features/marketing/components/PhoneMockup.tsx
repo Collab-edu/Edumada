@@ -1,13 +1,16 @@
+'use client'
 import type { ReactNode } from 'react'
 import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
 import withBasePath from '@/lib/base-path'
 import { cn } from '@/lib/utils'
+import { useT } from '@/i18n/client'
 
 export type PhoneTab = { icon: string; label: string; active?: boolean }
 
 /** Téléphone dessiné en HTML : en-tête Edumada, écran libre et barre d'onglets. Purement décoratif. */
 export default function PhoneMockup({ tabs, children, screenClassName }: { tabs: PhoneTab[]; children: ReactNode; screenClassName?: string }) {
+    const t = useT()
     return (
         <div className='relative mx-auto w-full max-w-[18rem]' aria-hidden='true'>
             <div className='absolute -inset-6 -z-10 rounded-full bg-cream blur-2xl' />
@@ -29,7 +32,7 @@ export default function PhoneMockup({ tabs, children, screenClassName }: { tabs:
                             key={tab.label}
                             className={`flex flex-col items-center gap-0.5 text-[10px] ${tab.active ? 'font-semibold text-primary' : 'text-ink/50'}`}>
                             <Icon icon={tab.icon} className='text-base' />
-                            {tab.label}
+                            {t(tab.label)}
                         </span>
                     ))}
                 </div>

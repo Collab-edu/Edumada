@@ -1,4 +1,6 @@
+'use client'
 import { Icon } from '@/components/ui/icon'
+import { useT } from '@/i18n/client'
 
 const MENU = [
     { icon: 'tabler:layout-dashboard', label: 'Tableau de bord', active: true },
@@ -32,6 +34,7 @@ function curvePath(close: boolean) {
 
 /** Aperçu illustratif de l'espace établissement, dessiné en HTML. */
 export default function DashboardPreview() {
+    const t = useT()
     return (
         <div className='relative px-2 pb-8 pt-6 sm:px-6' aria-hidden='true'>
             <div className='absolute inset-0 -z-10 rounded-3xl bg-cream' />
@@ -54,7 +57,7 @@ export default function DashboardPreview() {
                                 key={item.label}
                                 className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[11px] ${item.active ? 'bg-white/15 font-semibold text-white' : 'text-white/70'}`}>
                                 <Icon icon={item.icon} className='text-sm' />
-                                <span className='flex-1 truncate'>{item.label}</span>
+                                <span className='flex-1 truncate'>{t(item.label)}</span>
                                 {item.badge && <span className='rounded-full bg-primary px-1.5 text-[10px] font-bold text-white'>{item.badge}</span>}
                             </span>
                         ))}
@@ -65,11 +68,11 @@ export default function DashboardPreview() {
                         <div className='flex items-center justify-between gap-2'>
                             <div className='min-w-0'>
                                 <p className='truncate !text-sm font-bold text-secondary'>Institut Numérique de Madagascar</p>
-                                <p className='!text-[11px] text-ink/50'>30 derniers jours</p>
+                                <p className='!text-[11px] text-ink/50'>{t('30 derniers jours')}</p>
                             </div>
                             <span className='flex shrink-0 items-center gap-1 rounded-full bg-success/40 px-2 py-0.5 text-[10px] font-semibold text-secondary'>
                                 <Icon icon='tabler:rosette-discount-check' className='text-xs' />
-                                Vérifié
+                                {t('Vérifié')}
                             </span>
                         </div>
 
@@ -81,15 +84,15 @@ export default function DashboardPreview() {
                                         <span className='text-[10px] font-semibold text-emerald-600'>{tile.trend}</span>
                                     </div>
                                     <span className='text-base font-bold text-secondary sm:text-lg'>{tile.value}</span>
-                                    <span className='truncate text-[10px] text-ink/60'>{tile.label}</span>
+                                    <span className='truncate text-[10px] text-ink/60'>{t(tile.label)}</span>
                                 </div>
                             ))}
                         </div>
 
                         <div className='rounded-lg border border-gray-100 p-2'>
                             <div className='mb-1 flex items-center justify-between text-[10px]'>
-                                <span className='font-semibold text-secondary'>Vues de la fiche</span>
-                                <span className='text-ink/50'>sept. → oct.</span>
+                                <span className='font-semibold text-secondary'>{t('Vues de la fiche')}</span>
+                                <span className='text-ink/50'>{t('sept. → oct.')}</span>
                             </div>
                             <svg viewBox='0 0 300 100' preserveAspectRatio='none' className='h-20 w-full'>
                                 <defs>
@@ -107,7 +110,7 @@ export default function DashboardPreview() {
                         </div>
 
                         <div className='flex flex-col gap-1.5'>
-                            <p className='!text-[11px] font-semibold text-secondary'>Dernières demandes</p>
+                            <p className='!text-[11px] font-semibold text-secondary'>{t('Dernières demandes')}</p>
                             {REQUESTS.map((request) => (
                                 <div key={request.name} className='flex items-center gap-2 rounded-lg bg-offwhite px-2 py-1.5'>
                                     <span className='flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary text-[9px] font-bold text-white'>
@@ -117,7 +120,7 @@ export default function DashboardPreview() {
                                         <p className='truncate !text-[11px] font-semibold text-secondary'>{request.name}</p>
                                         <p className='truncate !text-[10px] text-ink/60'>{request.offer}</p>
                                     </div>
-                                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${request.tone}`}>{request.status}</span>
+                                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${request.tone}`}>{t(request.status)}</span>
                                 </div>
                             ))}
                         </div>

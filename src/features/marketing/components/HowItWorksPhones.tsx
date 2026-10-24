@@ -8,6 +8,7 @@ import { formatTuition } from '@/features/formations/format'
 import type { FormationType } from '@/features/formations/types'
 import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
 import PhoneMockup, { type PhoneTab } from './PhoneMockup'
+import { useT } from '@/i18n/client'
 
 const tabs = (active: string): PhoneTab[] =>
     [
@@ -25,6 +26,7 @@ const STEPS = [
 
 /** Écran 1 : la recherche, avec des filtres actifs et des résultats. */
 function SearchScreen({ results }: { results: FormationType[] }) {
+    const t = useT()
     return (
         <>
             <p className='font-bold text-secondary'>Rechercher</p>
@@ -35,11 +37,11 @@ function SearchScreen({ results }: { results: FormationType[] }) {
             <div className='flex flex-wrap gap-1.5'>
                 {['Antananarivo', 'Licence', '< 2,5 M Ar'].map((chip) => (
                     <span key={chip} className='rounded-full border border-primary/40 px-2 py-0.5 text-[10px] font-semibold text-primary'>
-                        {chip}
+                        {t(chip)}
                     </span>
                 ))}
             </div>
-            <p className='!text-[11px] font-semibold text-ink/60'>{results.length} résultats</p>
+            <p className='!text-[11px] font-semibold text-ink/60'>{t(`${results.length} résultats`)}</p>
             <div className='flex flex-col gap-2'>
                 {results.map((formation) => (
                     <div key={formation.id} className='flex items-center gap-2 rounded-lg bg-white p-2'>
@@ -57,6 +59,7 @@ function SearchScreen({ results }: { results: FormationType[] }) {
 
 /** Écran 2 : la fiche d'une formation, avec ses repères clés. */
 function CompareScreen({ formation }: { formation: FormationType }) {
+    const t = useT()
     const facts = [
         { label: 'Diplôme', value: formation.diploma ?? '—' },
         { label: 'Durée', value: formation.durationYears ? `${formation.durationYears} ans` : '—' },
@@ -76,14 +79,14 @@ function CompareScreen({ formation }: { formation: FormationType }) {
             <div className='grid grid-cols-2 gap-1.5'>
                 {facts.map((fact) => (
                     <div key={fact.label} className='rounded-lg bg-white px-2 py-1.5'>
-                        <p className='!text-[9px] uppercase tracking-wide text-ink/50'>{fact.label}</p>
-                        <p className='truncate !text-[11px] font-semibold text-secondary'>{fact.value}</p>
+                        <p className='!text-[9px] uppercase tracking-wide text-ink/50'>{t(fact.label)}</p>
+                        <p className='truncate !text-[11px] font-semibold text-secondary'>{t(fact.value)}</p>
                     </div>
                 ))}
             </div>
             <div className='flex items-center justify-center gap-1.5 rounded-lg border border-primary px-3 py-2 text-[11px] font-semibold text-primary'>
                 <Icon icon='tabler:heart-filled' className='text-sm' />
-                Ajouté aux favoris
+                {t('Ajouté aux favoris')}
             </div>
         </>
     )
@@ -91,6 +94,7 @@ function CompareScreen({ formation }: { formation: FormationType }) {
 
 /** Écran 3 : la demande envoyée à l'établissement, puis son suivi. */
 function ContactScreen({ formation }: { formation: FormationType }) {
+    const t = useT()
     const steps = [
         { label: 'Demande envoyée', done: true },
         { label: 'En cours d’examen', done: true },
@@ -98,7 +102,7 @@ function ContactScreen({ formation }: { formation: FormationType }) {
     ]
     return (
         <>
-            <p className='font-bold text-secondary'>Mes démarches</p>
+            <p className='font-bold text-secondary'>{t('Mes démarches')}</p>
             <div className='flex items-center gap-2 rounded-lg bg-white p-2'>
                 <SchoolLogo name={formation.school} logo={formation.schoolLogo} className='h-9 w-9 rounded-md text-[9px] shadow-sm' />
                 <div className='min-w-0'>
@@ -107,7 +111,7 @@ function ContactScreen({ formation }: { formation: FormationType }) {
                 </div>
             </div>
             <div className='rounded-lg rounded-tl-none bg-secondary px-3 py-2 text-[11px] leading-snug text-white'>
-                Bonjour, quelles sont les dates d’inscription pour la prochaine rentrée ?
+                {t('Bonjour, quelles sont les dates d’inscription pour la prochaine rentrée ?')}
             </div>
             <ol className='flex flex-col gap-2 rounded-lg bg-white p-3'>
                 {steps.map((step) => (
@@ -116,7 +120,7 @@ function ContactScreen({ formation }: { formation: FormationType }) {
                             className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${step.done ? 'bg-success/50 text-secondary' : 'border border-dashed border-primary text-primary'}`}>
                             <Icon icon={step.done ? 'tabler:check' : 'tabler:clock'} className='text-xs' />
                         </span>
-                        <span className={step.done ? 'text-secondary' : 'font-semibold text-primary'}>{step.label}</span>
+                        <span className={step.done ? 'text-secondary' : 'font-semibold text-primary'}>{t(step.label)}</span>
                     </li>
                 ))}
             </ol>
@@ -126,6 +130,7 @@ function ContactScreen({ formation }: { formation: FormationType }) {
 
 /** Section « Comment ça marche ? » : les trois étapes, chacune sur un téléphone. */
 export default function HowItWorksPhones() {
+    const t = useT()
     const { data: formations } = useSiteData('FormationData')
     const degrees = formations.filter((formation) => formation.kind === 'formation')
     if (degrees.length === 0) return null
@@ -144,8 +149,8 @@ export default function HowItWorksPhones() {
                             </PhoneMockup>
                             <div className='flex max-w-xs flex-col items-center gap-2 text-center'>
                                 <span className='flex h-10 w-10 items-center justify-center rounded-full bg-primary font-bold text-white'>{index + 1}</span>
-                                <h3 className='text-lg font-semibold text-secondary'>{step.title}</h3>
-                                <p className='text-black'>{step.text}</p>
+                                <h3 className='text-lg font-semibold text-secondary'>{t(step.title)}</h3>
+                                <p className='text-black'>{t(step.text)}</p>
                             </div>
                         </li>
                     ))}
