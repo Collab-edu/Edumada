@@ -202,10 +202,11 @@ export function sortFormations(list: FormationType[], sort: SortValue): Formatio
 
 export type ActiveFilter = { id: string; label: string; remove: (f: SearchFilters) => SearchFilters }
 
-export function activeFilters(filters: SearchFilters): ActiveFilter[] {
+/** `t` : traduction des libellés (langue de la page). */
+export function activeFilters(filters: SearchFilters, t: (text: string) => string = (text) => text): ActiveFilter[] {
     const chips: ActiveFilter[] = []
     const text = (key: 'q' | 'categorie' | 'domaine' | 'type' | 'school', prefix = '') => {
-        if (filters[key]) chips.push({ id: key, label: prefix + filters[key], remove: (f) => ({ ...f, [key]: '' }) })
+        if (filters[key]) chips.push({ id: key, label: (prefix && t(prefix)) + (key === 'q' || key === 'school' ? filters[key] : t(filters[key])), remove: (f) => ({ ...f, [key]: '' }) })
     }
     const list = (
         key: 'budgets' | 'durations' | 'modalities' | 'diplomas' | 'languages' | 'bacSeries' | 'housing' | 'scholarships',
@@ -214,7 +215,7 @@ export function activeFilters(filters: SearchFilters): ActiveFilter[] {
         for (const value of filters[key]) {
             chips.push({
                 id: `${key}-${value}`,
-                label: prefix + value,
+                label: (prefix && t(prefix)) + t(value),
                 remove: (f) => ({ ...f, [key]: f[key].filter((v) => v !== value) }),
             })
         }
@@ -231,14 +232,14 @@ export function activeFilters(filters: SearchFilters): ActiveFilter[] {
     list('modalities')
     list('diplomas')
     if (filters.registration !== EMPTY_FILTERS.registration) {
-        chips.push({ id: 'registration', label: filters.registration, remove: (f) => ({ ...f, registration: EMPTY_FILTERS.registration }) })
+        chips.push({ id: 'registration', label: t(filters.registration), remove: (f) => ({ ...f, registration: EMPTY_FILTERS.registration }) })
     }
     text('school', 'Établissement : ')
     list('languages')
     if (filters.admissionLevel !== EMPTY_FILTERS.admissionLevel) {
         chips.push({
             id: 'admissionLevel',
-            label: `Mon niveau : ${filters.admissionLevel}`,
+            label: `${t('Mon niveau :')} ${t(filters.admissionLevel)}`,
             remove: (f) => ({ ...f, admissionLevel: EMPTY_FILTERS.admissionLevel }),
         })
     }
@@ -247,7 +248,7 @@ export function activeFilters(filters: SearchFilters): ActiveFilter[] {
     list('scholarships')
     if (filters.childAge) {
         const label = CHILD_AGES.find((a) => a.value === filters.childAge)?.label ?? `${filters.childAge} ans`
-        chips.push({ id: 'childAge', label: `Âge de l'enfant : ${label}`, remove: (f) => ({ ...f, childAge: '' }) })
+        chips.push({ id: 'childAge', label: `${t('Âge de l’enfant :')} ${t(label)}`, remove: (f) => ({ ...f, childAge: '' }) })
     }
     return chips
 }

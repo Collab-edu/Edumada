@@ -20,9 +20,11 @@ import {
 } from '../filters'
 import { useOfferSearch, useSponsoredOffers } from '../useOfferSearch'
 import { FILTER_UI, TOP_FILTERS, useFilterSuggestions } from '../useFilterSuggestions'
+import { useT } from '@/i18n/client'
 
 
 const SearchPage = () => {
+    const t = useT()
     const searchParams = useSearchParams()
     const { suggestions } = useFilterSuggestions()
     const { isFavorite, toggleFavorite } = useAuth()
@@ -46,7 +48,7 @@ const SearchPage = () => {
         }
     }, [panelOpen])
 
-    const chips = activeFilters(filters)
+    const chips = activeFilters(filters, t)
     const advancedCount = chips.filter((c) => !['q', 'categorie', 'domaine', 'ville', 'type'].includes(c.id)).length
 
     const reset = () => setFilters(EMPTY_FILTERS)
@@ -85,10 +87,10 @@ const SearchPage = () => {
                 {/* En-tête */}
                 <div className='mb-6 sm:mb-8 flex flex-col gap-2'>
                     <h1 className='text-3xl md:text-4xl font-bold text-secondary'>
-                        Formations, écoles et crèches
+                        {t('Formations, écoles et crèches')}
                     </h1>
                     <p className='text-black'>
-                        Affinez votre recherche et comparez les offres des établissements à Madagascar, de la crèche à l’université.
+                        {t('Affinez votre recherche et comparez les offres des établissements à Madagascar, de la crèche à l’université.')}
                     </p>
                 </div>
 
@@ -98,14 +100,14 @@ const SearchPage = () => {
                         <div className='rounded-xl px-4 py-3 lg:border-r lg:border-gray-100 lg:rounded-none'>
                             <label htmlFor='search-q' className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
                                 <Icon icon='tabler:search' className='text-base text-secondary' />
-                                Formation, niveau, métier…
+                                {t('Formation, niveau, métier…')}
                             </label>
                             <input
                                 id='search-q'
                                 type='search'
                                 value={filters.q}
                                 onChange={(e) => setFilters({ ...filters, q: e.target.value })}
-                                placeholder='Ex. : informatique, infirmier…'
+                                placeholder={t('Ex. : informatique, infirmier…')}
                                 className='mt-1 w-full bg-transparent py-1 text-base font-semibold text-ink outline-hidden placeholder:font-normal placeholder:text-ink/40'
                             />
                         </div>
@@ -125,22 +127,22 @@ const SearchPage = () => {
                             'lg:static lg:z-auto lg:max-w-none lg:translate-x-0 lg:self-start lg:rounded-2xl lg:border lg:border-gray-100 lg:shadow-sm lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)]',
                             panelOpen ? 'translate-x-0' : '-translate-x-full'
                         )}
-                        aria-label='Filtres avancés'>
+                        aria-label={t('Filtres avancés')}>
                         <div className='flex items-center justify-between pb-2'>
-                            <p className='text-lg font-bold text-secondary'>Filtres</p>
+                            <p className='text-lg font-bold text-secondary'>{t('Filtres')}</p>
                             <div className='flex items-center gap-3'>
                                 {chips.length > 0 && (
                                     <button
                                         type='button'
                                         onClick={reset}
                                         className='text-sm font-semibold text-primary hover:underline hover:cursor-pointer'>
-                                        Réinitialiser
+                                        {t('Réinitialiser')}
                                     </button>
                                 )}
                                 <button
                                     type='button'
                                     onClick={() => setPanelOpen(false)}
-                                    aria-label='Fermer les filtres'
+                                    aria-label={t('Fermer les filtres')}
                                     className='lg:hidden rounded-full bg-black/10 p-2.5 hover:cursor-pointer'>
                                     <Icon icon='material-symbols:close-rounded' className='text-xl' />
                                 </button>
@@ -154,7 +156,7 @@ const SearchPage = () => {
                             type='button'
                             onClick={() => setPanelOpen(false)}
                             className='mt-6 w-full rounded-lg bg-primary py-3 font-bold text-white lg:hidden hover:cursor-pointer'>
-                            Voir {total} résultat{total > 1 ? 's' : ''}
+                            {t(total > 1 ? 'Voir {n} résultats' : 'Voir {n} résultat', { n: total })}
                         </button>
                     </aside>
 
@@ -163,8 +165,8 @@ const SearchPage = () => {
                         <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-3'>
                             <p className='font-semibold text-secondary' aria-live='polite'>
                                 {loading
-                                    ? 'Chargement…'
-                                    : `${total} résultat${total > 1 ? 's' : ''}`}
+                                    ? t('Chargement…')
+                                    : t(total > 1 ? `${total} résultats` : `${total} résultat`)}
                             </p>
                             <div className='flex items-center gap-3'>
                                 <button
@@ -172,19 +174,19 @@ const SearchPage = () => {
                                     onClick={() => setPanelOpen(true)}
                                     className='lg:hidden inline-flex items-center gap-2 rounded-lg border border-secondary/20 bg-white px-4 py-2 font-semibold text-secondary hover:cursor-pointer'>
                                     <Icon icon='tabler:adjustments-horizontal' className='text-lg' />
-                                    Filtres
+                                    {t('Filtres')}
                                     {mobileCount > 0 && <span className='sm:hidden'>({mobileCount})</span>}
                                     {advancedCount > 0 && <span className='hidden sm:inline'>({advancedCount})</span>}
                                 </button>
                                 <label className='flex items-center gap-2 text-ink/70'>
-                                    <span className='hidden sm:inline'>Trier par</span>
+                                    <span className='hidden sm:inline'>{t('Trier par')}</span>
                                     <select
                                         value={sort}
                                         onChange={(e) => setSort(e.target.value as SortValue)}
                                         className='rounded-lg border border-gray-200 bg-white px-3 py-2 text-ink outline-hidden focus:border-primary hover:cursor-pointer'>
                                         {SORT_OPTIONS.map((o) => (
                                             <option key={o.value} value={o.value}>
-                                                {o.label}
+                                                {t(o.label)}
                                             </option>
                                         ))}
                                     </select>
@@ -199,7 +201,7 @@ const SearchPage = () => {
                                         key={chip.id}
                                         type='button'
                                         onClick={() => setFilters(chip.remove(filters))}
-                                        aria-label={`Retirer le filtre ${chip.label}`}
+                                        aria-label={t('Retirer le filtre {label}', { label: chip.label })}
                                         className='inline-flex items-center gap-1.5 rounded-full bg-secondary/10 px-3 py-1.5 text-sm font-medium text-secondary transition-colors duration-200 hover:bg-primary hover:text-white hover:cursor-pointer'>
                                         {chip.label}
                                         <Icon icon='tabler:x' className='text-sm' />
@@ -213,10 +215,10 @@ const SearchPage = () => {
                                 <Icon icon='tabler:current-location' className='mt-0.5 shrink-0 text-lg text-primary' />
                                 <span>
                                     {near.place === MY_POSITION ? (
-                                        <>Voici les formations les plus proches de <strong>votre position</strong>, de la plus près à la plus loin.</>
+                                        <>{t('Voici les formations les plus proches de')} <strong>{t('votre position')}</strong>{t(', de la plus près à la plus loin.')}</>
                                     ) : (
                                         <>
-                                            Aucune formation à <strong>{near.place}</strong> pour le moment. Voici les plus proches, de la plus près à la plus loin.
+                                            {t('Aucune formation à')} <strong>{near.place}</strong> {t('pour le moment. Voici les plus proches, de la plus près à la plus loin.')}
                                         </>
                                     )}
                                 </span>
@@ -226,7 +228,7 @@ const SearchPage = () => {
                             <p className='flex items-start gap-2 rounded-xl bg-cream px-4 py-3 text-sm text-black' role='status'>
                                 <Icon icon='tabler:map-pin-off' className='mt-0.5 shrink-0 text-lg text-primary' />
                                 <span>
-                                    Lieu « <strong>{filters.ville}</strong> » introuvable à Madagascar. Vérifiez l&apos;orthographe ou choisissez une ville proposée.
+                                    {t('Lieu')} « <strong>{filters.ville}</strong> » {t('introuvable à Madagascar. Vérifiez l’orthographe ou choisissez une ville proposée.')}
                                 </span>
                             </p>
                         )}
@@ -234,7 +236,7 @@ const SearchPage = () => {
                         {offline && (
                             <p className='flex items-start gap-2 rounded-xl bg-cream px-4 py-3 text-sm text-black' role='status'>
                                 <Icon icon='tabler:wifi-off' className='mt-0.5 shrink-0 text-primary' />
-                                Le service Edumada ne répond pas : les résultats affichés peuvent ne pas être à jour.
+                                {t('Le service Edumada ne répond pas : les résultats affichés peuvent ne pas être à jour.')}
                             </p>
                         )}
 
@@ -259,7 +261,7 @@ const SearchPage = () => {
                             <div className='flex flex-col gap-4' role='status' aria-live='polite'>
                                 <p className='flex items-center gap-2 font-medium text-secondary'>
                                     <span className='h-5 w-5 animate-spin rounded-full border-2 border-primary/20 border-t-primary' aria-hidden='true' />
-                                    Recherche des formations…
+                                    {t('Recherche des formations…')}
                                 </p>
                                 <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                                     {Array.from({ length: 4 }).map((_, i) => (
@@ -285,7 +287,7 @@ const SearchPage = () => {
                                 onClick={loadMore}
                                 disabled={loadingMore}
                                 className='mx-auto rounded-lg border border-primary px-6 py-3 font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white disabled:opacity-60 hover:cursor-pointer'>
-                                {loadingMore ? 'Chargement…' : `Voir plus de résultats (${results.length} sur ${total})`}
+                                {loadingMore ? t('Chargement…') : t('Voir plus de résultats ({shown} sur {total})', { shown: results.length, total })}
                             </button>
                         )}
                         {loading || results.length > 0 ? null : (
@@ -293,15 +295,15 @@ const SearchPage = () => {
                                 <span className='flex h-16 w-16 items-center justify-center rounded-full bg-cream text-primary'>
                                     <Icon icon='tabler:search-off' className='text-3xl' />
                                 </span>
-                                <h2 className='text-xl font-bold'>Aucun résultat ne correspond</h2>
+                                <h2 className='text-xl font-bold'>{t('Aucun résultat ne correspond')}</h2>
                                 <p className='max-w-md text-black'>
-                                    Essayez de retirer quelques filtres ou d&apos;élargir votre recherche à d&apos;autres villes.
+                                    {t('Essayez de retirer quelques filtres ou d’élargir votre recherche à d’autres villes.')}
                                 </p>
                                 <button
                                     type='button'
                                     onClick={reset}
                                     className='rounded-lg bg-primary px-6 py-3 font-bold text-white transition-colors duration-300 hover:bg-primary/90 hover:cursor-pointer'>
-                                    Réinitialiser les filtres
+                                    {t('Réinitialiser les filtres')}
                                 </button>
                             </div>
                         )}

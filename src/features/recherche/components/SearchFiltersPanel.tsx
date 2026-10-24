@@ -16,6 +16,7 @@ import {
     SCHOLARSHIP_OPTIONS,
     type SearchFilters,
 } from '../filters'
+import { useT } from '@/i18n/client'
 
 type ListKey = 'budgets' | 'durations' | 'modalities' | 'diplomas' | 'languages' | 'bacSeries' | 'housing' | 'scholarships'
 
@@ -26,6 +27,7 @@ interface SearchFiltersPanelProps {
 
 /** Groupe de filtres repliable, ouvert par défaut. */
 function FilterGroup({ title, children, defaultOpen = true }: { title: string; children: ReactNode; defaultOpen?: boolean }) {
+    const t = useT()
     const [open, setOpen] = useState(defaultOpen)
     return (
         <div className='border-b border-gray-100 py-4 last:border-b-0'>
@@ -34,7 +36,7 @@ function FilterGroup({ title, children, defaultOpen = true }: { title: string; c
                 onClick={() => setOpen(!open)}
                 aria-expanded={open}
                 className='flex min-h-11 w-full items-center justify-between font-semibold text-secondary hover:cursor-pointer'>
-                {title}
+                {t(title)}
                 <Icon icon='tabler:chevron-down' className={cn('text-lg transition-transform duration-200', open && 'rotate-180')} />
             </button>
             {open && <div className='mt-1 flex flex-col gap-0.5'>{children}</div>}
@@ -49,16 +51,18 @@ function Choice({ type, name, label, checked, onChange }: {
     checked: boolean
     onChange: () => void
 }) {
+    const t = useT()
     return (
         <label className='flex min-h-10 items-center gap-3 text-ink/80 hover:text-secondary hover:cursor-pointer'>
             <input type={type} name={name} checked={checked} onChange={onChange} className='h-5 w-5 accent-primary hover:cursor-pointer' />
-            {label}
+            {t(label)}
         </label>
     )
 }
 
 /** Panneau latéral des filtres avancés de la page de résultats. */
 export function SearchFiltersPanel({ filters, onChange }: SearchFiltersPanelProps) {
+    const t = useT()
     const [showMore, setShowMore] = useState(false)
 
     const toggle = (key: ListKey, value: string) => {
@@ -84,14 +88,14 @@ export function SearchFiltersPanel({ filters, onChange }: SearchFiltersPanelProp
             <FilterGroup title='Budget annuel'>{checkboxes('budgets', BUDGET_RANGES.map((r) => r.label))}</FilterGroup>
             <FilterGroup title="Âge de l'enfant">
                 <label className='flex flex-col gap-1.5 text-sm text-ink/70'>
-                    Pour une crèche, une école ou un accompagnement
+                    {t('Pour une crèche, une école ou un accompagnement')}
                     <select
                         value={filters.childAge}
                         onChange={(e) => onChange({ ...filters, childAge: e.target.value })}
                         className='min-h-11 rounded-lg border border-gray-200 bg-white px-3 text-base text-ink outline-hidden focus:border-primary hover:cursor-pointer'>
                         {CHILD_AGES.map((age) => (
                             <option key={age.value} value={age.value}>
-                                {age.label}
+                                {t(age.label)}
                             </option>
                         ))}
                     </select>
@@ -120,7 +124,7 @@ export function SearchFiltersPanel({ filters, onChange }: SearchFiltersPanelProp
                 aria-expanded={showMore}
                 className='mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-secondary/20 py-2.5 font-semibold text-secondary transition-colors duration-300 hover:bg-secondary/5 hover:cursor-pointer'>
                 <Icon icon={showMore ? 'tabler:minus' : 'tabler:adjustments-horizontal'} className='text-lg' />
-                {showMore ? 'Moins de filtres' : 'Plus de filtres'}
+                {showMore ? t('Moins de filtres') : t('Plus de filtres')}
             </button>
 
             {showMore && (
@@ -132,8 +136,8 @@ export function SearchFiltersPanel({ filters, onChange }: SearchFiltersPanelProp
                                 type='search'
                                 value={filters.school}
                                 onChange={(e) => onChange({ ...filters, school: e.target.value })}
-                                placeholder="Nom de l'établissement"
-                                aria-label="Rechercher un établissement par son nom"
+                                placeholder={t("Nom de l'établissement")}
+                                aria-label={t('Rechercher un établissement par son nom')}
                                 className='w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-9 pr-3 text-ink outline-hidden focus:border-primary'
                             />
                         </div>
@@ -141,17 +145,17 @@ export function SearchFiltersPanel({ filters, onChange }: SearchFiltersPanelProp
                     <FilterGroup title="Langue d'enseignement">{checkboxes('languages', LANGUAGES)}</FilterGroup>
                     <FilterGroup title="Conditions d'admission">
                         <label className='flex flex-col gap-1.5 text-sm text-ink/70'>
-                            Mon niveau actuel
+                            {t('Mon niveau actuel')}
                             <select
                                 value={filters.admissionLevel}
                                 onChange={(e) => onChange({ ...filters, admissionLevel: e.target.value })}
                                 className='rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-base text-ink outline-hidden focus:border-primary hover:cursor-pointer'>
                                 {ADMISSION_LEVELS.map((level) => (
-                                    <option key={level}>{level}</option>
+                                    <option key={level} value={level}>{t(level)}</option>
                                 ))}
                             </select>
                         </label>
-                        <p className='mt-1 text-sm text-black'>Série du BAC</p>
+                        <p className='mt-1 text-sm text-black'>{t('Série du BAC')}</p>
                         <div className='flex flex-wrap gap-2'>
                             {BAC_SERIES.map((serie) => {
                                 const active = filters.bacSeries.includes(serie)
