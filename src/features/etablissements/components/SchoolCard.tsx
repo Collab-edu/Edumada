@@ -8,6 +8,7 @@ import { useSiteData } from '@/data/site-data'
 import type { SchoolType } from '../types'
 import SchoolLogo from './SchoolLogo'
 import CategoryTag from '@/features/categories/components/CategoryTag'
+import { useT } from '@/i18n/client'
 
 /** Nombre d'offres listées sur la carte ; au-delà, « + N autres offres ». */
 const MAX_OFFERS = 3
@@ -15,6 +16,7 @@ const MAX_OFFERS = 3
 /** `compact` : version basse et large (bandeau défilant de l'accueil). */
 /** `distanceKm` : distance au lieu recherché, affichée à côté de la ville. */
 export function SchoolCard({ school, compact = false, distanceKm }: { school: SchoolType; compact?: boolean; distanceKm?: number }) {
+    const t = useT()
     const { data: formations } = useSiteData('FormationData')
     const { data: categories } = useSiteData('CategoryData')
     const category = categories.find((c) => c.id === school.category)
@@ -29,7 +31,7 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
                 <CategoryTag categoryId={school.category} subCategory={school.subCategory} />
                 {school.type && (
                     <span className='absolute top-3 right-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-secondary shadow-sm backdrop-blur-sm'>
-                        {school.type}
+                        {t(school.type)}
                     </span>
                 )}
             </div>
@@ -43,7 +45,7 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
                     className='-mt-7 h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white'
                 />
                 <div className='flex flex-col gap-0.5'>
-                    {category && <p className='truncate text-sm font-semibold text-secondary'>{category.shortLabel}</p>}
+                    {category && <p className='truncate text-sm font-semibold text-secondary'>{t(category.shortLabel)}</p>}
                     <h3 className='text-base font-bold leading-snug text-secondary group-hover:text-primary duration-300'>
                         {school.name}
                     </h3>
@@ -58,18 +60,18 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
                     ))}
                     {offers.length > shown.length && (
                         <li className='pl-6 font-semibold text-secondary'>
-                            + {offers.length - shown.length} {offers.length - shown.length > 1 ? 'autres offres' : 'autre offre'}
+                            {offers.length - shown.length > 1 ? t('+ {n} autres offres', { n: offers.length - shown.length }) : t('+ 1 autre offre')}
                         </li>
                     )}
-                    {offers.length === 0 && <li>Aucune offre publiée pour le moment.</li>}
+                    {offers.length === 0 && <li>{t('Aucune offre publiée pour le moment.')}</li>}
                     <li className='flex items-center gap-1.5'>
                         <Icon icon='tabler:map-pin' className='shrink-0 text-base text-secondary' />
                         {school.city}
-                        {distanceKm !== undefined && <span className='font-semibold text-primary'>· à {distanceKm.toLocaleString('fr-FR')} km</span>}
+                        {distanceKm !== undefined && <span className='font-semibold text-primary'>· {t('à {km} km', { km: distanceKm.toLocaleString('fr-FR') })}</span>}
                     </li>
                 </ul>
                 <CardAction href={`/etablissements/${school.id}`} className='py-2.5 text-sm'>
-                    Voir l&apos;établissement
+                    {t('Voir l’établissement')}
                 </CardAction>
             </div>
         </Card>

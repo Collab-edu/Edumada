@@ -1,11 +1,12 @@
 'use client'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import SectionHeader from '@/components/ui/section-header'
 import { useSiteData } from '@/data/site-data'
 
 /** Accueil : les 5 types d'établissements, chacun menant à la recherche filtrée. */
 const CategoriesSection = () => {
+    const t = useT()
     const { data: categories, loading } = useSiteData('CategoryData')
     const { data: schools } = useSiteData('SchoolData')
 
@@ -33,10 +34,10 @@ const CategoriesSection = () => {
                                         <Icon icon={category.icon} className='text-xl text-primary' />
                                         <div className='flex flex-col gap-1'>
                                             <h3 className='text-[15px] font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
-                                                {category.label}
+                                                {t(category.label)}
                                             </h3>
                                             <span className='text-sm text-ink/60'>
-                                                {count} établissement{count > 1 ? 's' : ''}
+                                                {t(count > 1 ? `${count} établissements` : `${count} établissement`)}
                                             </span>
                                         </div>
                                     </Link>

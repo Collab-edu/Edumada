@@ -4,6 +4,7 @@ import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import { normalize, type Suggestion } from './SuggestInput'
 import { MY_POSITION, POPULAR_CITIES, locateMe, placeAt, searchPlaces, type Point } from '../places'
+import { useT } from '@/i18n/client'
 
 interface CityPickerProps {
     label: string
@@ -28,6 +29,7 @@ const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1
  * cherchable (« Chercher autour de … »).
  */
 export function CityPicker({ label, placeholder, suggestions, value, onChange }: CityPickerProps) {
+    const t = useT()
     const id = useId()
     const root = useRef<HTMLDivElement>(null)
     const trigger = useRef<HTMLButtonElement>(null)
@@ -112,8 +114,8 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
         if (!q) {
             return [
                 {
-                    title: 'Villes populaires',
-                    options: POPULAR_CITIES.map((c) => ({ key: `pop-${c.value}`, value: c.value, place: c, label: c.value, detail: c.detail, hint: offersIn(c.value), icon: 'tabler:map-pin' })),
+                    title: t('Villes populaires'),
+                    options: POPULAR_CITIES.map((c) => ({ key: `pop-${c.value}`, value: c.value, place: c, label: c.value, detail: c.detail, hint: offersIn(c.value) && t(offersIn(c.value)!), icon: 'tabler:map-pin' })),
                 },
             ]
         }
@@ -125,34 +127,34 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
         const result: Section[] = []
         if (cities.length) {
             result.push({
-                title: 'Villes avec des formations',
+                title: t('Villes avec des formations'),
                 options: cities.map((c) => {
                     // Position de la grande ville quand elle est connue : sert aussi aux résultats proches.
                     const point = POPULAR_CITIES.find((p) => p.value === c.value)
-                    return { key: `ville-${c.value}`, value: c.value, place: point, label: c.value, hint: c.hint, icon: 'tabler:school' }
+                    return { key: `ville-${c.value}`, value: c.value, place: point, label: c.value, hint: c.hint && t(c.hint), icon: 'tabler:school' }
                 }),
             })
         }
         if (mapPlaces.length) {
             result.push({
-                title: 'Lieux sur la carte',
+                title: t('Lieux sur la carte'),
                 options: mapPlaces.map((p) => ({
                     key: `lieu-${p.value}-${p.lat}-${p.lng}`,
                     value: p.value,
                     place: p,
                     label: p.value,
-                    detail: [p.hint, p.detail].filter(Boolean).join(' · '),
+                    detail: [p.hint && t(p.hint), p.detail].filter(Boolean).join(' · '),
                     icon: 'tabler:map-pin',
                 })),
             })
         }
         if (!known && q.length >= 2) {
             const text = capitalize(query.trim())
-            result.push({ title: '', options: [{ key: 'libre', value: text, label: `Chercher autour de « ${text} »`, icon: 'tabler:search' }] })
+            result.push({ title: '', options: [{ key: 'libre', value: text, label: t('Chercher autour de « {text} »', { text }), icon: 'tabler:search' }] })
         }
         return result
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [query, places, suggestions])
+    }, [query, places, suggestions, t])
 
     const options = sections.flatMap((s) => s.options)
     useEffect(() => setActive(-1), [query, places])
@@ -172,7 +174,7 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
     }
 
     const hereName = here?.place?.value
-    const shown = value === MY_POSITION && hereName ? `Ma position · ${hereName}` : value
+    const shown = value === MY_POSITION ? (hereName ? `${t('Ma position')} · ${hereName}` : t('Ma position')) : value
     const loadingPlaces = query.trim().length >= 2 && places === null
     let index = -1
 
@@ -181,18 +183,18 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
             <div className='flex items-center justify-between gap-2'>
                 <label htmlFor={`${id}-trigger`} className='flex min-w-0 items-center gap-1.5 text-base font-medium whitespace-nowrap text-gray-500'>
                     <Icon icon='tabler:map-pin' className='shrink-0 text-base text-secondary' />
-                    {label}
+                    {t(label)}
                 </label>
                 <button
                     type='button'
                     onClick={() => locate(true)}
                     disabled={locating}
-                    aria-label='Voir les résultats les plus proches de ma position'
-                    title='Voir les résultats les plus proches de ma position'
+                    aria-label={t('Voir les résultats les plus proches de ma position')}
+                    title={t('Voir les résultats les plus proches de ma position')}
                     className='-my-1 inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full px-2 py-1 text-sm font-semibold text-primary hover:bg-cream hover:cursor-pointer disabled:opacity-60'>
                     <Icon icon={locating ? 'tabler:loader-2' : 'tabler:current-location'} className={cn('text-lg', locating && 'animate-spin')} />
                     {/* Libellé quand la place le permet, sinon icône seule. */}
-                    <span className='hidden @[20rem]:inline'>{locating ? 'Localisation…' : 'Les plus proches'}</span>
+                    <span className='hidden @[20rem]:inline'>{locating ? t('Localisation…') : t('Les plus proches')}</span>
                 </button>
             </div>
 
@@ -210,13 +212,13 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
                         open && 'text-primary'
                     )}>
                     {value === MY_POSITION && <Icon icon='tabler:current-location' className='shrink-0 text-primary' />}
-                    <span className={cn('truncate', value ? 'font-semibold text-ink' : 'text-ink/40')}>{shown || placeholder}</span>
+                    <span className={cn('truncate', value ? 'font-semibold text-ink' : 'text-ink/40')}>{shown || t(placeholder)}</span>
                 </button>
                 {value && (
                     <button
                         type='button'
                         onClick={() => onChange('')}
-                        aria-label={`Effacer ${label}`}
+                        aria-label={t('Effacer {label}', { label: t(label) })}
                         className='absolute inset-y-0 right-0 flex items-center px-1 text-gray-400 hover:text-primary hover:cursor-pointer'>
                         <Icon icon='tabler:x' className='text-lg' />
                     </button>
@@ -224,12 +226,12 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
             </div>
             {locateError && (
                 <p className='mt-1 text-xs text-primary' role='alert'>
-                    {locateError}
+                    {t(locateError)}
                 </p>
             )}
 
             {open && (
-                <div role='dialog' aria-label={label} className='absolute left-0 z-30 mt-2 w-full rounded-2xl bg-white p-3 shadow-xl ring-1 ring-black/5 sm:min-w-80'>
+                <div role='dialog' aria-label={t(label)} className='absolute left-0 z-30 mt-2 w-full rounded-2xl bg-white p-3 shadow-xl ring-1 ring-black/5 sm:min-w-80'>
                     <div className='flex items-center gap-2 rounded-xl bg-offwhite px-3 py-2'>
                         <Icon icon='tabler:search' className='shrink-0 text-ink/40' />
                         <input
@@ -240,23 +242,23 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
                             aria-controls={`${id}-list`}
                             aria-autocomplete='list'
                             aria-activedescendant={options[active] ? `${id}-${active}` : undefined}
-                            aria-label='Rechercher une ville ou une région'
+                            aria-label={t('Rechercher une ville ou une région')}
                             autoComplete='off'
                             enterKeyHint='search'
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             onKeyDown={onKeyDown}
-                            placeholder='Rechercher une ville ou une région…'
+                            placeholder={t('Rechercher une ville ou une région…')}
                             className='w-full bg-transparent text-sm text-ink outline-hidden placeholder:text-ink/40'
                         />
                     </div>
 
-                    <div id={`${id}-list`} role='listbox' aria-label={label} className='mt-1 max-h-80 overflow-auto'>
+                    <div id={`${id}-list`} role='listbox' aria-label={t(label)} className='mt-1 max-h-80 overflow-auto'>
                         {!query.trim() && (
                             <div role='presentation'>
                                 <p className='mt-3 mb-1.5 flex items-center gap-1.5 px-1 text-sm font-semibold text-secondary'>
                                     <Icon icon='tabler:current-location' />
-                                    Votre position actuelle
+                                    {t('Votre position actuelle')}
                                 </p>
                                 <button
                                     type='button'
@@ -271,13 +273,13 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
                                     <Icon icon={locating ? 'tabler:loader-2' : 'tabler:current-location'} className={cn('shrink-0 text-lg text-secondary', locating && 'animate-spin')} />
                                     <span className='flex min-w-0 flex-1 flex-col'>
                                         <span className='truncate font-medium text-ink'>
-                                            {locating ? 'Localisation en cours…' : here ? (hereName ?? 'Ma position') : 'Me localiser'}
+                                            {locating ? t('Localisation en cours…') : here ? (hereName ?? t('Ma position')) : t('Me localiser')}
                                         </span>
                                         {here?.place?.detail && <span className='truncate text-xs text-ink/60'>{here.place.detail}</span>}
                                     </span>
                                     {!locating && (
                                         <span className='shrink-0 rounded-full bg-success/50 px-3 py-0.5 text-xs font-semibold text-secondary'>
-                                            {here ? 'Utiliser' : 'Autoriser'}
+                                            {here ? t('Utiliser') : t('Autoriser')}
                                         </span>
                                     )}
                                 </button>
@@ -319,7 +321,7 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
                         {loadingPlaces && (
                             <p className='flex items-center gap-2 px-3 py-3 text-sm text-ink/60'>
                                 <Icon icon='tabler:loader-2' className='animate-spin' />
-                                Recherche des lieux…
+                                {t('Recherche des lieux…')}
                             </p>
                         )}
                     </div>

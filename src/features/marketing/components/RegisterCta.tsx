@@ -1,7 +1,9 @@
+'use client'
 import Image from 'next/image'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 
 const RegisterCta = () => {
+    const t = useT()
     return (
         <section id='register-section'>
             <div className='container mx-auto max-w-7xl px-4'>
@@ -20,15 +22,15 @@ const RegisterCta = () => {
                     />
                     <div className='relative flex flex-col md:flex-row items-center justify-between gap-6 px-8 py-10 md:px-16 text-center md:text-left'>
                         <p className='text-white italic font-bold leading-tight'>
-                            <span className='text-3xl lg:text-4xl'>Inscrivez-vous !</span>{' '}
+                            <span className='text-3xl lg:text-4xl'>{t('Inscrivez-vous !')}</span>{' '}
                             <span className='block lg:inline text-lg lg:text-xl mt-1 lg:mt-0 lg:ml-2'>
-                                pour étudier à la rentrée académique&nbsp;2026.
+                                {t('pour étudier à la rentrée académique 2026.')}
                             </span>
                         </p>
                         <Link
                             href='/inscription/'
                             className='shrink-0 rounded-full bg-white px-8 py-4 text-sm font-bold uppercase tracking-wide text-secondary shadow-lg transition-all duration-300 hover:bg-primary hover:text-white hover:-translate-y-0.5'>
-                            S&apos;inscrire maintenant
+                            {t('S’inscrire maintenant')}
                         </Link>
                     </div>
                 </div>

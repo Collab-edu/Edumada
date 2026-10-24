@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { imageOr } from '@/lib/media'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
@@ -26,6 +26,7 @@ interface ResultCardProps {
 
 /** Carte d'un résultat de recherche, affichée dans une grille de deux colonnes. */
 export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored = false }: ResultCardProps) {
+    const t = useT()
     const badge = REGISTRATION_BADGE[formation.registration]
     const fees = formatFees(formation.fees)
 
@@ -37,13 +38,13 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                     <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} className='static max-w-full min-w-0' />
                     {formation.schoolType && (
                         <span className='shrink-0 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-secondary backdrop-blur-sm'>
-                            {formation.schoolType}
+                            {t(formation.schoolType)}
                         </span>
                     )}
                 </div>
                 {sponsored && (
                     <span className='absolute top-3 right-3 rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-white'>
-                        Sponsorisé
+                        {t('Sponsorisé')}
                     </span>
                 )}
             </div>
@@ -60,7 +61,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                             />
                         </Link>
                         <span className={cn('w-fit rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>
-                            {badge.label}
+                            {t(badge.label)}
                         </span>
                         <h3 className='mt-1 text-lg font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
                             {formation.title}
@@ -83,7 +84,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                     <button
                         type='button'
                         onClick={onToggleFavorite}
-                        aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+                        aria-label={isFavorite ? t('Retirer des favoris') : t('Ajouter aux favoris')}
                         aria-pressed={isFavorite}
                         className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gray-100 transition-colors duration-300 hover:bg-cream hover:cursor-pointer'>
                         <Icon
@@ -97,16 +98,16 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                     {offerFacts(formation).map((fact) => (
                         <li key={fact.label} className='flex items-center gap-2'>
                             <Icon icon={fact.icon} className='text-lg text-secondary shrink-0' />
-                            {fact.label}
+                            {t(fact.label)}
                         </li>
                     ))}
                     <li className='flex items-center gap-2'>
                         <Icon icon='tabler:device-laptop' className='text-lg text-secondary shrink-0' />
-                        {formation.modality}
+                        {t(formation.modality)}
                     </li>
                     <li className='flex items-center gap-2'>
                         <Icon icon='tabler:language' className='text-lg text-secondary shrink-0' />
-                        {formation.languages.join(', ')}
+                        {formation.languages.map((l) => t(l)).join(', ')}
                     </li>
                 </ul>
 
@@ -114,19 +115,19 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                     <div>
                         {fees ? (
                             <p className='font-bold text-secondary'>
-                                {fees} <span className='font-normal text-ink/60'>/ {formation.feesPeriod}</span>
+                                {fees} <span className='font-normal text-ink/60'>/ {t(formation.feesPeriod)}</span>
                             </p>
                         ) : (
-                            <p className='text-ink/60'>Frais non renseignés</p>
+                            <p className='text-ink/60'>{t('Frais non renseignés')}</p>
                         )}
                         {formation.scholarship === 'Bourses disponibles' && (
-                            <p className='text-sm text-ink/60'>Bourses disponibles</p>
+                            <p className='text-sm text-ink/60'>{t('Bourses disponibles')}</p>
                         )}
                     </div>
                     <Link
                         href={`/formations/${formation.id}`}
                         className='rounded-lg border border-primary px-5 py-2.5 text-center font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white'>
-                        {OFFER_CTA[formation.kind]}
+                        {t(OFFER_CTA[formation.kind])}
                     </Link>
                 </div>
             </div>

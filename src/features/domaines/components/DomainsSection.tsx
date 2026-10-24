@@ -1,5 +1,5 @@
 'use client'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import SectionHeader from '@/components/ui/section-header'
 import { useSiteData } from '@/data/site-data'
@@ -9,6 +9,7 @@ const domainCardClassName =
     'group flex flex-col justify-between gap-4 rounded-xl border border-gray-200 bg-white px-4 py-4 shadow-[4px_4px_0_0_rgba(255,59,82,0.22)] transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[6px_6px_0_0_rgba(255,59,82,0.35)]'
 
 const DomainsSection = () => {
+    const t = useT()
     const { data: domains, loading } = useSiteData('DomainData')
 
     return (
@@ -42,17 +43,16 @@ const DomainsSection = () => {
                     {/* Panneau « Explorateur », sur la hauteur des deux lignes de cartes */}
                     <div className='flex flex-col justify-between gap-6 rounded-xl bg-secondary/10 p-6 min-[420px]:col-span-2 md:col-span-4 lg:col-span-1 lg:col-start-5 lg:row-start-1 lg:row-span-2'>
                         <div className='flex flex-col gap-2'>
-                            <h3 className='text-lg font-bold text-secondary'>Explorateur de formations</h3>
+                            <h3 className='text-lg font-bold text-secondary'>{t('Explorateur de formations')}</h3>
                             <p className='text-black leading-snug'>
-                                Répondez à quelques questions et nous vous présenterons les formations qui vous
-                                correspondent.
+                                {t('Répondez à quelques questions et nous vous présenterons les formations qui vous correspondent.')}
                             </p>
                         </div>
                         <Link
                             href='/orientation/'
                             className='group inline-flex items-center justify-between gap-3 font-semibold text-primary'>
                             <span className='underline underline-offset-4 decoration-primary/40 group-hover:decoration-primary'>
-                                Essayez notre outil d&apos;orientation
+                                {t('Essayez notre outil d’orientation')}
                             </span>
                             <Icon
                                 icon='tabler:chevron-right'
@@ -65,7 +65,7 @@ const DomainsSection = () => {
                 <Link
                     href='/recherche'
                     className='mt-8 inline-block font-semibold text-secondary underline underline-offset-4 decoration-secondary/40 hover:text-primary hover:decoration-primary'>
-                    Parcourez toutes les formations
+                    {t('Parcourez toutes les formations')}
                 </Link>
             </div>
         </section>

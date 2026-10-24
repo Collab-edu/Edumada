@@ -10,6 +10,7 @@ import SuggestInput from './SuggestInput'
 import { placePosition } from '../places'
 import { CHILD_AGES } from '../filters'
 import { FILTER_UI, useFilterSuggestions } from '../useFilterSuggestions'
+import { useT } from '@/i18n/client'
 
 /**
  * Saisie de la recherche rapide (accueil, mobile) : type d'établissement, puis selon ce type
@@ -54,6 +55,7 @@ export function heroSearchHref(search: HeroSearch, domains: string[]): string {
 
 /** « Que recherchez-vous ? » : liste déroulante des catégories et de leurs sous-catégories. */
 function KindSelect({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+    const t = useT()
     const { data: categories } = useSiteData('CategoryData')
     const { suggestions } = useFilterSuggestions()
     // Sous-catégories qui ont des offres (avec leur nombre), comme dans les autres barres.
@@ -67,17 +69,17 @@ function KindSelect({ value, onChange }: { value: string; onChange: (value: stri
             <Listbox value={value} onChange={onChange}>
                 <Label className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
                     <Icon icon={FILTER_UI.categorie.icon} className='text-base text-secondary' />
-                    Que recherchez-vous ?
+                    {t('Que recherchez-vous ?')}
                 </Label>
                 <ListboxButton className='group mt-1 flex w-full items-center justify-between gap-2 py-1 text-left text-base outline-hidden hover:cursor-pointer'>
-                    <span className={cn('truncate', value ? 'font-semibold text-ink' : 'text-ink/40')}>{value || 'École, université, formation pro…'}</span>
+                    <span className={cn('truncate', value ? 'font-semibold text-ink' : 'text-ink/40')}>{value ? t(value) : t('École, université, formation pro…')}</span>
                     <Icon icon='tabler:chevron-down' className='shrink-0 text-lg text-ink/40 transition-transform group-data-[open]:rotate-180' />
                 </ListboxButton>
                 <ListboxOptions
                     anchor={{ to: 'bottom start', gap: 12 }}
                     className='z-50 max-h-80 w-[var(--button-width)] min-w-72 overflow-auto rounded-2xl bg-white p-2 text-base shadow-xl ring-1 ring-black/5 focus:outline-hidden'>
                     <ListboxOption value='' className='flex min-h-11 cursor-pointer items-center rounded-lg px-3 py-2 text-ink/70 data-[focus]:bg-cream data-[focus]:text-primary'>
-                        Tous les établissements
+                        {t('Tous les établissements')}
                     </ListboxOption>
                     {groups.map(({ category, subs }) => (
                         <Fragment key={category.id}>
@@ -86,15 +88,15 @@ function KindSelect({ value, onChange }: { value: string; onChange: (value: stri
                                 value={category.shortLabel}
                                 className='mt-1 flex min-h-11 cursor-pointer items-center gap-2 rounded-lg px-3 py-2 font-semibold text-secondary data-[focus]:bg-cream data-[focus]:text-primary data-[selected]:text-primary'>
                                 <Icon icon={category.icon} className='shrink-0 text-lg' />
-                                {category.shortLabel}
+                                {t(category.shortLabel)}
                             </ListboxOption>
                             {subs.map((sub) => (
                                 <ListboxOption
                                     key={sub}
                                     value={sub}
                                     className='flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-lg py-2 pr-3 pl-10 text-ink data-[focus]:bg-cream data-[focus]:text-primary data-[selected]:font-semibold'>
-                                    <span className='truncate'>{sub}</span>
-                                    <span className='shrink-0 text-xs text-ink/50'>{offered.get(sub)}</span>
+                                    <span className='truncate'>{t(sub)}</span>
+                                    <span className='shrink-0 text-xs text-ink/50'>{offered.get(sub) && t(offered.get(sub)!)}</span>
                                 </ListboxOption>
                             ))}
                         </Fragment>
@@ -107,30 +109,31 @@ function KindSelect({ value, onChange }: { value: string; onChange: (value: stri
 
 /** « Âge de l'enfant » (petite enfance) : liste déroulante. */
 function AgeSelect({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+    const t = useT()
     const label = EARLY_AGES.find((a) => a.value === value)?.label
     return (
         <Field className='w-full text-left'>
             <Listbox value={value} onChange={onChange}>
                 <Label className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
                     <Icon icon='tabler:mood-kid' className='text-base text-secondary' />
-                    Âge de l&apos;enfant ?
+                    {t('Âge de l’enfant ?')}
                 </Label>
                 <ListboxButton className='group mt-1 flex w-full items-center justify-between gap-2 py-1 text-left text-base outline-hidden hover:cursor-pointer'>
-                    <span className={cn('truncate', label ? 'font-semibold text-ink' : 'text-ink/40')}>{label ?? 'Moins d’un an, 2 ans, 4 ans…'}</span>
+                    <span className={cn('truncate', label ? 'font-semibold text-ink' : 'text-ink/40')}>{label ? t(label) : t('Moins d’un an, 2 ans, 4 ans…')}</span>
                     <Icon icon='tabler:chevron-down' className='shrink-0 text-lg text-ink/40 transition-transform group-data-[open]:rotate-180' />
                 </ListboxButton>
                 <ListboxOptions
                     anchor={{ to: 'bottom start', gap: 12 }}
                     className='z-50 max-h-80 w-[var(--button-width)] min-w-56 overflow-auto rounded-2xl bg-white p-2 text-base shadow-xl ring-1 ring-black/5 focus:outline-hidden'>
                     <ListboxOption value='' className='flex min-h-11 cursor-pointer items-center rounded-lg px-3 py-2 text-ink/70 data-[focus]:bg-cream data-[focus]:text-primary'>
-                        Tous les âges
+                        {t('Tous les âges')}
                     </ListboxOption>
                     {EARLY_AGES.map((age) => (
                         <ListboxOption
                             key={age.value}
                             value={age.value}
                             className='flex min-h-11 cursor-pointer items-center rounded-lg px-3 py-2 text-ink data-[focus]:bg-cream data-[focus]:text-primary data-[selected]:font-semibold'>
-                            {age.label}
+                            {t(age.label)}
                         </ListboxOption>
                     ))}
                 </ListboxOptions>
@@ -139,7 +142,7 @@ function AgeSelect({ value, onChange }: { value: string; onChange: (value: strin
     )
 }
 
-const plural = (n: number) => `${n} offre${n > 1 ? 's' : ''}`
+const plural = (n: number) => (n > 1 ? `${n} offres` : `${n} offre`)
 
 /**
  * Les trois champs de la recherche rapide. Le deuxième suit le premier : une crèche demande

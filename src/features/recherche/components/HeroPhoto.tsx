@@ -1,9 +1,11 @@
+'use client'
 import { Caveat } from 'next/font/google'
 import withBasePath from '@/lib/base-path'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import HeroFilters from './HeroFilters'
 import HeroLogos from './HeroLogos'
 import MobileSearch from './MobileSearch'
+import { useT } from '@/i18n/client'
 
 /** Écriture manuscrite de la phrase d'accroche (décorative). */
 const handwriting = Caveat({ subsets: ['latin'], weight: ['500'], display: 'swap' })
@@ -19,6 +21,7 @@ const HERO_ALT = 'Sac à dos jaune, livres colorés et lampe de bureau : les fou
  * barre de recherche à cheval sur le bas de la photo, puis les logos des établissements qui défilent.
  */
 export default function HeroPhoto() {
+    const t = useT()
     return (
         <section id='Home' className='relative flex min-h-svh flex-col bg-offwhite pb-8 sm:pb-10'>
             {/* Photo et voile : clair au centre pour le texte, la photo se dévoile sur les bords */}
@@ -44,7 +47,7 @@ export default function HeroPhoto() {
                 {/* Dès la tablette (640 px) : l'image ; le mobile ne reçoit qu'un pixel vide, rien n'est téléchargé. */}
                 <picture className='absolute inset-0 hidden sm:block'>
                     <source media='(min-width: 640px)' srcSet={HERO_IMAGE} />
-                    <img src={EMPTY_PIXEL} alt={HERO_ALT} fetchPriority='high' className='h-full w-full object-cover object-center' />
+                    <img src={EMPTY_PIXEL} alt={t(HERO_ALT)} fetchPriority='high' className='h-full w-full object-cover object-center' />
                 </picture>
                 <div aria-hidden='true' className='absolute inset-0 hidden sm:block sm:bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.93)_0%,rgba(255,255,255,0.82)_35%,rgba(255,255,255,0.45)_75%)]' />
                 <div aria-hidden='true' className='absolute inset-x-0 top-0 hidden h-28 bg-gradient-to-b from-white/70 to-transparent sm:block' />
@@ -59,10 +62,10 @@ export default function HeroPhoto() {
                     {/* Phrase manuscrite (grand écran) */}
                     <p
                         aria-hidden='true'
-                        className={`${handwriting.className} absolute top-24 right-6 hidden -rotate-12 text-right text-3xl leading-tight text-secondary lg:block xl:text-4xl`}>
-                        Plus qu&apos;une formation…
+                        className={`${handwriting.className} absolute top-4 right-6 hidden max-w-xs -rotate-12 text-right text-3xl leading-tight text-secondary lg:block xl:text-4xl`}>
+                        {t('Plus qu’une formation…')}
                         <br />
-                        un avenir !
+                        {t('un avenir !')}
                         <svg viewBox='0 0 160 20' className='ml-auto block h-4 w-40'>
                             <path d='M2 16 C 50 4, 110 2, 158 6' fill='none' stroke='currentColor' strokeWidth='2.5' strokeLinecap='round' />
                         </svg>
@@ -83,7 +86,7 @@ export default function HeroPhoto() {
                             </g>
                         </svg>
                         <h1 className='text-[28px] leading-[1.2] font-extrabold text-secondary sm:text-[32px] lg:text-[35px]'>
-                            Trouvez votre formation à Madagascar et construisez votre <span className='text-primary'>avenir</span>.
+                            {t('Trouvez votre formation à Madagascar et construisez votre')} <span className='text-primary'>{t('avenir')}</span>.
                         </h1>
 
                         {/* Mobile : la recherche juste sous le titre (la barre complète est masquée). */}
@@ -93,8 +96,7 @@ export default function HeroPhoto() {
 
                         <div className='relative mt-5 sm:mt-6'>
                             <p className='mx-auto max-w-2xl text-base leading-7 text-ink sm:text-lg'>
-                                Explorez les formations, comparez les établissements et trouvez le parcours adapté à vos ambitions, à votre budget et à votre projet
-                                professionnel.
+                                {t('Explorez les formations, comparez les établissements et trouvez le parcours adapté à vos ambitions, à votre budget et à votre projet professionnel.')}
                             </p>
                         </div>
                     </div>

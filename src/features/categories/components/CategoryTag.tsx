@@ -2,6 +2,7 @@
 import { Icon } from '@/components/ui/icon'
 import { useSiteData } from '@/data/site-data'
 import { cn } from '@/lib/utils'
+import { useT } from '@/i18n/client'
 
 /**
  * Étiquette du type d'établissement sur la photo d'une carte : « Université », « Crèche »,
@@ -9,6 +10,7 @@ import { cn } from '@/lib/utils'
  * catégorie), avec l'icône de la catégorie. Placée en haut à gauche de la photo.
  */
 export function CategoryTag({ categoryId, subCategory, schoolId, className }: { categoryId: string; subCategory?: string; schoolId?: string; className?: string }) {
+    const t = useT()
     const { data: categories } = useSiteData('CategoryData')
     const { data: schools } = useSiteData('SchoolData')
     const category = categories.find((c) => c.id === categoryId)
@@ -22,7 +24,7 @@ export function CategoryTag({ categoryId, subCategory, schoolId, className }: { 
                 className
             )}>
             <Icon icon={category?.icon ?? 'tabler:school'} className='shrink-0 text-sm' />
-            <span className='truncate'>{label}</span>
+            <span className='truncate'>{t(label)}</span>
         </span>
     )
 }

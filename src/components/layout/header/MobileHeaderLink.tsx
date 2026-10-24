@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react'
 import Link, { useT } from '@/i18n/client'
 import { usePathname } from 'next/navigation'

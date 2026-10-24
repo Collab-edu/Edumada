@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { Icon } from '@/components/ui/icon'
 import HeroSearchFields, { EMPTY_HERO_SEARCH, heroSearchHref } from './HeroSearchFields'
@@ -19,6 +19,7 @@ const SHORTCUTS = [
  * avec les champs de la recherche rapide (que recherchez-vous, quelle formation, où). Sur grand écran, HeroFilters prend le relais.
  */
 export default function MobileSearch() {
+    const t = useT()
     const { suggestions } = useFilterSuggestions()
     const [open, setOpen] = useState(false)
     const [search, setSearch] = useState(EMPTY_HERO_SEARCH)
@@ -37,8 +38,8 @@ export default function MobileSearch() {
                     <Icon icon='tabler:search' className='text-xl' />
                 </span>
                 <span className='flex min-w-0 flex-col'>
-                    <span className='font-semibold text-secondary'>Que cherchez-vous ?</span>
-                    <span className='truncate text-sm text-ink/60'>{summary || 'Formation, école, ville…'}</span>
+                    <span className='font-semibold text-secondary'>{t('Que cherchez-vous ?')}</span>
+                    <span className='truncate text-sm text-ink/60'>{summary || t('Formation, école, ville…')}</span>
                 </span>
             </button>
 
@@ -48,7 +49,7 @@ export default function MobileSearch() {
                         key={s.label}
                         href={`/recherche?categorie=${encodeURIComponent(s.categorie)}`}
                         className='rounded-full bg-white/80 px-3 py-1.5 text-sm font-medium text-secondary ring-1 ring-secondary/15 backdrop-blur hover:bg-white'>
-                        {s.label}
+                        {t(s.label)}
                     </Link>
                 ))}
             </div>
@@ -63,7 +64,7 @@ export default function MobileSearch() {
                             className='flex h-11 w-11 items-center justify-center rounded-full text-secondary hover:bg-offwhite hover:cursor-pointer'>
                             <Icon icon='tabler:arrow-left' className='text-2xl' />
                         </button>
-                        <DialogTitle className='text-lg font-bold text-secondary'>Rechercher</DialogTitle>
+                        <DialogTitle className='text-lg font-bold text-secondary'>{t('Rechercher')}</DialogTitle>
                     </div>
 
                     <div className='flex flex-col gap-3 p-4'>
@@ -78,9 +79,9 @@ export default function MobileSearch() {
                             onClick={() => setOpen(false)}
                             className='mt-2 flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-4 font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90'>
                             <Icon icon='tabler:search' className='text-xl' />
-                            Rechercher
+                            {t('Rechercher')}
                         </Link>
-                        <p className='text-center text-sm text-ink/60'>Laissez un champ vide pour ne pas filtrer dessus.</p>
+                        <p className='text-center text-sm text-ink/60'>{t('Laissez un champ vide pour ne pas filtrer dessus.')}</p>
                     </div>
                 </DialogPanel>
             </Dialog>

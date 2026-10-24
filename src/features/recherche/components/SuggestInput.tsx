@@ -2,6 +2,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, Label } from '@headlessui/react'
 import { Icon } from '@/components/ui/icon'
+import { useT } from '@/i18n/client'
 
 /** Comparaison sans accents ni majuscules : « creche » trouve « Crèche ». */
 export const normalize = (text: string) =>
@@ -46,6 +47,7 @@ function Highlight({ text, query }: { text: string; query: string }) {
  * Vider le champ retire le filtre.
  */
 export function SuggestInput({ label, icon, placeholder, suggestions, value, onChange, allowFreeText = false }: SuggestInputProps) {
+    const t = useT()
     const [query, setQuery] = useState('')
     // Un choix fait dans la liste ne doit pas être remplacé par la saisie en cours à la fermeture.
     const picked = useRef(false)
@@ -95,7 +97,7 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
             <div className='w-full'>
                 <Label className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
                     {icon && <Icon icon={icon} className='text-base text-secondary' />}
-                    {label}
+                    {t(label)}
                 </Label>
                 <div className='relative mt-1'>
                     <ComboboxInput
@@ -106,7 +108,7 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                             // dès la frappe (le bouton Rechercher peut être cliqué sans quitter le champ).
                             if (e.target.value === '' || allowFreeText) onChange(e.target.value.trim())
                         }}
-                        placeholder={placeholder}
+                        placeholder={t(placeholder)}
                         autoComplete='off'
                         enterKeyHint='search'
                         className='w-full truncate bg-transparent py-1 pr-8 text-base font-semibold text-ink outline-hidden placeholder:font-normal placeholder:text-ink/40'
@@ -115,7 +117,7 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                         <button
                             type='button'
                             onClick={() => onChange('')}
-                            aria-label={`Effacer ${label}`}
+                            aria-label={t('Effacer {label}', { label: t(label) })}
                             className='absolute inset-y-0 right-0 flex items-center px-1 text-gray-400 hover:text-primary hover:cursor-pointer'>
                             <Icon icon='tabler:x' className='text-lg' />
                         </button>
@@ -124,7 +126,7 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                     {query.trim() !== '' && (
                         <ComboboxOptions modal={false} className='absolute left-0 z-20 mt-2 max-h-80 w-full min-w-80 overflow-auto rounded-xl bg-white py-1 text-left text-base shadow-lg ring-1 ring-black/5 empty:invisible'>
                             {filtered.length === 0 && !freeText && (
-                                <div className='px-4 py-3 text-sm text-ink/60'>Aucune suggestion pour « {query} »</div>
+                                <div className='px-4 py-3 text-sm text-ink/60'>{t('Aucune suggestion pour « {query} »', { query })}</div>
                             )}
                             {filtered.map((s) => (
                                 <ComboboxOption
@@ -141,7 +143,7 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                                             </span>
                                         )}
                                     </span>
-                                    {s.hint && <span className='shrink-0 text-xs text-ink/50'>{s.hint}</span>}
+                                    {s.hint && <span className='shrink-0 text-xs text-ink/50'>{t(s.hint)}</span>}
                                 </ComboboxOption>
                             ))}
                             {freeText && (
@@ -150,7 +152,7 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                                     className='flex min-h-11 cursor-pointer items-center gap-2 px-4 py-2 text-ink data-[focus]:bg-cream data-[focus]:text-primary'>
                                     <Icon icon='tabler:search' className='shrink-0 text-primary' />
                                     <span className='truncate'>
-                                        Rechercher « <strong>{freeText}</strong> »
+                                        {t('Rechercher')} « <strong>{freeText}</strong> »
                                     </span>
                                 </ComboboxOption>
                             )}
