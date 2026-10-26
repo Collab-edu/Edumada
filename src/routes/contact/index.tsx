@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import ContactPage from '@/features/contact/components/ContactPage'
+import TestimonialsSection from '@/features/marketing/components/TestimonialsSection'
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -10,6 +11,7 @@ export default function ContactRoute() {
   return (
     <main>
       <ContactPage />
+      <TestimonialsSection />
     </main>
   )
 }
