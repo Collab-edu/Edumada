@@ -1,4 +1,3 @@
-import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 
 /**
@@ -102,41 +101,6 @@ export default function BacSeriesSection() {
                         </li>
                     ))}
                 </ul>
-
-                <div className='mt-8 grid gap-5 md:grid-cols-2'>
-                    <div className='flex gap-4 rounded-2xl bg-cream p-6'>
-                        <Icon icon='tabler:transfer' className='shrink-0 text-3xl text-primary' />
-                        <div className='flex flex-col gap-2'>
-                            <h3 className='text-lg font-semibold text-secondary'>2027, une session de transition</h3>
-                            <p className='text-sm text-black'>
-                                Pour accompagner les élèves formés à l’ancien programme, les séries A1, A2, C et D deviennent des options
-                                de la série L ou S pour la session 2027. Les établissements privés peuvent garder l’ancien programme
-                                pendant l’année scolaire 2026-2027.
-                            </p>
-                        </div>
-                    </div>
-                    <div className='flex gap-4 rounded-2xl bg-offwhite p-6'>
-                        <Icon icon='tabler:compass' className='shrink-0 text-3xl text-primary' />
-                        <div className='flex flex-col gap-2'>
-                            <h3 className='text-lg font-semibold text-secondary'>Comment choisir sa série ?</h3>
-                            <p className='text-sm text-black'>
-                                Regardez vos matières fortes et le métier visé : beaucoup de formations demandent une série précise
-                                (S pour la médecine ou l’ingénierie, par exemple). Vérifiez les conditions d’admission sur la fiche de
-                                chaque formation.
-                            </p>
-                            <Link href='/recherche/' className='inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline'>
-                                Voir les formations après le bac
-                                <Icon icon='tabler:chevron-right' className='text-base' />
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-
-                <p className='mt-6 text-sm text-ink/60'>
-                    Informations à jour en octobre 2026, d’après les annonces du ministère de l’Éducation nationale. Le bac technique et
-                    professionnel n’est pas concerné par ce changement de séries. Les détails (coefficients, épreuves) sont fixés par
-                    les textes officiels : renseignez-vous auprès de votre établissement.
-                </p>
             </div>
         </section>
     )
