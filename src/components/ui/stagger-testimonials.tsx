@@ -5,8 +5,6 @@ import { cn } from '@/lib/utils'
 
 export type Testimonial = { tempId: number; testimonial: string; by: string; imgSrc: string }
 
-const SQRT_5000 = Math.sqrt(5000)
-
 interface TestimonialCardProps {
     position: number
     testimonial: Testimonial
@@ -17,40 +15,49 @@ interface TestimonialCardProps {
 /** Une carte : celle du centre est mise en avant, les autres sont inclinées de part et d'autre. */
 function TestimonialCard({ position, testimonial, handleMove, cardSize }: TestimonialCardProps) {
     const isCenter = position === 0
+    const [name, ...role] = testimonial.by.split(', ')
     return (
         <div
             onClick={() => handleMove(position)}
             className={cn(
-                'absolute left-1/2 top-1/2 flex cursor-pointer flex-col border-2 p-6 sm:p-8 transition-all duration-500 ease-in-out',
-                isCenter ? 'z-10 border-secondary bg-secondary text-white' : 'z-0 border-gray-200 bg-white text-ink hover:border-primary/50'
+                'absolute left-1/2 top-1/2 flex cursor-pointer flex-col rounded-2xl border p-6 transition-all duration-500 ease-in-out sm:p-8',
+                isCenter ? 'z-10 border-secondary bg-secondary text-white' : 'z-0 border-gray-200 bg-white text-ink hover:border-primary/40'
             )}
             style={{
                 width: cardSize,
                 height: cardSize,
-                clipPath: 'polygon(50px 0%, calc(100% - 50px) 0%, 100% 50px, 100% 100%, calc(100% - 50px) 100%, 50px 100%, 0 100%, 0 0)',
                 transform: `
                     translate(-50%, -50%)
                     translateX(${(cardSize / 1.5) * position}px)
-                    translateY(${isCenter ? -65 : position % 2 ? 15 : -15}px)
+                    translateY(${isCenter ? -50 : position % 2 ? 15 : -15}px)
                     rotate(${isCenter ? 0 : position % 2 ? 2.5 : -2.5}deg)
                 `,
-                boxShadow: isCenter ? '0px 8px 0px 4px #ff3b52' : '0px 0px 0px 0px transparent',
+                // Ombre décalée de la charte : rouge pour la carte mise en avant.
+                boxShadow: isCenter ? '6px 6px 0 0 #ff3b52' : '4px 4px 0 0 rgba(15,76,92,0.22)',
             }}>
-            <span className='absolute block origin-top-right rotate-45 bg-gray-200' style={{ right: -2, top: 48, width: SQRT_5000, height: 2 }} />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-                src={testimonial.imgSrc}
-                alt={testimonial.by.split(',')[0]}
-                className='mb-4 h-14 w-12 bg-offwhite object-cover object-top'
-                style={{ boxShadow: '3px 3px 0px #f6f8fa' }}
-            />
-            <h3 className={cn('text-[15px] font-medium leading-snug sm:text-xl', isCenter ? 'text-white' : 'text-secondary')}>« {testimonial.testimonial} »</h3>
-            <p className={cn('mt-auto pt-3 text-sm italic', isCenter ? 'text-white/80' : 'text-ink/60')}>— {testimonial.by}</p>
+            <span className={cn('flex h-11 w-11 items-center justify-center rounded-xl', isCenter ? 'bg-primary text-white' : 'bg-cream text-primary')}>
+                <Icon icon='tabler:quote' className='text-2xl' />
+            </span>
+            <h3 className={cn('mt-5 text-[15px] font-medium leading-snug sm:text-lg', isCenter ? 'text-white' : 'text-secondary')}>
+                {testimonial.testimonial}
+            </h3>
+            <div className={cn('mt-auto flex items-center gap-3 border-t pt-4', isCenter ? 'border-white/15' : 'border-gray-200')}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                    src={testimonial.imgSrc}
+                    alt={name}
+                    className={cn('h-11 w-11 shrink-0 rounded-full object-cover object-top ring-2', isCenter ? 'ring-primary' : 'ring-cream')}
+                />
+                <div className='min-w-0'>
+                    <p className={cn('truncate text-sm font-semibold', isCenter ? 'text-white' : 'text-secondary')}>{name}</p>
+                    {role.length > 0 && <p className={cn('truncate text-xs', isCenter ? 'text-white/70' : 'text-ink/60')}>{role.join(', ')}</p>}
+                </div>
+            </div>
         </div>
     )
 }
 
-const BUTTON = 'flex h-14 w-14 items-center justify-center border-2 border-gray-200 bg-white text-2xl text-secondary transition-colors hover:border-primary hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2'
+const BUTTON = 'flex h-12 w-12 items-center justify-center rounded-lg border border-gray-200 bg-white text-2xl text-secondary shadow-[3px_3px_0_0_rgba(15,76,92,0.22)] transition-colors hover:cursor-pointer hover:border-primary hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2'
 
 /** Carrousel de témoignages en cartes décalées (d'après 21st.dev). */
 export function StaggerTestimonials({ testimonials }: { testimonials: Testimonial[] }) {
@@ -83,7 +90,7 @@ export function StaggerTestimonials({ testimonials }: { testimonials: Testimonia
     }, [])
 
     return (
-        <div className='relative w-full overflow-hidden' style={{ height: 600 }}>
+        <div className='relative w-full overflow-hidden' style={{ height: 560 }}>
             {testimonialsList.map((testimonial, index) => {
                 const position = testimonialsList.length % 2 ? index - (testimonialsList.length + 1) / 2 : index - testimonialsList.length / 2
                 return <TestimonialCard key={testimonial.tempId} testimonial={testimonial} handleMove={handleMove} position={position} cardSize={cardSize} />
