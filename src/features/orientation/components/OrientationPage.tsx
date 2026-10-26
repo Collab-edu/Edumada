@@ -5,6 +5,7 @@ import HeroVideo from '@/components/ui/hero-video'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import StudentSpaceSection from '@/features/marketing/components/StudentSpaceSection'
+import BacSeriesSection from './BacSeriesSection'
 
 /** Les questions à se poser avant de comparer les formations. */
 /** Vidéo libre de droits (Pexels), en attendant une vidéo d'Edumada. */
@@ -152,6 +153,8 @@ export default function OrientationPage() {
                     </div>
                 </div>
             </section>
+
+            <BacSeriesSection />
 
             {/* Par où commencer ? */}
             <section>
