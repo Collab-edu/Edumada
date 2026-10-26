@@ -6,6 +6,7 @@ import FormationsSection from '@/features/formations/components/FormationsSectio
 import SchoolsSection from '@/features/etablissements/components/SchoolsSection'
 import RegisterCta from '@/features/marketing/components/RegisterCta'
 import HowItWorksPhones from '@/features/marketing/components/HowItWorksPhones'
+import TestimonialsSection from '@/features/marketing/components/TestimonialsSection'
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <FormationsSection />
       <SchoolsSection />
       <HowItWorksPhones />
+      <TestimonialsSection />
     </main>
   )
 }
