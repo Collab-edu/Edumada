@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { LOCALES, LOCALE_NAMES, localizePath, stripLocale } from './config'
+import { I18N_ENABLED, LOCALES, LOCALE_NAMES, localizePath, stripLocale } from './config'
 import { useLocale } from './client'
 
 const SHORT: Record<string, string> = { fr: 'FR', en: 'EN', mg: 'MG' }
@@ -20,6 +20,7 @@ export default function LanguageSwitcher({ tone = 'dark', className }: { tone?: 
     const [search, setSearch] = useState('')
     useEffect(() => setSearch(window.location.search.replace(/^\?/, '')), [pathname])
 
+    if (!I18N_ENABLED) return null
     return (
         <nav aria-label='Langue / Language / Fiteny' className={cn('flex items-center gap-1', className)}>
             {LOCALES.map((l) => (

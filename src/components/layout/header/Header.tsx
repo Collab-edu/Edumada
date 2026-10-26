@@ -14,6 +14,7 @@ import HeaderLink from './HeaderLink'
 import MobileHeaderLink from './MobileHeaderLink'
 import { CONTACT, SOCIAL_LINKS } from '../social-links'
 import LanguageSwitcher from '@/i18n/LanguageSwitcher'
+import { I18N_ENABLED } from '@/i18n/config'
 
 /** Bouton carré à icône de la barre principale (compte). */
 const iconButtonClassName =
@@ -256,10 +257,12 @@ const Header: React.FC = () => {
                             className='px-4 py-2 text-center rounded-lg border border-secondary/30 font-medium text-secondary'>
                             {t('Référencer mon établissement')}
                         </Link>
-                        <div className='mt-2 flex items-center justify-between border-t border-gray-100 pt-4'>
-                            <span className='text-sm font-medium text-ink/60'>{t('Langue')}</span>
-                            <LanguageSwitcher />
-                        </div>
+                        {I18N_ENABLED && (
+                            <div className='mt-2 flex items-center justify-between border-t border-gray-100 pt-4'>
+                                <span className='text-sm font-medium text-ink/60'>{t('Langue')}</span>
+                                <LanguageSwitcher />
+                            </div>
+                        )}
                     </div>
                 </nav>
             </div>

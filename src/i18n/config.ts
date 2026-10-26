@@ -1,7 +1,13 @@
 /**
  * Langues du site public. Le français est à la racine (/universites/), l'anglais et le
  * malgache sous un préfixe (/en/universites/, /mg/universites/).
+ *
+ * Interrupteur du multilingue : désactivé pendant les modifications du site, il sera activé à la fin.
+ * Désactivé : pas de pages /en/ ni /mg/ (voir scripts/build-locale-routes.mjs), pas de sélecteur de langue.
+ * Pour l'activer : passer à true, puis lancer node scripts/build-locale-routes.mjs.
  */
+export const I18N_ENABLED = false
+
 export const LOCALES = ['fr', 'en', 'mg'] as const
 export type Locale = (typeof LOCALES)[number]
 

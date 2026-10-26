@@ -14,7 +14,10 @@ import path from 'node:path'
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..')
 const app = path.join(root, 'src', 'app')
 const routes = path.join(root, 'src', 'routes')
-const LOCALES = ['en', 'mg']
+// Interrupteur lu dans src/i18n/config.ts (I18N_ENABLED) : désactivé, aucune page /en/ ni /mg/.
+const ENABLED = /export const I18N_ENABLED = true/.test(fs.readFileSync(path.join(root, 'src', 'i18n', 'config.ts'), 'utf8'))
+const ALL_LOCALES = ['en', 'mg']
+const LOCALES = ENABLED ? ALL_LOCALES : []
 const MARK = '// Page générée par scripts/build-locale-routes.mjs'
 
 function pages(dir) {
@@ -22,7 +25,7 @@ function pages(dir) {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
         const full = path.join(dir, entry.name)
         if (entry.isDirectory()) {
-            if (!['[lang]', ...LOCALES].includes(entry.name)) found.push(...pages(full))
+            if (!['[lang]', ...ALL_LOCALES].includes(entry.name)) found.push(...pages(full))
         } else if (entry.name === 'page.tsx') {
             found.push(full)
         }
@@ -40,7 +43,7 @@ function exportsOf(code) {
     }
 }
 
-for (const dir of ['[lang]', ...LOCALES]) fs.rmSync(path.join(app, dir), { recursive: true, force: true })
+for (const dir of ['[lang]', ...ALL_LOCALES]) fs.rmSync(path.join(app, dir), { recursive: true, force: true })
 let moved = 0
 const written = []
 for (const file of pages(app)) {
@@ -132,4 +135,4 @@ for (const locale of LOCALES) {
         ].join('\n')
     )
 }
-console.log(`[langues] ${written.length} pages (${moved} contenus déplacés dans src/routes) × 3 langues (src/app/en, src/app/mg)`)
+console.log(`[langues] ${written.length} pages (${moved} contenus déplacés dans src/routes) × ${ENABLED ? '3 langues (src/app/en, src/app/mg)' : '1 langue (multilingue désactivé)'}`)
