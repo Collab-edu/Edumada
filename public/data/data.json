@@ -17,8 +17,12 @@
             "href": "/domaines/"
         },
         {
-            "label": "Orientation",
-            "href": "/orientation/"
+            "label": "À propos",
+            "href": "/a-propos/"
+        },
+        {
+            "label": "Contact",
+            "href": "/contact/"
         }
     ],
     "DomainData": [
