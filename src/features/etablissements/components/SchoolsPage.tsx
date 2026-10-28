@@ -1,8 +1,8 @@
 'use client'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useRef } from 'react'
 import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
-import { ButtonLink } from '@/components/ui/form'
+import { Button, ButtonLink } from '@/components/ui/form'
 import SectionHeader from '@/components/ui/section-header'
 import { CardSkeletonGrid } from '@/components/ui/card'
 import { ShowMoreButton, useShowMore } from '@/components/ui/show-more'
@@ -73,6 +73,13 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
     const shown = byPlace.items
     const filtered = !!(filters.kind || filters.city)
     const page = useShowMore(shown, JSON.stringify(filters))
+    // « Rechercher » : les filtres s'appliquent déjà en direct ; le bouton ferme le clavier et descend aux résultats.
+    const resultsRef = useRef<HTMLDivElement>(null)
+    const submitSearch = (e: React.FormEvent) => {
+        e.preventDefault()
+        ;(document.activeElement as HTMLElement | null)?.blur()
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
 
     return (
         <>
@@ -112,7 +119,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                     <form
                         role='search'
                         aria-label={t('Filtrer les établissements')}
-                        onSubmit={(e) => e.preventDefault()}
+                        onSubmit={submitSearch}
                         className='mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:grid-cols-[1fr_1fr_auto] sm:items-center'>
                         {[
                             { key: 'kind' as const, ...config.firstFilter, suggestions: kindSuggestions },
@@ -139,14 +146,21 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                 )}
                             </div>
                         ))}
-                        <button
-                            type='button'
-                            onClick={() => setFilters({ kind: '', city: '', pos: '' })}
-                            disabled={!filtered}
-                            className='h-11 rounded-lg px-4 text-sm font-semibold text-primary hover:underline disabled:hidden sm:disabled:block sm:disabled:invisible hover:cursor-pointer'>
-                            {t('Réinitialiser')}
-                        </button>
+                        <div className='flex flex-col-reverse items-stretch gap-2 sm:flex-row sm:items-center'>
+                            <button
+                                type='button'
+                                onClick={() => setFilters({ kind: '', city: '', pos: '' })}
+                                disabled={!filtered}
+                                className='h-11 rounded-lg px-3 text-sm font-semibold text-primary hover:underline disabled:hidden hover:cursor-pointer'>
+                                {t('Réinitialiser')}
+                            </button>
+                            <Button type='submit' className='h-12'>
+                                <Icon icon='tabler:search' className='text-lg' />
+                                Rechercher
+                            </Button>
+                        </div>
                     </form>
+                    <div ref={resultsRef} className='scroll-mt-28' />
 
                     {loading ? (
                         <CardSkeletonGrid count={8} className='h-[360px]' />
