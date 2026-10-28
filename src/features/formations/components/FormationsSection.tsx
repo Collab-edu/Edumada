@@ -15,7 +15,7 @@ const FormationsSection = () => {
 
     return (
         <section id='courses-section'>
-            <div id='Courses' className='container mx-auto max-w-7xl px-4'>
+            <div id='Courses' className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <SectionHeader
                     title='Les formations à découvrir'
                     description='Parcourez une sélection de formations pour découvrir les cursus disponibles.'

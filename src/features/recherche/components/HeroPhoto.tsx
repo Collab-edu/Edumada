@@ -54,7 +54,7 @@ export default function HeroPhoto() {
                     <path d='M0 120 C 240 170, 520 150, 820 110 C 1080 75, 1280 70, 1440 40 L 1440 160 L 0 160 Z' className='fill-offwhite' />
                 </svg>
 
-                <div className='relative container mx-auto max-w-7xl px-4'>
+                <div className='relative container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='relative mx-auto max-w-3xl text-center'>
                         {/* Traits rouges décoratifs : étincelle animée, chaque trait jaillit à son tour depuis le titre */}
                         <svg aria-hidden='true' viewBox='0 0 40 40' className='absolute -top-6 left-0 hidden h-10 w-10 text-primary sm:block lg:-left-6'>
@@ -88,7 +88,7 @@ export default function HeroPhoto() {
             </div>
 
             {/* Barre de recherche à cheval sur la photo */}
-            <div className='relative z-10 container mx-auto max-w-7xl px-4 sm:-mt-36 lg:-mt-40'>
+            <div className='relative z-10 container mx-auto max-w-site px-4 sm:px-6 lg:px-8 sm:-mt-36 lg:-mt-40'>
                 <HeroFilters />
             </div>
 

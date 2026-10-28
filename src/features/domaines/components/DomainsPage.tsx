@@ -194,7 +194,7 @@ export default function DomainsPage() {
         <main className='overflow-hidden pt-28 pb-20 sm:pt-32'>
             {/* En-tête */}
             <section className='pt-0 pb-12 lg:pb-16'>
-                <div className='container mx-auto grid max-w-7xl items-center gap-10 px-4 lg:grid-cols-[1.1fr_1fr]'>
+                <div className='container mx-auto grid max-w-site items-center gap-10 px-4 sm:px-6 lg:px-8 lg:grid-cols-[1.1fr_1fr]'>
                     <div className='flex flex-col gap-5'>
                         <span className='flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-secondary'>
                             <span className='h-0.5 w-6 rounded-full bg-secondary' aria-hidden='true' />
@@ -242,7 +242,7 @@ export default function DomainsPage() {
 
             {/* Après le bac */}
             <section id={bac.id} className='scroll-mt-28 py-16 lg:py-24'>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='mb-10 flex max-w-3xl flex-col gap-4'>
                         <Eyebrow number={bac.number}>{bac.eyebrow}</Eyebrow>
                         <h2 className='font-bold'>{bac.title}</h2>
@@ -261,7 +261,7 @@ export default function DomainsPage() {
 
             {/* Formation professionnelle */}
             <section id={pro.id} className='scroll-mt-28 bg-white py-16 lg:py-24'>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid items-center gap-10 lg:grid-cols-2 lg:gap-16'>
                         <div className='flex flex-col gap-4'>
                             <Eyebrow number={pro.number}>{pro.eyebrow}</Eyebrow>
@@ -284,7 +284,7 @@ export default function DomainsPage() {
 
             {/* Orientation */}
             <section className='pt-16 pb-0 lg:pt-24'>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='relative overflow-hidden rounded-3xl bg-secondary'>
                         <div className='absolute inset-y-0 right-0 hidden w-1/2 md:block'>
                             <Image src={photo('1497633762265-9d179a990aa6', 900)} alt='' fill sizes='50vw' className='object-cover' />

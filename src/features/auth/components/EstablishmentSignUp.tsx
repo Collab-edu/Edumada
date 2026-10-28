@@ -148,7 +148,7 @@ export default function EstablishmentSignUp() {
 
     return (
         <section className='pt-28 pb-20 sm:pt-32'>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='grid gap-8 lg:grid-cols-[2fr_3fr] lg:items-start'>
                     {/* Présentation */}
                     <aside className='order-2 flex flex-col gap-6 rounded-2xl bg-secondary p-6 text-white sm:p-8 lg:sticky lg:top-28 lg:order-1'>

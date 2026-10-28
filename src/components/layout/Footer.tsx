@@ -19,7 +19,7 @@ const Footer = () => {
 
     return (
         <footer className='bg-secondary' id='first-section'>
-            <div className={`container mx-auto max-w-7xl px-4 pb-8 ${overlapped ? 'pt-44' : 'pt-16'}`}>
+            <div className={`container mx-auto max-w-site px-4 sm:px-6 lg:px-8 pb-8 ${overlapped ? 'pt-44' : 'pt-16'}`}>
                 {/* Newsletter */}
                 <div className='flex flex-col gap-6 border-b border-white/10 pb-10 md:flex-row md:items-center md:justify-between'>
                     <div className='flex flex-col gap-1'>

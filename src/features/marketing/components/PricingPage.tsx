@@ -93,7 +93,7 @@ export default function PricingPage() {
         <>
             {/* Formules */}
             <section className='pt-28 sm:pt-32'>
-                <div className='container mx-auto max-w-7xl px-4 flex flex-col gap-10'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex flex-col gap-10'>
                     <div className='mx-auto flex max-w-3xl flex-col items-center gap-4 text-center'>
                         <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
                         <h1 className='text-3xl md:text-5xl font-bold text-secondary'>

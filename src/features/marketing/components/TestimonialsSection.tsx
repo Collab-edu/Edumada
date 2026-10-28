@@ -69,7 +69,7 @@ const TESTIMONIALS: Testimonial[] = [
 export default function TestimonialsSection() {
     return (
         <section className='overflow-hidden'>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <SectionHeader
                     title='Ils ont trouvé leur voie avec Edumada'
                     description='Élèves, parents et établissements partagent leur expérience.'

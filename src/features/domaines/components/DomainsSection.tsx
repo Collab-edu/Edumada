@@ -14,7 +14,7 @@ const DomainsSection = () => {
 
     return (
         <section id='domains-section'>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <SectionHeader
                     title='Explorez les formations par domaine'
                     description="Découvrez les possibilités d'études selon vos centres d'intérêt et vos objectifs professionnels."

@@ -10,7 +10,7 @@ const SchoolsSection = () => {
 
     return (
         <section id='schools-section' className='bg-secondary/[0.06] py-14 mt-10'>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <SectionHeader
                     title='Découvrez les établissements'
                     description="Consultez les établissements et découvrez les formations qu'ils proposent."

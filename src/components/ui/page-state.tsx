@@ -6,7 +6,7 @@ import { Icon } from '@/components/ui/icon'
 export function PageSkeleton() {
     const t = useT()
     return (
-        <div className='container mx-auto max-w-7xl px-4 pt-28 pb-20' aria-busy='true' aria-live='polite'>
+        <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8 pt-28 pb-20' aria-busy='true' aria-live='polite'>
             <span className='sr-only'>{t('Chargement…')}</span>
             <div className='h-72 rounded-2xl bg-white border border-gray-100 animate-pulse' />
             <div className='mt-8 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-8'>

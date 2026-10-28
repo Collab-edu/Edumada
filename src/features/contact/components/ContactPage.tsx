@@ -53,7 +53,7 @@ export default function ContactPage() {
 
     return (
         <section className='pt-32 pb-20 sm:pt-40'>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
                     <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
                         {t('Contactez-nous')} <span className='text-primary'>{t('dès aujourd’hui')}</span>

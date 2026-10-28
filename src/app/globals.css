@@ -130,9 +130,20 @@
   }
 }
 
+/* Largeur du contenu : s'élargit sur les grands écrans (1280 px, puis 1440 px dès 1536 px, puis 1680 px dès 1920 px). */
+@utility max-w-site {
+  max-width: 80rem;
+  @media (width >= 96rem) {
+    max-width: 90rem;
+  }
+  @media (width >= 120rem) {
+    max-width: 105rem;
+  }
+}
+
 @layer utilities {
   .container {
-    @apply max-w-7xl mx-auto w-full px-4;
+    @apply max-w-site mx-auto w-full px-4 sm:px-6 lg:px-8;
   }
 }
 

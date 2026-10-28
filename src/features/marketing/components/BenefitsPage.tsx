@@ -75,7 +75,7 @@ export default function BenefitsPage() {
         <>
             {/* En-tête */}
             <section className='pt-28 pb-10 sm:pt-32'>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
                         <div className='flex flex-col gap-4'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
@@ -104,7 +104,7 @@ export default function BenefitsPage() {
 
             {/* Avantages */}
             <section>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <SectionHeader title='Ce que vous gagnez' description='Les outils inclus pour présenter votre établissement et suivre l’intérêt des étudiants.' />
                     <ul className='grid gap-5 sm:grid-cols-2 lg:grid-cols-3'>
                         {BENEFITS.map((benefit) => (
@@ -124,7 +124,7 @@ export default function BenefitsPage() {
 
             {/* Étapes */}
             <section className='bg-secondary/[0.06]'>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
                         <PhoneMockup tabs={PHONE_TABS}>
                             <div>
@@ -176,7 +176,7 @@ export default function BenefitsPage() {
 
             {/* Formules */}
             <section className='pb-20'>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <SectionHeader
                         title='Commencez gratuitement'
                         description='Passez à une formule payante seulement quand vous en avez besoin.'

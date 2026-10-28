@@ -124,7 +124,7 @@ const Header: React.FC = () => {
         <header className='fixed top-0 z-40 w-full'>
             {/* Barre supérieure (grand écran) : repères à gauche, réseaux et bouton établissement à droite. Masquée au défilement. */}
             <div className={cn('hidden lg:block bg-secondary text-white overflow-hidden transition-[max-height] duration-300', sticky ? 'max-h-0' : 'max-h-12')}>
-                <div className='container mx-auto max-w-7xl px-4 flex h-10 items-center justify-between text-sm'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex h-10 items-center justify-between text-sm'>
                     <div className='flex items-center gap-8'>
                         <a href={`mailto:${CONTACT.email}`} className='flex items-center gap-2 hover:text-primary duration-300'>
                             <Icon icon='tabler:mail' className='text-lg text-primary' />
@@ -157,7 +157,7 @@ const Header: React.FC = () => {
 
             {/* Barre principale : logo, menu, boutons à icônes */}
             <div className={cn('py-4 transition-all duration-300', sticky ? 'bg-white shadow-lg' : 'bg-white')}>
-                <div className='container relative mx-auto max-w-7xl px-4 flex items-center justify-between'>
+                <div className='container relative mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex items-center justify-between'>
                     <Logo />
                     <nav className='hidden xl:flex grow justify-center items-center gap-8 mx-8'>
                         {headerData.map((item, index) => (

@@ -78,7 +78,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
         <>
             {/* En-tête de page */}
             <section className='pt-28 pb-10 sm:pt-32'>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-8 lg:grid-cols-2 lg:items-center'>
                         <div className='flex max-w-3xl flex-col gap-4'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>{t(config.eyebrow)}</p>
@@ -103,7 +103,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
 
             {/* Établissements */}
             <section>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <SectionHeader
                         title={config.listTitle}
                         description={t('Filtrez par catégorie et par ville pour trouver l’établissement qui correspond à votre projet.')}
@@ -182,7 +182,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
 
             {/* Atouts */}
             <section className='pt-0'>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <ul className='grid gap-4 sm:grid-cols-3'>
                         {BENEFITS.map((b) => (
                             <li key={b.title} className='flex gap-4 rounded-xl bg-white p-5 border border-gray-100'>
@@ -201,7 +201,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
 
             {/* Appel aux établissements */}
             <section className='pb-20'>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
                             <h2 className='text-2xl font-bold text-white'>{t(config.cta.title)}</h2>

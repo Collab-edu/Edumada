@@ -35,7 +35,7 @@ export default function StudentSpaceSection() {
 
     return (
         <section>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='grid items-center gap-10 lg:grid-cols-2 lg:gap-16'>
                     {/* Téléphone */}
                     <PhoneMockup tabs={TABS}>

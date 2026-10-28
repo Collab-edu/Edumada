@@ -35,7 +35,7 @@ const SchoolCta = () => {
 
     return (
         <section id='school-cta-section' className='relative z-10 -mb-28 pb-0'>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='relative overflow-hidden rounded-2xl border border-gray-200 bg-white px-6 py-12 shadow-xl shadow-secondary/20 sm:px-10 lg:py-16'>
                     {/* Photos d'établissements autour du texte, sur grand écran */}
                     <div className='pointer-events-none absolute inset-0 hidden lg:block' aria-hidden='true'>

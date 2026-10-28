@@ -139,7 +139,7 @@ export default function HowItWorksPhones() {
 
     return (
         <section>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <SectionHeader title='Comment ça marche ?' description='Trois étapes pour trouver sa formation sur Edumada.' className='text-center sm:justify-center' />
                 <ol className='grid gap-12 md:grid-cols-3 md:gap-6'>
                     {STEPS.map((step, index) => (

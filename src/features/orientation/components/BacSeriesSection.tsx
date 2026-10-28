@@ -38,7 +38,7 @@ const SERIES = [
 export default function BacSeriesSection() {
     return (
         <section>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='flex max-w-3xl flex-col gap-4'>
                     <span className='font-semibold uppercase tracking-wide text-primary'>Réforme du baccalauréat</span>
                     <h2 className='text-3xl font-bold leading-tight md:text-4xl'>

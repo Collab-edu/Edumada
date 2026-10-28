@@ -17,7 +17,7 @@ export default function OrientationBanner() {
     const t = useT()
     return (
         <section>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='relative grid overflow-hidden rounded-2xl bg-secondary md:grid-cols-[1fr_14rem_1fr] lg:grid-cols-[1fr_18rem_1fr]'>
                     <div className='flex flex-col items-start gap-4 p-6 sm:p-8'>
                         <span className='inline-flex items-center gap-2 text-sm font-semibold text-primary'>

@@ -91,7 +91,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
 
     return (
         <div className='pt-24 pb-32 sm:pt-28 lg:pb-20'>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <nav aria-label={t("Fil d'Ariane")} className='mb-4 text-sm text-ink/60'>
                     <Link href='/' className='inline-block py-2 hover:text-primary'>{t('Accueil')}</Link>
                     <span className='mx-2'>/</span>

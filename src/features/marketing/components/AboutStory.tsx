@@ -56,7 +56,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
         <>
             {/* Le constat */}
             <section>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
                         <div className='flex max-w-2xl flex-col gap-5'>
                             <h2 className='text-3xl font-bold leading-tight md:text-4xl'>
@@ -94,7 +94,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
 
             {/* Notre réponse */}
             <section>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid items-center gap-12 lg:grid-cols-2 lg:gap-16'>
                         <div className='relative pr-4 sm:pr-10'>
                             <div className='relative h-72 overflow-hidden rounded-3xl sm:h-96'>
@@ -140,7 +140,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
 
             {/* Pour qui ? */}
             <section>
-                <div className='container mx-auto max-w-7xl px-4'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='relative overflow-hidden rounded-3xl bg-secondary px-6 py-12 sm:px-10 lg:py-16'>
                         <DotPattern width={22} height={22} cr={1.2} className='fill-white/10' />
                         <div className='pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border-[40px] border-white/5' aria-hidden='true' />

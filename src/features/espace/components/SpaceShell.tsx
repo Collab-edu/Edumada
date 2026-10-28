@@ -59,7 +59,7 @@ export function SpaceShell({ roles, title, subtitle, nav, actions, banner, child
 
     return (
         <section className='pt-24 pb-20 sm:pt-28'>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='mb-5 flex flex-col sm:flex-row sm:items-end justify-between gap-3'>
                     <div className='flex flex-col gap-1'>
                         <h1 className='text-2xl sm:text-3xl font-bold text-secondary'>{t(title)}</h1>

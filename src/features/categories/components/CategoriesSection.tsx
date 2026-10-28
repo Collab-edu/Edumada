@@ -12,7 +12,7 @@ const CategoriesSection = () => {
 
     return (
         <section id='categories-section'>
-            <div className='container mx-auto max-w-7xl px-4'>
+            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <SectionHeader
                     title="Explorer par type d'établissement"
                     description='De la crèche à l’université, trouvez la structure adaptée à chaque âge et à chaque projet.'
