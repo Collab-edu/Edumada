@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import Link, { useT } from '@/i18n/client'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import HeroVideo from '@/components/ui/hero-video'
@@ -53,6 +54,8 @@ const PROFILES = [
         text: 'Licences, masters, BTS et grandes écoles : trouvez l’enseignement supérieur qui correspond à votre projet.',
         href: `/recherche?categorie=${encodeURIComponent('Enseignement supérieur')}`,
         cta: 'Enseignement supérieur',
+        image: 'https://images.unsplash.com/photo-1627556704302-624286467c65?auto=format&fit=crop&w=800&q=70',
+        alt: 'Main levant une toque de diplômé devant une université',
     },
     {
         icon: 'tabler:tools',
@@ -60,6 +63,8 @@ const PROFILES = [
         text: 'Formations courtes et certifiantes pour entrer vite dans la vie active ou changer de métier.',
         href: '/formation-professionnelle/',
         cta: 'Formation professionnelle',
+        image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&q=70',
+        alt: 'Soudeur au travail dans un atelier',
     },
     {
         icon: 'tabler:backpack',
@@ -67,6 +72,8 @@ const PROFILES = [
         text: 'Crèches, écoles primaires, collèges et lycées : trouvez un établissement près de chez vous.',
         href: '/etablissements/',
         cta: 'Crèches et écoles',
+        image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=70',
+        alt: 'Enfants qui travaillent en classe',
     },
 ]
 
@@ -175,16 +182,28 @@ export default function OrientationPage() {
                                 <li key={profile.title}>
                                     <Link
                                         href={profile.href}
-                                        className='group flex h-full flex-col gap-3 rounded-2xl bg-white p-6 transition-transform duration-300 hover:-translate-y-1'>
-                                        <span className='flex h-14 w-14 items-center justify-center rounded-2xl bg-cream text-primary'>
-                                            <Icon icon={profile.icon} className='text-3xl' />
-                                        </span>
-                                        <h3 className='text-lg font-semibold text-secondary'>{t(profile.title)}</h3>
-                                        <p className='text-black'>{t(profile.text)}</p>
-                                        <span className='mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary'>
-                                            {t(profile.cta)}
-                                            <Icon icon='tabler:arrow-right' className='text-base transition-transform duration-300 group-hover:translate-x-1' />
-                                        </span>
+                                        className='group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[6px_6px_0_0_rgba(255,59,82,0.9)] transition-transform duration-300 hover:-translate-y-1'>
+                                        <div className='relative h-44 overflow-hidden sm:h-48'>
+                                            <Image
+                                                src={profile.image}
+                                                alt={profile.alt}
+                                                fill
+                                                sizes='(min-width: 768px) 33vw, 100vw'
+                                                className='object-cover transition-transform duration-500 group-hover:scale-105'
+                                            />
+                                            <div className='absolute inset-0 bg-gradient-to-t from-secondary/60 via-secondary/10 to-transparent' aria-hidden='true' />
+                                        </div>
+                                        <div className='relative flex flex-1 flex-col gap-3 px-6 pb-6 pt-10'>
+                                            <span className='absolute -top-7 left-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-cream text-primary ring-4 ring-white'>
+                                                <Icon icon={profile.icon} className='text-3xl' />
+                                            </span>
+                                            <h3 className='text-lg font-semibold text-secondary'>{t(profile.title)}</h3>
+                                            <p className='text-black'>{t(profile.text)}</p>
+                                            <span className='mt-auto inline-flex items-center gap-1.5 self-start rounded-lg bg-primary/10 px-3 py-2 text-sm font-semibold text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white'>
+                                                {t(profile.cta)}
+                                                <Icon icon='tabler:arrow-right' className='text-base transition-transform duration-300 group-hover:translate-x-1' />
+                                            </span>
+                                        </div>
                                     </Link>
                                 </li>
                             ))}
