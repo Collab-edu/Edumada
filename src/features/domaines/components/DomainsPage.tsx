@@ -5,6 +5,7 @@ import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { useSiteData } from '@/data/site-data'
 import { cn } from '@/lib/utils'
+import { DotPattern } from '@/components/ui/dot-pattern'
 
 const photo = (id: string, w = 600) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=70`
 
@@ -37,6 +38,8 @@ const SECTIONS = [
         categoryId: 'superieur',
         search: 'Enseignement supérieur',
         eyebrow: 'Après le bac',
+        number: '01',
+        badgeIcon: 'tabler:school',
         title: 'Les études supérieures',
         text: 'Universités, instituts et grandes écoles préparent en plusieurs années à un diplôme reconnu, pour viser un métier qualifié ou poursuivre la recherche.',
         points: [
@@ -52,6 +55,8 @@ const SECTIONS = [
         categoryId: 'formation-pro',
         search: 'Formation professionnelle',
         eyebrow: 'Formation professionnelle',
+        number: '02',
+        badgeIcon: 'tabler:tools',
         title: 'Apprendre un métier',
         text: 'Des formations courtes et pratiques, de quelques semaines à 2 ans, avec ou sans bac, pour acquérir un savoir-faire, obtenir un certificat ou changer de métier.',
         points: [
@@ -141,14 +146,14 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
     )
 }
 
-function SectionLinks({ section }: { section: Section }) {
+function SectionLinks({ section, dark }: { section: Section; dark?: boolean }) {
     return (
         <div className='mt-8 flex flex-wrap gap-x-8 gap-y-3'>
             <Link href={section.page.href} className='group inline-flex items-center gap-1.5 font-semibold text-primary'>
                 <span className='underline decoration-2 underline-offset-4'>{section.page.label}</span>
                 <Icon icon='tabler:arrow-right' className='transition-transform duration-300 group-hover:translate-x-1' />
             </Link>
-            <Link href={`/recherche?categorie=${encodeURIComponent(section.search)}`} className='group inline-flex items-center gap-1.5 font-semibold text-secondary hover:text-primary'>
+            <Link href={`/recherche?categorie=${encodeURIComponent(section.search)}`} className={cn('group inline-flex items-center gap-1.5 font-semibold hover:text-primary', dark ? 'text-white' : 'text-secondary')}>
                 Toutes les formations de cette catégorie
                 <Icon icon='tabler:arrow-right' className='transition-transform duration-300 group-hover:translate-x-1' />
             </Link>
@@ -156,12 +161,25 @@ function SectionLinks({ section }: { section: Section }) {
     )
 }
 
-function Eyebrow({ children }: { children: React.ReactNode }) {
+/** Repère de section : numéro, étiquette et icône, pour bien distinguer les deux voies. */
+function SectionTag({ section, dark }: { section: Section; dark?: boolean }) {
     return (
-        <span className='flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-primary'>
+        <div className='flex items-center gap-4'>
+            <span className={cn('font-heading text-5xl font-extrabold leading-none', dark ? 'text-white/25' : 'text-secondary/15')}>{section.number}</span>
+            <span className='inline-flex items-center gap-2 rounded-full bg-primary px-4 py-1.5 text-sm font-semibold uppercase tracking-wide text-white'>
+                <Icon icon={section.badgeIcon} className='text-lg' />
+                {section.eyebrow}
+            </span>
+        </div>
+    )
+}
+
+function DomainsTitle({ dark }: { dark?: boolean }) {
+    return (
+        <h3 className={cn('mt-14 mb-6 flex items-center gap-3 text-xl font-semibold', dark ? 'text-white' : 'text-secondary')}>
             <span className='h-0.5 w-6 rounded-full bg-primary' aria-hidden='true' />
-            {children}
-        </span>
+            Choisissez un domaine
+        </h3>
     )
 }
 
@@ -239,42 +257,37 @@ export default function DomainsPage() {
             <section id={bac.id} className='scroll-mt-28 pt-6'>
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='mb-8 flex max-w-3xl flex-col gap-3'>
-                        <Eyebrow>{bac.eyebrow}</Eyebrow>
+                        <SectionTag section={bac} />
                         <h2 className='font-bold'>{bac.title}</h2>
                         <p className='text-black'>{bac.text}</p>
                     </div>
                     <Points points={bac.points} className='sm:grid-cols-2 lg:grid-cols-4' />
 
-                    <h3 className='mt-14 mb-6 flex items-center gap-3 text-xl font-semibold text-secondary'>
-                        <span className='h-0.5 w-6 rounded-full bg-primary' aria-hidden='true' />
-                        Choisissez un domaine
-                    </h3>
+                    <DomainsTitle />
                     <DomainCards section={bac} domains={domainsByCategory.get(bac.categoryId) ?? []} loading={loading} />
                     <SectionLinks section={bac} />
                 </div>
             </section>
 
             {/* Formation professionnelle */}
-            <section id={pro.id} className='scroll-mt-28 bg-white'>
-                <div className='container mx-auto max-w-7xl px-4'>
+            <section id={pro.id} className='relative mt-10 scroll-mt-20 bg-secondary'>
+                <DotPattern width={22} height={22} cr={1.2} className='fill-white/10' />
+                <div className='relative container mx-auto max-w-7xl px-4'>
                     <div className='grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr_1.2fr]'>
                         <div className='flex flex-col gap-3'>
-                            <Eyebrow>{pro.eyebrow}</Eyebrow>
-                            <h2 className='font-bold'>{pro.title}</h2>
-                            <p className='text-black'>{pro.text}</p>
+                            <SectionTag section={pro} dark />
+                            <h2 className='font-bold text-white'>{pro.title}</h2>
+                            <p className='text-white/80'>{pro.text}</p>
                         </div>
-                        <div className='relative h-56 overflow-hidden rounded-[2rem] rounded-bl-[5rem] shadow-[8px_8px_0_0_rgba(15,76,92,0.9)] lg:h-64'>
+                        <div className='relative h-56 overflow-hidden rounded-[2rem] rounded-bl-[5rem] shadow-[8px_8px_0_0_rgba(255,59,82,0.9)] lg:h-64'>
                             <Image src={photo('1504328345606-18bbc8c9d7d1', 700)} alt='Soudeur au travail dans un atelier' fill sizes='(min-width: 1024px) 30vw, 100vw' className='object-cover' />
                         </div>
                         <Points points={pro.points} className='sm:grid-cols-2' />
                     </div>
 
-                    <h3 className='mt-14 mb-6 flex items-center gap-3 text-xl font-semibold text-secondary'>
-                        <span className='h-0.5 w-6 rounded-full bg-primary' aria-hidden='true' />
-                        Choisissez un domaine
-                    </h3>
+                    <DomainsTitle dark />
                     <DomainCards section={pro} domains={domainsByCategory.get(pro.categoryId) ?? []} loading={loading} compact />
-                    <SectionLinks section={pro} />
+                    <SectionLinks section={pro} dark />
                 </div>
             </section>
 
