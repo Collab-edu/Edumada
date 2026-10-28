@@ -109,21 +109,20 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
                               key={domain.name}
                               href={`/recherche?categorie=${encodeURIComponent(section.search)}&domaine=${encodeURIComponent(domain.name)}`}
                               className={cn(CARD, 'group flex flex-col gap-4 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[6px_6px_0_0_rgba(255,59,82,0.3)]')}>
-                              <span className={cn('flex h-11 w-11 items-center justify-center rounded-xl', ICON)}>
-                                  <Icon icon={meta.icon} className='text-2xl' />
-                              </span>
+                              <div className='flex items-start justify-between gap-3'>
+                                  <span className={cn('flex h-11 w-11 items-center justify-center rounded-xl', ICON)}>
+                                      <Icon icon={meta.icon} className='text-2xl' />
+                                  </span>
+                                  {/* Flèche discrète, qui passe au rouge au survol de la carte */}
+                                  <span className='flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-secondary transition-colors duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-white'>
+                                      <Icon icon='tabler:arrow-right' className='text-base transition-transform duration-300 group-hover:translate-x-0.5' />
+                                  </span>
+                              </div>
                               <div className='flex flex-col gap-0.5'>
                                   <span className='font-semibold leading-snug text-secondary duration-300 group-hover:text-primary'>{domain.name}</span>
                                   <span className='text-sm text-ink/60'>{plural(domain.count)}</span>
                               </div>
-                              <div className='relative mt-auto'>
-                                  <span
-                                      className={cn(
-                                          'absolute -top-4 right-2 z-10 flex h-8 w-8 items-center justify-center rounded-full text-white ring-4 ring-white transition-transform duration-300 group-hover:translate-x-1',
-                                          'bg-primary'
-                                      )}>
-                                      <Icon icon='tabler:arrow-right' className='text-base' />
-                                  </span>
+                              <div className='mt-auto'>
                                   <div className={cn('relative overflow-hidden rounded-xl', compact ? 'h-24' : 'h-28')}>
                                       <Image
                                           src={photo(meta.image, 500)}
