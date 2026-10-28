@@ -26,7 +26,7 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
     return (
         <Card className='flex h-full flex-col overflow-hidden'>
             <div className={cn('relative overflow-hidden bg-cream', compact ? 'h-40' : 'h-48')}>
-                <Image src={imageOr(school.imageSrc)} alt={`Locaux de ${school.name}`} fill className='object-cover transition-transform duration-500 group-hover:scale-105' />
+                <Image src={imageOr(school.imageSrc)} alt={`Locaux de ${school.name}`} fill className='object-cover' />
                 {/* Type d'établissement, comme sur les cartes de formation */}
                 <CategoryTag categoryId={school.category} subCategory={school.subCategory} />
                 {school.type && (

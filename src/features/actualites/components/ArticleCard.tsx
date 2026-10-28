@@ -14,7 +14,7 @@ export function ArticleCard({ article }: { article: Article }) {
     return (
         <Card className='relative flex h-full flex-col overflow-hidden'>
             <div className='relative h-48 overflow-hidden bg-cream'>
-                <Image src={imageOr(article.coverImage)} alt='' fill className='object-cover transition-transform duration-500 group-hover:scale-105' />
+                <Image src={imageOr(article.coverImage)} alt='' fill className='object-cover' />
                 <span className='absolute bottom-3 left-3 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-white'>{t(article.categoryLabel)}</span>
             </div>
             <div className='flex flex-1 flex-col gap-2 p-5'>

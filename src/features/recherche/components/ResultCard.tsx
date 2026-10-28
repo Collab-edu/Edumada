@@ -57,7 +57,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                             <SchoolLogo
                                 name={formation.school}
                                 logo={formation.schoolLogo}
-                                className='h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white transition-transform duration-300 hover:scale-105'
+                                className='h-14 w-14 rounded-xl text-sm shadow-md ring-4 ring-white'
                             />
                         </Link>
                         <span className={cn('w-fit rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>

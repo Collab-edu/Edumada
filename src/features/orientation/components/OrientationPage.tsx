@@ -189,7 +189,7 @@ export default function OrientationPage() {
                                                 alt={profile.alt}
                                                 fill
                                                 sizes='(min-width: 768px) 33vw, 100vw'
-                                                className='object-cover transition-transform duration-500 group-hover:scale-105'
+                                                className='object-cover'
                                             />
                                             <div className='absolute inset-0 bg-gradient-to-t from-secondary/60 via-secondary/10 to-transparent' aria-hidden='true' />
                                         </div>

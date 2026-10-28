@@ -24,7 +24,7 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite, compact
     return (
         <Card className='flex h-full flex-col overflow-hidden'>
             <div className={cn('relative overflow-hidden bg-cream', compact ? 'h-40' : 'h-48')}>
-                <Image src={imageOr(formation.imageSrc)} alt='' fill className='object-cover transition-transform duration-500 group-hover:scale-105' />
+                <Image src={imageOr(formation.imageSrc)} alt='' fill className='object-cover' />
                 <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} />
                 <button
                     type='button'
