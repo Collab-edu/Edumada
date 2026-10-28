@@ -21,7 +21,7 @@ import { useT } from '@/i18n/client'
 const VARIANTS = {
     /** Enseignement supérieur : offres, filtrables par sous-catégorie (université, école supérieure…). */
     universites: {
-        categoryId: 'superieur',
+        categoryIds: ['superieur'],
         eyebrow: 'Universités',
         title: 'Trouvez votre formation dans le supérieur',
         intro: 'Licences, masters, BTS et cursus des universités, instituts supérieurs, écoles supérieures et grandes écoles à Madagascar : comparez les formations après le bac, puis contactez directement l’établissement.',
@@ -39,11 +39,15 @@ const VARIANTS = {
             { icon: 'tabler:message-circle', title: 'Un contact direct', text: 'Écrivez ou appelez l’établissement depuis l’offre, sans intermédiaire.' },
         ],
         schoolsTitle: null,
+        schoolsIntro: '',
+        schoolsFirst: false,
+        domainFilter: true,
+        noun: { one: 'formation', many: 'formations' },
         cta: { title: 'Vous dirigez une université ou une école supérieure ?', text: 'Présentez vos cursus gratuitement et recevez les demandes des futurs étudiants.', button: 'Référencer mon établissement' },
     },
     /** Formation professionnelle : offres et centres qui les proposent. */
     'formation-pro': {
-        categoryId: 'formation-pro',
+        categoryIds: ['formation-pro'],
         eyebrow: 'Formation professionnelle',
         title: 'Apprenez un métier, rapidement et concrètement',
         intro: 'Centres de formation, instituts techniques et écoles de métiers à Madagascar : comparez les formations courtes et certifiantes, puis contactez directement l’établissement.',
@@ -61,11 +65,42 @@ const VARIANTS = {
             { icon: 'tabler:certificate', title: 'Un certificat reconnu', text: 'Vérifiez sur chaque offre le diplôme ou le certificat délivré et les conditions d’admission.' },
         ],
         schoolsTitle: 'Les centres de formation',
+        schoolsIntro: 'Les établissements qui proposent ces formations sur Edumada.',
+        schoolsFirst: false,
+        domainFilter: true,
+        noun: { one: 'formation', many: 'formations' },
         cta: { title: 'Vous dirigez un centre de formation ?', text: 'Présentez vos formations gratuitement et recevez les demandes des futurs apprenants.', button: 'Référencer mon centre' },
+    },
+    /** Petite enfance et écoles : crèches, garderies, maternelles, puis primaire et secondaire. */
+    'petite-enfance': {
+        categoryIds: ['petite-enfance', 'scolaire'],
+        eyebrow: 'Petite enfance et écoles',
+        title: 'Trouvez la crèche ou l’école de votre enfant',
+        intro: 'Crèches, garderies, maternelles, écoles primaires, collèges et lycées à Madagascar : comparez les établissements près de chez vous, puis contactez-les directement.',
+        image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1200&q=70',
+        imageAlt: 'Enfants qui travaillent en classe',
+        searchLabel: 'Rechercher un établissement',
+        listTitle: 'L’accueil et les niveaux proposés',
+        listIntro: 'Choisissez un type d’établissement, puis filtrez par ville.',
+        domainLabel: '',
+        domainPlaceholder: '',
+        bySubCategory: true,
+        benefits: [
+            { icon: 'tabler:baby-carriage', title: 'De la crèche au lycée', text: 'Crèches, garderies, maternelles, écoles, collèges et lycées réunis au même endroit.' },
+            { icon: 'tabler:map-pin', title: 'Près de chez vous', text: 'Filtrez par ville ou par position pour trouver un établissement proche de votre domicile.' },
+            { icon: 'tabler:message-circle', title: 'Un contact direct', text: 'Posez vos questions sur l’accueil, les horaires et les frais directement à l’établissement.' },
+        ],
+        schoolsTitle: 'Les crèches et écoles',
+        schoolsIntro: 'Les établissements de petite enfance et les écoles présents sur Edumada.',
+        schoolsFirst: true,
+        domainFilter: false,
+        noun: { one: 'offre', many: 'offres' },
+        cta: { title: 'Vous dirigez une crèche ou une école ?', text: 'Présentez votre établissement gratuitement et recevez les demandes des parents.', button: 'Référencer mon établissement' },
     },
 } as const
 
-const plural = (n: number) => `${n} formation${n > 1 ? 's' : ''}`
+/** « 1 formation », « 3 offres »… selon le nom des offres de la page. */
+const countLabel = (n: number, noun: { one: string; many: string }) => `${n} ${n > 1 ? noun.many : noun.one}`
 
 /** Page d'une catégorie : ses offres (formations), filtrables, et selon la page les établissements. */
 export default function CategoryOffersPage({ variant }: { variant: keyof typeof VARIANTS }) {
@@ -77,10 +112,11 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     const { isFavorite, toggleFavorite } = useAuth()
     const [filters, setFilters] = useState({ sub: '', domain: '', city: '', pos: '' })
 
-    const category = categories.find((c) => c.id === config.categoryId)
+    const ids: readonly string[] = config.categoryIds
+    const category = categories.find((c) => c.id === ids[0])
     const searchHref = `/recherche?categorie=${encodeURIComponent(category?.shortLabel ?? config.eyebrow)}`
-    const offers = useMemo(() => formations.filter((f) => f.category === config.categoryId), [formations, config.categoryId])
-    const centers = useMemo(() => schools.filter((s) => s.category === config.categoryId), [schools, config.categoryId])
+    const offers = useMemo(() => formations.filter((f) => ids.includes(f.category)), [formations, ids])
+    const centers = useMemo(() => schools.filter((s) => ids.includes(s.category)), [schools, ids])
     const schoolOf = useMemo(() => new Map(centers.map((c) => [c.id, c])), [centers])
 
     // Sous-catégories de la catégorie (ordre de CategoryData), avec leur nombre d'offres ; les vides sont masquées.
@@ -91,17 +127,17 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
             const sub = schoolOf.get(f.schoolId)?.subCategory
             if (sub) counts.set(sub, (counts.get(sub) ?? 0) + 1)
         }
-        const known = category?.subCategories ?? []
+        const known = categories.filter((c) => ids.includes(c.id)).flatMap((c) => c.subCategories ?? [])
         const order = [...known, ...[...counts.keys()].filter((s) => !known.includes(s))]
         return order.filter((s) => counts.get(s)).map((value) => ({ value, count: counts.get(value) ?? 0 }))
-    }, [config.bySubCategory, offers, schoolOf, category])
+    }, [config.bySubCategory, offers, schoolOf, categories, ids])
 
     const inSub = useMemo(() => offers.filter((f) => !filters.sub || schoolOf.get(f.schoolId)?.subCategory === filters.sub), [offers, filters.sub, schoolOf])
     // Suggestions triées, avec le nombre de formations correspondantes.
     const sorted = (values: string[]) =>
         [...new Set(values.filter(Boolean))]
             .sort((a, b) => a.localeCompare(b, 'fr'))
-            .map((value) => ({ value, hint: plural(values.filter((v) => v === value).length) }))
+            .map((value) => ({ value, hint: countLabel(values.filter((v) => v === value).length, config.noun) }))
     const domains = useMemo(() => sorted(inSub.map((f) => f.domain)), [inSub])
     const cities = useMemo(() => sorted(inSub.map((f) => f.city)), [inSub])
     // Ville exacte, sinon formations des établissements les plus proches du lieu choisi (ou de ma position).
@@ -115,6 +151,24 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     const shown = byPlace.items
     const filtered = !!(filters.sub || filters.domain || filters.city)
     const page = useShowMore(shown, JSON.stringify(filters))
+
+    // Établissements de la catégorie (selon la page), avant ou après les offres.
+    const schoolsSection = config.schoolsTitle && (schoolsLoading || centers.length > 0) && (
+            <section className='bg-secondary/[0.06]'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
+                    <SectionHeader title={config.schoolsTitle} description={config.schoolsIntro} />
+                    {schoolsLoading ? (
+                        <CardSkeletonGrid count={4} className='h-[360px]' />
+                    ) : (
+                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
+                            {centers.map((school) => (
+                                <SchoolCard key={school.id} school={school} compact />
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </section>
+    )
 
     return (
         <>
@@ -142,6 +196,8 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                     </div>
                 </div>
             </section>
+
+            {config.schoolsFirst && schoolsSection}
 
             {/* Formations */}
             <section>
@@ -176,7 +232,11 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                         role='search'
                         aria-label={t('Filtrer les formations')}
                         onSubmit={(e) => e.preventDefault()}
-                        className='mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:grid-cols-[1fr_1fr_auto] sm:items-center'>
+                        className={cn(
+                            'mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:items-center',
+                            config.domainFilter ? 'sm:grid-cols-[1fr_1fr_auto]' : 'sm:grid-cols-[1fr_auto]'
+                        )}>
+                        {config.domainFilter && (
                         <div className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
                             <SuggestInput
                                 icon={FILTER_UI.domaine.icon}
@@ -187,6 +247,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                 onChange={(value) => setFilters((prev) => ({ ...prev, domain: value }))}
                             />
                         </div>
+                        )}
                         <div className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
                             <CityPicker
                                 label='Ville / Localisation'
@@ -208,7 +269,11 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                         <CardSkeletonGrid count={4} className='h-[360px]' />
                     ) : shown.length === 0 ? (
                         <p className='rounded-xl bg-white p-8 text-center text-black'>
-                            {filtered ? t('Aucune formation ne correspond à ces critères.') : t('Aucune formation publiée pour le moment.')}
+                            {config.noun.one !== 'formation'
+                                ? `Aucune ${config.noun.one} ${filtered ? 'ne correspond à ces critères' : 'publiée pour le moment'}.`
+                                : filtered
+                                  ? t('Aucune formation ne correspond à ces critères.')
+                                  : t('Aucune formation publiée pour le moment.')}
                         </p>
                     ) : (
                         <>
@@ -223,7 +288,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                 </p>
                             )}
                             <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
-                                {t(plural(shown.length))}
+                                {t(countLabel(shown.length, config.noun))}
                             </p>
                             <div ref={page.listRef} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
                                 {page.visible.map((formation) => (
@@ -261,23 +326,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                 </div>
             </section>
 
-            {/* Établissements de la catégorie (selon la page) */}
-            {config.schoolsTitle && (schoolsLoading || centers.length > 0) && (
-                <section className='bg-secondary/[0.06]'>
-                    <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                        <SectionHeader title={config.schoolsTitle} description='Les établissements qui proposent ces formations sur Edumada.' />
-                        {schoolsLoading ? (
-                            <CardSkeletonGrid count={4} className='h-[360px]' />
-                        ) : (
-                            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
-                                {centers.map((school) => (
-                                    <SchoolCard key={school.id} school={school} compact />
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </section>
-            )}
+            {!config.schoolsFirst && schoolsSection}
 
             {/* Appel aux établissements */}
             <section className='pb-20'>
