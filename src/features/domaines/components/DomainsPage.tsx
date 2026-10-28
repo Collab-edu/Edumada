@@ -25,7 +25,7 @@ const DOMAINS: Record<string, { icon: string; image: string }> = {
 const DEFAULT_DOMAIN = { icon: 'tabler:book', image: '1497633762265-9d179a990aa6' }
 
 /** Icônes : une seule couleur, celle de la charte. */
-const ICON = 'bg-cream text-primary'
+const ICON = 'bg-primary text-white'
 
 /** Carte de Madagascar (même tracé que le logo). */
 const MADAGASCAR =
