@@ -51,52 +51,70 @@ export default function BacSeriesSection() {
                     </p>
                 </div>
 
-                <ul className='mt-12 grid gap-6 md:grid-cols-3 lg:gap-8'>
+                {/* Cartes des séries (maquette « Séries Bac v3 ») */}
+                <ul className='mt-12 grid gap-6 md:grid-cols-3'>
                     {SERIES.map((serie) => (
                         <li
                             key={serie.code}
-                            className='flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
-                            <div className='flex items-center gap-3'>
-                                <span className='flex h-14 min-w-14 items-center justify-center rounded-2xl bg-secondary px-3 text-xl font-bold text-white'>
-                                    {serie.code}
-                                </span>
-                                <div>
-                                    <p className='text-sm text-ink/60'>Série {serie.code}</p>
-                                    <h3 className='text-lg font-semibold leading-snug text-secondary'>{serie.name}</h3>
-                                </div>
-                                <Icon icon={serie.icon} className='ml-auto shrink-0 text-2xl text-primary' />
-                            </div>
-                            <p className='text-black'>{serie.text}</p>
+                            className='relative flex flex-col gap-[22px] overflow-hidden rounded-[22px] border border-gray-200 bg-white p-7 shadow-[0_10px_30px_-24px_rgba(15,76,92,0.4)] transition duration-200 hover:-translate-y-[3px] hover:border-secondary/20 hover:shadow-[0_20px_40px_-24px_rgba(15,76,92,0.45)]'>
+                            {/* Code de la série en filigrane */}
+                            <span
+                                aria-hidden='true'
+                                className='pointer-events-none absolute -top-7 -right-2.5 text-[140px] leading-none font-extrabold tracking-[-6px] text-secondary/5'>
+                                {serie.code}
+                            </span>
 
-                            <div className='flex flex-col gap-2'>
-                                <p className='text-sm font-semibold text-secondary'>Matières dominantes</p>
+                            <div className='relative flex items-center gap-3.5'>
+                                <span className='grid h-[52px] w-[52px] shrink-0 place-items-center rounded-[15px] bg-secondary text-white shadow-[0_8px_16px_-8px_rgba(15,76,92,0.6)]'>
+                                    <Icon icon={serie.icon} className='text-2xl' />
+                                </span>
+                                <div className='flex min-w-0 flex-col gap-[3px]'>
+                                    <span className='text-[13px] font-semibold text-primary'>Série {serie.code}</span>
+                                    <h3 className='text-[21px] leading-tight font-bold tracking-[-0.3px] text-balance text-secondary'>{serie.name}</h3>
+                                </div>
+                            </div>
+
+                            <p className='relative text-[15px] leading-relaxed text-pretty text-ink'>{serie.text}</p>
+
+                            <div className='flex flex-col gap-2.5'>
+                                <span className='text-[13px] font-semibold text-secondary'>Matières dominantes</span>
                                 <ul className='flex flex-wrap gap-2'>
                                     {serie.subjects.map((subject) => (
-                                        <li key={subject} className='rounded-lg bg-offwhite px-2.5 py-1 text-sm text-secondary'>
+                                        <li
+                                            key={subject}
+                                            className='rounded-full border border-secondary/10 bg-secondary/5 px-3 py-1.5 text-[13.5px] font-medium whitespace-nowrap text-secondary'>
                                             {subject}
                                         </li>
                                     ))}
                                 </ul>
                             </div>
 
-                            <div className='flex flex-col gap-2'>
-                                <p className='text-sm font-semibold text-secondary'>Options pour la session 2027</p>
+                            <div className='flex flex-col gap-2.5'>
+                                <span className='text-[13px] font-semibold text-secondary'>Options pour la session 2027</span>
                                 {serie.options.length > 0 ? (
-                                    <ul className='flex flex-wrap gap-2'>
+                                    <ul className='flex gap-2'>
                                         {serie.options.map((option) => (
-                                            <li key={option} className='rounded-lg border border-dashed border-primary/50 bg-cream px-2.5 py-1 text-sm font-semibold text-primary'>
+                                            <li
+                                                key={option}
+                                                className='grid h-[34px] min-w-[42px] place-items-center rounded-[10px] border border-primary/25 bg-cream/60 px-3 text-sm font-bold whitespace-nowrap text-primary'>
                                                 {option}
                                             </li>
                                         ))}
                                     </ul>
                                 ) : (
-                                    <p className='text-sm text-black'>Pas de sous-option : une seule série.</p>
+                                    <span className='flex min-h-[34px] items-center gap-2 text-sm text-ink'>
+                                        <span className='h-1.5 w-1.5 shrink-0 rounded-full bg-primary' aria-hidden='true' />
+                                        Pas de sous-option : une seule série.
+                                    </span>
                                 )}
                             </div>
 
-                            <div className='mt-auto flex flex-col gap-1 border-t border-gray-200 pt-4'>
-                                <p className='text-sm font-semibold text-secondary'>Après le bac</p>
-                                <p className='text-sm text-black'>{serie.careers}</p>
+                            <div className='-mx-3 mt-auto -mb-3 flex items-start gap-3 rounded-[14px] bg-offwhite px-[18px] py-4'>
+                                <Icon icon='tabler:arrow-right' className='mt-px shrink-0 text-xl text-primary' />
+                                <div className='flex flex-col gap-1'>
+                                    <span className='text-[13px] font-semibold text-secondary'>Après le bac</span>
+                                    <span className='text-sm leading-normal text-pretty text-ink'>{serie.careers}</span>
+                                </div>
                             </div>
                         </li>
                     ))}
