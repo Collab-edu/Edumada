@@ -1,7 +1,8 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Icon } from '@/components/ui/icon'
+import { Button } from '@/components/ui/form'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { track } from '@/lib/track'
 import { cn } from '@/lib/utils'
@@ -55,6 +56,14 @@ const SearchPage = () => {
     // Sur mobile, Domaine / Ville / Type sont dans le panneau : on les compte dans le badge du bouton.
     const mobileCount = chips.filter((c) => c.id !== 'q').length
 
+    // « Rechercher » : les filtres s'appliquent déjà en direct ; le bouton ferme le clavier et descend aux résultats.
+    const resultsRef = useRef<HTMLDivElement>(null)
+    const submitSearch = (e: React.FormEvent) => {
+        e.preventDefault()
+        ;(document.activeElement as HTMLElement | null)?.blur()
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+
     const renderTopFilters = (className: string) =>
         TOP_FILTERS.map(({ param, label }) => {
             return (
@@ -95,8 +104,12 @@ const SearchPage = () => {
                 </div>
 
                 {/* Barre de recherche principale */}
-                <div className='mb-6 sm:mb-8 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)]'>
-                    <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5 lg:items-center'>
+                <form
+                    role='search'
+                    aria-label='Rechercher une formation'
+                    onSubmit={submitSearch}
+                    className='mb-6 sm:mb-8 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)]'>
+                    <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-[repeat(5,minmax(0,1fr))_auto] lg:items-center'>
                         <div className='rounded-xl px-4 py-3 lg:border-r lg:border-gray-100 lg:rounded-none'>
                             <label htmlFor='search-q' className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
                                 <Icon icon='tabler:search' className='text-base text-secondary' />
@@ -112,9 +125,14 @@ const SearchPage = () => {
                             />
                         </div>
                         {/* Sur mobile, ces filtres passent dans le panneau « Filtres » pour laisser la place aux résultats. */}
-                        {renderTopFilters('hidden sm:block rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none lg:last:border-r-0')}
+                        {renderTopFilters('hidden sm:block rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none')}
+                        {/* Sur ordinateur moyen, loupe seule pour laisser la place aux champs. */}
+                        <Button type='submit' className='h-12 sm:col-span-2 lg:col-span-1 lg:max-2xl:w-12 lg:max-2xl:px-0'>
+                            <Icon icon='tabler:search' className='text-lg lg:max-2xl:text-xl' />
+                            <span className='lg:max-2xl:sr-only'>Rechercher</span>
+                        </Button>
                     </div>
-                </div>
+                </form>
 
                 <div className='grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8'>
                     {/* Filtres avancés : colonne sur ordinateur, panneau coulissant sur mobile */}
@@ -161,7 +179,7 @@ const SearchPage = () => {
                     </aside>
 
                     {/* Résultats */}
-                    <div className='flex flex-col gap-5'>
+                    <div ref={resultsRef} className='flex scroll-mt-28 flex-col gap-5'>
                         <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-3'>
                             <p className='font-semibold text-secondary' aria-live='polite'>
                                 {loading
