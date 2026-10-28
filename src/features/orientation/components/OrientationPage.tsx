@@ -97,12 +97,9 @@ export default function OrientationPage() {
                             {/* Accès direct aux domaines d'études, bien mis en avant */}
                             <Link
                                 href='/domaines/'
-                                className='group mt-2 inline-flex items-center gap-4 self-start rounded-2xl text-left max-sm:self-center bg-primary px-6 py-4 text-white shadow-[6px_6px_0_0_rgba(15,76,92,0.9)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_0_rgba(15,76,92,0.9)] sm:pr-8'>
-                                <span className='flex flex-col'>
-                                    <span className='text-lg font-bold leading-tight sm:text-xl'>Explorer les domaines d’études</span>
-                                    <span className='text-sm text-white/85'>Après le bac ou en formation professionnelle</span>
-                                </span>
-                                <Icon icon='tabler:arrow-right' className='ml-2 shrink-0 text-2xl transition-transform duration-300 group-hover:translate-x-1' />
+                                className='group mt-2 inline-flex items-center gap-2 self-start max-sm:self-center rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary/90'>
+                                Explorer les domaines d’études
+                                <Icon icon='tabler:arrow-right' className='text-xl transition-transform duration-300 group-hover:translate-x-1' />
                             </Link>
                         </div>
     
