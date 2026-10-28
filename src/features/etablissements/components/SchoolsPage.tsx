@@ -37,14 +37,11 @@ const VARIANTS = {
     },
 } as const
 
-/** Valeurs distinctes triées, avec le nombre d'établissements correspondants. */
+/** Valeurs distinctes triées. */
 const toSuggestions = (values: string[]) =>
     [...new Set(values.filter(Boolean))]
         .sort((a, b) => a.localeCompare(b, 'fr'))
-        .map((value) => {
-            const count = values.filter((v) => v === value).length
-            return { value, hint: `${count} établissement${count > 1 ? 's' : ''}` }
-        })
+        .map((value) => ({ value }))
 
 /** Liste de tous les établissements, filtrable par catégorie et par ville. */
 export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeof VARIANTS }) {
@@ -53,6 +50,8 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
     const { data: allSchools, loading } = useSiteData('SchoolData')
     const { data: categories } = useSiteData('CategoryData')
     const [filters, setFilters] = useState({ kind: '', city: '', pos: '' })
+    // Saisie en cours : appliquée aux résultats au clic sur « Rechercher ».
+    const [draft, setDraft] = useState(filters)
 
     const schools = allSchools
     // Premier filtre : sous-catégorie (Université, Crèche…), sinon la catégorie de l'établissement.
@@ -71,12 +70,13 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
         (s) => s.coordinates
     )
     const shown = byPlace.items
-    const filtered = !!(filters.kind || filters.city)
+    const filtered = !!(filters.kind || filters.city || draft.kind || draft.city)
     const page = useShowMore(shown, JSON.stringify(filters))
-    // « Rechercher » : les filtres s'appliquent déjà en direct ; le bouton ferme le clavier et descend aux résultats.
+    // « Rechercher » : applique la saisie, ferme le clavier et descend aux résultats.
     const resultsRef = useRef<HTMLDivElement>(null)
     const submitSearch = (e: React.FormEvent) => {
         e.preventDefault()
+        setFilters(draft)
         ;(document.activeElement as HTMLElement | null)?.blur()
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
@@ -131,8 +131,8 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                         label={field.label}
                                         placeholder='Ex. : Antananarivo, Toamasina…'
                                         suggestions={field.suggestions}
-                                        value={filters.city}
-                                        onChange={(value, place) => setFilters((prev) => ({ ...prev, city: value, pos: placePosition(place) }))}
+                                        value={draft.city}
+                                        onChange={(value, place) => setDraft((prev) => ({ ...prev, city: value, pos: placePosition(place) }))}
                                     />
                                 ) : (
                                 <SuggestInput
@@ -140,8 +140,8 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                     label={field.label}
                                     placeholder={field.placeholder}
                                     suggestions={field.suggestions}
-                                    value={filters[field.key]}
-                                    onChange={(value) => setFilters((prev) => ({ ...prev, [field.key]: value }))}
+                                    value={draft[field.key]}
+                                    onChange={(value) => setDraft((prev) => ({ ...prev, [field.key]: value }))}
                                 />
                                 )}
                             </div>
@@ -149,7 +149,10 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                         <div className='flex flex-col-reverse items-stretch gap-2 sm:flex-row sm:items-center'>
                             <button
                                 type='button'
-                                onClick={() => setFilters({ kind: '', city: '', pos: '' })}
+                                onClick={() => {
+                                    setFilters({ kind: '', city: '', pos: '' })
+                                    setDraft({ kind: '', city: '', pos: '' })
+                                }}
                                 disabled={!filtered}
                                 className='h-11 rounded-lg px-3 text-sm font-semibold text-primary hover:underline disabled:hidden hover:cursor-pointer'>
                                 {t('Réinitialiser')}

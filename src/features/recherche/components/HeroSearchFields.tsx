@@ -58,7 +58,7 @@ function KindSelect({ value, onChange }: { value: string; onChange: (value: stri
     const t = useT()
     const { data: categories } = useSiteData('CategoryData')
     const { suggestions } = useFilterSuggestions()
-    // Sous-catégories qui ont des offres (avec leur nombre), comme dans les autres barres.
+    // Sous-catégories qui ont des offres, comme dans les autres barres.
     const offered = new Map((suggestions.categorie ?? []).map((s) => [s.value, s.hint]))
     const groups = categories
         .map((category) => ({ category, subs: category.subCategories.filter((sub) => offered.has(sub)) }))
@@ -96,7 +96,7 @@ function KindSelect({ value, onChange }: { value: string; onChange: (value: stri
                                     value={sub}
                                     className='flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-lg py-2 pr-3 pl-10 text-ink data-[focus]:bg-cream data-[focus]:text-primary data-[selected]:font-semibold'>
                                     <span className='truncate'>{t(sub)}</span>
-                                    <span className='shrink-0 text-xs text-ink/50'>{offered.get(sub) && t(offered.get(sub)!)}</span>
+                                    
                                 </ListboxOption>
                             ))}
                         </Fragment>
@@ -142,8 +142,6 @@ function AgeSelect({ value, onChange }: { value: string; onChange: (value: strin
     )
 }
 
-const plural = (n: number) => (n > 1 ? `${n} offres` : `${n} offre`)
-
 /**
  * Les trois champs de la recherche rapide. Le deuxième suit le premier : une crèche demande
  * l'âge de l'enfant, une école le niveau, le reste la formation (seulement les domaines que ce
@@ -174,13 +172,13 @@ export default function HeroSearchFields({
         return formations.filter((f) => f.category === category.id && (!isSub || subOf.get(f.schoolId) === search.categorie))
     }, [category, search.categorie, formations, schools])
 
-    // Suggestions du deuxième champ : domaines (formation) ou intitulés des niveaux (scolaire), avec leur nombre d'offres.
+    // Suggestions du deuxième champ : domaines (formation) ou intitulés des niveaux (scolaire).
     const secondSuggestions = useMemo(() => {
         if (!category) return suggestions.domaine ?? []
         const values = scoped.map((f) => (second === 'niveau' ? f.title : f.domain)).filter(Boolean)
         return [...new Set(values)]
             .sort((a, b) => a.localeCompare(b, 'fr'))
-            .map((value) => ({ value, hint: plural(values.filter((v) => v === value).length) }))
+            .map((value) => ({ value }))
     }, [category, scoped, second, suggestions.domaine])
 
     return (

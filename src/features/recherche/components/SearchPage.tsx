@@ -31,6 +31,8 @@ const SearchPage = () => {
     const { isFavorite, toggleFavorite } = useAuth()
 
     const [filters, setFilters] = useState<SearchFilters>(() => filtersFromParams(searchParams))
+    // Champs de la barre en cours de saisie : appliqués aux résultats au clic sur « Rechercher ».
+    const [draft, setDraft] = useState<SearchFilters>(filters)
     const [sort, setSort] = useState<SortValue>('pertinence')
     const [panelOpen, setPanelOpen] = useState(false)
     const { results, total, loading, loadingMore, hasMore, offline, loadMore, near, placeNotFound } = useOfferSearch(filters, sort)
@@ -52,14 +54,24 @@ const SearchPage = () => {
     const chips = activeFilters(filters, t)
     const advancedCount = chips.filter((c) => !['q', 'categorie', 'domaine', 'ville', 'type'].includes(c.id)).length
 
-    const reset = () => setFilters(EMPTY_FILTERS)
+    // Filtres appliqués tout de suite (filtres avancés, pastilles) : la saisie en cours de la barre est conservée.
+    const applyNow = (next: SearchFilters) => {
+        setFilters(next)
+        setDraft((d) => ({ ...next, q: d.q, categorie: d.categorie, domaine: d.domaine, ville: d.ville, pos: d.pos, type: d.type }))
+    }
+    const reset = () => {
+        setFilters(EMPTY_FILTERS)
+        setDraft(EMPTY_FILTERS)
+    }
     // Sur mobile, Domaine / Ville / Type sont dans le panneau : on les compte dans le badge du bouton.
     const mobileCount = chips.filter((c) => c.id !== 'q').length
 
-    // « Rechercher » : les filtres s'appliquent déjà en direct ; le bouton ferme le clavier et descend aux résultats.
+    // « Rechercher » : applique la barre, ferme le clavier et descend aux résultats.
     const resultsRef = useRef<HTMLDivElement>(null)
-    const submitSearch = (e: React.FormEvent) => {
-        e.preventDefault()
+    const submitSearch = (e?: React.FormEvent) => {
+        e?.preventDefault()
+        setFilters((prev) => ({ ...prev, q: draft.q, categorie: draft.categorie, domaine: draft.domaine, ville: draft.ville, pos: draft.pos, type: draft.type }))
+        setPanelOpen(false)
         ;(document.activeElement as HTMLElement | null)?.blur()
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
@@ -73,8 +85,8 @@ const SearchPage = () => {
                             label={label}
                             placeholder='Ex. : Antananarivo, Toamasina…'
                             suggestions={suggestions.ville ?? []}
-                            value={filters.ville}
-                            onChange={(value, place) => setFilters((prev) => ({ ...prev, ville: value, pos: placePosition(place) }))}
+                            value={draft.ville}
+                            onChange={(value, place) => setDraft((prev) => ({ ...prev, ville: value, pos: placePosition(place) }))}
                         />
                     ) : (
                     <SuggestInput
@@ -82,8 +94,8 @@ const SearchPage = () => {
                         label={FILTER_UI[param].label ?? label}
                         placeholder={FILTER_UI[param].placeholder}
                         suggestions={suggestions[param] ?? []}
-                        value={filters[param]}
-                        onChange={(value) => setFilters((prev) => ({ ...prev, [param]: value }))}
+                        value={draft[param]}
+                        onChange={(value) => setDraft((prev) => ({ ...prev, [param]: value }))}
                     />
                     )}
                 </div>
@@ -118,8 +130,8 @@ const SearchPage = () => {
                             <input
                                 id='search-q'
                                 type='search'
-                                value={filters.q}
-                                onChange={(e) => setFilters({ ...filters, q: e.target.value })}
+                                value={draft.q}
+                                onChange={(e) => setDraft({ ...draft, q: e.target.value })}
                                 placeholder={t('Ex. : informatique, infirmier…')}
                                 className='mt-1 w-full bg-transparent py-1 text-base font-semibold text-ink outline-hidden placeholder:font-normal placeholder:text-ink/40'
                             />
@@ -169,12 +181,12 @@ const SearchPage = () => {
                         <div className='flex flex-col divide-y divide-gray-100 border-b border-gray-100 sm:hidden'>
                             {renderTopFilters('py-3')}
                         </div>
-                        <SearchFiltersPanel filters={filters} onChange={setFilters} />
+                        <SearchFiltersPanel filters={filters} onChange={applyNow} />
                         <button
                             type='button'
-                            onClick={() => setPanelOpen(false)}
+                            onClick={() => submitSearch()}
                             className='mt-6 w-full rounded-lg bg-primary py-3 font-bold text-white lg:hidden hover:cursor-pointer'>
-                            {t(total > 1 ? 'Voir {n} résultats' : 'Voir {n} résultat', { n: total })}
+                            Rechercher
                         </button>
                     </aside>
 
@@ -218,7 +230,11 @@ const SearchPage = () => {
                                     <button
                                         key={chip.id}
                                         type='button'
-                                        onClick={() => setFilters(chip.remove(filters))}
+                                        onClick={() => {
+                                            const next = chip.remove(filters)
+                                            setFilters(next)
+                                            setDraft((d) => chip.remove(d))
+                                        }}
                                         aria-label={t('Retirer le filtre {label}', { label: chip.label })}
                                         className='inline-flex items-center gap-1.5 rounded-full bg-secondary/10 px-3 py-1.5 text-sm font-medium text-secondary transition-colors duration-200 hover:bg-primary hover:text-white hover:cursor-pointer'>
                                         {chip.label}

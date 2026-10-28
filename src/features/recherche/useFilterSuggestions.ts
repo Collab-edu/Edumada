@@ -22,8 +22,6 @@ export const TOP_FILTERS = [
     { param: 'type', label: "Type d'établissement" },
 ] as const
 
-const offersLabel = (count: number) => `${count} offre${count > 1 ? 's' : ''}`
-
 /**
  * Suggestions des filtres principaux (sous-catégorie, domaine, ville, type), avec le nombre d'offres
  * correspondantes. Partagées par la barre de l'accueil et la page /recherche.
@@ -47,7 +45,7 @@ export function useFilterSuggestions() {
                     .flatMap((category) => category.subCategories)
                     .map((value) => ({ value, n: count((f) => subOf.get(f.schoolId) === value) }))
                     .filter(({ n }) => !formations.length || n > 0)
-                    .map(({ value, n }) => ({ value, hint: formations.length ? offersLabel(n) : undefined }))
+                    .map(({ value }) => ({ value }))
                 continue
             }
             // La première option (« Toutes les… ») correspond à un champ vide.
@@ -56,15 +54,7 @@ export function useFilterSuggestions() {
                 // Les villes des établissements référencés complètent la liste de départ.
                 values = [...new Set([...values, ...schools.map((s) => s.city)])]
             }
-            result[filter.param] = values.map((value) => {
-                const n =
-                    filter.param === 'domaine'
-                        ? count((f) => f.domain === value)
-                        : filter.param === 'ville'
-                            ? count((f) => f.city === value)
-                            : count((f) => f.schoolType === value)
-                return { value, hint: formations.length ? offersLabel(n) : undefined }
-            })
+            result[filter.param] = values.map((value) => ({ value }))
         }
         return result
     }, [filters, formations, schools, categories])

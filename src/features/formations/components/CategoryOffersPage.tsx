@@ -98,6 +98,8 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     const { data: categories } = useSiteData('CategoryData')
     const { isFavorite, toggleFavorite } = useAuth()
     const [filters, setFilters] = useState({ sub: '', domain: '', city: '', pos: '' })
+    // Saisie en cours (type d'établissement, domaine, ville) : appliquée au clic sur « Rechercher ».
+    const [draft, setDraft] = useState(filters)
 
     const ids: readonly string[] = config.categoryIds
     const category = categories.find((c) => c.id === ids[0])
@@ -120,13 +122,15 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     }, [config.bySubCategory, offers, schoolOf, categories, ids])
 
     const inSub = useMemo(() => offers.filter((f) => !filters.sub || schoolOf.get(f.schoolId)?.subCategory === filters.sub), [offers, filters.sub, schoolOf])
-    // Suggestions triées, avec le nombre de formations correspondantes.
+    // Les suggestions suivent le type d'établissement choisi dans la saisie.
+    const inDraftSub = useMemo(() => offers.filter((f) => !draft.sub || schoolOf.get(f.schoolId)?.subCategory === draft.sub), [offers, draft.sub, schoolOf])
+    // Suggestions triées.
     const sorted = (values: string[]) =>
         [...new Set(values.filter(Boolean))]
             .sort((a, b) => a.localeCompare(b, 'fr'))
-            .map((value) => ({ value, hint: plural(values.filter((v) => v === value).length) }))
-    const domains = useMemo(() => sorted(inSub.map((f) => f.domain)), [inSub])
-    const cities = useMemo(() => sorted(inSub.map((f) => f.city)), [inSub])
+            .map((value) => ({ value }))
+    const domains = useMemo(() => sorted(inDraftSub.map((f) => f.domain)), [inDraftSub])
+    const cities = useMemo(() => sorted(inDraftSub.map((f) => f.city)), [inDraftSub])
     // Ville exacte, sinon formations des établissements les plus proches du lieu choisi (ou de ma position).
     const byPlace = filterByPlace(
         inSub.filter((f) => !filters.domain || f.domain === filters.domain),
@@ -136,12 +140,13 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
         (f) => schoolOf.get(f.schoolId)?.coordinates
     )
     const shown = byPlace.items
-    const filtered = !!(filters.sub || filters.domain || filters.city)
+    const filtered = !!(filters.sub || filters.domain || filters.city || draft.sub || draft.domain || draft.city)
     const page = useShowMore(shown, JSON.stringify(filters))
-    // « Rechercher » : les filtres s'appliquent déjà en direct ; le bouton ferme le clavier et descend aux résultats.
+    // « Rechercher » : applique la saisie, ferme le clavier et descend aux résultats.
     const resultsRef = useRef<HTMLDivElement>(null)
     const submitSearch = (e: React.FormEvent) => {
         e.preventDefault()
+        setFilters(draft)
         ;(document.activeElement as HTMLElement | null)?.blur()
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
@@ -181,20 +186,19 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                     {/* Sous-catégories : pastilles à choix unique */}
                     {subCategories.length > 1 && (
                         <div role='group' aria-label={t("Type d'établissement")} className='-mx-4 mb-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0'>
-                            {[{ value: '', label: 'Toutes', count: offers.length }, ...subCategories.map((s) => ({ ...s, label: s.value }))].map((chip) => {
-                                const active = filters.sub === chip.value
+                            {[{ value: '', label: 'Toutes' }, ...subCategories.map((s) => ({ value: s.value, label: s.value }))].map((chip) => {
+                                const active = draft.sub === chip.value
                                 return (
                                     <button
                                         key={chip.value || 'toutes'}
                                         type='button'
                                         aria-pressed={active}
-                                        onClick={() => setFilters((prev) => ({ ...prev, sub: chip.value, domain: '' }))}
+                                        onClick={() => setDraft((prev) => ({ ...prev, sub: chip.value, domain: '' }))}
                                         className={cn(
                                             'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-semibold whitespace-nowrap transition-colors hover:cursor-pointer',
                                             active ? 'border-secondary bg-secondary text-white' : 'border-secondary/20 bg-white text-secondary hover:border-secondary/50'
                                         )}>
                                         {t(chip.label)}
-                                        <span className={cn('rounded-full px-2 py-0.5 text-xs', active ? 'bg-white/20 text-white' : 'bg-offwhite text-ink/70')}>{chip.count}</span>
                                     </button>
                                 )
                             })}
@@ -213,8 +217,8 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                 label={config.domainLabel}
                                 placeholder={config.domainPlaceholder}
                                 suggestions={domains}
-                                value={filters.domain}
-                                onChange={(value) => setFilters((prev) => ({ ...prev, domain: value }))}
+                                value={draft.domain}
+                                onChange={(value) => setDraft((prev) => ({ ...prev, domain: value }))}
                             />
                         </div>
                         <div className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
@@ -222,14 +226,17 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                 label='Ville / Localisation'
                                 placeholder='Ex. : Antananarivo, Toamasina…'
                                 suggestions={cities}
-                                value={filters.city}
-                                onChange={(value, place) => setFilters((prev) => ({ ...prev, city: value, pos: placePosition(place) }))}
+                                value={draft.city}
+                                onChange={(value, place) => setDraft((prev) => ({ ...prev, city: value, pos: placePosition(place) }))}
                             />
                         </div>
                         <div className='flex flex-col-reverse items-stretch gap-2 sm:flex-row sm:items-center'>
                             <button
                                 type='button'
-                                onClick={() => setFilters({ sub: '', domain: '', city: '', pos: '' })}
+                                onClick={() => {
+                                    setFilters({ sub: '', domain: '', city: '', pos: '' })
+                                    setDraft({ sub: '', domain: '', city: '', pos: '' })
+                                }}
                                 disabled={!filtered}
                                 className='h-11 rounded-lg px-3 text-sm font-semibold text-primary hover:underline disabled:hidden hover:cursor-pointer'>
                                 {t('Réinitialiser')}
