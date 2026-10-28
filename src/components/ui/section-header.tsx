@@ -14,8 +14,8 @@ interface SectionHeaderProps {
 export function SectionHeader({ title, description, link, className }: SectionHeaderProps) {
     const t = useT()
     return (
-        <div className={cn('flex flex-col sm:flex-row justify-between sm:items-end gap-3 sm:gap-5 mb-6 sm:mb-10', className)}>
-            <div className='flex flex-col gap-3'>
+        <div className={cn('mobile-center flex flex-col sm:flex-row justify-between sm:items-end gap-3 sm:gap-5 mb-6 sm:mb-10', className)}>
+            <div className='mobile-center flex flex-col gap-3'>
                 <h2 className='font-bold'>{t(title)}</h2>
                 {description && <p className='text-black'>{t(description)}</p>}
             </div>

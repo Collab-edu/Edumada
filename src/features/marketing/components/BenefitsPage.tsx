@@ -77,13 +77,13 @@ export default function BenefitsPage() {
             <section className='pt-28 pb-10 sm:pt-32'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
-                        <div className='flex flex-col gap-4'>
+                        <div className='mobile-center flex flex-col gap-4'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t('Faites découvrir vos formations aux futurs étudiants')}</h1>
                             <p className='text-black'>
                                 {t('Edumada est le lieu où les jeunes et leurs familles cherchent une formation à Madagascar. Référencez votre établissement gratuitement et soyez là où ils vous cherchent.')}
                             </p>
-                            <div className='flex flex-wrap gap-3'>
+                            <div className='mobile-center flex flex-wrap gap-3'>
                                 <ButtonLink href='/tarifs/'>
                                     {t('Référencer mon établissement')}
                                     <Icon icon='tabler:arrow-right' className='text-lg' />

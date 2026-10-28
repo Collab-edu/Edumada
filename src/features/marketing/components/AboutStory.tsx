@@ -58,7 +58,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
             <section>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
-                        <div className='flex max-w-2xl flex-col gap-5'>
+                        <div className='mobile-center flex max-w-2xl flex-col gap-5'>
                             <h2 className='text-3xl font-bold leading-tight md:text-4xl'>
                                 {t('Nous voulons que chaque jeune choisisse sa formation')} <span className='text-primary'>{t('en connaissance de cause')}</span>
                             </h2>
@@ -108,12 +108,12 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                             )}
                         </div>
 
-                        <div className='flex flex-col gap-5'>
+                        <div className='mobile-center flex flex-col gap-5'>
                             <h2 className='text-3xl font-bold leading-tight md:text-4xl'>{t('Nous rapprochons les jeunes et les établissements')}</h2>
                             <p className='text-black'>
                                 {t('Edumada est présent partout à Madagascar, pour que l’offre des régions soit aussi visible que celle de la capitale. Trois engagements guident notre travail :')}
                             </p>
-                            <ol className='flex flex-col gap-3'>
+                            <ol className='flex flex-col gap-3 self-stretch text-left'>
                                 {COMMITMENTS.map((item, index) => (
                                     <li key={item.title} className='flex gap-3 text-black'>
                                         <span className='font-bold text-primary'>0{index + 1}</span>

@@ -88,7 +88,7 @@ export default function OrientationPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label={t('Cours dans une salle de classe')} className='mb-10 h-56 sm:h-80 lg:mb-14 lg:h-96' />
                     <div className='grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16'>
-                        <div className='flex flex-col gap-5'>
+                        <div className='mobile-center flex flex-col gap-5'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>{t('Orientation')}</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t('Trouvez la voie qui vous correspond')}</h1>
                             <p className='text-black'>
@@ -97,7 +97,7 @@ export default function OrientationPage() {
                             {/* Accès direct aux domaines d'études, bien mis en avant */}
                             <Link
                                 href='/domaines/'
-                                className='group mt-2 inline-flex items-center gap-4 self-start rounded-2xl bg-primary px-6 py-4 text-white shadow-[6px_6px_0_0_rgba(15,76,92,0.9)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_0_rgba(15,76,92,0.9)] sm:pr-8'>
+                                className='group mt-2 inline-flex items-center gap-4 self-start rounded-2xl text-left max-sm:self-center bg-primary px-6 py-4 text-white shadow-[6px_6px_0_0_rgba(15,76,92,0.9)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_0_rgba(15,76,92,0.9)] sm:pr-8'>
                                 <span className='flex flex-col'>
                                     <span className='text-lg font-bold leading-tight sm:text-xl'>Explorer les domaines d’études</span>
                                     <span className='text-sm text-white/85'>Après le bac ou en formation professionnelle</span>
@@ -154,7 +154,7 @@ export default function OrientationPage() {
             <section className='py-12 lg:py-16'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
-                        <div className='flex max-w-2xl flex-col gap-5'>
+                        <div className='mobile-center flex max-w-2xl flex-col gap-5'>
                             <h2 className='text-3xl font-bold leading-tight md:text-4xl'>
                                 {t('Avant de choisir, posez-vous')} <span className='text-primary'>{t('les bonnes questions')}</span>
                             </h2>
@@ -246,7 +246,7 @@ export default function OrientationPage() {
             {/* Appel à la recherche */}
             <section className='pt-12 pb-20 lg:pt-16'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
+                    <div className='mobile-center flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
                             <h2 className='text-2xl font-bold text-white'>{t('Vous savez déjà ce que vous cherchez ?')}</h2>
                             <p className='text-white/80'>{t('Filtrez les formations par domaine, ville, durée et budget.')}</p>

@@ -144,7 +144,7 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
 
 function SectionLinks({ section }: { section: Section }) {
     return (
-        <div className='mt-10 flex flex-wrap gap-x-10 gap-y-4'>
+        <div className='mobile-center mt-10 flex flex-wrap gap-x-10 gap-y-4'>
             <Link href={section.page.href} className='group inline-flex items-center gap-1.5 font-semibold text-primary'>
                 <span className='underline decoration-2 underline-offset-4'>{section.page.label}</span>
                 <Icon icon='tabler:arrow-right' className='transition-transform duration-300 group-hover:translate-x-1' />
@@ -160,7 +160,7 @@ function SectionLinks({ section }: { section: Section }) {
 /** Repère de section : grand numéro discret, puis le nom de la voie. */
 function Eyebrow({ number, children }: { number: string; children: React.ReactNode }) {
     return (
-        <div className='flex items-center gap-4'>
+        <div className='mobile-center flex items-center gap-4'>
             <span className='font-heading text-5xl font-extrabold leading-none text-secondary/15'>{number}</span>
             <span className='flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-primary'>
                 <span className='h-0.5 w-6 rounded-full bg-primary' aria-hidden='true' />
@@ -195,7 +195,7 @@ export default function DomainsPage() {
             {/* En-tête */}
             <section className='pt-0 pb-12 lg:pb-16'>
                 <div className='container mx-auto grid max-w-site items-center gap-10 px-4 sm:px-6 lg:px-8 lg:grid-cols-[1.1fr_1fr]'>
-                    <div className='flex flex-col gap-5'>
+                    <div className='mobile-center flex flex-col gap-5'>
                         <span className='flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-secondary'>
                             <span className='h-0.5 w-6 rounded-full bg-secondary' aria-hidden='true' />
                             Domaines <span className='-ml-2 text-primary'>d’études</span>
@@ -207,7 +207,7 @@ export default function DomainsPage() {
                             Choisissez votre voie : des études supérieures après le bac, ou une formation professionnelle pour apprendre un métier.
                             Dans chaque cas, cliquez sur un domaine pour voir les formations proposées à Madagascar.
                         </p>
-                        <nav aria-label='Sections de la page' className='flex flex-wrap gap-3'>
+                        <nav aria-label='Sections de la page' className='mobile-center flex flex-wrap gap-3'>
                             {SECTIONS.map((section) => (
                                 <a
                                     key={section.id}
@@ -243,14 +243,14 @@ export default function DomainsPage() {
             {/* Après le bac */}
             <section id={bac.id} className='scroll-mt-28 py-16 lg:py-24'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='mb-10 flex max-w-3xl flex-col gap-4'>
+                    <div className='mobile-center mb-10 flex max-w-3xl flex-col gap-4'>
                         <Eyebrow number={bac.number}>{bac.eyebrow}</Eyebrow>
                         <h2 className='font-bold'>{bac.title}</h2>
                         <p className='text-black'>{bac.text}</p>
                     </div>
                     <Points points={bac.points} className='sm:grid-cols-2 lg:grid-cols-4' />
 
-                    <h3 className='mt-16 mb-8 flex lg:mt-20 items-center gap-3 text-xl font-semibold text-secondary'>
+                    <h3 className='mobile-center mt-16 mb-8 flex lg:mt-20 items-center gap-3 text-xl font-semibold text-secondary'>
                         <span className='h-0.5 w-6 rounded-full bg-primary' aria-hidden='true' />
                         Choisissez un domaine
                     </h3>
@@ -263,7 +263,7 @@ export default function DomainsPage() {
             <section id={pro.id} className='scroll-mt-28 bg-white py-16 lg:py-24'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid items-center gap-10 lg:grid-cols-2 lg:gap-16'>
-                        <div className='flex flex-col gap-4'>
+                        <div className='mobile-center flex flex-col gap-4'>
                             <Eyebrow number={pro.number}>{pro.eyebrow}</Eyebrow>
                             <h2 className='font-bold'>{pro.title}</h2>
                             <p className='text-black'>{pro.text}</p>
@@ -273,7 +273,7 @@ export default function DomainsPage() {
                         </div>
                     </div>
 
-                    <h3 className='mt-16 mb-8 flex lg:mt-20 items-center gap-3 text-xl font-semibold text-secondary'>
+                    <h3 className='mobile-center mt-16 mb-8 flex lg:mt-20 items-center gap-3 text-xl font-semibold text-secondary'>
                         <span className='h-0.5 w-6 rounded-full bg-primary' aria-hidden='true' />
                         Choisissez un domaine
                     </h3>
@@ -290,15 +290,15 @@ export default function DomainsPage() {
                             <Image src={photo('1497633762265-9d179a990aa6', 900)} alt='' fill sizes='50vw' className='object-cover' />
                             <div className='absolute inset-0 bg-gradient-to-r from-secondary via-secondary/40 to-primary/30' aria-hidden='true' />
                         </div>
-                        <div className='relative flex flex-col gap-4 p-8 sm:p-10 md:max-w-[55%]'>
-                            <div className='flex items-center gap-3'>
+                        <div className='mobile-center relative flex flex-col gap-4 p-8 sm:p-10 md:max-w-[55%]'>
+                            <div className='mobile-center flex items-center gap-3'>
                                 <Icon icon='tabler:book-2' className='text-3xl text-white' />
                                 <h2 className='text-2xl font-bold text-white md:text-3xl'>Vous hésitez encore ?</h2>
                             </div>
                             <p className='text-white/80'>Notre page Orientation vous guide pas à pas, selon votre profil.</p>
                             <Link
                                 href='/orientation/'
-                                className='group inline-flex items-center gap-2 self-start rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary/90'>
+                                className='group inline-flex items-center gap-2 self-start max-sm:self-center rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary/90'>
                                 S’orienter
                                 <Icon icon='tabler:arrow-right' className='text-lg transition-transform duration-300 group-hover:translate-x-1' />
                             </Link>

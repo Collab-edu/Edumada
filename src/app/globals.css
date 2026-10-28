@@ -130,6 +130,15 @@
   }
 }
 
+/* Sur mobile (moins de 640 px) : titres et textes d'introduction centrés (pas le contenu des cartes). */
+@utility mobile-center {
+  @media (width < 40rem) {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 /* Largeur du contenu : s'élargit sur les grands écrans (1280 px, puis 1440 px dès 1536 px, puis 1680 px dès 1920 px). */
 @utility max-w-site {
   max-width: 80rem;

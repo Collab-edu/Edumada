@@ -80,11 +80,11 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
             <section className='pt-28 pb-10 sm:pt-32'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-8 lg:grid-cols-2 lg:items-center'>
-                        <div className='flex max-w-3xl flex-col gap-4'>
+                        <div className='mobile-center flex max-w-3xl flex-col gap-4'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>{t(config.eyebrow)}</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t(config.title)}</h1>
                             <p className='text-black'>{t(config.intro)}</p>
-                            <div className='flex flex-wrap gap-3'>
+                            <div className='mobile-center flex flex-wrap gap-3'>
                                 <ButtonLink href='/recherche/'>
                                     <Icon icon='tabler:search' className='text-lg' />
                                     {t('Rechercher une formation')}
@@ -202,7 +202,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
             {/* Appel aux établissements */}
             <section className='pb-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
+                    <div className='mobile-center flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
                             <h2 className='text-2xl font-bold text-white'>{t(config.cta.title)}</h2>
                             <p className='text-white/80'>{t(config.cta.text)}</p>
