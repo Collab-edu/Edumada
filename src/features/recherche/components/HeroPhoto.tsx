@@ -1,14 +1,10 @@
 'use client'
-import { Caveat } from 'next/font/google'
 import withBasePath from '@/lib/base-path'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import HeroFilters from './HeroFilters'
 import HeroLogos from './HeroLogos'
 import MobileSearch from './MobileSearch'
 import { useT } from '@/i18n/client'
-
-/** Écriture manuscrite de la phrase d'accroche (décorative). */
-const handwriting = Caveat({ subsets: ['latin'], weight: ['500'], display: 'swap' })
 
 const HERO_IMAGE = withBasePath('/images/banner/fournitures-scolaires-sac-a-dos-livres-madagascar.webp')
 // Image transparente d'un pixel (mobile, où l'image est remplacée par un dégradé).
@@ -59,18 +55,6 @@ export default function HeroPhoto() {
                 </svg>
 
                 <div className='relative container mx-auto max-w-7xl px-4'>
-                    {/* Phrase manuscrite (grand écran) */}
-                    <p
-                        aria-hidden='true'
-                        className={`${handwriting.className} absolute top-4 right-6 hidden max-w-xs -rotate-12 text-right text-3xl leading-tight text-secondary lg:block xl:text-4xl`}>
-                        {t('Plus qu’une formation…')}
-                        <br />
-                        {t('un avenir !')}
-                        <svg viewBox='0 0 160 20' className='ml-auto block h-4 w-40'>
-                            <path d='M2 16 C 50 4, 110 2, 158 6' fill='none' stroke='currentColor' strokeWidth='2.5' strokeLinecap='round' />
-                        </svg>
-                    </p>
-
                     <div className='relative mx-auto max-w-3xl text-center'>
                         {/* Traits rouges décoratifs : étincelle animée, chaque trait jaillit à son tour depuis le titre */}
                         <svg aria-hidden='true' viewBox='0 0 40 40' className='absolute -top-6 left-0 hidden h-10 w-10 text-primary sm:block lg:-left-6'>
