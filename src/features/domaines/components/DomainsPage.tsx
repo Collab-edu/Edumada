@@ -56,10 +56,6 @@ const SECTIONS = [
         number: '02',
         title: 'Apprendre un métier',
         text: 'Des formations courtes et pratiques, de quelques semaines à 2 ans, avec ou sans bac, pour acquérir un savoir-faire, obtenir un certificat ou changer de métier.',
-        points: [
-            { icon: 'tabler:tools', title: 'Des compétences concrètes', text: 'Ateliers, stages et cas pratiques : on apprend en faisant.' },
-            { icon: 'tabler:door-enter', title: 'Ouvert à tous', text: 'Beaucoup de formations sont accessibles sans le bac, aux jeunes comme aux adultes.' },
-        ],
         page: { href: '/formation-professionnelle/', label: 'Voir les centres de formation' },
     },
 ] as const
@@ -83,7 +79,7 @@ function Sparks({ className }: { className?: string }) {
     )
 }
 
-function Points({ points, className }: { points: Section['points']; className?: string }) {
+function Points({ points, className }: { points: (typeof SECTIONS)[0]['points']; className?: string }) {
     return (
         <ul className={cn('grid gap-5 lg:gap-6', className)}>
             {points.map((point) => (
@@ -263,16 +259,15 @@ export default function DomainsPage() {
             {/* Formation professionnelle */}
             <section id={pro.id} className='scroll-mt-28 bg-white py-16 lg:py-24'>
                 <div className='container mx-auto max-w-7xl px-4'>
-                    <div className='grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr_1.2fr] lg:gap-12'>
-                        <div className='flex flex-col gap-3'>
+                    <div className='grid items-center gap-10 lg:grid-cols-2 lg:gap-16'>
+                        <div className='flex flex-col gap-4'>
                             <Eyebrow number={pro.number}>{pro.eyebrow}</Eyebrow>
                             <h2 className='font-bold'>{pro.title}</h2>
                             <p className='text-black'>{pro.text}</p>
                         </div>
-                        <div className='relative h-56 overflow-hidden rounded-[2rem] rounded-bl-[5rem] shadow-[8px_8px_0_0_rgba(15,76,92,0.9)] lg:h-64'>
-                            <Image src={photo('1504328345606-18bbc8c9d7d1', 700)} alt='Soudeur au travail dans un atelier' fill sizes='(min-width: 1024px) 30vw, 100vw' className='object-cover' />
+                        <div className='relative h-56 overflow-hidden rounded-[2rem] rounded-bl-[5rem] shadow-[8px_8px_0_0_rgba(15,76,92,0.9)] sm:h-64 lg:h-72'>
+                            <Image src={photo('1504328345606-18bbc8c9d7d1', 900)} alt='Soudeur au travail dans un atelier' fill sizes='(min-width: 1024px) 45vw, 100vw' className='object-cover' />
                         </div>
-                        <Points points={pro.points} className='sm:grid-cols-2' />
                     </div>
 
                     <h3 className='mt-16 mb-8 flex lg:mt-20 items-center gap-3 text-xl font-semibold text-secondary'>
