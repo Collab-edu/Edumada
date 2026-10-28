@@ -24,8 +24,8 @@ const DOMAINS: Record<string, { icon: string; image: string }> = {
 }
 const DEFAULT_DOMAIN = { icon: 'tabler:book', image: '1497633762265-9d179a990aa6' }
 
-/** Icônes : une seule couleur, celle de la charte. */
-const ICON = 'bg-primary text-white'
+/** Icônes : en rouge, sans fond. */
+const ICON = 'text-primary'
 
 /** Carte de Madagascar (même tracé que le logo). */
 const MADAGASCAR =
@@ -86,8 +86,8 @@ function Points({ points, className }: { points: Section['points']; className?: 
         <ul className={cn('grid gap-4', className)}>
             {points.map((point) => (
                 <li key={point.title} className={cn(CARD, 'flex flex-col gap-2 p-5')}>
-                    <span className={cn('mb-2 flex h-11 w-11 items-center justify-center rounded-xl', ICON)}>
-                        <Icon icon={point.icon} className='text-2xl' />
+                    <span className={cn('mb-1 flex h-9 items-center', ICON)}>
+                        <Icon icon={point.icon} className='text-3xl' />
                     </span>
                     <p className='font-semibold text-secondary'>{point.title}</p>
                     <p className='text-sm text-black'>{point.text}</p>
@@ -110,8 +110,8 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
                               href={`/recherche?categorie=${encodeURIComponent(section.search)}&domaine=${encodeURIComponent(domain.name)}`}
                               className={cn(CARD, 'group flex flex-col gap-4 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[6px_6px_0_0_rgba(255,59,82,0.3)]')}>
                               <div className='flex items-start justify-between gap-3'>
-                                  <span className={cn('flex h-11 w-11 items-center justify-center rounded-xl', ICON)}>
-                                      <Icon icon={meta.icon} className='text-2xl' />
+                                  <span className={cn('flex h-9 items-center', ICON)}>
+                                      <Icon icon={meta.icon} className='text-3xl' />
                                   </span>
                                   {/* Flèche discrète, qui passe au rouge au survol de la carte */}
                                   <span className='flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-secondary transition-colors duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-white'>
