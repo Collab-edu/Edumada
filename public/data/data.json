@@ -1,8 +1,8 @@
 {
     "HeaderData": [
         {
-            "label": "Accueil",
-            "href": "/"
+            "label": "Formations",
+            "href": "/recherche/"
         },
         {
             "label": "Universités",
@@ -13,16 +13,12 @@
             "href": "/formation-professionnelle/"
         },
         {
-            "label": "Domaine et filière",
-            "href": "/domaines/"
+            "label": "Établissements",
+            "href": "/etablissements/"
         },
         {
-            "label": "À propos",
-            "href": "/a-propos/"
-        },
-        {
-            "label": "Contact",
-            "href": "/contact/"
+            "label": "Orientation",
+            "href": "/orientation/"
         }
     ],
     "DomainData": [
