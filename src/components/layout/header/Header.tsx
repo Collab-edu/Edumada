@@ -159,7 +159,7 @@ const Header: React.FC = () => {
             <div className={cn('py-4 transition-all duration-300', sticky ? 'bg-white shadow-lg' : 'bg-white')}>
                 <div className='container relative mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex items-center justify-between'>
                     <Logo />
-                    <nav className='hidden xl:flex grow justify-center items-center gap-8 mx-8'>
+                    <nav className='hidden xl:flex grow justify-center items-center gap-5 mx-4 whitespace-nowrap 2xl:gap-8 2xl:mx-8'>
                         {headerData.map((item, index) => (
                             <HeaderLink key={index} item={item} />
                         ))}
@@ -174,12 +174,12 @@ const Header: React.FC = () => {
                             <>
                                 <button
                                     onClick={openSignIn}
-                                    className='hidden lg:block bg-transparent text-primary border border-primary hover:bg-primary hover:text-white duration-300 px-6 py-2 rounded-lg hover:cursor-pointer'>
+                                    className='hidden lg:block bg-transparent text-primary border border-primary hover:bg-primary hover:text-white duration-300 px-4 2xl:px-6 py-2 rounded-lg hover:cursor-pointer'>
                                     {t('Connexion')}
                                 </button>
                                 <Link
                                     href='/inscription/'
-                                    className='hidden lg:block bg-primary text-white border border-primary hover:bg-transparent hover:text-primary duration-300 px-6 py-2 rounded-lg font-medium'>
+                                    className='hidden lg:block bg-primary text-white border border-primary hover:bg-transparent hover:text-primary duration-300 px-4 2xl:px-6 py-2 rounded-lg font-medium'>
                                     {t('Inscription')}
                                 </Link>
                                 {/* Petit écran : accès au compte par l'icône (Connexion et Inscription sont aussi dans le menu). */}
