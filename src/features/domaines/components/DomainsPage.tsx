@@ -1,14 +1,10 @@
 'use client'
 import { useMemo } from 'react'
 import Image from 'next/image'
-import { Caveat } from 'next/font/google'
 import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { useSiteData } from '@/data/site-data'
 import { cn } from '@/lib/utils'
-
-/** Écriture manuscrite des petites notes décoratives. */
-const handwriting = Caveat({ subsets: ['latin'], weight: ['600'], display: 'swap' })
 
 const photo = (id: string, w = 600) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=70`
 
@@ -28,13 +24,8 @@ const DOMAINS: Record<string, { icon: string; image: string }> = {
 }
 const DEFAULT_DOMAIN = { icon: 'tabler:book', image: '1497633762265-9d179a990aa6' }
 
-/** Couleurs de la charte, en alternance sur les icônes. */
-const TONES = [
-    { icon: 'bg-primary text-white', arrow: 'bg-primary' },
-    { icon: 'bg-secondary text-white', arrow: 'bg-secondary' },
-    { icon: 'bg-success text-secondary', arrow: 'bg-success text-secondary' },
-    { icon: 'bg-cream text-primary', arrow: 'bg-primary' },
-]
+/** Icônes : une seule couleur, celle de la charte. */
+const ICON = 'bg-cream text-primary'
 
 /** Carte de Madagascar (même tracé que le logo). */
 const MADAGASCAR =
@@ -55,7 +46,6 @@ const SECTIONS = [
             { icon: 'tabler:bulb', title: 'Des formations variées', text: 'Universités, instituts, écoles spécialisées : un large choix pour votre avenir.' },
         ],
         page: { href: '/universites/', label: 'Voir les universités et écoles' },
-        note: ['Beaucoup de domaines,', 'une seule destination :', 'réussir !'],
     },
     {
         id: 'formation-pro',
@@ -69,7 +59,6 @@ const SECTIONS = [
             { icon: 'tabler:door-enter', title: 'Ouvert à tous', text: 'Beaucoup de formations sont accessibles sans le bac, aux jeunes comme aux adultes.' },
         ],
         page: { href: '/formation-professionnelle/', label: 'Voir les centres de formation' },
-        note: null,
     },
 ] as const
 
@@ -92,28 +81,12 @@ function Sparks({ className }: { className?: string }) {
     )
 }
 
-/** Petite note manuscrite soulignée. */
-function Note({ lines, className }: { lines: readonly string[]; className?: string }) {
-    return (
-        <p aria-hidden='true' className={cn(handwriting.className, 'text-2xl leading-tight text-secondary', className)}>
-            {lines.map((line, i) => (
-                <span key={line} className={cn('block', i === lines.length - 1 && 'text-3xl text-primary')}>
-                    {line}
-                </span>
-            ))}
-            <svg viewBox='0 0 160 20' className='mt-1 block h-4 w-32 text-primary'>
-                <path d='M2 16 C 50 4, 110 2, 158 6' fill='none' stroke='currentColor' strokeWidth='3' strokeLinecap='round' />
-            </svg>
-        </p>
-    )
-}
-
 function Points({ points, className }: { points: Section['points']; className?: string }) {
     return (
         <ul className={cn('grid gap-4', className)}>
-            {points.map((point, i) => (
+            {points.map((point) => (
                 <li key={point.title} className={cn(CARD, 'flex flex-col gap-2 p-5')}>
-                    <span className={cn('mb-2 flex h-11 w-11 items-center justify-center rounded-xl', TONES[i % TONES.length].icon)}>
+                    <span className={cn('mb-2 flex h-11 w-11 items-center justify-center rounded-xl', ICON)}>
                         <Icon icon={point.icon} className='text-2xl' />
                     </span>
                     <p className='font-semibold text-secondary'>{point.title}</p>
@@ -125,21 +98,18 @@ function Points({ points, className }: { points: Section['points']; className?: 
 }
 
 function DomainCards({ section, domains, loading, compact }: { section: Section; domains: { name: string; count: number }[]; loading: boolean; compact?: boolean }) {
-    // Case vide en fin de grille (4 colonnes) : la note manuscrite la remplit.
-    const showNote = !loading && section.note && domains.length % 4 !== 0
     return (
         <div className='grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 lg:grid-cols-4'>
             {loading
                 ? Array.from({ length: 4 }).map((_, i) => <div key={i} className='h-56 animate-pulse rounded-2xl border border-gray-200 bg-white' />)
-                : domains.map((domain, i) => {
+                : domains.map((domain) => {
                       const meta = DOMAINS[domain.name] ?? DEFAULT_DOMAIN
-                      const tone = TONES[i % TONES.length]
                       return (
                           <Link
                               key={domain.name}
                               href={`/recherche?categorie=${encodeURIComponent(section.search)}&domaine=${encodeURIComponent(domain.name)}`}
                               className={cn(CARD, 'group flex flex-col gap-4 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[6px_6px_0_0_rgba(255,59,82,0.3)]')}>
-                              <span className={cn('flex h-11 w-11 items-center justify-center rounded-xl', tone.icon)}>
+                              <span className={cn('flex h-11 w-11 items-center justify-center rounded-xl', ICON)}>
                                   <Icon icon={meta.icon} className='text-2xl' />
                               </span>
                               <div className='flex flex-col gap-0.5'>
@@ -150,7 +120,7 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
                                   <span
                                       className={cn(
                                           'absolute -top-4 right-2 z-10 flex h-8 w-8 items-center justify-center rounded-full text-white ring-4 ring-white transition-transform duration-300 group-hover:translate-x-1',
-                                          tone.arrow
+                                          'bg-primary'
                                       )}>
                                       <Icon icon='tabler:arrow-right' className='text-base' />
                                   </span>
@@ -168,14 +138,6 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
                       )
                   })}
             {!loading && domains.length === 0 && <p className='text-ink/60'>Aucune formation pour le moment.</p>}
-            {showNote && (
-                <div className='hidden items-center justify-center lg:flex'>
-                    <div className='relative -rotate-6'>
-                        <Sparks className='absolute -top-8 -left-8 h-8 w-8' />
-                        <Note lines={section.note} />
-                    </div>
-                </div>
-            )}
         </div>
     )
 }
@@ -254,7 +216,7 @@ export default function DomainsPage() {
                         </nav>
                     </div>
 
-                    {/* Photo sur la carte de Madagascar, avec note manuscrite */}
+                    {/* Photo sur la carte de Madagascar */}
                     <div className='relative mx-auto h-80 w-full max-w-md sm:h-96'>
                         <svg aria-hidden='true' viewBox='15 25 105 202' className='absolute -top-6 -left-2 aspect-[105/202] h-[115%] rotate-[8deg] fill-success/45 sm:-left-6'>
                             <path d={MADAGASCAR} />
@@ -270,7 +232,6 @@ export default function DomainsPage() {
                             />
                         </div>
                         <Sparks className='absolute top-1/2 left-4 sm:left-12' />
-                        <Note lines={['Ton avenir', 'commence ici !']} className='absolute -top-2 right-0 rotate-[-8deg] text-xl sm:text-2xl' />
                     </div>
                 </div>
             </section>
@@ -339,10 +300,6 @@ export default function DomainsPage() {
                                 <Icon icon='tabler:arrow-right' className='text-lg transition-transform duration-300 group-hover:translate-x-1' />
                             </Link>
                         </div>
-                        <Note
-                            lines={['Trouvez la formation', 'qui vous correspond !']}
-                            className='absolute top-6 right-8 hidden rotate-[-6deg] text-white lg:block [&_span:last-of-type]:text-white'
-                        />
                     </div>
                 </div>
             </section>
