@@ -109,8 +109,8 @@ const SearchPage = () => {
                     aria-label='Rechercher une formation'
                     onSubmit={submitSearch}
                     className='mb-6 sm:mb-8 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)]'>
-                    <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-[repeat(5,minmax(0,1fr))_auto] lg:items-center'>
-                        <div className='rounded-xl px-4 py-3 lg:border-r lg:border-gray-100 lg:rounded-none'>
+                    <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 lg:items-center'>
+                        <div className='rounded-xl px-4 py-3 sm:col-span-2 lg:col-span-3 lg:rounded-none'>
                             <label htmlFor='search-q' className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
                                 <Icon icon='tabler:search' className='text-base text-secondary' />
                                 {t('Formation, niveau, métier…')}
@@ -125,11 +125,11 @@ const SearchPage = () => {
                             />
                         </div>
                         {/* Sur mobile, ces filtres passent dans le panneau « Filtres » pour laisser la place aux résultats. */}
-                        {renderTopFilters('hidden sm:block rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite lg:border-r lg:border-gray-100 lg:rounded-none')}
-                        {/* Sur ordinateur moyen, loupe seule pour laisser la place aux champs. */}
-                        <Button type='submit' className='h-12 sm:col-span-2 lg:col-span-1 lg:max-2xl:w-12 lg:max-2xl:px-0'>
-                            <Icon icon='tabler:search' className='text-lg lg:max-2xl:text-xl' />
-                            <span className='lg:max-2xl:sr-only'>Rechercher</span>
+                        {renderTopFilters('hidden sm:block rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite lg:order-last lg:rounded-none lg:border-r lg:border-t lg:border-gray-100 lg:[&:nth-last-child(2)]:border-r-0')}
+                        {/* Sur ordinateur : champ principal et bouton en haut, les quatre filtres dessous. */}
+                        <Button type='submit' className='h-12 sm:col-span-2 lg:col-span-1'>
+                            <Icon icon='tabler:search' className='text-lg' />
+                            Rechercher
                         </Button>
                     </div>
                 </form>
