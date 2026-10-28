@@ -84,9 +84,9 @@ export default function OrientationPage() {
     const t = useT()
     return (
         <>
-            <section className='pt-28 pb-16 sm:pt-32 lg:pb-24'>
+            <section className='pt-28 pb-12 sm:pt-32 lg:pb-16'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label={t('Cours dans une salle de classe')} className='mb-14 h-56 sm:h-80 lg:mb-20 lg:h-96' />
+                    <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label={t('Cours dans une salle de classe')} className='mb-10 h-56 sm:h-80 lg:mb-14 lg:h-96' />
                     <div className='grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16'>
                         <div className='flex flex-col gap-5'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>{t('Orientation')}</p>
@@ -123,7 +123,7 @@ export default function OrientationPage() {
             </section>
 
             {/* Étapes */}
-            <section className='pt-0 pb-16 lg:pb-24'>
+            <section className='pt-0 pb-6 lg:pb-8'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <ol className='grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6'>
                         {STEPS.map((step, index) => (
@@ -151,7 +151,7 @@ export default function OrientationPage() {
             </section>
 
             {/* Les bonnes questions */}
-            <section className='py-16 lg:py-24'>
+            <section className='py-12 lg:py-16'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
                         <div className='flex max-w-2xl flex-col gap-5'>
@@ -191,7 +191,7 @@ export default function OrientationPage() {
             <BacSeriesSection />
 
             {/* Par où commencer ? */}
-            <section className='py-16 lg:py-24'>
+            <section className='py-12 lg:py-16'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='relative overflow-hidden rounded-3xl bg-secondary px-6 py-12 sm:px-10 lg:py-16'>
                         <DotPattern width={22} height={22} cr={1.2} className='fill-white/10' />
@@ -239,12 +239,12 @@ export default function OrientationPage() {
                 </div>
             </section>
 
-            <div className='py-6 lg:py-14'>
+            <div className='lg:py-6'>
                 <StudentSpaceSection />
             </div>
 
             {/* Appel à la recherche */}
-            <section className='pt-16 pb-20 lg:pt-24 lg:pb-28'>
+            <section className='pt-12 pb-20 lg:pt-16'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>

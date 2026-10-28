@@ -37,7 +37,7 @@ const SERIES = [
 /** Section de la page Orientation : les séries du bac général à partir de 2027. */
 export default function BacSeriesSection() {
     return (
-        <section className='py-16 lg:py-24'>
+        <section className='py-12 lg:py-16'>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='flex max-w-3xl flex-col gap-4'>
                     <span className='font-semibold uppercase tracking-wide text-primary'>Réforme du baccalauréat</span>
