@@ -85,7 +85,7 @@ function Sparks({ className }: { className?: string }) {
 
 function Points({ points, className }: { points: Section['points']; className?: string }) {
     return (
-        <ul className={cn('grid gap-4', className)}>
+        <ul className={cn('grid gap-5 lg:gap-6', className)}>
             {points.map((point) => (
                 <li key={point.title} className={cn(CARD, 'flex flex-col gap-2 p-5')}>
                     <span className={cn('mb-1 flex h-9 items-center', ICON)}>
@@ -101,7 +101,7 @@ function Points({ points, className }: { points: Section['points']; className?: 
 
 function DomainCards({ section, domains, loading, compact }: { section: Section; domains: { name: string; count: number }[]; loading: boolean; compact?: boolean }) {
     return (
-        <div className='grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 lg:grid-cols-4'>
+        <div className='grid grid-cols-1 gap-5 min-[420px]:grid-cols-2 lg:grid-cols-4 lg:gap-6'>
             {loading
                 ? Array.from({ length: 4 }).map((_, i) => <div key={i} className='h-56 animate-pulse rounded-2xl border border-gray-200 bg-white' />)
                 : domains.map((domain) => {
@@ -145,7 +145,7 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
 
 function SectionLinks({ section }: { section: Section }) {
     return (
-        <div className='mt-8 flex flex-wrap gap-x-8 gap-y-3'>
+        <div className='mt-10 flex flex-wrap gap-x-10 gap-y-4'>
             <Link href={section.page.href} className='group inline-flex items-center gap-1.5 font-semibold text-primary'>
                 <span className='underline decoration-2 underline-offset-4'>{section.page.label}</span>
                 <Icon icon='tabler:arrow-right' className='transition-transform duration-300 group-hover:translate-x-1' />
@@ -194,7 +194,7 @@ export default function DomainsPage() {
     return (
         <main className='overflow-hidden pt-28 pb-20 sm:pt-32'>
             {/* En-tête */}
-            <section className='pt-0 pb-10'>
+            <section className='pt-0 pb-12 lg:pb-16'>
                 <div className='container mx-auto grid max-w-7xl items-center gap-10 px-4 lg:grid-cols-[1.1fr_1fr]'>
                     <div className='flex flex-col gap-5'>
                         <span className='flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-secondary'>
@@ -242,16 +242,16 @@ export default function DomainsPage() {
             </section>
 
             {/* Après le bac */}
-            <section id={bac.id} className='scroll-mt-28 pt-6'>
+            <section id={bac.id} className='scroll-mt-28 py-16 lg:py-24'>
                 <div className='container mx-auto max-w-7xl px-4'>
-                    <div className='mb-8 flex max-w-3xl flex-col gap-3'>
+                    <div className='mb-10 flex max-w-3xl flex-col gap-4'>
                         <Eyebrow number={bac.number}>{bac.eyebrow}</Eyebrow>
                         <h2 className='font-bold'>{bac.title}</h2>
                         <p className='text-black'>{bac.text}</p>
                     </div>
                     <Points points={bac.points} className='sm:grid-cols-2 lg:grid-cols-4' />
 
-                    <h3 className='mt-14 mb-6 flex items-center gap-3 text-xl font-semibold text-secondary'>
+                    <h3 className='mt-16 mb-8 flex lg:mt-20 items-center gap-3 text-xl font-semibold text-secondary'>
                         <span className='h-0.5 w-6 rounded-full bg-primary' aria-hidden='true' />
                         Choisissez un domaine
                     </h3>
@@ -261,9 +261,9 @@ export default function DomainsPage() {
             </section>
 
             {/* Formation professionnelle */}
-            <section id={pro.id} className='scroll-mt-28 bg-white'>
+            <section id={pro.id} className='scroll-mt-28 bg-white py-16 lg:py-24'>
                 <div className='container mx-auto max-w-7xl px-4'>
-                    <div className='grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr_1.2fr]'>
+                    <div className='grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr_1.2fr] lg:gap-12'>
                         <div className='flex flex-col gap-3'>
                             <Eyebrow number={pro.number}>{pro.eyebrow}</Eyebrow>
                             <h2 className='font-bold'>{pro.title}</h2>
@@ -275,7 +275,7 @@ export default function DomainsPage() {
                         <Points points={pro.points} className='sm:grid-cols-2' />
                     </div>
 
-                    <h3 className='mt-14 mb-6 flex items-center gap-3 text-xl font-semibold text-secondary'>
+                    <h3 className='mt-16 mb-8 flex lg:mt-20 items-center gap-3 text-xl font-semibold text-secondary'>
                         <span className='h-0.5 w-6 rounded-full bg-primary' aria-hidden='true' />
                         Choisissez un domaine
                     </h3>
@@ -285,7 +285,7 @@ export default function DomainsPage() {
             </section>
 
             {/* Orientation */}
-            <section className='pb-0'>
+            <section className='pt-16 pb-0 lg:pt-24'>
                 <div className='container mx-auto max-w-7xl px-4'>
                     <div className='relative overflow-hidden rounded-3xl bg-secondary'>
                         <div className='absolute inset-y-0 right-0 hidden w-1/2 md:block'>
