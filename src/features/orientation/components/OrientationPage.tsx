@@ -199,8 +199,8 @@ export default function OrientationPage() {
                                             </span>
                                             <h3 className='text-lg font-semibold text-secondary'>{t(profile.title)}</h3>
                                             <p className='text-black'>{t(profile.text)}</p>
-                                            <span className='mt-auto inline-flex items-center gap-1.5 self-start rounded-lg bg-primary/10 px-3 py-2 text-sm font-semibold text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white'>
-                                                {t(profile.cta)}
+                                            <span className='mt-auto inline-flex items-center gap-1.5 self-start py-1 text-sm font-semibold text-primary'>
+                                                <span className='underline decoration-2 underline-offset-4'>{t(profile.cta)}</span>
                                                 <Icon icon='tabler:arrow-right' className='text-base transition-transform duration-300 group-hover:translate-x-1' />
                                             </span>
                                         </div>
