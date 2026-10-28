@@ -91,6 +91,19 @@ export default function OrientationPage() {
                         <p className='text-black'>
                             {t('Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et comparer les possibilités à Madagascar.')}
                         </p>
+                        {/* Accès direct aux domaines d'études, bien mis en avant */}
+                        <Link
+                            href='/domaines/'
+                            className='group mt-2 inline-flex items-center gap-4 self-start rounded-2xl bg-primary py-4 pr-6 pl-4 text-white shadow-[6px_6px_0_0_rgba(15,76,92,0.9)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_0_rgba(15,76,92,0.9)] sm:pr-8'>
+                            <span className='flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15'>
+                                <Icon icon='tabler:category' className='text-2xl' />
+                            </span>
+                            <span className='flex flex-col'>
+                                <span className='text-lg font-bold leading-tight sm:text-xl'>Explorer les domaines d’études</span>
+                                <span className='text-sm text-white/85'>Après le bac ou en formation professionnelle</span>
+                            </span>
+                            <Icon icon='tabler:arrow-right' className='ml-2 shrink-0 text-2xl transition-transform duration-300 group-hover:translate-x-1' />
+                        </Link>
                     </div>
                 </div>
             </section>
