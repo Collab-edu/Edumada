@@ -11,6 +11,8 @@ import BacSeriesSection from './BacSeriesSection'
 /** Les questions à se poser avant de comparer les formations. */
 /** Vidéo libre de droits (Pexels), en attendant une vidéo d'Edumada. */
 const HERO_VIDEO = 'https://videos.pexels.com/video-files/7092235/7092235-hd_1920_1080_30fps.mp4'
+/** Photo à droite de l'introduction (Unsplash). */
+const ORIENTATION_IMAGE = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=70'
 const HERO_POSTER = 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1600&q=70'
 
 const QUESTIONS = [
@@ -82,33 +84,48 @@ export default function OrientationPage() {
     const t = useT()
     return (
         <>
-            <section className='pt-28 pb-10 sm:pt-32'>
+            <section className='pt-28 pb-16 sm:pt-32 lg:pb-24'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label={t('Cours dans une salle de classe')} className='mb-10 h-56 sm:h-80 lg:h-96' />
-                    <div className='flex max-w-3xl flex-col gap-4'>
-                        <p className='font-semibold uppercase tracking-wide text-primary'>{t('Orientation')}</p>
-                        <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t('Trouvez la voie qui vous correspond')}</h1>
-                        <p className='text-black'>
-                            {t('Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et comparer les possibilités à Madagascar.')}
-                        </p>
-                        {/* Accès direct aux domaines d'études, bien mis en avant */}
-                        <Link
-                            href='/domaines/'
-                            className='group mt-2 inline-flex items-center gap-4 self-start rounded-2xl bg-primary px-6 py-4 text-white shadow-[6px_6px_0_0_rgba(15,76,92,0.9)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_0_rgba(15,76,92,0.9)] sm:pr-8'>
-                            <span className='flex flex-col'>
-                                <span className='text-lg font-bold leading-tight sm:text-xl'>Explorer les domaines d’études</span>
-                                <span className='text-sm text-white/85'>Après le bac ou en formation professionnelle</span>
-                            </span>
-                            <Icon icon='tabler:arrow-right' className='ml-2 shrink-0 text-2xl transition-transform duration-300 group-hover:translate-x-1' />
-                        </Link>
+                    <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label={t('Cours dans une salle de classe')} className='mb-14 h-56 sm:h-80 lg:mb-20 lg:h-96' />
+                    <div className='grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16'>
+                        <div className='flex flex-col gap-5'>
+                            <p className='font-semibold uppercase tracking-wide text-primary'>{t('Orientation')}</p>
+                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t('Trouvez la voie qui vous correspond')}</h1>
+                            <p className='text-black'>
+                                {t('Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et comparer les possibilités à Madagascar.')}
+                            </p>
+                            {/* Accès direct aux domaines d'études, bien mis en avant */}
+                            <Link
+                                href='/domaines/'
+                                className='group mt-2 inline-flex items-center gap-4 self-start rounded-2xl bg-primary px-6 py-4 text-white shadow-[6px_6px_0_0_rgba(15,76,92,0.9)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_0_rgba(15,76,92,0.9)] sm:pr-8'>
+                                <span className='flex flex-col'>
+                                    <span className='text-lg font-bold leading-tight sm:text-xl'>Explorer les domaines d’études</span>
+                                    <span className='text-sm text-white/85'>Après le bac ou en formation professionnelle</span>
+                                </span>
+                                <Icon icon='tabler:arrow-right' className='ml-2 shrink-0 text-2xl transition-transform duration-300 group-hover:translate-x-1' />
+                            </Link>
+                        </div>
+    
+                        {/* Photo de présentation */}
+                        <div className='relative mx-auto h-72 w-full max-w-lg sm:h-80 lg:h-96'>
+                            <div className='absolute inset-0 overflow-hidden rounded-[2.5rem] rounded-tr-[6rem] shadow-[8px_8px_0_0_rgba(255,59,82,0.9)]'>
+                                <Image
+                                    src={ORIENTATION_IMAGE}
+                                    alt='Étudiants qui échangent autour d’une table'
+                                    fill
+                                    sizes='(min-width: 1024px) 45vw, 100vw'
+                                    className='object-cover'
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* Étapes */}
-            <section className='pt-0'>
+            <section className='pt-0 pb-16 lg:pb-24'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <ol className='grid gap-5 sm:grid-cols-2 lg:grid-cols-4'>
+                    <ol className='grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6'>
                         {STEPS.map((step, index) => (
                             <li
                                 key={step.title}
@@ -134,7 +151,7 @@ export default function OrientationPage() {
             </section>
 
             {/* Les bonnes questions */}
-            <section>
+            <section className='py-16 lg:py-24'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
                         <div className='flex max-w-2xl flex-col gap-5'>
@@ -174,7 +191,7 @@ export default function OrientationPage() {
             <BacSeriesSection />
 
             {/* Par où commencer ? */}
-            <section>
+            <section className='py-16 lg:py-24'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='relative overflow-hidden rounded-3xl bg-secondary px-6 py-12 sm:px-10 lg:py-16'>
                         <DotPattern width={22} height={22} cr={1.2} className='fill-white/10' />
@@ -187,7 +204,7 @@ export default function OrientationPage() {
                             <p className='text-white/75'>{t('Chaque profil vous mène directement aux formations ou aux établissements qui vous concernent.')}</p>
                         </div>
 
-                        <ul className='relative mt-12 grid gap-5 md:grid-cols-3'>
+                        <ul className='relative mt-12 grid gap-6 md:grid-cols-3 lg:gap-8'>
                             {PROFILES.map((profile) => (
                                 <li key={profile.title}>
                                     <Link
@@ -222,10 +239,12 @@ export default function OrientationPage() {
                 </div>
             </section>
 
-            <StudentSpaceSection />
+            <div className='py-6 lg:py-14'>
+                <StudentSpaceSection />
+            </div>
 
             {/* Appel à la recherche */}
-            <section className='pb-20'>
+            <section className='pt-16 pb-20 lg:pt-24 lg:pb-28'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
