@@ -5,18 +5,21 @@ import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { useSiteData } from '@/data/site-data'
 import { cn } from '@/lib/utils'
+import withBasePath from '@/lib/base-path'
 
-const photo = (id: string, w = 600) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=70`
+/** Photo Unsplash (identifiant) ou photo du site (chemin commençant par « / », dans public/). */
+const photo = (id: string, w = 600) =>
+    id.startsWith('/') ? withBasePath(encodeURI(id)) : `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=70`
 
-/** Icône et photo de chaque domaine (mêmes libellés que le filtre « Domaine d'études »). Photos : Unsplash. */
+/** Icône et photo de chaque domaine (mêmes libellés que le filtre « Domaine d'études »). Photos : Unsplash ou public/images/Photos. */
 const DOMAINS: Record<string, { icon: string; image: string }> = {
     Informatique: { icon: 'tabler:device-desktop', image: '1517694712202-14dd9538aa97' },
     'Médecine & Santé': { icon: 'tabler:heart', image: '1505751172876-fa1923c5c528' },
     Droit: { icon: 'tabler:scale', image: '1589829545856-d10d557cf95f' },
     'Gestion & Commerce': { icon: 'tabler:briefcase', image: '1460925895917-afdab827c52f' },
     Ingénierie: { icon: 'tabler:settings', image: '1581091226825-a6a2a5aee158' },
-    Agronomie: { icon: 'tabler:plant', image: '1500382017468-9049fed747ef' },
-    'Lettres & Langues': { icon: 'tabler:book', image: '1481627834876-b7833e8f5570' },
+    Agronomie: { icon: 'tabler:plant', image: '/images/Photos/agronomie.webp' },
+    'Lettres & Langues': { icon: 'tabler:book', image: '/images/Photos/langue et lettre.webp' },
     'Tourisme & Hôtellerie': { icon: 'tabler:send', image: '1507525428034-b723cf961d3e' },
     'Petite enfance': { icon: 'tabler:baby-carriage', image: '1503454537195-1dcabb73ffb9' },
     'Enseignement général': { icon: 'tabler:school', image: '1588072432836-e10032774350' },
@@ -266,7 +269,7 @@ export default function DomainsPage() {
                             <p className='text-black'>{pro.text}</p>
                         </div>
                         <div className='relative h-56 overflow-hidden rounded-[2rem] rounded-bl-[5rem] shadow-[8px_8px_0_0_rgba(15,76,92,0.9)] sm:h-64 lg:h-72'>
-                            <Image src={photo('1504328345606-18bbc8c9d7d1', 900)} alt='Soudeur au travail dans un atelier' fill sizes='(min-width: 1024px) 45vw, 100vw' className='object-cover' />
+                            <Image src={photo('/images/Photos/formations.webp')} alt='Formateur et apprenants en salle informatique' fill sizes='(min-width: 1024px) 45vw, 100vw' className='object-cover' />
                         </div>
                     </div>
 
