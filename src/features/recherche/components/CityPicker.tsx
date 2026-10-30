@@ -3,7 +3,7 @@ import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import { normalize, type Suggestion } from './SuggestInput'
-import { MY_POSITION, POPULAR_CITIES, locateMe, placeAt, searchPlaces, type Point } from '../places'
+import { MY_POSITION, POPULAR_CITIES, locateMe, placeAt, searchPlaces, type MyPoint, type Point } from '../places'
 import { useT } from '@/i18n/client'
 
 interface CityPickerProps {
@@ -38,7 +38,7 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
     const [places, setPlaces] = useState<Suggestion[] | null>(null)
     const [active, setActive] = useState(-1)
     // Position de la personne et nom du lieu correspondant (null : pas encore nommé).
-    const [here, setHere] = useState<{ point: Point; place: Suggestion | null } | null>(null)
+    const [here, setHere] = useState<{ point: MyPoint; place: Suggestion | null } | null>(null)
     const [locating, setLocating] = useState(false)
     const [locateError, setLocateError] = useState('')
 
@@ -275,7 +275,11 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
                                         <span className='truncate font-medium text-ink'>
                                             {locating ? t('Localisation en cours…') : here ? (hereName ?? t('Ma position')) : t('Me localiser')}
                                         </span>
-                                        {here?.place?.detail && <span className='truncate text-xs text-ink/60'>{here.place.detail}</span>}
+                                        {(here?.place?.detail || here?.point.approximate) && (
+                                            <span className='truncate text-xs text-ink/60'>
+                                                {[here.point.approximate && 'Position approximative, selon votre connexion', here.place?.detail].filter(Boolean).join(' · ')}
+                                            </span>
+                                        )}
                                     </span>
                                     {!locating && (
                                         <span className='shrink-0 rounded-full bg-success/50 px-3 py-0.5 text-xs font-semibold text-secondary'>

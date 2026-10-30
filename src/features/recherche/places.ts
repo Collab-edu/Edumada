@@ -71,23 +71,52 @@ export function distanceKm(a: Point, b: Point): number {
     return Math.round(2 * 6371 * Math.asin(Math.sqrt(h)) * 10) / 10
 }
 
-/** Position de la personne, demandée au navigateur (elle doit l'autoriser). */
-export function locateMe(): Promise<Point> {
-    return new Promise((resolve, reject) => {
+/** Position de la personne : `approximate` quand elle vient de la connexion internet et non de l'appareil. */
+export type MyPoint = Point & { approximate?: boolean }
+
+/**
+ * Position approximative d'après l'adresse internet (niveau de la ville), quand l'appareil ne donne
+ * pas la sienne : cas fréquent sur ordinateur, où la localisation de Windows est souvent désactivée.
+ * Deux services gratuits, le second en secours ; seule une position à Madagascar est retenue.
+ */
+async function locateByConnection(): Promise<MyPoint | null> {
+    const services: [string, (d: Record<string, unknown>) => unknown[]][] = [
+        ['https://ipwho.is/?fields=success,country_code,latitude,longitude', (d) => [d.success, d.country_code, d.latitude, d.longitude]],
+        ['https://get.geojs.io/v1/ip/geo.json', (d) => [true, d.country_code, d.latitude, d.longitude]],
+    ]
+    for (const [url, read] of services) {
+        try {
+            const res = await fetch(url, { signal: AbortSignal.timeout(6000) })
+            if (!res.ok) continue
+            const [ok, country, lat, lng] = read(await res.json())
+            if (ok && country === 'MG' && Number.isFinite(Number(lat)) && Number.isFinite(Number(lng))) {
+                return { lat: Number(lat), lng: Number(lng), approximate: true }
+            }
+        } catch {
+            // Service indisponible : on essaie le suivant.
+        }
+    }
+    return null
+}
+
+/**
+ * Position de la personne, demandée au navigateur (elle doit l'autoriser). Si l'appareil ne la trouve
+ * pas (localisation désactivée, ordinateur sans Wi-Fi…), position approximative d'après la connexion.
+ */
+export function locateMe(): Promise<MyPoint> {
+    const unavailable = 'Position introuvable : activez la localisation de l’appareil (sur Windows : Paramètres › Confidentialité › Localisation) ou tapez plutôt un lieu.'
+    const fallback = () => locateByConnection().then((point) => point ?? Promise.reject(new Error(unavailable)))
+    return new Promise<MyPoint>((resolve, reject) => {
         if (typeof navigator === 'undefined' || !navigator.geolocation) {
-            reject(new Error('Votre navigateur ne permet pas de vous localiser.'))
+            fallback().then(resolve, reject)
             return
         }
         navigator.geolocation.getCurrentPosition(
             (p) => resolve({ lat: p.coords.latitude, lng: p.coords.longitude }),
             (error) =>
-                reject(
-                    new Error(
-                        error.code === error.PERMISSION_DENIED
-                            ? 'Autorisez l’accès à votre position dans le navigateur.'
-                            : 'Position introuvable pour le moment. Tapez plutôt un lieu.'
-                    )
-                ),
+                error.code === error.PERMISSION_DENIED
+                    ? reject(new Error('Autorisez l’accès à votre position dans le navigateur.'))
+                    : fallback().then(resolve, reject),
             { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
         )
     })
