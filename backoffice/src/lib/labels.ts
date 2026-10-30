@@ -34,45 +34,36 @@ export const ACTION_LABELS: Record<string, string> = {
     'campaign.created': 'Campagne créée',
 }
 
-export type PlanFeatureSection = { title: string; features: { label: string; included: boolean }[] }
+export type PlanFeatureSection = { title: string; icon: 'eye' | 'mail' | 'chat' | 'megaphone'; features: string[] }
 
-/**
- * Ce que comprend une formule, d'après ses droits réels : mêmes lignes dans le même ordre
- * pour toutes les formules, afin de voir les différences d'une carte à l'autre.
- */
+/** Ce que comprend une formule, tel que présenté sur la page Formule. */
 export function planFeatureSections(plan: Plan): PlanFeatureSection[] {
-    const f = plan.features
     const max = plan.maxPublishedOffers
-    return [
-        {
-            title: 'Présence et visibilité',
-            features: [
-                { label: 'Fiche établissement', included: true },
-                { label: max === null ? 'Offres illimitées' : `${max} ${max > 1 ? 'offres publiées' : 'offre publiée'}`, included: true },
-                { label: 'Adresse, téléphone et e-mail', included: true },
-                { label: 'Présence dans les résultats', included: true },
-                { label: 'Galerie photos des locaux', included: !!f.photoGallery },
-                { label: 'Site web et réseaux sociaux', included: !!f.onlineLinks },
-                { label: 'Infrastructures', included: f.maxInfrastructures !== 0 },
-                { label: 'Avis des étudiants', included: !!f.reviews },
-            ],
-        },
-        {
-            title: 'Gestion et communication',
-            features: [
-                { label: 'Demandes reçues par e-mail', included: true },
-                { label: 'Boîte de réception des demandes', included: !!f.inquiryInbox },
-                { label: 'Statuts, filtres et export CSV', included: !!f.inquiryInbox },
-                { label: f.statistics === 'advanced' ? 'Statistiques avancées par campagne' : f.statistics === 'standard' ? 'Statistiques standard' : 'Statistiques', included: !!f.statistics && f.statistics !== 'none' },
-            ],
-        },
-        {
-            title: 'Visibilité et marketing',
-            features: [
-                { label: 'Campagnes « Sponsorisé »', included: !!f.sponsoredPlacement },
-                { label: 'Accompagnement prioritaire', included: !!f.prioritySupport },
-            ],
-        },
-    ]
+    if (plan.code === 'free') {
+        return [
+            {
+                title: 'Présence et visibilité',
+                icon: 'eye',
+                features: [
+                    'Fiche établissement essentielle',
+                    max === null ? 'Offres illimitées' : `${max} ${max > 1 ? 'offres publiées' : 'offre publiée'}`,
+                    'Coordonnées : adresse, téléphone et e-mail',
+                    'Présence dans les résultats',
+                ],
+            },
+            { title: 'Communication', icon: 'mail', features: ['Demandes reçues par e-mail'] },
+        ]
+    }
+    if (plan.code === 'pro') {
+        return [
+            {
+                title: 'Présence et visibilité',
+                icon: 'eye',
+                features: ['Tout Gratuit', 'Offres illimitées', 'Galerie photos, site web et réseaux sociaux', 'Infrastructures illimitées', 'Avis des étudiants'],
+            },
+            { title: 'Gestion et communication', icon: 'chat', features: ['Boîte de réception des demandes', 'Statuts, filtres et export CSV', 'Statistiques standard'] },
+        ]
+    }
+    return [{ title: 'Visibilité et marketing', icon: 'megaphone', features: ['Tout Pro', 'Campagnes « Sponsorisé »', 'Statistiques avancées par campagne', 'Accompagnement prioritaire'] }]
 }
 
