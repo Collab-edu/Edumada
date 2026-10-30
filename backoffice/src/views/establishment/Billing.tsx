@@ -302,11 +302,14 @@ export default function Billing() {
                                         </h3>
                                         <ul className='list-unstyled mb-0'>
                                             {section.features.map((f) => (
-                                                <li key={f}>
+                                                <li key={f.label} className={f.included ? '' : 'is-off'}>
                                                     <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='3' strokeLinecap='round' strokeLinejoin='round' aria-hidden='true'>
-                                                        <path d='M5 12.5 10 17.5 19.5 7' />
+                                                        <path d={f.included ? 'M5 12.5 10 17.5 19.5 7' : 'M6.5 6.5 17.5 17.5M17.5 6.5 6.5 17.5'} />
                                                     </svg>
-                                                    <span>{f}</span>
+                                                    <span>
+                                                        {f.label}
+                                                        {!f.included && <span className='visually-hidden'> (non inclus)</span>}
+                                                    </span>
                                                 </li>
                                             ))}
                                         </ul>

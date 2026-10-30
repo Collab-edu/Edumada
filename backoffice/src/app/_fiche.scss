@@ -1314,6 +1314,8 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   ul { padding-left: 2.5rem; }
   li { display: flex; gap: .8rem; padding: .3rem 0; font-size: .9rem; color: #334155; }
   li svg { flex: none; width: 1rem; height: 1rem; margin-top: .2rem; color: #12A67C; }
+  li.is-off { opacity: .4; }
+  li.is-off svg { color: #64748B; }
 }
 .bo-plan-section-icon {
   display: inline-flex;
