@@ -1,6 +1,7 @@
 'use client'
 import { useRef, useState, type KeyboardEvent } from 'react'
-import { CCol, CRow } from '@coreui/react'
+import Link from 'next/link'
+import { CAlert, CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
     cilBasketball,
@@ -147,6 +148,12 @@ export default function AdmissionSection({
                 {/* Infrastructures */}
                 <CCol md={6} className='bo-col-divider'>
                     <span className='bo-adm-label'>Infrastructures</span>
+                    {maxInfrastructures === 0 ? (
+                        <CAlert color='info' className='mb-0'>
+                            Les infrastructures s&apos;affichent sur la fiche avec les formules Pro et Premium. <Link href='/formule/'>Voir les formules</Link>
+                        </CAlert>
+                    ) : (
+                    <>
                     {infrastructures.length > 0 && (
                         <ul className='bo-adm-chips list-unstyled'>
                             {infrastructures.map((item, i) => (
@@ -190,6 +197,8 @@ export default function AdmissionSection({
                             {infrastructures.length} / {maxInfrastructures} avec votre formule. Illimité avec Pro et Premium.
                         </p>
                     ) : null}
+                    </>
+                    )}
                 </CCol>
             </CRow>
 

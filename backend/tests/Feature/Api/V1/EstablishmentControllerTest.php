@@ -110,7 +110,7 @@ class EstablishmentControllerTest extends TestCase
             ->assertJsonValidationErrors(['subCategory' => 'Cette sous-catégorie n\'existe pas dans la catégorie choisie.']);
     }
 
-    public function test_free_fiche_hides_gallery_online_links_and_extra_infrastructures(): void
+    public function test_free_fiche_hides_gallery_online_links_and_infrastructures(): void
     {
         [$owner, $establishment] = $this->establishmentOwner();
         $establishment->update([
@@ -125,7 +125,7 @@ class EstablishmentControllerTest extends TestCase
             ->assertOk()
             ->assertJsonPath('data.website', '')
             ->assertJsonPath('data.photos', [])
-            ->assertJsonPath('data.infrastructures', ['Bibliothèque', 'Cantine'])
+            ->assertJsonPath('data.infrastructures', [])
             ->assertJsonPath('data.phone', '034 00 000 00');
 
         // L'établissement garde toutes ses données dans son espace.
@@ -154,17 +154,18 @@ class EstablishmentControllerTest extends TestCase
         $this->getJson('/api/v1/offers')->assertJsonPath('data.0.schoolLogo', 'https://exemple.mg/logo.png');
     }
 
-    public function test_free_fiche_rejects_gallery_and_more_than_two_infrastructures(): void
+    public function test_free_fiche_rejects_gallery_and_infrastructures(): void
     {
         [$owner, $establishment] = $this->establishmentOwner();
 
         $this->actingAs($owner)->patchJson("/api/v1/establishments/{$establishment->slug}", [
             'photos' => ['https://exemple.mg/a.jpg'],
-            'infrastructures' => ['Bibliothèque', 'Cantine', 'Salle informatique'],
+            'infrastructures' => ['Bibliothèque'],
         ])->assertUnprocessable()->assertJsonValidationErrors(['photos', 'infrastructures']);
 
+        $this->subscribe($establishment, PlanCode::Pro);
         $this->actingAs($owner)->patchJson("/api/v1/establishments/{$establishment->slug}", [
-            'infrastructures' => ['Bibliothèque', 'Cantine'],
+            'infrastructures' => ['Bibliothèque', 'Cantine', 'Salle informatique'],
         ])->assertOk();
     }
 

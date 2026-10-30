@@ -24,7 +24,7 @@ class PlanSeeder extends Seeder
                 'max_published_offers' => 1,
                 'features' => [
                     'inquiryInbox' => false, 'statistics' => 'none', 'sponsoredPlacement' => false, 'prioritySupport' => false,
-                    'photoGallery' => false, 'onlineLinks' => false, 'reviews' => false, 'maxInfrastructures' => 2,
+                    'photoGallery' => false, 'onlineLinks' => false, 'reviews' => false, 'maxInfrastructures' => 0,
                 ],
             ],
             [

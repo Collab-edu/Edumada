@@ -25,7 +25,6 @@ const PLAN_DETAILS: Record<Plan['code'], { description: string; intro: string; f
                 ? 'Offres illimitées'
                 : `${plan.maxPublishedOffers} ${plan.maxPublishedOffers > 1 ? 'offres publiées' : 'offre publiée'}`,
             'Coordonnées : adresse, téléphone et e-mail',
-            'Jusqu’à 2 infrastructures',
             'Présence dans les résultats standards',
             'Demandes reçues par e-mail',
         ],

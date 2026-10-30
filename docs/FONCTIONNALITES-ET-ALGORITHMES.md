@@ -43,7 +43,7 @@ Prix et limites cités ici : **prix de lancement indicatifs**, modifiables par l
 - Fiche essentielle : présentation, photo de couverture, carte, pièces à fournir, accréditation.
 - **Coordonnées limitées** à l'adresse, au téléphone et à l'e-mail public : pas de site web ni de réseaux sociaux sur la fiche.
 - **Pas de galerie photos** des locaux.
-- **2 infrastructures** au maximum.
+- **Pas d'infrastructures** sur la fiche.
 - **Pas d'avis** : la fiche n'en affiche pas, et les étudiants ne peuvent pas en déposer.
 - Création d'une autre fiche, ou revendication d'une fiche existante.
 - **1 offre publiée** au maximum.
@@ -164,9 +164,9 @@ Statuts : **Brouillon**, **En attente de validation**, **Publiée**, **Suspendue
 - Avant chaque publication, l'API vérifie la limite de la formule en vigueur (Gratuit : 1, Pro et Premium : illimité). Au-delà, la publication est refusée avec un message.
 
 ### 2.7 bis Ce que la formule affiche sur la fiche publique
-- L'API filtre la fiche publique selon la formule en vigueur (`PublicLimits`). En Gratuit, elle retire la galerie, le site web et les réseaux sociaux, et ne garde que les 2 premières infrastructures. Elle ne renvoie aucun avis : `reviewsEnabled` vaut `false`, et le site masque alors la section des avis et le bouton « Donner mon avis ».
+- L'API filtre la fiche publique selon la formule en vigueur (`PublicLimits`). En Gratuit, elle retire la galerie, le site web, les réseaux sociaux et les infrastructures. Elle ne renvoie aucun avis : `reviewsEnabled` vaut `false`, et le site masque alors la section des avis et le bouton « Donner mon avis ».
 - Les données restent **enregistrées** et visibles par l'établissement dans son espace : elles réapparaissent dès le passage à Pro ou Premium.
-- À l'enregistrement d'une fiche Gratuit, l'API refuse une galerie non vide et plus de 2 infrastructures. Le back-office masque ces champs, n'envoie pas le site web et les réseaux, et bloque l'ajout d'une troisième infrastructure.
+- À l'enregistrement d'une fiche Gratuit, l'API refuse une galerie ou une liste d'infrastructures non vide. Le back-office masque ces champs et n'envoie ni le site web, ni les réseaux, ni les infrastructures.
 
 ### 2.8 Formules, paiement et abonnements
 1. **Demande** : l'établissement choisit Pro ou Premium, mensuel ou annuel, et un moyen de paiement (MVola, Orange Money, Airtel Money, virement, espèces).

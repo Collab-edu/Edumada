@@ -60,7 +60,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
     const features = establishment?.plan.features ?? {}
     const gallery = !!features.photoGallery
     const onlineLinks = !!features.onlineLinks
-    const maxInfrastructures = establishment ? (features.maxInfrastructures ?? null) : 2
+    const maxInfrastructures = establishment ? (features.maxInfrastructures ?? null) : 0
 
     const locate = () =>
         navigator.geolocation?.getCurrentPosition(
@@ -90,6 +90,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
         // Champs que la formule n'affiche pas : on ne les envoie pas, pour garder ce qui est déjà enregistré.
         const payload: Partial<typeof body> = { ...body }
         if (!gallery) delete payload.photos
+        if (maxInfrastructures === 0) delete payload.infrastructures
         if (!onlineLinks) {
             delete payload.website
             delete payload.socialLinks

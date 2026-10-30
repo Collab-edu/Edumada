@@ -40,7 +40,6 @@ export const PLAN_FEATURES: Record<'free' | 'pro' | 'premium', string[]> = {
         'Fiche établissement essentielle',
         'Offres publiées : limite de la formule',
         'Coordonnées : adresse, téléphone et e-mail',
-        'Jusqu’à 2 infrastructures',
         'Présence dans les résultats',
         'Demandes reçues par e-mail',
     ],

@@ -69,7 +69,9 @@ class EstablishmentRequest extends FormRequest
                 }
                 $max = $plan->limit('maxInfrastructures');
                 if ($max !== null && count($this->input('infrastructures', [])) > $max) {
-                    $validator->errors()->add('infrastructures', "Votre formule permet d'indiquer {$max} infrastructures au maximum.");
+                    $validator->errors()->add('infrastructures', $max === 0
+                        ? 'Les infrastructures sont réservées aux formules Pro et Premium.'
+                        : "Votre formule permet d'indiquer {$max} infrastructures au maximum.");
                 }
             },
             function (Validator $validator): void {
