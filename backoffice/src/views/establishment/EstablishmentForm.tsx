@@ -1,14 +1,13 @@
 'use client'
 import { useState, type FormEvent } from 'react'
-import Link from 'next/link'
-import { CAlert, CButton, CCol, CForm, CFormInput, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
+import { CButton, CCol, CForm, CFormInput, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilEducation, cilEnvelopeClosed, cilGlobeAlt, cilImage, cilLink, cilLocationPin, cilPhone, cilSave } from '@coreui/icons'
 import { api, fieldError, isGeneralError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import type { Category, ManagedEstablishment } from '@/lib/types'
 import { useToast } from '@/context/ToastContext'
-import { ErrorAlert, IconInput, ImageUpload, PageCard } from '@/components/ui'
+import { ErrorAlert, IconInput, ImageUpload, PageCard, PlanLock } from '@/components/ui'
 import PlaceInput from '@/components/PlaceInput'
 import AdmissionSection from './AdmissionSection'
 
@@ -206,10 +205,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                     </CCol>
                     {!onlineLinks && (
                         <CCol md={12}>
-                            <CAlert color='info' className='mb-0'>
-                                Le site web et les réseaux sociaux s&apos;affichent sur la fiche avec les formules Pro et Premium.{' '}
-                                <Link href='/formule/'>Voir les formules</Link>
-                            </CAlert>
+                            <PlanLock title='Site web et réseaux sociaux'>Affichez vos liens sur votre fiche.</PlanLock>
                         </CCol>
                     )}
                     {onlineLinks && (
@@ -285,9 +281,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                 {gallery ? (
                     <ImageUpload label='Photos des locaux (8 au maximum)' value={form.photos} onChange={(v: string[]) => set('photos', v)} />
                 ) : (
-                    <CAlert color='info' className='mb-0'>
-                        La galerie de photos des locaux est incluse dans les formules Pro et Premium. <Link href='/formule/'>Voir les formules</Link>
-                    </CAlert>
+                    <PlanLock title='Galerie de photos'>Montrez vos locaux aux futurs étudiants.</PlanLock>
                 )}
             </PageCard>
 

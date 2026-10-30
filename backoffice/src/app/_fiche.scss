@@ -1104,6 +1104,27 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
 }
 .bo-adm-hint { margin: .5rem 0 0; font-size: .8rem; color: var(--cui-secondary-color); }
 
+// Fonctionnalité réservée aux formules payantes.
+.bo-plan-lock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem 1rem;
+  padding: 1rem;
+  border: 1px dashed var(--cui-border-color);
+  border-radius: .75rem;
+  background: var(--cui-tertiary-bg);
+}
+.bo-plan-lock-icon { flex: none; width: 1.5rem; height: 1.5rem; color: #FF3B52; }
+.bo-plan-lock-text {
+  flex: 1 1 12rem;
+  min-width: 0;
+  p { margin: .25rem 0 0; font-size: .875rem; color: var(--cui-secondary-color); }
+}
+.bo-plan-lock-title { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .5rem; }
+.bo-plan-lock-badges { display: inline-flex; gap: .25rem; }
+.bo-plan-lock-action { flex: none; }
+
 // Reconnaissance / accréditation.
 .bo-adm-accr {
   display: flex;

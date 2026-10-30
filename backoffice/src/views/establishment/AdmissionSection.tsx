@@ -1,7 +1,6 @@
 'use client'
 import { useRef, useState, type KeyboardEvent } from 'react'
-import Link from 'next/link'
-import { CAlert, CCol, CRow } from '@coreui/react'
+import { CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
     cilBasketball,
@@ -25,7 +24,7 @@ import {
     cilWifiSignal4,
     cilX,
 } from '@coreui/icons'
-import { PageCard } from '@/components/ui'
+import { PageCard, PlanLock } from '@/components/ui'
 
 // Icône d'une infrastructure d'après son nom (« Salle informatique » → écran…).
 const INFRA_ICONS: [RegExp, string[]][] = [
@@ -147,13 +146,11 @@ export default function AdmissionSection({
 
                 {/* Infrastructures */}
                 <CCol md={6} className='bo-col-divider'>
-                    <span className='bo-adm-label'>Infrastructures</span>
                     {maxInfrastructures === 0 ? (
-                        <CAlert color='info' className='mb-0'>
-                            Les infrastructures s&apos;affichent sur la fiche avec les formules Pro et Premium. <Link href='/formule/'>Voir les formules</Link>
-                        </CAlert>
+                        <PlanLock title='Infrastructures'>Présentez vos équipements sur votre fiche.</PlanLock>
                     ) : (
                     <>
+                    <span className='bo-adm-label'>Infrastructures</span>
                     {infrastructures.length > 0 && (
                         <ul className='bo-adm-chips list-unstyled'>
                             {infrastructures.map((item, i) => (

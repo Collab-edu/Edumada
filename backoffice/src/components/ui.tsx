@@ -1,5 +1,6 @@
 'use client'
 import { useState, type ComponentProps, type ReactNode } from 'react'
+import Link from 'next/link'
 import {
     CAlert,
     CBadge,
@@ -17,7 +18,7 @@ import {
     CSpinner,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilCloudUpload, cilImagePlus, cilPlus, cilTrash, cilX } from '@coreui/icons'
+import { cilCloudUpload, cilImagePlus, cilLockLocked, cilPlus, cilTrash, cilX } from '@coreui/icons'
 import { usePathname } from 'next/navigation'
 import { findRoute } from '@/routes'
 import { api, assetUrl, errorMessage } from '@/lib/api'
@@ -362,6 +363,28 @@ export function PlanBadge({ code, className }: { code: string; className?: strin
         <CBadge color={plan.color} className={className}>
             {plan.label}
         </CBadge>
+    )
+}
+
+/** Fonctionnalité verrouillée : réservée aux formules payantes, avec le lien vers les formules. */
+export function PlanLock({ title, children }: { title: string; children: ReactNode }) {
+    return (
+        <div className='bo-plan-lock'>
+            <CIcon icon={cilLockLocked} className='bo-plan-lock-icon' />
+            <div className='bo-plan-lock-text'>
+                <div className='bo-plan-lock-title'>
+                    <strong>{title}</strong>
+                    <span className='bo-plan-lock-badges'>
+                        <PlanBadge code='pro' />
+                        <PlanBadge code='premium' />
+                    </span>
+                </div>
+                <p>{children}</p>
+            </div>
+            <CButton color='primary' size='sm' as={Link} href='/formule/' className='bo-plan-lock-action'>
+                Voir les formules
+            </CButton>
+        </div>
     )
 }
 
