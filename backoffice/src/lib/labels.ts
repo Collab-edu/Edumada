@@ -34,7 +34,7 @@ export const ACTION_LABELS: Record<string, string> = {
     'campaign.created': 'Campagne créée',
 }
 
-export type PlanFeatureSection = { title: string; icon: 'eye' | 'chat' | 'megaphone'; features: { label: string; included: boolean }[] }
+export type PlanFeatureSection = { title: string; features: { label: string; included: boolean }[] }
 
 /**
  * Ce que comprend une formule, d'après ses droits réels : mêmes lignes dans le même ordre
@@ -46,7 +46,6 @@ export function planFeatureSections(plan: Plan): PlanFeatureSection[] {
     return [
         {
             title: 'Présence et visibilité',
-            icon: 'eye',
             features: [
                 { label: 'Fiche établissement', included: true },
                 { label: max === null ? 'Offres illimitées' : `${max} ${max > 1 ? 'offres publiées' : 'offre publiée'}`, included: true },
@@ -60,7 +59,6 @@ export function planFeatureSections(plan: Plan): PlanFeatureSection[] {
         },
         {
             title: 'Gestion et communication',
-            icon: 'chat',
             features: [
                 { label: 'Demandes reçues par e-mail', included: true },
                 { label: 'Boîte de réception des demandes', included: !!f.inquiryInbox },
@@ -70,7 +68,6 @@ export function planFeatureSections(plan: Plan): PlanFeatureSection[] {
         },
         {
             title: 'Visibilité et marketing',
-            icon: 'megaphone',
             features: [
                 { label: 'Campagnes « Sponsorisé »', included: !!f.sponsoredPlacement },
                 { label: 'Accompagnement prioritaire', included: !!f.prioritySupport },

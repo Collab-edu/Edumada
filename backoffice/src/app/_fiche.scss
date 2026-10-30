@@ -1300,22 +1300,33 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
 .bo-plan-section {
   margin-top: 1.25rem;
   & + & { margin-top: 1.5rem; }
-  h3 { display: flex; align-items: center; gap: .9rem; margin-bottom: .5rem; color: var(--cui-emphasis-color); font-size: .975rem; font-weight: 600; }
-  ul { padding-left: 1.1rem; }
+  h3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-bottom: .5rem;
+    padding-left: .6rem;
+    border-left: 3px solid var(--bo-plan-accent);
+    color: var(--cui-emphasis-color);
+    font-size: .975rem;
+    font-weight: 600;
+  }
+  ul { padding-left: .75rem; }
   li { display: flex; gap: .6rem; padding: .3rem 0; font-size: .85rem; color: #334155; }
   li svg { flex: none; width: 1rem; height: 1rem; margin-top: .2rem; color: #12A67C; }
   li.is-off { opacity: .4; }
   li.is-off svg { color: #64748B; }
 }
-.bo-plan-section-icon {
-  display: inline-flex;
+.bo-plan-section-count {
   flex: none;
-  justify-content: center;
-  width: 1.6rem;
-  color: #1E4E6B;
-  svg { width: 1.6rem; height: 1.6rem; }
+  padding: .1rem .5rem;
+  border-radius: 1rem;
+  background: var(--cui-tertiary-bg);
+  color: var(--cui-emphasis-color);
+  font-size: .75rem;
+  font-weight: 700;
 }
-.is-premium .bo-plan-section-icon { color: #F42F52; }
 .bo-plan-action { margin-top: auto; padding-top: 1.5rem; }
 .bo-plan-btn {
   display: flex;
@@ -1440,8 +1451,6 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   .bo-plan-head p, .bo-plan-section li { color: var(--cui-body-color); }
   .bo-plan-head h2, .bo-plan-price strong { color: var(--cui-emphasis-color); }
   .bo-plan-price { border-color: var(--cui-border-color); }
-  .bo-plan-section-icon { color: #A7C4BC; }
-  .is-premium .bo-plan-section-icon { color: #F42F52; }
   .bo-plan-note { border-color: var(--cui-border-color); }
   .bo-plan-modal.is-pro { --bo-plan-accent: #A7C4BC; }
   .bo-plan-modal-title strong, .bo-plan-field legend, .bo-plan-options strong, .bo-plan-total strong, .bo-plan-done h2, .bo-plan-done dd { color: var(--cui-emphasis-color); }

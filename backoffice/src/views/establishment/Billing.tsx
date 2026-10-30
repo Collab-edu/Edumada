@@ -44,10 +44,7 @@ const GLYPHS = {
     building: 'M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17h2v2H3v-2h2Zm4-14v2h2V7H9Zm4 0v2h2V7h-2Zm-4 4v2h2v-2H9Zm4 0v2h2v-2h-2Zm-3 5v5h4v-5h-4Z',
     rocket: 'M14.5 3.5c2.4-1.2 4.8-1.4 6-1.2.2 1.2 0 3.6-1.2 6-1 2-2.6 4-5.3 6l.3 3.5-3.6 3.1-.8-3.8-4.4-4.4-3.8-.8 3.1-3.6 3.5.3c2-2.7 4-4.3 6.2-5.6Zm1.5 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM5 17c-1.2.6-2 2.3-2 4 1.7 0 3.4-.8 4-2l-2-2Z',
     crown: 'M3 7l4.5 4L12 4l4.5 7L21 7l-2 11H5L3 7Zm2 12.5h14V21H5v-1.5Z',
-    eye: 'M12 5c5 0 8.8 3.6 10 7-1.2 3.4-5 7-10 7S3.2 15.4 2 12c1.2-3.4 5-7 10-7Zm0 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z',
     mail: 'M3 5h18a1 1 0 0 1 1 1v.6l-10 6-10-6V6a1 1 0 0 1 1-1Zm-1 3.9V18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V8.9l-10 6-10-6Z',
-    chat: 'M12 3c5.5 0 10 3.6 10 8s-4.5 8-10 8c-1 0-2-.1-2.9-.4L4 21l1-4.3C3.1 15.3 2 13.3 2 11c0-4.4 4.5-8 10-8ZM8 10a1.3 1.3 0 1 0 0 2.6A1.3 1.3 0 0 0 8 10Zm4 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Zm4 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Z',
-    megaphone: 'M20 3v15l-8-3.5H9.5l1 5.5h-3l-1-5.5H5a3 3 0 0 1-3-3v-1a3 3 0 0 1 3-3h7L20 3Zm1.5 5.5a2.5 2.5 0 0 1 0 5v-5Z',
     star: 'M12 2.5l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.6l-5.9 3.1 1.2-6.6-4.8-4.6 6.6-.9L12 2.5Z',
     lock: 'M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h1Zm2 0h6V8a3 3 0 0 0-6 0v2Z',
     info: 'M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm-1 8v7h2v-7h-2Zm0-3v2h2V7h-2Z',
@@ -270,10 +267,11 @@ export default function Billing() {
                                 {planFeatureSections(plan).map((section) => (
                                     <div className='bo-plan-section' key={section.title}>
                                         <h3>
-                                            <span className='bo-plan-section-icon'>
-                                                <Glyph name={section.icon} />
+                                            <span>{section.title}</span>
+                                            <span className='bo-plan-section-count'>
+                                                {section.features.filter((f) => f.included).length}/{section.features.length}
+                                                <span className='visually-hidden'> fonctions incluses</span>
                                             </span>
-                                            {section.title}
                                         </h3>
                                         <ul className='list-unstyled mb-0'>
                                             {section.features.map((f) => (
