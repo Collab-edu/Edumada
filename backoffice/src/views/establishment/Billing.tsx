@@ -12,8 +12,6 @@ import {
     CCol,
     CFormInput,
     CFormSelect,
-    CListGroup,
-    CListGroupItem,
     CModal,
     CModalBody,
     CModalFooter,
@@ -28,13 +26,13 @@ import {
     CTableRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilCheckAlt } from '@coreui/icons'
+import { cilArrowRight, cilBank, cilBullhorn, cilCheckAlt, cilChatBubble, cilInfo, cilChartLine, cilLockLocked, cilStar, cilTask, cilX } from '@coreui/icons'
 import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useToast } from '@/context/ToastContext'
 import { api, errorMessage } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import { formatAriary, formatDate, formatDateTime } from '@/lib/format'
-import { PLAN_FEATURES } from '@/lib/labels'
+import { planFeatureSections } from '@/lib/labels'
 import type { Invoice, Plan, Subscription } from '@/lib/types'
 import { ErrorAlert, Loading, PageCard, StatusBadge } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
@@ -44,11 +42,22 @@ type BillingData = {
     data: { plan: Plan; plans: Plan[]; subscription: Subscription | null; invoices: Invoice[]; paymentMethods: PaymentMethod[]; publishedOffersCount: number }
 }
 
-/** Couleur d'en-tête de chaque formule. */
-const PLAN_HEADER: Record<Plan['code'], string> = {
-    free: '#64748b',
-    pro: '#0f4c5c',
-    premium: '#ff3b52',
+/** Présentation de chaque formule sur sa carte. */
+const PLAN_CARD: Record<Plan['code'], { icon: string[]; description: string; tag?: string }> = {
+    free: { icon: cilBank, description: 'Idéale pour démarrer et avoir une présence de base sur la plateforme.' },
+    pro: { icon: cilChartLine, description: 'Pour les établissements qui souhaitent plus de visibilité et de demandes.', tag: 'Recommandé' },
+    premium: { icon: cilStar, description: 'Pour les établissements qui veulent une visibilité maximale et un accompagnement prioritaire.', tag: 'Visibilité maximale' },
+}
+
+const SECTION_ICONS = [cilTask, cilChatBubble, cilBullhorn]
+
+/** Prix affiché selon le rythme choisi ; une formule sans tarif annuel reste au mois. */
+function planPrice(plan: Plan, billing: 'monthly' | 'yearly') {
+    if (plan.code === 'free') return { amount: '0 Ar', period: 'pour toujours' }
+    if (billing === 'monthly' || plan.yearlyPrice === null) {
+        return { amount: formatAriary(plan.monthlyPrice), period: billing === 'yearly' ? 'par mois, pas de tarif annuel' : 'par mois' }
+    }
+    return { amount: formatAriary(plan.yearlyPrice), period: `par an, soit ${formatAriary(Math.round(plan.yearlyPrice / 12))} par mois` }
 }
 
 function PendingInvoice({ invoice, onChanged }: { invoice: Invoice; onChanged: () => void }) {
@@ -111,6 +120,7 @@ export default function Billing() {
     const { data, reload } = useApi<BillingData>(`/establishments/${e.id}/billing`)
     const [choice, setChoice] = useState<Plan | null>(null)
     const [cycle, setCycle] = useState('yearly')
+    const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly')
     const [method, setMethod] = useState('mvola')
     const [error, setError] = useState<unknown>(null)
 
@@ -130,6 +140,8 @@ export default function Billing() {
     const b = data.data
     const pending = b.invoices.find((i) => i.status === 'pending')
     const sub = b.subscription
+    const yearlyPlan = b.plans.find((plan) => plan.code !== 'free' && plan.yearlyPrice !== null && !!plan.monthlyPrice)
+    const saving = yearlyPlan ? Math.round((1 - (yearlyPlan.yearlyPrice ?? 0) / ((yearlyPlan.monthlyPrice ?? 1) * 12)) * 100) : 0
 
     const request = async () => {
         if (!choice) return
@@ -147,22 +159,25 @@ export default function Billing() {
     return (
         <>
             <PageBanner
-                title={`Formule ${b.plan.name}`}
+                title={
+                    <>
+                        Formule {b.plan.name}{' '}
+                        <CBadge color={sub?.status === 'grace' ? 'warning' : 'success'} className='bo-plan-status'>
+                            {sub?.status === 'grace' ? 'Période de grâce' : 'Active'}
+                        </CBadge>
+                    </>
+                }
                 description={
                     sub
                         ? sub.status === 'grace'
                             ? `Échéance passée : période de grâce jusqu'au ${formatDate(sub.graceEndsAt)}.`
-                            : `Active jusqu'au ${formatDate(sub.endsAt)} (${sub.billingCycleLabel.toLowerCase()}).`
-                        : `Fiche référencée gratuitement : ${b.publishedOffersCount} offre(s) publiée(s)${b.plan.maxPublishedOffers ? ` sur ${b.plan.maxPublishedOffers}` : ''}.`
+                            : `Votre formule actuelle, active jusqu'au ${formatDate(sub.endsAt)} (${sub.billingCycleLabel.toLowerCase()}).`
+                        : `Votre formule actuelle : ${b.publishedOffersCount} offre(s) publiée(s)${b.plan.maxPublishedOffers ? ` sur ${b.plan.maxPublishedOffers}` : ''}.`
                 }
             />
             {sub?.status === 'grace' && (
                 <CAlert color='warning'>Renouvelez pour garder les fonctions payantes après le {formatDate(sub.graceEndsAt)}.</CAlert>
             )}
-            <p className='small text-body-secondary'>
-                {sub && sub.status !== 'grace' ? 'Rappels 30, 7 et 1 jour(s) avant l’échéance. ' : ''}À l&apos;expiration d&apos;une formule payante, la fiche reste en ligne avec la formule
-                Gratuit ; seules les fonctions payantes s&apos;arrêtent.
-            </p>
 
             {pending && (
                 <PendingInvoice
@@ -175,56 +190,106 @@ export default function Billing() {
                 />
             )}
 
-            <CRow className='mb-2' xs={{ gutter: 4 }}>
-                {b.plans.map((plan) => (
-                    <CCol md={4} key={plan.code}>
-                        <CCard className={`h-100 overflow-hidden ${plan.code === b.plan.code ? 'border border-2 border-danger' : ''}`}>
-                            <div className='px-3 py-3 text-white d-flex justify-content-between align-items-center' style={{ background: PLAN_HEADER[plan.code] }}>
-                                <strong className='fs-5'>{plan.name}</strong>
-                                {plan.code === b.plan.code && (
-                                    <CBadge color='light' textColor='dark'>
-                                        Votre formule
-                                    </CBadge>
-                                )}
-                            </div>
-                            <CCardBody>
-                                <h3 className='mb-0'>{plan.code === 'free' ? '0 Ar' : formatAriary(plan.monthlyPrice)}</h3>
-                                <div className='small text-body-secondary mb-3'>
-                                    {plan.code === 'free' ? 'pour toujours' : plan.yearlyPrice !== null ? `par mois, ou ${formatAriary(plan.yearlyPrice)} par an` : 'par mois'}
+            {yearlyPlan && (
+                <div className='bo-plan-billing'>
+                    <span className='fw-semibold'>Mode de facturation :</span>
+                    <div className='bo-plan-toggle' role='group' aria-label='Mode de facturation'>
+                        {(
+                            [
+                                ['monthly', 'Mensuel'],
+                                ['yearly', 'Annuel'],
+                            ] as const
+                        ).map(([value, label]) => (
+                            <button key={value} type='button' className={billing === value ? 'is-active' : ''} aria-pressed={billing === value} onClick={() => setBilling(value)}>
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                    {saving > 0 && (
+                        <span className='bo-plan-saving'>
+                            Économisez <strong>{saving} %</strong> sur {yearlyPlan.name} avec la facturation annuelle
+                        </span>
+                    )}
+                </div>
+            )}
+
+            <CRow className='mb-4' xs={{ gutter: 4 }}>
+                {b.plans.map((plan) => {
+                    const card = PLAN_CARD[plan.code]
+                    const current = plan.code === b.plan.code
+                    const price = planPrice(plan, billing)
+                    return (
+                        <CCol xl={4} key={plan.code}>
+                            <div className={`bo-plan-card is-${plan.code}`}>
+                                {(current || card.tag) && <span className={`bo-plan-tag${current ? ' is-current' : ''}`}>{current ? 'Votre formule' : card.tag}</span>}
+                                <div className='bo-plan-head'>
+                                    <span className='bo-plan-icon'>
+                                        <CIcon icon={card.icon} />
+                                    </span>
+                                    <div>
+                                        <h2>Formule {plan.name}</h2>
+                                        <p>{card.description}</p>
+                                    </div>
                                 </div>
-                                <CListGroup flush>
-                                    {PLAN_FEATURES[plan.code].map((f) => (
-                                        <CListGroupItem key={f} className='px-0 border-0 py-1 bg-transparent'>
-                                            <CIcon icon={cilCheckAlt} className='text-success me-2' />
-                                            {f.startsWith('Offres publiées')
-                                                ? plan.maxPublishedOffers === null
-                                                    ? 'Offres illimitées'
-                                                    : `${plan.maxPublishedOffers} ${plan.maxPublishedOffers > 1 ? 'offres publiées' : 'offre publiée'}`
-                                                : f}
-                                        </CListGroupItem>
-                                    ))}
-                                </CListGroup>
-                            </CCardBody>
-                            {plan.code !== 'free' && (
-                                <CCardFooter className='bg-transparent border-0 pb-3'>
-                                    <CButton
-                                        color={plan.code === 'pro' ? 'primary' : 'danger'}
-                                        className='w-100 text-white'
-                                        disabled={!!pending}
-                                        onClick={() => {
-                                            setChoice(plan)
-                                            setCycle(plan.yearlyPrice !== null ? 'yearly' : 'monthly')
-                                        }}
-                                    >
-                                        {b.plan.code === plan.code ? 'Renouveler' : `Choisir ${plan.name}`}
-                                    </CButton>
-                                </CCardFooter>
-                            )}
-                        </CCard>
-                    </CCol>
-                ))}
+                                <div className='bo-plan-price'>
+                                    <strong>{price.amount}</strong>
+                                    <span>{price.period}</span>
+                                </div>
+                                {planFeatureSections(plan).map((section, i) => (
+                                    <div className='bo-plan-section' key={section.title}>
+                                        <h3>
+                                            <CIcon icon={SECTION_ICONS[i]} />
+                                            {section.title}
+                                        </h3>
+                                        <ul className='list-unstyled mb-0'>
+                                            {section.features.map((f) => (
+                                                <li key={f.label} className={f.included ? '' : 'is-off'}>
+                                                    <CIcon icon={f.included ? cilCheckAlt : cilX} />
+                                                    <span>
+                                                        {f.label}
+                                                        {!f.included && <span className='visually-hidden'> (non inclus)</span>}
+                                                    </span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                                <div className='bo-plan-action'>
+                                    {plan.code === 'free' ? (
+                                        current && (
+                                            <CButton color='secondary' className='w-100' disabled>
+                                                <CIcon icon={cilLockLocked} className='me-2' />
+                                                Formule actuelle
+                                            </CButton>
+                                        )
+                                    ) : (
+                                        <CButton
+                                            color={plan.code === 'pro' ? 'primary' : 'danger'}
+                                            className='w-100 text-white'
+                                            disabled={!!pending}
+                                            onClick={() => {
+                                                setChoice(plan)
+                                                setCycle(billing === 'yearly' && plan.yearlyPrice !== null ? 'yearly' : 'monthly')
+                                            }}
+                                        >
+                                            {current ? 'Renouveler' : `Choisir ${plan.name}`}
+                                            <CIcon icon={cilArrowRight} className='ms-2' />
+                                        </CButton>
+                                    )}
+                                </div>
+                            </div>
+                        </CCol>
+                    )
+                })}
             </CRow>
-            <p className='small text-body-secondary mb-4'>Prix de lancement indicatifs. Pour une seule rentrée, une campagne Premium d&apos;un mois peut suffire.</p>
+
+            <div className='bo-plan-note'>
+                <CIcon icon={cilInfo} />
+                <p>
+                    {sub && sub.status !== 'grace' ? 'Rappels 30, 7 et 1 jour(s) avant l’échéance. ' : ''}À l&apos;expiration d&apos;une formule payante, la fiche reste en ligne avec la formule
+                    Gratuit ; seules les fonctions payantes s&apos;arrêtent. Prix de lancement indicatifs. Pour une seule rentrée, une campagne Premium d&apos;un mois peut suffire.
+                </p>
+            </div>
 
             <PageCard title='Factures'>
                 {b.invoices.length === 0 ? (

@@ -1,4 +1,4 @@
-import type { InquiryStatus } from './types'
+import type { InquiryStatus, Plan } from './types'
 
 /** Statuts des demandes vus par l'établissement (« Nouvelle » plutôt que « Envoyée »). */
 export const INQUIRY_STATUS_LABELS: Record<InquiryStatus, string> = {
@@ -34,25 +34,45 @@ export const ACTION_LABELS: Record<string, string> = {
     'campaign.created': 'Campagne créée',
 }
 
-/** Ce que comprend chaque formule (document « Les 4 types de comptes »). */
-export const PLAN_FEATURES: Record<'free' | 'pro' | 'premium', string[]> = {
-    free: [
-        'Fiche établissement essentielle',
-        'Offres publiées : limite de la formule',
-        'Coordonnées : adresse, téléphone et e-mail',
-        'Présence dans les résultats',
-        'Demandes reçues par e-mail',
-    ],
-    pro: [
-        'Tout Gratuit',
-        'Offres illimitées',
-        'Galerie photos, site web et réseaux sociaux',
-        'Infrastructures illimitées',
-        'Avis des étudiants',
-        'Boîte de réception des demandes',
-        'Statuts, filtres et export CSV',
-        'Statistiques standard',
-    ],
-    premium: ['Tout Pro', 'Campagnes « Sponsorisé »', 'Statistiques avancées par campagne', 'Accompagnement prioritaire'],
+export type PlanFeatureSection = { title: string; features: { label: string; included: boolean }[] }
+
+/**
+ * Ce que comprend une formule, d'après ses droits réels : mêmes lignes dans le même ordre
+ * pour toutes les formules, afin de voir les différences d'une carte à l'autre.
+ */
+export function planFeatureSections(plan: Plan): PlanFeatureSection[] {
+    const f = plan.features
+    const max = plan.maxPublishedOffers
+    return [
+        {
+            title: 'Présence et visibilité',
+            features: [
+                { label: 'Fiche établissement', included: true },
+                { label: max === null ? 'Offres illimitées' : `${max} ${max > 1 ? 'offres publiées' : 'offre publiée'}`, included: true },
+                { label: 'Adresse, téléphone et e-mail', included: true },
+                { label: 'Présence dans les résultats', included: true },
+                { label: 'Galerie photos des locaux', included: !!f.photoGallery },
+                { label: 'Site web et réseaux sociaux', included: !!f.onlineLinks },
+                { label: 'Infrastructures', included: f.maxInfrastructures !== 0 },
+                { label: 'Avis des étudiants', included: !!f.reviews },
+            ],
+        },
+        {
+            title: 'Gestion et communication',
+            features: [
+                { label: 'Demandes reçues par e-mail', included: true },
+                { label: 'Boîte de réception des demandes', included: !!f.inquiryInbox },
+                { label: 'Statuts, filtres et export CSV', included: !!f.inquiryInbox },
+                { label: f.statistics === 'advanced' ? 'Statistiques avancées par campagne' : f.statistics === 'standard' ? 'Statistiques standard' : 'Statistiques', included: !!f.statistics && f.statistics !== 'none' },
+            ],
+        },
+        {
+            title: 'Visibilité et marketing',
+            features: [
+                { label: 'Campagnes « Sponsorisé »', included: !!f.sponsoredPlacement },
+                { label: 'Accompagnement prioritaire', included: !!f.prioritySupport },
+            ],
+        },
+    ]
 }
 

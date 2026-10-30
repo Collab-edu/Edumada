@@ -1125,6 +1125,105 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
 .bo-plan-lock-badges { display: inline-flex; gap: .25rem; }
 .bo-plan-lock-action { flex: none; }
 
+// Page Formule : mode de facturation et cartes des formules.
+.bo-plan-status { margin-left: .35rem; font-size: .75rem; vertical-align: middle; }
+.bo-plan-billing { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; margin-bottom: 1.5rem; }
+.bo-plan-toggle {
+  display: inline-flex;
+  padding: .25rem;
+  border-radius: 999px;
+  background: var(--cui-tertiary-bg);
+  button {
+    min-height: 2.5rem;
+    padding: 0 1.25rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--cui-body-color);
+    font-weight: 600;
+    &.is-active { background: #0F4C5C; color: #fff; }
+  }
+}
+.bo-plan-saving { font-size: .875rem; color: var(--cui-secondary-color); }
+.bo-plan-card {
+  --bo-plan-accent: #64748B;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem;
+  border: 1px solid var(--cui-border-color);
+  border-radius: 1rem;
+  background: var(--cui-card-bg, var(--cui-body-bg));
+  &.is-pro { --bo-plan-accent: #0F4C5C; border: 2px solid var(--bo-plan-accent); }
+  &.is-premium { --bo-plan-accent: #FF3B52; border: 2px solid var(--bo-plan-accent); }
+}
+[data-coreui-theme="dark"] .bo-plan-card {
+  --bo-plan-accent: #94A3B8;
+  &.is-pro { --bo-plan-accent: #A7C4BC; }
+  &.is-premium { --bo-plan-accent: #FF3B52; }
+  li:not(.is-off) svg { color: #4ADE80; }
+}
+.bo-plan-tag {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+  padding: .2rem .65rem;
+  border-radius: 999px;
+  background: var(--bo-plan-accent);
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 600;
+  &.is-current { background: var(--cui-tertiary-bg); color: var(--cui-body-color); }
+}
+[data-coreui-theme="dark"] .is-pro .bo-plan-tag:not(.is-current) { color: #0F4C5C; }
+.bo-plan-head {
+  display: flex;
+  gap: .85rem;
+  margin-top: 1.25rem;
+  h2 { margin: 0 0 .25rem; font-size: 1.25rem; font-weight: 700; }
+  p { margin: 0; font-size: .875rem; color: var(--cui-secondary-color); }
+}
+.bo-plan-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--cui-tertiary-bg);
+  color: var(--bo-plan-accent);
+  svg { width: 1.5rem; height: 1.5rem; }
+}
+.bo-plan-price {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--cui-border-color);
+  strong { display: block; font-size: 2rem; font-weight: 800; line-height: 1.2; }
+  span { font-size: .875rem; color: var(--cui-secondary-color); }
+}
+.bo-plan-section {
+  margin-top: 1.25rem;
+  h3 { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; font-size: .95rem; font-weight: 700; }
+  h3 svg { flex: none; width: 1.1rem; height: 1.1rem; color: var(--bo-plan-accent); }
+  li { display: flex; gap: .5rem; padding: .2rem 0; font-size: .875rem; }
+  li svg { flex: none; width: .9rem; height: .9rem; margin-top: .2rem; color: #198754; }
+  li.is-off { color: var(--cui-tertiary-color); }
+  li.is-off svg { color: var(--cui-tertiary-color); }
+}
+.bo-plan-action { margin-top: auto; padding-top: 1.5rem; }
+.bo-plan-note {
+  display: flex;
+  gap: .75rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--cui-border-color);
+  border-radius: .75rem;
+  svg { flex: none; width: 1.25rem; height: 1.25rem; margin-top: .1rem; color: #0F4C5C; }
+  p { margin: 0; font-size: .875rem; color: var(--cui-secondary-color); }
+}
+[data-coreui-theme="dark"] .bo-plan-note svg { color: #A7C4BC; }
+
 // Reconnaissance / accréditation.
 .bo-adm-accr {
   display: flex;
