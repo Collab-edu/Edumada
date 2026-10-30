@@ -50,8 +50,8 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  background: rgba(255, 59, 82, .1);
-  color: var(--edu-red);
+  background: var(--edu-red);
+  color: #fff;
 }
 .bo-icon-input .input-group-text { background: transparent; color: var(--cui-secondary-color); }
 .bo-icon-input .input-group-text + .form-control { border-left: 0; }
@@ -388,8 +388,8 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   width: 2.75rem;
   height: 2.75rem;
   border-radius: .6rem;
-  background: rgba(255, 59, 82, .1);
-  color: var(--edu-red);
+  background: var(--edu-red);
+  color: #fff;
   font-size: .75rem;
   font-weight: 800;
 }
@@ -1289,7 +1289,7 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   svg { width: 1.6rem; height: 1.6rem; }
 }
 .is-pro .bo-plan-icon { background: #E6F4F6; }
-.is-premium .bo-plan-icon { background: #FFE5E8; }
+.is-premium .bo-plan-icon { background: var(--edu-red); color: #fff; }
 .bo-plan-price {
   margin-top: 1rem;
   padding-bottom: 1.1rem;
@@ -1448,6 +1448,7 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   .is-pro .bo-plan-tag:not(.is-current) { color: #0F4C5C; }
   .bo-plan-card:not(.is-pro):not(.is-premium) { --bo-plan-accent: #94A3B8; }
   .bo-plan-icon { background: var(--cui-tertiary-bg); }
+  .is-premium .bo-plan-icon { background: var(--edu-red); }
   .bo-plan-head p, .bo-plan-section li { color: var(--cui-body-color); }
   .bo-plan-head h2, .bo-plan-price strong { color: var(--cui-emphasis-color); }
   .bo-plan-price { border-color: var(--cui-border-color); }
@@ -1632,7 +1633,7 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
 .bo-fiche {
   .card-header h5 { font-size: 1.2rem; font-weight: 700; color: var(--edu-teal); }
   .card-header .small { font-size: .8rem; }
-  .bo-card-icon { width: 2.75rem; height: 2.75rem; background: rgba(255, 59, 82, .12); }
+  .bo-card-icon { width: 2.75rem; height: 2.75rem; }
   .form-label { margin-bottom: .3rem; font-size: .875rem; }
   .bo-empty-note { background: var(--cui-tertiary-bg); font-size: .85rem; }
   .bo-adm-docs li { padding: .45rem .75rem; }
