@@ -20,7 +20,7 @@
   --edu-offwhite: #f6f8fa;
   --edu-ink: #334155;
   --edu-body-bg: #f6f8fa;
-  --edu-card-head-bg: #ffffff;
+  --edu-card-head-bg: #F1F5F6;
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .card-title, .modal-title {
@@ -225,7 +225,7 @@ body {
 // --- Mode sombre.
 @include color-mode(dark) {
   --edu-body-bg: #12191e;
-  --edu-card-head-bg: var(--cui-body-bg);
+  --edu-card-head-bg: rgba(167, 196, 188, .08);
   body { color: var(--cui-body-color); }
   .header { --cui-header-bg: var(--cui-body-bg); }
   .card { box-shadow: 0 6px 20px rgba(0, 0, 0, .3); }
