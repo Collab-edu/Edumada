@@ -141,7 +141,8 @@ export default function Offers() {
                                     <CTableDataCell className='text-nowrap'>{o.fees === null ? 'Non communiqués' : `${formatAriary(o.fees)} / ${o.feesPeriod}`}</CTableDataCell>
                                     <CTableDataCell className='small text-body-secondary text-nowrap'>{formatDateTime(o.updatedAt)}</CTableDataCell>
                                     <CTableDataCell className='text-end'>
-                                        <CDropdown alignment='end'>
+                                        {/* Position fixe : le menu n'est plus coupé par le défilement du tableau. */}
+                                        <CDropdown alignment='end' popperConfig={{ strategy: 'fixed' }}>
                                             <CDropdownToggle color='secondary' variant='outline' size='sm'>
                                                 Actions
                                             </CDropdownToggle>
