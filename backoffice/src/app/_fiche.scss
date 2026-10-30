@@ -1635,7 +1635,7 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
 // Fiche établissement : titres et champs plus compacts, photos, pièces et infrastructures.
 .bo-fiche {
   .card-header { border-bottom: 0; background: transparent; }
-  .card-header h5 { font-size: 1rem; font-weight: 700; color: var(--edu-teal); }
+  .card-header h5 { font-size: 1.2rem; font-weight: 700; color: var(--edu-teal); }
   .card-header .small { font-size: .8rem; }
   .card-body { padding-top: .25rem; }
   .bo-card-icon { width: 2.75rem; height: 2.75rem; background: rgba(255, 59, 82, .12); }
