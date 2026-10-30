@@ -87,7 +87,7 @@ class OfferController extends Controller
         Gate::authorize('create', [Offer::class, $establishment]);
 
         $offer = $establishment->offers()->make($request->offerAttributes());
-        $offer->slug = Offer::uniqueSlug($offer->title.' '.($establishment->initials ?: $establishment->name));
+        $offer->slug = Offer::uniqueSlug($offer->title.' '.$establishment->name);
         $offer->save();
 
         return new ManagedOfferResource($offer->load(['domain', 'establishment.category']));

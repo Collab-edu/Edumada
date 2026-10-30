@@ -1018,7 +1018,7 @@
     ],
     "FormationData": [
         {
-            "id": "licence-informatique-inm",
+            "id": "licence-en-informatique-institut-numerique-de-madagascar",
             "title": "Licence en informatique",
             "school": "Institut Numérique de Madagascar",
             "schoolType": "Privé",
@@ -1059,7 +1059,7 @@
             "schoolLogo": "/images/logos/institut-numerique-de-madagascar.svg"
         },
         {
-            "id": "licence-gestion-esg",
+            "id": "licence-en-gestion-et-management-ecole-superieure-de-gestion",
             "title": "Licence en gestion et management",
             "school": "École Supérieure de Gestion",
             "schoolType": "Privé",
@@ -1099,7 +1099,7 @@
             "schoolLogo": "/images/logos/ecole-superieure-de-gestion.svg"
         },
         {
-            "id": "soins-infirmiers-ifs",
+            "id": "formation-en-soins-infirmiers-institut-de-formation-en-sante",
             "title": "Formation en soins infirmiers",
             "school": "Institut de Formation en Santé",
             "schoolType": "Privé",
@@ -1139,7 +1139,7 @@
             "schoolLogo": "/images/logos/institut-de-formation-en-sante.svg"
         },
         {
-            "id": "bts-tourisme-ith",
+            "id": "bts-en-tourisme-et-hotellerie-institut-de-tourisme-et-dhotellerie",
             "title": "BTS en tourisme et hôtellerie",
             "school": "Institut de Tourisme et d'Hôtellerie",
             "schoolType": "Privé",
@@ -1176,7 +1176,7 @@
             "schoolLogo": "/images/logos/institut-de-tourisme-et-d-hotellerie.svg"
         },
         {
-            "id": "master-genie-logiciel-cui",
+            "id": "master-en-genie-logiciel-centre-universitaire-dinformatique",
             "title": "Master en génie logiciel",
             "school": "Centre Universitaire d'Informatique",
             "schoolType": "Public",
@@ -1212,7 +1212,7 @@
             "schoolLogo": "/images/logos/centre-universitaire-d-informatique.svg"
         },
         {
-            "id": "licence-droit-affaires-isdt",
+            "id": "licence-en-droit-des-affaires-institut-superieur-de-droit-de-toamasina",
             "title": "Licence en droit des affaires",
             "school": "Institut Supérieur de Droit de Toamasina",
             "schoolType": "Public",
@@ -1253,7 +1253,7 @@
             "schoolLogo": "/images/logos/institut-superieur-de-droit-de-toamasina.svg"
         },
         {
-            "id": "master-agronomie-psa",
+            "id": "master-en-agronomie-et-developpement-rural-pole-superieur-dagronomie",
             "title": "Master en agronomie et développement rural",
             "school": "Pôle Supérieur d'Agronomie",
             "schoolType": "Public",
@@ -1289,7 +1289,7 @@
             "schoolLogo": "/images/logos/pole-superieur-d-agronomie.svg"
         },
         {
-            "id": "certificat-dev-web-ana",
+            "id": "certificat-en-developpement-web-academie-numerique-dantsirabe",
             "title": "Certificat en développement web",
             "school": "Académie Numérique d'Antsirabe",
             "schoolType": "Privé",
@@ -1326,7 +1326,7 @@
             "schoolLogo": "/images/logos/academie-numerique-d-antsirabe.svg"
         },
         {
-            "id": "licence-anglais-ilf",
+            "id": "licence-en-anglais-et-communication-institut-des-langues-de-fianarantsoa",
             "title": "Licence en anglais et communication",
             "school": "Institut des Langues de Fianarantsoa",
             "schoolType": "Public",
@@ -1367,7 +1367,7 @@
             "schoolLogo": "/images/logos/institut-des-langues-de-fianarantsoa.svg"
         },
         {
-            "id": "doctorat-medecine-eds",
+            "id": "doctorat-en-medecine-generale-ecole-de-sante-de-mahajanga",
             "title": "Doctorat en médecine générale",
             "school": "École de Santé de Mahajanga",
             "schoolType": "Public",
@@ -1406,7 +1406,7 @@
             "schoolLogo": "/images/logos/ecole-de-sante-de-mahajanga.svg"
         },
         {
-            "id": "bts-genie-civil-ipt",
+            "id": "bts-en-genie-civil-institut-polytechnique-de-toliara",
             "title": "BTS en génie civil",
             "school": "Institut Polytechnique de Toliara",
             "schoolType": "Privé",
@@ -1445,7 +1445,7 @@
             "schoolLogo": "/images/logos/institut-polytechnique-de-toliara.svg"
         },
         {
-            "id": "master-management-tourisme-est",
+            "id": "master-en-management-du-tourisme-ecole-superieure-de-tourisme-dantsiranana",
             "title": "Master en management du tourisme",
             "school": "École Supérieure de Tourisme d'Antsiranana",
             "schoolType": "Privé",
@@ -1482,7 +1482,7 @@
             "schoolLogo": "/images/logos/ecole-superieure-de-tourisme-d-antsiranana.svg"
         },
         {
-            "id": "licence-commerce-international-bst",
+            "id": "licence-en-commerce-international-business-school-de-toamasina",
             "title": "Licence en commerce international",
             "school": "Business School de Toamasina",
             "schoolType": "Privé",
@@ -1523,7 +1523,7 @@
             "schoolLogo": "/images/logos/business-school-de-toamasina.svg"
         },
         {
-            "id": "bts-en-reseaux-et-telecommunications-inm",
+            "id": "bts-en-reseaux-et-telecommunications-institut-numerique-de-madagascar",
             "title": "BTS en réseaux et télécommunications",
             "school": "Institut Numérique de Madagascar",
             "schoolId": "institut-numerique-de-madagascar",
@@ -1564,7 +1564,7 @@
             "schoolLogo": "/images/logos/institut-numerique-de-madagascar.svg"
         },
         {
-            "id": "master-en-science-des-donnees-inm",
+            "id": "master-en-science-des-donnees-institut-numerique-de-madagascar",
             "title": "Master en science des données",
             "school": "Institut Numérique de Madagascar",
             "schoolId": "institut-numerique-de-madagascar",
@@ -1601,7 +1601,7 @@
             "schoolLogo": "/images/logos/institut-numerique-de-madagascar.svg"
         },
         {
-            "id": "certificat-en-cybersecurite-inm",
+            "id": "certificat-en-cybersecurite-institut-numerique-de-madagascar",
             "title": "Certificat en cybersécurité",
             "school": "Institut Numérique de Madagascar",
             "schoolId": "institut-numerique-de-madagascar",
@@ -1638,7 +1638,7 @@
             "schoolLogo": "/images/logos/institut-numerique-de-madagascar.svg"
         },
         {
-            "id": "bts-en-comptabilite-et-gestion-esg",
+            "id": "bts-en-comptabilite-et-gestion-ecole-superieure-de-gestion",
             "title": "BTS en comptabilité et gestion",
             "school": "École Supérieure de Gestion",
             "schoolId": "ecole-superieure-de-gestion",
@@ -1678,7 +1678,7 @@
             "schoolLogo": "/images/logos/ecole-superieure-de-gestion.svg"
         },
         {
-            "id": "master-en-management-des-organisations-esg",
+            "id": "master-en-management-des-organisations-ecole-superieure-de-gestion",
             "title": "Master en management des organisations",
             "school": "École Supérieure de Gestion",
             "schoolId": "ecole-superieure-de-gestion",
@@ -1714,7 +1714,7 @@
             "schoolLogo": "/images/logos/ecole-superieure-de-gestion.svg"
         },
         {
-            "id": "formation-de-sage-femme-ifs",
+            "id": "formation-de-sage-femme-institut-de-formation-en-sante",
             "title": "Formation de sage-femme",
             "school": "Institut de Formation en Santé",
             "schoolId": "institut-de-formation-en-sante",
@@ -1754,7 +1754,7 @@
             "schoolLogo": "/images/logos/institut-de-formation-en-sante.svg"
         },
         {
-            "id": "certificat-d-aide-soignant-ifs",
+            "id": "certificat-daide-soignant-institut-de-formation-en-sante",
             "title": "Certificat d'aide-soignant",
             "school": "Institut de Formation en Santé",
             "schoolId": "institut-de-formation-en-sante",
@@ -1791,7 +1791,7 @@
             "schoolLogo": "/images/logos/institut-de-formation-en-sante.svg"
         },
         {
-            "id": "licence-en-management-hotelier-ith",
+            "id": "licence-en-management-hotelier-institut-de-tourisme-et-dhotellerie",
             "title": "Licence en management hôtelier",
             "school": "Institut de Tourisme et d'Hôtellerie",
             "schoolId": "institut-de-tourisme-et-d-hotellerie",
@@ -1828,7 +1828,7 @@
             "schoolLogo": "/images/logos/institut-de-tourisme-et-d-hotellerie.svg"
         },
         {
-            "id": "certificat-en-arts-culinaires-ith",
+            "id": "certificat-en-arts-culinaires-institut-de-tourisme-et-dhotellerie",
             "title": "Certificat en arts culinaires",
             "school": "Institut de Tourisme et d'Hôtellerie",
             "schoolId": "institut-de-tourisme-et-d-hotellerie",
@@ -1865,7 +1865,7 @@
             "schoolLogo": "/images/logos/institut-de-tourisme-et-d-hotellerie.svg"
         },
         {
-            "id": "licence-en-informatique-de-gestion-cui",
+            "id": "licence-en-informatique-de-gestion-centre-universitaire-dinformatique",
             "title": "Licence en informatique de gestion",
             "school": "Centre Universitaire d'Informatique",
             "schoolId": "centre-universitaire-d-informatique",
@@ -1904,7 +1904,7 @@
             "schoolLogo": "/images/logos/centre-universitaire-d-informatique.svg"
         },
         {
-            "id": "master-en-droit-public-isdt",
+            "id": "master-en-droit-public-institut-superieur-de-droit-de-toamasina",
             "title": "Master en droit public",
             "school": "Institut Supérieur de Droit de Toamasina",
             "schoolId": "institut-superieur-de-droit-de-toamasina",
@@ -1941,7 +1941,7 @@
             "schoolLogo": "/images/logos/institut-superieur-de-droit-de-toamasina.svg"
         },
         {
-            "id": "licence-en-agronomie-psa",
+            "id": "licence-en-agronomie-pole-superieur-dagronomie",
             "title": "Licence en agronomie",
             "school": "Pôle Supérieur d'Agronomie",
             "schoolId": "pole-superieur-d-agronomie",
@@ -1980,7 +1980,7 @@
             "schoolLogo": "/images/logos/pole-superieur-d-agronomie.svg"
         },
         {
-            "id": "certificat-en-marketing-digital-ana",
+            "id": "certificat-en-marketing-digital-academie-numerique-dantsirabe",
             "title": "Certificat en marketing digital",
             "school": "Académie Numérique d'Antsirabe",
             "schoolId": "academie-numerique-d-antsirabe",
@@ -2017,7 +2017,7 @@
             "schoolLogo": "/images/logos/academie-numerique-d-antsirabe.svg"
         },
         {
-            "id": "certificat-en-design-graphique-ana",
+            "id": "certificat-en-design-graphique-academie-numerique-dantsirabe",
             "title": "Certificat en design graphique",
             "school": "Académie Numérique d'Antsirabe",
             "schoolId": "academie-numerique-d-antsirabe",
@@ -2054,7 +2054,7 @@
             "schoolLogo": "/images/logos/academie-numerique-d-antsirabe.svg"
         },
         {
-            "id": "licence-en-traduction-et-interpretariat-ilf",
+            "id": "licence-en-traduction-et-interpretariat-institut-des-langues-de-fianarantsoa",
             "title": "Licence en traduction et interprétariat",
             "school": "Institut des Langues de Fianarantsoa",
             "schoolId": "institut-des-langues-de-fianarantsoa",
@@ -2095,7 +2095,7 @@
             "schoolLogo": "/images/logos/institut-des-langues-de-fianarantsoa.svg"
         },
         {
-            "id": "licence-en-sciences-infirmieres-esm",
+            "id": "licence-en-sciences-infirmieres-ecole-de-sante-de-mahajanga",
             "title": "Licence en sciences infirmières",
             "school": "École de Santé de Mahajanga",
             "schoolId": "ecole-de-sante-de-mahajanga",
@@ -2134,7 +2134,7 @@
             "schoolLogo": "/images/logos/ecole-de-sante-de-mahajanga.svg"
         },
         {
-            "id": "licence-en-genie-civil-ipt",
+            "id": "licence-en-genie-civil-institut-polytechnique-de-toliara",
             "title": "Licence en génie civil",
             "school": "Institut Polytechnique de Toliara",
             "schoolId": "institut-polytechnique-de-toliara",
@@ -2173,7 +2173,7 @@
             "schoolLogo": "/images/logos/institut-polytechnique-de-toliara.svg"
         },
         {
-            "id": "bts-en-electrotechnique-ipt",
+            "id": "bts-en-electrotechnique-institut-polytechnique-de-toliara",
             "title": "BTS en électrotechnique",
             "school": "Institut Polytechnique de Toliara",
             "schoolId": "institut-polytechnique-de-toliara",
@@ -2212,7 +2212,7 @@
             "schoolLogo": "/images/logos/institut-polytechnique-de-toliara.svg"
         },
         {
-            "id": "bts-en-guide-touristique-esta",
+            "id": "bts-en-guide-touristique-ecole-superieure-de-tourisme-dantsiranana",
             "title": "BTS en guide touristique",
             "school": "École Supérieure de Tourisme d'Antsiranana",
             "schoolId": "ecole-superieure-de-tourisme-d-antsiranana",
@@ -2249,7 +2249,7 @@
             "schoolLogo": "/images/logos/ecole-superieure-de-tourisme-d-antsiranana.svg"
         },
         {
-            "id": "master-en-commerce-international-bst",
+            "id": "master-en-commerce-international-business-school-de-toamasina",
             "title": "Master en commerce international",
             "school": "Business School de Toamasina",
             "schoolId": "business-school-de-toamasina",
@@ -2286,7 +2286,7 @@
             "schoolLogo": "/images/logos/business-school-de-toamasina.svg"
         },
         {
-            "id": "accueil-creche-pl",
+            "id": "accueil-en-creche-3-mois-3-ans-creche-les-petits-lemuriens",
             "title": "Accueil en crèche (3 mois – 3 ans)",
             "school": "Crèche Les Petits Lémuriens",
             "schoolId": "creche-les-petits-lemuriens",
@@ -2326,7 +2326,7 @@
             "schoolLogo": "/images/logos/creche-les-petits-lemuriens.svg"
         },
         {
-            "id": "maternelle-pl",
+            "id": "maternelle-3-6-ans-creche-les-petits-lemuriens",
             "title": "Maternelle (3 – 6 ans)",
             "school": "Crèche Les Petits Lémuriens",
             "schoolId": "creche-les-petits-lemuriens",
@@ -2366,7 +2366,7 @@
             "schoolLogo": "/images/logos/creche-les-petits-lemuriens.svg"
         },
         {
-            "id": "prescolaire-gsf",
+            "id": "prescolaire-groupe-scolaire-les-flamboyants",
             "title": "Préscolaire",
             "school": "Groupe Scolaire Les Flamboyants",
             "schoolId": "groupe-scolaire-les-flamboyants",
@@ -2406,7 +2406,7 @@
             "schoolLogo": "/images/logos/groupe-scolaire-les-flamboyants.svg"
         },
         {
-            "id": "primaire-gsf",
+            "id": "primaire-t1-a-t5-groupe-scolaire-les-flamboyants",
             "title": "Primaire (T1 à T5)",
             "school": "Groupe Scolaire Les Flamboyants",
             "schoolId": "groupe-scolaire-les-flamboyants",
@@ -2446,7 +2446,7 @@
             "schoolLogo": "/images/logos/groupe-scolaire-les-flamboyants.svg"
         },
         {
-            "id": "college-gsf",
+            "id": "college-6e-a-3e-groupe-scolaire-les-flamboyants",
             "title": "Collège (6e à 3e)",
             "school": "Groupe Scolaire Les Flamboyants",
             "schoolId": "groupe-scolaire-les-flamboyants",
@@ -2486,7 +2486,7 @@
             "schoolLogo": "/images/logos/groupe-scolaire-les-flamboyants.svg"
         },
         {
-            "id": "lycee-gsf",
+            "id": "lycee-seconde-a-terminale-groupe-scolaire-les-flamboyants",
             "title": "Lycée (Seconde à Terminale)",
             "school": "Groupe Scolaire Les Flamboyants",
             "schoolId": "groupe-scolaire-les-flamboyants",
@@ -2526,7 +2526,7 @@
             "schoolLogo": "/images/logos/groupe-scolaire-les-flamboyants.svg"
         },
         {
-            "id": "anglais-general-clv",
+            "id": "cours-danglais-general-a1-a-b2-centre-de-langues-vakoka",
             "title": "Cours d'anglais général (A1 à B2)",
             "school": "Centre de Langues Vakoka",
             "schoolId": "centre-de-langues-vakoka",
@@ -2563,7 +2563,7 @@
             "schoolLogo": "/images/logos/centre-de-langues-vakoka.svg"
         },
         {
-            "id": "francais-professionnel-clv",
+            "id": "francais-professionnel-centre-de-langues-vakoka",
             "title": "Français professionnel",
             "school": "Centre de Langues Vakoka",
             "schoolId": "centre-de-langues-vakoka",
@@ -2599,7 +2599,7 @@
             "schoolLogo": "/images/logos/centre-de-langues-vakoka.svg"
         },
         {
-            "id": "accompagnement-specialise-cef",
+            "id": "accompagnement-educatif-specialise-6-16-ans-centre-educatif-fanantenana",
             "title": "Accompagnement éducatif spécialisé (6 – 16 ans)",
             "school": "Centre Éducatif Fanantenana",
             "schoolId": "centre-educatif-fanantenana",
@@ -2725,7 +2725,7 @@
         {
             "id": "institut-numerique-de-madagascar-1",
             "schoolId": "institut-numerique-de-madagascar",
-            "formationId": "licence-informatique-inm",
+            "formationId": "licence-en-informatique-institut-numerique-de-madagascar",
             "name": "Fanja R.",
             "status": "Promotion 2025",
             "rating": 5,
@@ -2734,7 +2734,7 @@
         {
             "id": "institut-numerique-de-madagascar-2",
             "schoolId": "institut-numerique-de-madagascar",
-            "formationId": "bts-en-reseaux-et-telecommunications-inm",
+            "formationId": "bts-en-reseaux-et-telecommunications-institut-numerique-de-madagascar",
             "name": "Hery A.",
             "status": "Étudiant·e en 2e année",
             "rating": 5,
@@ -2743,7 +2743,7 @@
         {
             "id": "institut-numerique-de-madagascar-3",
             "schoolId": "institut-numerique-de-madagascar",
-            "formationId": "master-en-science-des-donnees-inm",
+            "formationId": "master-en-science-des-donnees-institut-numerique-de-madagascar",
             "name": "Miora T.",
             "status": "Promotion 2024",
             "rating": 5,
@@ -2752,7 +2752,7 @@
         {
             "id": "ecole-superieure-de-gestion-1",
             "schoolId": "ecole-superieure-de-gestion",
-            "formationId": "licence-gestion-esg",
+            "formationId": "licence-en-gestion-et-management-ecole-superieure-de-gestion",
             "name": "Tsiry N.",
             "status": "Étudiant·e en 1re année",
             "rating": 4,
@@ -2761,7 +2761,7 @@
         {
             "id": "ecole-superieure-de-gestion-2",
             "schoolId": "ecole-superieure-de-gestion",
-            "formationId": "bts-en-comptabilite-et-gestion-esg",
+            "formationId": "bts-en-comptabilite-et-gestion-ecole-superieure-de-gestion",
             "name": "Lova M.",
             "status": "Promotion 2025",
             "rating": 5,
@@ -2770,7 +2770,7 @@
         {
             "id": "ecole-superieure-de-gestion-3",
             "schoolId": "ecole-superieure-de-gestion",
-            "formationId": "master-en-management-des-organisations-esg",
+            "formationId": "master-en-management-des-organisations-ecole-superieure-de-gestion",
             "name": "Andry R.",
             "status": "Étudiant·e en 2e année",
             "rating": 5,
@@ -2779,7 +2779,7 @@
         {
             "id": "institut-de-formation-en-sante-1",
             "schoolId": "institut-de-formation-en-sante",
-            "formationId": "soins-infirmiers-ifs",
+            "formationId": "formation-en-soins-infirmiers-institut-de-formation-en-sante",
             "name": "Voahirana S.",
             "status": "Promotion 2024",
             "rating": 5,
@@ -2788,7 +2788,7 @@
         {
             "id": "institut-de-formation-en-sante-2",
             "schoolId": "institut-de-formation-en-sante",
-            "formationId": "formation-de-sage-femme-ifs",
+            "formationId": "formation-de-sage-femme-institut-de-formation-en-sante",
             "name": "Toky F.",
             "status": "Étudiant·e en 1re année",
             "rating": 4,
@@ -2797,7 +2797,7 @@
         {
             "id": "institut-de-formation-en-sante-3",
             "schoolId": "institut-de-formation-en-sante",
-            "formationId": "certificat-d-aide-soignant-ifs",
+            "formationId": "certificat-daide-soignant-institut-de-formation-en-sante",
             "name": "Nomena H.",
             "status": "Promotion 2025",
             "rating": 5,
@@ -2806,7 +2806,7 @@
         {
             "id": "institut-de-tourisme-et-d-hotellerie-1",
             "schoolId": "institut-de-tourisme-et-d-hotellerie",
-            "formationId": "bts-tourisme-ith",
+            "formationId": "bts-en-tourisme-et-hotellerie-institut-de-tourisme-et-dhotellerie",
             "name": "Rova T.",
             "status": "Étudiant·e en 2e année",
             "rating": 5,
@@ -2815,7 +2815,7 @@
         {
             "id": "institut-de-tourisme-et-d-hotellerie-2",
             "schoolId": "institut-de-tourisme-et-d-hotellerie",
-            "formationId": "licence-en-management-hotelier-ith",
+            "formationId": "licence-en-management-hotelier-institut-de-tourisme-et-dhotellerie",
             "name": "Kanto L.",
             "status": "Promotion 2024",
             "rating": 5,
@@ -2824,7 +2824,7 @@
         {
             "id": "institut-de-tourisme-et-d-hotellerie-3",
             "schoolId": "institut-de-tourisme-et-d-hotellerie",
-            "formationId": "certificat-en-arts-culinaires-ith",
+            "formationId": "certificat-en-arts-culinaires-institut-de-tourisme-et-dhotellerie",
             "name": "Faly M.",
             "status": "Étudiant·e en 1re année",
             "rating": 4,
@@ -2833,7 +2833,7 @@
         {
             "id": "centre-universitaire-d-informatique-1",
             "schoolId": "centre-universitaire-d-informatique",
-            "formationId": "master-genie-logiciel-cui",
+            "formationId": "master-en-genie-logiciel-centre-universitaire-dinformatique",
             "name": "Mialy P.",
             "status": "Promotion 2025",
             "rating": 5,
@@ -2842,7 +2842,7 @@
         {
             "id": "centre-universitaire-d-informatique-2",
             "schoolId": "centre-universitaire-d-informatique",
-            "formationId": "licence-en-informatique-de-gestion-cui",
+            "formationId": "licence-en-informatique-de-gestion-centre-universitaire-dinformatique",
             "name": "Tahina J.",
             "status": "Étudiant·e en 2e année",
             "rating": 5,
@@ -2851,7 +2851,7 @@
         {
             "id": "institut-superieur-de-droit-de-toamasina-1",
             "schoolId": "institut-superieur-de-droit-de-toamasina",
-            "formationId": "licence-droit-affaires-isdt",
+            "formationId": "licence-en-droit-des-affaires-institut-superieur-de-droit-de-toamasina",
             "name": "Sitraka B.",
             "status": "Promotion 2024",
             "rating": 5,
@@ -2860,7 +2860,7 @@
         {
             "id": "institut-superieur-de-droit-de-toamasina-2",
             "schoolId": "institut-superieur-de-droit-de-toamasina",
-            "formationId": "master-en-droit-public-isdt",
+            "formationId": "master-en-droit-public-institut-superieur-de-droit-de-toamasina",
             "name": "Onja V.",
             "status": "Étudiant·e en 1re année",
             "rating": 4,
@@ -2869,7 +2869,7 @@
         {
             "id": "pole-superieur-d-agronomie-1",
             "schoolId": "pole-superieur-d-agronomie",
-            "formationId": "master-agronomie-psa",
+            "formationId": "master-en-agronomie-et-developpement-rural-pole-superieur-dagronomie",
             "name": "Fanja R.",
             "status": "Promotion 2025",
             "rating": 5,
@@ -2878,7 +2878,7 @@
         {
             "id": "pole-superieur-d-agronomie-2",
             "schoolId": "pole-superieur-d-agronomie",
-            "formationId": "licence-en-agronomie-psa",
+            "formationId": "licence-en-agronomie-pole-superieur-dagronomie",
             "name": "Hery A.",
             "status": "Étudiant·e en 2e année",
             "rating": 5,
@@ -2887,7 +2887,7 @@
         {
             "id": "academie-numerique-d-antsirabe-1",
             "schoolId": "academie-numerique-d-antsirabe",
-            "formationId": "certificat-dev-web-ana",
+            "formationId": "certificat-en-developpement-web-academie-numerique-dantsirabe",
             "name": "Miora T.",
             "status": "Promotion 2024",
             "rating": 5,
@@ -2896,7 +2896,7 @@
         {
             "id": "academie-numerique-d-antsirabe-2",
             "schoolId": "academie-numerique-d-antsirabe",
-            "formationId": "certificat-en-marketing-digital-ana",
+            "formationId": "certificat-en-marketing-digital-academie-numerique-dantsirabe",
             "name": "Tsiry N.",
             "status": "Étudiant·e en 1re année",
             "rating": 4,
@@ -2905,7 +2905,7 @@
         {
             "id": "academie-numerique-d-antsirabe-3",
             "schoolId": "academie-numerique-d-antsirabe",
-            "formationId": "certificat-en-design-graphique-ana",
+            "formationId": "certificat-en-design-graphique-academie-numerique-dantsirabe",
             "name": "Lova M.",
             "status": "Promotion 2025",
             "rating": 5,
@@ -2914,7 +2914,7 @@
         {
             "id": "institut-des-langues-de-fianarantsoa-1",
             "schoolId": "institut-des-langues-de-fianarantsoa",
-            "formationId": "licence-anglais-ilf",
+            "formationId": "licence-en-anglais-et-communication-institut-des-langues-de-fianarantsoa",
             "name": "Andry R.",
             "status": "Étudiant·e en 2e année",
             "rating": 5,
@@ -2923,7 +2923,7 @@
         {
             "id": "institut-des-langues-de-fianarantsoa-2",
             "schoolId": "institut-des-langues-de-fianarantsoa",
-            "formationId": "licence-en-traduction-et-interpretariat-ilf",
+            "formationId": "licence-en-traduction-et-interpretariat-institut-des-langues-de-fianarantsoa",
             "name": "Voahirana S.",
             "status": "Promotion 2024",
             "rating": 5,
@@ -2932,7 +2932,7 @@
         {
             "id": "ecole-de-sante-de-mahajanga-1",
             "schoolId": "ecole-de-sante-de-mahajanga",
-            "formationId": "doctorat-medecine-eds",
+            "formationId": "doctorat-en-medecine-generale-ecole-de-sante-de-mahajanga",
             "name": "Toky F.",
             "status": "Étudiant·e en 1re année",
             "rating": 4,
@@ -2941,7 +2941,7 @@
         {
             "id": "ecole-de-sante-de-mahajanga-2",
             "schoolId": "ecole-de-sante-de-mahajanga",
-            "formationId": "licence-en-sciences-infirmieres-esm",
+            "formationId": "licence-en-sciences-infirmieres-ecole-de-sante-de-mahajanga",
             "name": "Nomena H.",
             "status": "Promotion 2025",
             "rating": 5,
@@ -2950,7 +2950,7 @@
         {
             "id": "institut-polytechnique-de-toliara-1",
             "schoolId": "institut-polytechnique-de-toliara",
-            "formationId": "bts-genie-civil-ipt",
+            "formationId": "bts-en-genie-civil-institut-polytechnique-de-toliara",
             "name": "Rova T.",
             "status": "Étudiant·e en 2e année",
             "rating": 5,
@@ -2959,7 +2959,7 @@
         {
             "id": "institut-polytechnique-de-toliara-2",
             "schoolId": "institut-polytechnique-de-toliara",
-            "formationId": "licence-en-genie-civil-ipt",
+            "formationId": "licence-en-genie-civil-institut-polytechnique-de-toliara",
             "name": "Kanto L.",
             "status": "Promotion 2024",
             "rating": 5,
@@ -2968,7 +2968,7 @@
         {
             "id": "institut-polytechnique-de-toliara-3",
             "schoolId": "institut-polytechnique-de-toliara",
-            "formationId": "bts-en-electrotechnique-ipt",
+            "formationId": "bts-en-electrotechnique-institut-polytechnique-de-toliara",
             "name": "Faly M.",
             "status": "Étudiant·e en 1re année",
             "rating": 4,
@@ -2977,7 +2977,7 @@
         {
             "id": "ecole-superieure-de-tourisme-d-antsiranana-1",
             "schoolId": "ecole-superieure-de-tourisme-d-antsiranana",
-            "formationId": "master-management-tourisme-est",
+            "formationId": "master-en-management-du-tourisme-ecole-superieure-de-tourisme-dantsiranana",
             "name": "Mialy P.",
             "status": "Promotion 2025",
             "rating": 5,
@@ -2986,7 +2986,7 @@
         {
             "id": "ecole-superieure-de-tourisme-d-antsiranana-2",
             "schoolId": "ecole-superieure-de-tourisme-d-antsiranana",
-            "formationId": "bts-en-guide-touristique-esta",
+            "formationId": "bts-en-guide-touristique-ecole-superieure-de-tourisme-dantsiranana",
             "name": "Tahina J.",
             "status": "Étudiant·e en 2e année",
             "rating": 5,
@@ -2995,7 +2995,7 @@
         {
             "id": "business-school-de-toamasina-1",
             "schoolId": "business-school-de-toamasina",
-            "formationId": "licence-commerce-international-bst",
+            "formationId": "licence-en-commerce-international-business-school-de-toamasina",
             "name": "Sitraka B.",
             "status": "Promotion 2024",
             "rating": 5,
@@ -3004,7 +3004,7 @@
         {
             "id": "business-school-de-toamasina-2",
             "schoolId": "business-school-de-toamasina",
-            "formationId": "master-en-commerce-international-bst",
+            "formationId": "master-en-commerce-international-business-school-de-toamasina",
             "name": "Onja V.",
             "status": "Étudiant·e en 1re année",
             "rating": 4,
@@ -3013,7 +3013,7 @@
         {
             "id": "creche-les-petits-lemuriens-1",
             "schoolId": "creche-les-petits-lemuriens",
-            "formationId": "accueil-creche-pl",
+            "formationId": "accueil-en-creche-3-mois-3-ans-creche-les-petits-lemuriens",
             "name": "Haingo R.",
             "status": "Maman de Tiana, 2 ans",
             "rating": 5,
@@ -3022,7 +3022,7 @@
         {
             "id": "creche-les-petits-lemuriens-2",
             "schoolId": "creche-les-petits-lemuriens",
-            "formationId": "maternelle-pl",
+            "formationId": "maternelle-3-6-ans-creche-les-petits-lemuriens",
             "name": "Rado M.",
             "status": "Papa de Mamy, 4 ans",
             "rating": 5,
@@ -3031,7 +3031,7 @@
         {
             "id": "groupe-scolaire-les-flamboyants-1",
             "schoolId": "groupe-scolaire-les-flamboyants",
-            "formationId": "prescolaire-gsf",
+            "formationId": "prescolaire-groupe-scolaire-les-flamboyants",
             "name": "Volatiana S.",
             "status": "Parent d’élève en 5e",
             "rating": 5,
@@ -3040,7 +3040,7 @@
         {
             "id": "groupe-scolaire-les-flamboyants-2",
             "schoolId": "groupe-scolaire-les-flamboyants",
-            "formationId": "primaire-gsf",
+            "formationId": "primaire-t1-a-t5-groupe-scolaire-les-flamboyants",
             "name": "Ny Aina T.",
             "status": "Ancien élève, BAC 2025",
             "rating": 5,
@@ -3049,7 +3049,7 @@
         {
             "id": "centre-de-langues-vakoka-1",
             "schoolId": "centre-de-langues-vakoka",
-            "formationId": "anglais-general-clv",
+            "formationId": "cours-danglais-general-a1-a-b2-centre-de-langues-vakoka",
             "name": "Mamitiana F.",
             "status": "Étudiante en anglais",
             "rating": 5,
@@ -3058,7 +3058,7 @@
         {
             "id": "centre-educatif-fanantenana-1",
             "schoolId": "centre-educatif-fanantenana",
-            "formationId": "accompagnement-specialise-cef",
+            "formationId": "accompagnement-educatif-specialise-6-16-ans-centre-educatif-fanantenana",
             "name": "Lalao H.",
             "status": "Maman de Toky, 9 ans",
             "rating": 5,

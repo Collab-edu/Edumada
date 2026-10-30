@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { apiEnabled, getToken } from '@/lib/api'
+import { getBasePath } from '@/lib/base-path'
 import { track } from '@/lib/track'
 import { fetchOfferPage } from '@/data/catalog'
 import { getSiteData } from '@/data/site-data'
@@ -28,6 +29,11 @@ export default function LiveFormationPage({ id, initial }: { id: string; initial
                 const { details, establishment, ...formation } = page
                 const next = buildFormationPageProps(formation, details, data, establishment)
                 if (!active) return
+                // Ancien lien : on renvoie vers l'adresse actuelle de l'offre.
+                if (formation.id !== id) {
+                    window.location.replace(`${getBasePath()}/formations/${formation.id}/`)
+                    return
+                }
                 if (next) setProps(next)
                 track({ type: 'view', establishment: establishment.id, offer: formation.id })
             })

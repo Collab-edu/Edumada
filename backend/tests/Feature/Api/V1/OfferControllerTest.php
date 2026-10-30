@@ -156,21 +156,30 @@ class OfferControllerTest extends TestCase
         $this->getJson("/api/v1/offers/{$draft->slug}")->assertNotFound();
     }
 
+    public function test_old_link_still_finds_the_offer_and_returns_its_new_link(): void
+    {
+        $offer = Offer::factory()->create(['slug' => 'licence-informatique-institut-numerique', 'old_slug' => 'licence-informatique-inm']);
+
+        $this->getJson('/api/v1/offers/licence-informatique-inm')
+            ->assertOk()
+            ->assertJsonPath('data.id', $offer->slug);
+    }
+
     public function test_owner_creates_an_offer_using_site_labels(): void
     {
         $owner = User::factory()->create(['role' => UserRole::Establishment]);
-        $establishment = Establishment::factory()->ownedBy($owner)->create(['initials' => 'INM']);
+        $establishment = Establishment::factory()->ownedBy($owner)->create(['name' => 'Institut Numérique de Madagascar', 'initials' => 'INM']);
 
         $response = $this->actingAs($owner)
             ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload());
 
         $response->assertCreated()
-            ->assertJsonPath('data.id', 'licence-en-informatique-inm')
+            ->assertJsonPath('data.id', 'licence-en-informatique-institut-numerique-de-madagascar')
             ->assertJsonPath('data.modality', 'Présentiel')
             ->assertJsonPath('data.admission.selection', 'Sur dossier')
             ->assertJsonPath('data.status', 'draft')
             ->assertJsonPath('data.details.costs.otherFees.0.amount', null);
-        $offer = Offer::firstWhere('slug', 'licence-en-informatique-inm');
+        $offer = Offer::firstWhere('slug', 'licence-en-informatique-institut-numerique-de-madagascar');
         $this->assertSame(Modality::OnSite, $offer->modality);
         $this->assertSame(['C', 'D'], $offer->bac_series);
     }

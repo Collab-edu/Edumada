@@ -1,6 +1,6 @@
 [
     {
-        "id": "licence-informatique-inm",
+        "id": "licence-en-informatique-institut-numerique-de-madagascar",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut Numérique de Madagascar ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
@@ -141,7 +141,7 @@
         "lastVerified": "2026-09-01"
     },
     {
-        "id": "licence-gestion-esg",
+        "id": "licence-en-gestion-et-management-ecole-superieure-de-gestion",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « École Supérieure de Gestion ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
         "objectives": [
             "Comprendre le fonctionnement économique et financier d’une organisation",
@@ -283,7 +283,7 @@
         "lastVerified": "2026-10-04"
     },
     {
-        "id": "soins-infirmiers-ifs",
+        "id": "formation-en-soins-infirmiers-institut-de-formation-en-sante",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Formation en Santé ». Elle forme des professionnels de santé capables de prendre en charge les patients avec rigueur et humanité. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Acquérir les connaissances biomédicales fondamentales",
@@ -420,7 +420,7 @@
         "lastVerified": "2026-09-07"
     },
     {
-        "id": "bts-tourisme-ith",
+        "id": "bts-en-tourisme-et-hotellerie-institut-de-tourisme-et-dhotellerie",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Tourisme et d'Hôtellerie ». Elle prépare aux métiers de l’accueil, de l’hôtellerie et du tourisme, secteurs clés de l’économie malgache. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les techniques d’accueil et de service",
@@ -550,7 +550,7 @@
         "lastVerified": "2026-10-10"
     },
     {
-        "id": "master-genie-logiciel-cui",
+        "id": "master-en-genie-logiciel-centre-universitaire-dinformatique",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Centre Universitaire d'Informatique ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
@@ -682,7 +682,7 @@
         "lastVerified": "2026-09-13"
     },
     {
-        "id": "licence-droit-affaires-isdt",
+        "id": "licence-en-droit-des-affaires-institut-superieur-de-droit-de-toamasina",
         "description": "Cette formation est dispensée à Toamasina par l’établissement « Institut Supérieur de Droit de Toamasina ». Elle apporte une solide culture juridique et prépare aux carrières du droit public et privé. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les fondamentaux du droit malgache",
@@ -821,7 +821,7 @@
         "lastVerified": "2026-10-02"
     },
     {
-        "id": "master-agronomie-psa",
+        "id": "master-en-agronomie-et-developpement-rural-pole-superieur-dagronomie",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Pôle Supérieur d'Agronomie ». Elle forme des spécialistes du développement agricole et rural, au service de la sécurité alimentaire. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Comprendre les systèmes de production agricole",
@@ -953,7 +953,7 @@
         "lastVerified": "2026-09-05"
     },
     {
-        "id": "certificat-dev-web-ana",
+        "id": "certificat-en-developpement-web-academie-numerique-dantsirabe",
         "description": "Cette formation est dispensée à Antsirabe par l’établissement « Académie Numérique d'Antsirabe ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule entièrement à distance.",
         "objectives": [
             "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
@@ -1092,7 +1092,7 @@
         "lastVerified": "2026-10-08"
     },
     {
-        "id": "licence-anglais-ilf",
+        "id": "licence-en-anglais-et-communication-institut-des-langues-de-fianarantsoa",
         "description": "Cette formation est dispensée à Fianarantsoa par l’établissement « Institut des Langues de Fianarantsoa ». Elle développe une excellente maîtrise des langues et de la communication écrite et orale. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
         "objectives": [
             "Maîtriser une langue étrangère à un niveau professionnel",
@@ -1232,7 +1232,7 @@
         "lastVerified": "2026-09-11"
     },
     {
-        "id": "doctorat-medecine-eds",
+        "id": "doctorat-en-medecine-generale-ecole-de-sante-de-mahajanga",
         "description": "Cette formation est dispensée à Mahajanga par l’établissement « École de Santé de Mahajanga ». Elle forme des professionnels de santé capables de prendre en charge les patients avec rigueur et humanité. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Acquérir les connaissances biomédicales fondamentales",
@@ -1376,7 +1376,7 @@
         "lastVerified": "2026-10-14"
     },
     {
-        "id": "bts-genie-civil-ipt",
+        "id": "bts-en-genie-civil-institut-polytechnique-de-toliara",
         "description": "Cette formation est dispensée à Toliara par l’établissement « Institut Polytechnique de Toliara ». Elle forme des techniciens et ingénieurs capables de concevoir et de réaliser des ouvrages et des installations techniques. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les bases scientifiques de l’ingénierie",
@@ -1506,7 +1506,7 @@
         "lastVerified": "2026-09-03"
     },
     {
-        "id": "master-management-tourisme-est",
+        "id": "master-en-management-du-tourisme-ecole-superieure-de-tourisme-dantsiranana",
         "description": "Cette formation est dispensée à Antsiranana par l’établissement « École Supérieure de Tourisme d'Antsiranana ». Elle prépare aux métiers de l’accueil, de l’hôtellerie et du tourisme, secteurs clés de l’économie malgache. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
         "objectives": [
             "Maîtriser les techniques d’accueil et de service",
@@ -1641,7 +1641,7 @@
         "lastVerified": "2026-10-06"
     },
     {
-        "id": "licence-commerce-international-bst",
+        "id": "licence-en-commerce-international-business-school-de-toamasina",
         "description": "Cette formation est dispensée à Toamasina par l’établissement « Business School de Toamasina ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule entièrement à distance.",
         "objectives": [
             "Comprendre le fonctionnement économique et financier d’une organisation",
@@ -1783,7 +1783,7 @@
         "lastVerified": "2026-09-09"
     },
     {
-        "id": "bts-en-reseaux-et-telecommunications-inm",
+        "id": "bts-en-reseaux-et-telecommunications-institut-numerique-de-madagascar",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut Numérique de Madagascar ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
@@ -1913,7 +1913,7 @@
         "lastVerified": "2026-10-12"
     },
     {
-        "id": "master-en-science-des-donnees-inm",
+        "id": "master-en-science-des-donnees-institut-numerique-de-madagascar",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut Numérique de Madagascar ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
         "objectives": [
             "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
@@ -2048,7 +2048,7 @@
         "lastVerified": "2026-09-01"
     },
     {
-        "id": "certificat-en-cybersecurite-inm",
+        "id": "certificat-en-cybersecurite-institut-numerique-de-madagascar",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut Numérique de Madagascar ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule entièrement à distance.",
         "objectives": [
             "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
@@ -2186,7 +2186,7 @@
         "lastVerified": "2026-10-04"
     },
     {
-        "id": "bts-en-comptabilite-et-gestion-esg",
+        "id": "bts-en-comptabilite-et-gestion-ecole-superieure-de-gestion",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « École Supérieure de Gestion ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Comprendre le fonctionnement économique et financier d’une organisation",
@@ -2316,7 +2316,7 @@
         "lastVerified": "2026-09-07"
     },
     {
-        "id": "master-en-management-des-organisations-esg",
+        "id": "master-en-management-des-organisations-ecole-superieure-de-gestion",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « École Supérieure de Gestion ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
         "objectives": [
             "Comprendre le fonctionnement économique et financier d’une organisation",
@@ -2451,7 +2451,7 @@
         "lastVerified": "2026-10-10"
     },
     {
-        "id": "formation-de-sage-femme-ifs",
+        "id": "formation-de-sage-femme-institut-de-formation-en-sante",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Formation en Santé ». Elle forme des professionnels de santé capables de prendre en charge les patients avec rigueur et humanité. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Acquérir les connaissances biomédicales fondamentales",
@@ -2588,7 +2588,7 @@
         "lastVerified": "2026-09-13"
     },
     {
-        "id": "certificat-d-aide-soignant-ifs",
+        "id": "certificat-daide-soignant-institut-de-formation-en-sante",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Formation en Santé ». Elle forme des professionnels de santé capables de prendre en charge les patients avec rigueur et humanité. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Acquérir les connaissances biomédicales fondamentales",
@@ -2725,7 +2725,7 @@
         "lastVerified": "2026-10-02"
     },
     {
-        "id": "licence-en-management-hotelier-ith",
+        "id": "licence-en-management-hotelier-institut-de-tourisme-et-dhotellerie",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Tourisme et d'Hôtellerie ». Elle prépare aux métiers de l’accueil, de l’hôtellerie et du tourisme, secteurs clés de l’économie malgache. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les techniques d’accueil et de service",
@@ -2866,7 +2866,7 @@
         "lastVerified": "2026-09-05"
     },
     {
-        "id": "certificat-en-arts-culinaires-ith",
+        "id": "certificat-en-arts-culinaires-institut-de-tourisme-et-dhotellerie",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Institut de Tourisme et d'Hôtellerie ». Elle prépare aux métiers de l’accueil, de l’hôtellerie et du tourisme, secteurs clés de l’économie malgache. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les techniques d’accueil et de service",
@@ -3003,7 +3003,7 @@
         "lastVerified": "2026-10-08"
     },
     {
-        "id": "licence-en-informatique-de-gestion-cui",
+        "id": "licence-en-informatique-de-gestion-centre-universitaire-dinformatique",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Centre Universitaire d'Informatique ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
@@ -3142,7 +3142,7 @@
         "lastVerified": "2026-09-11"
     },
     {
-        "id": "master-en-droit-public-isdt",
+        "id": "master-en-droit-public-institut-superieur-de-droit-de-toamasina",
         "description": "Cette formation est dispensée à Toamasina par l’établissement « Institut Supérieur de Droit de Toamasina ». Elle apporte une solide culture juridique et prépare aux carrières du droit public et privé. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les fondamentaux du droit malgache",
@@ -3274,7 +3274,7 @@
         "lastVerified": "2026-10-14"
     },
     {
-        "id": "licence-en-agronomie-psa",
+        "id": "licence-en-agronomie-pole-superieur-dagronomie",
         "description": "Cette formation est dispensée à Antananarivo par l’établissement « Pôle Supérieur d'Agronomie ». Elle forme des spécialistes du développement agricole et rural, au service de la sécurité alimentaire. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Comprendre les systèmes de production agricole",
@@ -3413,7 +3413,7 @@
         "lastVerified": "2026-09-03"
     },
     {
-        "id": "certificat-en-marketing-digital-ana",
+        "id": "certificat-en-marketing-digital-academie-numerique-dantsirabe",
         "description": "Cette formation est dispensée à Antsirabe par l’établissement « Académie Numérique d'Antsirabe ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule entièrement à distance.",
         "objectives": [
             "Comprendre le fonctionnement économique et financier d’une organisation",
@@ -3552,7 +3552,7 @@
         "lastVerified": "2026-10-06"
     },
     {
-        "id": "certificat-en-design-graphique-ana",
+        "id": "certificat-en-design-graphique-academie-numerique-dantsirabe",
         "description": "Cette formation est dispensée à Antsirabe par l’établissement « Académie Numérique d'Antsirabe ». Elle forme des professionnels capables de concevoir, développer et maintenir des solutions numériques adaptées aux besoins des entreprises. Elle se déroule entièrement à distance.",
         "objectives": [
             "Maîtriser les fondamentaux de la programmation et de l’algorithmique",
@@ -3691,7 +3691,7 @@
         "lastVerified": "2026-09-09"
     },
     {
-        "id": "licence-en-traduction-et-interpretariat-ilf",
+        "id": "licence-en-traduction-et-interpretariat-institut-des-langues-de-fianarantsoa",
         "description": "Cette formation est dispensée à Fianarantsoa par l’établissement « Institut des Langues de Fianarantsoa ». Elle développe une excellente maîtrise des langues et de la communication écrite et orale. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser une langue étrangère à un niveau professionnel",
@@ -3830,7 +3830,7 @@
         "lastVerified": "2026-10-12"
     },
     {
-        "id": "licence-en-sciences-infirmieres-esm",
+        "id": "licence-en-sciences-infirmieres-ecole-de-sante-de-mahajanga",
         "description": "Cette formation est dispensée à Mahajanga par l’établissement « École de Santé de Mahajanga ». Elle forme des professionnels de santé capables de prendre en charge les patients avec rigueur et humanité. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Acquérir les connaissances biomédicales fondamentales",
@@ -3969,7 +3969,7 @@
         "lastVerified": "2026-09-01"
     },
     {
-        "id": "licence-en-genie-civil-ipt",
+        "id": "licence-en-genie-civil-institut-polytechnique-de-toliara",
         "description": "Cette formation est dispensée à Toliara par l’établissement « Institut Polytechnique de Toliara ». Elle forme des techniciens et ingénieurs capables de concevoir et de réaliser des ouvrages et des installations techniques. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les bases scientifiques de l’ingénierie",
@@ -4110,7 +4110,7 @@
         "lastVerified": "2026-10-04"
     },
     {
-        "id": "bts-en-electrotechnique-ipt",
+        "id": "bts-en-electrotechnique-institut-polytechnique-de-toliara",
         "description": "Cette formation est dispensée à Toliara par l’établissement « Institut Polytechnique de Toliara ». Elle forme des techniciens et ingénieurs capables de concevoir et de réaliser des ouvrages et des installations techniques. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les bases scientifiques de l’ingénierie",
@@ -4240,7 +4240,7 @@
         "lastVerified": "2026-09-07"
     },
     {
-        "id": "bts-en-guide-touristique-esta",
+        "id": "bts-en-guide-touristique-ecole-superieure-de-tourisme-dantsiranana",
         "description": "Cette formation est dispensée à Antsiranana par l’établissement « École Supérieure de Tourisme d'Antsiranana ». Elle prépare aux métiers de l’accueil, de l’hôtellerie et du tourisme, secteurs clés de l’économie malgache. Elle se déroule en présentiel, sur le campus.",
         "objectives": [
             "Maîtriser les techniques d’accueil et de service",
@@ -4370,7 +4370,7 @@
         "lastVerified": "2026-10-10"
     },
     {
-        "id": "master-en-commerce-international-bst",
+        "id": "master-en-commerce-international-business-school-de-toamasina",
         "description": "Cette formation est dispensée à Toamasina par l’établissement « Business School de Toamasina ». Elle prépare aux fonctions de gestion, de commerce et de management dans les entreprises et les organisations. Elle se déroule en format hybride, entre cours sur place et cours en ligne.",
         "objectives": [
             "Comprendre le fonctionnement économique et financier d’une organisation",
@@ -4505,7 +4505,7 @@
         "lastVerified": "2026-09-13"
     },
     {
-        "id": "accueil-creche-pl",
+        "id": "accueil-en-creche-3-mois-3-ans-creche-les-petits-lemuriens",
         "specializations": [],
         "careers": {
             "jobs": [],
@@ -4585,7 +4585,7 @@
         }
     },
     {
-        "id": "maternelle-pl",
+        "id": "maternelle-3-6-ans-creche-les-petits-lemuriens",
         "specializations": [],
         "careers": {
             "jobs": [],
@@ -4695,7 +4695,7 @@
         }
     },
     {
-        "id": "prescolaire-gsf",
+        "id": "prescolaire-groupe-scolaire-les-flamboyants",
         "specializations": [],
         "careers": {
             "jobs": [],
@@ -4804,7 +4804,7 @@
         }
     },
     {
-        "id": "primaire-gsf",
+        "id": "primaire-t1-a-t5-groupe-scolaire-les-flamboyants",
         "specializations": [],
         "careers": {
             "jobs": [],
@@ -4929,7 +4929,7 @@
         }
     },
     {
-        "id": "college-gsf",
+        "id": "college-6e-a-3e-groupe-scolaire-les-flamboyants",
         "specializations": [],
         "careers": {
             "jobs": [],
@@ -5048,7 +5048,7 @@
         }
     },
     {
-        "id": "lycee-gsf",
+        "id": "lycee-seconde-a-terminale-groupe-scolaire-les-flamboyants",
         "specializations": [],
         "careers": {
             "jobs": [],
@@ -5159,7 +5159,7 @@
         }
     },
     {
-        "id": "anglais-general-clv",
+        "id": "cours-danglais-general-a1-a-b2-centre-de-langues-vakoka",
         "specializations": [],
         "careers": {
             "jobs": [],
@@ -5265,7 +5265,7 @@
         }
     },
     {
-        "id": "francais-professionnel-clv",
+        "id": "francais-professionnel-centre-de-langues-vakoka",
         "specializations": [],
         "careers": {
             "jobs": [],
@@ -5361,7 +5361,7 @@
         }
     },
     {
-        "id": "accompagnement-specialise-cef",
+        "id": "accompagnement-educatif-specialise-6-16-ans-centre-educatif-fanantenana",
         "specializations": [],
         "careers": {
             "jobs": [],

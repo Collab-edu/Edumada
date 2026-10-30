@@ -25,7 +25,7 @@ class DemoAccountSeeder extends Seeder
 
         $student = $this->user('etudiant@edumada.test', 'Fanja Rakoto', UserRole::Student, ['city' => 'Antananarivo', 'study_level' => 'BAC']);
         $student->favoriteOffers()->syncWithoutDetaching(
-            Offer::whereIn('slug', ['licence-informatique-inm', 'licence-gestion-esg'])->pluck('id'),
+            Offer::whereIn('slug', ['licence-en-informatique-institut-numerique-de-madagascar', 'licence-en-gestion-et-management-ecole-superieure-de-gestion'])->pluck('id'),
         );
 
         $this->establishmentAccount('gratuit@edumada.test', 'Crèche Les Petits Lémuriens', 'creche-les-petits-lemuriens', null);

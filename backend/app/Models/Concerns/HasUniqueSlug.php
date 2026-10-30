@@ -12,7 +12,7 @@ trait HasUniqueSlug
 {
     public static function uniqueSlug(string $source): string
     {
-        $base = Str::slug($source) ?: 'element';
+        $base = Str::slug(mb_substr($source, 0, 200)) ?: 'element';
         $slug = $base;
         $suffix = 2;
 

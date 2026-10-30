@@ -113,6 +113,15 @@ class Offer extends Model
     }
 
     /**
+     * Retrouve aussi une offre par son ancien lien, pour les adresses déjà partagées.
+     */
+    public function resolveRouteBinding($value, $field = null): ?self
+    {
+        return parent::resolveRouteBinding($value, $field)
+            ?? ($field === null ? static::where('old_slug', $value)->first() : null);
+    }
+
+    /**
      * Offres visibles par le public : publiées, dans un établissement publié.
      *
      * @param  Builder<self>  $query
