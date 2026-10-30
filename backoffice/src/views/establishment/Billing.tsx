@@ -10,7 +10,6 @@ import {
     CCardHeader,
     CCol,
     CFormInput,
-    CFormSelect,
     CModal,
     CModalBody,
     CModalFooter,
@@ -134,9 +133,9 @@ function PendingInvoice({ invoice, onChanged }: { invoice: Invoice; onChanged: (
 
 export default function Billing() {
     const { current: e, reload: reloadEstablishment } = useCurrentEstablishment()
-    const toast = useToast()
     const { data, reload } = useApi<BillingData>(`/establishments/${e.id}/billing`)
     const [choice, setChoice] = useState<Plan | null>(null)
+    const [created, setCreated] = useState<Invoice | null>(null)
     const [cycle, setCycle] = useState('yearly')
     const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly')
     const [method, setMethod] = useState('mvola')
@@ -165,9 +164,9 @@ export default function Billing() {
         if (!choice) return
         setError(null)
         try {
-            await api(`/establishments/${e.id}/subscription-requests`, { method: 'POST', body: { plan: choice.code, billingCycle: cycle, paymentMethod: method } })
-            toast.success('Facture créée : suivez les instructions de paiement.')
+            const res = await api<{ data: Invoice }>(`/establishments/${e.id}/subscription-requests`, { method: 'POST', body: { plan: choice.code, billingCycle: cycle, paymentMethod: method } })
             setChoice(null)
+            setCreated(res.data)
             reload()
         } catch (err) {
             setError(err)
@@ -367,29 +366,60 @@ export default function Billing() {
                 )}
             </PageCard>
 
-            <CModal visible={!!choice} onClose={() => setChoice(null)} alignment='center'>
+            <CModal visible={!!choice} onClose={() => setChoice(null)} alignment='center' className={`bo-plan-modal is-${choice?.code}`}>
                 <CModalHeader>
-                    <CModalTitle>Formule {choice?.name}</CModalTitle>
+                    <CModalTitle as='div' className='bo-plan-modal-title'>
+                        {choice && (
+                            <span className='bo-plan-icon'>
+                                <Glyph name={PLAN_CARD[choice.code].icon} />
+                            </span>
+                        )}
+                        <span>
+                            <strong>Formule {choice?.name}</strong>
+                            <small>Votre formule s&apos;active dès que le paiement est confirmé par Edumada.</small>
+                        </span>
+                    </CModalTitle>
                 </CModalHeader>
                 <CModalBody>
-                    <p className='small text-body-secondary'>Une facture est créée ; la formule s&apos;active dès que le paiement est confirmé par Edumada.</p>
                     <ErrorAlert error={error} />
                     {choice && (
                         <>
-                            <CFormSelect className='mb-3' label='Rythme' value={cycle} onChange={(ev) => setCycle(ev.target.value)}>
-                                <option value='monthly'>Mensuel — {formatAriary(choice.monthlyPrice)}</option>
-                                {choice.yearlyPrice !== null && <option value='yearly'>Annuel — {formatAriary(choice.yearlyPrice)}</option>}
-                            </CFormSelect>
-                            <CFormSelect className='mb-3' label='Moyen de paiement' value={method} onChange={(ev) => setMethod(ev.target.value)}>
-                                {b.paymentMethods.map((m) => (
-                                    <option key={m.value} value={m.value}>
-                                        {m.label}
-                                    </option>
-                                ))}
-                            </CFormSelect>
-                            <CAlert color='light' className='border mb-0'>
-                                {b.paymentMethods.find((m) => m.value === method)?.instructions}
-                            </CAlert>
+                            <fieldset className='bo-plan-field'>
+                                <legend>Rythme</legend>
+                                <div className='bo-plan-options'>
+                                    <label className={cycle === 'monthly' ? 'is-active' : ''}>
+                                        <input type='radio' name='bo-cycle' className='visually-hidden' checked={cycle === 'monthly'} onChange={() => setCycle('monthly')} />
+                                        <span>Mensuel</span>
+                                        <strong>{formatAriary(choice.monthlyPrice)}</strong>
+                                    </label>
+                                    {choice.yearlyPrice !== null && (
+                                        <label className={cycle === 'yearly' ? 'is-active' : ''}>
+                                            <input type='radio' name='bo-cycle' className='visually-hidden' checked={cycle === 'yearly'} onChange={() => setCycle('yearly')} />
+                                            <span>Annuel</span>
+                                            <strong>{formatAriary(choice.yearlyPrice)}</strong>
+                                        </label>
+                                    )}
+                                </div>
+                            </fieldset>
+                            <fieldset className='bo-plan-field'>
+                                <legend>Moyen de paiement</legend>
+                                <div className='bo-plan-options is-compact'>
+                                    {b.paymentMethods.map((m) => (
+                                        <label key={m.value} className={method === m.value ? 'is-active' : ''}>
+                                            <input type='radio' name='bo-method' className='visually-hidden' checked={method === m.value} onChange={() => setMethod(m.value)} />
+                                            <span>{m.label}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </fieldset>
+                            <div className='bo-plan-instructions'>
+                                <Glyph name='info' />
+                                <p>{b.paymentMethods.find((m) => m.value === method)?.instructions}</p>
+                            </div>
+                            <div className='bo-plan-total'>
+                                <span>Montant de la facture</span>
+                                <strong>{formatAriary(cycle === 'yearly' ? choice.yearlyPrice : choice.monthlyPrice)}</strong>
+                            </div>
                         </>
                     )}
                 </CModalBody>
@@ -397,10 +427,38 @@ export default function Billing() {
                     <CButton color='secondary' variant='ghost' onClick={() => setChoice(null)}>
                         Annuler
                     </CButton>
-                    <CButton color='primary' onClick={request}>
+                    <button type='button' className={`bo-plan-btn is-${choice?.code}`} onClick={request}>
                         Créer la facture
-                    </CButton>
+                        <CIcon icon={cilArrowRight} />
+                    </button>
                 </CModalFooter>
+            </CModal>
+
+            <CModal visible={!!created} onClose={() => setCreated(null)} alignment='center' className='bo-plan-modal'>
+                <CModalBody className='bo-plan-done'>
+                    <span className='bo-plan-done-icon'>
+                        <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='3' strokeLinecap='round' strokeLinejoin='round' aria-hidden='true'>
+                            <path d='M5 12.5 10 17.5 19.5 7' />
+                        </svg>
+                    </span>
+                    <h2>Votre demande est bien enregistrée</h2>
+                    <p>
+                        L&apos;équipe Edumada vous contacte <strong>en moins de 24 h</strong> pour finaliser l&apos;activation de votre formule {created?.plan.name}.
+                    </p>
+                    <dl>
+                        <div>
+                            <dt>Facture</dt>
+                            <dd>{created?.number}</dd>
+                        </div>
+                        <div>
+                            <dt>Montant</dt>
+                            <dd>{created && formatAriary(created.amount)}</dd>
+                        </div>
+                    </dl>
+                    <CButton color='primary' className='w-100' onClick={() => setCreated(null)}>
+                        Compris
+                    </CButton>
+                </CModalBody>
             </CModal>
         </>
     )

@@ -1350,6 +1350,84 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   a { display: inline-flex; align-items: center; gap: .7rem; color: #1F5F73; font-size: .85rem; }
   a svg { width: .95rem; height: .95rem; }
 }
+.bo-plan-modal {
+  --bo-plan-accent: #0F4C5C;
+  &.is-pro { --bo-plan-accent: #137C8B; }
+  &.is-premium { --bo-plan-accent: #F42F52; }
+  .modal-content { border: 0; border-radius: 1rem; }
+  .modal-footer .bo-plan-btn { width: auto; padding: 0 1.25rem; }
+}
+.bo-plan-modal-title {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  strong { display: block; color: #0F2A3D; font-family: var(--edu-font-heading), sans-serif; font-size: 1.2rem; font-weight: 700; }
+  small { display: block; margin-top: .1rem; font-size: .8rem; line-height: 1.35; color: #64748B; }
+}
+.is-pro .bo-plan-modal-title .bo-plan-icon, .is-premium .bo-plan-modal-title .bo-plan-icon { width: 3rem; height: 3rem; }
+.bo-plan-field {
+  margin-bottom: 1rem;
+  legend { margin-bottom: .45rem; color: #0F2A3D; font-size: .875rem; font-weight: 600; }
+}
+.bo-plan-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: .6rem;
+  label {
+    display: block;
+    padding: .7rem .85rem;
+    border: 1px solid #E2E8F0;
+    border-radius: .6rem;
+    cursor: pointer;
+    transition: border-color .15s, background-color .15s;
+    &:hover { border-color: var(--bo-plan-accent); }
+    &:focus-within { outline: 2px solid var(--bo-plan-accent); outline-offset: 1px; }
+    &.is-active { border-color: var(--bo-plan-accent); box-shadow: inset 0 0 0 1px var(--bo-plan-accent); background: var(--cui-tertiary-bg); }
+  }
+  span { display: block; font-size: .85rem; color: #475569; }
+  strong { display: block; margin-top: .1rem; color: #0F2A3D; font-size: 1rem; font-weight: 700; }
+  &.is-compact label { padding: .55rem .85rem; }
+  &.is-compact span { font-weight: 600; }
+}
+.bo-plan-instructions {
+  display: flex;
+  gap: .6rem;
+  padding: .75rem .85rem;
+  border-radius: .6rem;
+  background: var(--cui-tertiary-bg);
+  svg { flex: none; width: 1.1rem; height: 1.1rem; margin-top: .1rem; color: #0F6E7E; }
+  p { margin: 0; font-size: .85rem; color: #334155; }
+}
+.bo-plan-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  span { font-size: .875rem; color: #475569; }
+  strong { color: #0F2A3D; font-family: var(--edu-font-heading), sans-serif; font-size: 1.35rem; font-weight: 800; }
+}
+.bo-plan-done {
+  padding: 2rem 1.75rem 1.75rem;
+  text-align: center;
+  h2 { margin: 1rem 0 .5rem; color: #0F2A3D; font-size: 1.25rem; font-weight: 700; }
+  > p { margin-bottom: 1.25rem; font-size: .925rem; color: #475569; }
+  dl { margin: 0 0 1.25rem; padding: .75rem 1rem; border-radius: .6rem; background: var(--cui-tertiary-bg); }
+  dl > div { display: flex; justify-content: space-between; gap: 1rem; padding: .15rem 0; font-size: .875rem; }
+  dt { font-weight: 400; color: #64748B; }
+  dd { margin: 0; color: #0F2A3D; font-weight: 600; }
+}
+.bo-plan-done-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: #12A67C;
+  color: #fff;
+  svg { width: 1.75rem; height: 1.75rem; }
+}
 [data-coreui-theme="dark"] {
   .bo-plan-toggle { background: var(--cui-tertiary-bg); button:not(.is-active) { color: var(--cui-body-color); } }
   .bo-plan-saving, .bo-plan-note p, .bo-plan-note a, .bo-plan-note > svg { color: #A7C4BC; }
@@ -1365,6 +1443,11 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   .bo-plan-section-icon { color: #A7C4BC; }
   .is-premium .bo-plan-section-icon { color: #F42F52; }
   .bo-plan-note { border-color: var(--cui-border-color); }
+  .bo-plan-modal.is-pro { --bo-plan-accent: #A7C4BC; }
+  .bo-plan-modal-title strong, .bo-plan-field legend, .bo-plan-options strong, .bo-plan-total strong, .bo-plan-done h2, .bo-plan-done dd { color: var(--cui-emphasis-color); }
+  .bo-plan-modal-title small, .bo-plan-options span, .bo-plan-instructions p, .bo-plan-total span, .bo-plan-done > p, .bo-plan-done dt { color: var(--cui-body-color); }
+  .bo-plan-options label:not(.is-active):not(:hover) { border-color: var(--cui-border-color); }
+  .bo-plan-instructions svg { color: #A7C4BC; }
 }
 
 // Reconnaissance / accréditation.
