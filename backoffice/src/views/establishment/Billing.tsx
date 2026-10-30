@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Caveat } from 'next/font/google'
 import {
     CAlert,
     CButton,
@@ -40,8 +39,6 @@ type PaymentMethod = { value: string; label: string; instructions: string }
 type BillingData = {
     data: { plan: Plan; plans: Plan[]; subscription: Subscription | null; invoices: Invoice[]; paymentMethods: PaymentMethod[]; publishedOffersCount: number }
 }
-
-const handwriting = Caveat({ subsets: ['latin'], weight: '500' })
 
 /** Icônes pleines de la page Formule. */
 const GLYPHS = {
@@ -198,27 +195,6 @@ export default function Billing() {
                             : `${b.publishedOffersCount} offre${b.publishedOffersCount > 1 ? 's' : ''} publiée${b.publishedOffersCount > 1 ? 's' : ''}${b.plan.maxPublishedOffers ? ` sur ${b.plan.maxPublishedOffers}` : ''}`}
                     </p>
                 </div>
-                <div className='bo-plan-hero-thanks'>
-                    <p className={handwriting.className}>
-                        Merci de faire partie
-                        <br />
-                        de notre communauté !
-                    </p>
-                    <svg viewBox='0 0 70 26' fill='none' stroke='currentColor' strokeWidth='1.4' strokeLinecap='round' strokeLinejoin='round' aria-hidden='true'>
-                        <path d='M2 12c14 14 42 14 64-9M57 3h9v9' />
-                    </svg>
-                </div>
-                <svg className='bo-plan-hero-school' viewBox='0 0 110 100' aria-hidden='true'>
-                    <path d='M55 4v22' stroke='#BFE6EC' strokeWidth='2' />
-                    <path d='M56 4h15l-4 4 4 5H56V4Z' fill='#7FD0DC' />
-                    <path d='M30 44 55 22l25 22H30Z' fill='#5FBECC' />
-                    <path d='M6 50h98v44H6z' fill='#4FAFBE' />
-                    <path d='M30 44h50v50H30z' fill='#6FC7D4' />
-                    <circle cx='55' cy='42' r='7' fill='#D9F2F5' />
-                    <path d='M47 94V70a8 8 0 0 1 16 0v24H47Z' fill='#0F4C5C' />
-                    <path d='M12 58h11v10H12zM12 76h11v10H12zM87 58h11v10H87zM87 76h11v10H87zM34 58h9v10h-9zM67 58h9v10h-9z' fill='#0F4C5C' />
-                    <path d='M2 94h106v3H2z' fill='#BFE6EC' />
-                </svg>
             </div>
             {sub?.status === 'grace' && (
                 <CAlert color='warning'>Renouvelez pour garder les fonctions payantes après le {formatDate(sub.graceEndsAt)}.</CAlert>
