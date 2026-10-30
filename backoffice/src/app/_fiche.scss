@@ -1535,3 +1535,99 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   li { display: flex; align-items: center; gap: .6rem; padding: .45rem .8rem; cursor: pointer; font-size: .9rem; }
   li.is-active { background: var(--cui-tertiary-bg); }
 }
+
+// Facturation (administration) : encadrés vides, listes, formules.
+.card.bo-billing-card {
+  > .card-header:first-child { border-bottom: 0; background: transparent; }
+  > .card-body { padding-top: .25rem; }
+}
+.bo-billing-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.75rem 1rem;
+  border: 1px solid var(--cui-border-color);
+  border-radius: .75rem;
+  background: var(--cui-tertiary-bg);
+  text-align: center;
+  svg { width: auto; height: 3.75rem; margin-bottom: .75rem; }
+  strong { color: var(--cui-emphasis-color); font-size: 1.05rem; font-weight: 600; }
+  p { margin: .35rem 0 0; font-size: .85rem; color: var(--cui-secondary-color); }
+}
+.bo-billing-list {
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--cui-border-color);
+  border-radius: .75rem;
+  list-style: none;
+  li { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; padding: .85rem 1rem; }
+  li + li { border-top: 1px solid var(--cui-border-color); }
+  .badge { font-size: .75rem; font-weight: 600; border-radius: 1rem; padding: .35em .7em; }
+}
+.bo-billing-list-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(167, 196, 188, .25);
+  color: #0F4C5C;
+  svg { width: 1.35rem; height: 1.35rem; }
+}
+.bo-billing-list-text {
+  flex: 1 1 10rem;
+  min-width: 0;
+  strong { display: block; color: var(--cui-emphasis-color); font-size: .95rem; font-weight: 600; }
+  span { font-size: .85rem; color: var(--cui-secondary-color); }
+}
+.bo-billing-cancel {
+  min-height: 2.75rem;
+  padding: 0 .5rem;
+  border: 0;
+  background: none;
+  color: #D92D45;
+  font-size: .875rem;
+  font-weight: 600;
+  &:hover { text-decoration: underline; }
+}
+.bo-billing-plan {
+  --bo-billing-accent: #94A3B8;
+  container-type: inline-size;
+  margin-bottom: 1rem;
+  padding: .9rem 1rem;
+  border: 1px solid var(--cui-border-color);
+  border-left: 5px solid var(--bo-billing-accent);
+  border-radius: .6rem;
+  &:last-child { margin-bottom: 0; }
+  &.is-pro { --bo-billing-accent: #137C8B; }
+  &.is-premium { --bo-billing-accent: #FF3B52; }
+  h6 { margin-bottom: .75rem; color: var(--edu-teal); font-size: 1.05rem; font-weight: 700; }
+  .form-label { margin-bottom: .3rem; font-size: .85rem; }
+  .form-text { margin-top: .3rem; font-size: .75rem; }
+}
+.bo-billing-plan-fields { display: grid; gap: .75rem; }
+.bo-billing-save {
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: .5rem;
+  background: #0F4C5C;
+  color: #fff;
+  font-size: .875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  &:hover { background: #0B3B48; }
+}
+@container (min-width: 26rem) {
+  .bo-billing-plan-fields { grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: start; }
+  .bo-billing-plan .form-label { min-height: 2.6em; }
+  .bo-billing-save { margin-top: calc(2.6em * .85 + .3rem); }
+}
+[data-coreui-theme="dark"] {
+  .bo-billing-list-icon { color: #A7C4BC; }
+  .bo-billing-clock { stroke: #A7C4BC; }
+  .bo-billing-cancel { color: #FF7B8A; }
+  .bo-billing-plan h6 { color: var(--cui-emphasis-color); }
+}
