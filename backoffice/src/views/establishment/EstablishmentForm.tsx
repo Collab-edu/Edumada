@@ -1,8 +1,8 @@
 'use client'
 import { useState, type FormEvent } from 'react'
-import { CButton, CCol, CForm, CFormInput, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
+import { CButton, CCol, CForm, CFormInput, CFormLabel, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilEducation, cilEnvelopeClosed, cilGlobeAlt, cilImage, cilLink, cilLocationPin, cilPhone, cilSave } from '@coreui/icons'
+import { cilEducation, cilEnvelopeClosed, cilGlobeAlt, cilImage, cilLink, cilLocationPin, cilPencil, cilPhone, cilSave } from '@coreui/icons'
 import { api, fieldError, isGeneralError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import type { Category, ManagedEstablishment } from '@/lib/types'
@@ -111,10 +111,22 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
     return (
         <CForm onSubmit={submit} noValidate>
             {isGeneralError(error) && <ErrorAlert error={error} />}
-            <PageCard icon={cilEducation} title='Identité' subtitle='Informations affichées en haut de la fiche publique'>
+            <PageCard
+                icon={cilEducation}
+                title="Identité de l'établissement"
+                subtitle='Informations affichées en haut de la fiche publique'
+                actions={
+                    establishment && (
+                        <button type='button' className='bo-fiche-edit' aria-label="Modifier le nom de l'établissement" onClick={() => document.getElementById('bo-name')?.focus()}>
+                            <CIcon icon={cilPencil} />
+                        </button>
+                    )
+                }
+            >
                 <CRow className='g-3'>
                     <CCol md={12}>
                         <CFormInput
+                            id='bo-name'
                             label="Nom de l'établissement"
                             value={form.name}
                             onChange={(e) => set('name', e.target.value)}
@@ -155,11 +167,15 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                         </CFormSelect>
                     </CCol>
                     <CCol md={6}>
-                        <CFormSelect label='Statut' value={form.type} onChange={(e) => set('type', e.target.value)}>
-                            <option>Privé</option>
-                            <option>Public</option>
-                            <option>Semi-privé</option>
-                        </CFormSelect>
+                        <CFormLabel htmlFor='bo-type'>Statut</CFormLabel>
+                        <div className='bo-chip-select'>
+                            <CFormSelect id='bo-type' value={form.type} onChange={(e) => set('type', e.target.value)}>
+                                <option>Privé</option>
+                                <option>Public</option>
+                                <option>Semi-privé</option>
+                            </CFormSelect>
+                            <span aria-hidden='true'>{form.type}</span>
+                        </div>
                     </CCol>
                     <CCol md={6}>
                         <PlaceInput
@@ -271,15 +287,15 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
 
             <PageCard id='bo-photos' icon={cilImage} title='Logo et photos' subtitle='Mettez en avant votre établissement avec des visuels attractifs'>
                 <CRow className='g-3'>
-                    <CCol md={5}>
-                        <ImageUpload label='Logo (format carré conseillé)' value={form.logo} onChange={(v: string) => set('logo', v)} />
+                    <CCol md={4}>
+                        <ImageUpload media='logo' label='Logo (format carré conseillé)' value={form.logo} onChange={(v: string) => set('logo', v)} />
                     </CCol>
-                    <CCol md={7}>
-                        <ImageUpload label='Photo de couverture' value={form.imageSrc} onChange={(v: string) => set('imageSrc', v)} />
+                    <CCol md={8}>
+                        <ImageUpload media='cover' label='Photo de couverture' value={form.imageSrc} onChange={(v: string) => set('imageSrc', v)} />
                     </CCol>
                 </CRow>
                 {gallery ? (
-                    <ImageUpload label='Photos des locaux (8 au maximum)' value={form.photos} onChange={(v: string[]) => set('photos', v)} />
+                    <ImageUpload media='gallery' label='Photos des locaux (8 au maximum)' value={form.photos} onChange={(v: string[]) => set('photos', v)} />
                 ) : (
                     <PlanLock title='Galerie de photos'>Montrez vos locaux aux futurs étudiants.</PlanLock>
                 )}

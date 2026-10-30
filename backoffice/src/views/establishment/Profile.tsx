@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { CAlert, CBadge, CButton, CCol, CListGroup, CListGroupItem, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBell, cilChartLine, cilCheckCircle, cilClock, cilEducation, cilExternalLink, cilImage, cilInbox, cilPencil, cilPeople, cilShieldAlt, cilWarning } from '@coreui/icons'
+import { cilBell, cilCalendar, cilChartLine, cilCheckCircle, cilClock, cilEducation, cilExternalLink, cilImage, cilInbox, cilPencil, cilPeople, cilShieldAlt, cilWarning } from '@coreui/icons'
 import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useToast } from '@/context/ToastContext'
 import { api, assetUrl, errorMessage, SITE_URL } from '@/lib/api'
@@ -66,7 +66,7 @@ export default function Profile() {
     }
 
     return (
-        <>
+        <div className='bo-fiche'>
             {/* Couverture */}
             <div className='bo-cover'>
                 {e.imageSrc && (
@@ -155,8 +155,12 @@ export default function Profile() {
                                     {e.verification.status}
                                 </StatusBadge>
                             </CListGroupItem>
-                            <CListGroupItem className='d-flex justify-content-between align-items-center px-0 bg-transparent'>
-                                Dernière mise à jour <span className='text-body-secondary'>{formatDate(e.updatedAt)}</span>
+                            <CListGroupItem className='d-flex flex-wrap justify-content-between align-items-center gap-1 px-0 bg-transparent'>
+                                Dernière mise à jour
+                                <span className='text-body-secondary text-nowrap'>
+                                    <CIcon icon={cilCalendar} size='sm' className='me-1' />
+                                    {formatDate(e.updatedAt)}
+                                </span>
                             </CListGroupItem>
                         </CListGroup>
                         {e.verification.status === 'Non vérifié' && (
@@ -164,7 +168,7 @@ export default function Profile() {
                                 Demander le badge « vérifié »
                             </CButton>
                         )}
-                        <p className='small text-body-secondary mt-3 mb-0'>Le badge est attribué après un contrôle réel par Edumada ; il ne s&apos;achète pas.</p>
+                        <p className='bo-fiche-note mt-3 mb-0'>Le badge est attribué après un contrôle réel par Edumada ; il ne s&apos;achète pas.</p>
                     </PageCard>
 
                     <PageCard icon={cilBell} title='Signalements' subtitle='Informations jugées inexactes par des visiteurs'>
@@ -206,6 +210,6 @@ export default function Profile() {
                     )}
                 </CCol>
             </CRow>
-        </>
+        </div>
     )
 }

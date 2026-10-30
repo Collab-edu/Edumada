@@ -90,7 +90,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(8, 42, 51, .92) 0%, rgba(8, 42, 51, .65) 55%, rgba(8, 42, 51, .2) 100%);
+    background: linear-gradient(90deg, rgba(8, 42, 51, .9) 0%, rgba(8, 42, 51, .5) 50%, rgba(8, 42, 51, .05) 100%);
   }
 }
 .bo-cover-inner {
@@ -1630,4 +1630,109 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   .bo-billing-clock { stroke: #A7C4BC; }
   .bo-billing-cancel { color: #FF7B8A; }
   .bo-billing-plan h6 { color: var(--cui-emphasis-color); }
+}
+
+// Fiche établissement : titres et champs plus compacts, photos, pièces et infrastructures.
+.bo-fiche {
+  .card-header { border-bottom: 0; background: transparent; }
+  .card-header h5 { font-size: 1rem; font-weight: 700; color: var(--edu-teal); }
+  .card-header .small { font-size: .8rem; }
+  .card-body { padding-top: .25rem; }
+  .bo-card-icon { width: 2.75rem; height: 2.75rem; background: rgba(255, 59, 82, .12); }
+  .form-label { margin-bottom: .3rem; font-size: .875rem; }
+  .bo-empty-note { background: var(--cui-tertiary-bg); font-size: .85rem; }
+  .bo-adm-docs li { padding: .45rem .75rem; }
+  .bo-adm-docs li > .me-auto { font-size: .8rem; }
+  .bo-adm-chips li { font-size: .8rem; background: rgba(167, 196, 188, .22); }
+  .bo-adm-suggest button { font-size: .75rem; }
+}
+@media (min-width: 768px) {
+  .bo-fiche .form-control, .bo-fiche .form-select { font-size: .875rem; }
+}
+.bo-fiche-edit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--cui-border-color);
+  border-radius: .5rem;
+  background: transparent;
+  color: var(--cui-secondary-color);
+  &:hover { border-color: var(--edu-teal); color: var(--edu-teal); }
+}
+.bo-fiche-note {
+  padding: .7rem .85rem;
+  border: 1px solid var(--cui-border-color);
+  border-radius: .6rem;
+  background: var(--cui-tertiary-bg);
+  font-size: .8rem;
+  color: var(--cui-secondary-color);
+}
+.bo-chip-select {
+  position: relative;
+  .form-select { color: transparent; }
+  .form-select option { color: var(--cui-body-color); }
+  > span {
+    position: absolute;
+    top: 50%;
+    left: .6rem;
+    padding: .15rem .65rem;
+    border-radius: 1rem;
+    background: rgba(47, 158, 116, .16);
+    color: #1F7A57;
+    font-size: .8rem;
+    font-weight: 600;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}
+.bo-media {
+  display: grid;
+  gap: .6rem;
+  &.is-logo { grid-template-columns: minmax(0, 7.5rem); }
+  &.is-gallery { grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr)); }
+}
+.bo-media-item, .bo-media-add { position: relative; height: 6rem; overflow: hidden; border-radius: .6rem; }
+.bo-media-item img { width: 100%; height: 100%; object-fit: cover; background: var(--cui-tertiary-bg); }
+.bo-media.is-logo .bo-media-item img { background: #fff; object-fit: contain; }
+.bo-media-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--cui-border-color);
+  background: var(--cui-tertiary-bg);
+  color: var(--cui-secondary-color);
+  font-size: .8rem;
+  cursor: pointer;
+  &:hover, &:focus-within { border-color: var(--edu-teal); color: var(--edu-teal); }
+}
+.bo-media-edit, .bo-media-remove {
+  position: absolute;
+  top: .4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: .45rem;
+  color: #fff;
+  cursor: pointer;
+  svg { width: 1rem; height: 1rem; }
+  &:focus-within, &:focus-visible { outline: 2px solid #fff; outline-offset: -3px; }
+}
+.bo-media-edit { right: .4rem; background: var(--edu-red); }
+.bo-media-remove { left: .4rem; background: rgba(15, 42, 61, .8); }
+.bo-media.is-gallery .bo-media-remove { right: .4rem; left: auto; }
+// Suppression discrète à la souris, toujours visible sur écran tactile.
+@media (hover: hover) {
+  .bo-media-remove { opacity: 0; transition: opacity .15s; }
+  .bo-media-item:hover .bo-media-remove, .bo-media-remove:focus-visible { opacity: 1; }
+}
+[data-coreui-theme="dark"] {
+  .bo-fiche .card-header h5 { color: var(--cui-emphasis-color); }
+  .bo-chip-select > span { color: #7ED3AE; }
+  .bo-fiche .bo-adm-doc-icon, .bo-fiche .bo-adm-chips li > svg { color: #A7C4BC; }
 }

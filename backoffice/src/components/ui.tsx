@@ -18,7 +18,7 @@ import {
     CSpinner,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilCloudUpload, cilImagePlus, cilLockLocked, cilPlus, cilTrash, cilX } from '@coreui/icons'
+import { cilCloudUpload, cilImagePlus, cilLockLocked, cilPencil, cilPlus, cilTrash, cilX } from '@coreui/icons'
 import { usePathname } from 'next/navigation'
 import { findRoute } from '@/routes'
 import { api, assetUrl, errorMessage } from '@/lib/api'
@@ -208,14 +208,19 @@ export function ListInput({
     )
 }
 
-type ImageUploadProps = { label: string; max?: number } & (
+type ImageUploadProps = {
+    label: string
+    max?: number
+    /** Présentation de la fiche établissement : logo, couverture ou galerie. */
+    media?: 'logo' | 'cover' | 'gallery'
+} & (
     | { value: string[]; onChange: (value: string[]) => void }
     | { value: string; onChange: (value: string) => void }
 )
 
 /** Envoi d'images vers l'API : une seule (texte) ou une galerie (liste). */
 export function ImageUpload(props: ImageUploadProps) {
-    const { label, max = 8 } = props
+    const { label, max = 8, media } = props
     const multiple = Array.isArray(props.value)
     const images = Array.isArray(props.value) ? props.value : props.value ? [props.value] : []
     const [busy, setBusy] = useState(false)
@@ -243,6 +248,52 @@ export function ImageUpload(props: ImageUploadProps) {
         } finally {
             setBusy(false)
         }
+    }
+
+    if (media) {
+        const fileInput = (
+            <input
+                type='file'
+                accept='image/jpeg,image/png,image/webp'
+                multiple={multiple}
+                className='visually-hidden'
+                disabled={busy}
+                onChange={(e) => {
+                    upload(e.target.files)
+                    e.target.value = ''
+                }}
+            />
+        )
+        return (
+            <div className='mb-3'>
+                <CFormLabel>{label}</CFormLabel>
+                <div className={`bo-media is-${media}`}>
+                    {images.map((url) => (
+                        <div key={url} className='bo-media-item'>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={assetUrl(url)} alt='' />
+                            {!multiple && (
+                                <label className='bo-media-edit' aria-label={`Remplacer : ${label}`}>
+                                    {busy ? <CSpinner size='sm' /> : <CIcon icon={cilPencil} />}
+                                    {fileInput}
+                                </label>
+                            )}
+                            <button type='button' className='bo-media-remove' aria-label="Retirer l'image" onClick={() => emit(images.filter((u) => u !== url))}>
+                                <CIcon icon={cilTrash} />
+                            </button>
+                        </div>
+                    ))}
+                    {(multiple ? images.length < max : images.length === 0) && (
+                        <label className='bo-media-add'>
+                            {busy ? <CSpinner size='sm' /> : <CIcon icon={cilImagePlus} size='xl' />}
+                            <span>Ajouter</span>
+                            {fileInput}
+                        </label>
+                    )}
+                </div>
+                {error && <div className='small text-danger mt-1'>{error}</div>}
+            </div>
+        )
     }
 
     return (
