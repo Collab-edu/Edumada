@@ -203,7 +203,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                     <ul className='grid gap-4 sm:grid-cols-3'>
                         {BENEFITS.map((b) => (
                             <li key={b.title} className='flex gap-4 rounded-xl bg-white p-5 border border-gray-100'>
-                                <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary'>
+                                <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-white'>
                                     <Icon icon={b.icon} className='text-2xl' />
                                 </span>
                                 <div>

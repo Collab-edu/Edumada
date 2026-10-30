@@ -65,7 +65,7 @@ export default function ContactPage() {
                         {CHANNELS.map((channel) => {
                             const content = (
                                 <>
-                                    <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary'>
+                                    <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white'>
                                         <Icon icon={channel.icon} className='text-lg' />
                                     </span>
                                     {t(channel.label)}

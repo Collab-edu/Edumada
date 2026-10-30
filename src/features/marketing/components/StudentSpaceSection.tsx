@@ -50,7 +50,7 @@ export default function StudentSpaceSection() {
                         <div className='grid grid-cols-3 gap-2'>
                             {SHORTCUTS.map((shortcut) => (
                                 <div key={shortcut.label} className='flex flex-col items-center gap-1 rounded-lg bg-white py-2 text-[11px] font-medium text-secondary'>
-                                    <span className='flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary'>
+                                    <span className='flex h-7 w-7 items-center justify-center rounded-full bg-primary text-white'>
                                         <Icon icon={shortcut.icon} className='text-sm' />
                                     </span>
                                     {t(shortcut.label)}

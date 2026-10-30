@@ -243,7 +243,7 @@ export function EmptyState({ icon, title, children, action }: { icon: string; ti
     const t = useT()
     return (
         <div className='flex flex-col items-center gap-3 rounded-2xl border border-dashed border-secondary/20 bg-white px-6 py-12 text-center'>
-            <span className='flex h-14 w-14 items-center justify-center rounded-full bg-cream text-primary'>
+            <span className='flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white'>
                 <Icon icon={icon} className='text-2xl' />
             </span>
             <p className='text-lg font-bold text-secondary'>{t(title)}</p>

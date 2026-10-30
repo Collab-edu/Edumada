@@ -111,7 +111,7 @@ export default function BenefitsPage() {
                             <li
                                 key={benefit.title}
                                 className='flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
-                                <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary'>
+                                <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white'>
                                     <Icon icon={benefit.icon} className='text-2xl' />
                                 </span>
                                 <h3 className='text-lg font-semibold text-secondary'>{t(benefit.title)}</h3>

@@ -160,7 +160,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                     <Link
                                         href={audience.link.href}
                                         className='group flex h-full flex-col gap-3 rounded-2xl bg-white p-6 transition-transform duration-300 hover:-translate-y-1'>
-                                        <span className='flex h-14 w-14 items-center justify-center rounded-2xl bg-cream text-primary'>
+                                        <span className='flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-white'>
                                             <Icon icon={audience.icon} className='text-3xl' />
                                         </span>
                                         <h3 className='text-lg font-semibold text-secondary'>{t(audience.title)}</h3>

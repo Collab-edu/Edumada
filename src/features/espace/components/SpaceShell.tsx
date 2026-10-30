@@ -123,7 +123,7 @@ export function StatCard({ label, value, icon, hint, href }: { label: string; va
     const t = useT()
     const content = (
         <>
-            <span className='flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary'>
+            <span className='flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white'>
                 <Icon icon={icon} className='text-xl' />
             </span>
             <span className='text-2xl font-bold text-secondary'>{value}</span>

@@ -35,7 +35,7 @@ function TestimonialCard({ position, testimonial, handleMove, cardSize }: Testim
                 // Ombre décalée de la charte : rouge pour la carte mise en avant.
                 boxShadow: isCenter ? '6px 6px 0 0 #ff3b52' : '4px 4px 0 0 rgba(15,76,92,0.22)',
             }}>
-            <span className={cn('flex h-11 w-11 items-center justify-center rounded-xl', isCenter ? 'bg-primary text-white' : 'bg-cream text-primary')}>
+            <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white'>
                 <Icon icon='tabler:quote' className='text-2xl' />
             </span>
             <h3 className={cn('mt-5 text-[15px] font-medium leading-snug sm:text-lg', isCenter ? 'text-white' : 'text-secondary')}>

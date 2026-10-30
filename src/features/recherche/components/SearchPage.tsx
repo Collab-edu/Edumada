@@ -326,7 +326,7 @@ const SearchPage = () => {
                         )}
                         {loading || results.length > 0 ? null : (
                             <div className='flex flex-col items-center gap-4 rounded-2xl border border-dashed border-secondary/20 bg-white px-6 py-16 text-center'>
-                                <span className='flex h-16 w-16 items-center justify-center rounded-full bg-cream text-primary'>
+                                <span className='flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white'>
                                     <Icon icon='tabler:search-off' className='text-3xl' />
                                 </span>
                                 <h2 className='text-xl font-bold'>{t('Aucun résultat ne correspond')}</h2>

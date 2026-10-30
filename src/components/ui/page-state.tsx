@@ -27,7 +27,7 @@ export function PageUnavailable({ title, message }: { title: string; message: st
     return (
         <section className='pt-32 pb-20'>
             <div className='container mx-auto max-w-xl px-4 flex flex-col items-center gap-4 text-center'>
-                <span className='flex h-16 w-16 items-center justify-center rounded-full bg-cream text-primary'>
+                <span className='flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white'>
                     <Icon icon='tabler:mood-empty' className='text-3xl' />
                 </span>
                 <h1 className='text-3xl font-bold text-secondary'>{t(title)}</h1>

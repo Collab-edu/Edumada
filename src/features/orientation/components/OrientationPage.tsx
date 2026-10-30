@@ -128,7 +128,7 @@ export default function OrientationPage() {
                                 key={step.title}
                                 className='flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-5 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
                                 <div className='flex items-center justify-between'>
-                                    <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary'>
+                                    <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white'>
                                         <Icon icon={step.icon} className='text-2xl' />
                                     </span>
                                     <span className='text-sm font-semibold text-ink/40'>{t('Étape {n}', { n: index + 1 })}</span>
@@ -218,7 +218,7 @@ export default function OrientationPage() {
                                             <div className='absolute inset-0 bg-gradient-to-t from-secondary/60 via-secondary/10 to-transparent' aria-hidden='true' />
                                         </div>
                                         <div className='relative flex flex-1 flex-col gap-3 px-6 pb-6 pt-10'>
-                                            <span className='absolute -top-7 left-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-cream text-primary ring-4 ring-white'>
+                                            <span className='absolute -top-7 left-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-white ring-4 ring-white'>
                                                 <Icon icon={profile.icon} className='text-3xl' />
                                             </span>
                                             <h3 className='text-lg font-semibold text-secondary'>{t(profile.title)}</h3>

@@ -10,7 +10,7 @@ export function DetailSection({ id, title, icon, children }: { id: string; title
     return (
         <section id={id} className='scroll-mt-40 py-0'>
             <h2 className='mb-5 flex items-center gap-3 font-bold'>
-                <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary'>
+                <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white'>
                     <Icon icon={icon} className='text-xl' />
                 </span>
                 {t(title)}
