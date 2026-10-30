@@ -6,6 +6,7 @@ import { Icon } from '@/components/ui/icon'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { OFFER_CTA, formatFees, offerFacts } from '@/features/formations/format'
+import { offerHref } from '@/features/formations/href'
 import type { FormationType, RegistrationStatus } from '@/features/formations/types'
 import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
 import CategoryTag from '@/features/categories/components/CategoryTag'
@@ -125,7 +126,7 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                         )}
                     </div>
                     <Link
-                        href={`/formations/${formation.id}`}
+                        href={offerHref(formation)}
                         className='rounded-lg border border-primary px-5 py-2.5 text-center font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white'>
                         {t(OFFER_CTA[formation.kind])}
                     </Link>

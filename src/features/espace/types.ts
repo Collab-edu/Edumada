@@ -43,7 +43,7 @@ export type Inquiry = {
     email: string
     phone: string | null
     message: string | null
-    offer: { id: string; title: string } | null
+    offer: { id: string; urlSlug: string; title: string } | null
     establishment: { id: string; name: string }
     createdAt: string
     updatedAt: string
@@ -125,7 +125,7 @@ export type Campaign = {
 export type Report = {
     id: number
     establishment: { id: string; name: string }
-    offer: { id: string; title: string } | null
+    offer: { id: string; urlSlug: string; title: string } | null
     reason: string
     reasonLabel: string
     message: string

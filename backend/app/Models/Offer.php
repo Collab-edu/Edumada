@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /**
  * Offre éducative : formation, niveau scolaire ou accueil.
@@ -110,6 +111,29 @@ class Offer extends Model
             'partnerships' => 'array',
             'academic_calendar' => 'array',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Offer $offer): void {
+            $offer->url_slug ??= self::uniqueUrlSlug($offer);
+        });
+    }
+
+    /**
+     * Nom de l'offre dans son adresse, unique au sein de l'établissement.
+     */
+    private static function uniqueUrlSlug(Offer $offer): string
+    {
+        $base = Str::slug(mb_substr($offer->title, 0, 200)) ?: 'offre';
+        $slug = $base;
+        $suffix = 2;
+
+        while (self::withTrashed()->where('establishment_id', $offer->establishment_id)->where('url_slug', $slug)->exists()) {
+            $slug = $base.'-'.$suffix++;
+        }
+
+        return $slug;
     }
 
     /**

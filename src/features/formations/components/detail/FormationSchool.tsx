@@ -9,6 +9,7 @@ import type { FormationType } from '../../types'
 import { DetailSection, SubTitle } from './parts'
 import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
 import SchoolMap from '@/components/map/SchoolMap'
+import { offerHref } from '@/features/formations/href'
 
 interface FormationSchoolProps {
     school: SchoolType
@@ -95,7 +96,7 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                             <ul className='flex flex-col divide-y divide-gray-100 rounded-xl border border-gray-100'>
                                 {otherFormations.map((f) => (
                                     <li key={f.id}>
-                                        <Link href={`/formations/${f.id}`} className='group flex items-center justify-between gap-3 px-4 py-3 hover:bg-offwhite'>
+                                        <Link href={offerHref(f)} className='group flex items-center justify-between gap-3 px-4 py-3 hover:bg-offwhite'>
                                             <span className='flex flex-col'>
                                                 <span className='font-medium text-secondary group-hover:text-primary'>{f.title}</span>
                                                 <span className='text-sm text-ink/60'>{[...offerFacts(f).map((fact) => t(fact.label)), t(f.modality)].join(' · ')}</span>

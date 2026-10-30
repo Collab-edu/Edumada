@@ -165,6 +165,28 @@ class OfferControllerTest extends TestCase
             ->assertJsonPath('data.id', $offer->slug);
     }
 
+    public function test_offer_is_found_by_establishment_and_url_slug(): void
+    {
+        $establishment = Establishment::factory()->create(['slug' => 'ispm']);
+        $offer = Offer::factory()->for($establishment)->create(['title' => 'Licence informatique']);
+
+        $this->assertSame('licence-informatique', $offer->url_slug);
+        $this->getJson('/api/v1/establishments/ispm/offers/licence-informatique')
+            ->assertOk()
+            ->assertJsonPath('data.id', $offer->slug)
+            ->assertJsonPath('data.urlSlug', 'licence-informatique');
+    }
+
+    public function test_url_slug_is_unique_only_within_an_establishment(): void
+    {
+        $establishment = Establishment::factory()->create();
+        $offers = Offer::factory()->for($establishment)->count(2)->create(['title' => 'Licence informatique']);
+        $other = Offer::factory()->create(['title' => 'Licence informatique']);
+
+        $this->assertSame(['licence-informatique', 'licence-informatique-2'], $offers->pluck('url_slug')->all());
+        $this->assertSame('licence-informatique', $other->url_slug);
+    }
+
     public function test_owner_creates_an_offer_using_site_labels(): void
     {
         $owner = User::factory()->create(['role' => UserRole::Establishment]);

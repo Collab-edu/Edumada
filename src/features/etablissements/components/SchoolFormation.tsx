@@ -5,6 +5,7 @@ import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import { formatAgeRange, formatTuition, offerFacts } from '@/features/formations/format'
+import { offerHref } from '@/features/formations/href'
 import type { FormationType, RegistrationStatus } from '@/features/formations/types'
 
 const REGISTRATION_BADGE: Record<RegistrationStatus, { label: string; className: string }> = {
@@ -55,7 +56,7 @@ export function SchoolFormation({ formation }: { formation: FormationType }) {
                     </ul>
                     <div className='mt-auto pt-1'>
                         <Link
-                            href={`/formations/${formation.id}`}
+                            href={offerHref(formation)}
                             className='inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-primary/90'>
                             Voir la formation
                             <Icon icon='tabler:arrow-right' />

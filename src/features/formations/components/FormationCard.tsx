@@ -9,6 +9,7 @@ import type { FormationType } from '../types'
 import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
 import CategoryTag from '@/features/categories/components/CategoryTag'
 import { useT } from '@/i18n/client'
+import { offerHref } from '@/features/formations/href'
 
 interface FormationCardProps {
     formation: FormationType
@@ -68,7 +69,7 @@ export function FormationCard({ formation, isFavorite, onToggleFavorite, compact
                         {formation.distanceKm !== undefined && <span className='font-semibold text-primary'>· {t('à {km} km', { km: formation.distanceKm.toLocaleString('fr-FR') })}</span>}
                     </li>
                 </ul>
-                <CardAction href={`/formations/${formation.id}`} className='py-2.5 text-sm'>
+                <CardAction href={offerHref(formation)} className='py-2.5 text-sm'>
                     {t(OFFER_CTA[formation.kind])}
                 </CardAction>
             </div>

@@ -99,6 +99,7 @@ export type FormationDetail = {
 
 export type Offer = {
     id: string
+    urlSlug: string
     title: string
     school: string
     schoolId: string
@@ -247,7 +248,7 @@ export type Campaign = {
 export type Report = {
     id: number
     establishment: { id: string; name: string }
-    offer: { id: string; title: string } | null
+    offer: { id: string; urlSlug: string; title: string } | null
     reason: string
     reasonLabel: string
     message: string

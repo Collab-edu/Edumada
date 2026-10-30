@@ -9,6 +9,7 @@ import { api, ApiError, apiEnabled, getToken } from '@/lib/api'
 import { fetchOfferPage, type OfferPage } from '@/data/catalog'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { formatDate } from '@/features/formations/format'
+import { offerHref } from '@/features/formations/href'
 
 const MAX_FILES = 5
 const MAX_SIZE = 5 * 1024 * 1024
@@ -78,7 +79,7 @@ export default function ApplicationPage() {
         return <PageUnavailable title='Candidature indisponible' message="Cette offre n'existe pas, n'est plus publiée ou le service en ligne est indisponible." />
     }
 
-    const offerUrl = `/formations/${offer.id}/`
+    const offerUrl = offerHref(offer)
     const here = `/candidature/?offre=${offer.id}`
 
     return (

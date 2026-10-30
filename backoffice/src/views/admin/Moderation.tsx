@@ -153,7 +153,7 @@ export default function Moderation() {
                                     </div>
                                     <h6>
                                         <a
-                                            href={`${SITE_URL}/${r.offer ? `formations/${r.offer.id}` : `etablissements/${r.establishment.id}`}/`}
+                                            href={`${SITE_URL}/etablissements/${r.establishment.id}/${r.offer ? `${r.offer.urlSlug}/` : ''}`}
                                             target='_blank'
                                             rel='noopener noreferrer'
                                         >

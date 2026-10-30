@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react'
 import { apiEnabled, getToken } from '@/lib/api'
 import { getBasePath } from '@/lib/base-path'
 import { track } from '@/lib/track'
-import { fetchOfferPage } from '@/data/catalog'
+import { fetchOfferPage, fetchOfferPageByUrl } from '@/data/catalog'
 import { getSiteData } from '@/data/site-data'
 import { PageSkeleton, PageUnavailable } from '@/components/ui/page-state'
+import { offerHref } from '../../href'
 import { buildFormationPageProps, type FormationPageProps } from '../../page-props'
 import FormationDetailPage from './FormationDetailPage'
 
@@ -14,7 +15,7 @@ import FormationDetailPage from './FormationDetailPage'
  * de l'API la remplacent (frais, dates, statut des inscriptions modifiés depuis le build).
  * Sans page statique (offre créée après le build), la fiche est construite dans le navigateur.
  */
-export default function LiveFormationPage({ id, initial }: { id: string; initial: FormationPageProps | null }) {
+export default function LiveFormationPage({ id, school, initial }: { id: string; school?: string; initial: FormationPageProps | null }) {
     const [props, setProps] = useState(initial)
     const [state, setState] = useState<'ready' | 'missing' | 'error'>('ready')
 
@@ -24,14 +25,14 @@ export default function LiveFormationPage({ id, initial }: { id: string; initial
             return
         }
         let active = true
-        Promise.all([fetchOfferPage(id, getToken()), getSiteData()])
+        Promise.all([(school ? fetchOfferPageByUrl(school, id, getToken()) : fetchOfferPage(id, getToken())), getSiteData()])
             .then(([page, data]) => {
                 const { details, establishment, ...formation } = page
                 const next = buildFormationPageProps(formation, details, data, establishment)
                 if (!active) return
-                // Ancien lien : on renvoie vers l'adresse actuelle de l'offre.
-                if (formation.id !== id) {
-                    window.location.replace(`${getBasePath()}/formations/${formation.id}/`)
+                // Ancien lien (/formations/…) : on renvoie vers l'adresse actuelle de l'offre.
+                if (!initial && !school) {
+                    window.location.replace(`${getBasePath()}${offerHref(formation)}`)
                     return
                 }
                 if (next) setProps(next)
@@ -43,7 +44,7 @@ export default function LiveFormationPage({ id, initial }: { id: string; initial
         return () => {
             active = false
         }
-    }, [id, initial])
+    }, [id, school, initial])
 
     if (state === 'missing') {
         return <PageUnavailable title='Offre introuvable' message="Cette offre n'existe pas ou n'est plus publiée." />

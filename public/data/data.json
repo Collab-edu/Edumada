@@ -1019,6 +1019,7 @@
     "FormationData": [
         {
             "id": "licence-en-informatique-institut-numerique-de-madagascar",
+            "urlSlug": "licence-en-informatique",
             "title": "Licence en informatique",
             "school": "Institut Numérique de Madagascar",
             "schoolType": "Privé",
@@ -1060,6 +1061,7 @@
         },
         {
             "id": "licence-en-gestion-et-management-ecole-superieure-de-gestion",
+            "urlSlug": "licence-en-gestion-et-management",
             "title": "Licence en gestion et management",
             "school": "École Supérieure de Gestion",
             "schoolType": "Privé",
@@ -1100,6 +1102,7 @@
         },
         {
             "id": "formation-en-soins-infirmiers-institut-de-formation-en-sante",
+            "urlSlug": "formation-en-soins-infirmiers",
             "title": "Formation en soins infirmiers",
             "school": "Institut de Formation en Santé",
             "schoolType": "Privé",
@@ -1140,6 +1143,7 @@
         },
         {
             "id": "bts-en-tourisme-et-hotellerie-institut-de-tourisme-et-dhotellerie",
+            "urlSlug": "bts-en-tourisme-et-hotellerie",
             "title": "BTS en tourisme et hôtellerie",
             "school": "Institut de Tourisme et d'Hôtellerie",
             "schoolType": "Privé",
@@ -1177,6 +1181,7 @@
         },
         {
             "id": "master-en-genie-logiciel-centre-universitaire-dinformatique",
+            "urlSlug": "master-en-genie-logiciel",
             "title": "Master en génie logiciel",
             "school": "Centre Universitaire d'Informatique",
             "schoolType": "Public",
@@ -1213,6 +1218,7 @@
         },
         {
             "id": "licence-en-droit-des-affaires-institut-superieur-de-droit-de-toamasina",
+            "urlSlug": "licence-en-droit-des-affaires",
             "title": "Licence en droit des affaires",
             "school": "Institut Supérieur de Droit de Toamasina",
             "schoolType": "Public",
@@ -1254,6 +1260,7 @@
         },
         {
             "id": "master-en-agronomie-et-developpement-rural-pole-superieur-dagronomie",
+            "urlSlug": "master-en-agronomie-et-developpement-rural",
             "title": "Master en agronomie et développement rural",
             "school": "Pôle Supérieur d'Agronomie",
             "schoolType": "Public",
@@ -1290,6 +1297,7 @@
         },
         {
             "id": "certificat-en-developpement-web-academie-numerique-dantsirabe",
+            "urlSlug": "certificat-en-developpement-web",
             "title": "Certificat en développement web",
             "school": "Académie Numérique d'Antsirabe",
             "schoolType": "Privé",
@@ -1327,6 +1335,7 @@
         },
         {
             "id": "licence-en-anglais-et-communication-institut-des-langues-de-fianarantsoa",
+            "urlSlug": "licence-en-anglais-et-communication",
             "title": "Licence en anglais et communication",
             "school": "Institut des Langues de Fianarantsoa",
             "schoolType": "Public",
@@ -1368,6 +1377,7 @@
         },
         {
             "id": "doctorat-en-medecine-generale-ecole-de-sante-de-mahajanga",
+            "urlSlug": "doctorat-en-medecine-generale",
             "title": "Doctorat en médecine générale",
             "school": "École de Santé de Mahajanga",
             "schoolType": "Public",
@@ -1407,6 +1417,7 @@
         },
         {
             "id": "bts-en-genie-civil-institut-polytechnique-de-toliara",
+            "urlSlug": "bts-en-genie-civil",
             "title": "BTS en génie civil",
             "school": "Institut Polytechnique de Toliara",
             "schoolType": "Privé",
@@ -1446,6 +1457,7 @@
         },
         {
             "id": "master-en-management-du-tourisme-ecole-superieure-de-tourisme-dantsiranana",
+            "urlSlug": "master-en-management-du-tourisme",
             "title": "Master en management du tourisme",
             "school": "École Supérieure de Tourisme d'Antsiranana",
             "schoolType": "Privé",
@@ -1483,6 +1495,7 @@
         },
         {
             "id": "licence-en-commerce-international-business-school-de-toamasina",
+            "urlSlug": "licence-en-commerce-international",
             "title": "Licence en commerce international",
             "school": "Business School de Toamasina",
             "schoolType": "Privé",
@@ -1524,6 +1537,7 @@
         },
         {
             "id": "bts-en-reseaux-et-telecommunications-institut-numerique-de-madagascar",
+            "urlSlug": "bts-en-reseaux-et-telecommunications",
             "title": "BTS en réseaux et télécommunications",
             "school": "Institut Numérique de Madagascar",
             "schoolId": "institut-numerique-de-madagascar",
@@ -1565,6 +1579,7 @@
         },
         {
             "id": "master-en-science-des-donnees-institut-numerique-de-madagascar",
+            "urlSlug": "master-en-science-des-donnees",
             "title": "Master en science des données",
             "school": "Institut Numérique de Madagascar",
             "schoolId": "institut-numerique-de-madagascar",
@@ -1602,6 +1617,7 @@
         },
         {
             "id": "certificat-en-cybersecurite-institut-numerique-de-madagascar",
+            "urlSlug": "certificat-en-cybersecurite",
             "title": "Certificat en cybersécurité",
             "school": "Institut Numérique de Madagascar",
             "schoolId": "institut-numerique-de-madagascar",
@@ -1639,6 +1655,7 @@
         },
         {
             "id": "bts-en-comptabilite-et-gestion-ecole-superieure-de-gestion",
+            "urlSlug": "bts-en-comptabilite-et-gestion",
             "title": "BTS en comptabilité et gestion",
             "school": "École Supérieure de Gestion",
             "schoolId": "ecole-superieure-de-gestion",
@@ -1679,6 +1696,7 @@
         },
         {
             "id": "master-en-management-des-organisations-ecole-superieure-de-gestion",
+            "urlSlug": "master-en-management-des-organisations",
             "title": "Master en management des organisations",
             "school": "École Supérieure de Gestion",
             "schoolId": "ecole-superieure-de-gestion",
@@ -1715,6 +1733,7 @@
         },
         {
             "id": "formation-de-sage-femme-institut-de-formation-en-sante",
+            "urlSlug": "formation-de-sage-femme",
             "title": "Formation de sage-femme",
             "school": "Institut de Formation en Santé",
             "schoolId": "institut-de-formation-en-sante",
@@ -1755,6 +1774,7 @@
         },
         {
             "id": "certificat-daide-soignant-institut-de-formation-en-sante",
+            "urlSlug": "certificat-daide-soignant",
             "title": "Certificat d'aide-soignant",
             "school": "Institut de Formation en Santé",
             "schoolId": "institut-de-formation-en-sante",
@@ -1792,6 +1812,7 @@
         },
         {
             "id": "licence-en-management-hotelier-institut-de-tourisme-et-dhotellerie",
+            "urlSlug": "licence-en-management-hotelier",
             "title": "Licence en management hôtelier",
             "school": "Institut de Tourisme et d'Hôtellerie",
             "schoolId": "institut-de-tourisme-et-d-hotellerie",
@@ -1829,6 +1850,7 @@
         },
         {
             "id": "certificat-en-arts-culinaires-institut-de-tourisme-et-dhotellerie",
+            "urlSlug": "certificat-en-arts-culinaires",
             "title": "Certificat en arts culinaires",
             "school": "Institut de Tourisme et d'Hôtellerie",
             "schoolId": "institut-de-tourisme-et-d-hotellerie",
@@ -1866,6 +1888,7 @@
         },
         {
             "id": "licence-en-informatique-de-gestion-centre-universitaire-dinformatique",
+            "urlSlug": "licence-en-informatique-de-gestion",
             "title": "Licence en informatique de gestion",
             "school": "Centre Universitaire d'Informatique",
             "schoolId": "centre-universitaire-d-informatique",
@@ -1905,6 +1928,7 @@
         },
         {
             "id": "master-en-droit-public-institut-superieur-de-droit-de-toamasina",
+            "urlSlug": "master-en-droit-public",
             "title": "Master en droit public",
             "school": "Institut Supérieur de Droit de Toamasina",
             "schoolId": "institut-superieur-de-droit-de-toamasina",
@@ -1942,6 +1966,7 @@
         },
         {
             "id": "licence-en-agronomie-pole-superieur-dagronomie",
+            "urlSlug": "licence-en-agronomie",
             "title": "Licence en agronomie",
             "school": "Pôle Supérieur d'Agronomie",
             "schoolId": "pole-superieur-d-agronomie",
@@ -1981,6 +2006,7 @@
         },
         {
             "id": "certificat-en-marketing-digital-academie-numerique-dantsirabe",
+            "urlSlug": "certificat-en-marketing-digital",
             "title": "Certificat en marketing digital",
             "school": "Académie Numérique d'Antsirabe",
             "schoolId": "academie-numerique-d-antsirabe",
@@ -2018,6 +2044,7 @@
         },
         {
             "id": "certificat-en-design-graphique-academie-numerique-dantsirabe",
+            "urlSlug": "certificat-en-design-graphique",
             "title": "Certificat en design graphique",
             "school": "Académie Numérique d'Antsirabe",
             "schoolId": "academie-numerique-d-antsirabe",
@@ -2055,6 +2082,7 @@
         },
         {
             "id": "licence-en-traduction-et-interpretariat-institut-des-langues-de-fianarantsoa",
+            "urlSlug": "licence-en-traduction-et-interpretariat",
             "title": "Licence en traduction et interprétariat",
             "school": "Institut des Langues de Fianarantsoa",
             "schoolId": "institut-des-langues-de-fianarantsoa",
@@ -2096,6 +2124,7 @@
         },
         {
             "id": "licence-en-sciences-infirmieres-ecole-de-sante-de-mahajanga",
+            "urlSlug": "licence-en-sciences-infirmieres",
             "title": "Licence en sciences infirmières",
             "school": "École de Santé de Mahajanga",
             "schoolId": "ecole-de-sante-de-mahajanga",
@@ -2135,6 +2164,7 @@
         },
         {
             "id": "licence-en-genie-civil-institut-polytechnique-de-toliara",
+            "urlSlug": "licence-en-genie-civil",
             "title": "Licence en génie civil",
             "school": "Institut Polytechnique de Toliara",
             "schoolId": "institut-polytechnique-de-toliara",
@@ -2174,6 +2204,7 @@
         },
         {
             "id": "bts-en-electrotechnique-institut-polytechnique-de-toliara",
+            "urlSlug": "bts-en-electrotechnique",
             "title": "BTS en électrotechnique",
             "school": "Institut Polytechnique de Toliara",
             "schoolId": "institut-polytechnique-de-toliara",
@@ -2213,6 +2244,7 @@
         },
         {
             "id": "bts-en-guide-touristique-ecole-superieure-de-tourisme-dantsiranana",
+            "urlSlug": "bts-en-guide-touristique",
             "title": "BTS en guide touristique",
             "school": "École Supérieure de Tourisme d'Antsiranana",
             "schoolId": "ecole-superieure-de-tourisme-d-antsiranana",
@@ -2250,6 +2282,7 @@
         },
         {
             "id": "master-en-commerce-international-business-school-de-toamasina",
+            "urlSlug": "master-en-commerce-international",
             "title": "Master en commerce international",
             "school": "Business School de Toamasina",
             "schoolId": "business-school-de-toamasina",
@@ -2287,6 +2320,7 @@
         },
         {
             "id": "accueil-en-creche-3-mois-3-ans-creche-les-petits-lemuriens",
+            "urlSlug": "accueil-en-creche-3-mois-3-ans",
             "title": "Accueil en crèche (3 mois – 3 ans)",
             "school": "Crèche Les Petits Lémuriens",
             "schoolId": "creche-les-petits-lemuriens",
@@ -2327,6 +2361,7 @@
         },
         {
             "id": "maternelle-3-6-ans-creche-les-petits-lemuriens",
+            "urlSlug": "maternelle-3-6-ans",
             "title": "Maternelle (3 – 6 ans)",
             "school": "Crèche Les Petits Lémuriens",
             "schoolId": "creche-les-petits-lemuriens",
@@ -2367,6 +2402,7 @@
         },
         {
             "id": "prescolaire-groupe-scolaire-les-flamboyants",
+            "urlSlug": "prescolaire",
             "title": "Préscolaire",
             "school": "Groupe Scolaire Les Flamboyants",
             "schoolId": "groupe-scolaire-les-flamboyants",
@@ -2407,6 +2443,7 @@
         },
         {
             "id": "primaire-t1-a-t5-groupe-scolaire-les-flamboyants",
+            "urlSlug": "primaire-t1-a-t5",
             "title": "Primaire (T1 à T5)",
             "school": "Groupe Scolaire Les Flamboyants",
             "schoolId": "groupe-scolaire-les-flamboyants",
@@ -2447,6 +2484,7 @@
         },
         {
             "id": "college-6e-a-3e-groupe-scolaire-les-flamboyants",
+            "urlSlug": "college-6e-a-3e",
             "title": "Collège (6e à 3e)",
             "school": "Groupe Scolaire Les Flamboyants",
             "schoolId": "groupe-scolaire-les-flamboyants",
@@ -2487,6 +2525,7 @@
         },
         {
             "id": "lycee-seconde-a-terminale-groupe-scolaire-les-flamboyants",
+            "urlSlug": "lycee-seconde-a-terminale",
             "title": "Lycée (Seconde à Terminale)",
             "school": "Groupe Scolaire Les Flamboyants",
             "schoolId": "groupe-scolaire-les-flamboyants",
@@ -2527,6 +2566,7 @@
         },
         {
             "id": "cours-danglais-general-a1-a-b2-centre-de-langues-vakoka",
+            "urlSlug": "cours-danglais-general-a1-a-b2",
             "title": "Cours d'anglais général (A1 à B2)",
             "school": "Centre de Langues Vakoka",
             "schoolId": "centre-de-langues-vakoka",
@@ -2564,6 +2604,7 @@
         },
         {
             "id": "francais-professionnel-centre-de-langues-vakoka",
+            "urlSlug": "francais-professionnel",
             "title": "Français professionnel",
             "school": "Centre de Langues Vakoka",
             "schoolId": "centre-de-langues-vakoka",
@@ -2600,6 +2641,7 @@
         },
         {
             "id": "accompagnement-educatif-specialise-6-16-ans-centre-educatif-fanantenana",
+            "urlSlug": "accompagnement-educatif-specialise-6-16-ans",
             "title": "Accompagnement éducatif spécialisé (6 – 16 ans)",
             "school": "Centre Éducatif Fanantenana",
             "schoolId": "centre-educatif-fanantenana",

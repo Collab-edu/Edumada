@@ -157,7 +157,7 @@ export default function Offers() {
                                                 )}
                                                 {o.status === 'published' && (
                                                     <>
-                                                        <CDropdownItem href={`${SITE_URL}/formations/${o.id}/`} target='_blank' rel='noopener noreferrer'>
+                                                        <CDropdownItem href={`${SITE_URL}/etablissements/${o.schoolId}/${o.urlSlug}/`} target='_blank' rel='noopener noreferrer'>
                                                             Voir sur le site
                                                         </CDropdownItem>
                                                         <CDropdownItem as='button' onClick={() => setStatus(o, 'draft')}>

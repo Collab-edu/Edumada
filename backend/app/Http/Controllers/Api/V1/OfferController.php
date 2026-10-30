@@ -82,6 +82,14 @@ class OfferController extends Controller
         ]));
     }
 
+    /**
+     * Fiche offre à partir de son adresse : /etablissements/{établissement}/{offre}/.
+     */
+    public function showByUrl(Request $request, Establishment $establishment, string $urlSlug): OfferPageResource
+    {
+        return $this->show($request, $establishment->offers()->where('url_slug', $urlSlug)->firstOrFail());
+    }
+
     public function store(OfferRequest $request, Establishment $establishment): ManagedOfferResource
     {
         Gate::authorize('create', [Offer::class, $establishment]);

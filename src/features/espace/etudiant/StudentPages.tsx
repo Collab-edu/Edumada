@@ -10,6 +10,7 @@ import { api, ApiError } from '@/lib/api'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { STUDY_LEVELS } from '@/features/auth/components/SignUp'
 import FormationCard from '@/features/formations/components/FormationCard'
+import { offerHref } from '@/features/formations/href'
 import type { FormationType } from '@/features/formations/types'
 import { useApi } from '../useApi'
 import { Panel, SpaceShell, StatCard, formatDateTime } from '../components/SpaceShell'
@@ -122,7 +123,7 @@ function Inquiries() {
                 {selected && (
                     <div className='flex flex-col gap-4'>
                         <InquiryDetail inquiry={selected} />
-                        {selected.offer && <ButtonLink href={`/formations/${selected.offer.id}/`} variant='secondary'>Voir l&apos;offre</ButtonLink>}
+                        {selected.offer && <ButtonLink href={offerHref({ schoolId: selected.establishment.id, urlSlug: selected.offer.urlSlug })} variant='secondary'>Voir l&apos;offre</ButtonLink>}
                     </div>
                 )}
             </Dialog>

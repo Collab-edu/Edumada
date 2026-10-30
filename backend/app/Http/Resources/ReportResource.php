@@ -19,7 +19,7 @@ class ReportResource extends JsonResource
         return [
             'id' => $this->id,
             'establishment' => ['id' => $this->establishment->slug, 'name' => $this->establishment->name],
-            'offer' => $this->offer ? ['id' => $this->offer->slug, 'title' => $this->offer->title] : null,
+            'offer' => $this->offer ? ['id' => $this->offer->slug, 'urlSlug' => $this->offer->url_slug, 'title' => $this->offer->title] : null,
             'reason' => $this->reason->value,
             'reasonLabel' => $this->reason->label(),
             'message' => $this->message,

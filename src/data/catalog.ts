@@ -61,3 +61,9 @@ export async function fetchOfferPage(id: string, token?: string | null): Promise
     const res = await api<{ data: OfferPage }>(`/offers/${encodeURIComponent(id)}`, { token })
     return res.data
 }
+
+/** Même fiche, à partir de son adresse /etablissements/{établissement}/{offre}/. */
+export async function fetchOfferPageByUrl(school: string, urlSlug: string, token?: string | null): Promise<OfferPage> {
+    const res = await api<{ data: OfferPage }>(`/establishments/${encodeURIComponent(school)}/offers/${encodeURIComponent(urlSlug)}`, { token })
+    return res.data
+}

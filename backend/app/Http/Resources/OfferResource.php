@@ -23,6 +23,7 @@ class OfferResource extends JsonResource
 
         return [
             'id' => $this->slug,
+            'urlSlug' => $this->url_slug,
             'title' => $this->title,
             'school' => $establishment->name,
             'schoolLogo' => $establishment->logo ?? '',

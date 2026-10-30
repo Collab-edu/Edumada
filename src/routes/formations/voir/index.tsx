@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Offre',
 }
 
-/** Fiche d'une offre publiée après le dernier build : /formations/voir/?id=… */
+/** Fiche d'une offre publiée après le dernier build (?ecole=…&offre=…) ou ancien lien (?id=…). */
 export default function VoirFormationPage() {
   return (
     <main>

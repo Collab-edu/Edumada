@@ -8,6 +8,8 @@ export type AdmissionSelection = 'Inscription directe' | 'Sur dossier' | 'Dossie
 
 export type FormationType = {
   id: string
+  /** Nom de l'offre dans son adresse (voir offerHref). */
+  urlSlug: string
   /** Recherche autour d'un lieu : distance à ce lieu, en km (absente sinon). */
   distanceKm?: number
   title: string

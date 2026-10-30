@@ -14,6 +14,11 @@ export default function FicheRedirect() {
     useEffect(() => {
         if (!apiEnabled) return
         const path = window.location.pathname.slice(getBasePath().length)
+        const offer = path.match(/^\/etablissements\/([a-z0-9-]+)\/([a-z0-9-]+)\/?$/)
+        if (offer) {
+            router.replace(`/formations/voir/?ecole=${offer[1]}&offre=${offer[2]}`)
+            return
+        }
         const match = path.match(/^\/(formations|etablissements)\/([a-z0-9-]+)\/?$/)
         if (match && match[2] !== 'voir') {
             router.replace(`/${match[1]}/voir/?id=${match[2]}`)
