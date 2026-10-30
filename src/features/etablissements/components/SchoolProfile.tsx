@@ -148,7 +148,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             {formations.length > 0 ? (
                                 <div className='grid grid-cols-1 md:grid-cols-2 items-start gap-5'>
                                     {formations.map((formation) => (
-                                        <SchoolFormation key={formation.id} formation={formation} fields={fields} />
+                                        <SchoolFormation key={formation.id} formation={formation} />
                                     ))}
                                 </div>
                             ) : (
