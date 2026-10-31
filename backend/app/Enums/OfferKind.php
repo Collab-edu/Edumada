@@ -3,7 +3,7 @@
 namespace App\Enums;
 
 /**
- * Nature de l'offre : formation diplômante, niveau scolaire, accueil (crèche, accompagnement) ou stage.
+ * Nature de l'offre : formation diplômante, niveau scolaire ou accueil (crèche, accompagnement).
  */
 enum OfferKind: string
 {
@@ -12,7 +12,6 @@ enum OfferKind: string
     case Formation = 'formation';
     case Level = 'niveau';
     case Care = 'accueil';
-    case Internship = 'stage';
 
     public function label(): string
     {
@@ -20,7 +19,6 @@ enum OfferKind: string
             self::Formation => 'formation',
             self::Level => 'niveau',
             self::Care => 'accueil',
-            self::Internship => 'stage',
         };
     }
 }

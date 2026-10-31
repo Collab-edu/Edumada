@@ -85,28 +85,6 @@ const VARIANTS = {
         schoolsTitle: null,
         cta: { title: 'Vous dirigez une crèche ou une école ?', text: 'Présentez votre établissement gratuitement et recevez les demandes des parents.', button: 'Référencer mon établissement' },
     },
-    /** Offres de stage de tous les établissements. */
-    stages: {
-        categoryIds: [],
-        eyebrow: 'Offres de stage',
-        title: 'Trouvez votre stage à Madagascar',
-        intro: 'Retrouvez les offres de stage publiées par Edumada : comparez les domaines et les villes, puis contactez directement l’établissement concerné.',
-        image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70',
-        imageAlt: 'Stagiaires au travail en équipe',
-        searchLabel: 'Voir les offres de stage',
-        listTitle: 'Les offres de stage',
-        listIntro: 'Filtrez par domaine et par ville pour trouver le stage qui correspond à votre projet.',
-        domainLabel: 'Domaine',
-        domainPlaceholder: FILTER_UI.domaine.placeholder,
-        bySubCategory: false,
-        benefits: [
-            { icon: 'tabler:tools', title: 'Une expérience concrète', text: 'Mettez en pratique ce que vous apprenez et découvrez un métier sur le terrain.' },
-            { icon: 'tabler:map-pin', title: 'Près de chez vous', text: 'Filtrez par ville ou par position pour trouver un stage proche de votre domicile.' },
-            { icon: 'tabler:message-circle', title: 'Un contact direct', text: 'Posez vos questions sur le stage directement à l’établissement qui le propose.' },
-        ],
-        schoolsTitle: null,
-        cta: { title: 'Vous proposez un stage ?', text: 'Envoyez-nous votre offre : l’équipe Edumada se charge de la publier.', button: 'Nous contacter' },
-    },
 } as const
 
 const plural = (n: number) => `${n} formation${n > 1 ? 's' : ''}`
@@ -125,12 +103,10 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
 
     const ids: readonly string[] = config.categoryIds
     const category = categories.find((c) => c.id === ids[0])
-    const isStages = variant === 'stages'
-    const ctaHref = isStages ? '/contact/' : '/tarifs/'
-    const searchHref = isStages ? '#offres' : `/recherche?categorie=${encodeURIComponent(category?.shortLabel ?? config.eyebrow)}`
-    const offers = useMemo(() => formations.filter((f) => (isStages ? f.kind === 'stage' : ids.includes(f.category) && f.kind !== 'stage')), [formations, ids, isStages])
+    const searchHref = `/recherche?categorie=${encodeURIComponent(category?.shortLabel ?? config.eyebrow)}`
+    const offers = useMemo(() => formations.filter((f) => ids.includes(f.category)), [formations, ids])
     const centers = useMemo(() => schools.filter((s) => ids.includes(s.category)), [schools, ids])
-    const schoolOf = useMemo(() => new Map((isStages ? schools : centers).map((c) => [c.id, c])), [isStages, schools, centers])
+    const schoolOf = useMemo(() => new Map(centers.map((c) => [c.id, c])), [centers])
 
     // Sous-catégories de la catégorie (ordre de CategoryData), avec leur nombre d'offres ; les vides sont masquées.
     const subCategories = useMemo(() => {
@@ -190,7 +166,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                     <Icon icon='tabler:search' className='text-lg' />
                                     {t(config.searchLabel)}
                                 </ButtonLink>
-                                <ButtonLink href={ctaHref} variant='secondary'>
+                                <ButtonLink href='/tarifs/' variant='secondary'>
                                     {t(config.cta.button)}
                                 </ButtonLink>
                             </div>
@@ -203,7 +179,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
             </section>
 
             {/* Formations */}
-            <section id='offres' className='scroll-mt-20'>
+            <section>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <SectionHeader title={config.listTitle} description={config.listIntro} />
 
@@ -276,13 +252,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                         <CardSkeletonGrid count={4} className='h-[360px]' />
                     ) : shown.length === 0 ? (
                         <p className='rounded-xl bg-white p-8 text-center text-black'>
-                            {isStages
-                                ? filtered
-                                    ? 'Aucune offre de stage ne correspond à ces critères.'
-                                    : 'Aucune offre de stage publiée pour le moment.'
-                                : filtered
-                                  ? t('Aucune formation ne correspond à ces critères.')
-                                  : t('Aucune formation publiée pour le moment.')}
+                            {filtered ? t('Aucune formation ne correspond à ces critères.') : t('Aucune formation publiée pour le moment.')}
                         </p>
                     ) : (
                         <>
@@ -290,16 +260,14 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                 <p className='mb-4 flex items-start gap-2 rounded-xl border border-secondary/15 bg-white px-4 py-3 text-sm text-black' role='status'>
                                     <Icon icon='tabler:current-location' className='mt-0.5 shrink-0 text-lg text-primary' />
                                     <span>
-                                        {isStages
-                                            ? 'Les offres de stage les plus proches, de la plus près à la plus loin.'
-                                            : filters.city === MY_POSITION
+                                        {filters.city === MY_POSITION
                                             ? t('Les formations les plus proches de votre position, de la plus près à la plus loin.')
                                             : t('Aucune formation à {city} : voici les plus proches, de la plus près à la plus loin.', { city: filters.city })}
                                     </span>
                                 </p>
                             )}
                             <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
-                                {isStages ? `${shown.length} offre${shown.length > 1 ? 's' : ''} de stage` : t(plural(shown.length))}
+                                {t(plural(shown.length))}
                             </p>
                             <div ref={page.listRef} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
                                 {page.visible.map((formation) => (
@@ -312,7 +280,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                     />
                                 ))}
                             </div>
-                            <ShowMoreButton {...page} onClick={page.showMore} noun={isStages ? { one: 'offre', many: 'offres', feminine: true } : { one: 'formation', many: 'formations', feminine: true }} />
+                            <ShowMoreButton {...page} onClick={page.showMore} noun={{ one: 'formation', many: 'formations', feminine: true }} />
                         </>
                     )}
                 </div>
@@ -363,7 +331,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                             <h2 className='text-2xl font-bold text-white'>{t(config.cta.title)}</h2>
                             <p className='text-white/80'>{t(config.cta.text)}</p>
                         </div>
-                        <ButtonLink href={ctaHref} className='shrink-0'>
+                        <ButtonLink href='/tarifs/' className='shrink-0'>
                             {t(config.cta.button)}
                         </ButtonLink>
                     </div>

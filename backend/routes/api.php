@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\V1\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Api\V1\Admin\BillingController as AdminBillingController;
 use App\Http\Controllers\Api\V1\Admin\EstablishmentController as AdminEstablishmentController;
-use App\Http\Controllers\Api\V1\Admin\InternshipController as AdminInternshipController;
 use App\Http\Controllers\Api\V1\Admin\ModerationController;
 use App\Http\Controllers\Api\V1\Admin\OverviewController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
@@ -144,7 +143,6 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::put('subscriptions/{subscription}/cancel', [AdminBillingController::class, 'cancelSubscription'])->name('subscriptions.cancel');
             Route::patch('plans/{plan:code}', [AdminBillingController::class, 'updatePlan'])->name('plans.update');
             Route::get('campaigns', [AdminBillingController::class, 'campaigns'])->name('campaigns.index');
-            Route::get('stages', [AdminInternshipController::class, 'index'])->name('stages.index');
             Route::apiResource('articles', AdminArticleController::class)->only(['index', 'store', 'update', 'destroy']);
         });
     });

@@ -1,8 +1,8 @@
 {
     "HeaderData": [
         {
-            "label": "Offres de stage",
-            "href": "/stages/"
+            "label": "Formations",
+            "href": "/recherche/"
         },
         {
             "label": "Universités",

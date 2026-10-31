@@ -79,7 +79,7 @@ class ProcessSubscriptions extends Command
             return;
         }
 
-        $establishment->ownPublishedOffers()
+        $establishment->publishedOffers()
             ->latest('updated_at')
             ->skip($limit)
             ->take(PHP_INT_MAX)

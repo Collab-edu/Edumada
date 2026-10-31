@@ -37,7 +37,7 @@ class BillingController extends Controller
             'plan' => new PlanResource($establishment->currentPlan()),
             'subscription' => $subscription ? new SubscriptionResource($subscription) : null,
             'plans' => PlanResource::collection(Plan::orderBy('position')->get()),
-            'publishedOffersCount' => $establishment->ownPublishedOffers()->count(),
+            'publishedOffersCount' => $establishment->publishedOffers()->count(),
             'invoices' => InvoiceResource::collection($establishment->invoices()->with(['plan', 'establishment'])->latest()->limit(24)->get()),
             'paymentMethods' => array_map(fn (PaymentMethod $method) => [
                 'value' => $method->value,

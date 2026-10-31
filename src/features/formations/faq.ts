@@ -35,13 +35,13 @@ export function buildFormationFaq(
           }
 
     const start: FaqItem = {
-        question: formation.kind === 'accueil' ? "Quand peut commencer l'accueil ?" : formation.kind === 'stage' ? 'Quand commence le stage ?' : 'Quand a lieu la rentrée ?',
+        question: formation.kind === 'accueil' ? "Quand peut commencer l'accueil ?" : 'Quand a lieu la rentrée ?',
         answer: formation.startDate
-            ? `${formation.kind === 'stage' ? 'Le prochain démarrage est prévu le' : 'La prochaine rentrée est prévue le'} ${formatDate(formation.startDate)}.` +
+            ? `La prochaine rentrée est prévue le ${formatDate(formation.startDate)}.` +
               (formation.registrationPeriod
                   ? ` Les inscriptions sont reçues du ${formatDate(formation.registrationPeriod.start)} au ${formatDate(formation.registrationPeriod.end)}.`
                   : '')
-            : formation.kind === 'stage' ? "La date de début du stage n'est pas encore communiquée." : "La date de rentrée n'est pas encore communiquée.",
+            : "La date de rentrée n'est pas encore communiquée.",
     }
 
     const rhythm: FaqItem = fields.careers

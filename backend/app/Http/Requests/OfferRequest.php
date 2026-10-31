@@ -35,13 +35,9 @@ class OfferRequest extends FormRequest
     {
         $offer = $this->route('offer');
 
-        if ($offer instanceof Offer) {
-            return $this->user()->can('update', $offer);
-        }
-
-        // L'administration Edumada ne crée que des stages.
-        return $this->user()->can('create', [Offer::class, $this->route('establishment')])
-            && (! $this->user()->isAdmin() || $this->input('kind') === OfferKind::Internship->label());
+        return $offer instanceof Offer
+            ? $this->user()->can('update', $offer)
+            : $this->user()->can('create', [Offer::class, $this->route('establishment')]);
     }
 
     /**
@@ -55,10 +51,7 @@ class OfferRequest extends FormRequest
         return [
             'title' => [$required, 'string', 'max:255'],
             'domain' => ['sometimes', 'nullable', 'string', Rule::exists('domains', 'name')],
-            // Les stages sont publiés par l'administration Edumada, et elle ne publie que cela.
-            'kind' => [$required, $this->user()->isAdmin()
-                ? Rule::in([OfferKind::Internship->label()])
-                : Rule::notIn([OfferKind::Internship->label()]), Rule::in(OfferKind::labels())],
+            'kind' => [$required, Rule::in(OfferKind::labels())],
             'diploma' => ['sometimes', 'nullable', Rule::in(Diploma::labels())],
             'durationYears' => ['sometimes', 'nullable', 'numeric', 'min:0', 'max:15'],
             'ageRange' => ['sometimes', 'nullable', 'array:min,max'],
@@ -149,8 +142,7 @@ class OfferRequest extends FormRequest
     {
         return [
             function (Validator $validator): void {
-                // Un stage n'entre pas dans la limite de la formule de l'établissement.
-                if ($validator->errors()->has('status') || $this->input('status') !== OfferStatus::Published->value || $this->user()->isAdmin()) {
+                if ($validator->errors()->has('status') || $this->input('status') !== OfferStatus::Published->value) {
                     return;
                 }
 

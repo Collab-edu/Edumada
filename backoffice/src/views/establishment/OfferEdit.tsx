@@ -297,7 +297,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                     </CCol>
                     <CCol md={6}>
                         <CFormSelect label="Type d'offre" value={s.kind} onChange={(ev) => set('kind', ev.target.value)}>
-                            {(ref?.offerKinds ?? Object.keys(KIND_LABEL)).filter((k) => k !== 'stage').map((k) => (
+                            {(ref?.offerKinds ?? Object.keys(KIND_LABEL)).map((k) => (
                                 <option key={k} value={k}>
                                     {KIND_LABEL[k] ?? k}
                                 </option>
