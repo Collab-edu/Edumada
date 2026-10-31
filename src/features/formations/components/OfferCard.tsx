@@ -38,7 +38,6 @@ export default function OfferCard({ formation, isFavorite, onToggleFavorite, spo
                 <Image src={imageOr(formation.imageSrc)} alt='' fill className='object-cover' />
                 <div className='absolute top-3 right-3 left-3 flex flex-wrap items-center gap-1.5'>
                     <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} className='static max-w-full rounded-full' />
-                    {formation.schoolType && <span className='rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-secondary'>{t(formation.schoolType)}</span>}
                     {sponsored && <span className='rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold text-white'>{t('Sponsorisé')}</span>}
                 </div>
                 <CardWave />
