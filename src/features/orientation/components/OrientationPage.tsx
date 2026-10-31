@@ -11,8 +11,6 @@ import BacSeriesSection from './BacSeriesSection'
 /** Les questions à se poser avant de comparer les formations. */
 /** Vidéo libre de droits (Pexels), en attendant une vidéo d'Edumada. */
 const HERO_VIDEO = 'https://videos.pexels.com/video-files/7092235/7092235-hd_1920_1080_30fps.mp4'
-/** Photo à droite de l'introduction (Unsplash). */
-const ORIENTATION_IMAGE = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=70'
 const HERO_POSTER = 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1600&q=70'
 
 const QUESTIONS = [
@@ -84,41 +82,32 @@ export default function OrientationPage() {
     const t = useT()
     return (
         <>
-            <section className='pt-28 pb-12 sm:pt-32 lg:pb-16'>
+            <section className='pt-32 pb-10 sm:pt-40'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label={t('Cours dans une salle de classe')} className='mb-10 h-56 sm:h-80 lg:mb-14 lg:h-96' />
-                    <div className='grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16'>
-                        <div className='mobile-center flex flex-col gap-5'>
-                            <p className='font-semibold uppercase tracking-wide text-primary'>{t('Orientation')}</p>
-                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t('Trouvez la voie qui vous correspond')}</h1>
-                            <p className='text-black'>
-                                {t('Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et comparer les possibilités à Madagascar.')}
-                            </p>
-                            <ButtonLink href='/orientation/test/' variant='secondary' className='mt-2 self-start max-sm:self-center'>
+                    <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
+                        <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
+                            Trouvez la voie <span className='text-primary'>qui vous correspond</span>
+                        </h1>
+                        <p className='max-w-2xl text-black'>
+                            {t('Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et comparer les possibilités à Madagascar.')}
+                        </p>
+                        <div className='flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center'>
+                            <ButtonLink href='/orientation/test/' variant='secondary'>
                                 <Icon icon='tabler:compass' className='text-lg' />
                                 Faire le test d’orientation (3 min)
                             </ButtonLink>
                             {/* Accès direct aux domaines d'études, bien mis en avant */}
                             <Link
                                 href='/domaines/'
-                                className='group mt-2 inline-flex items-center gap-2 self-start max-sm:self-center rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary/90'>
+                                className='group inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary/90'>
                                 Explorer les domaines d’études
                                 <Icon icon='tabler:arrow-right' className='text-xl transition-transform duration-300 group-hover:translate-x-1' />
                             </Link>
                         </div>
-    
-                        {/* Photo de présentation */}
-                        <div className='relative mx-auto h-72 w-full max-w-lg sm:h-80 lg:h-96'>
-                            <div className='absolute inset-0 overflow-hidden rounded-[2.5rem] rounded-tr-[6rem] shadow-[8px_8px_0_0_rgba(255,59,82,0.9)]'>
-                                <Image
-                                    src={ORIENTATION_IMAGE}
-                                    alt='Étudiants qui échangent autour d’une table'
-                                    fill
-                                    sizes='(min-width: 1024px) 45vw, 100vw'
-                                    className='object-cover'
-                                />
-                            </div>
-                        </div>
+                    </div>
+
+                    <div className='mt-10'>
+                        <HeroVideo src={HERO_VIDEO} poster={HERO_POSTER} label={t('Cours dans une salle de classe')} className='h-56 sm:h-80 lg:h-96' />
                     </div>
                 </div>
             </section>
