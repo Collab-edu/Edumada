@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Admin;
 use App\Enums\ClaimStatus;
 use App\Enums\EstablishmentStatus;
 use App\Enums\InquiryStatus;
+use App\Enums\InternshipApplicationStatus;
 use App\Enums\InvoiceStatus;
 use App\Enums\OfferStatus;
 use App\Enums\ReportStatus;
@@ -16,6 +17,7 @@ use App\Models\DailyStat;
 use App\Models\Establishment;
 use App\Models\EstablishmentClaim;
 use App\Models\Inquiry;
+use App\Models\InternshipApplication;
 use App\Models\Invoice;
 use App\Models\Offer;
 use App\Models\Report;
@@ -73,6 +75,7 @@ class OverviewController extends Controller
                 'reportsOpen' => Report::where('status', ReportStatus::Open)->count(),
                 'reviewsPending' => Review::where('status', ReviewStatus::Pending)->count(),
                 'invoicesPending' => Invoice::where('status', InvoiceStatus::Pending)->count(),
+                'internshipApplicationsNew' => InternshipApplication::where('status', InternshipApplicationStatus::New)->count(),
             ],
         ]]);
     }

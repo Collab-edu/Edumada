@@ -136,10 +136,27 @@ export type Internship = {
     modality: string
     registration: string
     startDate: string | null
-    contact: string
+    deadline: string | null
     description: string | null
+    missions: string | null
+    profile: string | null
+    benefits: string | null
+    allowance: string | null
     status: 'draft' | 'published' | 'archived'
     statusLabel: string
+    applicationsCount?: number
+}
+
+export type InternshipApplication = {
+    id: number
+    status: 'new' | 'in_review' | 'accepted' | 'refused'
+    statusLabel: string
+    phone: string | null
+    cvName: string
+    letterName: string
+    createdAt: string
+    internship: { id: string; title: string; companyName: string }
+    applicant?: { name: string; email: string }
 }
 
 export type ManagedOffer = Offer & {

@@ -15,7 +15,7 @@ import { formatMonths, internshipHref, type Internship } from '../types'
 const BENEFITS = [
     { icon: 'tabler:tools', title: 'Une expérience concrète', text: 'Mettez en pratique ce que vous apprenez et découvrez un métier sur le terrain.' },
     { icon: 'tabler:map-pin', title: 'Près de chez vous', text: 'Filtrez par ville pour trouver un stage proche de votre domicile.' },
-    { icon: 'tabler:message-circle', title: 'Un contact direct', text: 'Chaque offre indique comment postuler auprès de la société.' },
+    { icon: 'tabler:send', title: 'Une candidature simple', text: 'Envoyez votre CV et votre lettre de motivation depuis votre compte.' },
 ]
 
 const suggestions = (values: (string | null)[]) =>
@@ -56,7 +56,7 @@ export default function InternshipsPage() {
                         <div className='mobile-center flex max-w-3xl flex-col gap-4'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>Offres de stage</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Trouvez votre stage à Madagascar</h1>
-                            <p className='text-black'>Retrouvez les offres de stage publiées par Edumada : comparez les domaines et les villes, puis postulez directement auprès de la société.</p>
+                            <p className='text-black'>Retrouvez les offres de stage publiées par Edumada : comparez les domaines et les villes, puis envoyez votre candidature depuis votre compte.</p>
                             <div className='mobile-center flex flex-wrap gap-3'>
                                 <ButtonLink href='#offres'>
                                     <Icon icon='tabler:search' className='text-lg' />

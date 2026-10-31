@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Api\V1\Admin\BillingController as AdminBillingController;
 use App\Http\Controllers\Api\V1\Admin\EstablishmentController as AdminEstablishmentController;
+use App\Http\Controllers\Api\V1\Admin\InternshipApplicationController as AdminInternshipApplicationController;
 use App\Http\Controllers\Api\V1\Admin\InternshipController as AdminInternshipController;
 use App\Http\Controllers\Api\V1\Admin\ModerationController;
 use App\Http\Controllers\Api\V1\Admin\OverviewController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\Api\V1\InquiryAttachmentController;
 use App\Http\Controllers\Api\V1\InquiryController;
 use App\Http\Controllers\Api\V1\InquiryStatusController;
 use App\Http\Controllers\Api\V1\ManagedEstablishmentController;
+use App\Http\Controllers\Api\V1\InternshipApplicationController;
 use App\Http\Controllers\Api\V1\InternshipController;
 use App\Http\Controllers\Api\V1\OfferController;
 use App\Http\Controllers\Api\V1\PlaceController;
@@ -81,6 +83,8 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::get('establishments/{establishment}/manage', [ManagedEstablishmentController::class, 'show'])->name('establishments.manage');
 
         // Espace étudiant : favoris, demandes et candidatures, avis.
+        Route::get('me/internship-applications', [InternshipApplicationController::class, 'index'])->name('me.internship-applications');
+        Route::post('internships/{internship}/applications', [InternshipApplicationController::class, 'store'])->middleware('throttle:20,60')->name('internships.applications.store');
         Route::get('me/favorites', [FavoriteController::class, 'index'])->name('me.favorites.index');
         Route::put('me/favorites/{offer}', [FavoriteController::class, 'update'])->name('me.favorites.update');
         Route::delete('me/favorites/{offer}', [FavoriteController::class, 'destroy'])->name('me.favorites.destroy');
@@ -147,6 +151,10 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::patch('plans/{plan:code}', [AdminBillingController::class, 'updatePlan'])->name('plans.update');
             Route::get('campaigns', [AdminBillingController::class, 'campaigns'])->name('campaigns.index');
             Route::apiResource('internships', AdminInternshipController::class)->only(['index', 'store', 'update', 'destroy']);
+            Route::get('internship-applications', [AdminInternshipApplicationController::class, 'index'])->name('internship-applications.index');
+            Route::put('internship-applications/{application}', [AdminInternshipApplicationController::class, 'update'])->name('internship-applications.update');
+            Route::get('internship-applications/{application}/cv', [AdminInternshipApplicationController::class, 'cv'])->name('internship-applications.cv');
+            Route::get('internship-applications/{application}/letter', [AdminInternshipApplicationController::class, 'letter'])->name('internship-applications.letter');
             Route::apiResource('articles', AdminArticleController::class)->only(['index', 'store', 'update', 'destroy']);
         });
     });

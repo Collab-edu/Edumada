@@ -2,14 +2,22 @@
 import { useState, type FormEvent } from 'react'
 import { CButton, CCol, CForm, CFormInput, CFormSelect, CFormTextarea, CModal, CModalBody, CModalHeader, CModalTitle, CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilPlus } from '@coreui/icons'
+import { cilCloudDownload, cilPlus } from '@coreui/icons'
 import { useToast } from '@/context/ToastContext'
-import { api, assetUrl, errorMessage, fieldError, isGeneralError, SITE_URL } from '@/lib/api'
+import { api, assetUrl, downloadFile, errorMessage, fieldError, isGeneralError, SITE_URL } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
-import type { Domain, Internship, ReferenceData } from '@/lib/types'
+import { formatDateTime } from '@/lib/format'
+import type { Domain, Internship, InternshipApplication, Paginated, ReferenceData } from '@/lib/types'
 import PlaceInput from '@/components/PlaceInput'
-import { EmptyState, ErrorAlert, ImageUpload, Loading, PageCard, StatusBadge } from '@/components/ui'
+import { EmptyState, ErrorAlert, ImageUpload, Loading, PageCard, Pager, StatusBadge } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
+
+const APPLICATION_STATUSES = [
+    ['new', 'Nouvelle'],
+    ['in_review', 'En cours'],
+    ['accepted', 'Acceptée'],
+    ['refused', 'Refusée'],
+]
 
 const initial = (i: Internship | null) => ({
     companyName: i?.companyName ?? '',
@@ -21,8 +29,12 @@ const initial = (i: Internship | null) => ({
     modality: i?.modality ?? 'Présentiel',
     registration: i?.registration ?? 'Ouvertes',
     startDate: i?.startDate ?? '',
-    contact: i?.contact ?? '',
+    deadline: i?.deadline ?? '',
+    allowance: i?.allowance ?? '',
     description: i?.description ?? '',
+    missions: i?.missions ?? '',
+    profile: i?.profile ?? '',
+    benefits: i?.benefits ?? '',
 })
 
 function InternshipForm({ internship, onDone }: { internship: Internship | null; onDone: () => void }) {
@@ -48,8 +60,12 @@ function InternshipForm({ internship, onDone }: { internship: Internship | null;
             modality: form.modality,
             registration: form.registration,
             startDate: form.startDate || null,
-            contact: form.contact,
+            deadline: form.deadline || null,
+            allowance: form.allowance || null,
             description: form.description || null,
+            missions: form.missions || null,
+            profile: form.profile || null,
+            benefits: form.benefits || null,
             status,
         }
         try {
@@ -112,19 +128,23 @@ function InternshipForm({ internship, onDone }: { internship: Internship | null;
                         <option>Fermées</option>
                     </CFormSelect>
                 </CCol>
-                <CCol md={12}>
-                    <CFormInput
-                        label='Contact pour postuler'
-                        text='E-mail, téléphone ou lien : affiché sur le bouton « Postuler ».'
-                        value={form.contact}
-                        onChange={(e) => set('contact', e.target.value)}
-                        invalid={!!err('contact')}
-                        feedbackInvalid={err('contact')}
-                        required
-                    />
+                <CCol md={6}>
+                    <CFormInput label='Date limite de candidature' type='date' value={form.deadline} onChange={(e) => set('deadline', e.target.value)} invalid={!!err('deadline')} feedbackInvalid={err('deadline')} />
+                </CCol>
+                <CCol md={6}>
+                    <CFormInput label='Gratification' placeholder='Ex. : 200 000 Ar par mois' value={form.allowance} onChange={(e) => set('allowance', e.target.value)} invalid={!!err('allowance')} feedbackInvalid={err('allowance')} />
                 </CCol>
                 <CCol md={12}>
-                    <CFormTextarea label='Description' rows={5} maxLength={5000} value={form.description} onChange={(e) => set('description', e.target.value)} />
+                    <CFormTextarea label='Présentation' rows={3} maxLength={5000} value={form.description} onChange={(e) => set('description', e.target.value)} />
+                </CCol>
+                <CCol md={12}>
+                    <CFormTextarea label='Missions principales' text='Une par ligne.' rows={4} maxLength={5000} value={form.missions} onChange={(e) => set('missions', e.target.value)} />
+                </CCol>
+                <CCol md={12}>
+                    <CFormTextarea label='Profil recherché' text='Un point par ligne.' rows={4} maxLength={5000} value={form.profile} onChange={(e) => set('profile', e.target.value)} />
+                </CCol>
+                <CCol md={12}>
+                    <CFormTextarea label='Avantages' text='Un par ligne.' rows={3} maxLength={5000} value={form.benefits} onChange={(e) => set('benefits', e.target.value)} />
                 </CCol>
                 <CCol md={12} className='d-flex flex-wrap justify-content-end gap-2'>
                     <CButton color='secondary' variant='outline' disabled={saving} onClick={() => save('draft')}>
@@ -136,6 +156,124 @@ function InternshipForm({ internship, onDone }: { internship: Internship | null;
                 </CCol>
             </CRow>
         </CForm>
+    )
+}
+
+/** Candidatures reçues : CV et lettre de motivation à télécharger, suivi du statut. */
+function Applications({ internships, onChanged }: { internships: Internship[]; onChanged: () => void }) {
+    const toast = useToast()
+    const [status, setStatus] = useState('')
+    const [internship, setInternship] = useState('')
+    const [page, setPage] = useState(1)
+    const { data, reload } = useApi<Paginated<InternshipApplication>>('/admin/internship-applications', { status, internship, page })
+
+    const update = async (a: InternshipApplication, next: string) => {
+        try {
+            await api(`/admin/internship-applications/${a.id}`, { method: 'PUT', body: { status: next } })
+            reload()
+            onChanged()
+        } catch (err) {
+            toast.error(errorMessage(err))
+        }
+    }
+    const download = (path: string, name: string) => downloadFile(path, name).catch((err) => toast.error(errorMessage(err)))
+
+    return (
+        <PageCard
+            title='Candidatures reçues'
+            subtitle='CV et lettre de motivation des étudiants'
+            actions={
+                <div className='d-flex flex-wrap gap-2'>
+                    <CFormSelect
+                        aria-label='Stage'
+                        style={{ width: 'auto', maxWidth: '16rem' }}
+                        value={internship}
+                        onChange={(e) => {
+                            setInternship(e.target.value)
+                            setPage(1)
+                        }}
+                    >
+                        <option value=''>Tous les stages</option>
+                        {internships.map((i) => (
+                            <option key={i.id} value={i.id}>
+                                {i.title}
+                            </option>
+                        ))}
+                    </CFormSelect>
+                    <CFormSelect
+                        aria-label='Statut'
+                        style={{ width: 'auto' }}
+                        value={status}
+                        onChange={(e) => {
+                            setStatus(e.target.value)
+                            setPage(1)
+                        }}
+                    >
+                        <option value=''>Tous les statuts</option>
+                        {APPLICATION_STATUSES.map(([value, label]) => (
+                            <option key={value} value={value}>
+                                {label}
+                            </option>
+                        ))}
+                    </CFormSelect>
+                </div>
+            }
+        >
+            {!data ? (
+                <Loading />
+            ) : data.data.length === 0 ? (
+                <EmptyState title='Aucune candidature' />
+            ) : (
+                <>
+                    <CTable align='middle' hover responsive className='mb-0'>
+                        <CTableHead>
+                            <CTableRow>
+                                <CTableHeaderCell>Candidat</CTableHeaderCell>
+                                <CTableHeaderCell>Stage</CTableHeaderCell>
+                                <CTableHeaderCell>Documents</CTableHeaderCell>
+                                <CTableHeaderCell>Statut</CTableHeaderCell>
+                            </CTableRow>
+                        </CTableHead>
+                        <CTableBody>
+                            {data.data.map((a) => (
+                                <CTableRow key={a.id}>
+                                    <CTableDataCell>
+                                        <strong>{a.applicant?.name}</strong>
+                                        <div className='small text-body-secondary'>{[a.applicant?.email, a.phone].filter(Boolean).join(' · ')}</div>
+                                    </CTableDataCell>
+                                    <CTableDataCell>
+                                        {a.internship.title}
+                                        <div className='small text-body-secondary'>
+                                            {a.internship.companyName} · {formatDateTime(a.createdAt)}
+                                        </div>
+                                    </CTableDataCell>
+                                    <CTableDataCell className='text-nowrap'>
+                                        <CButton size='sm' color='secondary' variant='outline' className='me-2' onClick={() => download(`/admin/internship-applications/${a.id}/cv`, a.cvName)}>
+                                            <CIcon icon={cilCloudDownload} className='me-1' />
+                                            CV
+                                        </CButton>
+                                        <CButton size='sm' color='secondary' variant='outline' onClick={() => download(`/admin/internship-applications/${a.id}/letter`, a.letterName)}>
+                                            <CIcon icon={cilCloudDownload} className='me-1' />
+                                            Lettre
+                                        </CButton>
+                                    </CTableDataCell>
+                                    <CTableDataCell>
+                                        <CFormSelect size='sm' aria-label={`Statut de ${a.applicant?.name}`} style={{ minWidth: '8rem' }} value={a.status} onChange={(e) => update(a, e.target.value)}>
+                                            {APPLICATION_STATUSES.map(([value, label]) => (
+                                                <option key={value} value={value}>
+                                                    {label}
+                                                </option>
+                                            ))}
+                                        </CFormSelect>
+                                    </CTableDataCell>
+                                </CTableRow>
+                            ))}
+                        </CTableBody>
+                    </CTable>
+                    <Pager meta={data.meta} onChange={setPage} />
+                </>
+            )}
+        </PageCard>
     )
 }
 
@@ -158,7 +296,7 @@ export default function Internships() {
     return (
         <>
             <PageBanner
-                description='Les stages sont publiés uniquement par Edumada. Les candidats postulent avec le contact indiqué sur chaque offre.'
+                description='Les stages sont publiés uniquement par Edumada. Les étudiants postulent avec leur compte : leur CV et leur lettre arrivent ici.'
                 actions={
                     <CButton color='light' onClick={() => setEditing('new')}>
                         <CIcon icon={cilPlus} className='me-2' />
@@ -192,7 +330,7 @@ export default function Internships() {
                                             <div>
                                                 <strong>{i.title}</strong>
                                                 <div className='small text-body-secondary'>
-                                                    {i.companyName} · {i.city}
+                                                    {i.companyName} · {i.city} · {i.applicationsCount ?? 0} candidature{(i.applicationsCount ?? 0) > 1 ? 's' : ''}
                                                 </div>
                                             </div>
                                         </div>
@@ -229,6 +367,8 @@ export default function Internships() {
                     </CTable>
                 )}
             </PageCard>
+
+            <Applications internships={data?.data ?? []} onChanged={reload} />
 
             <CModal size='lg' visible={!!editing} onClose={() => setEditing(null)}>
                 <CModalHeader>

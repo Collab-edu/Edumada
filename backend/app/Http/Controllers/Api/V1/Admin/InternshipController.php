@@ -22,7 +22,7 @@ class InternshipController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return InternshipResource::collection(Internship::with('domain')->latest()->paginate(50));
+        return InternshipResource::collection(Internship::with('domain')->withCount('applications')->latest()->paginate(50));
     }
 
     public function store(Request $request): InternshipResource
@@ -67,15 +67,20 @@ class InternshipController extends Controller
             'modality' => [$rule, Rule::in(Modality::labels())],
             'registration' => [$rule, Rule::in(RegistrationStatus::labels())],
             'startDate' => ['sometimes', 'nullable', 'date'],
-            'contact' => [$rule, 'string', 'max:255'],
+            'deadline' => ['sometimes', 'nullable', 'date'],
             'description' => ['sometimes', 'nullable', 'string', 'max:5000'],
+            'missions' => ['sometimes', 'nullable', 'string', 'max:5000'],
+            'profile' => ['sometimes', 'nullable', 'string', 'max:5000'],
+            'benefits' => ['sometimes', 'nullable', 'string', 'max:5000'],
+            'allowance' => ['sometimes', 'nullable', 'string', 'max:255'],
             'status' => ['sometimes', Rule::enum(OfferStatus::class)],
         ]);
 
         $map = [
             'companyName' => 'company_name', 'companyLogo' => 'company_logo', 'title' => 'title', 'city' => 'city',
             'durationMonths' => 'duration_months', 'modality' => 'modality', 'registration' => 'registration',
-            'startDate' => 'starts_on', 'contact' => 'contact', 'description' => 'description', 'status' => 'status',
+            'startDate' => 'starts_on', 'deadline' => 'deadline', 'description' => 'description', 'missions' => 'missions',
+            'profile' => 'profile', 'benefits' => 'benefits', 'allowance' => 'allowance', 'status' => 'status',
         ];
         $attributes = [];
         foreach ($map as $input => $column) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\AuditLog;
+use App\Models\InternshipApplication;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -67,6 +68,7 @@ class ProfileController extends Controller
                 Storage::disk('local')->deleteDirectory("inquiries/{$inquiry->id}");
                 $inquiry->delete();
             }
+            InternshipApplication::where('user_id', $user->id)->get()->each(fn (InternshipApplication $application) => Storage::disk('local')->deleteDirectory($application->directory()));
             AuditLog::record('user.deleted', null, ['email' => $user->email, 'role' => $user->role->value], $user);
             $user->tokens()->delete();
             $user->delete();

@@ -5,8 +5,11 @@ namespace Tests\Feature\Api\V1;
 use App\Enums\UserRole;
 use App\Models\Domain;
 use App\Models\Internship;
+use App\Models\InternshipApplication;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class InternshipTest extends TestCase
@@ -26,7 +29,10 @@ class InternshipTest extends TestCase
             'durationMonths' => 6,
             'modality' => 'Présentiel',
             'registration' => 'Ouvertes',
-            'contact' => 'stages@vanille.example',
+            'missions' => "Développer le site\nTester les pages",
+            'profile' => 'Étudiant en informatique',
+            'benefits' => 'Encadrement par un développeur',
+            'allowance' => '200 000 Ar par mois',
             ...$overrides,
         ];
     }
@@ -73,7 +79,7 @@ class InternshipTest extends TestCase
     public function test_only_the_admin_can_manage_internships(): void
     {
         $owner = User::factory()->create(['role' => UserRole::Establishment]);
-        $internship = new Internship(['company_name' => 'Société Vanille', 'title' => 'Stage', 'city' => 'Antsirabe', 'modality' => 'Présentiel', 'registration' => 'Ouvertes', 'contact' => 'a@b.example', 'status' => 'published']);
+        $internship = new Internship(['company_name' => 'Société Vanille', 'title' => 'Stage', 'city' => 'Antsirabe', 'modality' => 'Présentiel', 'registration' => 'Ouvertes', 'status' => 'published']);
         $internship->slug = 'stage';
         $internship->save();
 
@@ -96,11 +102,107 @@ class InternshipTest extends TestCase
         $this->assertDatabaseCount('internships', 0);
     }
 
-    public function test_company_name_and_contact_are_required(): void
+    private function publishedInternship(array $overrides = []): Internship
+    {
+        $internship = new Internship(['company_name' => 'Société Vanille', 'title' => 'Stage', 'city' => 'Antsirabe', 'modality' => 'Présentiel', 'registration' => 'Ouvertes', 'status' => 'published', ...$overrides]);
+        $internship->slug = 'stage';
+        $internship->save();
+
+        return $internship;
+    }
+
+    /**
+     * @return array<string, UploadedFile>
+     */
+    private function files(): array
+    {
+        return [
+            'cv' => UploadedFile::fake()->create('cv.pdf', 100, 'application/pdf'),
+            'letter' => UploadedFile::fake()->create('lettre.pdf', 100, 'application/pdf'),
+        ];
+    }
+
+    public function test_student_applies_once_and_admin_receives_the_documents(): void
+    {
+        Storage::fake('local');
+        $this->publishedInternship();
+        $student = User::factory()->create(['role' => UserRole::Student, 'name' => 'Fanja']);
+
+        $id = $this->actingAs($student)->postJson('/api/v1/internships/stage/applications', $this->files())
+            ->assertCreated()
+            ->assertJsonPath('data.status', 'new')
+            ->json('data.id');
+
+        $this->actingAs($student)->postJson('/api/v1/internships/stage/applications', $this->files())
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('internship');
+        $this->actingAs($student)->getJson('/api/v1/me/internship-applications')->assertOk()->assertJsonCount(1, 'data');
+        $this->actingAs($student)->getJson("/api/v1/admin/internship-applications/{$id}/cv")->assertForbidden();
+
+        $admin = $this->adminUser();
+        $this->actingAs($admin)->getJson('/api/v1/admin/internship-applications')
+            ->assertOk()
+            ->assertJsonPath('data.0.applicant.name', 'Fanja')
+            ->assertJsonPath('data.0.cvName', 'cv.pdf');
+        $this->actingAs($admin)->get("/api/v1/admin/internship-applications/{$id}/letter")->assertOk();
+        $this->actingAs($admin)->putJson("/api/v1/admin/internship-applications/{$id}", ['status' => 'accepted'])->assertOk()->assertJsonPath('data.status', 'accepted');
+    }
+
+    public function test_guest_and_non_student_cannot_apply(): void
+    {
+        Storage::fake('local');
+        $this->publishedInternship();
+
+        $this->postJson('/api/v1/internships/stage/applications', $this->files())->assertUnauthorized();
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $this->actingAs($owner)->postJson('/api/v1/internships/stage/applications', $this->files())->assertForbidden();
+    }
+
+    public function test_cv_and_letter_are_required_and_must_be_documents(): void
+    {
+        Storage::fake('local');
+        $this->publishedInternship();
+        $student = User::factory()->create(['role' => UserRole::Student]);
+
+        $this->actingAs($student)->postJson('/api/v1/internships/stage/applications', [
+            'cv' => UploadedFile::fake()->create('cv.exe', 10, 'application/octet-stream'),
+        ])->assertUnprocessable()->assertJsonValidationErrors(['cv', 'letter']);
+    }
+
+    public function test_closed_or_past_deadline_internship_refuses_applications(): void
+    {
+        Storage::fake('local');
+        $internship = $this->publishedInternship(['deadline' => now()->subDay()->toDateString()]);
+        $student = User::factory()->create(['role' => UserRole::Student]);
+
+        $this->actingAs($student)->postJson('/api/v1/internships/stage/applications', $this->files())
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('internship');
+
+        $internship->update(['deadline' => now()->toDateString()]);
+        $this->actingAs($student)->postJson('/api/v1/internships/stage/applications', $this->files())->assertCreated();
+    }
+
+    public function test_deleting_an_internship_removes_application_documents(): void
+    {
+        Storage::fake('local');
+        $internship = $this->publishedInternship();
+        $student = User::factory()->create(['role' => UserRole::Student]);
+        $path = $this->actingAs($student)->postJson('/api/v1/internships/stage/applications', $this->files())->assertCreated()->json('data.id');
+        $application = InternshipApplication::findOrFail($path);
+        Storage::disk('local')->assertExists($application->cv_path);
+
+        $this->actingAs($this->adminUser())->deleteJson('/api/v1/admin/internships/stage')->assertNoContent();
+
+        Storage::disk('local')->assertMissing($application->cv_path);
+        $this->assertDatabaseCount('internship_applications', 0);
+    }
+
+    public function test_company_name_is_required(): void
     {
         $this->actingAs($this->adminUser())
-            ->postJson('/api/v1/admin/internships', $this->payload(['companyName' => '', 'contact' => '']))
+            ->postJson('/api/v1/admin/internships', $this->payload(['companyName' => '']))
             ->assertUnprocessable()
-            ->assertJsonValidationErrors(['companyName', 'contact']);
+            ->assertJsonValidationErrors(['companyName']);
     }
 }

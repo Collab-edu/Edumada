@@ -26,7 +26,7 @@ import type { ManagedEstablishment, User } from '@/lib/types'
 export type NavBadge = { color: string; text: string }
 export type NavEntry = { kind: 'title'; name: string } | { kind: 'item'; name: string; to: string; icon: ReactNode; badge?: NavBadge }
 
-export type NavCounts = { newInquiries?: number; establishments?: number; moderation?: number; invoices?: number }
+export type NavCounts = { newInquiries?: number; establishments?: number; moderation?: number; internshipApplications?: number; invoices?: number }
 
 /** Une entrée de menu par catégorie d'établissement (administrateur), avec ses nouvelles demandes d'adhésion. */
 export type NavCategory = { id: string; shortLabel: string; new: number }
@@ -82,7 +82,7 @@ export function buildNav({
             item('Modération', '/admin/moderation', cilShieldAlt, badge(counts.moderation)),
             item('Utilisateurs', '/admin/utilisateurs', cilPeople),
             item('Catalogue', '/admin/catalogue', cilList),
-            item('Offres de stage', '/admin/stages', cilBriefcase),
+            item('Offres de stage', '/admin/stages', cilBriefcase, badge(counts.internshipApplications, 'info')),
             item('Actualités', '/admin/actualites', cilNewspaper),
             title('Finances'),
             item('Facturation', '/admin/facturation', cilWallet, badge(counts.invoices, 'info')),
