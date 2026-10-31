@@ -25,14 +25,14 @@ export default function HeroLogos() {
     }, [])
 
     // Hauteur réservée pendant le chargement : le hero ne saute pas.
-    if (schools === null) return <div className='h-12' aria-hidden='true' />
+    if (schools === null) return <div className='h-16' aria-hidden='true' />
     if (schools.length === 0) return null
 
     return (
-        <AutoScroll duration={120} minItemsPerLoop={12} itemClassName='w-36 sm:w-48'>
+        <AutoScroll duration={120} minItemsPerLoop={12} itemClassName='w-40 sm:w-56'>
             {schools.map((school) => (
-                <div key={school.id} className='flex h-12 items-center justify-center'>
-                    <Image src={logoSrc(school.logo ?? '')} alt={school.name} width={140} height={40} className='h-7 w-auto max-w-full object-contain sm:h-9' />
+                <div key={school.id} className='flex h-16 items-center justify-center'>
+                    <Image src={logoSrc(school.logo ?? '')} alt={school.name} width={200} height={64} className='h-11 w-auto max-w-full object-contain sm:h-14' />
                 </div>
             ))}
         </AutoScroll>
