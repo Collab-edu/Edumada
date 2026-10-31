@@ -5,7 +5,7 @@ import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
-import { OFFER_CTA, formatFees, offerFacts } from '@/features/formations/format'
+import { OFFER_CTA, offerFacts } from '@/features/formations/format'
 import { offerHref } from '@/features/formations/href'
 import type { FormationType, RegistrationStatus } from '@/features/formations/types'
 import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
@@ -25,11 +25,10 @@ interface ResultCardProps {
     sponsored?: boolean
 }
 
-/** Carte d'un résultat de recherche, affichée dans une grille de deux colonnes. */
+/** Carte d'un résultat de recherche, affichée dans une grille de trois colonnes sur grand écran. */
 export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored = false }: ResultCardProps) {
     const t = useT()
     const badge = REGISTRATION_BADGE[formation.registration]
-    const fees = formatFees(formation.fees)
 
     return (
         <Card id={sponsored ? undefined : formation.id} className={cn('flex h-full flex-col overflow-hidden scroll-mt-28', sponsored && 'ring-2 ring-primary/20')}>
@@ -112,22 +111,10 @@ export function ResultCard({ formation, isFavorite, onToggleFavorite, sponsored 
                     </li>
                 </ul>
 
-                <div className='mt-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-gray-100 pt-4'>
-                    <div>
-                        {fees ? (
-                            <p className='font-bold text-secondary'>
-                                {fees} <span className='font-normal text-ink/60'>/ {t(formation.feesPeriod)}</span>
-                            </p>
-                        ) : (
-                            <p className='text-ink/60'>{t('Frais non renseignés')}</p>
-                        )}
-                        {formation.scholarship === 'Bourses disponibles' && (
-                            <p className='text-sm text-ink/60'>{t('Bourses disponibles')}</p>
-                        )}
-                    </div>
+                <div className='mt-auto border-t border-gray-100 pt-4'>
                     <Link
                         href={offerHref(formation)}
-                        className='rounded-lg border border-primary px-5 py-2.5 text-center font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white'>
+                        className='block rounded-lg border border-primary px-5 py-2.5 text-center font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white'>
                         {t(OFFER_CTA[formation.kind])}
                     </Link>
                 </div>

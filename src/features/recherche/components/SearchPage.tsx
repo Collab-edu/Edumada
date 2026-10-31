@@ -293,7 +293,7 @@ const SearchPage = () => {
                         )}
 
                         {sponsored.length > 0 && !loading && (
-                            <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
                                 {sponsored.map((item) => (
                                     <div
                                         key={item.campaignId}
@@ -315,14 +315,14 @@ const SearchPage = () => {
                                     <span className='h-5 w-5 animate-spin rounded-full border-2 border-primary/20 border-t-primary' aria-hidden='true' />
                                     {t('Recherche des formations…')}
                                 </p>
-                                <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
                                     {Array.from({ length: 4 }).map((_, i) => (
                                         <div key={i} className='h-[460px] rounded-2xl bg-white border border-gray-100 animate-pulse' />
                                     ))}
                                 </div>
                             </div>
                         ) : results.length > 0 ? (
-                            <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
                                 {results.map((formation) => (
                                     <ResultCard
                                         key={formation.id}
