@@ -9,13 +9,7 @@ import CategoryTag from '@/features/categories/components/CategoryTag'
 import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
 import { OFFER_CTA, offerFacts } from '../format'
 import { offerHref } from '../href'
-import type { FormationType, RegistrationStatus } from '../types'
-
-const REGISTRATION_BADGE: Record<RegistrationStatus, { label: string; className: string }> = {
-    Ouvertes: { label: 'Inscriptions ouvertes', className: 'bg-cream text-primary' },
-    'À venir': { label: 'Inscriptions à venir', className: 'bg-success/30 text-secondary' },
-    Fermées: { label: 'Inscriptions fermées', className: 'bg-gray-100 text-ink/60' },
-}
+import type { FormationType } from '../types'
 
 export interface OfferCardProps {
     formation: FormationType
@@ -31,7 +25,6 @@ export interface OfferCardProps {
 /** Carte d'une offre, commune à tout le site : photo, établissement, infos clés et bouton vers la fiche. */
 export default function OfferCard({ formation, isFavorite, onToggleFavorite, sponsored = false, id, compact = false }: OfferCardProps) {
     const t = useT()
-    const badge = REGISTRATION_BADGE[formation.registration]
     const distance = formation.distanceKm !== undefined ? ` · ${t('à {km} km', { km: formation.distanceKm.toLocaleString('fr-FR') })}` : ''
     const facts = [
         ...offerFacts(formation),
@@ -65,12 +58,9 @@ export default function OfferCard({ formation, isFavorite, onToggleFavorite, spo
             </div>
 
             <div className='relative flex flex-1 flex-col gap-3 px-4 pb-4'>
-                <div className='-mt-8 flex items-end gap-2'>
-                    <Link href={`/etablissements/${formation.schoolId}`} aria-label={formation.school} className='relative shrink-0'>
-                        <SchoolLogo name={formation.school} logo={formation.schoolLogo} className='h-16 w-16 rounded-2xl text-sm shadow-md ring-4 ring-white' />
-                    </Link>
-                    <span className={cn('relative mb-0.5 rounded-full px-2.5 py-1 text-xs font-semibold', badge.className)}>{t(badge.label)}</span>
-                </div>
+                <Link href={`/etablissements/${formation.schoolId}`} aria-label={formation.school} className='relative -mt-8 w-fit'>
+                    <SchoolLogo name={formation.school} logo={formation.schoolLogo} className='h-16 w-16 rounded-2xl text-sm shadow-md ring-4 ring-white' />
+                </Link>
 
                 <div>
                     <h3 className='text-lg font-bold leading-snug text-secondary'>{formation.title}</h3>
