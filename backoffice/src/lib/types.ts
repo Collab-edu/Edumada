@@ -125,6 +125,23 @@ export type Offer = {
     imageSrc: string
 }
 
+export type Internship = {
+    id: string
+    companyName: string
+    companyLogo: string | null
+    title: string
+    domain: string | null
+    city: string
+    durationMonths: number | null
+    modality: string
+    registration: string
+    startDate: string | null
+    contact: string
+    description: string | null
+    status: 'draft' | 'published' | 'archived'
+    statusLabel: string
+}
+
 export type ManagedOffer = Offer & {
     status: 'draft' | 'published' | 'archived'
     statusLabel: string

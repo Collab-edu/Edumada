@@ -32,6 +32,8 @@ export const ACTION_LABELS: Record<string, string> = {
     'user.role_changed': 'Type de compte modifié',
     'user.deleted': 'Compte supprimé',
     'campaign.created': 'Campagne créée',
+    'internship.created': 'Offre de stage créée',
+    'internship.deleted': 'Offre de stage supprimée',
 }
 
 export type PlanFeatureSection = { title: string; features: { label: string; included: boolean }[] }

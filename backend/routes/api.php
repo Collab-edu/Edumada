@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Api\V1\Admin\BillingController as AdminBillingController;
 use App\Http\Controllers\Api\V1\Admin\EstablishmentController as AdminEstablishmentController;
+use App\Http\Controllers\Api\V1\Admin\InternshipController as AdminInternshipController;
 use App\Http\Controllers\Api\V1\Admin\ModerationController;
 use App\Http\Controllers\Api\V1\Admin\OverviewController;
 use App\Http\Controllers\Api\V1\Admin\UserController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\Api\V1\InquiryAttachmentController;
 use App\Http\Controllers\Api\V1\InquiryController;
 use App\Http\Controllers\Api\V1\InquiryStatusController;
 use App\Http\Controllers\Api\V1\ManagedEstablishmentController;
+use App\Http\Controllers\Api\V1\InternshipController;
 use App\Http\Controllers\Api\V1\OfferController;
 use App\Http\Controllers\Api\V1\PlaceController;
 use App\Http\Controllers\Api\V1\PlanController;
@@ -46,6 +48,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::apiResource('domains', DomainController::class)->only(['index']);
     Route::apiResource('establishments', EstablishmentController::class)->only(['index', 'show']);
     Route::apiResource('offers', OfferController::class)->only(['index', 'show']);
+    Route::apiResource('internships', InternshipController::class)->only(['index', 'show']);
     Route::get('establishments/{establishment}/offers/{urlSlug}', [OfferController::class, 'showByUrl'])->name('establishments.offers.show');
     Route::get('places', [PlaceController::class, 'index'])->middleware('throttle:places')->name('places.index');
     Route::get('places/here', [PlaceController::class, 'here'])->middleware('throttle:places')->name('places.here');
@@ -143,6 +146,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::put('subscriptions/{subscription}/cancel', [AdminBillingController::class, 'cancelSubscription'])->name('subscriptions.cancel');
             Route::patch('plans/{plan:code}', [AdminBillingController::class, 'updatePlan'])->name('plans.update');
             Route::get('campaigns', [AdminBillingController::class, 'campaigns'])->name('campaigns.index');
+            Route::apiResource('internships', AdminInternshipController::class)->only(['index', 'store', 'update', 'destroy']);
             Route::apiResource('articles', AdminArticleController::class)->only(['index', 'store', 'update', 'destroy']);
         });
     });
