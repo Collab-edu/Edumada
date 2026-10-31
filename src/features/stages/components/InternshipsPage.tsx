@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
-import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import { CardSkeletonGrid } from '@/components/ui/card'
@@ -9,8 +8,8 @@ import SectionHeader from '@/components/ui/section-header'
 import { apiEnabled, fetchAllPages } from '@/lib/api'
 import SuggestInput from '@/features/recherche/components/SuggestInput'
 import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
-import CompanyLogo from './CompanyLogo'
-import { formatMonths, internshipHref, type Internship } from '../types'
+import InternshipCard from './InternshipCard'
+import type { Internship } from '../types'
 
 const BENEFITS = [
     { icon: 'tabler:tools', title: 'Une expérience concrète', text: 'Mettez en pratique ce que vous apprenez et découvrez un métier sur le terrain.' },
@@ -105,7 +104,7 @@ export default function InternshipsPage() {
                     </div>
 
                     {state === 'loading' ? (
-                        <CardSkeletonGrid count={4} className='h-[240px]' />
+                        <CardSkeletonGrid count={4} className='h-[420px]' />
                     ) : state === 'error' ? (
                         <p className='rounded-xl bg-white p-8 text-center text-black'>Impossible de charger les offres de stage pour l’instant. Réessayez dans quelques minutes.</p>
                     ) : shown.length === 0 ? (
@@ -115,30 +114,10 @@ export default function InternshipsPage() {
                             <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
                                 {shown.length} offre{shown.length > 1 ? 's' : ''} de stage
                             </p>
-                            <ul className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'>
+                            <ul className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4'>
                                 {shown.map((i) => (
                                     <li key={i.id}>
-                                        <Link href={internshipHref(i.id)} className='flex h-full flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-5 transition-shadow hover:shadow-md'>
-                                            <span className='flex items-center gap-3'>
-                                                <CompanyLogo name={i.companyName} logo={i.companyLogo} className='h-14 w-14' />
-                                                <span className='min-w-0 font-semibold text-secondary'>{i.companyName}</span>
-                                            </span>
-                                            <span className='text-lg font-semibold text-secondary'>{i.title}</span>
-                                            <span className='flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink/70'>
-                                                <span className='inline-flex items-center gap-1'>
-                                                    <Icon icon='tabler:map-pin' />
-                                                    {i.city}
-                                                </span>
-                                                {i.durationMonths && (
-                                                    <span className='inline-flex items-center gap-1'>
-                                                        <Icon icon='tabler:clock-hour-4' />
-                                                        {formatMonths(i.durationMonths)}
-                                                    </span>
-                                                )}
-                                                {i.domain && <span>{i.domain}</span>}
-                                            </span>
-                                            <span className='mt-auto font-semibold text-primary'>Voir le stage</span>
-                                        </Link>
+                                        <InternshipCard internship={i} />
                                     </li>
                                 ))}
                             </ul>

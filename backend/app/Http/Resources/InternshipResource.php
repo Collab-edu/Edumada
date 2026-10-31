@@ -35,6 +35,7 @@ class InternshipResource extends JsonResource
             'allowance' => $this->allowance,
             'acceptsApplications' => $this->acceptsApplications(),
             'applicationsCount' => $this->whenCounted('applications'),
+            'createdAt' => $this->created_at?->toIso8601String(),
             'status' => $this->status->value,
             'statusLabel' => $this->status->label(),
         ];
