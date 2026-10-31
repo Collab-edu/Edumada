@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from '@/i18n/client'
-import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import CompanyLogo from './CompanyLogo'
 import { internshipHref, publishedAgo, type Internship } from '../types'
@@ -40,8 +39,11 @@ export default function InternshipCard({ internship: i }: { internship: Internsh
         <article className='relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white transition-shadow hover:shadow-md'>
             <div className='flex flex-1 flex-col gap-3 bg-secondary/[0.05] p-5'>
                 <div className='flex items-start justify-between gap-3'>
-                    <Icon icon='tabler:school' className='text-5xl text-black' />
-                    <span className='rounded-full bg-secondary px-3 py-0.5 text-sm font-medium text-white'>Stage</span>
+                    <div className='flex min-w-0 items-center gap-3'>
+                        <CompanyLogo name={i.companyName} logo={i.companyLogo} className='h-14 w-14 ring-gray-200' />
+                        <span className='min-w-0 break-words font-semibold text-secondary'>{i.companyName}</span>
+                    </div>
+                    <span className='shrink-0 rounded-full bg-secondary px-3 py-0.5 text-sm font-medium text-white'>Stage</span>
                 </div>
                 <h3 className='text-xl font-normal leading-snug text-black sm:text-2xl'>
                     <Link href={internshipHref(i.id)} className='after:absolute after:inset-0 after:content-[""]'>
@@ -54,10 +56,11 @@ export default function InternshipCard({ internship: i }: { internship: Internsh
                 </div>
                 {i.domain && <p className='text-black'>{i.domain}</p>}
                 <p className='text-ink/60'>{publishedAgo(i.createdAt)}</p>
-                <p className='font-semibold uppercase text-ink/70'>{i.companyName}</p>
             </div>
             <div className='flex items-center justify-between gap-3 px-5 py-3'>
-                <CompanyLogo name={i.companyName} logo={i.companyLogo} className='h-14 w-14 ring-gray-200' />
+                <Link href={internshipHref(i.id)} aria-label={`Voir les détails : ${i.title}`} className='relative z-10 inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-4 font-semibold text-white transition-colors hover:bg-primary/90'>
+                    Voir détails
+                </Link>
                 <button
                     type='button'
                     aria-pressed={saved}
