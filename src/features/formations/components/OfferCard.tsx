@@ -93,9 +93,9 @@ export default function OfferCard({ formation, isFavorite, onToggleFavorite, spo
 
                 <Link
                     href={offerHref(formation)}
-                    className='mt-auto flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 font-semibold text-white shadow-md shadow-primary/25 transition-colors duration-300 hover:bg-primary/90'>
+                    className='mt-auto flex min-h-11 w-fit items-center justify-center gap-1.5 self-start rounded-lg bg-primary px-4 text-sm font-semibold text-white transition-colors duration-300 hover:bg-primary/90 sm:min-h-10'>
                     {t(OFFER_CTA[formation.kind])}
-                    <Icon icon='tabler:arrow-right' className='text-lg' />
+                    <Icon icon='tabler:arrow-right' className='text-base' />
                 </Link>
             </div>
         </Card>
