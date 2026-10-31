@@ -32,7 +32,12 @@ export interface OfferCardProps {
 export default function OfferCard({ formation, isFavorite, onToggleFavorite, sponsored = false, id, compact = false }: OfferCardProps) {
     const t = useT()
     const badge = REGISTRATION_BADGE[formation.registration]
-    const facts = [...offerFacts(formation), ...(formation.languages.length ? [{ icon: 'tabler:language', label: formation.languages.join(', ') }] : [])]
+    const distance = formation.distanceKm !== undefined ? ` · ${t('à {km} km', { km: formation.distanceKm.toLocaleString('fr-FR') })}` : ''
+    const facts = [
+        ...offerFacts(formation),
+        ...(formation.languages.length ? [{ icon: 'tabler:language', label: formation.languages.join(', ') }] : []),
+        { icon: 'tabler:map-pin', label: `${formation.city}${distance}` },
+    ]
 
     return (
         <Card id={id} className={cn('flex h-full flex-col overflow-hidden scroll-mt-28 shadow-[0_6px_14px_-8px_rgba(15,76,92,0.3)]', sponsored && 'ring-2 ring-primary/30')}>
@@ -77,27 +82,14 @@ export default function OfferCard({ formation, isFavorite, onToggleFavorite, spo
                     <span className='truncate'>{formation.school}</span>
                 </Link>
 
-                {facts.length > 0 && (
-                    <ul className='flex flex-wrap gap-x-3 gap-y-1.5 text-sm text-ink/80'>
-                        {facts.map((fact) => (
-                            <li key={fact.label} className='flex items-center gap-1.5'>
-                                <Icon icon={fact.icon} className='shrink-0 text-base text-secondary' />
-                                {t(fact.label)}
-                            </li>
-                        ))}
-                    </ul>
-                )}
-
-                <div className='flex items-center gap-3 rounded-xl bg-secondary/[0.06] p-3 text-sm text-secondary'>
-                    <Icon icon={formation.domain ? 'tabler:book-2' : 'tabler:map-pin'} className='shrink-0 text-2xl text-primary' />
-                    <div className='min-w-0'>
-                        {formation.domain && <p className='font-semibold'>{t(formation.domain)}</p>}
-                        <p>
-                            {formation.city}
-                            {formation.distanceKm !== undefined && <span className='font-semibold text-primary'> · {t('à {km} km', { km: formation.distanceKm.toLocaleString('fr-FR') })}</span>}
-                        </p>
-                    </div>
-                </div>
+                <ul className='flex flex-wrap gap-x-3 gap-y-1.5 text-sm text-ink/80'>
+                    {facts.map((fact) => (
+                        <li key={fact.label} className='flex items-center gap-1.5'>
+                            <Icon icon={fact.icon} className='shrink-0 text-base text-secondary' />
+                            {t(fact.label)}
+                        </li>
+                    ))}
+                </ul>
 
                 <Link
                     href={offerHref(formation)}
