@@ -5,9 +5,17 @@ import SectionHeader from '@/components/ui/section-header'
 import { useSiteData } from '@/data/site-data'
 
 /** Accueil : les 5 types d'établissements, chacun menant à la recherche filtrée. */
+/** Ordre des cartes de cette section ; une catégorie ajoutée plus tard passe en fin de liste. */
+const CARD_ORDER = ['superieur', 'formation-pro', 'scolaire', 'petite-enfance', 'autres']
+const rank = (id: string) => {
+    const index = CARD_ORDER.indexOf(id)
+    return index === -1 ? CARD_ORDER.length : index
+}
+
 const CategoriesSection = () => {
     const t = useT()
-    const { data: categories, loading } = useSiteData('CategoryData')
+    const { data, loading } = useSiteData('CategoryData')
+    const categories = [...data].sort((a, b) => rank(a.id) - rank(b.id))
     const { data: schools } = useSiteData('SchoolData')
 
     return (
