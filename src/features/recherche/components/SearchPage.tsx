@@ -55,7 +55,7 @@ const SearchPage = () => {
         }
     }, [panelOpen])
 
-    // Filtres selon la catégorie : celle en cours de saisie pour la barre, celle appliquée pour le panneau.
+    // Filtres selon la catégorie : celle de la barre pour ses champs, celle appliquée pour le panneau.
     const profileFor = (value: string) => filterProfile(categories.find((c) => c.shortLabel === value || c.subCategories.includes(value))?.id)
     const draftProfile = profileFor(draft.categorie)
     const profile = profileFor(filters.categorie)
@@ -87,6 +87,13 @@ const SearchPage = () => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
 
+    // Choisir une catégorie l'applique tout de suite : les filtres et les résultats suivent ensemble.
+    const chooseCategory = (categorie: string) => {
+        const next = profileFor(categorie)
+        setFilters((prev) => pruneFilters({ ...prev, categorie }, next))
+        setDraft((prev) => pruneFilters({ ...prev, categorie }, next))
+    }
+
     const renderTopFilters = (className: string) =>
         TOP_FILTERS.filter(({ param }) => param !== 'domaine' || draftProfile.domain).map(({ param, label }) => {
             return (
@@ -106,7 +113,7 @@ const SearchPage = () => {
                         placeholder={FILTER_UI[param].placeholder}
                         suggestions={suggestions[param] ?? []}
                         value={draft[param]}
-                        onChange={(value) => setDraft((prev) => ({ ...prev, [param]: value }))}
+                        onChange={(value) => (param === 'categorie' ? chooseCategory(value) : setDraft((prev) => ({ ...prev, [param]: value })))}
                     />
                     )}
                 </div>
