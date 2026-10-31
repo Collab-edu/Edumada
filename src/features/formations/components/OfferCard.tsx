@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link, { useT } from '@/i18n/client'
-import { Card } from '@/components/ui/card'
+import { Card, CardWave } from '@/components/ui/card'
 import { Icon } from '@/components/ui/icon'
 import { imageOr } from '@/lib/media'
 import { cn } from '@/lib/utils'
@@ -41,12 +41,7 @@ export default function OfferCard({ formation, isFavorite, onToggleFavorite, spo
                     {formation.schoolType && <span className='rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-secondary'>{t(formation.schoolType)}</span>}
                     {sponsored && <span className='rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold text-white'>{t('Sponsorisé')}</span>}
                 </div>
-                {/* Bas de la photo en vague, avec un rappel des couleurs de la charte */}
-                <svg viewBox='0 0 400 48' preserveAspectRatio='none' aria-hidden='true' className='absolute -bottom-px left-0 h-10 w-full'>
-                    <path d='M0 48V34C130 56 270 46 400 8V48Z' className='fill-white' />
-                    <path d='M400 0C340 22 290 34 230 40C300 38 355 28 400 14Z' className='fill-primary' />
-                    <path d='M400 14C355 28 300 38 230 40C300 42 360 36 400 24Z' className='fill-secondary' />
-                </svg>
+                <CardWave />
             </div>
 
             <div className='relative flex flex-1 flex-col gap-4 px-5 pb-5'>

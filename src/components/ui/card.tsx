@@ -33,3 +33,14 @@ export function CardAction({ className, ...props }: ComponentProps<typeof Link>)
         />
     )
 }
+
+/** Bas d'une photo de carte en vague, avec un rappel des couleurs de la charte. */
+export function CardWave() {
+    return (
+        <svg viewBox='0 0 400 48' preserveAspectRatio='none' aria-hidden='true' className='absolute -bottom-px left-0 h-10 w-full'>
+            <path d='M0 48V34C130 56 270 46 400 8V48Z' className='fill-white' />
+            <path d='M400 0C340 22 290 34 230 40C300 38 355 28 400 14Z' className='fill-primary' />
+            <path d='M400 14C355 28 300 38 230 40C300 42 360 36 400 24Z' className='fill-secondary' />
+        </svg>
+    )
+}
