@@ -156,6 +156,58 @@ class OfferControllerTest extends TestCase
         $this->getJson("/api/v1/offers/{$draft->slug}")->assertNotFound();
     }
 
+    public function test_establishment_cannot_publish_or_edit_an_internship(): void
+    {
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $establishment = Establishment::factory()->ownedBy($owner)->create();
+
+        $this->actingAs($owner)
+            ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload(['kind' => 'stage']))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('kind');
+
+        $internship = Offer::factory()->for($establishment)->create(['kind' => 'stage']);
+
+        $this->actingAs($owner)->patchJson("/api/v1/offers/{$internship->slug}", ['title' => 'Autre'])->assertForbidden();
+        $this->actingAs($owner)->deleteJson("/api/v1/offers/{$internship->slug}")->assertForbidden();
+    }
+
+    public function test_admin_publishes_internships_only_and_they_stay_out_of_the_plan_limit(): void
+    {
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $establishment = Establishment::factory()->ownedBy($owner)->create();
+        Offer::factory()->for($establishment)->create();
+
+        $this->actingAs($admin)
+            ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload())
+            ->assertForbidden();
+
+        $this->actingAs($admin)
+            ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload(['kind' => 'stage', 'status' => 'published']))
+            ->assertCreated()
+            ->assertJsonPath('data.kind', 'stage')
+            ->assertJsonPath('data.status', 'published');
+
+        $this->actingAs($admin)->getJson('/api/v1/admin/stages')->assertOk()->assertJsonCount(1, 'data');
+        $this->actingAs($owner)->getJson('/api/v1/admin/stages')->assertForbidden();
+        $this->assertSame(1, $establishment->ownPublishedOffers()->count());
+    }
+
+    public function test_internship_is_hidden_from_the_establishment_offer_list(): void
+    {
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $establishment = Establishment::factory()->ownedBy($owner)->create();
+        $offer = Offer::factory()->for($establishment)->create();
+        Offer::factory()->for($establishment)->create(['kind' => 'stage']);
+
+        $this->actingAs($owner)->getJson("/api/v1/establishments/{$establishment->slug}/manage")
+            ->assertOk()
+            ->assertJsonCount(1, 'data.offers')
+            ->assertJsonPath('data.offers.0.id', $offer->slug)
+            ->assertJsonPath('data.publishedOffersCount', 1);
+    }
+
     public function test_search_filters_internship_offers(): void
     {
         $internship = Offer::factory()->create(['kind' => 'stage']);

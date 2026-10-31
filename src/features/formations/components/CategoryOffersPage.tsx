@@ -90,7 +90,7 @@ const VARIANTS = {
         categoryIds: [],
         eyebrow: 'Offres de stage',
         title: 'Trouvez votre stage à Madagascar',
-        intro: 'Les établissements publient ici leurs offres de stage : comparez les domaines et les villes, puis contactez directement l’établissement.',
+        intro: 'Retrouvez les offres de stage publiées par Edumada : comparez les domaines et les villes, puis contactez directement l’établissement concerné.',
         image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70',
         imageAlt: 'Stagiaires au travail en équipe',
         searchLabel: 'Voir les offres de stage',
@@ -105,7 +105,7 @@ const VARIANTS = {
             { icon: 'tabler:message-circle', title: 'Un contact direct', text: 'Posez vos questions sur le stage directement à l’établissement qui le propose.' },
         ],
         schoolsTitle: null,
-        cta: { title: 'Vous proposez des stages ?', text: 'Publiez vos offres de stage depuis votre espace et recevez les demandes des candidats.', button: 'Référencer mon établissement' },
+        cta: { title: 'Vous proposez un stage ?', text: 'Envoyez-nous votre offre : l’équipe Edumada se charge de la publier.', button: 'Nous contacter' },
     },
 } as const
 
@@ -126,6 +126,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     const ids: readonly string[] = config.categoryIds
     const category = categories.find((c) => c.id === ids[0])
     const isStages = variant === 'stages'
+    const ctaHref = isStages ? '/contact/' : '/tarifs/'
     const searchHref = isStages ? '#offres' : `/recherche?categorie=${encodeURIComponent(category?.shortLabel ?? config.eyebrow)}`
     const offers = useMemo(() => formations.filter((f) => (isStages ? f.kind === 'stage' : ids.includes(f.category) && f.kind !== 'stage')), [formations, ids, isStages])
     const centers = useMemo(() => schools.filter((s) => ids.includes(s.category)), [schools, ids])
@@ -189,7 +190,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                     <Icon icon='tabler:search' className='text-lg' />
                                     {t(config.searchLabel)}
                                 </ButtonLink>
-                                <ButtonLink href='/tarifs/' variant='secondary'>
+                                <ButtonLink href={ctaHref} variant='secondary'>
                                     {t(config.cta.button)}
                                 </ButtonLink>
                             </div>
@@ -362,7 +363,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                             <h2 className='text-2xl font-bold text-white'>{t(config.cta.title)}</h2>
                             <p className='text-white/80'>{t(config.cta.text)}</p>
                         </div>
-                        <ButtonLink href='/tarifs/' className='shrink-0'>
+                        <ButtonLink href={ctaHref} className='shrink-0'>
                             {t(config.cta.button)}
                         </ButtonLink>
                     </div>

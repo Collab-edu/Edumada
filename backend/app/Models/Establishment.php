@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\EstablishmentMemberRole;
 use App\Enums\EstablishmentSector;
 use App\Enums\EstablishmentStatus;
+use App\Enums\OfferKind;
 use App\Enums\OfferStatus;
 use App\Enums\PlanCode;
 use App\Enums\ReviewStatus;
@@ -125,6 +126,16 @@ class Establishment extends Model
     public function offers(): HasMany
     {
         return $this->hasMany(Offer::class);
+    }
+
+    /**
+     * Offres publiées par l'établissement lui-même, sans les stages publiés par Edumada.
+     *
+     * @return HasMany<Offer, $this>
+     */
+    public function ownPublishedOffers(): HasMany
+    {
+        return $this->publishedOffers()->where('kind', '!=', OfferKind::Internship);
     }
 
     /**
@@ -282,7 +293,7 @@ class Establishment extends Model
             return true;
         }
 
-        $published = $this->publishedOffers()
+        $published = $this->ownPublishedOffers()
             ->when($ignoring, fn (Builder $query) => $query->whereKeyNot($ignoring->getKey()))
             ->count();
 

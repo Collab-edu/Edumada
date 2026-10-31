@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\OfferKind;
 use App\Models\Establishment;
 use App\Models\Offer;
 use App\Models\User;
@@ -21,16 +22,19 @@ class OfferPolicy
     }
 
     /**
-     * Seule l'équipe de l'établissement rédige et publie ses offres (pas l'administration Edumada).
+     * L'équipe de l'établissement rédige ses offres ; l'administration Edumada publie seule les stages
+     * (le type d'offre autorisé pour chacun est vérifié par OfferRequest).
      */
     public function create(User $user, Establishment $establishment): bool
     {
-        return $user->managesEstablishment($establishment);
+        return $user->isAdmin() || $user->managesEstablishment($establishment);
     }
 
     public function update(User $user, Offer $offer): bool
     {
-        return $user->managesEstablishment($offer->establishment);
+        return $offer->kind === OfferKind::Internship
+            ? $user->isAdmin()
+            : $user->managesEstablishment($offer->establishment);
     }
 
     /**

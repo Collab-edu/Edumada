@@ -82,6 +82,7 @@ export function buildNav({
             item('Modération', '/admin/moderation', cilShieldAlt, badge(counts.moderation)),
             item('Utilisateurs', '/admin/utilisateurs', cilPeople),
             item('Catalogue', '/admin/catalogue', cilList),
+            item('Offres de stage', '/admin/stages', cilBriefcase),
             item('Actualités', '/admin/actualites', cilNewspaper),
             title('Finances'),
             item('Facturation', '/admin/facturation', cilWallet, badge(counts.invoices, 'info')),
