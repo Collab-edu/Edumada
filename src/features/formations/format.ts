@@ -56,7 +56,7 @@ export function offerFacts(offer: FormationType): { icon: string; label: string 
 export const OFFER_CTA: Record<FormationType['kind'], string> = {
     formation: 'Voir la formation',
     niveau: 'Voir le niveau',
-    accueil: "Voir l'accueil proposé",
+    accueil: "Voir l'accueil",
 }
 
 /** « 11 janvier 2027 », « 1er septembre 2026 » à partir d'une date ISO AAAA-MM-JJ. */

@@ -146,7 +146,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 {t(category.offersLabel)} <span className='text-ink/50'>({formations.length})</span>
                             </h2>
                             {formations.length > 0 ? (
-                                <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
                                     {formations.map((formation) => (
                                         <SchoolFormation key={formation.id} formation={formation} />
                                     ))}
