@@ -1,34 +1,38 @@
 'use client'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import withBasePath from '@/lib/base-path'
 import AutoScroll from '@/components/ui/auto-scroll'
-import { useSiteData } from '@/data/site-data'
+import { apiEnabled, fetchAllPages } from '@/lib/api'
+import type { SchoolType } from '@/features/etablissements/types'
 
-/** « /images/slickCompany/microsoft.svg » → « Microsoft » (texte alternatif du logo). */
-const logoName = (src: string) => {
-    const file = src.split('/').pop()?.replace(/\.[a-z]+$/i, '') ?? ''
-    return file.charAt(0).toUpperCase() + file.slice(1)
-}
+/** Une image déposée a une adresse complète ; un chemin (« /images/… ») est servi par le site. */
+const logoSrc = (logo: string) => (logo.startsWith('/') ? withBasePath(logo) : logo)
 
-/** Logos des établissements qui défilent en continu, en bas du hero de l'accueil. */
+/** Logos des établissements Premium qui défilent en continu, en bas du hero de l'accueil. */
 export default function HeroLogos() {
-    const { data: companies } = useSiteData('Companiesdata')
+    const [schools, setSchools] = useState<SchoolType[] | null>(apiEnabled ? null : [])
+
+    useEffect(() => {
+        if (!apiEnabled) return
+        let active = true
+        fetchAllPages<SchoolType>('/establishments', { plan: 'premium' }, { token: null })
+            .then((data) => active && setSchools(data.filter((school) => school.logo)))
+            .catch(() => active && setSchools([]))
+        return () => {
+            active = false
+        }
+    }, [])
 
     // Hauteur réservée pendant le chargement : le hero ne saute pas.
-    if (companies.length === 0) return <div className='h-12' aria-hidden='true' />
+    if (schools === null) return <div className='h-12' aria-hidden='true' />
+    if (schools.length === 0) return null
 
     return (
-        // TODO : logos d'exemple du template, à remplacer par de vrais établissements partenaires
         <AutoScroll duration={120} minItemsPerLoop={12} itemClassName='w-36 sm:w-48'>
-            {companies.map((item) => (
-                <div key={item.imgSrc} className='flex h-12 items-center justify-center'>
-                    <Image
-                        src={withBasePath(item.imgSrc)}
-                        alt={logoName(item.imgSrc)}
-                        width={140}
-                        height={40}
-                        className='h-7 w-auto max-w-full object-contain sm:h-9'
-                    />
+            {schools.map((school) => (
+                <div key={school.id} className='flex h-12 items-center justify-center'>
+                    <Image src={logoSrc(school.logo ?? '')} alt={school.name} width={140} height={40} className='h-7 w-auto max-w-full object-contain sm:h-9' />
                 </div>
             ))}
         </AutoScroll>

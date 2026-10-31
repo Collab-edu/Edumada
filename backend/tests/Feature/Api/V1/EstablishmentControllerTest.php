@@ -3,11 +3,14 @@
 namespace Tests\Feature\Api\V1;
 
 use App\Enums\EstablishmentStatus;
+use App\Enums\BillingCycle;
 use App\Enums\PlanCode;
+use App\Enums\SubscriptionStatus;
 use App\Enums\UserRole;
 use App\Models\Category;
 use App\Models\Establishment;
 use App\Models\Offer;
+use App\Models\Plan;
 use App\Models\User;
 use Database\Seeders\PlanSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,6 +19,24 @@ use Tests\TestCase;
 class EstablishmentControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_index_filters_establishments_by_current_plan(): void
+    {
+        $premium = Establishment::factory()->create();
+        $premium->subscriptions()->create([
+            'plan_id' => Plan::where('code', PlanCode::Premium)->value('id'),
+            'billing_cycle' => BillingCycle::Monthly,
+            'status' => SubscriptionStatus::Active,
+            'starts_at' => now()->subDay(),
+            'ends_at' => now()->addMonth(),
+        ]);
+        Establishment::factory()->create();
+
+        $this->getJson('/api/v1/establishments?plan=premium')
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $premium->slug);
+    }
 
     public function test_logo_can_stay_a_site_path_but_not_a_script_or_other_host_path(): void
     {

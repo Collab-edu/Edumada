@@ -6,6 +6,7 @@ use App\Enums\EstablishmentMemberRole;
 use App\Enums\EstablishmentSector;
 use App\Enums\EstablishmentStatus;
 use App\Enums\VerificationStatus;
+use App\Enums\PlanCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EstablishmentRequest;
 use App\Http\Resources\EstablishmentDetailResource;
@@ -34,11 +35,13 @@ class EstablishmentController extends Controller
             'city' => ['nullable', 'string', 'max:100'],
             'type' => ['nullable', Rule::in(EstablishmentSector::labels())],
             'verified' => ['nullable', 'boolean'],
+            'plan' => ['nullable', Rule::enum(PlanCode::class)],
             'perPage' => ['nullable', 'integer', 'min:1', 'max:100'],
         ]);
 
         $establishments = Establishment::published()
             ->with(['category', 'subCategory', 'publishedOffers.domain'])
+            ->when($filters['plan'] ?? null, fn (Builder $query, string $plan) => $query->onPlan(PlanCode::from($plan)))
             ->when($filters['q'] ?? null, fn (Builder $query, string $text) => $query->whereContains('name', $text))
             ->when($filters['category'] ?? null, fn (Builder $query, string $category) => $query->whereHas(
                 'category', fn (Builder $categories) => $categories->where('slug', $category)->orWhere('short_label', $category),
