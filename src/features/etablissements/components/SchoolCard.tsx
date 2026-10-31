@@ -1,5 +1,7 @@
 'use client'
+import { useState } from 'react'
 import Image from 'next/image'
+import { getBasePath } from '@/lib/base-path'
 import { imageOr } from '@/lib/media'
 import { cn } from '@/lib/utils'
 import { Icon } from '@/components/ui/icon'
@@ -16,6 +18,23 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
     const t = useT()
     const { data: categories } = useSiteData('CategoryData')
     const category = categories.find((c) => c.id === school.category)
+    const [copied, setCopied] = useState(false)
+
+    // Partage du téléphone, sinon copie du lien.
+    const share = async () => {
+        const url = `${window.location.origin}${getBasePath()}/etablissements/${school.id}/`
+        try {
+            if (navigator.share) {
+                await navigator.share({ title: school.name, url })
+            } else {
+                await navigator.clipboard.writeText(url)
+                setCopied(true)
+                setTimeout(() => setCopied(false), 2500)
+            }
+        } catch {
+            // Partage annulé par l'utilisateur : rien à faire.
+        }
+    }
 
     return (
         <Card className='flex h-full flex-col overflow-hidden shadow-[0_6px_14px_-8px_rgba(15,76,92,0.3)]'>
@@ -52,12 +71,22 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
                     {school.city}
                     {distanceKm !== undefined && <span className='font-semibold text-primary'>· {t('à {km} km', { km: distanceKm.toLocaleString('fr-FR') })}</span>}
                 </p>
-                <Link
-                    href={`/etablissements/${school.id}`}
-                    className='mt-auto flex min-h-11 w-fit items-center justify-center gap-1.5 rounded-lg bg-primary px-4 text-sm font-semibold text-white transition-colors duration-300 hover:bg-primary/90 sm:min-h-10'>
-                    {t('Voir l’établissement')}
-                    <Icon icon='tabler:arrow-right' className='text-base' />
-                </Link>
+                <div className='mt-auto flex items-center justify-between gap-3 pt-1'>
+                    <Link
+                        href={`/etablissements/${school.id}`}
+                        className='flex min-h-11 items-center justify-center gap-1.5 rounded-lg bg-primary px-4 text-sm font-semibold text-white transition-colors duration-300 hover:bg-primary/90 sm:min-h-10'>
+                        {t('Voir l’établissement')}
+                        <Icon icon='tabler:arrow-right' className='text-base' />
+                    </Link>
+                    <button
+                        type='button'
+                        onClick={share}
+                        aria-label={copied ? 'Lien copié' : `Partager ${school.name}`}
+                        title={copied ? 'Lien copié' : 'Partager'}
+                        className='flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white transition-colors duration-300 hover:bg-cream hover:cursor-pointer sm:h-10 sm:w-10'>
+                        <Icon icon={copied ? 'tabler:check' : 'tabler:share'} className='text-xl text-primary' />
+                    </button>
+                </div>
             </div>
         </Card>
     )
