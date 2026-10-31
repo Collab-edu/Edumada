@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from '@/i18n/client'
+import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import CompanyLogo from './CompanyLogo'
 import { internshipHref, publishedAgo, type Internship } from '../types'
@@ -36,29 +37,38 @@ function useSaved(id: string) {
 export default function InternshipCard({ internship: i }: { internship: Internship }) {
     const { saved, toggle } = useSaved(i.id)
     return (
-        <article className='relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white transition-shadow hover:shadow-md'>
-            <div className='flex flex-1 flex-col gap-3 bg-secondary/[0.05] p-5'>
-                <div className='flex items-start justify-between gap-3'>
-                    <div className='flex min-w-0 items-center gap-3'>
-                        <CompanyLogo name={i.companyName} logo={i.companyLogo} className='h-14 w-14 ring-gray-200' />
-                        <span className='min-w-0 break-words font-semibold text-secondary'>{i.companyName}</span>
+        <article className='relative flex h-full flex-col rounded-2xl bg-white shadow-[0_10px_30px_-12px_rgba(15,76,92,0.28)] ring-1 ring-secondary/10 transition duration-200 hover:-translate-y-1 hover:shadow-[0_18px_40px_-14px_rgba(15,76,92,0.38)] motion-reduce:transform-none'>
+            <div className='flex flex-1 flex-col gap-4 p-5'>
+                <div className='flex items-center gap-3'>
+                    <CompanyLogo name={i.companyName} logo={i.companyLogo} className='h-14 w-14 ring-gray-200' />
+                    <div className='min-w-0'>
+                        <p className='break-words font-semibold text-secondary'>{i.companyName}</p>
+                        <p className='text-sm text-ink/60'>{publishedAgo(i.createdAt)}</p>
                     </div>
-                    <span className='shrink-0 rounded-full bg-secondary px-3 py-0.5 text-sm font-medium text-white'>Stage</span>
                 </div>
-                <h3 className='text-xl font-normal leading-snug text-black sm:text-2xl'>
-                    <Link href={internshipHref(i.id)} className='after:absolute after:inset-0 after:content-[""]'>
+                <h3 className='text-lg font-semibold leading-snug text-secondary'>
+                    <Link href={internshipHref(i.id)} className='after:absolute after:inset-0 after:rounded-2xl after:content-[""]'>
                         {i.title}
                     </Link>
                 </h3>
-                <div className='mt-auto flex flex-wrap gap-1.5'>
-                    <span className='rounded-full bg-success px-3 py-0.5 text-sm font-medium text-secondary'>{i.city}</span>
-                    <span className='rounded-full bg-primary px-3 py-0.5 text-sm font-medium text-white'>{i.modality}</span>
+                <div className='mt-auto flex flex-col gap-3'>
+                    {i.domain && (
+                        <p className='flex items-center gap-1.5 text-sm text-ink'>
+                            <Icon icon='tabler:tools' className='shrink-0 text-base text-primary' />
+                            {i.domain}
+                        </p>
+                    )}
+                    <div className='flex flex-wrap gap-2'>
+                        <span className='inline-flex items-center gap-1 rounded-full bg-secondary/[0.08] px-3 py-1 text-sm font-medium text-secondary'>
+                            <Icon icon='tabler:map-pin' className='text-base' />
+                            {i.city}
+                        </span>
+                        <span className='rounded-full bg-cream px-3 py-1 text-sm font-medium text-secondary'>{i.modality}</span>
+                    </div>
                 </div>
-                {i.domain && <p className='text-black'>{i.domain}</p>}
-                <p className='text-ink/60'>{publishedAgo(i.createdAt)}</p>
             </div>
-            <div className='flex items-center justify-between gap-3 px-5 py-3'>
-                <Link href={internshipHref(i.id)} aria-label={`Voir les détails : ${i.title}`} className='relative z-10 inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-4 font-semibold text-white transition-colors hover:bg-primary/90'>
+            <div className='flex items-center gap-3 border-t border-gray-100 p-4'>
+                <Link href={internshipHref(i.id)} aria-label={`Voir les détails : ${i.title}`} className='relative z-10 inline-flex min-h-11 flex-1 items-center justify-center rounded-lg bg-primary px-4 font-semibold text-white transition-colors hover:bg-primary/90'>
                     Voir détails
                 </Link>
                 <button
@@ -66,8 +76,8 @@ export default function InternshipCard({ internship: i }: { internship: Internsh
                     aria-pressed={saved}
                     aria-label={saved ? `Retirer « ${i.title} » des stages enregistrés` : `Enregistrer « ${i.title} »`}
                     onClick={toggle}
-                    className='relative z-10 flex h-11 w-11 items-center justify-center rounded-full text-secondary hover:cursor-pointer hover:bg-offwhite'>
-                    <svg viewBox='0 0 24 24' stroke='currentColor' strokeWidth='2' strokeLinejoin='round' aria-hidden='true' className={cn('h-7 w-7', saved ? 'fill-current' : 'fill-none')}>
+                    className='relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-secondary ring-1 ring-secondary/15 transition-colors hover:cursor-pointer hover:bg-offwhite'>
+                    <svg viewBox='0 0 24 24' stroke='currentColor' strokeWidth='2' strokeLinejoin='round' aria-hidden='true' className={cn('h-6 w-6', saved ? 'fill-current' : 'fill-none')}>
                         <path d='M6 3h12a1 1 0 0 1 1 1v17l-7-4.5L5 21V4a1 1 0 0 1 1-1Z' />
                     </svg>
                 </button>
