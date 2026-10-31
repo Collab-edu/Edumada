@@ -45,10 +45,11 @@ class EstablishmentRequest extends FormRequest
             'coordinates.lng' => ['required_with:coordinates', 'numeric', 'between:-180,180'],
             'admissionDocuments' => ['sometimes', 'array', 'max:30'],
             'admissionDocuments.*' => ['string', 'max:255'],
-            'imageSrc' => ['sometimes', 'nullable', 'url', 'max:2048'],
-            'logo' => ['sometimes', 'nullable', 'url', 'max:2048'],
+            // Adresse complète, ou chemin d'une image servie par le site (« /images/… »).
+            'imageSrc' => ['sometimes', 'nullable', 'string', 'regex:#^(https?://|/(?!/))#i', 'max:2048'],
+            'logo' => ['sometimes', 'nullable', 'string', 'regex:#^(https?://|/(?!/))#i', 'max:2048'],
             'photos' => ['sometimes', 'array', 'max:20'],
-            'photos.*' => ['url', 'max:2048'],
+            'photos.*' => ['string', 'regex:#^(https?://|/(?!/))#i', 'max:2048'],
         ];
     }
 

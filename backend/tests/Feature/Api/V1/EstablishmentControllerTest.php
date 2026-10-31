@@ -17,6 +17,20 @@ class EstablishmentControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_logo_can_stay_a_site_path_but_not_a_script_or_other_host_path(): void
+    {
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $establishment = Establishment::factory()->ownedBy($owner)->create(['logo' => '/images/logos/ifs.svg']);
+
+        $this->actingAs($owner)->patchJson("/api/v1/establishments/{$establishment->slug}", ['logo' => '/images/logos/ifs.svg'])->assertOk();
+
+        foreach (['javascript:alert(1)', '//autre-site.example/logo.png'] as $logo) {
+            $this->actingAs($owner)->patchJson("/api/v1/establishments/{$establishment->slug}", ['logo' => $logo])
+                ->assertUnprocessable()
+                ->assertJsonValidationErrors('logo');
+        }
+    }
+
     protected function setUp(): void
     {
         parent::setUp();

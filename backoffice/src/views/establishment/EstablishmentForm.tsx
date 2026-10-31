@@ -1,9 +1,9 @@
 'use client'
 import { useState, type FormEvent } from 'react'
-import { CButton, CCol, CForm, CFormInput, CFormLabel, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
+import { CAlert, CButton, CCol, CForm, CFormInput, CFormLabel, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilEducation, cilEnvelopeClosed, cilGlobeAlt, cilImage, cilLink, cilLocationPin, cilPencil, cilPhone, cilSave } from '@coreui/icons'
-import { api, fieldError, isGeneralError } from '@/lib/api'
+import { api, ApiError, fieldError, isGeneralError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import type { Category, ManagedEstablishment } from '@/lib/types'
 import { useToast } from '@/context/ToastContext'
@@ -111,6 +111,19 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
     return (
         <CForm onSubmit={submit} noValidate>
             {isGeneralError(error) && <ErrorAlert error={error} />}
+            {/* Toutes les erreurs de champs : certaines (images, accréditation…) n'ont pas d'emplacement dédié. */}
+            {error instanceof ApiError && Object.keys(error.errors).length > 0 && (
+                <CAlert color='danger'>
+                    <strong>Corrigez ces champs :</strong>
+                    <ul className='mb-0 mt-1'>
+                        {Object.values(error.errors)
+                            .flat()
+                            .map((message) => (
+                                <li key={message}>{message}</li>
+                            ))}
+                    </ul>
+                </CAlert>
+            )}
             <PageCard
                 icon={cilEducation}
                 title="Identité de l'établissement"
