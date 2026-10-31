@@ -112,13 +112,14 @@ class InternshipTest extends TestCase
     }
 
     /**
-     * @return array<string, UploadedFile>
+     * @return array<string, UploadedFile|string>
      */
     private function files(): array
     {
         return [
             'cv' => UploadedFile::fake()->create('cv.pdf', 100, 'application/pdf'),
             'letter' => UploadedFile::fake()->create('lettre.pdf', 100, 'application/pdf'),
+            'phone' => '034 00 000 00',
         ];
     }
 
@@ -156,7 +157,7 @@ class InternshipTest extends TestCase
         $this->actingAs($owner)->postJson('/api/v1/internships/stage/applications', $this->files())->assertForbidden();
     }
 
-    public function test_cv_and_letter_are_required_and_must_be_documents(): void
+    public function test_phone_cv_and_letter_are_required_and_must_be_documents(): void
     {
         Storage::fake('local');
         $this->publishedInternship();
@@ -164,7 +165,7 @@ class InternshipTest extends TestCase
 
         $this->actingAs($student)->postJson('/api/v1/internships/stage/applications', [
             'cv' => UploadedFile::fake()->create('cv.exe', 10, 'application/octet-stream'),
-        ])->assertUnprocessable()->assertJsonValidationErrors(['cv', 'letter']);
+        ])->assertUnprocessable()->assertJsonValidationErrors(['cv', 'letter', 'phone']);
     }
 
     public function test_closed_or_past_deadline_internship_refuses_applications(): void

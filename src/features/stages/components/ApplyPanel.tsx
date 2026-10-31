@@ -14,9 +14,11 @@ function FileField({ label, file, onChange, error }: { label: string; file: File
         <div>
             <label className='flex min-h-20 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-secondary/25 p-4 text-center transition-colors focus-within:border-primary hover:border-primary'>
                 <Icon icon='tabler:upload' className='text-2xl text-primary' />
-                <span className='font-semibold text-secondary'>{label}</span>
+                <span className='font-semibold text-secondary'>
+                    {label} <span className='text-primary' aria-hidden='true'>*</span>
+                </span>
                 <span className='break-all text-sm text-ink/60'>{file ? file.name : 'PDF ou Word · 5 Mo maximum'}</span>
-                <input type='file' accept={ACCEPT} className='sr-only' onChange={(e) => onChange(e.target.files?.[0] ?? null)} />
+                <input type='file' accept={ACCEPT} required aria-required='true' className='sr-only' onChange={(e) => onChange(e.target.files?.[0] ?? null)} />
             </label>
             {error && <p className='mt-1 text-sm text-primary'>{error}</p>}
         </div>
@@ -34,8 +36,13 @@ export default function ApplyPanel({ internship }: { internship: Internship }) {
     const [sending, setSending] = useState(false)
     const [sent, setSent] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
-    const [fileError, setFileError] = useState<{ cv?: string; letter?: string }>({})
+    const [fileError, setFileError] = useState<{ cv?: string; letter?: string; phone?: string }>({})
     const student = user?.role === 'student'
+
+    // Le numéro du profil pré-remplit le champ.
+    useEffect(() => {
+        if (user?.phone) setPhone((current) => current || user.phone || '')
+    }, [user?.phone])
 
     useEffect(() => {
         if (!student) return
@@ -56,16 +63,21 @@ export default function ApplyPanel({ internship }: { internship: Internship }) {
 
     const submit = async (e: FormEvent) => {
         e.preventDefault()
-        if (!cv || !letter) {
-            setFileError({ cv: cv ? undefined : 'Ajoutez votre CV.', letter: letter ? undefined : 'Ajoutez votre lettre de motivation.' })
+        if (!phone.trim() || !cv || !letter) {
+            setFileError({
+                phone: phone.trim() ? undefined : 'Indiquez votre téléphone.',
+                cv: cv ? undefined : 'Ajoutez votre CV.',
+                letter: letter ? undefined : 'Ajoutez votre lettre de motivation.',
+            })
             return
         }
+        setFileError({})
         setSending(true)
         setError(null)
         const body = new FormData()
         body.append('cv', cv)
         body.append('letter', letter)
-        if (phone || user?.phone) body.append('phone', phone || user?.phone || '')
+        body.append('phone', phone.trim())
         try {
             await api(`/internships/${internship.id}/applications`, { method: 'POST', body })
             setSent(true)
@@ -100,12 +112,12 @@ export default function ApplyPanel({ internship }: { internship: Internship }) {
         content = <FormAlert tone='info'>Les candidatures sont envoyées depuis un compte étudiant.</FormAlert>
     } else {
         content = (
-            <form onSubmit={submit} className='flex flex-col gap-4'>
-                {error && <FormAlert>{error.field('internship') ?? error.field('cv') ?? error.field('letter') ?? error.message}</FormAlert>}
+            <form onSubmit={submit} noValidate className='flex flex-col gap-4'>
+                {error && <FormAlert>{error.field('internship') ?? error.field('cv') ?? error.field('letter') ?? error.field('phone') ?? error.message}</FormAlert>}
                 <p className='rounded-xl bg-offwhite p-3 text-sm text-ink/80'>
                     {user.name} · {user.email}
                 </p>
-                <TextField label='Téléphone' type='tel' autoComplete='tel' placeholder={user.phone ?? '034 00 000 00'} value={phone} onChange={(e) => setPhone(e.target.value)} error={error?.field('phone')} />
+                <TextField label='Téléphone' type='tel' autoComplete='tel' placeholder='034 00 000 00' required value={phone} onChange={(e) => setPhone(e.target.value)} error={fileError.phone ?? error?.field('phone')} />
                 <FileField label='Votre CV' file={cv} onChange={pick('cv', setCv)} error={fileError.cv} />
                 <FileField label='Votre lettre de motivation' file={letter} onChange={pick('letter', setLetter)} error={fileError.letter} />
                 <p className='text-sm text-ink/60'>Vos documents sont transmis à l’équipe Edumada, qui étudie votre candidature.</p>

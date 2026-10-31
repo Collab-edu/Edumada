@@ -32,8 +32,8 @@ class InternshipApplicationController extends Controller
         $validated = $request->validate([
             'cv' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
             'letter' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
-            'phone' => ['nullable', 'string', 'max:30'],
-        ], [], ['cv' => 'CV', 'letter' => 'lettre de motivation']);
+            'phone' => ['required', 'string', 'max:30'],
+        ], [], ['cv' => 'CV', 'letter' => 'lettre de motivation', 'phone' => 'téléphone']);
 
         if (! $internship->acceptsApplications()) {
             throw ValidationException::withMessages(['internship' => 'Les candidatures à ce stage sont fermées.']);
@@ -46,7 +46,7 @@ class InternshipApplicationController extends Controller
             $application = new InternshipApplication;
             $application->internship_id = $internship->id;
             $application->user_id = $user->id;
-            $application->phone = $validated['phone'] ?? $user->phone;
+            $application->phone = $validated['phone'];
             $application->cv_path = '';
             $application->cv_name = mb_substr($request->file('cv')->getClientOriginalName(), 0, 255);
             $application->letter_path = '';
