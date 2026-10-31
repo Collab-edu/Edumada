@@ -13,6 +13,21 @@ enum OfferKind: string
     case Level = 'niveau';
     case Care = 'accueil';
 
+    /**
+     * Types d'offres proposés à une catégorie d'établissement (toutes pour une catégorie sans règle).
+     *
+     * @return list<self>
+     */
+    public static function forCategory(?string $slug): array
+    {
+        return match ($slug) {
+            'superieur', 'formation-pro' => [self::Formation],
+            'scolaire' => [self::Level],
+            'petite-enfance' => [self::Care, self::Level],
+            default => self::cases(),
+        };
+    }
+
     public function label(): string
     {
         return match ($this) {

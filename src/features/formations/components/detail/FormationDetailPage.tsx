@@ -1,4 +1,5 @@
 'use client'
+import { KIND_LABELS } from '../../kind-rules'
 import { useEffect, useState } from 'react'
 import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
@@ -144,9 +145,9 @@ export function FormationDetailPage({ formation, detail, school, category, other
                             <span className={cn('w-fit rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>{t(badge.label)}</span>
                             <dl className='flex flex-col gap-3 text-sm'>
                                 {[
-                                    ['Frais de scolarité', tuition ?? 'Non communiqués'],
+                                    [KIND_LABELS[formation.kind].fees, tuition ?? 'Non communiqués'],
                                     ...offerFacts(formation).map((fact) => [fact.icon === 'tabler:school' ? 'Diplôme' : fact.icon === 'tabler:clock' ? 'Durée' : 'Âge', fact.label]),
-                                    ['Rentrée', formation.startDate ? formatDate(formation.startDate) : 'Non communiquée'],
+                                    [formation.kind === 'accueil' ? 'Début' : 'Rentrée', formation.startDate ? formatDate(formation.startDate) : 'Non communiquée'],
                                     ['Date limite', formation.registrationPeriod ? formatDate(formation.registrationPeriod.end) : 'Non communiquée'],
                                 ].map(([label, value]) => (
                                     <div key={label} className='flex justify-between gap-3 border-b border-gray-100 pb-2 last:border-0'>

@@ -14,6 +14,7 @@ export const BUDGET_RANGES = [
 export const DURATIONS = ["Moins d'un an", '1 an', '2 ans', '3 ans', '5 ans ou plus'] as const
 export const MODALITIES = ['Présentiel', 'Distanciel', 'Hybride'] as const
 export const DIPLOMAS = ['Certificat', 'BTS', 'Licence', 'Master', 'Doctorat', 'Autre'] as const
+export const SCHOOL_DIPLOMAS = ['CEPE', 'BEPC', 'BAC'] as const
 export const REGISTRATION_OPTIONS = ['Toutes', 'Inscriptions ouvertes', 'À venir'] as const
 export const LANGUAGES = ['Français', 'Malgache', 'Anglais', 'Autre'] as const
 /** Niveau actuel de l'étudiant : on affiche les formations qui lui sont accessibles. */
@@ -85,6 +86,37 @@ export const EMPTY_FILTERS: SearchFilters = {
     housing: [],
     scholarships: [],
     childAge: '',
+}
+
+/**
+ * Filtres proposés selon la catégorie recherchée : pas de diplôme ni de domaine pour une crèche,
+ * pas d'âge de l'enfant pour l'université. `undefined` (aucune catégorie) : recherche de formation.
+ */
+export type FilterProfile = { domain: boolean; age: boolean; diplomas: readonly string[]; duration: boolean; modality: boolean; admission: boolean; housing: boolean; scholarship: boolean }
+
+const FORMATION_FILTERS: FilterProfile = { domain: true, age: false, diplomas: DIPLOMAS, duration: true, modality: true, admission: true, housing: true, scholarship: true }
+
+export function filterProfile(categoryId: string | undefined): FilterProfile {
+    if (categoryId === 'petite-enfance') return { domain: false, age: true, diplomas: [], duration: false, modality: false, admission: false, housing: false, scholarship: false }
+    if (categoryId === 'scolaire') return { domain: false, age: true, diplomas: SCHOOL_DIPLOMAS, duration: false, modality: false, admission: false, housing: true, scholarship: true }
+    if (categoryId === 'autres') return { ...FORMATION_FILTERS, age: true }
+    return FORMATION_FILTERS
+}
+
+/** Retire les choix des filtres qui n'existent plus pour cette catégorie. */
+export function pruneFilters(filters: SearchFilters, profile: FilterProfile): SearchFilters {
+    return {
+        ...filters,
+        domaine: profile.domain ? filters.domaine : '',
+        childAge: profile.age ? filters.childAge : '',
+        diplomas: filters.diplomas.filter((d) => profile.diplomas.includes(d)),
+        durations: profile.duration ? filters.durations : [],
+        modalities: profile.modality ? filters.modalities : [],
+        admissionLevel: profile.admission ? filters.admissionLevel : EMPTY_FILTERS.admissionLevel,
+        bacSeries: profile.admission ? filters.bacSeries : [],
+        housing: profile.housing ? filters.housing : [],
+        scholarships: profile.scholarship ? filters.scholarships : [],
+    }
 }
 
 /** Le filtre « Niveau d'études » du Hero correspond au diplôme préparé. */

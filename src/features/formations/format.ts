@@ -48,7 +48,7 @@ export function offerFacts(offer: FormationType): { icon: string; label: string 
     const facts: { icon: string; label: string }[] = []
     if (offer.diploma) facts.push({ icon: 'tabler:school', label: offer.diploma })
     if (offer.ageRange) facts.push({ icon: 'tabler:mood-kid', label: formatAgeRange(offer.ageRange) })
-    if (offer.durationYears !== null) facts.push({ icon: 'tabler:clock', label: formatDuration(offer.durationYears) })
+    if (offer.durationYears !== null && offer.kind === 'formation') facts.push({ icon: 'tabler:clock', label: formatDuration(offer.durationYears) })
     return facts
 }
 

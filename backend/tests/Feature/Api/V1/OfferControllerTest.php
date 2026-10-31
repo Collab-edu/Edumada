@@ -156,6 +156,32 @@ class OfferControllerTest extends TestCase
         $this->getJson("/api/v1/offers/{$draft->slug}")->assertNotFound();
     }
 
+    public function test_offer_kind_must_match_the_establishment_category(): void
+    {
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $category = Category::factory()->create(['slug' => 'superieur']);
+        $establishment = Establishment::factory()->ownedBy($owner)->create(['category_id' => $category->id]);
+
+        $this->actingAs($owner)
+            ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload(['kind' => 'accueil']))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('kind');
+
+        $this->actingAs($owner)
+            ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload())
+            ->assertCreated();
+    }
+
+    public function test_existing_offer_keeps_a_kind_outside_the_rule(): void
+    {
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $category = Category::factory()->create(['slug' => 'superieur']);
+        $establishment = Establishment::factory()->ownedBy($owner)->create(['category_id' => $category->id]);
+        $offer = Offer::factory()->for($establishment)->create(['kind' => 'accueil']);
+
+        $this->actingAs($owner)->patchJson("/api/v1/offers/{$offer->slug}", ['kind' => 'accueil', 'title' => 'Autre titre'])->assertOk();
+    }
+
     public function test_old_link_still_finds_the_offer_and_returns_its_new_link(): void
     {
         $offer = Offer::factory()->create(['slug' => 'licence-informatique-institut-numerique', 'old_slug' => 'licence-informatique-inm']);

@@ -73,7 +73,7 @@ const VARIANTS = {
         imageAlt: 'Enfants qui travaillent en classe',
         searchLabel: 'Rechercher une école',
         listTitle: 'L’accueil et les niveaux proposés',
-        listIntro: 'Choisissez un type d’établissement, puis filtrez par domaine et par ville.',
+        listIntro: 'Choisissez un type d’établissement, puis filtrez par ville.',
         domainLabel: "Domaine d'études",
         domainPlaceholder: FILTER_UI.domaine.placeholder,
         bySubCategory: true,
@@ -93,6 +93,8 @@ const plural = (n: number) => `${n} formation${n > 1 ? 's' : ''}`
 export default function CategoryOffersPage({ variant }: { variant: keyof typeof VARIANTS }) {
     const t = useT()
     const config = VARIANTS[variant]
+    // Une crèche ou une école n'a pas de domaine d'études.
+    const showDomain = variant !== 'petite-enfance'
     const { data: formations, loading } = useSiteData('FormationData')
     const { data: schools, loading: schoolsLoading } = useSiteData('SchoolData')
     const { data: categories } = useSiteData('CategoryData')
@@ -210,17 +212,22 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                         role='search'
                         aria-label={t('Filtrer les formations')}
                         onSubmit={submitSearch}
-                        className='mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:grid-cols-[1fr_1fr_auto] sm:items-center'>
-                        <div className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
-                            <SuggestInput
-                                icon={FILTER_UI.domaine.icon}
-                                label={config.domainLabel}
-                                placeholder={config.domainPlaceholder}
-                                suggestions={domains}
-                                value={draft.domain}
-                                onChange={(value) => setDraft((prev) => ({ ...prev, domain: value }))}
-                            />
-                        </div>
+                        className={cn(
+                            'mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:items-center',
+                            showDomain ? 'sm:grid-cols-[1fr_1fr_auto]' : 'sm:grid-cols-[1fr_auto]'
+                        )}>
+                        {showDomain && (
+                            <div className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
+                                <SuggestInput
+                                    icon={FILTER_UI.domaine.icon}
+                                    label={config.domainLabel}
+                                    placeholder={config.domainPlaceholder}
+                                    suggestions={domains}
+                                    value={draft.domain}
+                                    onChange={(value) => setDraft((prev) => ({ ...prev, domain: value }))}
+                                />
+                            </div>
+                        )}
                         <div className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
                             <CityPicker
                                 label='Ville / Localisation'

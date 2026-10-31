@@ -3,6 +3,7 @@ import type { FaqItem } from '@/features/etablissements/faq'
 import type { SchoolType } from '@/features/etablissements/types'
 import type { SiteData } from '@/data/site-data'
 import { buildFormationFaq } from './faq'
+import { KIND_FIELDS } from './kind-rules'
 import type { FormationDetailType, FormationType } from './types'
 
 export type FormationPageProps = {
@@ -28,7 +29,10 @@ export function buildFormationPageProps(
     if (!school) return null
 
     const otherFormations = data.FormationData.filter((f) => f.schoolId === school.id && f.id !== formation.id)
-    const category = data.CategoryData.find((c) => c.id === formation.category) ?? { ...data.CategoryData[0], fields: DEFAULT_FIELDS }
+    const found = data.CategoryData.find((c) => c.id === formation.category) ?? { ...data.CategoryData[0], fields: DEFAULT_FIELDS }
+
+    // Ce qui est affiché dépend du type de l'offre, pas de la catégorie de l'établissement.
+    const category = { ...found, fields: KIND_FIELDS[formation.kind] ?? found.fields }
 
     // Offres similaires : autres établissements de la même catégorie, d'abord même domaine, puis même diplôme, puis même ville.
     const score = (f: FormationType) =>

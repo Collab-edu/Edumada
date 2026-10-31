@@ -8,11 +8,10 @@ import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useToast } from '@/context/ToastContext'
 import { api, ApiError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
-import type { Category, CategoryFields, Domain, ManagedEstablishment, ManagedOffer, ReferenceData } from '@/lib/types'
+import { kindsForCategory, OFFER_KINDS, type OfferKindRules } from '@/lib/offerKinds'
+import type { Domain, ManagedEstablishment, ManagedOffer, ReferenceData } from '@/lib/types'
 import { EmptyState, FileUpload, ImageUpload, ListInput, PageCard, StatusDot } from '@/components/ui'
 
-const DEFAULT_FIELDS: CategoryFields = { diplomas: true, programme: true, level: true, childAge: true, duration: true, careers: true }
-const KIND_LABEL: Record<string, string> = { formation: 'Formation', niveau: 'Niveau scolaire', accueil: 'Accueil (crèche, garderie…)' }
 const KNOWN_LANGUAGES = ['Français', 'Malgache', 'Anglais']
 const BAC_SERIES = ['A', 'C', 'D', 'Technique']
 
@@ -30,7 +29,7 @@ function initialState(offer: ManagedOffer | undefined, e: ManagedEstablishment, 
         ageMin: str(offer?.ageRange?.min),
         ageMax: str(offer?.ageRange?.max),
         fees: str(offer?.fees),
-        feesPeriod: offer?.feesPeriod ?? (kind === 'formation' ? 'an' : 'mois'),
+        feesPeriod: offer?.feesPeriod ?? OFFER_KINDS[kind].defaultFeesPeriod,
         registrationFee: str(offer?.registrationFee),
         registrationStart: offer?.registrationPeriod?.start ?? '',
         registrationEnd: offer?.registrationPeriod?.end ?? '',
@@ -41,7 +40,7 @@ function initialState(offer: ManagedOffer | undefined, e: ManagedEstablishment, 
         otherLanguages: (offer?.languages ?? []).filter((l) => !KNOWN_LANGUAGES.includes(l)).join(', '),
         level: offer?.admission.level ?? 'Aucun',
         bacSeries: offer?.admission.bacSeries ?? [],
-        selection: offer?.admission.selection ?? 'Sur dossier',
+        selection: offer?.admission.selection ?? OFFER_KINDS[kind].defaultSelection,
         housing: offer?.housing ?? 'Non renseigné',
         scholarship: offer?.scholarship ?? 'Non renseigné',
         imageSrc: offer?.imageSrc ?? '',
@@ -81,20 +80,20 @@ type ListKey = { [K in keyof State]: State[K] extends string[] ? K : never }[key
 type RowKey = 'program' | 'otherFees' | 'academicCalendar'
 
 /** Corps de la requête au format `FormationType` + `details` attendu par l'API. */
-function toPayload(s: State, fields: CategoryFields, status?: string) {
+function toPayload(s: State, rules: OfferKindRules, status?: string) {
     return {
         title: s.title,
         kind: s.kind,
-        domain: s.domain || null,
-        diploma: fields.diplomas ? s.diploma || null : null,
-        durationYears: fields.duration ? num(s.durationYears) : null,
-        ageRange: fields.childAge && s.ageMin && s.ageMax ? { min: num(s.ageMin), max: num(s.ageMax) } : null,
+        domain: s.domain || rules.autoDomain,
+        diploma: rules.diplomas.includes(s.diploma) ? s.diploma : null,
+        durationYears: rules.duration ? num(s.durationYears) : null,
+        ageRange: rules.childAge && s.ageMin && s.ageMax ? { min: num(s.ageMin), max: num(s.ageMax) } : null,
         fees: num(s.fees),
         feesPeriod: s.feesPeriod,
         registrationFee: num(s.registrationFee),
         registrationPeriod: s.registrationStart && s.registrationEnd ? { start: s.registrationStart, end: s.registrationEnd } : null,
         startDate: s.startDate || null,
-        modality: s.modality,
+        modality: rules.modality ? s.modality : 'Présentiel',
         registration: s.registration,
         languages: [
             ...s.languages,
@@ -103,31 +102,31 @@ function toPayload(s: State, fields: CategoryFields, status?: string) {
                 .map((l) => l.trim())
                 .filter(Boolean),
         ],
-        admission: { level: fields.level ? s.level : 'Aucun', bacSeries: fields.level ? s.bacSeries : [], selection: s.selection },
-        housing: s.housing,
-        scholarship: s.scholarship,
+        admission: { level: rules.level ? s.level : 'Aucun', bacSeries: rules.level ? s.bacSeries : [], selection: rules.selection ? s.selection : rules.defaultSelection },
+        housing: rules.housing ? s.housing : 'Non renseigné',
+        scholarship: rules.scholarship ? s.scholarship : 'Non renseigné',
         imageSrc: s.imageSrc || null,
         ...(status ? { status } : {}),
         details: {
             description: s.description || null,
             objectives: s.objectives,
             skills: s.skills,
-            subjects: fields.programme ? s.subjects : [],
-            program: fields.programme ? s.program.filter((p) => p.period.trim()) : [],
-            specializations: fields.programme ? s.specializations : [],
-            teachingMethods: fields.programme ? s.teachingMethods : [],
-            evaluation: fields.programme ? s.evaluation || null : null,
-            admission: { prerequisites: s.prerequisites, specialConditions: s.specialConditions || null, minAge: num(s.minAge) },
+            subjects: rules.subjects ? s.subjects : [],
+            program: rules.fullProgramme ? s.program.filter((p) => p.period.trim()) : [],
+            specializations: rules.fullProgramme ? s.specializations : [],
+            teachingMethods: rules.subjects ? s.teachingMethods : [],
+            evaluation: rules.fullProgramme ? s.evaluation || null : null,
+            admission: { prerequisites: s.prerequisites, specialConditions: s.specialConditions || null, minAge: rules.minAge ? num(s.minAge) : null },
             costs: {
                 applicationFee: num(s.applicationFee),
                 otherFees: s.otherFees.filter((f) => f.label.trim()).map((f) => ({ label: f.label, amount: num(f.amount) })),
                 status: s.costsStatus,
                 paymentOptions: s.paymentOptions,
-                scholarships: s.scholarshipsInfo || null,
+                scholarships: rules.scholarship ? s.scholarshipsInfo || null : null,
                 discounts: s.discounts || null,
             },
             organization: { schedule: s.schedule || null, campus: s.campus || null, rhythm: s.rhythm },
-            careers: fields.careers
+            careers: rules.careers
                 ? { jobs: s.jobs, sectors: s.sectors, furtherStudies: s.furtherStudies, internship: s.internship || null, partnerships: s.partnerships }
                 : { jobs: [], sectors: [], furtherStudies: [], internship: null, partnerships: [] },
             onlineApplication: s.onlineApplication,
@@ -167,32 +166,44 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
     const { current: e, reload } = useCurrentEstablishment()
     const router = useRouter()
     const toast = useToast()
-    const { data: category } = useApi<{ data: Category }>(`/categories/${e.category}`)
     const { data: domains } = useApi<{ data: Domain[] }>('/domains')
     const { data: reference } = useApi<{ data: ReferenceData }>('/reference')
-    const fields = category?.data.fields ?? DEFAULT_FIELDS
     const ref = reference?.data
     const defaultKind = e.category === 'petite-enfance' ? 'accueil' : e.category === 'scolaire' ? 'niveau' : 'formation'
-    const [s, setState] = useState<State>(() => initialState(offer, e, defaultKind))
+    const [s, setState] = useState<State>(() => initialState(offer, e, offer?.kind ?? defaultKind))
+    const rules = OFFER_KINDS[s.kind] ?? OFFER_KINDS.formation
+    const kinds = kindsForCategory(e.category, offer?.kind)
     const [saving, setSaving] = useState<string | null>(null)
     const [error, setError] = useState<unknown>(null)
     const set = <K extends keyof State>(key: K, value: State[K]) => setState((prev) => ({ ...prev, [key]: value }))
+    // Changer de type : on repart des valeurs par défaut de ce type pour les champs qu'il ne partage pas.
+    const changeKind = (kind: string) => {
+        const next = OFFER_KINDS[kind]
+        setState((prev) => ({
+            ...prev,
+            kind,
+            domain: next.domain ? prev.domain : '',
+            diploma: next.diplomas.includes(prev.diploma) ? prev.diploma : '',
+            feesPeriod: next.defaultFeesPeriod,
+            selection: next.defaultSelection,
+        }))
+    }
     const toggle = (key: ListKey, value: string) => set(key, s[key].includes(value) ? s[key].filter((v) => v !== value) : [...s[key], value])
     const apiError = error instanceof ApiError ? error : null
     const err = (field: string) => apiError?.field(field)
     const opts = (list?: string[]) => (list ?? []).map((v) => <option key={v}>{v}</option>)
 
     const steps: StepMeta[] = [
-        { key: 'main', title: 'Informations principales', subtitle: 'Les informations de base sur votre offre.', done: !!s.title.trim() && !!s.domain },
+        { key: 'main', title: 'Informations principales', subtitle: 'Les informations de base sur votre offre.', done: !!s.title.trim() && (!rules.domain || !!s.domain) },
         { key: 'presentation', title: 'Présentation', subtitle: 'Le contenu détaillé de votre offre.', done: !!s.description.trim() },
-        ...(fields.programme
-            ? [{ key: 'programme', title: 'Programme', subtitle: 'Les matières et le déroulement du cursus.', done: s.subjects.length > 0 || s.program.some((x) => x.period.trim()) }]
+        ...(rules.subjects
+            ? [{ key: 'programme', title: rules.fullProgramme ? 'Programme' : 'Matières', subtitle: rules.fullProgramme ? 'Les matières et le déroulement du cursus.' : 'Les matières enseignées à ce niveau.', done: s.subjects.length > 0 || s.program.some((x) => x.period.trim()) }]
             : []),
-        { key: 'admission', title: 'Admission', subtitle: 'Les conditions d’admission et prérequis.', done: s.prerequisites.length > 0 },
-        { key: 'frais', title: 'Frais et financement', subtitle: 'Les coûts, bourses et modalités de paiement.', done: s.fees.trim() !== '' },
-        { key: 'organisation', title: 'Organisation et calendrier', subtitle: 'Les dates, horaires et lieu des cours.', done: !!s.startDate || !!s.schedule.trim() || s.rhythm.length > 0 },
-        ...(fields.careers ? [{ key: 'debouches', title: 'Débouchés', subtitle: 'Les métiers et secteurs d’activité.', done: s.jobs.length > 0 }] : []),
-        { key: 'candidature', title: 'Candidature', subtitle: 'Les modalités de candidature et documents.', done: s.onlineApplication || !!s.brochureUrl.trim() },
+        { key: 'admission', title: rules.level ? 'Admission' : 'Inscription', subtitle: rules.level ? 'Les conditions d’admission et prérequis.' : 'Les conditions et pièces demandées.', done: s.prerequisites.length > 0 },
+        { key: 'frais', title: rules.scholarship ? 'Frais et financement' : 'Frais', subtitle: rules.scholarship ? 'Les coûts, bourses et modalités de paiement.' : 'Les coûts et modalités de paiement.', done: s.fees.trim() !== '' },
+        { key: 'organisation', title: 'Organisation et calendrier', subtitle: s.kind === 'accueil' ? 'Les dates, horaires et lieu d’accueil.' : 'Les dates, horaires et lieu des cours.', done: !!s.startDate || !!s.schedule.trim() || s.rhythm.length > 0 },
+        ...(rules.careers ? [{ key: 'debouches', title: 'Débouchés', subtitle: 'Les métiers et secteurs d’activité.', done: s.jobs.length > 0 }] : []),
+        { key: 'candidature', title: s.kind === 'formation' ? 'Candidature' : 'Demande d’inscription', subtitle: s.kind === 'formation' ? 'Les modalités de candidature et documents.' : 'Les demandes en ligne et documents.', done: s.onlineApplication || !!s.brochureUrl.trim() },
     ].map((step, i) => ({ ...step, n: i + 1 }))
     const stepOf = (key: string) => steps.find((step) => step.key === key)
     const [openSteps, setOpenSteps] = useState<string[]>(['main'])
@@ -208,7 +219,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
         setSaving(status ?? 'save')
         setError(null)
         try {
-            const body = toPayload(s, fields, status)
+            const body = toPayload(s, rules, status)
             if (offer) await api(`/offers/${offer.id}`, { method: 'PATCH', body })
             else await api(`/establishments/${e.id}/offers`, { method: 'POST', body })
             toast.success(status === 'published' ? 'Offre publiée' : 'Offre enregistrée')
@@ -261,7 +272,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 <div className='me-auto' style={{ minWidth: 0 }}>
                     <h1 className='h4 mb-1 text-truncate'>{offer ? offer.title : 'Nouvelle offre'}</h1>
                     <p className='small text-body-secondary mb-0'>
-                        {offer ? `${offer.statusLabel} · ${e.name}` : 'Ajoutez une nouvelle offre de formation ou de cursus proposée par votre établissement.'}
+                        {offer ? `${offer.statusLabel} · ${e.name}` : 'Ajoutez une nouvelle offre proposée par votre établissement.'}
                     </p>
                 </div>
                 <div className='bo-offer-progress'>
@@ -288,7 +299,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                     <CCol md={12}>
                         <CFormInput
                             label='Intitulé'
-                            placeholder='Ex. : Licence en informatique'
+                            placeholder={rules.titlePlaceholder}
                             value={s.title}
                             onChange={(ev) => set('title', ev.target.value)}
                             invalid={!!err('title')}
@@ -296,29 +307,31 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                         />
                     </CCol>
                     <CCol md={6}>
-                        <CFormSelect label="Type d'offre" value={s.kind} onChange={(ev) => set('kind', ev.target.value)}>
-                            {(ref?.offerKinds ?? Object.keys(KIND_LABEL)).map((k) => (
+                        <CFormSelect label="Type d'offre" value={s.kind} disabled={kinds.length === 1} onChange={(ev) => changeKind(ev.target.value)}>
+                            {kinds.map((k) => (
                                 <option key={k} value={k}>
-                                    {KIND_LABEL[k] ?? k}
+                                    {OFFER_KINDS[k]?.label ?? k}
                                 </option>
                             ))}
                         </CFormSelect>
                     </CCol>
-                    <CCol md={6}>
-                        <CFormSelect label="Domaine d'études" value={s.domain} onChange={(ev) => set('domain', ev.target.value)}>
-                            <option value=''>Choisir…</option>
-                            {opts((domains?.data ?? []).map((d) => d.name))}
-                        </CFormSelect>
-                    </CCol>
-                    {fields.diplomas && (
-                        <CCol md={4}>
-                            <CFormSelect label='Diplôme préparé' value={s.diploma} onChange={(ev) => set('diploma', ev.target.value)}>
-                                <option value=''>Aucun diplôme</option>
-                                {opts(ref?.diplomas)}
+                    {rules.domain && (
+                        <CCol md={6}>
+                            <CFormSelect label="Domaine d'études" value={s.domain} onChange={(ev) => set('domain', ev.target.value)}>
+                                <option value=''>Choisir…</option>
+                                {opts((domains?.data ?? []).map((d) => d.name))}
                             </CFormSelect>
                         </CCol>
                     )}
-                    {fields.duration && (
+                    {rules.diplomas.length > 0 && (
+                        <CCol md={4}>
+                            <CFormSelect label={rules.level ? 'Diplôme préparé' : 'Examen préparé'} value={s.diploma} onChange={(ev) => set('diploma', ev.target.value)}>
+                                <option value=''>{rules.level ? 'Aucun diplôme' : 'Aucun examen'}</option>
+                                {opts(rules.diplomas)}
+                            </CFormSelect>
+                        </CCol>
+                    )}
+                    {rules.duration && (
                         <CCol md={4}>
                             <CFormInput
                                 label='Durée (années)'
@@ -331,7 +344,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                             />
                         </CCol>
                     )}
-                    {fields.childAge && (
+                    {rules.childAge && (
                         <>
                             <CCol xs={6} md={2}>
                                 <CFormInput label='Âge min.' text='0,25 = 3 mois' inputMode='decimal' value={s.ageMin} onChange={(ev) => set('ageMin', ev.target.value)} />
@@ -348,18 +361,20 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                             </CCol>
                         </>
                     )}
-                    <CCol md={4}>
-                        <CFormSelect label='Modalité' value={s.modality} onChange={(ev) => set('modality', ev.target.value)}>
-                            {opts(ref?.modalities ?? ['Présentiel', 'Distanciel', 'Hybride'])}
-                        </CFormSelect>
-                    </CCol>
+                    {rules.modality && (
+                        <CCol md={4}>
+                            <CFormSelect label='Modalité' value={s.modality} onChange={(ev) => set('modality', ev.target.value)}>
+                                {opts(ref?.modalities ?? ['Présentiel', 'Distanciel', 'Hybride'])}
+                            </CFormSelect>
+                        </CCol>
+                    )}
                     <CCol md={4}>
                         <CFormSelect label='Inscriptions' value={s.registration} onChange={(ev) => set('registration', ev.target.value)}>
                             {opts(ref?.registrationStatuses ?? ['Ouvertes', 'À venir', 'Fermées'])}
                         </CFormSelect>
                     </CCol>
                     <CCol md={12}>
-                        <div className='form-label'>Langues d&apos;enseignement</div>
+                        <div className='form-label'>{rules.languagesLabel}</div>
                         {KNOWN_LANGUAGES.map((l) => (
                             <CFormCheck inline key={l} id={`lang-${l}`} label={l} checked={s.languages.includes(l)} onChange={() => toggle('languages', l)} />
                         ))}
@@ -379,50 +394,58 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
             <Step meta={stepOf('presentation')} open={isOpen('presentation')} onToggle={() => toggleStep('presentation')}>
                 <CFormTextarea label='Description' rows={5} className='mb-3' value={s.description} onChange={(ev) => set('description', ev.target.value)} />
                 <ListInput label='Objectifs' value={s.objectives} onChange={(v) => set('objectives', v)} />
-                <ListInput label={s.kind === 'formation' ? 'Compétences acquises' : "Ce que l'enfant développe"} value={s.skills} onChange={(v) => set('skills', v)} />
+                <ListInput label={rules.skillsLabel} value={s.skills} onChange={(v) => set('skills', v)} />
             </Step>
 
-            {fields.programme && (
+            {rules.subjects && (
                 <Step meta={stepOf('programme')} open={isOpen('programme')} onToggle={() => toggleStep('programme')}>
                     <ListInput label='Matières principales' value={s.subjects} onChange={(v) => set('subjects', v)} />
-                    <div className='form-label'>Programme détaillé</div>
-                    {rowEditor(
-                        'program',
-                        { period: '', courses: [] },
-                        (p, update) => (
-                            <CCol>
-                                <CFormInput className='mb-2' placeholder='Période (ex. : 1re année)' value={p.period} onChange={(ev) => update({ period: ev.target.value })} />
-                                <ListInput label='Cours' value={p.courses} onChange={(v) => update({ courses: v })} />
-                            </CCol>
-                        ),
-                        'Ajouter une période'
+                    {rules.fullProgramme && (
+                        <>
+                            <div className='form-label'>Programme détaillé</div>
+                            {rowEditor(
+                                'program',
+                                { period: '', courses: [] },
+                                (p, update) => (
+                                    <CCol>
+                                        <CFormInput className='mb-2' placeholder='Période (ex. : 1re année)' value={p.period} onChange={(ev) => update({ period: ev.target.value })} />
+                                        <ListInput label='Cours' value={p.courses} onChange={(v) => update({ courses: v })} />
+                                    </CCol>
+                                ),
+                                'Ajouter une période'
+                            )}
+                        </>
                     )}
                     <div className='mt-3'>
-                        <ListInput label='Spécialisations' value={s.specializations} onChange={(v) => set('specializations', v)} />
+                        {rules.fullProgramme && <ListInput label='Spécialisations' value={s.specializations} onChange={(v) => set('specializations', v)} />}
                         <ListInput label="Méthodes d'enseignement" value={s.teachingMethods} onChange={(v) => set('teachingMethods', v)} />
-                        <CFormTextarea label='Évaluation' rows={2} value={s.evaluation} onChange={(ev) => set('evaluation', ev.target.value)} />
+                        {rules.fullProgramme && <CFormTextarea label='Évaluation' rows={2} value={s.evaluation} onChange={(ev) => set('evaluation', ev.target.value)} />}
                     </div>
                 </Step>
             )}
 
             <Step meta={stepOf('admission')} open={isOpen('admission')} onToggle={() => toggleStep('admission')}>
                 <CRow className='g-3 mb-3'>
-                    {fields.level && (
+                    {rules.level && (
                         <CCol md={4}>
                             <CFormSelect label='Niveau requis' value={s.level} onChange={(ev) => set('level', ev.target.value)}>
                                 {opts(ref?.admissionLevels ?? ['Aucun', 'BAC', 'BAC+2', 'BAC+3'])}
                             </CFormSelect>
                         </CCol>
                     )}
-                    <CCol md={4}>
-                        <CFormSelect label='Sélection' value={s.selection} onChange={(ev) => set('selection', ev.target.value)}>
-                            {opts(ref?.admissionSelections)}
-                        </CFormSelect>
-                    </CCol>
-                    <CCol md={4}>
-                        <CFormInput label='Âge minimum (facultatif)' inputMode='decimal' value={s.minAge} onChange={(ev) => set('minAge', ev.target.value)} />
-                    </CCol>
-                    {fields.level && s.level !== 'Aucun' && (
+                    {rules.selection && (
+                        <CCol md={4}>
+                            <CFormSelect label='Sélection' value={s.selection} onChange={(ev) => set('selection', ev.target.value)}>
+                                {opts(ref?.admissionSelections)}
+                            </CFormSelect>
+                        </CCol>
+                    )}
+                    {rules.minAge && (
+                        <CCol md={4}>
+                            <CFormInput label='Âge minimum (facultatif)' inputMode='decimal' value={s.minAge} onChange={(ev) => set('minAge', ev.target.value)} />
+                        </CCol>
+                    )}
+                    {rules.level && s.level !== 'Aucun' && (
                         <CCol md={12}>
                             <div className='form-label'>Séries du BAC acceptées (aucune = toutes)</div>
                             {BAC_SERIES.map((serie) => (
@@ -438,7 +461,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                         </CCol>
                     )}
                 </CRow>
-                <ListInput label='Prérequis' value={s.prerequisites} onChange={(v) => set('prerequisites', v)} />
+                <ListInput label={rules.level ? 'Prérequis' : 'Pièces et conditions demandées'} value={s.prerequisites} onChange={(v) => set('prerequisites', v)} />
                 <CFormTextarea label='Conditions particulières' rows={2} value={s.specialConditions} onChange={(ev) => set('specialConditions', ev.target.value)} />
             </Step>
 
@@ -447,7 +470,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 <CRow className='g-3 mb-3'>
                     <CCol xs={8} md={4}>
                         <CFormInput
-                            label='Frais de scolarité (Ar)'
+                            label={rules.feesLabel}
                             inputMode='numeric'
                             value={s.fees}
                             onChange={(ev) => set('fees', ev.target.value)}
@@ -472,16 +495,20 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                             {opts(ref?.costsStatuses ?? ['Confirmés', 'Estimés', 'Non communiqués'])}
                         </CFormSelect>
                     </CCol>
-                    <CCol md={4}>
-                        <CFormSelect label='Bourses' value={s.scholarship} onChange={(ev) => set('scholarship', ev.target.value)}>
-                            {opts(ref?.scholarships)}
-                        </CFormSelect>
-                    </CCol>
-                    <CCol md={4}>
-                        <CFormSelect label='Hébergement' value={s.housing} onChange={(ev) => set('housing', ev.target.value)}>
-                            {opts(ref?.housing)}
-                        </CFormSelect>
-                    </CCol>
+                    {rules.scholarship && (
+                        <CCol md={4}>
+                            <CFormSelect label='Bourses' value={s.scholarship} onChange={(ev) => set('scholarship', ev.target.value)}>
+                                {opts(ref?.scholarships)}
+                            </CFormSelect>
+                        </CCol>
+                    )}
+                    {rules.housing && (
+                        <CCol md={4}>
+                            <CFormSelect label={rules.level ? 'Hébergement' : 'Internat'} value={s.housing} onChange={(ev) => set('housing', ev.target.value)}>
+                                {opts(ref?.housing)}
+                            </CFormSelect>
+                        </CCol>
+                    )}
                 </CRow>
                 <div className='form-label'>Autres frais</div>
                 {rowEditor(
@@ -507,7 +534,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 )}
                 <div className='mt-3'>
                     <ListInput label='Modalités de paiement' placeholder='Ex. : Mensuel' value={s.paymentOptions} onChange={(v) => set('paymentOptions', v)} />
-                    <CFormTextarea label='Bourses : précisions' rows={2} className='mb-3' value={s.scholarshipsInfo} onChange={(ev) => set('scholarshipsInfo', ev.target.value)} />
+                    {rules.scholarship && <CFormTextarea label='Bourses : précisions' rows={2} className='mb-3' value={s.scholarshipsInfo} onChange={(ev) => set('scholarshipsInfo', ev.target.value)} />}
                     <CFormTextarea label='Réductions' rows={2} value={s.discounts} onChange={(ev) => set('discounts', ev.target.value)} />
                 </div>
             </Step>
@@ -528,13 +555,13 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                         />
                     </CCol>
                     <CCol md={4}>
-                        <CFormInput label='Date de rentrée' type='date' value={s.startDate} onChange={(ev) => set('startDate', ev.target.value)} />
+                        <CFormInput label={rules.startLabel} type='date' value={s.startDate} onChange={(ev) => set('startDate', ev.target.value)} />
                     </CCol>
                     <CCol md={6}>
-                        <CFormInput label='Horaires' value={s.schedule} onChange={(ev) => set('schedule', ev.target.value)} />
+                        <CFormInput label={rules.scheduleLabel} value={s.schedule} onChange={(ev) => set('schedule', ev.target.value)} />
                     </CCol>
                     <CCol md={6}>
-                        <CFormInput label='Lieu des cours' value={s.campus} onChange={(ev) => set('campus', ev.target.value)} />
+                        <CFormInput label={rules.placeLabel} value={s.campus} onChange={(ev) => set('campus', ev.target.value)} />
                     </CCol>
                 </CRow>
                 <ListInput label='Rythme' placeholder='Ex. : Temps plein' value={s.rhythm} onChange={(v) => set('rhythm', v)} />
@@ -556,7 +583,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 )}
             </Step>
 
-            {fields.careers && (
+            {rules.careers && (
                 <Step meta={stepOf('debouches')} open={isOpen('debouches')} onToggle={() => toggleStep('debouches')}>
                 <p className='small text-body-secondary'>Uniquement les partenariats confirmés.</p>
                     <ListInput label='Métiers' value={s.jobs} onChange={(v) => set('jobs', v)} />
@@ -571,12 +598,12 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 <CFormCheck
                     id='online-application'
                     className='mb-3'
-                    label='Recevoir les candidatures en ligne (les étudiants postulent avec leurs documents ; suivi dans « Demandes »)'
+                    label={rules.onlineLabel}
                     checked={s.onlineApplication}
                     onChange={(ev) => set('onlineApplication', ev.target.checked)}
                 />
                 <FileUpload
-                    label='Brochure de la formation'
+                    label={rules.brochureLabel}
                     value={s.brochureUrl}
                     onChange={(url) => set('brochureUrl', url)}
                     hint='Les visiteurs pourront la télécharger depuis la fiche de l’offre sur le site.'

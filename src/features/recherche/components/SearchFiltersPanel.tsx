@@ -7,13 +7,13 @@ import {
     BAC_SERIES,
     BUDGET_RANGES,
     CHILD_AGES,
-    DIPLOMAS,
     DURATIONS,
     HOUSING_OPTIONS,
     LANGUAGES,
     MODALITIES,
     REGISTRATION_OPTIONS,
     SCHOLARSHIP_OPTIONS,
+    type FilterProfile,
     type SearchFilters,
 } from '../filters'
 import { useT } from '@/i18n/client'
@@ -23,6 +23,8 @@ type ListKey = 'budgets' | 'durations' | 'modalities' | 'diplomas' | 'languages'
 interface SearchFiltersPanelProps {
     filters: SearchFilters
     onChange: (filters: SearchFilters) => void
+    /** Filtres qui ont un sens pour la catégorie recherchée. */
+    profile: FilterProfile
 }
 
 /** Groupe de filtres repliable, ouvert par défaut. */
@@ -61,7 +63,7 @@ function Choice({ type, name, label, checked, onChange }: {
 }
 
 /** Panneau latéral des filtres avancés de la page de résultats. */
-export function SearchFiltersPanel({ filters, onChange }: SearchFiltersPanelProps) {
+export function SearchFiltersPanel({ filters, onChange, profile }: SearchFiltersPanelProps) {
     const t = useT()
     const [showMore, setShowMore] = useState(false)
 
@@ -85,25 +87,27 @@ export function SearchFiltersPanel({ filters, onChange }: SearchFiltersPanelProp
     return (
         <div>
             {/* Priorité élevée : toujours visibles */}
-            <FilterGroup title='Budget annuel'>{checkboxes('budgets', BUDGET_RANGES.map((r) => r.label))}</FilterGroup>
-            <FilterGroup title="Âge de l'enfant">
-                <label className='flex flex-col gap-1.5 text-sm text-ink/70'>
-                    {t('Pour une crèche, une école ou un accompagnement')}
-                    <select
-                        value={filters.childAge}
-                        onChange={(e) => onChange({ ...filters, childAge: e.target.value })}
-                        className='min-h-11 rounded-lg border border-gray-200 bg-white px-3 text-base text-ink outline-hidden focus:border-primary hover:cursor-pointer'>
-                        {CHILD_AGES.map((age) => (
-                            <option key={age.value} value={age.value}>
-                                {t(age.label)}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-            </FilterGroup>
-            <FilterGroup title='Durée'>{checkboxes('durations', DURATIONS)}</FilterGroup>
-            <FilterGroup title='Modalité'>{checkboxes('modalities', MODALITIES)}</FilterGroup>
-            <FilterGroup title='Diplôme préparé'>{checkboxes('diplomas', DIPLOMAS)}</FilterGroup>
+            <FilterGroup title={profile.age ? 'Budget' : 'Budget annuel'}>{checkboxes('budgets', BUDGET_RANGES.map((r) => r.label))}</FilterGroup>
+            {profile.age && (
+                <FilterGroup title="Âge de l'enfant">
+                    <label className='flex flex-col gap-1.5 text-sm text-ink/70'>
+                        {t('Pour une crèche, une école ou un accompagnement')}
+                        <select
+                            value={filters.childAge}
+                            onChange={(e) => onChange({ ...filters, childAge: e.target.value })}
+                            className='min-h-11 rounded-lg border border-gray-200 bg-white px-3 text-base text-ink outline-hidden focus:border-primary hover:cursor-pointer'>
+                            {CHILD_AGES.map((age) => (
+                                <option key={age.value} value={age.value}>
+                                    {t(age.label)}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+                </FilterGroup>
+            )}
+            {profile.duration && <FilterGroup title='Durée'>{checkboxes('durations', DURATIONS)}</FilterGroup>}
+            {profile.modality && <FilterGroup title='Modalité'>{checkboxes('modalities', MODALITIES)}</FilterGroup>}
+            {profile.diplomas.length > 0 && <FilterGroup title={profile.admission ? 'Diplôme préparé' : 'Examen préparé'}>{checkboxes('diplomas', profile.diplomas)}</FilterGroup>}
             <FilterGroup title='Inscriptions'>
                 {REGISTRATION_OPTIONS.map((option) => (
                     <Choice
@@ -143,7 +147,7 @@ export function SearchFiltersPanel({ filters, onChange }: SearchFiltersPanelProp
                         </div>
                     </FilterGroup>
                     <FilterGroup title="Langue d'enseignement">{checkboxes('languages', LANGUAGES)}</FilterGroup>
-                    <FilterGroup title="Conditions d'admission">
+                    {profile.admission && <FilterGroup title="Conditions d'admission">
                         <label className='flex flex-col gap-1.5 text-sm text-ink/70'>
                             {t('Mon niveau actuel')}
                             <select
@@ -174,9 +178,9 @@ export function SearchFiltersPanel({ filters, onChange }: SearchFiltersPanelProp
                                 )
                             })}
                         </div>
-                    </FilterGroup>
-                    <FilterGroup title='Hébergement' defaultOpen={false}>{checkboxes('housing', HOUSING_OPTIONS)}</FilterGroup>
-                    <FilterGroup title='Bourses' defaultOpen={false}>{checkboxes('scholarships', SCHOLARSHIP_OPTIONS)}</FilterGroup>
+                    </FilterGroup>}
+                    {profile.housing && <FilterGroup title={profile.admission ? 'Hébergement' : 'Internat'} defaultOpen={false}>{checkboxes('housing', HOUSING_OPTIONS)}</FilterGroup>}
+                    {profile.scholarship && <FilterGroup title='Bourses' defaultOpen={false}>{checkboxes('scholarships', SCHOLARSHIP_OPTIONS)}</FilterGroup>}
                 </div>
             )}
         </div>

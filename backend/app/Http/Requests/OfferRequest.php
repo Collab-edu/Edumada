@@ -142,6 +142,20 @@ class OfferRequest extends FormRequest
     {
         return [
             function (Validator $validator): void {
+                $kind = $this->input('kind');
+                if ($kind === null || $validator->errors()->has('kind')) {
+                    return;
+                }
+
+                // Une offre existante garde le type qu'elle a déjà, même hors de la règle.
+                $offer = $this->route('offer');
+                $unchanged = $offer instanceof Offer && $offer->kind->label() === $kind;
+                $allowed = OfferKind::forCategory($this->establishment()->category?->slug);
+                if (! $unchanged && ! in_array(OfferKind::fromLabel($kind), $allowed, true)) {
+                    $validator->errors()->add('kind', 'Ce type d\'offre ne correspond pas à la catégorie de votre établissement.');
+                }
+            },
+            function (Validator $validator): void {
                 if ($validator->errors()->has('status') || $this->input('status') !== OfferStatus::Published->value) {
                     return;
                 }

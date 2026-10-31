@@ -1,4 +1,5 @@
 'use client'
+import { useSiteData } from '@/data/site-data'
 import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Icon } from '@/components/ui/icon'
@@ -15,6 +16,8 @@ import {
     EMPTY_FILTERS,
     SORT_OPTIONS,
     activeFilters,
+    filterProfile,
+    pruneFilters,
     filtersFromParams,
     type SearchFilters,
     type SortValue,
@@ -28,6 +31,7 @@ const SearchPage = () => {
     const t = useT()
     const searchParams = useSearchParams()
     const { suggestions } = useFilterSuggestions()
+    const { data: categories } = useSiteData('CategoryData')
     const { isFavorite, toggleFavorite } = useAuth()
 
     const [filters, setFilters] = useState<SearchFilters>(() => filtersFromParams(searchParams))
@@ -51,6 +55,11 @@ const SearchPage = () => {
         }
     }, [panelOpen])
 
+    // Filtres selon la catégorie : celle en cours de saisie pour la barre, celle appliquée pour le panneau.
+    const profileFor = (value: string) => filterProfile(categories.find((c) => c.shortLabel === value || c.subCategories.includes(value))?.id)
+    const draftProfile = profileFor(draft.categorie)
+    const profile = profileFor(filters.categorie)
+
     const chips = activeFilters(filters, t)
     const advancedCount = chips.filter((c) => !['q', 'categorie', 'domaine', 'ville', 'type'].includes(c.id)).length
 
@@ -70,14 +79,16 @@ const SearchPage = () => {
     const resultsRef = useRef<HTMLDivElement>(null)
     const submitSearch = (e?: React.FormEvent) => {
         e?.preventDefault()
-        setFilters((prev) => ({ ...prev, q: draft.q, categorie: draft.categorie, domaine: draft.domaine, ville: draft.ville, pos: draft.pos, type: draft.type }))
+        const domaine = draftProfile.domain ? draft.domaine : ''
+        setFilters((prev) => pruneFilters({ ...prev, q: draft.q, categorie: draft.categorie, domaine, ville: draft.ville, pos: draft.pos, type: draft.type }, draftProfile))
+        setDraft((prev) => pruneFilters({ ...prev, domaine }, draftProfile))
         setPanelOpen(false)
         ;(document.activeElement as HTMLElement | null)?.blur()
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
 
     const renderTopFilters = (className: string) =>
-        TOP_FILTERS.map(({ param, label }) => {
+        TOP_FILTERS.filter(({ param }) => param !== 'domaine' || draftProfile.domain).map(({ param, label }) => {
             return (
                 <div key={param} className={className}>
                     {param === 'ville' ? (
@@ -181,7 +192,7 @@ const SearchPage = () => {
                         <div className='flex flex-col divide-y divide-gray-100 border-b border-gray-100 sm:hidden'>
                             {renderTopFilters('py-3')}
                         </div>
-                        <SearchFiltersPanel filters={filters} onChange={applyNow} />
+                        <SearchFiltersPanel filters={filters} onChange={applyNow} profile={profile} />
                         <button
                             type='button'
                             onClick={() => submitSearch()}

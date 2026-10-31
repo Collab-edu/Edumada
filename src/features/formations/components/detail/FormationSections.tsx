@@ -1,4 +1,5 @@
 'use client'
+import { KIND_LABELS } from '../../kind-rules'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import type { SchoolType } from '@/features/etablissements/types'
@@ -89,7 +90,7 @@ export function AdmissionSection({ formation, detail, school, fields }: Props) {
     const t = useT()
     const { level, bacSeries, selection } = formation.admission
     return (
-        <DetailSection id='admission' title="Conditions d'admission" icon='tabler:clipboard-check'>
+        <DetailSection id='admission' title={formation.kind === 'formation' ? "Conditions d'admission" : "Conditions d'inscription"} icon='tabler:clipboard-check'>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                 {fields.level && <Fact icon='tabler:school' label="Niveau d'études requis">{ADMISSION_LEVEL_LABEL[level]}</Fact>}
                 {fields.level && level === 'BAC' && (
@@ -98,14 +99,16 @@ export function AdmissionSection({ formation, detail, school, fields }: Props) {
                     </Fact>
                 )}
                 {formation.ageRange && <Fact icon='tabler:mood-kid' label='Âge des enfants accueillis'>{formatAgeRange(formation.ageRange)}</Fact>}
-                <Fact icon='tabler:filter' label='Modalités de sélection'>{selection}</Fact>
-                <Fact icon='tabler:user' label='Âge minimum'>
-                    {detail.admission.minAge ? `${detail.admission.minAge} ans` : 'Aucun âge minimum imposé'}
-                </Fact>
+                {formation.kind !== 'accueil' && <Fact icon='tabler:filter' label='Modalités de sélection'>{selection}</Fact>}
+                {formation.kind === 'formation' && (
+                    <Fact icon='tabler:user' label='Âge minimum'>
+                        {detail.admission.minAge ? `${detail.admission.minAge} ans` : 'Aucun âge minimum imposé'}
+                    </Fact>
+                )}
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                 <Panel>
-                    <SubTitle>Diplômes et prérequis</SubTitle>
+                    <SubTitle>{formation.kind === 'formation' ? 'Diplômes et prérequis' : 'Pièces et conditions'}</SubTitle>
                     <CheckList items={detail.admission.prerequisites} />
                     <p className='mt-4 text-sm text-black'>
                         <span className='font-semibold text-secondary'>{t('Conditions particulières :')} </span>
@@ -134,7 +137,7 @@ export function CostsSection({ formation, detail }: Props) {
     const banner = STATUS_BANNER[costs.status]
     const rows = [
         { label: "Frais d'inscription", amount: formation.registrationFee },
-        { label: `Frais de scolarité (par ${formation.feesPeriod})`, amount: formation.fees },
+        { label: `${KIND_LABELS[formation.kind].fees} (par ${formation.feesPeriod})`, amount: formation.fees },
         { label: 'Frais de dossier', amount: costs.applicationFee },
         ...costs.otherFees,
     ]
@@ -169,7 +172,7 @@ export function CostsSection({ formation, detail }: Props) {
             </div>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
                 <Fact icon='tabler:calendar-dollar' label='Modalités de paiement'>{costs.paymentOptions.join(', ')}</Fact>
-                <Fact icon='tabler:award' label='Bourses'>{costs.scholarships ?? 'Aucune bourse communiquée'}</Fact>
+                {formation.kind !== 'accueil' && <Fact icon='tabler:award' label='Bourses'>{costs.scholarships ?? 'Aucune bourse communiquée'}</Fact>}
                 <Fact icon='tabler:discount' label='Réductions et financement'>{costs.discounts ?? 'Aucune réduction communiquée'}</Fact>
             </div>
         </DetailSection>
@@ -180,11 +183,11 @@ export function CostsSection({ formation, detail }: Props) {
 export function OrganisationSection({ formation, detail }: Props) {
     const { organization } = detail
     return (
-        <DetailSection id='organisation' title='Organisation de la formation' icon='tabler:calendar-event'>
+        <DetailSection id='organisation' title={KIND_LABELS[formation.kind].organisation} icon='tabler:calendar-event'>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-                {formation.durationYears !== null && <Fact icon='tabler:clock' label='Durée totale'>{formatDuration(formation.durationYears)}</Fact>}
+                {formation.durationYears !== null && formation.kind === 'formation' && <Fact icon='tabler:clock' label='Durée totale'>{formatDuration(formation.durationYears)}</Fact>}
                 {formation.ageRange && <Fact icon='tabler:mood-kid' label='Âge des enfants'>{formatAgeRange(formation.ageRange)}</Fact>}
-                <Fact icon='tabler:calendar-star' label='Date de rentrée'>
+                <Fact icon='tabler:calendar-star' label={KIND_LABELS[formation.kind].start}>
                     {formation.startDate ? formatDate(formation.startDate) : NOT_PROVIDED}
                 </Fact>
                 <Fact icon='tabler:calendar-event' label="Période d'inscription">
@@ -193,9 +196,9 @@ export function OrganisationSection({ formation, detail }: Props) {
                         : NOT_PROVIDED}
                 </Fact>
                 <Fact icon='tabler:clock-hour-4' label={formation.kind === 'accueil' ? "Horaires d'accueil" : 'Horaires des cours'}>{organization.schedule ?? NOT_PROVIDED}</Fact>
-                <Fact icon='tabler:device-laptop' label='Modalité'>{formation.modality}</Fact>
-                <Fact icon='tabler:language' label="Langues d'enseignement">{formation.languages.join(', ')}</Fact>
-                <Fact icon='tabler:building' label='Campus'>{organization.campus}</Fact>
+                {formation.kind === 'formation' && <Fact icon='tabler:device-laptop' label='Modalité'>{formation.modality}</Fact>}
+                <Fact icon='tabler:language' label={KIND_LABELS[formation.kind].languages}>{formation.languages.join(', ')}</Fact>
+                <Fact icon='tabler:building' label={KIND_LABELS[formation.kind].place}>{organization.campus}</Fact>
                 <Fact icon='tabler:hourglass' label='Rythme'>{organization.rhythm.join(' ou ')}</Fact>
             </div>
             {detail.academicCalendar.length > 0 && (
