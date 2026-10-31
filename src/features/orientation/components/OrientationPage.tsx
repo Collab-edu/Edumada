@@ -112,36 +112,8 @@ export default function OrientationPage() {
                 </div>
             </section>
 
-            {/* Étapes */}
-            <section className='pt-0 pb-6 lg:pb-8'>
-                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <ol className='grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6'>
-                        {STEPS.map((step, index) => (
-                            <li
-                                key={step.title}
-                                className='flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-5 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
-                                <div className='flex items-center justify-between'>
-                                    <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white'>
-                                        <Icon icon={step.icon} className='text-2xl' />
-                                    </span>
-                                    <span className='text-sm font-semibold text-ink/40'>{t('Étape {n}', { n: index + 1 })}</span>
-                                </div>
-                                <h2 className='text-lg font-semibold text-secondary'>{t(step.title)}</h2>
-                                <p className='text-sm text-black'>{t(step.text)}</p>
-                                {step.link && (
-                                    <Link href={step.link.href} className='mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline'>
-                                        {t(step.link.label)}
-                                        <Icon icon='tabler:chevron-right' className='text-base' />
-                                    </Link>
-                                )}
-                            </li>
-                        ))}
-                    </ol>
-                </div>
-            </section>
-
             {/* Les bonnes questions */}
-            <section className='py-12 lg:py-16'>
+            <section className='pt-6 pb-12 lg:pb-16'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
                         <div className='mobile-center flex max-w-2xl flex-col gap-5'>
@@ -175,6 +147,34 @@ export default function OrientationPage() {
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            {/* Étapes */}
+            <section className='pt-0 pb-12 lg:pb-16'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
+                    <ol className='grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6'>
+                        {STEPS.map((step, index) => (
+                            <li
+                                key={step.title}
+                                className='flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-5 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
+                                <div className='flex items-center justify-between'>
+                                    <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white'>
+                                        <Icon icon={step.icon} className='text-2xl' />
+                                    </span>
+                                    <span className='text-sm font-semibold text-ink/40'>{t('Étape {n}', { n: index + 1 })}</span>
+                                </div>
+                                <h2 className='text-lg font-semibold text-secondary'>{t(step.title)}</h2>
+                                <p className='text-sm text-black'>{t(step.text)}</p>
+                                {step.link && (
+                                    <Link href={step.link.href} className='mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline'>
+                                        {t(step.link.label)}
+                                        <Icon icon='tabler:chevron-right' className='text-base' />
+                                    </Link>
+                                )}
+                            </li>
+                        ))}
+                    </ol>
                 </div>
             </section>
 
