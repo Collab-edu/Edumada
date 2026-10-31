@@ -22,7 +22,6 @@ export type Internship = {
 /** Candidature de l'étudiant connecté. */
 export type InternshipApplication = {
     id: number
-    statusLabel: string
     internship: { id: string }
 }
 

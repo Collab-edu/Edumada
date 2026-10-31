@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\InternshipApplicationStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -11,28 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class InternshipApplication extends Model
 {
-    /**
-     * @var list<string>
-     */
-    protected $fillable = ['status'];
-
-    /**
-     * @var array<string, mixed>
-     */
-    protected $attributes = [
-        'status' => 'new',
-    ];
-
-    /**
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'status' => InternshipApplicationStatus::class,
-        ];
-    }
-
     public function directory(): string
     {
         return "internship-applications/{$this->id}";

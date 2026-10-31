@@ -81,7 +81,7 @@ export default function ApplyPanel({ internship }: { internship: Internship }) {
     if (sent) {
         content = <FormAlert tone='success'>Votre candidature est bien envoyée à l’équipe Edumada.</FormAlert>
     } else if (existing) {
-        content = <FormAlert tone='info'>Vous avez déjà postulé à ce stage. Statut : {existing.statusLabel}.</FormAlert>
+        content = <FormAlert tone='info'>Vous avez déjà postulé à ce stage.</FormAlert>
     } else if (!internship.acceptsApplications) {
         content = <FormAlert tone='info'>Les candidatures à ce stage ne sont pas ouvertes.</FormAlert>
     } else if (loading || (student && !checked)) {

@@ -29,7 +29,6 @@ return new class extends Migration
             $table->string('cv_name');
             $table->string('letter_path');
             $table->string('letter_name');
-            $table->string('status', 20)->default('new')->index();
             $table->timestamps();
             $table->unique(['internship_id', 'user_id']);
         });

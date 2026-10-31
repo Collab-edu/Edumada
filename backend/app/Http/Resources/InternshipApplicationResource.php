@@ -18,8 +18,6 @@ class InternshipApplicationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'status' => $this->status->value,
-            'statusLabel' => $this->status->label(),
             'phone' => $this->phone,
             'cvName' => $this->cv_name,
             'letterName' => $this->letter_name,

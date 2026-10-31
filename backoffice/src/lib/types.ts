@@ -149,8 +149,6 @@ export type Internship = {
 
 export type InternshipApplication = {
     id: number
-    status: 'new' | 'in_review' | 'accepted' | 'refused'
-    statusLabel: string
     phone: string | null
     cvName: string
     letterName: string

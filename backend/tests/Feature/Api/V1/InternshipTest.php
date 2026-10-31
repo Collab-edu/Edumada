@@ -130,7 +130,6 @@ class InternshipTest extends TestCase
 
         $id = $this->actingAs($student)->postJson('/api/v1/internships/stage/applications', $this->files())
             ->assertCreated()
-            ->assertJsonPath('data.status', 'new')
             ->json('data.id');
 
         $this->actingAs($student)->postJson('/api/v1/internships/stage/applications', $this->files())
@@ -145,7 +144,6 @@ class InternshipTest extends TestCase
             ->assertJsonPath('data.0.applicant.name', 'Fanja')
             ->assertJsonPath('data.0.cvName', 'cv.pdf');
         $this->actingAs($admin)->get("/api/v1/admin/internship-applications/{$id}/letter")->assertOk();
-        $this->actingAs($admin)->putJson("/api/v1/admin/internship-applications/{$id}", ['status' => 'accepted'])->assertOk()->assertJsonPath('data.status', 'accepted');
     }
 
     public function test_guest_and_non_student_cannot_apply(): void

@@ -12,13 +12,6 @@ import PlaceInput from '@/components/PlaceInput'
 import { EmptyState, ErrorAlert, ImageUpload, Loading, PageCard, Pager, StatusBadge } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
 
-const APPLICATION_STATUSES = [
-    ['new', 'Nouvelle'],
-    ['in_review', 'En cours'],
-    ['accepted', 'Acceptée'],
-    ['refused', 'Refusée'],
-]
-
 const initial = (i: Internship | null) => ({
     companyName: i?.companyName ?? '',
     companyLogo: i?.companyLogo ?? '',
@@ -159,23 +152,13 @@ function InternshipForm({ internship, onDone }: { internship: Internship | null;
     )
 }
 
-/** Candidatures reçues : CV et lettre de motivation à télécharger, suivi du statut. */
-function Applications({ internships, onChanged }: { internships: Internship[]; onChanged: () => void }) {
+/** Candidatures reçues : CV et lettre de motivation à télécharger. */
+function Applications({ internships }: { internships: Internship[] }) {
     const toast = useToast()
-    const [status, setStatus] = useState('')
     const [internship, setInternship] = useState('')
     const [page, setPage] = useState(1)
-    const { data, reload } = useApi<Paginated<InternshipApplication>>('/admin/internship-applications', { status, internship, page })
+    const { data } = useApi<Paginated<InternshipApplication>>('/admin/internship-applications', { internship, page })
 
-    const update = async (a: InternshipApplication, next: string) => {
-        try {
-            await api(`/admin/internship-applications/${a.id}`, { method: 'PUT', body: { status: next } })
-            reload()
-            onChanged()
-        } catch (err) {
-            toast.error(errorMessage(err))
-        }
-    }
     const download = (path: string, name: string) => downloadFile(path, name).catch((err) => toast.error(errorMessage(err)))
 
     return (
@@ -183,40 +166,22 @@ function Applications({ internships, onChanged }: { internships: Internship[]; o
             title='Candidatures reçues'
             subtitle='CV et lettre de motivation des étudiants'
             actions={
-                <div className='d-flex flex-wrap gap-2'>
-                    <CFormSelect
-                        aria-label='Stage'
-                        style={{ width: 'auto', maxWidth: '16rem' }}
-                        value={internship}
-                        onChange={(e) => {
-                            setInternship(e.target.value)
-                            setPage(1)
-                        }}
-                    >
-                        <option value=''>Tous les stages</option>
-                        {internships.map((i) => (
-                            <option key={i.id} value={i.id}>
-                                {i.title}
-                            </option>
-                        ))}
-                    </CFormSelect>
-                    <CFormSelect
-                        aria-label='Statut'
-                        style={{ width: 'auto' }}
-                        value={status}
-                        onChange={(e) => {
-                            setStatus(e.target.value)
-                            setPage(1)
-                        }}
-                    >
-                        <option value=''>Tous les statuts</option>
-                        {APPLICATION_STATUSES.map(([value, label]) => (
-                            <option key={value} value={value}>
-                                {label}
-                            </option>
-                        ))}
-                    </CFormSelect>
-                </div>
+                <CFormSelect
+                    aria-label='Stage'
+                    style={{ width: 'auto', maxWidth: '16rem' }}
+                    value={internship}
+                    onChange={(e) => {
+                        setInternship(e.target.value)
+                        setPage(1)
+                    }}
+                >
+                    <option value=''>Tous les stages</option>
+                    {internships.map((i) => (
+                        <option key={i.id} value={i.id}>
+                            {i.title}
+                        </option>
+                    ))}
+                </CFormSelect>
             }
         >
             {!data ? (
@@ -231,7 +196,6 @@ function Applications({ internships, onChanged }: { internships: Internship[]; o
                                 <CTableHeaderCell>Candidat</CTableHeaderCell>
                                 <CTableHeaderCell>Stage</CTableHeaderCell>
                                 <CTableHeaderCell>Documents</CTableHeaderCell>
-                                <CTableHeaderCell>Statut</CTableHeaderCell>
                             </CTableRow>
                         </CTableHead>
                         <CTableBody>
@@ -256,15 +220,6 @@ function Applications({ internships, onChanged }: { internships: Internship[]; o
                                             <CIcon icon={cilCloudDownload} className='me-1' />
                                             Lettre
                                         </CButton>
-                                    </CTableDataCell>
-                                    <CTableDataCell>
-                                        <CFormSelect size='sm' aria-label={`Statut de ${a.applicant?.name}`} style={{ minWidth: '8rem' }} value={a.status} onChange={(e) => update(a, e.target.value)}>
-                                            {APPLICATION_STATUSES.map(([value, label]) => (
-                                                <option key={value} value={value}>
-                                                    {label}
-                                                </option>
-                                            ))}
-                                        </CFormSelect>
                                     </CTableDataCell>
                                 </CTableRow>
                             ))}
@@ -368,7 +323,7 @@ export default function Internships() {
                 )}
             </PageCard>
 
-            <Applications internships={data?.data ?? []} onChanged={reload} />
+            <Applications internships={data?.data ?? []} />
 
             <CModal size='lg' visible={!!editing} onClose={() => setEditing(null)}>
                 <CModalHeader>

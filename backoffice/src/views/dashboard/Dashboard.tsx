@@ -44,7 +44,7 @@ type Overview = {
         catalog: { establishments: number; published: number; verified: number; offersPublished: number; offersUpdatedLast90Days: number }
         revenue: { thisMonth: number }
         subscriptions: Record<string, number>
-        queues: { internshipApplicationsNew: number; establishmentsPending: number; verificationsPending: number; claimsPending: number; reviewsPending: number; reportsOpen: number; invoicesPending: number }
+        queues: { establishmentsPending: number; verificationsPending: number; claimsPending: number; reviewsPending: number; reportsOpen: number; invoicesPending: number }
         series: SeriesPoint[]
     }
 }
@@ -91,7 +91,6 @@ function AdminDashboard() {
         { label: 'Avis à modérer', value: o.queues.reviewsPending, to: '/admin/moderation/?tab=reviews' },
         { label: 'Signalements ouverts', value: o.queues.reportsOpen, to: '/admin/moderation/?tab=reports' },
         { label: 'Paiements à confirmer', value: o.queues.invoicesPending, to: '/admin/facturation/' },
-        { label: 'Candidatures de stage', value: o.queues.internshipApplicationsNew, to: '/admin/stages/' },
     ]
     const pending = queues.reduce((sum, q) => sum + q.value, 0)
 

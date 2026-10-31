@@ -152,7 +152,6 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::get('campaigns', [AdminBillingController::class, 'campaigns'])->name('campaigns.index');
             Route::apiResource('internships', AdminInternshipController::class)->only(['index', 'store', 'update', 'destroy']);
             Route::get('internship-applications', [AdminInternshipApplicationController::class, 'index'])->name('internship-applications.index');
-            Route::put('internship-applications/{application}', [AdminInternshipApplicationController::class, 'update'])->name('internship-applications.update');
             Route::get('internship-applications/{application}/cv', [AdminInternshipApplicationController::class, 'cv'])->name('internship-applications.cv');
             Route::get('internship-applications/{application}/letter', [AdminInternshipApplicationController::class, 'letter'])->name('internship-applications.letter');
             Route::apiResource('articles', AdminArticleController::class)->only(['index', 'store', 'update', 'destroy']);

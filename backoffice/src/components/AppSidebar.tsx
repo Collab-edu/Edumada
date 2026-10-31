@@ -12,7 +12,7 @@ import { useApi } from '@/lib/useApi'
 import { useEstablishmentCounts } from '@/lib/useEstablishmentCounts'
 import { assetUrl } from '@/lib/api'
 
-type Overview = { data: { queues: { internshipApplicationsNew: number; establishmentsPending: number; verificationsPending: number; claimsPending: number; reviewsPending: number; reportsOpen: number; invoicesPending: number } } }
+type Overview = { data: { queues: { establishmentsPending: number; verificationsPending: number; claimsPending: number; reviewsPending: number; reportsOpen: number; invoicesPending: number } } }
 
 export default function AppSidebar() {
     const { sidebarShow, setSidebarShow, sidebarUnfoldable } = useLayout()
@@ -32,7 +32,6 @@ export default function AppSidebar() {
         establishments: establishmentCounts?.data.total.new,
         moderation: q && q.claimsPending + q.reviewsPending + q.reportsOpen,
         invoices: q?.invoicesPending,
-        internshipApplications: q?.internshipApplicationsNew,
     }
 
     // Compte établissement : son logo en tête du menu, celui d'Edumada en bas.
