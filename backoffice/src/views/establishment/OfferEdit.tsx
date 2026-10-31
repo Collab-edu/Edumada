@@ -12,7 +12,7 @@ import type { Category, CategoryFields, Domain, ManagedEstablishment, ManagedOff
 import { EmptyState, FileUpload, ImageUpload, ListInput, PageCard, StatusDot } from '@/components/ui'
 
 const DEFAULT_FIELDS: CategoryFields = { diplomas: true, programme: true, level: true, childAge: true, duration: true, careers: true }
-const KIND_LABEL: Record<string, string> = { formation: 'Formation', niveau: 'Niveau scolaire', accueil: 'Accueil (crèche, garderie…)' }
+const KIND_LABEL: Record<string, string> = { stage: 'Stage', formation: 'Formation', niveau: 'Niveau scolaire', accueil: 'Accueil (crèche, garderie…)' }
 const KNOWN_LANGUAGES = ['Français', 'Malgache', 'Anglais']
 const BAC_SERIES = ['A', 'C', 'D', 'Technique']
 
@@ -379,7 +379,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
             <Step meta={stepOf('presentation')} open={isOpen('presentation')} onToggle={() => toggleStep('presentation')}>
                 <CFormTextarea label='Description' rows={5} className='mb-3' value={s.description} onChange={(ev) => set('description', ev.target.value)} />
                 <ListInput label='Objectifs' value={s.objectives} onChange={(v) => set('objectives', v)} />
-                <ListInput label={s.kind === 'formation' ? 'Compétences acquises' : "Ce que l'enfant développe"} value={s.skills} onChange={(v) => set('skills', v)} />
+                <ListInput label={s.kind === 'formation' || s.kind === 'stage' ? 'Compétences acquises' : "Ce que l'enfant développe"} value={s.skills} onChange={(v) => set('skills', v)} />
             </Step>
 
             {fields.programme && (

@@ -156,6 +156,18 @@ class OfferControllerTest extends TestCase
         $this->getJson("/api/v1/offers/{$draft->slug}")->assertNotFound();
     }
 
+    public function test_search_filters_internship_offers(): void
+    {
+        $internship = Offer::factory()->create(['kind' => 'stage']);
+        Offer::factory()->create();
+
+        $this->getJson('/api/v1/offers?kind=stage')
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $internship->slug)
+            ->assertJsonPath('data.0.kind', 'stage');
+    }
+
     public function test_old_link_still_finds_the_offer_and_returns_its_new_link(): void
     {
         $offer = Offer::factory()->create(['slug' => 'licence-informatique-institut-numerique', 'old_slug' => 'licence-informatique-inm']);

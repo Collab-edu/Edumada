@@ -1,6 +1,6 @@
 export type Diploma = 'Certificat' | 'BTS' | 'Licence' | 'Master' | 'Doctorat' | 'CEPE' | 'BEPC' | 'BAC' | 'Autre'
 /** Nature de l'offre éducative : formation diplômante, niveau scolaire, ou accueil (crèche, accompagnement). */
-export type OfferKind = 'formation' | 'niveau' | 'accueil'
+export type OfferKind = 'formation' | 'niveau' | 'accueil' | 'stage'
 export type Modality = 'Présentiel' | 'Distanciel' | 'Hybride'
 export type RegistrationStatus = 'Ouvertes' | 'À venir' | 'Fermées'
 export type AdmissionLevel = 'Aucun' | 'BAC' | 'BAC+2' | 'BAC+3'

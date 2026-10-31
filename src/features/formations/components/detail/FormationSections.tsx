@@ -15,6 +15,7 @@ const PRESENTATION_TITLE: Record<FormationType['kind'], string> = {
     formation: 'Présentation de la formation',
     niveau: 'Présentation du niveau',
     accueil: "Présentation de l'accueil",
+    stage: 'Présentation du stage',
 }
 
 /* 2. Présentation et objectifs */
@@ -28,7 +29,7 @@ export function PresentationSection({ formation, detail }: Props) {
                     <CheckList items={detail.objectives} />
                 </Panel>
                 <Panel>
-                    <SubTitle>{formation.kind === 'formation' ? 'Compétences acquises' : 'Ce que l’enfant développe'}</SubTitle>
+                    <SubTitle>{formation.kind === 'formation' || formation.kind === 'stage' ? 'Compétences acquises' : 'Ce que l’enfant développe'}</SubTitle>
                     <CheckList items={detail.skills} />
                 </Panel>
             </div>
@@ -192,7 +193,7 @@ export function OrganisationSection({ formation, detail }: Props) {
                         ? `Du ${formatDate(formation.registrationPeriod.start)} au ${formatDate(formation.registrationPeriod.end)}`
                         : NOT_PROVIDED}
                 </Fact>
-                <Fact icon='tabler:clock-hour-4' label={formation.kind === 'accueil' ? "Horaires d'accueil" : 'Horaires des cours'}>{organization.schedule ?? NOT_PROVIDED}</Fact>
+                <Fact icon='tabler:clock-hour-4' label={formation.kind === 'accueil' ? "Horaires d'accueil" : formation.kind === 'stage' ? 'Horaires du stage' : 'Horaires des cours'}>{organization.schedule ?? NOT_PROVIDED}</Fact>
                 <Fact icon='tabler:device-laptop' label='Modalité'>{formation.modality}</Fact>
                 <Fact icon='tabler:language' label="Langues d'enseignement">{formation.languages.join(', ')}</Fact>
                 <Fact icon='tabler:building' label='Campus'>{organization.campus}</Fact>
