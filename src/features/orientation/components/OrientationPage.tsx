@@ -94,6 +94,10 @@ export default function OrientationPage() {
                             <p className='text-black'>
                                 {t('Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et comparer les possibilités à Madagascar.')}
                             </p>
+                            <ButtonLink href='/orientation/test/' variant='secondary' className='mt-2 self-start max-sm:self-center'>
+                                <Icon icon='tabler:compass' className='text-lg' />
+                                Faire le test d’orientation (3 min)
+                            </ButtonLink>
                             {/* Accès direct aux domaines d'études, bien mis en avant */}
                             <Link
                                 href='/domaines/'
