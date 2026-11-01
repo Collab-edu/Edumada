@@ -60,7 +60,7 @@ type SearchState = {
  * sinon (ou en cas de panne) filtrés dans le navigateur sur les données locales.
  */
 /** Durée affichée du chargement d'une recherche, en millisecondes. */
-export const MIN_LOADING_MS = 1000
+export const MIN_LOADING_MS = 2000
 export const MAX_LOADING_MS = 3000
 
 export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchState {
