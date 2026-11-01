@@ -30,7 +30,6 @@ const VARIANTS = {
         intro: 'Licences, masters, BTS et cursus des universités, instituts supérieurs, écoles supérieures et grandes écoles à Madagascar : comparez les formations après le bac, puis contactez directement l’établissement.',
         image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70',
         imageAlt: 'Étudiants de l’enseignement supérieur',
-        searchLabel: null,
         listTitle: 'Les formations du supérieur',
         listIntro: 'Choisissez un type d’établissement, puis filtrez par filière et par ville.',
         domainLabel: 'Filière',
@@ -52,7 +51,6 @@ const VARIANTS = {
         intro: 'Centres de formation, instituts techniques et écoles de métiers à Madagascar : comparez les formations courtes et certifiantes, puis contactez directement l’établissement.',
         image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70',
         imageAlt: 'Apprenants en formation professionnelle',
-        searchLabel: 'Rechercher une formation pro',
         listTitle: 'Les formations professionnelles',
         listIntro: 'Filtrez par domaine et par ville pour trouver la formation qui correspond à votre projet.',
         domainLabel: "Domaine d'études",
@@ -74,7 +72,6 @@ const VARIANTS = {
         intro: 'Crèches, garderies, maternelles, écoles primaires, collèges et lycées à Madagascar : comparez l’accueil et les niveaux proposés, puis contactez directement l’établissement.',
         image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1200&q=70',
         imageAlt: 'Enfants qui travaillent en classe',
-        searchLabel: 'Rechercher une école',
         listTitle: 'L’accueil et les niveaux proposés',
         listIntro: 'Choisissez un type d’établissement, puis filtrez par ville.',
         domainLabel: "Domaine d'études",
@@ -110,8 +107,6 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     const [draft, setDraft] = useState(filters)
 
     const ids: readonly string[] = config.categoryIds
-    const category = categories.find((c) => c.id === ids[0])
-    const searchHref = `/recherche?categorie=${encodeURIComponent(category?.shortLabel ?? config.eyebrow)}`
     const offers = useMemo(() => formations.filter((f) => ids.includes(f.category)), [formations, ids])
     const centers = useMemo(() => schools.filter((s) => ids.includes(s.category)), [schools, ids])
     const schoolOf = useMemo(() => new Map(centers.map((c) => [c.id, c])), [centers])
@@ -171,13 +166,8 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t(config.title)}</h1>
                             <p className='text-black'>{t(config.intro)}</p>
                             <div className='mobile-center flex flex-wrap gap-3'>
-                                {config.searchLabel && (
-                                    <ButtonLink href={searchHref}>
-                                        <Icon icon='tabler:search' className='text-lg' />
-                                        {t(config.searchLabel)}
-                                    </ButtonLink>
-                                )}
-                                <ButtonLink href='/tarifs/' variant='secondary'>
+                                <ButtonLink href='/tarifs/'>
+                                    <Icon icon='tabler:building-community' className='text-lg' />
                                     {t(config.cta.button)}
                                 </ButtonLink>
                             </div>

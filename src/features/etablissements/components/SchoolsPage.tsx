@@ -89,7 +89,8 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t(config.title)}</h1>
                             <p className='text-black'>{t(config.intro)}</p>
                             <div className='mobile-center flex flex-wrap gap-3'>
-                                <ButtonLink href='/tarifs/' variant='secondary'>
+                                <ButtonLink href='/tarifs/'>
+                                    <Icon icon='tabler:building-community' className='text-lg' />
                                     {t('Référencer mon établissement')}
                                 </ButtonLink>
                             </div>
