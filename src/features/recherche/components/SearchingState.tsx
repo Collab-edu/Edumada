@@ -1,13 +1,17 @@
 'use client'
+import { EduLoaderDots, EduLoaderMark } from '@/components/ui/edu-loader'
 import { cn } from '@/lib/utils'
 
-/** État « recherche en cours » : même loader que sur la page /recherche. */
+/** État « recherche en cours » : logo animé, texte et cartes en attente. */
 export default function SearchingState({ label, count, gridClassName, cardClassName }: { label: string; count: number; gridClassName: string; cardClassName: string }) {
     return (
         <div className='flex flex-col gap-4' role='status' aria-live='polite'>
-            <p className='flex items-center gap-2 font-medium text-secondary'>
-                <span className='h-5 w-5 animate-spin rounded-full border-2 border-primary/20 border-t-primary' aria-hidden='true' />
-                {label}
+            <p className='flex items-center gap-3 font-medium text-secondary'>
+                <EduLoaderMark size={40} cap={false} />
+                <span className='flex'>
+                    {label.replace(/…$/, '')}
+                    <EduLoaderDots />
+                </span>
             </p>
             <div className={cn('grid', gridClassName)}>
                 {Array.from({ length: count }).map((_, i) => (

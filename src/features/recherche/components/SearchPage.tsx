@@ -11,6 +11,7 @@ import CityPicker from './CityPicker'
 import SuggestInput from './SuggestInput'
 import { MY_POSITION, placePosition } from '../places'
 import ResultCard from './ResultCard'
+import SearchingState from './SearchingState'
 import SearchFiltersPanel from './SearchFiltersPanel'
 import {
     EMPTY_FILTERS,
@@ -310,17 +311,7 @@ const SearchPage = () => {
                         )}
 
                         {loading ? (
-                            <div className='flex flex-col gap-4' role='status' aria-live='polite'>
-                                <p className='flex items-center gap-2 font-medium text-secondary'>
-                                    <span className='h-5 w-5 animate-spin rounded-full border-2 border-primary/20 border-t-primary' aria-hidden='true' />
-                                    {t('Recherche des formations…')}
-                                </p>
-                                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
-                                    {Array.from({ length: 4 }).map((_, i) => (
-                                        <div key={i} className='h-[460px] rounded-2xl bg-white border border-gray-100 animate-pulse' />
-                                    ))}
-                                </div>
-                            </div>
+                            <SearchingState label={t('Recherche des formations…')} count={4} gridClassName='grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3' cardClassName='h-[460px]' />
                         ) : results.length > 0 ? (
                             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
                                 {results.map((formation) => (

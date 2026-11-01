@@ -1,24 +1,11 @@
 'use client'
 import Link, { useT } from '@/i18n/client'
+import { EduPageLoader } from '@/components/ui/edu-loader'
 import { Icon } from '@/components/ui/icon'
 
-/** Squelette affiché pendant le chargement d'une fiche. */
+/** Affiché pendant le chargement d'une fiche ou d'une page. */
 export function PageSkeleton() {
-    const t = useT()
-    return (
-        <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8 pt-28 pb-20' aria-busy='true' aria-live='polite'>
-            <span className='sr-only'>{t('Chargement…')}</span>
-            <div className='h-72 rounded-2xl bg-white border border-gray-100 animate-pulse' />
-            <div className='mt-8 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-8'>
-                <div className='flex flex-col gap-4'>
-                    {Array.from({ length: 4 }).map((_, i) => (
-                        <div key={i} className='h-32 rounded-2xl bg-white border border-gray-100 animate-pulse' />
-                    ))}
-                </div>
-                <div className='hidden lg:block h-80 rounded-2xl bg-white border border-gray-100 animate-pulse' />
-            </div>
-        </div>
-    )
+    return <EduPageLoader />
 }
 
 /** Fiche introuvable ou service indisponible : message clair et chemin de sortie. */

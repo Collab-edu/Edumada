@@ -21,6 +21,7 @@ import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilImagePlus, cilLockLocked, cilPencil, cilPlus, cilTrash, cilX } from '@coreui/icons'
 import { usePathname } from 'next/navigation'
 import { findRoute } from '@/routes'
+import { EduBlockLoader } from '@/components/EduLoader'
 import { api, assetUrl, errorMessage } from '@/lib/api'
 import type { Paginated } from '@/lib/types'
 
@@ -72,9 +73,7 @@ export function PageCard({
 
 export function Loading() {
     return (
-        <div className='py-5 text-center'>
-            <CSpinner color='primary' />
-        </div>
+        <EduBlockLoader />
     )
 }
 

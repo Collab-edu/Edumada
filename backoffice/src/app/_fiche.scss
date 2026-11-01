@@ -1731,3 +1731,48 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   .bo-chip-select > span { color: #7ED3AE; }
   .bo-fiche .bo-adm-doc-icon, .bo-fiche .bo-adm-chips li > svg { color: #A7C4BC; }
 }
+
+// Loader Edumada : logo qui se remplit.
+@keyframes edu-fill { 0% { transform: translateY(250px); } 55%, 80% { transform: translateY(0); } 100% { transform: translateY(0); opacity: 0; } }
+@keyframes edu-wave { from { transform: translateX(0); } to { transform: translateX(-80px); } }
+@keyframes edu-draw { 0% { stroke-dashoffset: 100; } 45%, 100% { stroke-dashoffset: 0; } }
+@keyframes edu-cap { 0%, 100% { transform: translateY(0) rotate(0); } 40% { transform: translateY(-14px) rotate(-6deg); } 60% { transform: translateY(0) rotate(0); } 70% { transform: translateY(-4px); } }
+@keyframes edu-dot { 0%, 80%, 100% { opacity: .25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-4px); } }
+@keyframes edu-bar { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
+.edu-loader-fill { animation: edu-fill 2.4s cubic-bezier(.65, 0, .35, 1) infinite; }
+.edu-loader-wave { animation: edu-wave 1.2s linear infinite; }
+.edu-loader-draw { stroke-dasharray: 100; animation: edu-draw 2.4s ease-in-out infinite; }
+.edu-loader-cap { transform-origin: 130px 60px; animation: edu-cap 2.4s ease-in-out infinite; }
+.edu-loader-dot { display: inline-block; animation: edu-dot 1.2s infinite; }
+.edu-loader-bar { animation: edu-bar 1.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .edu-loader-fill, .edu-loader-wave, .edu-loader-draw, .edu-loader-cap, .edu-loader-dot, .edu-loader-bar { animation: none; }
+}
+.bo-loader-full {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  background: #0F4C5C;
+  .bo-loader-label { color: #DCEBEF; }
+}
+.bo-loader-disc {
+  display: grid;
+  place-items: center;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: #fff;
+}
+.bo-loader-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+  padding: 3rem 1rem;
+}
+.bo-loader-label { font-size: .9rem; font-weight: 500; color: var(--cui-secondary-color); }
