@@ -10,7 +10,7 @@ export function SearchPillField({ children }: { children: ReactNode }) {
 /** En-tête de liste : titre et nombre de résultats à gauche, barre de recherche à droite. */
 export default function SearchPillBar({ title, count, label, onSubmit, children }: { title: string; count: string; label: string; onSubmit: (e: FormEvent) => void; children: ReactNode }) {
     return (
-        <div className='mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
+        <div className='mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
             <div className='mobile-center shrink-0'>
                 <h2 className='text-2xl font-bold text-secondary md:text-3xl'>{title}</h2>
                 <p className='min-h-5 text-sm text-ink/70' aria-live='polite'>

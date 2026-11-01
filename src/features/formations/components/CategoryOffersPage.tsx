@@ -159,7 +159,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     return (
         <>
             {/* En-tête de page */}
-            <section className='pt-28 pb-10 sm:pt-32'>
+            <section className='pt-28 pb-14 sm:pt-32 lg:pb-16'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-8 lg:grid-cols-2 lg:items-center'>
                         <div className='mobile-center flex max-w-3xl flex-col gap-4'>
@@ -313,7 +313,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                     {t(plural(shown.length))}
                                 </p>
                             )}
-                            <div ref={page.listRef} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
+                            <div ref={page.listRef} className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'>
                                 {page.visible.map((formation) => (
                                     <FormationCard
                                         key={formation.id}
@@ -331,11 +331,11 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
             </section>
 
             {/* Atouts */}
-            <section className='pt-0'>
+            <section className='pt-6 pb-16'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <ul className='grid gap-4 sm:grid-cols-3'>
+                    <ul className='grid gap-6 sm:grid-cols-3'>
                         {config.benefits.map((b) => (
-                            <li key={b.title} className='flex gap-4 rounded-xl bg-white p-5 border border-gray-100'>
+                            <li key={b.title} className='flex gap-4 rounded-xl bg-white p-6 border border-gray-100'>
                                 <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-white'>
                                     <Icon icon={b.icon} className='text-2xl' />
                                 </span>
@@ -351,13 +351,13 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
 
             {/* Établissements de la catégorie (selon la page) */}
             {config.schoolsTitle && (schoolsLoading || centers.length > 0) && (
-                <section className='bg-secondary/[0.06]'>
+                <section className='bg-secondary/[0.06] py-16'>
                     <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                         <SectionHeader title={config.schoolsTitle} description='Les établissements qui proposent ces formations sur Edumada.' />
                         {schoolsLoading ? (
                             <CardSkeletonGrid count={4} className='h-[360px]' />
                         ) : (
-                            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
+                            <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'>
                                 {centers.map((school) => (
                                     <SchoolCard key={school.id} school={school} compact />
                                 ))}
@@ -368,7 +368,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
             )}
 
             {/* Appel aux établissements */}
-            <section className='pb-20'>
+            <section className='pt-16 pb-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='mobile-center flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
