@@ -16,9 +16,73 @@ import { useApi } from '../useApi'
 import { Panel, SpaceShell, StatCard, formatDateTime } from '../components/SpaceShell'
 import { INQUIRY_STATUS_TONE, type Inquiry } from '../types'
 
-/** Détail d'une démarche vue par l'étudiant : message, documents, historique des statuts. */
-function InquiryDetail({ inquiry }: { inquiry: Inquiry }) {
+/** Demande d'information : échange de messages avec l'établissement, sans statut. */
+function Conversation({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (updated: Inquiry) => void }) {
+    const [message, setMessage] = useState('')
+    const [sending, setSending] = useState(false)
+
+    const send = async (e: FormEvent) => {
+        e.preventDefault()
+        setSending(true)
+        try {
+            const res = await api<{ data: Inquiry }>(`/inquiries/${inquiry.id}/messages`, { method: 'POST', body: { message } })
+            setMessage('')
+            onChanged(res.data)
+        } catch (err) {
+            toast.error((err as ApiError).message)
+        } finally {
+            setSending(false)
+        }
+    }
+
+    return (
+        <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-2' role='log' aria-label='Conversation'>
+                {inquiry.message && (
+                    <div className='max-w-[88%] self-end rounded-xl bg-cream/60 px-3 py-2'>
+                        <p className='whitespace-pre-line break-words text-black'>{inquiry.message}</p>
+                        <p className='mt-1 text-xs text-ink/60'>Vous · {formatDateTime(inquiry.createdAt)}</p>
+                    </div>
+                )}
+                {(inquiry.messages ?? []).map((m) => {
+                    const mine = m.sender === 'student'
+                    return (
+                        <div key={m.id} className={`max-w-[88%] rounded-xl px-3 py-2 ${mine ? 'self-end bg-cream/60' : 'self-start bg-offwhite'}`}>
+                            <p className='whitespace-pre-line break-words text-black'>{m.body}</p>
+                            <p className='mt-1 text-xs text-ink/60'>
+                                {mine ? 'Vous' : inquiry.establishment.name} · {formatDateTime(m.at)}
+                            </p>
+                        </div>
+                    )
+                })}
+            </div>
+            {inquiry.repliesOnPlatform === false && (
+                <FormAlert tone='info'>Cet établissement répond par e-mail ou par téléphone, avec les coordonnées de votre demande.</FormAlert>
+            )}
+            <form onSubmit={send} className='flex flex-col gap-2'>
+                <label htmlFor={`message-${inquiry.id}`} className='text-sm font-semibold text-secondary'>
+                    Votre message
+                </label>
+                <textarea id={`message-${inquiry.id}`} rows={3} maxLength={3000} value={message} onChange={(e) => setMessage(e.target.value)} className={inputClassName} />
+                <Button type='submit' loading={sending} disabled={!message.trim()} className='self-end'>
+                    <Icon icon='tabler:send' /> Envoyer
+                </Button>
+            </form>
+        </div>
+    )
+}
+
+/** Détail d'une démarche vue par l'étudiant : conversation, ou candidature avec documents et statuts. */
+function InquiryDetail({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (updated: Inquiry) => void }) {
     const t = useT()
+    if (inquiry.type === 'information') {
+        return (
+            <div className='flex flex-col gap-4'>
+                <Badge tone='neutral'>{inquiry.typeLabel}</Badge>
+                <Conversation inquiry={inquiry} onChanged={onChanged} />
+            </div>
+        )
+    }
     return (
         <div className='flex flex-col gap-5'>
             <div className='flex flex-wrap items-center gap-2'>
@@ -75,16 +139,18 @@ function Shell({ title, children }: { title: string; children: React.ReactNode }
 function Inquiries() {
     const t = useT()
     const { favorites } = useAuth()
-    const { data, loading } = useApi<{ data: Inquiry[] }>('/me/inquiries')
+    const { data, loading, reload } = useApi<{ data: Inquiry[] }>('/me/inquiries')
     const [selected, setSelected] = useState<Inquiry | null>(null)
     const inquiries = data?.data ?? []
     const active = inquiries.filter((i) => !['accepted', 'refused'].includes(i.status))
+    const replied = (i: Inquiry) => (i.type === 'application' ? i.status !== 'new' : !!i.messages?.some((m) => m.sender === 'establishment'))
+    const lastMessage = (i: Inquiry) => i.messages?.[i.messages.length - 1]
 
     return (
         <>
             <div className='grid grid-cols-2 lg:grid-cols-3 gap-3'>
                 <StatCard icon='tabler:send' label='Démarches en cours' value={loading ? '…' : active.length} />
-                <StatCard icon='tabler:circle-check' label='Réponses reçues' value={loading ? '…' : inquiries.filter((i) => i.status !== 'new').length} />
+                <StatCard icon='tabler:circle-check' label='Réponses reçues' value={loading ? '…' : inquiries.filter(replied).length} />
                 <StatCard icon='tabler:heart' label='Favoris' value={favorites.length} href='/espace/etudiant/favoris/' />
             </div>
 
@@ -102,11 +168,17 @@ function Inquiries() {
                                 <button type='button' onClick={() => setSelected(inquiry)} className='flex w-full flex-col gap-2 rounded-xl border border-gray-100 p-4 text-left hover:border-primary/40 hover:cursor-pointer'>
                                     <span className='flex flex-wrap items-center gap-2'>
                                         <Badge tone={inquiry.type === 'application' ? 'info' : 'neutral'}>{inquiry.typeLabel}</Badge>
-                                        <Badge tone={INQUIRY_STATUS_TONE[inquiry.status]}>{inquiry.statusLabel}</Badge>
+                                        {inquiry.type === 'application' && <Badge tone={INQUIRY_STATUS_TONE[inquiry.status]}>{inquiry.statusLabel}</Badge>}
                                     </span>
                                     <span className='font-semibold text-secondary'>{inquiry.offer?.title ?? inquiry.establishment.name}</span>
                                     <span className='text-sm text-ink/60'>{inquiry.establishment.name} · {t('envoyée le {date}', { date: formatDateTime(inquiry.createdAt) })}</span>
-                                    {inquiry.history && inquiry.history.length > 1 && inquiry.history[inquiry.history.length - 1].note && (
+                                    {inquiry.type === 'information' && lastMessage(inquiry) && (
+                                        <span className='truncate rounded-lg bg-cream/60 px-3 py-2 text-sm text-ink/80'>
+                                            <Icon icon='tabler:message' className='mr-1 inline text-primary' />
+                                            {lastMessage(inquiry)?.body}
+                                        </span>
+                                    )}
+                                    {inquiry.type === 'application' && inquiry.history && inquiry.history.length > 1 && inquiry.history[inquiry.history.length - 1].note && (
                                         <span className='rounded-lg bg-cream/60 px-3 py-2 text-sm text-ink/80'>
                                             <Icon icon='tabler:message' className='mr-1 inline text-primary' />
                                             {inquiry.history[inquiry.history.length - 1].note}
@@ -122,7 +194,13 @@ function Inquiries() {
             <Dialog open={!!selected} onClose={() => setSelected(null)} title={selected?.offer?.title ?? selected?.establishment.name ?? ''} className='sm:max-w-2xl'>
                 {selected && (
                     <div className='flex flex-col gap-4'>
-                        <InquiryDetail inquiry={selected} />
+                        <InquiryDetail
+                            inquiry={selected}
+                            onChanged={(updated) => {
+                                setSelected(updated)
+                                reload()
+                            }}
+                        />
                         {selected.offer && <ButtonLink href={offerHref({ schoolId: selected.establishment.id, urlSlug: selected.offer.urlSlug })} variant='secondary'>Voir l&apos;offre</ButtonLink>}
                     </div>
                 )}

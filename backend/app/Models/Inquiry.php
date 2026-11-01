@@ -67,6 +67,14 @@ class Inquiry extends Model
     }
 
     /**
+     * @return HasMany<InquiryMessage, $this>
+     */
+    public function messages(): HasMany
+    {
+        return $this->hasMany(InquiryMessage::class)->oldest('id');
+    }
+
+    /**
      * @return HasMany<InquiryStatusChange, $this>
      */
     public function statusChanges(): HasMany

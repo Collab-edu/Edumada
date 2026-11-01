@@ -27,7 +27,7 @@ class InquiryController extends Controller
     {
         return InquiryResource::collection(
             $request->user()->inquiries()
-                ->with(['offer', 'establishment', 'statusChanges', 'attachments'])
+                ->with(['offer', 'establishment', 'statusChanges', 'attachments', 'messages'])
                 ->latest()
                 ->get(),
         );
@@ -68,7 +68,7 @@ class InquiryController extends Controller
             return $inquiry;
         });
 
-        $inquiry->load(['offer', 'establishment', 'statusChanges', 'attachments']);
+        $inquiry->load(['offer', 'establishment', 'statusChanges', 'attachments', 'messages']);
 
         $notification = new NewInquiryReceived($inquiry, $establishment->hasFeature('inquiryInbox'));
         if ($establishment->email) {
@@ -85,6 +85,6 @@ class InquiryController extends Controller
     {
         Gate::authorize('view', $inquiry);
 
-        return new InquiryResource($inquiry->load(['offer', 'establishment', 'statusChanges', 'attachments']));
+        return new InquiryResource($inquiry->load(['offer', 'establishment', 'statusChanges', 'attachments', 'messages']));
     }
 }

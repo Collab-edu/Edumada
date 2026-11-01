@@ -34,6 +34,55 @@ import type { Inquiry, InquiryStatus, Paginated } from '@/lib/types'
 import { EmptyState, Loading, PageCard, Pager, STATUS_COLORS, StatusBadge } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
 
+/** Demande d'information : simple échange de messages, sans statut. */
+function Conversation({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (updated: Inquiry) => void }) {
+    const toast = useToast()
+    const [message, setMessage] = useState('')
+    const [saving, setSaving] = useState(false)
+
+    const send = async () => {
+        setSaving(true)
+        try {
+            const res = await api<{ data: Inquiry }>(`/inquiries/${inquiry.id}/messages`, { method: 'POST', body: { message } })
+            toast.success("Message envoyé : l'étudiant est prévenu par e-mail.")
+            setMessage('')
+            onChanged(res.data)
+        } catch (err) {
+            toast.error(errorMessage(err))
+        } finally {
+            setSaving(false)
+        }
+    }
+
+    return (
+        <>
+            <div className='bo-chat' role='log' aria-label='Conversation'>
+                {inquiry.message && (
+                    <div className='bo-chat-msg'>
+                        <p>{inquiry.message}</p>
+                        <small>
+                            {inquiry.name} · {formatDateTime(inquiry.createdAt)}
+                        </small>
+                    </div>
+                )}
+                {(inquiry.messages ?? []).map((m) => (
+                    <div key={m.id} className={`bo-chat-msg${m.sender === 'establishment' ? ' is-mine' : ''}`}>
+                        <p>{m.body}</p>
+                        <small>
+                            {m.sender === 'establishment' ? 'Vous' : inquiry.name} · {formatDateTime(m.at)}
+                        </small>
+                    </div>
+                ))}
+            </div>
+            <CFormTextarea className='mb-3' label='Votre réponse' rows={3} maxLength={3000} value={message} onChange={(e) => setMessage(e.target.value)} />
+            <CButton color='primary' className='w-100' disabled={saving || !message.trim()} onClick={send}>
+                {saving && <CSpinner size='sm' className='me-2' />}
+                Envoyer
+            </CButton>
+        </>
+    )
+}
+
 function InquiryDetail({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (updated: Inquiry) => void }) {
     const toast = useToast()
     const [status, setStatus] = useState<InquiryStatus>(inquiry.status === 'new' ? 'in_review' : inquiry.status)
@@ -58,7 +107,7 @@ function InquiryDetail({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (u
         <>
             <div className='d-flex flex-wrap gap-2 mb-3'>
                 <CBadge color={inquiry.type === 'application' ? 'primary' : 'secondary'}>{inquiry.typeLabel}</CBadge>
-                <StatusBadge status={inquiry.status}>{STATUS_LABELS[inquiry.status]}</StatusBadge>
+                {inquiry.type === 'application' && <StatusBadge status={inquiry.status}>{STATUS_LABELS[inquiry.status]}</StatusBadge>}
                 <span className='small text-body-secondary'>{formatDateTime(inquiry.createdAt)}</span>
             </div>
             <CListGroup className='mb-3'>
@@ -74,7 +123,8 @@ function InquiryDetail({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (u
                 )}
                 <CListGroupItem>Offre : {inquiry.offer?.title ?? "l'établissement"}</CListGroupItem>
             </CListGroup>
-            {inquiry.message && <p style={{ whiteSpace: 'pre-line' }}>{inquiry.message}</p>}
+            {inquiry.type === 'information' && <Conversation inquiry={inquiry} onChanged={onChanged} />}
+            {inquiry.type === 'application' && inquiry.message && <p style={{ whiteSpace: 'pre-line' }}>{inquiry.message}</p>}
 
             {!!inquiry.attachments?.length && (
                 <>
@@ -97,7 +147,7 @@ function InquiryDetail({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (u
                 </>
             )}
 
-            {!!inquiry.history?.length && (
+            {inquiry.type === 'application' && !!inquiry.history?.length && (
                 <>
                     <h6>Historique</h6>
                     <ul className='list-unstyled border-start border-2 ps-3 mb-4' style={{ borderColor: 'var(--edu-sage) !important' }}>
@@ -112,7 +162,9 @@ function InquiryDetail({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (u
                 </>
             )}
 
-            <h6>Traiter la demande</h6>
+            {inquiry.type === 'application' && (
+            <>
+            <h6>Traiter la candidature</h6>
             <CFormSelect className='mb-2' label='Nouveau statut' value={status} onChange={(e) => setStatus(e.target.value as InquiryStatus)}>
                 {Object.entries(STATUS_LABELS)
                     .filter(([key]) => key !== 'new')
@@ -127,6 +179,8 @@ function InquiryDetail({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (u
                 {saving && <CSpinner size='sm' className='me-2' />}
                 Mettre à jour et prévenir l&apos;étudiant
             </CButton>
+            </>
+            )}
         </>
     )
 }
@@ -139,7 +193,7 @@ const initials = (name: string) =>
         .map((word) => word[0].toUpperCase())
         .join('')
 
-type Inbox = Paginated<Inquiry> & { counts?: Partial<Record<InquiryStatus, number>> }
+type Inbox = Paginated<Inquiry> & { total?: number; counts?: Partial<Record<InquiryStatus, number>> }
 
 export default function Inquiries() {
     const { current: e } = useCurrentEstablishment()
@@ -187,7 +241,7 @@ export default function Inquiries() {
     }
 
     const counts = data?.counts ?? {}
-    const total = Object.values(counts).reduce((a, b) => a + Number(b), 0)
+    const total = data?.total ?? 0
     const close = () => router.push('/demandes/')
 
     const tabs: [string, string, number][] = [
@@ -314,7 +368,13 @@ export default function Inquiries() {
                                             </td>
                                             <td className='bo-list-offer'>{i.offer?.title ?? '—'}</td>
                                             <td>
-                                                <span className={`bo-pill bo-pill-${STATUS_COLORS[i.status] ?? 'secondary'}`}>{STATUS_LABELS[i.status]}</span>
+                                                {i.type === 'application' ? (
+                                                    <span className={`bo-pill bo-pill-${STATUS_COLORS[i.status] ?? 'secondary'}`}>{STATUS_LABELS[i.status]}</span>
+                                                ) : i.status === 'new' ? (
+                                                    <span className='bo-pill bo-pill-danger'>À répondre</span>
+                                                ) : (
+                                                    <span className='text-body-secondary'>—</span>
+                                                )}
                                             </td>
                                             <td className='text-nowrap'>{formatDateTime(i.createdAt)}</td>
                                             <td className='bo-list-chevron'>

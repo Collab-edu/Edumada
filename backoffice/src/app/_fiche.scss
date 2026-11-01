@@ -1776,3 +1776,16 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   padding: 3rem 1rem;
 }
 .bo-loader-label { font-size: .9rem; font-weight: 500; color: var(--cui-secondary-color); }
+
+// Conversation d'une demande d'information.
+.bo-chat { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1rem; }
+.bo-chat-msg {
+  align-self: flex-start;
+  max-width: 88%;
+  padding: .6rem .8rem;
+  border-radius: .75rem;
+  background: var(--cui-tertiary-bg);
+  p { margin: 0 0 .2rem; white-space: pre-line; overflow-wrap: anywhere; }
+  small { color: var(--cui-secondary-color); font-size: .75rem; }
+  &.is-mine { align-self: flex-end; background: rgba(167, 196, 188, .3); }
+}

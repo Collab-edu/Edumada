@@ -54,6 +54,18 @@ class InquiryPolicy
     }
 
     /**
+     * Écrire dans une conversation : l'étudiant auteur, ou l'équipe de l'établissement avec boîte de réception.
+     */
+    public function reply(User $user, Inquiry $inquiry): Response
+    {
+        if ($inquiry->user_id === $user->id) {
+            return Response::allow();
+        }
+
+        return $user->managesEstablishment($inquiry->establishment) ? $this->viewInbox($user, $inquiry->establishment) : Response::denyAsNotFound();
+    }
+
+    /**
      * Changer le statut : l'établissement destinataire (avec boîte de réception) ou un administrateur.
      */
     public function updateStatus(User $user, Inquiry $inquiry): Response

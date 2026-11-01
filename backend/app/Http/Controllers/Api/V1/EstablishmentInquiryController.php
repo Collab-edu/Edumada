@@ -32,7 +32,10 @@ class EstablishmentInquiryController extends Controller
             ->withQueryString();
 
         return InquiryResource::collection($inquiries)->additional([
+            'total' => $establishment->inquiries()->count(),
+            // Une demande d'information n'a pas de statut : seule « à répondre » (new) est comptée.
             'counts' => $establishment->inquiries()
+                ->where(fn (Builder $query) => $query->where('type', InquiryType::Application)->orWhere('status', InquiryStatus::New))
                 ->selectRaw('status, count(*) as total')
                 ->groupBy('status')
                 ->pluck('total', 'status'),
@@ -57,7 +60,7 @@ class EstablishmentInquiryController extends Controller
                 fputcsv($output, [
                     $inquiry->created_at->format('Y-m-d H:i'),
                     $inquiry->type->label(),
-                    $inquiry->status->label(),
+                    $inquiry->type === InquiryType::Application ? $inquiry->status->label() : '',
                     $inquiry->name,
                     $inquiry->email,
                     $inquiry->phone,
@@ -82,7 +85,8 @@ class EstablishmentInquiryController extends Controller
         ]);
 
         return $establishment->inquiries()->getQuery()
-            ->when($filters['status'] ?? null, fn (Builder $query, string $status) => $query->where('status', $status))
+            ->when($filters['status'] ?? null, fn (Builder $query, string $status) => $query->where('status', $status)
+                ->when($status !== InquiryStatus::New->value, fn (Builder $query) => $query->where('type', InquiryType::Application)))
             ->when($filters['type'] ?? null, fn (Builder $query, string $type) => $query->where('type', $type))
             ->when($filters['offer'] ?? null, fn (Builder $query, string $slug) => $query->whereHas('offer', fn (Builder $offer) => $offer->where('slug', $slug)))
             ->when($filters['q'] ?? null, fn (Builder $query, string $text) => $query->where(

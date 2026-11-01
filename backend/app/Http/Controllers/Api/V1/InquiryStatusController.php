@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Enums\InquiryStatus;
+use App\Enums\InquiryType;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InquiryResource;
 use App\Models\Inquiry;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Traitement d'une demande par l'établissement : nouveau statut, note éventuelle pour l'étudiant.
@@ -27,6 +29,10 @@ class InquiryStatusController extends Controller
             'note' => ['nullable', 'string', 'max:2000'],
         ]);
 
+        if ($inquiry->type === InquiryType::Information) {
+            throw ValidationException::withMessages(['status' => 'Une demande d\'information n\'a pas de statut : répondez par message.']);
+        }
+
         $previous = $inquiry->status;
 
         DB::transaction(function () use ($inquiry, $validated, $previous, $request): void {
@@ -41,7 +47,7 @@ class InquiryStatusController extends Controller
             ]);
         });
 
-        $inquiry->load(['offer', 'establishment', 'statusChanges', 'attachments', 'user']);
+        $inquiry->load(['offer', 'establishment', 'statusChanges', 'attachments', 'messages', 'user']);
 
         $notification = new InquiryStatusChanged($inquiry, $validated['note'] ?? null);
         $inquiry->user

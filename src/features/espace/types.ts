@@ -48,6 +48,8 @@ export type Inquiry = {
     createdAt: string
     updatedAt: string
     history?: { from: string | null; to: InquiryStatus; toLabel: string; note: string | null; at: string }[]
+    messages?: { id: number; sender: 'student' | 'establishment'; body: string; at: string }[]
+    repliesOnPlatform?: boolean
     attachments?: { id: number; name: string; mimeType: string; size: number }[]
 }
 

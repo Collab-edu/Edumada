@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Inquiry;
 use App\Models\InquiryAttachment;
+use App\Models\InquiryMessage;
 use App\Models\InquiryStatusChange;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -42,6 +43,14 @@ class InquiryResource extends JsonResource
                 'note' => $change->note,
                 'at' => $change->created_at->toIso8601String(),
             ])),
+            'messages' => $this->whenLoaded('messages', fn () => $this->messages->map(fn (InquiryMessage $message) => [
+                'id' => $message->id,
+                'sender' => $message->sender,
+                'body' => $message->body,
+                'at' => $message->created_at->toIso8601String(),
+            ])),
+            // Sans boîte de réception (formule Gratuit), l'établissement répond par e-mail ou téléphone.
+            'repliesOnPlatform' => $this->establishment->hasFeature('inquiryInbox'),
             'attachments' => $this->whenLoaded('attachments', fn () => $this->attachments->map(fn (InquiryAttachment $attachment) => [
                 'id' => $attachment->id,
                 'name' => $attachment->original_name,

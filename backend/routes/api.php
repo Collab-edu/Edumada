@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\V1\EstablishmentStatsController;
 use App\Http\Controllers\Api\V1\FavoriteController;
 use App\Http\Controllers\Api\V1\InquiryAttachmentController;
 use App\Http\Controllers\Api\V1\InquiryController;
+use App\Http\Controllers\Api\V1\InquiryMessageController;
 use App\Http\Controllers\Api\V1\InquiryStatusController;
 use App\Http\Controllers\Api\V1\ManagedEstablishmentController;
 use App\Http\Controllers\Api\V1\InternshipApplicationController;
@@ -91,6 +92,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::get('me/inquiries', [InquiryController::class, 'index'])->name('me.inquiries');
         Route::post('offers/{offer}/inquiries', [InquiryController::class, 'store'])->middleware('throttle:20,60')->name('offers.inquiries.store');
         Route::get('inquiries/{inquiry}', [InquiryController::class, 'show'])->name('inquiries.show');
+        Route::post('inquiries/{inquiry}/messages', [InquiryMessageController::class, 'store'])->middleware('throttle:30,60')->name('inquiries.messages.store');
         Route::get('inquiries/{inquiry}/attachments/{attachment}', [InquiryAttachmentController::class, 'show'])->scopeBindings()->name('inquiries.attachments.show');
         Route::post('establishments/{establishment}/reviews', [ReviewController::class, 'store'])->middleware('throttle:10,60')->name('establishments.reviews.store');
 
