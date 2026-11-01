@@ -97,7 +97,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                         <p className='mt-1 text-ink/80'>Choisissez un type d’établissement et une ville : la liste se met à jour tout de suite.</p>
                     </div>
 
-                    <div role='group' aria-label='Type d’établissement' className='grid grid-cols-2 gap-3 lg:grid-cols-3'>
+                    <div role='group' aria-label='Type d’établissement' className='grid grid-cols-2 gap-2.5 md:grid-cols-3 xl:grid-cols-6'>
                         {TYPES.map((item) => {
                             const active = type === item.id
                             const n = item.id ? matching.filter((s) => s.category === item.id).length : matching.length
@@ -108,15 +108,15 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                     aria-pressed={active}
                                     onClick={() => setType(item.id)}
                                     className={cn(
-                                        'flex flex-col gap-2 rounded-2xl border bg-white p-3 text-left transition-shadow duration-200 hover:cursor-pointer hover:shadow-md sm:flex-row sm:items-center sm:gap-3 sm:p-4',
+                                        'flex items-center gap-2 rounded-xl border bg-white p-2.5 text-left transition-shadow duration-200 hover:cursor-pointer hover:shadow-md',
                                         active ? 'border-primary shadow-[0_10px_24px_-14px_rgba(255,59,82,0.7)]' : 'border-gray-100'
                                     )}>
-                                    <span className={cn('flex h-11 w-11 shrink-0 items-center justify-center rounded-xl', active ? 'bg-primary text-white' : 'bg-secondary/[0.07] text-secondary')}>
-                                        <Icon icon={item.icon} className='text-2xl' />
+                                    <span className={cn('flex h-9 w-9 shrink-0 items-center justify-center rounded-lg', active ? 'bg-primary text-white' : 'bg-secondary/[0.07] text-secondary')}>
+                                        <Icon icon={item.icon} className='text-xl' />
                                     </span>
                                     <span className='min-w-0'>
-                                        <span className='block font-semibold leading-snug text-secondary'>{item.label}</span>
-                                        <span className='block text-sm text-ink/70'>{loading ? '…' : countLabel(n)}</span>
+                                        <span className='block text-sm font-semibold leading-tight text-secondary'>{item.label}</span>
+                                        <span className='mt-0.5 block text-xs text-ink/70'>{loading ? '…' : countLabel(n)}</span>
                                     </span>
                                 </button>
                             )
