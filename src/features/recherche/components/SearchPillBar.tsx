@@ -2,9 +2,9 @@
 import type { FormEvent, ReactNode } from 'react'
 import { Icon } from '@/components/ui/icon'
 
-/** Champ de la barre : séparé du suivant par un trait à partir de la tablette. */
+/** Champ de la barre : encadré sur mobile, séparé du suivant par un trait à partir de la tablette. */
 export function SearchPillField({ children }: { children: ReactNode }) {
-    return <div className='min-w-0 flex-1 rounded-xl px-3 py-2.5 md:rounded-none md:border-r md:border-gray-200 md:py-1 md:last-of-type:border-r-0'>{children}</div>
+    return <div className='min-w-0 flex-1 rounded-lg border border-gray-200 bg-offwhite px-3 py-2.5 md:rounded-none md:border-0 md:border-r md:bg-transparent md:py-1 md:last-of-type:border-r-0'>{children}</div>
 }
 
 /** En-tête de liste : titre et nombre de résultats à gauche, barre de recherche à droite. */
@@ -21,7 +21,7 @@ export default function SearchPillBar({ title, count, label, onSubmit, children 
                 role='search'
                 aria-label={label}
                 onSubmit={onSubmit}
-                className='flex w-full flex-col gap-1 rounded-[12px] bg-white p-2 shadow-[0_12px_32px_-16px_rgba(15,76,92,0.35)] ring-1 ring-secondary/10 md:flex-row md:items-center md:pl-4 lg:max-w-2xl'>
+                className='flex w-full flex-col gap-2 rounded-[12px] bg-white p-2 shadow-[0_12px_32px_-16px_rgba(15,76,92,0.35)] ring-1 ring-secondary/10 md:flex-row md:items-center md:pl-4 lg:max-w-2xl'>
                 {children}
                 <button
                     type='submit'
