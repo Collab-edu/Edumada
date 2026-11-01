@@ -30,7 +30,7 @@ const VARIANTS = {
         intro: 'Licences, masters, BTS et cursus des universités, instituts supérieurs, écoles supérieures et grandes écoles à Madagascar : comparez les formations après le bac, puis contactez directement l’établissement.',
         image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70',
         imageAlt: 'Étudiants de l’enseignement supérieur',
-        searchLabel: 'Rechercher une formation',
+        searchLabel: null,
         listTitle: 'Les formations du supérieur',
         listIntro: 'Choisissez un type d’établissement, puis filtrez par filière et par ville.',
         domainLabel: 'Filière',
@@ -171,10 +171,12 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t(config.title)}</h1>
                             <p className='text-black'>{t(config.intro)}</p>
                             <div className='mobile-center flex flex-wrap gap-3'>
-                                <ButtonLink href={searchHref}>
-                                    <Icon icon='tabler:search' className='text-lg' />
-                                    {t(config.searchLabel)}
-                                </ButtonLink>
+                                {config.searchLabel && (
+                                    <ButtonLink href={searchHref}>
+                                        <Icon icon='tabler:search' className='text-lg' />
+                                        {t(config.searchLabel)}
+                                    </ButtonLink>
+                                )}
                                 <ButtonLink href='/tarifs/' variant='secondary'>
                                     {t(config.cta.button)}
                                 </ButtonLink>
