@@ -13,6 +13,8 @@ import CityPicker from '@/features/recherche/components/CityPicker'
 import SearchPillBar, { SearchPillField } from '@/features/recherche/components/SearchPillBar'
 import SuggestInput from '@/features/recherche/components/SuggestInput'
 import { MY_POSITION, filterByPlace, placePosition } from '@/features/recherche/places'
+import SearchingState from '@/features/recherche/components/SearchingState'
+import { useSearchPacing } from '@/features/recherche/useSearchPacing'
 import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
 import { cn } from '@/lib/utils'
 import FormationCard from './FormationCard'
@@ -102,6 +104,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     const { data: schools, loading: schoolsLoading } = useSiteData('SchoolData')
     const { data: categories } = useSiteData('CategoryData')
     const { isFavorite, toggleFavorite } = useAuth()
+    const { pacing, startPacing } = useSearchPacing()
     const [filters, setFilters] = useState({ sub: '', domain: '', city: '', pos: '' })
     // Saisie en cours (type d'établissement, domaine, ville) : appliquée au clic sur « Rechercher ».
     const [draft, setDraft] = useState(filters)
@@ -152,6 +155,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     const submitSearch = (e: React.FormEvent) => {
         e.preventDefault()
         setFilters(draft)
+        startPacing()
         ;(document.activeElement as HTMLElement | null)?.blur()
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
@@ -189,7 +193,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                     {usePill ? (
                         <SearchPillBar
                             title={t(config.listTitle)}
-                            count={loading ? '' : `${t(plural(shown.length))} à Madagascar`}
+                            count={loading || pacing ? '' : `${t(plural(shown.length))} à Madagascar`}
                             label={t('Filtrer les formations')}
                             onSubmit={submitSearch}>
                             <SearchPillField>
@@ -290,7 +294,9 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                     </form>
                     )}
                     <div ref={resultsRef} className='scroll-mt-28' />
-                    {loading ? (
+                    {pacing ? (
+                        <SearchingState label={t('Recherche des formations…')} count={4} gridClassName='grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4' cardClassName='h-[360px]' />
+                    ) : loading ? (
                         <CardSkeletonGrid count={4} className='h-[360px]' />
                     ) : shown.length === 0 ? (
                         <p className='rounded-xl bg-white p-8 text-center text-black'>

@@ -7,6 +7,8 @@ import { CardSkeletonGrid } from '@/components/ui/card'
 import { apiEnabled, fetchAllPages } from '@/lib/api'
 import SearchPillBar, { SearchPillField } from '@/features/recherche/components/SearchPillBar'
 import SuggestInput from '@/features/recherche/components/SuggestInput'
+import SearchingState from '@/features/recherche/components/SearchingState'
+import { useSearchPacing } from '@/features/recherche/useSearchPacing'
 import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
 import InternshipCard from './InternshipCard'
 import type { Internship } from '../types'
@@ -26,10 +28,12 @@ export default function InternshipsPage() {
     const [state, setState] = useState<'loading' | 'ready' | 'error'>(apiEnabled ? 'loading' : 'ready')
     const [domain, setDomain] = useState('')
     const [draft, setDraft] = useState('')
+    const { pacing, startPacing } = useSearchPacing()
     // « Rechercher » : applique la saisie et ferme le clavier.
     const search = (e: FormEvent) => {
         e.preventDefault()
         setDomain(draft)
+        startPacing()
         ;(document.activeElement as HTMLElement | null)?.blur()
     }
 
@@ -89,7 +93,7 @@ export default function InternshipsPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <SearchPillBar
                         title='Les offres de stage'
-                        count={state === 'ready' ? `${shown.length} offre${shown.length > 1 ? 's' : ''} de stage à Madagascar` : ''}
+                        count={state === 'ready' && !pacing ? `${shown.length} offre${shown.length > 1 ? 's' : ''} de stage à Madagascar` : ''}
                         label='Filtrer les offres de stage'
                         onSubmit={search}>
                         <SearchPillField>
@@ -102,13 +106,18 @@ export default function InternshipsPage() {
                                 value={draft}
                                 onChange={(value) => {
                                     setDraft(value)
-                                    if (!value) setDomain('')
+                                    if (!value && domain) {
+                                        setDomain('')
+                                        startPacing()
+                                    }
                                 }}
                             />
                         </SearchPillField>
                     </SearchPillBar>
 
-                    {state === 'loading' ? (
+                    {pacing ? (
+                        <SearchingState label='Recherche des offres de stage…' count={4} gridClassName='grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4' cardClassName='h-[300px]' />
+                    ) : state === 'loading' ? (
                         <CardSkeletonGrid count={4} className='h-[420px]' />
                     ) : state === 'error' ? (
                         <p className='rounded-xl bg-white p-8 text-center text-black'>Impossible de charger les offres de stage pour l’instant. Réessayez dans quelques minutes.</p>

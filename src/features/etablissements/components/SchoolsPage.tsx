@@ -7,6 +7,8 @@ import { CardSkeletonGrid } from '@/components/ui/card'
 import { ShowMoreButton, useShowMore } from '@/components/ui/show-more'
 import { useSiteData } from '@/data/site-data'
 import { normalize } from '@/features/recherche/components/SuggestInput'
+import SearchingState from '@/features/recherche/components/SearchingState'
+import { useSearchPacing } from '@/features/recherche/useSearchPacing'
 import { cn } from '@/lib/utils'
 import SchoolCard from './SchoolCard'
 import { useT } from '@/i18n/client'
@@ -48,9 +50,23 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
     const t = useT()
     const config = VARIANTS[variant]
     const { data: allSchools, loading } = useSiteData('SchoolData')
-    const [type, setType] = useState('')
-    const [city, setCity] = useState('')
-    const [name, setName] = useState('')
+    const { pacing, startPacing } = useSearchPacing()
+    const [type, setTypeValue] = useState('')
+    const [city, setCityValue] = useState('')
+    const [name, setNameValue] = useState('')
+    // Chaque changement de filtre relance le loader.
+    const setType = (value: string) => {
+        setTypeValue(value)
+        startPacing()
+    }
+    const setCity = (value: string) => {
+        setCityValue(value)
+        startPacing()
+    }
+    const setName = (value: string) => {
+        setNameValue(value)
+        startPacing()
+    }
 
     const cities = useMemo(() => [...new Set(allSchools.map((s) => s.city).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr')), [allSchools])
     // Le nombre affiché sur chaque type tient compte de la ville et du nom déjà choisis.
@@ -94,7 +110,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='mobile-center mb-7'>
                         <h2 className='text-2xl font-bold text-secondary md:text-3xl'>{t(config.listTitle)}</h2>
-                        <p className='mt-1 text-ink/80'>Choisissez un type d’établissement et une ville : la liste se met à jour tout de suite.</p>
+                        <p className='mt-1 text-ink/80'>Choisissez un type d’établissement et une ville : la liste se met à jour.</p>
                     </div>
 
                     <div role='group' aria-label='Type d’établissement' className='grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 xl:grid-cols-6'>
@@ -151,7 +167,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                             />
                         </label>
                         <p className='text-secondary md:ml-auto md:shrink-0' aria-live='polite'>
-                            {!loading && (
+                            {!loading && !pacing && (
                                 <>
                                     <strong>{shown.length}</strong> établissement{shown.length > 1 ? 's' : ''} trouvé{shown.length > 1 ? 's' : ''}
                                 </>
@@ -159,7 +175,9 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                         </p>
                     </div>
 
-                    {loading ? (
+                    {pacing ? (
+                        <SearchingState label='Recherche des établissements…' count={4} gridClassName='grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4' cardClassName='h-[360px]' />
+                    ) : loading ? (
                         <CardSkeletonGrid count={8} className='h-[360px]' />
                     ) : shown.length === 0 ? (
                         <p className='rounded-xl bg-white p-8 text-center text-black'>
