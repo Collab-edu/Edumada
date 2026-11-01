@@ -1,18 +1,14 @@
 'use client'
-import { useMemo, useState, useRef } from 'react'
+import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
-import { Button, ButtonLink } from '@/components/ui/form'
-import SectionHeader from '@/components/ui/section-header'
+import { ButtonLink } from '@/components/ui/form'
 import { CardSkeletonGrid } from '@/components/ui/card'
 import { ShowMoreButton, useShowMore } from '@/components/ui/show-more'
 import { useSiteData } from '@/data/site-data'
-import CityPicker from '@/features/recherche/components/CityPicker'
-import SuggestInput from '@/features/recherche/components/SuggestInput'
-import { MY_POSITION, filterByPlace, placePosition } from '@/features/recherche/places'
-import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
+import { normalize } from '@/features/recherche/components/SuggestInput'
+import { cn } from '@/lib/utils'
 import SchoolCard from './SchoolCard'
-import type { SchoolType } from '../types'
 import { useT } from '@/i18n/client'
 
 const BENEFITS = [
@@ -21,9 +17,21 @@ const BENEFITS = [
     { icon: 'tabler:message-circle', title: 'Un contact direct', text: 'Écrivez ou appelez l’établissement depuis sa fiche, sans intermédiaire.' },
 ]
 
+/** Types proposés dans le filtre ; `id` vide = tous les établissements. */
+const TYPES = [
+    { id: '', label: 'Tous', icon: 'tabler:category' },
+    { id: 'superieur', label: 'Enseignement supérieur', icon: 'tabler:school' },
+    { id: 'formation-pro', label: 'Formation professionnelle', icon: 'tabler:tools' },
+    { id: 'petite-enfance', label: 'Petite enfance', icon: 'tabler:mood-kid' },
+    { id: 'scolaire', label: 'École, collège, lycée', icon: 'tabler:building' },
+    { id: 'autres', label: 'Autres', icon: 'tabler:dots' },
+]
+
+const countLabel = (n: number) => `${n} établissement${n > 1 ? 's' : ''}`
+
 /** Textes et périmètre de chaque variante de la page. */
 const VARIANTS = {
-    /** Tous les établissements, filtrés par type (sous-catégorie). */
+    /** Tous les établissements, filtrés par type, ville et nom. */
     all: {
         eyebrow: 'Établissements',
         title: 'Trouvez l’établissement qui vous correspond',
@@ -31,55 +39,28 @@ const VARIANTS = {
         image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=70',
         imageAlt: 'Campus d’un établissement d’enseignement',
         listTitle: 'Tous les établissements',
-        firstFilter: { label: 'Catégorie', icon: FILTER_UI.categorie.icon, placeholder: FILTER_UI.categorie.placeholder },
-        noun: ['établissement', 'établissements'],
         cta: { title: 'Vous dirigez un établissement ?', text: 'Présentez vos formations gratuitement et recevez les demandes des futurs élèves et étudiants.' },
     },
 } as const
 
-/** Valeurs distinctes triées. */
-const toSuggestions = (values: string[]) =>
-    [...new Set(values.filter(Boolean))]
-        .sort((a, b) => a.localeCompare(b, 'fr'))
-        .map((value) => ({ value }))
-
-/** Liste de tous les établissements, filtrable par catégorie et par ville. */
+/** Liste de tous les établissements : les filtres s'appliquent tout de suite. */
 export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeof VARIANTS }) {
     const t = useT()
     const config = VARIANTS[variant]
     const { data: allSchools, loading } = useSiteData('SchoolData')
-    const { data: categories } = useSiteData('CategoryData')
-    const [filters, setFilters] = useState({ kind: '', city: '', pos: '' })
-    // Saisie en cours : appliquée aux résultats au clic sur « Rechercher ».
-    const [draft, setDraft] = useState(filters)
+    const [type, setType] = useState('')
+    const [city, setCity] = useState('')
+    const [name, setName] = useState('')
 
-    const schools = allSchools
-    // Premier filtre : sous-catégorie (Université, Crèche…), sinon la catégorie de l'établissement.
-    const kindsOf = useMemo(() => {
-        const labels = new Map(categories.map((c) => [c.id, c.shortLabel]))
-        return (s: SchoolType) => [s.subCategory || (labels.get(s.category) ?? '')]
-    }, [categories])
-    const kindSuggestions = useMemo(() => toSuggestions(schools.flatMap(kindsOf)), [schools, kindsOf])
-    const citySuggestions = useMemo(() => toSuggestions(schools.map((s) => s.city)), [schools])
-    // Ville exacte, sinon établissements les plus proches du lieu choisi (ou de ma position).
-    const byPlace = filterByPlace(
-        schools.filter((s) => !filters.kind || kindsOf(s).includes(filters.kind)),
-        filters.city,
-        filters.pos,
-        (s) => s.city,
-        (s) => s.coordinates
-    )
-    const shown = byPlace.items
-    const filtered = !!(filters.kind || filters.city || draft.kind || draft.city)
-    const page = useShowMore(shown, JSON.stringify(filters))
-    // « Rechercher » : applique la saisie, ferme le clavier et descend aux résultats.
-    const resultsRef = useRef<HTMLDivElement>(null)
-    const submitSearch = (e: React.FormEvent) => {
-        e.preventDefault()
-        setFilters(draft)
-        ;(document.activeElement as HTMLElement | null)?.blur()
-        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
+    const cities = useMemo(() => [...new Set(allSchools.map((s) => s.city).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr')), [allSchools])
+    // Le nombre affiché sur chaque type tient compte de la ville et du nom déjà choisis.
+    const matching = useMemo(() => {
+        const q = normalize(name)
+        return allSchools.filter((s) => (!city || s.city === city) && (!q || normalize(s.name).includes(q)))
+    }, [allSchools, city, name])
+    const shown = useMemo(() => matching.filter((s) => !type || s.category === type), [matching, type])
+    const filtered = !!(type || city || name.trim())
+    const page = useShowMore(shown, JSON.stringify({ type, city, name }))
 
     return (
         <>
@@ -111,59 +92,72 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
             {/* Établissements */}
             <section>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <SectionHeader
-                        title={config.listTitle}
-                        description={t('Filtrez par catégorie et par ville pour trouver l’établissement qui correspond à votre projet.')}
-                    />
-                    {/* Filtre : catégorie ou filière, et localisation */}
-                    <form
-                        role='search'
-                        aria-label={t('Filtrer les établissements')}
-                        onSubmit={submitSearch}
-                        className='mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:grid-cols-[1fr_1fr_auto] sm:items-center'>
-                        {[
-                            { key: 'kind' as const, ...config.firstFilter, suggestions: kindSuggestions },
-                            { key: 'city' as const, label: 'Ville / Localisation', icon: FILTER_UI.ville.icon, placeholder: FILTER_UI.ville.placeholder, suggestions: citySuggestions },
-                        ].map((field) => (
-                            <div key={field.key} className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
-                                {field.key === 'city' ? (
-                                    <CityPicker
-                                        label={field.label}
-                                        placeholder='Ex. : Antananarivo, Toamasina…'
-                                        suggestions={field.suggestions}
-                                        value={draft.city}
-                                        onChange={(value, place) => setDraft((prev) => ({ ...prev, city: value, pos: placePosition(place) }))}
-                                    />
-                                ) : (
-                                <SuggestInput
-                                    icon={field.icon}
-                                    label={field.label}
-                                    placeholder={field.placeholder}
-                                    suggestions={field.suggestions}
-                                    value={draft[field.key]}
-                                    onChange={(value) => setDraft((prev) => ({ ...prev, [field.key]: value }))}
-                                />
-                                )}
-                            </div>
-                        ))}
-                        <div className='flex flex-col-reverse items-stretch gap-2 sm:flex-row sm:items-center'>
-                            <button
-                                type='button'
-                                onClick={() => {
-                                    setFilters({ kind: '', city: '', pos: '' })
-                                    setDraft({ kind: '', city: '', pos: '' })
-                                }}
-                                disabled={!filtered}
-                                className='h-11 rounded-lg px-3 text-sm font-semibold text-primary hover:underline disabled:hidden hover:cursor-pointer'>
-                                {t('Réinitialiser')}
-                            </button>
-                            <Button type='submit' className='h-12'>
-                                <Icon icon='tabler:search' className='text-lg' />
-                                Rechercher
-                            </Button>
-                        </div>
-                    </form>
-                    <div ref={resultsRef} className='scroll-mt-28' />
+                    <div className='mobile-center mb-5'>
+                        <h2 className='text-2xl font-bold text-secondary md:text-3xl'>{t(config.listTitle)}</h2>
+                        <p className='mt-1 text-ink/80'>Choisissez un type d’établissement et une ville : la liste se met à jour tout de suite.</p>
+                    </div>
+
+                    <div role='group' aria-label='Type d’établissement' className='grid grid-cols-2 gap-3 lg:grid-cols-3'>
+                        {TYPES.map((item) => {
+                            const active = type === item.id
+                            const n = item.id ? matching.filter((s) => s.category === item.id).length : matching.length
+                            return (
+                                <button
+                                    key={item.id || 'tous'}
+                                    type='button'
+                                    aria-pressed={active}
+                                    onClick={() => setType(item.id)}
+                                    className={cn(
+                                        'flex flex-col gap-2 rounded-2xl border bg-white p-3 text-left transition-shadow duration-200 hover:cursor-pointer hover:shadow-md sm:flex-row sm:items-center sm:gap-3 sm:p-4',
+                                        active ? 'border-primary shadow-[0_10px_24px_-14px_rgba(255,59,82,0.7)]' : 'border-gray-100'
+                                    )}>
+                                    <span className={cn('flex h-11 w-11 shrink-0 items-center justify-center rounded-xl', active ? 'bg-primary text-white' : 'bg-secondary/[0.07] text-secondary')}>
+                                        <Icon icon={item.icon} className='text-2xl' />
+                                    </span>
+                                    <span className='min-w-0'>
+                                        <span className='block font-semibold leading-snug text-secondary'>{item.label}</span>
+                                        <span className='block text-sm text-ink/70'>{loading ? '…' : countLabel(n)}</span>
+                                    </span>
+                                </button>
+                            )
+                        })}
+                    </div>
+
+                    <div className='mt-4 mb-6 flex flex-col gap-3 md:flex-row md:items-center'>
+                        <label className='relative block md:w-56 md:shrink-0'>
+                            <span className='sr-only'>Ville</span>
+                            <Icon icon='tabler:map-pin' className='pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-lg text-secondary' />
+                            <select
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                className='min-h-12 w-full rounded-xl border border-gray-200 bg-white pr-3 pl-10 font-medium text-secondary outline-hidden focus:border-primary hover:cursor-pointer'>
+                                <option value=''>Toutes les villes</option>
+                                {cities.map((c) => (
+                                    <option key={c} value={c}>
+                                        {c}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        <label className='relative block md:w-96'>
+                            <span className='sr-only'>Nom de l’établissement</span>
+                            <Icon icon='tabler:search' className='pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-lg text-ink/50' />
+                            <input
+                                type='search'
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder='Nom de l’établissement (facultatif)'
+                                className='min-h-12 w-full rounded-xl border border-gray-200 bg-white pr-3 pl-10 text-ink outline-hidden placeholder:text-ink/50 focus:border-primary'
+                            />
+                        </label>
+                        <p className='text-secondary md:ml-auto md:shrink-0' aria-live='polite'>
+                            {!loading && (
+                                <>
+                                    <strong>{shown.length}</strong> établissement{shown.length > 1 ? 's' : ''} trouvé{shown.length > 1 ? 's' : ''}
+                                </>
+                            )}
+                        </p>
+                    </div>
 
                     {loading ? (
                         <CardSkeletonGrid count={8} className='h-[360px]' />
@@ -173,22 +167,9 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                         </p>
                     ) : (
                         <>
-                            {byPlace.near && (
-                                <p className='mb-4 flex items-start gap-2 rounded-xl border border-secondary/15 bg-white px-4 py-3 text-sm text-black' role='status'>
-                                    <Icon icon='tabler:current-location' className='mt-0.5 shrink-0 text-lg text-primary' />
-                                    <span>
-                                        {filters.city === MY_POSITION
-                                            ? t('Les plus proches de votre position, du plus près au plus loin.')
-                                            : t('Aucun établissement à {city} : voici les plus proches, du plus près au plus loin.', { city: filters.city })}
-                                    </span>
-                                </p>
-                            )}
-                            <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
-                                {t(`${shown.length} ${config.noun[shown.length > 1 ? 1 : 0]}`)}
-                            </p>
                             <div ref={page.listRef} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
                                 {page.visible.map((school) => (
-                                    <SchoolCard key={school.id} school={school} compact distanceKm={school.distanceKm} />
+                                    <SchoolCard key={school.id} school={school} compact />
                                 ))}
                             </div>
                             <ShowMoreButton {...page} onClick={page.showMore} noun={{ one: 'établissement', many: 'établissements' }} />
