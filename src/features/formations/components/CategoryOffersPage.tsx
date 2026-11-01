@@ -230,7 +230,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                         aria-pressed={active}
                                         onClick={() => setDraft((prev) => ({ ...prev, sub: chip.value, domain: '' }))}
                                         className={cn(
-                                            'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-semibold whitespace-nowrap transition-colors hover:cursor-pointer',
+                                            'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-[12px] border px-4 text-sm font-semibold whitespace-nowrap transition-colors hover:cursor-pointer',
                                             active ? 'border-secondary bg-secondary text-white' : 'border-secondary/20 bg-white text-secondary hover:border-secondary/50'
                                         )}>
                                         {t(chip.label)}
