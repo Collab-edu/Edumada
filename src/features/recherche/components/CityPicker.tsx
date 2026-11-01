@@ -15,6 +15,8 @@ interface CityPickerProps {
     value: string
     /** `place` : lieu choisi avec sa position (lieu de la carte, grande ville ou ma position). */
     onChange: (value: string, place?: Suggestion) => void
+    /** Barre compacte : libellé masqué visuellement, icônes dans le champ. */
+    pill?: boolean
 }
 
 type Option = { key: string; value: string; place?: Suggestion; label: string; detail?: string; hint?: string; icon: string }
@@ -28,7 +30,7 @@ const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1
  * personne (nommée d'après la carte) et les grandes villes. Un lieu absent de la carte reste
  * cherchable (« Chercher autour de … »).
  */
-export function CityPicker({ label, placeholder, suggestions, value, onChange }: CityPickerProps) {
+export function CityPicker({ label, placeholder, suggestions, value, onChange, pill = false }: CityPickerProps) {
     const t = useT()
     const id = useId()
     const root = useRef<HTMLDivElement>(null)
@@ -179,11 +181,14 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
     let index = -1
 
     return (
-        <div ref={root} className='@container relative w-full text-left'>
-            <div className='flex items-center justify-between gap-2'>
-                <label htmlFor={`${id}-trigger`} className='flex min-w-0 items-center gap-1.5 text-base font-medium whitespace-nowrap text-gray-500'>
-                    <Icon icon='tabler:map-pin' className='shrink-0 text-base text-secondary' />
+        <div ref={root} className={cn('@container relative w-full text-left', pill && 'flex items-center gap-2')}>
+            {pill && <Icon icon='tabler:map-pin' className='shrink-0 text-lg text-secondary' />}
+            <div className={pill ? 'contents' : 'flex items-center justify-between gap-2'}>
+                <label htmlFor={`${id}-trigger`} className={pill ? 'sr-only' : undefined} data-pill-label={pill || undefined}>
+                <span className='flex min-w-0 items-center gap-1.5 text-base font-medium whitespace-nowrap text-gray-500'>
+                    {!pill && <Icon icon='tabler:map-pin' className='shrink-0 text-base text-secondary' />}
                     {t(label)}
+                </span>
                 </label>
                 <button
                     type='button'
@@ -191,15 +196,15 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
                     disabled={locating}
                     aria-label={t('Voir les résultats les plus proches de ma position')}
                     title={t('Voir les résultats les plus proches de ma position')}
-                    className='-my-1 inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full px-2 py-1 text-sm font-semibold text-primary hover:bg-cream hover:cursor-pointer disabled:opacity-60'>
+                    className={cn('-my-1 inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full px-2 py-1 text-sm font-semibold text-primary hover:bg-cream hover:cursor-pointer disabled:opacity-60', pill && 'order-last')}>
                     <Icon icon={locating ? 'tabler:loader-2' : 'tabler:current-location'} className={cn('text-lg', locating && 'animate-spin')} />
                     {/* Libellé quand la place le permet, sinon icône seule. */}
-                    <span className='hidden @[20rem]:inline'>{locating ? t('Localisation…') : t('Les plus proches')}</span>
+                    <span className={pill ? 'hidden' : 'hidden @[20rem]:inline'}>{locating ? t('Localisation…') : t('Les plus proches')}</span>
                 </button>
             </div>
 
             {/* Même allure que les autres champs de la barre : texte sur le fond, sans cadre. */}
-            <div className='relative mt-1'>
+            <div className={pill ? 'relative min-w-0 flex-1' : 'relative mt-1'}>
                 <button
                     ref={trigger}
                     id={`${id}-trigger`}
@@ -231,7 +236,7 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange }:
             )}
 
             {open && (
-                <div role='dialog' aria-label={t(label)} className='absolute left-0 z-30 mt-2 w-full rounded-2xl bg-white p-3 shadow-xl ring-1 ring-black/5 sm:min-w-80'>
+                <div role='dialog' aria-label={t(label)} className='absolute top-full left-0 z-30 mt-2 w-full rounded-2xl bg-white p-3 shadow-xl ring-1 ring-black/5 sm:min-w-80'>
                     <div className='flex items-center gap-2 rounded-xl bg-offwhite px-3 py-2'>
                         <Icon icon='tabler:search' className='shrink-0 text-ink/40' />
                         <input

@@ -1,11 +1,11 @@
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import { CardSkeletonGrid } from '@/components/ui/card'
-import SectionHeader from '@/components/ui/section-header'
 import { apiEnabled, fetchAllPages } from '@/lib/api'
+import SearchPillBar, { SearchPillField } from '@/features/recherche/components/SearchPillBar'
 import SuggestInput from '@/features/recherche/components/SuggestInput'
 import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
 import InternshipCard from './InternshipCard'
@@ -25,6 +25,13 @@ export default function InternshipsPage() {
     const [items, setItems] = useState<Internship[]>([])
     const [state, setState] = useState<'loading' | 'ready' | 'error'>(apiEnabled ? 'loading' : 'ready')
     const [domain, setDomain] = useState('')
+    const [draft, setDraft] = useState('')
+    // « Rechercher » : applique la saisie et ferme le clavier.
+    const search = (e: FormEvent) => {
+        e.preventDefault()
+        setDomain(draft)
+        ;(document.activeElement as HTMLElement | null)?.blur()
+    }
 
     useEffect(() => {
         if (!apiEnabled) return
@@ -80,20 +87,26 @@ export default function InternshipsPage() {
 
             <section id='offres' className='scroll-mt-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <SectionHeader title='Les offres de stage' description='Filtrez par domaine pour trouver le stage qui correspond à votre projet.' />
-
-                    <div role='search' aria-label='Filtrer les offres de stage' className='mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:grid-cols-[1fr_auto] sm:items-center'>
-                        <div className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
-                            <SuggestInput icon={FILTER_UI.domaine.icon} label='Domaine' placeholder={FILTER_UI.domaine.placeholder} suggestions={domains} value={domain} onChange={setDomain} />
-                        </div>
-                        <button
-                            type='button'
-                            disabled={!filtered}
-                            onClick={() => setDomain('')}
-                            className='h-11 rounded-lg px-3 text-sm font-semibold text-primary hover:underline disabled:invisible hover:cursor-pointer'>
-                            Réinitialiser
-                        </button>
-                    </div>
+                    <SearchPillBar
+                        title='Les offres de stage'
+                        count={state === 'ready' ? `${shown.length} offre${shown.length > 1 ? 's' : ''} de stage à Madagascar` : ''}
+                        label='Filtrer les offres de stage'
+                        onSubmit={search}>
+                        <SearchPillField>
+                            <SuggestInput
+                                pill
+                                icon={FILTER_UI.domaine.icon}
+                                label='Domaine'
+                                placeholder='Domaine'
+                                suggestions={domains}
+                                value={draft}
+                                onChange={(value) => {
+                                    setDraft(value)
+                                    if (!value) setDomain('')
+                                }}
+                            />
+                        </SearchPillField>
+                    </SearchPillBar>
 
                     {state === 'loading' ? (
                         <CardSkeletonGrid count={4} className='h-[420px]' />
@@ -103,9 +116,6 @@ export default function InternshipsPage() {
                         <p className='rounded-xl bg-white p-8 text-center text-black'>{filtered ? 'Aucune offre de stage ne correspond à ces critères.' : 'Aucune offre de stage publiée pour le moment.'}</p>
                     ) : (
                         <>
-                            <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
-                                {shown.length} offre{shown.length > 1 ? 's' : ''} de stage
-                            </p>
                             <ul className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4'>
                                 {shown.map((i) => (
                                     <li key={i.id}>

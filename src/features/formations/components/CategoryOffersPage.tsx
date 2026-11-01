@@ -10,6 +10,7 @@ import { useSiteData } from '@/data/site-data'
 import { useAuth } from '@/features/auth/AuthProvider'
 import SchoolCard from '@/features/etablissements/components/SchoolCard'
 import CityPicker from '@/features/recherche/components/CityPicker'
+import SearchPillBar, { SearchPillField } from '@/features/recherche/components/SearchPillBar'
 import SuggestInput from '@/features/recherche/components/SuggestInput'
 import { MY_POSITION, filterByPlace, placePosition } from '@/features/recherche/places'
 import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
@@ -95,6 +96,8 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     const config = VARIANTS[variant]
     // Une crèche ou une école n'a pas de domaine d'études.
     const showDomain = variant !== 'petite-enfance'
+    // Barre compacte dans l'en-tête de la liste.
+    const usePill = variant !== 'petite-enfance'
     const { data: formations, loading } = useSiteData('FormationData')
     const { data: schools, loading: schoolsLoading } = useSiteData('SchoolData')
     const { data: categories } = useSiteData('CategoryData')
@@ -183,7 +186,37 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
             {/* Formations */}
             <section>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <SectionHeader title={config.listTitle} description={config.listIntro} />
+                    {usePill ? (
+                        <SearchPillBar
+                            title={t(config.listTitle)}
+                            count={loading ? '' : `${t(plural(shown.length))} à Madagascar`}
+                            label={t('Filtrer les formations')}
+                            onSubmit={submitSearch}>
+                            <SearchPillField>
+                                <SuggestInput
+                                    pill
+                                    icon={FILTER_UI.domaine.icon}
+                                    label={config.domainLabel}
+                                    placeholder={config.domainLabel}
+                                    suggestions={domains}
+                                    value={draft.domain}
+                                    onChange={(value) => setDraft((prev) => ({ ...prev, domain: value }))}
+                                />
+                            </SearchPillField>
+                            <SearchPillField>
+                                <CityPicker
+                                    pill
+                                    label='Ville'
+                                    placeholder='Ville'
+                                    suggestions={cities}
+                                    value={draft.city}
+                                    onChange={(value, place) => setDraft((prev) => ({ ...prev, city: value, pos: placePosition(place) }))}
+                                />
+                            </SearchPillField>
+                        </SearchPillBar>
+                    ) : (
+                        <SectionHeader title={config.listTitle} description={config.listIntro} />
+                    )}
 
                     {/* Sous-catégories : pastilles à choix unique */}
                     {subCategories.length > 1 && (
@@ -208,6 +241,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                     )}
 
                     {/* Filtre simple : domaine et localisation */}
+                    {!usePill && (
                     <form
                         role='search'
                         aria-label={t('Filtrer les formations')}
@@ -254,6 +288,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                             </Button>
                         </div>
                     </form>
+                    )}
                     <div ref={resultsRef} className='scroll-mt-28' />
                     {loading ? (
                         <CardSkeletonGrid count={4} className='h-[360px]' />
@@ -273,9 +308,11 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                     </span>
                                 </p>
                             )}
-                            <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
-                                {t(plural(shown.length))}
-                            </p>
+                            {!usePill && (
+                                <p className='mb-4 text-sm text-ink/60' aria-live='polite'>
+                                    {t(plural(shown.length))}
+                                </p>
+                            )}
                             <div ref={page.listRef} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
                                 {page.visible.map((formation) => (
                                     <FormationCard

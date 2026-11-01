@@ -24,6 +24,8 @@ interface SuggestInputProps {
     onChange: (value: string) => void
     /** Accepte une saisie hors suggestions (« comptabilité »), proposée en fin de liste. */
     allowFreeText?: boolean
+    /** Barre compacte : libellé masqué visuellement, icône dans le champ. */
+    pill?: boolean
 }
 
 /** Met en gras la partie du libellé qui correspond à la saisie. */
@@ -46,7 +48,7 @@ function Highlight({ text, query }: { text: string; query: string }) {
  * une saisie qui correspond exactement à une suggestion, ou à une seule, est retenue.
  * Vider le champ retire le filtre.
  */
-export function SuggestInput({ label, icon, placeholder, suggestions, value, onChange, allowFreeText = false }: SuggestInputProps) {
+export function SuggestInput({ label, icon, placeholder, suggestions, value, onChange, allowFreeText = false, pill = false }: SuggestInputProps) {
     const t = useT()
     const [query, setQuery] = useState('')
     // Un choix fait dans la liste ne doit pas être remplacé par la saisie en cours à la fermeture.
@@ -95,11 +97,12 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
             }}
             onClose={settle}>
             <div className='w-full'>
-                <Label className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
-                    {icon && <Icon icon={icon} className='text-base text-secondary' />}
+                <Label className={pill ? 'sr-only' : 'flex items-center gap-1.5 text-base font-medium text-gray-500'}>
+                    {icon && !pill && <Icon icon={icon} className='text-base text-secondary' />}
                     {t(label)}
                 </Label>
-                <div className='relative mt-1'>
+                <div className={pill ? 'relative flex items-center gap-2' : 'relative mt-1'}>
+                    {icon && pill && <Icon icon={icon} className='shrink-0 text-lg text-secondary' />}
                     <ComboboxInput
                         displayValue={(selected: string | null) => selected ?? ''}
                         onChange={(e) => {
@@ -111,7 +114,7 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                         placeholder={t(placeholder)}
                         autoComplete='off'
                         enterKeyHint='search'
-                        className='w-full truncate bg-transparent py-1 pr-8 text-base font-semibold text-ink outline-hidden placeholder:font-normal placeholder:text-ink/40'
+                        className='w-full min-w-0 truncate bg-transparent py-1 pr-8 text-base font-semibold text-ink outline-hidden placeholder:font-normal placeholder:text-ink/40'
                     />
                     {value && (
                         <button
