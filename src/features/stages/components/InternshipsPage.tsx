@@ -13,7 +13,7 @@ import type { Internship } from '../types'
 
 const BENEFITS = [
     { icon: 'tabler:tools', title: 'Une expérience concrète', text: 'Mettez en pratique ce que vous apprenez et découvrez un métier sur le terrain.' },
-    { icon: 'tabler:map-pin', title: 'Près de chez vous', text: 'Filtrez par ville pour trouver un stage proche de votre domicile.' },
+    { icon: 'tabler:map-pin', title: 'Partout à Madagascar', text: 'Chaque offre indique la ville du stage et sa durée.' },
     { icon: 'tabler:send', title: 'Une candidature simple', text: 'Envoyez votre CV et votre lettre de motivation depuis votre compte.' },
 ]
 
@@ -25,7 +25,6 @@ export default function InternshipsPage() {
     const [items, setItems] = useState<Internship[]>([])
     const [state, setState] = useState<'loading' | 'ready' | 'error'>(apiEnabled ? 'loading' : 'ready')
     const [domain, setDomain] = useState('')
-    const [city, setCity] = useState('')
 
     useEffect(() => {
         if (!apiEnabled) return
@@ -42,10 +41,9 @@ export default function InternshipsPage() {
         }
     }, [])
 
-    const shown = useMemo(() => items.filter((i) => (!domain || i.domain === domain) && (!city || i.city === city)), [items, domain, city])
+    const shown = useMemo(() => items.filter((i) => !domain || i.domain === domain), [items, domain])
     const domains = useMemo(() => suggestions(items.map((i) => i.domain)), [items])
-    const cities = useMemo(() => suggestions(items.map((i) => i.city)), [items])
-    const filtered = !!(domain || city)
+    const filtered = !!domain
 
     return (
         <>
@@ -55,7 +53,7 @@ export default function InternshipsPage() {
                         <div className='mobile-center flex max-w-3xl flex-col gap-4'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>Offres de stage</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Trouvez votre stage à Madagascar</h1>
-                            <p className='text-black'>Retrouvez les offres de stage publiées par Edumada : comparez les domaines et les villes, puis envoyez votre candidature depuis votre compte.</p>
+                            <p className='text-black'>Retrouvez les offres de stage publiées par Edumada : comparez les domaines, puis envoyez votre candidature depuis votre compte.</p>
                             <div className='mobile-center flex flex-wrap gap-3'>
                                 <ButtonLink href='#offres'>
                                     <Icon icon='tabler:search' className='text-lg' />
@@ -82,22 +80,16 @@ export default function InternshipsPage() {
 
             <section id='offres' className='scroll-mt-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <SectionHeader title='Les offres de stage' description='Filtrez par domaine et par ville pour trouver le stage qui correspond à votre projet.' />
+                    <SectionHeader title='Les offres de stage' description='Filtrez par domaine pour trouver le stage qui correspond à votre projet.' />
 
-                    <div role='search' aria-label='Filtrer les offres de stage' className='mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:grid-cols-[1fr_1fr_auto] sm:items-center'>
+                    <div role='search' aria-label='Filtrer les offres de stage' className='mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:grid-cols-[1fr_auto] sm:items-center'>
                         <div className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
                             <SuggestInput icon={FILTER_UI.domaine.icon} label='Domaine' placeholder={FILTER_UI.domaine.placeholder} suggestions={domains} value={domain} onChange={setDomain} />
-                        </div>
-                        <div className='rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-offwhite sm:rounded-none sm:border-r sm:border-gray-100'>
-                            <SuggestInput icon='tabler:map-pin' label='Ville' placeholder='Ex. : Antananarivo, Toamasina…' suggestions={cities} value={city} onChange={setCity} />
                         </div>
                         <button
                             type='button'
                             disabled={!filtered}
-                            onClick={() => {
-                                setDomain('')
-                                setCity('')
-                            }}
+                            onClick={() => setDomain('')}
                             className='h-11 rounded-lg px-3 text-sm font-semibold text-primary hover:underline disabled:invisible hover:cursor-pointer'>
                             Réinitialiser
                         </button>
