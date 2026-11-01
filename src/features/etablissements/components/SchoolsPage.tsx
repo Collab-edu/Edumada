@@ -92,12 +92,12 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
             {/* Établissements */}
             <section>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='mobile-center mb-5'>
+                    <div className='mobile-center mb-7'>
                         <h2 className='text-2xl font-bold text-secondary md:text-3xl'>{t(config.listTitle)}</h2>
                         <p className='mt-1 text-ink/80'>Choisissez un type d’établissement et une ville : la liste se met à jour tout de suite.</p>
                     </div>
 
-                    <div role='group' aria-label='Type d’établissement' className='grid grid-cols-2 gap-2.5 md:grid-cols-3 xl:grid-cols-6'>
+                    <div role='group' aria-label='Type d’établissement' className='grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 xl:grid-cols-6'>
                         {TYPES.map((item) => {
                             const active = type === item.id
                             const n = item.id ? matching.filter((s) => s.category === item.id).length : matching.length
@@ -108,7 +108,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                     aria-pressed={active}
                                     onClick={() => setType(item.id)}
                                     className={cn(
-                                        'flex items-center gap-2 rounded-xl border bg-white p-2.5 text-left transition-shadow duration-200 hover:cursor-pointer hover:shadow-md',
+                                        'flex items-center gap-2.5 rounded-xl border bg-white p-3 text-left transition-shadow duration-200 hover:cursor-pointer hover:shadow-md',
                                         active ? 'border-primary shadow-[0_10px_24px_-14px_rgba(255,59,82,0.7)]' : 'border-gray-100'
                                     )}>
                                     <span className={cn('flex h-9 w-9 shrink-0 items-center justify-center rounded-lg', active ? 'bg-primary text-white' : 'bg-secondary/[0.07] text-secondary')}>
@@ -123,7 +123,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                         })}
                     </div>
 
-                    <div className='mt-4 mb-6 flex flex-col gap-3 md:flex-row md:items-center'>
+                    <div className='mt-6 mb-8 flex flex-col gap-3 md:flex-row md:items-center md:gap-4'>
                         <label className='relative block md:w-56 md:shrink-0'>
                             <span className='sr-only'>Ville</span>
                             <Icon icon='tabler:map-pin' className='pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-lg text-secondary' />
