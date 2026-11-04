@@ -164,8 +164,22 @@ const Header: React.FC = () => {
                             <HeaderLink key={index} item={item} />
                         ))}
                     </nav>
-                    <div className='flex items-center gap-3'>
-                        {user && <IconButton label={t('Mon espace')} icon='tabler:user' href={SPACE_HOME[user.role]} />}
+                    <div className='flex items-center gap-3 max-[359px]:gap-1'>
+                        {user && (
+                            <>
+                                <IconButton label={t('Mon espace')} icon='tabler:user' href={SPACE_HOME[user.role]} className='hidden lg:flex' />
+                                {/* Petit écran : « Mon espace » reste dans le menu pour l'étudiant. */}
+                                {user.role === 'student' ? (
+                                    <button type='button' onClick={logout} className={cn(iconButtonClassName, 'w-auto whitespace-nowrap px-3 text-sm font-semibold max-[359px]:px-2 lg:hidden')}>
+                                        {t('Déconnexion')}
+                                    </button>
+                                ) : (
+                                    <Link href={SPACE_HOME[user.role]} className={cn(iconButtonClassName, 'w-auto whitespace-nowrap px-3 text-sm font-semibold lg:hidden')}>
+                                        {t('Mon espace')}
+                                    </Link>
+                                )}
+                            </>
+                        )}
                         {user ? (
                             <button onClick={logout} className='hidden lg:block px-2 py-2 text-sm font-medium text-secondary hover:text-primary hover:cursor-pointer'>
                                 {t('Déconnexion')}
