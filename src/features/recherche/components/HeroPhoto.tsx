@@ -12,6 +12,9 @@ const EMPTY_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAAL
 // Texte alternatif descriptif (référencement et lecteurs d'écran).
 const HERO_ALT = 'Sac à dos jaune, livres colorés et lampe de bureau : les fournitures scolaires pour bien commencer sa formation à Madagascar'
 
+// Entrée en cascade : chaque bloc apparaît en fondu, à son tour (voir --animate-hero-in dans globals.css).
+const ENTER = 'animate-hero-in motion-reduce:animate-none'
+
 /**
  * Essai : hero de l'accueil en photo plein cadre (fournitures scolaires sur fond blanc), contenu centré,
  * barre de recherche à cheval sur le bas de la photo, puis les logos des établissements qui défilent.
@@ -41,7 +44,7 @@ export default function HeroPhoto() {
                     </div>
                 </div>
                 {/* Dès la tablette (640 px) : l'image ; le mobile ne reçoit qu'un pixel vide, rien n'est téléchargé. */}
-                <picture className='absolute inset-0 hidden sm:block'>
+                <picture className='absolute inset-0 hidden animate-hero-photo motion-reduce:animate-none sm:block'>
                     <source media='(min-width: 640px)' srcSet={HERO_IMAGE} />
                     <img src={EMPTY_PIXEL} alt={t(HERO_ALT)} fetchPriority='high' className='h-full w-full object-cover object-center' />
                 </picture>
@@ -57,7 +60,7 @@ export default function HeroPhoto() {
                 <div className='relative container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='relative mx-auto max-w-3xl text-center'>
                         {/* Traits rouges décoratifs : étincelle animée, chaque trait jaillit à son tour depuis le titre */}
-                        <svg aria-hidden='true' viewBox='0 0 40 40' className='absolute -top-6 left-0 hidden h-10 w-10 text-primary sm:block lg:-left-6'>
+                        <svg aria-hidden='true' viewBox='0 0 40 40' className={`${ENTER} absolute -top-6 left-0 hidden h-10 w-10 text-primary [animation-delay:500ms] sm:block lg:-left-6`}>
                             <g fill='none' stroke='currentColor' strokeWidth='3.5' strokeLinecap='round'>
                                 {['M8 22 L 20 26', 'M12 10 L 22 20', 'M26 4 L 28 16'].map((d, i) => (
                                     <path
@@ -69,16 +72,16 @@ export default function HeroPhoto() {
                                 ))}
                             </g>
                         </svg>
-                        <h1 className='text-[28px] leading-[1.2] font-extrabold text-secondary sm:text-[32px] lg:text-[35px]'>
+                        <h1 className={`${ENTER} text-[28px] leading-[1.2] font-extrabold text-secondary sm:text-[32px] lg:text-[35px]`}>
                             {t('Trouvez votre formation à Madagascar et construisez votre')} <span className='text-primary'>{t('avenir')}</span>.
                         </h1>
 
                         {/* Mobile : la recherche juste sous le titre (la barre complète est masquée). */}
-                        <div className='mt-5 sm:hidden'>
+                        <div className={`${ENTER} mt-5 [animation-delay:120ms] sm:hidden`}>
                             <MobileSearch />
                         </div>
 
-                        <div className='relative mt-5 sm:mt-6'>
+                        <div className={`${ENTER} relative mt-5 [animation-delay:240ms] sm:mt-6`}>
                             <p className='mx-auto max-w-2xl text-base leading-7 text-ink sm:text-lg'>
                                 {t('Explorez les formations, comparez les établissements et trouvez le parcours adapté à vos ambitions, à votre budget et à votre projet professionnel.')}
                             </p>
@@ -88,12 +91,12 @@ export default function HeroPhoto() {
             </div>
 
             {/* Barre de recherche à cheval sur la photo */}
-            <div className='relative z-10 container mx-auto max-w-site px-4 sm:px-6 lg:px-8 sm:-mt-36 lg:-mt-40'>
+            <div className={`${ENTER} relative z-10 container mx-auto max-w-site px-4 [animation-delay:360ms] sm:px-6 lg:px-8 sm:-mt-36 lg:-mt-40`}>
                 <HeroFilters />
             </div>
 
             {/* Logos des établissements qui défilent */}
-            <div className='relative mt-8 sm:mt-10'>
+            <div className={`${ENTER} relative mt-8 [animation-delay:500ms] sm:mt-10`}>
                 <HeroLogos />
             </div>
         </section>

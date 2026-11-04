@@ -31,6 +31,22 @@
     }
   }
 
+  /* Entrée du hero : en CSS pour démarrer au premier affichage, sans attendre le JavaScript. */
+  --animate-hero-in: hero-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  --animate-hero-photo: hero-photo 1.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes hero-photo {
+    from {
+      transform: scale(1.08);
+    }
+  }
+
   --animate-float: float 6s ease-in-out infinite;
   /* Points du hero mobile : glissent d'une case (20 px) en boucle, sans saut. */
   --animate-dots-drift: dots-drift 4s linear infinite;
