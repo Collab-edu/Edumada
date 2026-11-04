@@ -212,9 +212,10 @@ const SearchPage = () => {
                     {/* Résultats */}
                     <div ref={resultsRef} className='flex scroll-mt-28 flex-col gap-5'>
                         <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-3'>
+                            {/* Pendant la recherche, seul SearchingState l'annonce : la ligne vide garde sa hauteur. */}
                             <p className='font-semibold text-secondary' aria-live='polite'>
                                 {loading
-                                    ? t('Chargement…')
+                                    ? ' '
                                     : t(total > 1 ? `${total} résultats` : `${total} résultat`)}
                             </p>
                             <div className='flex items-center gap-3'>
