@@ -120,7 +120,7 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
                                   </span>
                               </div>
                               <div className='flex flex-col gap-0.5'>
-                                  <span className='font-semibold leading-snug text-secondary duration-300 group-hover:text-primary'>{domain.name}</span>
+                                  <span className='font-semibold leading-snug text-black duration-300 group-hover:text-primary'>{domain.name}</span>
                                   <span className='text-sm text-ink/60'>{plural(domain.count)}</span>
                               </div>
                               <div className='mt-auto'>

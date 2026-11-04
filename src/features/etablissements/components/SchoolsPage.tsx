@@ -128,7 +128,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                         <Icon icon={item.icon} className='text-xl' />
                                     </span>
                                     <span className='min-w-0'>
-                                        <span className='block text-sm font-semibold leading-tight text-secondary'>{item.label}</span>
+                                        <span className='block text-sm font-semibold leading-tight text-black'>{item.label}</span>
                                         <span className='mt-0.5 block text-xs text-ink/70'>{loading ? '…' : countLabel(n)}</span>
                                     </span>
                                 </button>

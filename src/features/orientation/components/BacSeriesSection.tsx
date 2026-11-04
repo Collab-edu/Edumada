@@ -82,7 +82,7 @@ export default function BacSeriesSection() {
                                     {serie.subjects.map((subject) => (
                                         <li
                                             key={subject}
-                                            className='rounded-full border border-secondary/10 bg-secondary/5 px-3 py-1.5 text-[13.5px] font-medium whitespace-nowrap text-secondary'>
+                                            className='rounded-full border border-secondary/10 bg-secondary/5 px-3 py-1.5 text-[13.5px] font-medium whitespace-nowrap text-black'>
                                             {subject}
                                         </li>
                                     ))}

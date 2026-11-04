@@ -61,7 +61,7 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
                     <span className='mt-2 block h-0.5 w-12 rounded-full bg-primary' aria-hidden='true' />
                 </div>
                 {category && (
-                    <p className='flex w-fit max-w-full items-center gap-2 rounded-full bg-offwhite px-3 py-1.5 text-sm font-medium text-secondary'>
+                    <p className='flex w-fit max-w-full items-center gap-2 rounded-full bg-offwhite px-3 py-1.5 text-sm font-medium text-black'>
                         <Icon icon={category.icon} className='shrink-0 text-base' />
                         <span className='truncate'>{t(category.shortLabel)}</span>
                     </p>

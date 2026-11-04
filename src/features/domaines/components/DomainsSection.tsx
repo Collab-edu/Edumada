@@ -32,7 +32,7 @@ const DomainsSection = () => {
                                 className={domainCardClassName}>
                                 <Icon icon={domain.icon} className='text-xl text-primary' />
                                 <div className='flex flex-col gap-1'>
-                                    <h3 className='text-[15px] font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
+                                    <h3 className='text-[15px] font-semibold leading-snug text-black group-hover:text-primary duration-300'>
                                         {domain.name}
                                     </h3>
                                     <span className='text-sm text-ink/60'>{domain.count} formations</span>

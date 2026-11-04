@@ -41,7 +41,7 @@ const CategoriesSection = () => {
                                         {/* Même format que les cartes « domaines » : icône, titre, compteur. */}
                                         <Icon icon={category.icon} className='text-xl text-primary' />
                                         <div className='flex flex-col gap-1'>
-                                            <h3 className='text-[15px] font-semibold leading-snug text-secondary group-hover:text-primary duration-300'>
+                                            <h3 className='text-[15px] font-semibold leading-snug text-black group-hover:text-primary duration-300'>
                                                 {t(category.label)}
                                             </h3>
                                             <span className='text-sm text-ink/60'>

@@ -53,7 +53,7 @@ export default function OfferCard({ formation, isFavorite, onToggleFavorite, spo
                     <span className='mt-2 block h-0.5 w-12 rounded-full bg-primary' aria-hidden='true' />
                 </div>
 
-                <Link href={`/etablissements/${formation.schoolId}`} className='flex w-fit max-w-full items-center gap-2 rounded-full bg-offwhite px-3 py-1.5 text-sm font-medium text-secondary hover:text-primary'>
+                <Link href={`/etablissements/${formation.schoolId}`} className='flex w-fit max-w-full items-center gap-2 rounded-full bg-offwhite px-3 py-1.5 text-sm font-medium text-black hover:text-primary'>
                     <Icon icon='tabler:building-bank' className='shrink-0 text-base' />
                     <span className='truncate'>{formation.school}</span>
                 </Link>
