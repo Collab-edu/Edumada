@@ -44,7 +44,7 @@ export type Inquiry = {
     phone: string | null
     message: string | null
     offer: { id: string; urlSlug: string; title: string } | null
-    establishment: { id: string; name: string }
+    establishment: { id: string; name: string; logo?: string }
     createdAt: string
     updatedAt: string
     history?: { from: string | null; to: InquiryStatus; toLabel: string; note: string | null; at: string }[]

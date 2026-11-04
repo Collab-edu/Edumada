@@ -5,6 +5,7 @@ import { Icon } from '@/components/ui/icon'
 import toast from 'react-hot-toast'
 import Dialog from '@/components/ui/dialog'
 import { Badge, Button, ButtonLink, EmptyState, Field, FormAlert, SelectField, TextField, inputClassName } from '@/components/ui/form'
+import SchoolLogo from '@/features/etablissements/components/SchoolLogo'
 import PlaceField from '@/features/recherche/components/PlaceField'
 import { api, ApiError } from '@/lib/api'
 import { useAuth } from '@/features/auth/AuthProvider'
@@ -47,11 +48,14 @@ function Conversation({ inquiry, onChanged }: { inquiry: Inquiry; onChanged: (up
                 {(inquiry.messages ?? []).map((m) => {
                     const mine = m.sender === 'student'
                     return (
-                        <div key={m.id} className={`max-w-[88%] rounded-xl px-3 py-2 ${mine ? 'self-end bg-cream/60' : 'self-start bg-offwhite'}`}>
-                            <p className='whitespace-pre-line break-words text-black'>{m.body}</p>
-                            <p className='mt-1 text-xs text-ink/60'>
-                                {mine ? 'Vous' : inquiry.establishment.name} · {formatDateTime(m.at)}
-                            </p>
+                        <div key={m.id} className={`flex max-w-[88%] items-end gap-2 ${mine ? 'self-end' : 'self-start'}`}>
+                            {!mine && <SchoolLogo name={inquiry.establishment.name} logo={inquiry.establishment.logo} className='h-8 w-8 rounded-full border border-gray-100 text-[10px]' />}
+                            <div className={`min-w-0 rounded-xl px-3 py-2 ${mine ? 'bg-cream/60' : 'bg-offwhite'}`}>
+                                <p className='whitespace-pre-line break-words text-black'>{m.body}</p>
+                                <p className='mt-1 text-xs text-ink/60'>
+                                    {mine ? 'Vous' : inquiry.establishment.name} · {formatDateTime(m.at)}
+                                </p>
+                            </div>
                         </div>
                     )
                 })}
@@ -170,11 +174,18 @@ function Inquiries() {
                                         <Badge tone={inquiry.type === 'application' ? 'info' : 'neutral'}>{inquiry.typeLabel}</Badge>
                                         {inquiry.type === 'application' && <Badge tone={INQUIRY_STATUS_TONE[inquiry.status]}>{inquiry.statusLabel}</Badge>}
                                     </span>
-                                    <span className='font-semibold text-secondary'>{inquiry.offer?.title ?? inquiry.establishment.name}</span>
-                                    <span className='text-sm text-ink/60'>{inquiry.establishment.name} · {t('envoyée le {date}', { date: formatDateTime(inquiry.createdAt) })}</span>
+                                    <span className='flex items-center gap-3'>
+                                        <SchoolLogo name={inquiry.establishment.name} logo={inquiry.establishment.logo} className='h-11 w-11 rounded-lg border border-gray-100 text-xs' />
+                                        <span className='flex min-w-0 flex-col'>
+                                            <span className='font-semibold text-secondary'>{inquiry.establishment.name}</span>
+                                            {inquiry.offer && <span className='text-sm text-ink/80'>{inquiry.offer.title}</span>}
+                                        </span>
+                                    </span>
+                                    <span className='text-sm text-ink/60'>{t('envoyée le {date}', { date: formatDateTime(inquiry.createdAt) })}</span>
                                     {inquiry.type === 'information' && lastMessage(inquiry) && (
                                         <span className='truncate rounded-lg bg-cream/60 px-3 py-2 text-sm text-ink/80'>
                                             <Icon icon='tabler:message' className='mr-1 inline text-primary' />
+                                            {lastMessage(inquiry)?.sender === 'student' && <span className='font-semibold'>Vous : </span>}
                                             {lastMessage(inquiry)?.body}
                                         </span>
                                     )}
@@ -194,6 +205,10 @@ function Inquiries() {
             <Dialog open={!!selected} onClose={() => setSelected(null)} title={selected?.offer?.title ?? selected?.establishment.name ?? ''} className='sm:max-w-2xl'>
                 {selected && (
                     <div className='flex flex-col gap-4'>
+                        <div className='flex items-center gap-3'>
+                            <SchoolLogo name={selected.establishment.name} logo={selected.establishment.logo} className='h-11 w-11 rounded-lg border border-gray-100 text-xs' />
+                            <span className='min-w-0 font-semibold text-secondary'>{selected.establishment.name}</span>
+                        </div>
                         <InquiryDetail
                             inquiry={selected}
                             onChanged={(updated) => {

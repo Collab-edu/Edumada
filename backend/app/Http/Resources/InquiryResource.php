@@ -33,7 +33,7 @@ class InquiryResource extends JsonResource
             'phone' => $this->phone,
             'message' => $this->message,
             'offer' => $this->offer ? ['id' => $this->offer->slug, 'urlSlug' => $this->offer->url_slug, 'title' => $this->offer->title] : null,
-            'establishment' => ['id' => $this->establishment->slug, 'name' => $this->establishment->name],
+            'establishment' => ['id' => $this->establishment->slug, 'name' => $this->establishment->name, 'logo' => $this->establishment->logo ?? ''],
             'createdAt' => $this->created_at->toIso8601String(),
             'updatedAt' => $this->updated_at->toIso8601String(),
             'history' => $this->whenLoaded('statusChanges', fn () => $this->statusChanges->map(fn (InquiryStatusChange $change) => [

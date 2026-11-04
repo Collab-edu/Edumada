@@ -90,6 +90,19 @@ class InquiryControllerTest extends TestCase
             ->assertJsonValidationErrors(['type' => 'Vous avez déjà une candidature en cours pour cette offre.']);
     }
 
+    public function test_inquiry_shows_the_logo_of_the_establishment(): void
+    {
+        [, $establishment] = $this->establishmentOwner(PlanCode::Pro);
+        $establishment->update(['logo' => '/images/logos/test.svg']);
+        $student = $this->student();
+        $this->informationRequest($establishment, $student);
+
+        $this->actingAs($student)->getJson('/api/v1/me/inquiries')
+            ->assertOk()
+            ->assertJsonPath('data.0.establishment.name', $establishment->name)
+            ->assertJsonPath('data.0.establishment.logo', '/images/logos/test.svg');
+    }
+
     public function test_student_only_sees_own_inquiries(): void
     {
         $offer = Offer::factory()->create();
