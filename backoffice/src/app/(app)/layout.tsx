@@ -7,8 +7,8 @@ import AppSidebar from '@/components/AppSidebar'
 import AppHeader from '@/components/AppHeader'
 import AppFooter from '@/components/AppFooter'
 import { Loading } from '@/components/ui'
-import { EduFullLoader } from '@/components/EduLoader'
 import { useAuth } from '@/context/AuthContext'
+import { BootLoader } from '@/context/BootLoaderContext'
 import { EstablishmentProvider, useEstablishment } from '@/context/EstablishmentContext'
 import { LayoutProvider } from '@/context/LayoutContext'
 import { findRoute } from '@/routes'
@@ -80,10 +80,11 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         if (!loading && !user) router.replace('/connexion/')
     }, [loading, user, router])
 
-    if (loading || !user) return <EduFullLoader />
     return (
-        <Suspense fallback={<Loading />}>
-            <Shell>{children}</Shell>
-        </Suspense>
+        <BootLoader ready={!loading && !!user}>
+            <Suspense fallback={<Loading />}>
+                <Shell>{children}</Shell>
+            </Suspense>
+        </BootLoader>
     )
 }

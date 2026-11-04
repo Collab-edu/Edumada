@@ -21,6 +21,7 @@ import CIcon from '@coreui/icons-react'
 import { cilCloudUpload, cilImagePlus, cilLockLocked, cilPencil, cilPlus, cilTrash, cilX } from '@coreui/icons'
 import { usePathname } from 'next/navigation'
 import { findRoute } from '@/routes'
+import { useBootHold } from '@/context/BootLoaderContext'
 import { EduBlockLoader } from '@/components/EduLoader'
 import { api, assetUrl, errorMessage } from '@/lib/api'
 import type { Paginated } from '@/lib/types'
@@ -72,9 +73,9 @@ export function PageCard({
 }
 
 export function Loading() {
-    return (
-        <EduBlockLoader />
-    )
+    const coveredByBootLoader = useBootHold()
+    if (coveredByBootLoader) return null
+    return <EduBlockLoader />
 }
 
 export function EmptyState({ title, children, action }: { title: ReactNode; children?: ReactNode; action?: ReactNode }) {
