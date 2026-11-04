@@ -11,15 +11,17 @@ interface AutoScrollProps {
      * pour que la bande soit toujours plus large que l'écran (pas de vide en fin de boucle).
      */
     minItemsPerLoop?: number
+    /** Défile de gauche à droite au lieu de droite à gauche. */
+    reverse?: boolean
 }
 
 /**
- * Fait défiler ses enfants en boucle continue, de droite à gauche.
+ * Fait défiler ses enfants en boucle continue, par défaut de droite à gauche.
  * La liste est rendue deux fois pour que la boucle soit sans coupure ;
  * l'animation se met en pause au survol et est désactivée si l'utilisateur
  * a demandé à réduire les animations. Les copies sont ignorées par les lecteurs d'écran.
  */
-const AutoScroll = ({ children, duration = 40, itemClassName = 'w-[300px]', minItemsPerLoop = 6 }: AutoScrollProps) => {
+const AutoScroll = ({ children, duration = 40, itemClassName = 'w-[300px]', minItemsPerLoop = 6, reverse = false }: AutoScrollProps) => {
     const items = Children.toArray(children)
     if (items.length === 0) return null
 
@@ -45,7 +47,7 @@ const AutoScroll = ({ children, duration = 40, itemClassName = 'w-[300px]', minI
         <div className='group/scroll relative overflow-hidden py-3 [mask-image:linear-gradient(to_right,transparent,white_4px,white_calc(100%-4px),transparent)]'>
             <div
                 className='flex w-max animate-auto-scroll group-hover/scroll:[animation-play-state:paused] motion-reduce:animate-none'
-                style={{ animationDuration: `${duration * repeats}s` }}>
+                style={{ animationDuration: `${duration * repeats}s`, animationDirection: reverse ? 'reverse' : undefined }}>
                 {renderItems(0)}
                 {renderItems(1)}
             </div>
