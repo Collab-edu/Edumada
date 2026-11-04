@@ -291,10 +291,7 @@ export default function DomainsPage() {
                             <div className='absolute inset-0 bg-gradient-to-r from-secondary via-secondary/40 to-primary/30' aria-hidden='true' />
                         </div>
                         <div className='mobile-center relative flex flex-col gap-4 p-8 sm:p-10 md:max-w-[55%]'>
-                            <div className='mobile-center flex items-center gap-3'>
-                                <Icon icon='tabler:book-2' className='text-3xl text-white' />
-                                <h2 className='text-2xl font-bold text-white md:text-3xl'>Vous hésitez encore ?</h2>
-                            </div>
+                            <h2 className='text-2xl font-bold text-white md:text-3xl'>Vous hésitez encore ?</h2>
                             <p className='text-white/80'>Notre page Orientation vous guide pas à pas, selon votre profil.</p>
                             <Link
                                 href='/orientation/'
