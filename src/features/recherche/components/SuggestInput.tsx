@@ -127,7 +127,7 @@ export function SuggestInput({ label, icon, placeholder, suggestions, value, onC
                     )}
                     {/* Non modale : le reste de la page (bouton Rechercher…) reste cliquable pendant la saisie. */}
                     {query.trim() !== '' && (
-                        <ComboboxOptions modal={false} className='absolute left-0 z-20 mt-2 max-h-80 w-full min-w-80 overflow-auto rounded-xl bg-white py-1 text-left text-base shadow-lg ring-1 ring-black/5 empty:invisible'>
+                        <ComboboxOptions modal={false} className='absolute top-full left-0 z-20 mt-2 max-h-80 w-full min-w-80 overflow-auto rounded-xl bg-white py-1 text-left text-base shadow-lg ring-1 ring-black/5 empty:invisible'>
                             {filtered.length === 0 && !freeText && (
                                 <div className='px-4 py-3 text-sm text-ink/60'>{t('Aucune suggestion pour « {query} »', { query })}</div>
                             )}
