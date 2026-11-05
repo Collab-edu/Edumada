@@ -9,6 +9,7 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
   const t = useT()
   const [submenuOpen, setSubmenuOpen] = useState(false)
   const path = stripLocale(usePathname())
+  const active = path.replace(/\/+$/, '') === item.href.replace(/\/+$/, '')
   const handleMouseEnter = () => {
     if (item.submenu) {
       setSubmenuOpen(true)
@@ -25,8 +26,9 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
       onMouseLeave={handleMouseLeave}>
       <Link
         href={item.href}
-        className={`text-[15px] 2xl:text-base flex whitespace-nowrap font-medium hover:text-primary capitalized  ${
-          path.replace(/\/+$/, '') === item.href.replace(/\/+$/, '') ? 'text-primary ' : 'text-black'
+        aria-current={active ? 'page' : undefined}
+        className={`flex items-center whitespace-nowrap px-3 py-2 text-[15px] font-semibold 2xl:text-base ${
+          active ? 'text-primary' : 'text-black hover:text-primary'
         }`}>
         {t(item.label)}
         {item.submenu && (
@@ -48,7 +50,7 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
       </Link>
       {submenuOpen && (
         <div
-          className={`absolute py-2 left-0 mt-0.5 w-60 bg-white dark:bg-darklight dark:text-white shadow-lg rounded-lg `}
+          className={`absolute top-full py-2 left-0 mt-0.5 w-60 bg-white dark:bg-darklight dark:text-white shadow-lg rounded-lg `}
           data-aos='fade-up'
           data-aos-duration='500'>
           {item.submenu?.map((subItem, index) => (

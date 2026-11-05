@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils'
 import Logo from './Logo'
 import HeaderLink from './HeaderLink'
 import MobileHeaderLink from './MobileHeaderLink'
-import { CONTACT, SOCIAL_LINKS } from '../social-links'
 import LanguageSwitcher from '@/i18n/LanguageSwitcher'
 import { I18N_ENABLED } from '@/i18n/config'
 
@@ -56,11 +55,31 @@ function IconButton({
     )
 }
 
+/**
+ * Choix de la langue. Tant que le multilingue est désactivé, simple aperçu du rendu : le français
+ * reste sélectionné et les autres langues ne sont pas cliquables.
+ */
+function LanguageChoice() {
+    if (I18N_ENABLED) return <LanguageSwitcher />
+    return (
+        <div role='group' aria-label='Langue' className='flex items-center divide-x divide-gray-200 text-sm font-semibold tracking-wide text-black'>
+            <span aria-current='true' className='px-3 text-primary'>
+                FR
+            </span>
+            {['MG', 'EN'].map((language) => (
+                <button key={language} type='button' disabled title='Bientôt disponible' className='px-3'>
+                    {language}
+                </button>
+            ))}
+        </div>
+    )
+}
+
 /** Fenêtre modale (connexion, inscription). */
 function Modal({ panelRef, label, onClose, children }: { panelRef: RefObject<HTMLDivElement | null>; label: string; onClose: () => void; children: ReactNode }) {
     return (
         <div className='fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center z-50'>
-            <div ref={panelRef} className='relative mx-4 w-full max-w-md max-h-[92vh] overflow-y-auto rounded-2xl bg-white px-6 sm:px-8 pt-14 pb-8 text-center'>
+            <div ref={panelRef} className='relative mx-4 w-full max-w-md max-h-[92vh] overflow-y-auto rounded-xl bg-white px-6 sm:px-8 pt-14 pb-8 text-center'>
                 <button onClick={onClose} className='absolute top-0 right-0 mr-8 mt-8' aria-label={label}>
                     <Icon icon='material-symbols:close-rounded' width={24} height={24} className='text-black hover:text-primary inline-block hover:cursor-pointer' />
                 </button>
@@ -122,52 +141,56 @@ const Header: React.FC = () => {
 
     return (
         <header className='fixed top-0 z-40 w-full'>
-            {/* Barre supérieure (grand écran) : repères à gauche, réseaux et bouton établissement à droite. Masquée au défilement. */}
+            {/* Barre supérieure (grand écran) : appel aux établissements à gauche, compte à droite. Masquée au défilement. */}
             <div className={cn('hidden lg:block bg-secondary text-white overflow-hidden transition-[max-height] duration-300', sticky ? 'max-h-0' : 'max-h-12')}>
-                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex h-10 items-center justify-between text-sm'>
-                    <div className='flex items-center gap-8'>
-                        <a href={`mailto:${CONTACT.email}`} className='flex items-center gap-2 hover:text-primary duration-300'>
-                            <Icon icon='tabler:mail' className='text-lg text-primary' />
-                            {CONTACT.email}
-                        </a>
-                        <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`} className='flex items-center gap-2 hover:text-primary duration-300'>
-                            <Icon icon='tabler:phone' className='text-lg text-primary' />
-                            {CONTACT.phone}
-                        </a>
-                        <span className='flex items-center gap-2'>
-                            <Icon icon='tabler:map-pin' className='text-lg text-primary' />
-                            {t('Partout à Madagascar')}
-                        </span>
-                    </div>
-                    <div className='flex h-full items-center gap-5'>
-                        <LanguageSwitcher tone='light' />
-                        <div className='flex items-center gap-4'>
-                            {SOCIAL_LINKS.map((social) => (
-                                <Link key={social.label} href={social.href} scroll={false} aria-label={social.label} className='text-white/90 hover:text-primary duration-300'>
-                                    <Icon icon={social.icon} className='text-lg' />
-                                </Link>
-                            ))}
-                        </div>
-                        <Link href='/tarifs/' className='flex h-full items-center bg-primary px-5 font-semibold hover:bg-primary/90 duration-300'>
+                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex h-11 items-center justify-between text-sm'>
+                    <div className='flex items-center gap-4'>
+                        <span className='text-white/85'>Vous êtes un établissement ?</span>
+                        <Link href='/tarifs/' className='group flex h-8 items-center gap-2 rounded-lg bg-white px-4 font-semibold text-black'>
                             {t('Référencer mon établissement')}
+                            <Icon icon='tabler:arrow-right' className='text-base transition-transform duration-300 group-hover:translate-x-1' />
                         </Link>
+                    </div>
+                    <div className='flex items-center gap-5'>
+                        {user ? (
+                            <>
+                                <button onClick={logout} className='font-medium hover:text-white/70 duration-300 hover:cursor-pointer'>
+                                    {t('Déconnexion')}
+                                </button>
+                                <Link href={SPACE_HOME[user.role]} className='flex h-8 items-center rounded-lg bg-primary px-4 font-semibold hover:bg-primary/90 duration-300'>
+                                    {t('Mon espace')}
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <button onClick={openSignIn} className='font-semibold hover:text-white/70 duration-300 hover:cursor-pointer'>
+                                    {t('Connexion')}
+                                </button>
+                                <Link href='/inscription/' className='flex h-8 items-center rounded-lg bg-primary px-4 font-semibold hover:bg-primary/90 duration-300'>
+                                    {t('Inscription')}
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
 
-            {/* Barre principale : logo, menu, boutons à icônes */}
-            <div className={cn('py-4 transition-all duration-300', sticky ? 'bg-white shadow-lg' : 'bg-white')}>
-                <div className='container relative mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex items-center justify-between'>
+            {/* Barre principale : logo, menu, langue. Au défilement, l'icône de compte remplace la barre supérieure masquée. */}
+            <div className={cn('transition-all duration-300', sticky ? 'bg-white shadow-lg' : 'bg-white')}>
+                <div className='container relative mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex h-[76px] items-center justify-between lg:h-[72px]'>
                     <Logo />
-                    <nav className='hidden xl:flex grow justify-center items-center gap-5 mx-4 whitespace-nowrap 2xl:gap-8 2xl:mx-8'>
+                    <nav className='hidden grow items-center mx-5 whitespace-nowrap xl:flex 2xl:gap-2 2xl:mx-9'>
                         {headerData.map((item, index) => (
                             <HeaderLink key={index} item={item} />
                         ))}
                     </nav>
                     <div className='flex items-center gap-3 max-[359px]:gap-1'>
+                        <div className='hidden lg:block'>
+                            <LanguageChoice />
+                        </div>
                         {user && (
                             <>
-                                <IconButton label={t('Mon espace')} icon='tabler:user' href={SPACE_HOME[user.role]} className='hidden lg:flex' />
+                                <IconButton label={t('Mon espace')} icon='tabler:user' href={SPACE_HOME[user.role]} className={sticky ? 'hidden lg:flex' : 'hidden'} />
                                 {/* Petit écran : « Mon espace » reste dans le menu pour l'étudiant. */}
                                 {user.role === 'student' ? (
                                     <button type='button' onClick={logout} className={cn(iconButtonClassName, 'w-auto whitespace-nowrap px-3 text-sm font-semibold max-[359px]:px-2 lg:hidden')}>
@@ -180,26 +203,8 @@ const Header: React.FC = () => {
                                 )}
                             </>
                         )}
-                        {user ? (
-                            <button onClick={logout} className='hidden lg:block px-2 py-2 text-sm font-medium text-secondary hover:text-primary hover:cursor-pointer'>
-                                {t('Déconnexion')}
-                            </button>
-                        ) : (
-                            <>
-                                <button
-                                    onClick={openSignIn}
-                                    className='hidden lg:block bg-transparent text-primary border border-primary hover:bg-primary hover:text-white duration-300 px-4 2xl:px-6 py-2 rounded-lg hover:cursor-pointer'>
-                                    {t('Connexion')}
-                                </button>
-                                <Link
-                                    href='/inscription/'
-                                    className='hidden lg:block bg-primary text-white border border-primary hover:bg-transparent hover:text-primary duration-300 px-4 2xl:px-6 py-2 rounded-lg font-medium'>
-                                    {t('Inscription')}
-                                </Link>
-                                {/* Petit écran : accès au compte par l'icône (Connexion et Inscription sont aussi dans le menu). */}
-                                <IconButton label={t('Connexion')} icon='tabler:user' onClick={openSignIn} className='lg:hidden' />
-                            </>
-                        )}
+                        {/* Connexion et Inscription sont aussi dans le menu du petit écran. */}
+                        {!user && <IconButton label={t('Connexion')} icon='tabler:user' onClick={openSignIn} className={sticky ? undefined : 'lg:hidden'} />}
                         <button onClick={() => setNavbarOpen(!navbarOpen)} className='block xl:hidden p-2 rounded-lg' aria-label={t('Ouvrir le menu')}>
                             <span className='block w-6 h-0.5 bg-black'></span>
                             <span className='block w-6 h-0.5 bg-black mt-1.5'></span>
@@ -271,12 +276,10 @@ const Header: React.FC = () => {
                             className='px-4 py-2 text-center rounded-lg border border-secondary/30 font-medium text-secondary'>
                             {t('Référencer mon établissement')}
                         </Link>
-                        {I18N_ENABLED && (
-                            <div className='mt-2 flex items-center justify-between border-t border-gray-100 pt-4'>
-                                <span className='text-sm font-medium text-ink/60'>{t('Langue')}</span>
-                                <LanguageSwitcher />
-                            </div>
-                        )}
+                        <div className='mt-2 flex items-center justify-between border-t border-gray-100 pt-4'>
+                            <span className='text-sm font-medium text-ink/60'>{t('Langue')}</span>
+                            <LanguageChoice />
+                        </div>
                     </div>
                 </nav>
             </div>
