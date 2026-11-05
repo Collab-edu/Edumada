@@ -1,27 +1,35 @@
 {
     "HeaderData": [
         {
-            "label": "Offres de stage",
-            "href": "/stages/"
-        },
-        {
             "label": "Universités",
             "href": "/universites/"
         },
         {
-            "label": "Formation professionnelle",
+            "label": "Formation pro",
             "href": "/formation-professionnelle/"
+        },
+        {
+            "label": "Crèches",
+            "href": "/creches/"
+        },
+        {
+            "label": "Écoles",
+            "href": "/ecoles/"
         },
         {
             "label": "Établissements",
             "href": "/etablissements/"
         },
         {
+            "label": "Stages",
+            "href": "/stages/"
+        },
+        {
             "label": "Orientation",
             "href": "/orientation/"
         },
         {
-            "label": "Nous contacter",
+            "label": "Contact",
             "href": "/contact/"
         }
     ],

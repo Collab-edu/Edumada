@@ -85,7 +85,52 @@ const VARIANTS = {
         schoolsTitle: null,
         cta: { title: 'Vous dirigez une crèche ou une école ?', text: 'Présentez votre établissement gratuitement et recevez les demandes des parents.', button: 'Référencer mon établissement' },
     },
+    /** Crèches : page du menu, sans le primaire et le secondaire. */
+    creches: {
+        categoryIds: ['petite-enfance'],
+        eyebrow: 'Crèches et petite enfance',
+        title: 'Trouvez la crèche de votre enfant',
+        intro: 'Crèches, garderies, préscolaires et maternelles à Madagascar : comparez l’accueil proposé et contactez les établissements près de chez vous.',
+        image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1200&q=70',
+        imageAlt: 'Enfants qui travaillent en classe',
+        listTitle: 'L’accueil proposé',
+        listIntro: 'Filtrez par ville pour trouver un établissement près de chez vous.',
+        domainLabel: "Domaine d'études",
+        domainPlaceholder: FILTER_UI.domaine.placeholder,
+        bySubCategory: true,
+        benefits: [
+            { icon: 'tabler:baby-carriage', title: 'Dès le plus jeune âge', text: 'Crèches, garderies, préscolaires et maternelles réunis au même endroit.' },
+            { icon: 'tabler:map-pin', title: 'Près de chez vous', text: 'Filtrez par ville ou par position pour trouver un établissement proche de votre domicile.' },
+            { icon: 'tabler:message-circle', title: 'Un contact direct', text: 'Posez vos questions sur l’accueil, les horaires et les frais directement à l’établissement.' },
+        ],
+        schoolsTitle: null,
+        cta: { title: 'Vous dirigez une crèche ?', text: 'Présentez votre établissement gratuitement et recevez les demandes des parents.', button: 'Référencer mon établissement' },
+    },
+    /** Écoles : page du menu, du primaire au lycée. */
+    ecoles: {
+        categoryIds: ['scolaire'],
+        eyebrow: 'Écoles, collèges et lycées',
+        title: 'Trouvez l’école de votre enfant',
+        intro: 'Écoles primaires, collèges et lycées à Madagascar : comparez les niveaux proposés et contactez les établissements près de chez vous.',
+        image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1200&q=70',
+        imageAlt: 'Enfants qui travaillent en classe',
+        listTitle: 'Les niveaux proposés',
+        listIntro: 'Filtrez par ville pour trouver un établissement près de chez vous.',
+        domainLabel: "Domaine d'études",
+        domainPlaceholder: FILTER_UI.domaine.placeholder,
+        bySubCategory: true,
+        benefits: [
+            { icon: 'tabler:school', title: 'Du primaire au lycée', text: 'Écoles primaires, collèges et lycées, publics ou privés, réunis au même endroit.' },
+            { icon: 'tabler:map-pin', title: 'Près de chez vous', text: 'Filtrez par ville ou par position pour trouver un établissement proche de votre domicile.' },
+            { icon: 'tabler:message-circle', title: 'Un contact direct', text: 'Posez vos questions sur les niveaux, les horaires et les frais directement à l’établissement.' },
+        ],
+        schoolsTitle: null,
+        cta: { title: 'Vous dirigez une école ?', text: 'Présentez votre établissement gratuitement et recevez les demandes des parents.', button: 'Référencer mon établissement' },
+    },
 } as const
+
+/** Pages sans domaine d'études, avec la barre de filtres complète. */
+const FAMILY_VARIANTS: readonly string[] = ['petite-enfance', 'creches', 'ecoles']
 
 const plural = (n: number) => `${n} formation${n > 1 ? 's' : ''}`
 
@@ -94,9 +139,9 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
     const t = useT()
     const config = VARIANTS[variant]
     // Une crèche ou une école n'a pas de domaine d'études.
-    const showDomain = variant !== 'petite-enfance'
+    const showDomain = !FAMILY_VARIANTS.includes(variant)
     // Barre compacte dans l'en-tête de la liste.
-    const usePill = variant !== 'petite-enfance'
+    const usePill = !FAMILY_VARIANTS.includes(variant)
     const { data: formations, loading } = useSiteData('FormationData')
     const { data: schools, loading: schoolsLoading } = useSiteData('SchoolData')
     const { data: categories } = useSiteData('CategoryData')
@@ -172,7 +217,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                 </ButtonLink>
                             </div>
                         </div>
-                        <div className='relative h-56 overflow-hidden rounded-2xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
+                        <div className='relative h-56 overflow-hidden rounded-xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
                             <Image src={config.image} alt={t(config.imageAlt)} fill priority sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
                         </div>
                     </div>
@@ -243,7 +288,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                         aria-label={t('Filtrer les formations')}
                         onSubmit={submitSearch}
                         className={cn(
-                            'mb-6 grid grid-cols-1 gap-2 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:items-center',
+                            'mb-6 grid grid-cols-1 gap-2 rounded-xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:items-center',
                             showDomain ? 'sm:grid-cols-[1fr_1fr_auto]' : 'sm:grid-cols-[1fr_auto]'
                         )}>
                         {showDomain && (
@@ -368,7 +413,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
             {/* Appel aux établissements */}
             <section className='pt-16 pb-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='mobile-center flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
+                    <div className='mobile-center flex flex-col gap-4 rounded-xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
                             <h2 className='text-2xl font-bold text-white'>{t(config.cta.title)}</h2>
                             <p className='text-white/80'>{t(config.cta.text)}</p>
