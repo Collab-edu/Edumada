@@ -98,7 +98,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
                     <span className='mx-2'>/</span>
                     <Link href='/recherche' className='inline-block py-2 hover:text-primary'>{t('Recherche')}</Link>
                     <span className='mx-2'>/</span>
-                    <span className='text-secondary'>{formation.title}</span>
+                    <span aria-current='page' className='text-black'>{formation.title}</span>
                 </nav>
 
                 <FormationHero {...sectionProps} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} onContact={openContact} onApply={applyClick} />

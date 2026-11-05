@@ -33,7 +33,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
                   </Link>
                 </li>
                 <li>
-                  <p className="text-body-color flex items-center gap-[10px] text-base font-medium">
+                  <p className="text-black flex items-center gap-[10px] text-base font-medium">
                     <span className="text-body-color dark:text-white dark:text-opacity-50"> / </span>
                     {pageName}
                   </p>
