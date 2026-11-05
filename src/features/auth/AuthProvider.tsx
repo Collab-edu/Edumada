@@ -1,6 +1,7 @@
 'use client'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useRouter, useT } from '@/i18n/client'
+import { usePathname } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { api, apiEnabled, getToken, setToken } from '@/lib/api'
 import type { User } from './types'
@@ -34,6 +35,8 @@ type AuthContextValue = {
     login: (email: string, password: string) => Promise<User>
     register: (data: RegisterData) => Promise<User>
     logout: () => Promise<void>
+    /** Déconnexion volontaire en cours : les espaces ne renvoient pas vers la connexion. */
+    signingOut: boolean
     refresh: () => Promise<void>
     setUser: (user: User) => void
     /** Identifiants des offres en favoris (comptes connectés). */
@@ -50,6 +53,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
     const [favorites, setFavorites] = useState<string[]>([])
+    const [signingOut, setSigningOut] = useState(false)
+    const pathname = usePathname()
+
+    useEffect(() => {
+        setSigningOut(false)
+    }, [pathname])
 
     const loadFavorites = useCallback(async (current: User | null) => {
         if (!current || current.role !== 'student') return setFavorites([])
@@ -101,6 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, [])
 
     const logout = useCallback(async () => {
+        setSigningOut(true)
         try {
             await api('/auth/logout', { method: 'POST' })
         } catch {
@@ -140,13 +150,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             login,
             register,
             logout,
+            signingOut,
             refresh,
             setUser,
             favorites,
             isFavorite: (offerId: string) => favorites.includes(offerId),
             toggleFavorite,
         }),
-        [user, loading, login, register, logout, refresh, favorites, toggleFavorite]
+        [user, loading, login, register, logout, signingOut, refresh, favorites, toggleFavorite]
     )
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

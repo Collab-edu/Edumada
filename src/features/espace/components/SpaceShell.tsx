@@ -31,15 +31,15 @@ interface SpaceShellProps {
  */
 export function SpaceShell({ roles, title, subtitle, nav, actions, banner, children }: SpaceShellProps) {
     const t = useT()
-    const { user, loading } = useAuth()
+    const { user, loading, signingOut } = useAuth()
     const router = useRouter()
     const pathname = usePathname()
 
     useEffect(() => {
-        if (loading || !apiEnabled) return
+        if (loading || !apiEnabled || signingOut) return
         if (!user) router.replace(`/signin/?next=${encodeURIComponent(window.location.pathname + window.location.search)}`)
         else if (!roles.includes(user.role)) goTo(SPACE_HOME[user.role], router.replace)
-    }, [loading, user, roles, router])
+    }, [loading, signingOut, user, roles, router])
 
     if (!apiEnabled) {
         return (
@@ -103,7 +103,7 @@ export function SpaceShell({ roles, title, subtitle, nav, actions, banner, child
 export function Panel({ title, description, actions, children, className }: { title?: string; description?: ReactNode; actions?: ReactNode; children: ReactNode; className?: string }) {
     const t = useT()
     return (
-        <div className={cn('rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6', className)}>
+        <div className={cn('rounded-xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6', className)}>
             {(title || actions) && (
                 <div className='mb-4 flex flex-col sm:flex-row sm:items-start justify-between gap-3'>
                     <div className='flex flex-col gap-1'>
@@ -131,7 +131,7 @@ export function StatCard({ label, value, icon, hint, href }: { label: string; va
             {hint && <span className='text-xs text-ink/50'>{hint}</span>}
         </>
     )
-    const className = 'flex flex-col gap-1 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm'
+    const className = 'flex flex-col gap-1 rounded-xl border border-gray-100 bg-white p-4 shadow-sm'
     return href ? (
         <Link href={href} className={cn(className, 'transition-colors hover:border-primary/40')}>{content}</Link>
     ) : (
