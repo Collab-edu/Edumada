@@ -31,13 +31,13 @@ Un seul dépôt, trois applications :
 
 ## 2. Pages
 
-### Site public (34 adresses)
+### Site public (36 adresses)
 
 | Rubrique | Adresses |
 |---|---|
 | Accueil | `/` |
 | Recherche | `/recherche` |
-| Listes par public | `/universites`, `/formation-professionnelle`, `/petite-enfance`, `/etablissements` |
+| Listes par public | `/universites`, `/formation-professionnelle`, `/creches`, `/ecoles`, `/petite-enfance` (crèches et écoles réunies), `/etablissements` |
 | Fiches | `/etablissements/[id]`, `/etablissements/[id]/[offre]`, `/etablissements/voir`, `/formations/voir` |
 | Orientation | `/orientation`, `/orientation/test`, `/domaines` |
 | Stages | `/stages`, `/stages/voir` |
@@ -242,7 +242,6 @@ docs/                     Documentation
 - **Multilingue :** fr, en et mg sont prêts mais désactivés (`I18N_ENABLED = false`). À l'activation : passer l'interrupteur à `true`, relancer `node scripts/build-locale-routes.mjs` et traduire les textes ajoutés depuis le 26 octobre, ainsi que les images « Comment ça marche ? ».
 
 ### Points à corriger ou à décider
-- **Déconnexion depuis l'espace étudiant :** on arrive sur la page de connexion au lieu de l'accueil.
 - **Prix Pro :** 100 000 Ar/mois dans la base locale, 75 000 Ar/mois dans `FONCTIONNALITES-ET-ALGORITHMES.md`.
 - **Offre gratuite alwaysdata :** 100 Mo, à surveiller avec les fichiers envoyés et le volume d'e-mails.
 - **Documents dépassés :** `docs/DEPLOIEMENT-RENDER.md` (Render abandonné) et la commande `npm run deploy` (GitHub Pages).
@@ -278,7 +277,7 @@ L'API demande PHP 8.3 ou plus et une base MariaDB ou MySQL : voir [`backend/READ
 
 ## 8. Historique
 
-**352 commits sur `main`,** tous envoyés sur GitHub au 5 novembre 2026.
+**359 commits sur `main`,** tous envoyés sur GitHub au 5 novembre 2026.
 
 1. **15 octobre :** reprise du template, charte Edumada, recherche, fiches, généralisation aux 5 catégories.
 2. **16 octobre :** API Laravel, site branché sur l'API, espaces et formules, back-office séparé.
@@ -286,4 +285,4 @@ L'API demande PHP 8.3 ou plus et une base MariaDB ou MySQL : voir [`backend/READ
 4. **22 octobre :** mise en ligne sur Vercel et alwaysdata, mot de passe oublié, lieux de Madagascar.
 5. **23 au 26 octobre :** connexion Google, nouveau hero, site en trois langues puis multilingue désactivé.
 6. **28 au 31 octobre :** pages Universités, Formation professionnelle et Petite enfance, refonte des pages Domaines et Orientation, test RIASEC, stages, nouvelles fiches et adresses d'offres.
-7. **1er au 5 novembre :** loaders, messagerie des demandes d'information, témoignages défilants, images « Comment ça marche ? », logo des établissements dans les demandes.
+7. **1er au 5 novembre :** loaders, messagerie des demandes d'information, témoignages défilants, images « Comment ça marche ? », logo des établissements dans les demandes, formules sur la page Tarifs, nouvel en-tête et menu, pages Crèches et Écoles, arrondis réduits.
