@@ -176,7 +176,7 @@ const Header: React.FC = () => {
             </div>
 
             {/* Barre principale : logo, menu, langue. Au défilement, l'icône de compte remplace la barre supérieure masquée. */}
-            <div className={cn('transition-all duration-300', sticky ? 'bg-white shadow-lg' : 'bg-white')}>
+            <div className={cn('border-b-4 border-primary transition-all duration-300', sticky ? 'bg-white shadow-lg' : 'bg-white')}>
                 <div className='container relative mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex h-[76px] items-center justify-between lg:h-[72px]'>
                     <Logo />
                     <nav className='hidden grow items-center mx-5 whitespace-nowrap xl:flex 2xl:gap-2 2xl:mx-9'>
