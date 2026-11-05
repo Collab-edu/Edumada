@@ -65,7 +65,7 @@ export default function StudentSpaceSection() {
                             {favorites.map((formation) => (
                                 <div key={formation.id} className='flex gap-2 rounded-lg bg-white p-2'>
                                     <div className='relative h-12 w-12 shrink-0 overflow-hidden rounded-md bg-cream'>
-                                        <Image src={imageOr(formation.imageSrc)} alt='' fill sizes='48px' className='object-cover' />
+                                        <Image src={imageOr(formation.imageSrc, 160)} alt='' fill sizes='48px' className='object-cover' />
                                     </div>
                                     <div className='min-w-0'>
                                         <p className='truncate !text-xs font-semibold text-secondary'>{formation.title}</p>

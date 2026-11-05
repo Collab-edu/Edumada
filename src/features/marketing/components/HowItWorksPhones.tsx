@@ -47,8 +47,8 @@ export default function HowItWorksPhones() {
                                     <Image
                                         src={withBasePath(`/images/comment-ca-marche/${step.image}.webp`)}
                                         alt={step.alt}
-                                        width={1080}
-                                        height={1740}
+                                        width={600}
+                                        height={967}
                                         sizes='272px'
                                         className='h-auto w-full'
                                     />

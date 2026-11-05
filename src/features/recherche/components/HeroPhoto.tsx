@@ -6,7 +6,10 @@ import HeroLogos from './HeroLogos'
 import MobileSearch from './MobileSearch'
 import { useT } from '@/i18n/client'
 
-const HERO_IMAGE = withBasePath('/images/banner/fournitures-scolaires-sac-a-dos-livres-madagascar.webp')
+// Versions de la photo : le navigateur télécharge la plus proche de la largeur de l'écran.
+const HERO_SRCSET = [960, 1440, 1920, 2560]
+    .map((width) => `${withBasePath(`/images/banner/fournitures-scolaires-sac-a-dos-livres-madagascar-${width}.webp`)} ${width}w`)
+    .join(', ')
 // Image transparente d'un pixel (mobile, où l'image est remplacée par un dégradé).
 const EMPTY_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 // Texte alternatif descriptif (référencement et lecteurs d'écran).
@@ -45,7 +48,7 @@ export default function HeroPhoto() {
                 </div>
                 {/* Dès la tablette (640 px) : l'image ; le mobile ne reçoit qu'un pixel vide, rien n'est téléchargé. */}
                 <picture className='absolute inset-0 hidden animate-hero-photo motion-reduce:animate-none sm:block'>
-                    <source media='(min-width: 640px)' srcSet={HERO_IMAGE} />
+                    <source media='(min-width: 640px)' srcSet={HERO_SRCSET} sizes='100vw' />
                     <img src={EMPTY_PIXEL} alt={t(HERO_ALT)} fetchPriority='high' className='h-full w-full object-cover object-center' />
                 </picture>
                 <div aria-hidden='true' className='absolute inset-0 hidden sm:block sm:bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.93)_0%,rgba(255,255,255,0.82)_35%,rgba(255,255,255,0.45)_75%)]' />

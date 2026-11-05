@@ -39,7 +39,7 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
     return (
         <Card className='flex h-full flex-col overflow-hidden shadow-[0_6px_14px_-8px_rgba(15,76,92,0.3)]'>
             <div className={cn('relative shrink-0 bg-cream', compact ? 'h-40' : 'h-48')}>
-                <Image src={imageOr(school.imageSrc)} alt={`Locaux de ${school.name}`} fill className='object-cover' />
+                <Image src={imageOr(school.imageSrc, 640)} alt={`Locaux de ${school.name}`} fill className='object-cover' />
                 {/* Type d'établissement, comme sur les cartes de formation */}
                 <div className='absolute top-3 right-3 left-3 flex flex-wrap items-center gap-1.5'>
                     <CategoryTag categoryId={school.category} subCategory={school.subCategory} className='static max-w-full rounded-full' />

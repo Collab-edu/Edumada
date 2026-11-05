@@ -35,7 +35,7 @@ export default function OfferCard({ formation, isFavorite, onToggleFavorite, spo
     return (
         <Card id={id} className={cn('flex h-full flex-col overflow-hidden scroll-mt-28 shadow-[0_6px_14px_-8px_rgba(15,76,92,0.3)]', sponsored && 'ring-2 ring-primary/30')}>
             <div className={cn('relative shrink-0 bg-cream', compact ? 'h-40' : 'h-48')}>
-                <Image src={imageOr(formation.imageSrc)} alt='' fill className='object-cover' />
+                <Image src={imageOr(formation.imageSrc, 640)} alt='' fill className='object-cover' />
                 <div className='absolute top-3 right-3 left-3 flex flex-wrap items-center gap-1.5'>
                     <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} className='static max-w-full rounded-full' />
                     {sponsored && <span className='rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold text-white'>{t('Sponsorisé')}</span>}

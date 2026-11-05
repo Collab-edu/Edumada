@@ -29,7 +29,7 @@ const SchoolCta = () => {
     const t = useT()
     const pathname = usePathname()
     const { data: schools } = useSiteData('SchoolData')
-    const photos = [...new Set(schools.map((school) => imageOr(school.imageSrc)))].slice(0, SPOTS.length)
+    const photos = [...new Set(schools.map((school) => imageOr(school.imageSrc, 160)))].slice(0, SPOTS.length)
 
     if (hidesSchoolCta(pathname)) return null
 

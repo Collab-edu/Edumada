@@ -9,7 +9,7 @@ const RegisterCta = () => {
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='relative overflow-hidden rounded-xl bg-secondary'>
                     <Image
-                        src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=70'
+                        src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=55'
                         alt=''
                         aria-hidden='true'
                         fill
