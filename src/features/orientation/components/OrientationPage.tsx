@@ -127,7 +127,7 @@ export default function OrientationPage() {
                                 {t('Prenez le temps d’y répondre : vous saurez quelles formations comparer, et lesquelles écarter.')}
                             </p>
                         </div>
-                        <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-3xl border border-gray-200 bg-white p-6 text-center shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
+                        <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
                             <span className='text-xs font-semibold uppercase tracking-wide text-primary'>{t('Vos questions')}</span>
                             <div className='flex flex-wrap items-center justify-center gap-3'>
                                 {QUESTIONS.map((item) => (
@@ -183,7 +183,7 @@ export default function OrientationPage() {
             {/* Par où commencer ? */}
             <section className='py-12 lg:py-16'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='relative overflow-hidden rounded-3xl bg-secondary px-6 py-12 sm:px-10 lg:py-16'>
+                    <div className='relative overflow-hidden rounded-2xl bg-secondary px-6 py-12 sm:px-10 lg:py-16'>
                         <DotPattern width={22} height={22} cr={1.2} className='fill-white/10' />
                         <div className='pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border-[40px] border-white/5' aria-hidden='true' />
                         <div className='pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full border-[32px] border-primary/20' aria-hidden='true' />
@@ -199,7 +199,7 @@ export default function OrientationPage() {
                                 <li key={profile.title}>
                                     <Link
                                         href={profile.href}
-                                        className='group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[6px_6px_0_0_rgba(255,59,82,0.9)] transition-transform duration-300 hover:-translate-y-1'>
+                                        className='group flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-[6px_6px_0_0_rgba(255,59,82,0.9)] transition-transform duration-300 hover:-translate-y-1'>
                                         <div className='relative h-44 overflow-hidden sm:h-48'>
                                             <Image
                                                 src={profile.image}
@@ -211,7 +211,7 @@ export default function OrientationPage() {
                                             <div className='absolute inset-0 bg-gradient-to-t from-secondary/60 via-secondary/10 to-transparent' aria-hidden='true' />
                                         </div>
                                         <div className='relative flex flex-1 flex-col gap-3 px-6 pb-6 pt-10'>
-                                            <span className='absolute -top-7 left-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-white ring-4 ring-white'>
+                                            <span className='absolute -top-7 left-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary text-white ring-4 ring-white'>
                                                 <Icon icon={profile.icon} className='text-3xl' />
                                             </span>
                                             <h3 className='text-lg font-semibold text-secondary'>{t(profile.title)}</h3>
@@ -236,7 +236,7 @@ export default function OrientationPage() {
             {/* Appel à la recherche */}
             <section className='pt-12 pb-20 lg:pt-16'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='mobile-center flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
+                    <div className='mobile-center flex flex-col gap-4 rounded-xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
                             <h2 className='text-2xl font-bold text-white'>{t('Vous savez déjà ce que vous cherchez ?')}</h2>
                             <p className='text-white/80'>{t('Filtrez les formations par domaine, ville, durée et budget.')}</p>

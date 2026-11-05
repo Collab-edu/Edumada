@@ -66,7 +66,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                 </nav>
 
                 {/* Couverture */}
-                <div className='relative h-72 md:h-80 overflow-hidden rounded-2xl bg-secondary'>
+                <div className='relative h-72 md:h-80 overflow-hidden rounded-xl bg-secondary'>
                     <Image src={imageOr(school.imageSrc)} alt={`Locaux de ${school.name}`} fill priority className='object-cover' />
                     <div aria-hidden='true' className='absolute inset-0 bg-gradient-to-t from-secondary via-secondary/60 to-transparent' />
                     <div className='absolute inset-x-0 bottom-0 flex flex-col md:flex-row md:items-end gap-4 p-6 md:p-8'>
@@ -215,7 +215,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                     {/* Colonne latérale */}
                     <aside className='flex flex-col gap-6 lg:sticky lg:top-28 lg:self-start'>
                         {map && (
-                        <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
+                        <div className='overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm'>
                             <p className='px-6 pt-5 pb-3 text-lg font-bold text-secondary'>Localisation</p>
                             {school.coordinates && (
                                 <SchoolMap lat={school.coordinates.lat} lng={school.coordinates.lng} name={school.name} address={school.city} className='[&>div+div]:mx-3 [&>div+div]:shadow-none' mapClassName='h-80 w-full' />
@@ -231,7 +231,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         </div>
                         )}
 
-                        <div className='rounded-2xl border border-gray-100 bg-white p-6 shadow-sm'>
+                        <div className='rounded-xl border border-gray-100 bg-white p-6 shadow-sm'>
                             <p className='mb-2 text-lg font-bold text-secondary'>Informations pratiques</p>
                             <ul>
                                 <InfoRow icon='tabler:building-community' label='Nom'>{school.name}</InfoRow>
@@ -287,7 +287,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 </InfoRow>
                             </ul>
                         </div>
-                        <div className='rounded-2xl border border-gray-100 bg-white p-6 shadow-sm flex flex-col gap-3'>
+                        <div className='rounded-xl border border-gray-100 bg-white p-6 shadow-sm flex flex-col gap-3'>
                             <p className='text-lg font-bold text-secondary'>{t('Une information à corriger ?')}</p>
                             <button
                                 type='button'

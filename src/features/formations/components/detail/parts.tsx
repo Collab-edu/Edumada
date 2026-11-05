@@ -76,7 +76,7 @@ export function ChipList({ items, tone = 'secondary' }: { items: string[]; tone?
 
 /** Bloc encadré gris clair. */
 export function Panel({ children, className }: { children: ReactNode; className?: string }) {
-    return <div className={cn('rounded-2xl bg-white border border-gray-100 p-5 shadow-sm', className)}>{children}</div>
+    return <div className={cn('rounded-xl bg-white border border-gray-100 p-5 shadow-sm', className)}>{children}</div>
 }
 
 /** Valeur absente : on l'affiche honnêtement plutôt que d'inventer. */

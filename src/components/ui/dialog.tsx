@@ -44,7 +44,7 @@ export function Dialog({ open, onClose, title, description, children, className 
                 aria-modal='true'
                 aria-labelledby={titleId}
                 className={cn(
-                    'relative max-h-[92vh] w-full overflow-y-auto rounded-t-2xl bg-white p-5 pb-8 shadow-xl sm:max-w-lg sm:rounded-2xl sm:p-7',
+                    'relative max-h-[92vh] w-full overflow-y-auto rounded-t-xl bg-white p-5 pb-8 shadow-xl sm:max-w-lg sm:rounded-xl sm:p-7',
                     className
                 )}>
                 <div className='mb-5 flex items-start justify-between gap-4'>

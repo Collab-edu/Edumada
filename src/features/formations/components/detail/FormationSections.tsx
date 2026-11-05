@@ -146,7 +146,7 @@ export function CostsSection({ formation, detail }: Props) {
             <p className={cn('flex items-center gap-2 rounded-xl px-4 py-3 font-medium', banner.className)}>
                 <Icon icon={banner.icon} className='shrink-0 text-lg' /> {t(banner.text)}
             </p>
-            <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
+            <div className='overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm'>
                 <table className='w-full text-left'>
                     <caption className='sr-only'>{t('Détail des frais')}</caption>
                     <tbody className='divide-y divide-gray-100'>

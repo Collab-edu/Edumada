@@ -17,9 +17,9 @@ const HeroFilters = () => {
             {/* Lueur colorée derrière la barre */}
             <div
                 aria-hidden='true'
-                className='pointer-events-none absolute -inset-2 rounded-3xl bg-gradient-to-r from-primary/40 via-cream to-secondary/40 blur-2xl opacity-70'
+                className='pointer-events-none absolute -inset-2 rounded-2xl bg-gradient-to-r from-primary/40 via-cream to-secondary/40 blur-2xl opacity-70'
             />
-            <div className='relative rounded-2xl bg-white p-2 ring-1 ring-secondary/10 shadow-[0_24px_60px_-20px_rgba(15,76,92,0.45)]'>
+            <div className='relative rounded-xl bg-white p-2 ring-1 ring-secondary/10 shadow-[0_24px_60px_-20px_rgba(15,76,92,0.45)]'>
                 <div className='flex items-center justify-center gap-2 px-4 pt-1.5 pb-1 text-xs font-semibold text-secondary'>
                     <Icon icon='tabler:search' className='text-base text-primary' />
                     {t('Trouvez l’établissement qui vous correspond')}

@@ -63,7 +63,7 @@ export default function ArticlePage({ id }: { id: string }) {
 
             {article.coverImage && (
                 <div className='container mx-auto mt-8 max-w-5xl px-4'>
-                    <div className='relative h-64 overflow-hidden rounded-2xl sm:h-96'>
+                    <div className='relative h-64 overflow-hidden rounded-xl sm:h-96'>
                         <Image src={article.coverImage} alt='' fill priority sizes='(min-width: 1024px) 1024px, 100vw' className='object-cover' />
                     </div>
                 </div>

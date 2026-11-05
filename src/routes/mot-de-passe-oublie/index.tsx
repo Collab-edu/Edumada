@@ -12,7 +12,7 @@ export default function Page() {
             <Breadcrumb pageName='Mot de passe oublié' />
 
             <div className='mx-auto w-full max-w-md px-4 pb-20'>
-                <div className='rounded-2xl bg-white px-6 py-8 shadow-sm ring-1 ring-gray-100 sm:px-8'>
+                <div className='rounded-xl bg-white px-6 py-8 shadow-sm ring-1 ring-gray-100 sm:px-8'>
                     <ForgotPassword />
                 </div>
             </div>

@@ -87,7 +87,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* Formulaire */}
-                <div className='mx-auto mt-12 max-w-2xl rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:p-8'>
+                <div className='mx-auto mt-12 max-w-2xl rounded-xl border border-gray-200 bg-white p-5 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:p-8'>
                     {sent ? (
                         <div className='flex flex-col items-start gap-4'>
                             <FormAlert tone='success'>{t('Merci ! Votre message a bien été envoyé, nous vous répondrons rapidement.')}</FormAlert>

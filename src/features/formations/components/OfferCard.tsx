@@ -45,7 +45,7 @@ export default function OfferCard({ formation, isFavorite, onToggleFavorite, spo
 
             <div className='relative flex flex-1 flex-col gap-4 px-5 pb-5'>
                 <Link href={`/etablissements/${formation.schoolId}`} aria-label={formation.school} className='relative -mt-8 w-fit'>
-                    <SchoolLogo name={formation.school} logo={formation.schoolLogo} className='h-16 w-16 rounded-2xl text-sm shadow-md ring-4 ring-white' />
+                    <SchoolLogo name={formation.school} logo={formation.schoolLogo} className='h-16 w-16 rounded-xl text-sm shadow-md ring-4 ring-white' />
                 </Link>
 
                 <div>

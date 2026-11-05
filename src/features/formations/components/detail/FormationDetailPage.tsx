@@ -140,7 +140,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
 
                     {/* Résumé latéral */}
                     <aside className='hidden lg:block'>
-                        <div className='sticky top-40 flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm'>
+                        <div className='sticky top-40 flex flex-col gap-4 rounded-xl border border-gray-100 bg-white p-6 shadow-sm'>
                             <p className='text-lg font-bold text-secondary'>{t('En bref')}</p>
                             <span className={cn('w-fit rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>{t(badge.label)}</span>
                             <dl className='flex flex-col gap-3 text-sm'>

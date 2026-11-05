@@ -242,7 +242,7 @@ export function Badge({ children, tone = 'neutral', className }: { children: Rea
 export function EmptyState({ icon, title, children, action }: { icon: string; title: string; children?: ReactNode; action?: ReactNode }) {
     const t = useT()
     return (
-        <div className='flex flex-col items-center gap-3 rounded-2xl border border-dashed border-secondary/20 bg-white px-6 py-12 text-center'>
+        <div className='flex flex-col items-center gap-3 rounded-xl border border-dashed border-secondary/20 bg-white px-6 py-12 text-center'>
             <span className='flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white'>
                 <Icon icon={icon} className='text-2xl' />
             </span>

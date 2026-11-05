@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 /** Style commun des cartes du site : fond blanc, coins arrondis, effet de survol. */
 export const cardClassName =
-    'group rounded-2xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg'
+    'group rounded-xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg'
 
 export function Card({ className, ...props }: ComponentProps<'div'>) {
     return <div className={cn(cardClassName, className)} {...props} />
@@ -15,7 +15,7 @@ export function CardSkeletonGrid({ count, className }: { count: number; classNam
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
             {Array.from({ length: count }).map((_, i) => (
-                <div key={i} className={cn('rounded-2xl bg-white border border-gray-100 animate-pulse', className)} />
+                <div key={i} className={cn('rounded-xl bg-white border border-gray-100 animate-pulse', className)} />
             ))}
         </div>
     )

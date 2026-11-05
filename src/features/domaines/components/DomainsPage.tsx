@@ -67,7 +67,7 @@ type Section = (typeof SECTIONS)[number]
 
 const plural = (n: number) => `${n} formation${n > 1 ? 's' : ''}`
 
-const CARD = 'rounded-2xl border border-gray-200 bg-white shadow-[4px_4px_0_0_rgba(15,76,92,0.12)]'
+const CARD = 'rounded-xl border border-gray-200 bg-white shadow-[4px_4px_0_0_rgba(15,76,92,0.12)]'
 
 /** Traits rouges décoratifs (comme sur l'accueil). */
 function Sparks({ className }: { className?: string }) {
@@ -102,7 +102,7 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
     return (
         <div className='grid grid-cols-1 gap-5 min-[420px]:grid-cols-2 lg:grid-cols-4 lg:gap-6'>
             {loading
-                ? Array.from({ length: 4 }).map((_, i) => <div key={i} className='h-56 animate-pulse rounded-2xl border border-gray-200 bg-white' />)
+                ? Array.from({ length: 4 }).map((_, i) => <div key={i} className='h-56 animate-pulse rounded-xl border border-gray-200 bg-white' />)
                 : domains.map((domain) => {
                       const meta = DOMAINS[domain.name] ?? DEFAULT_DOMAIN
                       return (
@@ -285,7 +285,7 @@ export default function DomainsPage() {
             {/* Orientation */}
             <section className='pt-16 pb-0 lg:pt-24'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='relative overflow-hidden rounded-3xl bg-secondary'>
+                    <div className='relative overflow-hidden rounded-2xl bg-secondary'>
                         <div className='absolute inset-y-0 right-0 hidden w-1/2 md:block'>
                             <Image src={photo('1497633762265-9d179a990aa6', 900)} alt='' fill sizes='50vw' className='object-cover' />
                             <div className='absolute inset-0 bg-gradient-to-r from-secondary via-secondary/40 to-primary/30' aria-hidden='true' />

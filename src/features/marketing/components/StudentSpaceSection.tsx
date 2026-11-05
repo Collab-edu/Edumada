@@ -78,7 +78,7 @@ export default function StudentSpaceSection() {
                     </PhoneMockup>
 
                     {/* Avantages */}
-                    <div className='flex flex-col gap-6 rounded-2xl border border-primary/15 bg-cream/60 p-6 sm:p-8'>
+                    <div className='flex flex-col gap-6 rounded-xl border border-primary/15 bg-cream/60 p-6 sm:p-8'>
                         <div className='flex flex-col gap-3'>
                             <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white'>
                                 <Icon icon='tabler:layout-dashboard' className='text-2xl' />

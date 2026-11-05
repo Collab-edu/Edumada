@@ -33,7 +33,7 @@ export default function MobileSearch() {
             <button
                 type='button'
                 onClick={() => setOpen(true)}
-                className='flex w-full items-center gap-3 rounded-2xl bg-white px-4 py-4 text-left shadow-[0_18px_40px_-16px_rgba(15,76,92,0.45)] ring-1 ring-secondary/10 hover:cursor-pointer'>
+                className='flex w-full items-center gap-3 rounded-xl bg-white px-4 py-4 text-left shadow-[0_18px_40px_-16px_rgba(15,76,92,0.45)] ring-1 ring-secondary/10 hover:cursor-pointer'>
                 <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white'>
                     <Icon icon='tabler:search' className='text-xl' />
                 </span>
@@ -71,7 +71,7 @@ export default function MobileSearch() {
                         <HeroSearchFields
                             search={search}
                             onChange={setSearch}
-                            fieldClassName='rounded-2xl bg-white px-4 py-3 ring-1 ring-gray-100 focus-within:ring-2 focus-within:ring-primary/30'
+                            fieldClassName='rounded-xl bg-white px-4 py-3 ring-1 ring-gray-100 focus-within:ring-2 focus-within:ring-primary/30'
                         />
 
                         <Link

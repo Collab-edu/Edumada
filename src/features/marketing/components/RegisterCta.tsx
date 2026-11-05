@@ -7,7 +7,7 @@ const RegisterCta = () => {
     return (
         <section id='register-section'>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                <div className='relative overflow-hidden rounded-2xl bg-secondary'>
+                <div className='relative overflow-hidden rounded-xl bg-secondary'>
                     <Image
                         src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=70'
                         alt=''

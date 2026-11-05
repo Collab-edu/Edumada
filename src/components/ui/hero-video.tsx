@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
  */
 export function HeroVideo({ src, poster, label, className }: { src: string; poster: string; label: string; className?: string }) {
     return (
-        <div className={cn('relative overflow-hidden rounded-2xl bg-secondary', className)}>
+        <div className={cn('relative overflow-hidden rounded-xl bg-secondary', className)}>
             <video
                 className='absolute inset-0 h-full w-full object-cover'
                 src={src}

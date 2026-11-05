@@ -15,7 +15,7 @@ export default function SearchingState({ label, count, gridClassName, cardClassN
             </p>
             <div className={cn('grid', gridClassName)}>
                 {Array.from({ length: count }).map((_, i) => (
-                    <div key={i} className={cn('rounded-2xl border border-gray-100 bg-white animate-pulse', cardClassName)} />
+                    <div key={i} className={cn('rounded-xl border border-gray-100 bg-white animate-pulse', cardClassName)} />
                 ))}
             </div>
         </div>

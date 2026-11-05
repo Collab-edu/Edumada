@@ -58,7 +58,7 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
     ]
 
     return (
-        <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
+        <div className='overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm'>
             <div className='grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px]'>
                 <div className='flex flex-col gap-5 p-6 md:p-8'>
                     <div className='flex items-center gap-4'>

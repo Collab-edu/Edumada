@@ -236,7 +236,7 @@ export function CityPicker({ label, placeholder, suggestions, value, onChange, p
             )}
 
             {open && (
-                <div role='dialog' aria-label={t(label)} className='absolute top-full left-0 z-30 mt-2 w-full rounded-2xl bg-white p-3 shadow-xl ring-1 ring-black/5 sm:min-w-80'>
+                <div role='dialog' aria-label={t(label)} className='absolute top-full left-0 z-30 mt-2 w-full rounded-xl bg-white p-3 shadow-xl ring-1 ring-black/5 sm:min-w-80'>
                     <div className='flex items-center gap-2 rounded-xl bg-offwhite px-3 py-2'>
                         <Icon icon='tabler:search' className='shrink-0 text-ink/40' />
                         <input

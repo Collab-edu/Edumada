@@ -129,7 +129,7 @@ export default function ApplyPanel({ internship }: { internship: Internship }) {
     }
 
     return (
-        <div id='postuler' className='scroll-mt-28 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100'>
+        <div id='postuler' className='scroll-mt-28 rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100'>
             <h2 className='mb-4 text-xl font-bold text-secondary'>Postuler à ce stage</h2>
             {content}
         </div>

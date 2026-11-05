@@ -69,7 +69,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                 {t('Edumada rassemble ces informations au même endroit, présentées de la même façon, pour que chacun puisse comparer avant de décider.')}
                             </p>
                         </div>
-                        <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-3xl border border-gray-200 bg-white p-6 text-center shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
+                        <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
                             <span className='text-xs font-semibold uppercase tracking-wide text-primary'>Le constat</span>
                             <div className='flex flex-wrap items-center justify-center gap-3'>
                                 {SCATTERED.map((item) => (
@@ -97,11 +97,11 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid items-center gap-12 lg:grid-cols-2 lg:gap-16'>
                         <div className='relative pr-4 sm:pr-10'>
-                            <div className='relative h-72 overflow-hidden rounded-3xl sm:h-96'>
+                            <div className='relative h-72 overflow-hidden rounded-2xl sm:h-96'>
                                 <Image src={PHOTO} alt={t('Étudiants qui comparent des formations')} fill sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
                             </div>
                             {schools > 0 && (
-                                <div className='absolute right-0 top-6 rounded-2xl bg-primary px-4 py-3 text-white shadow-lg'>
+                                <div className='absolute right-0 top-6 rounded-xl bg-primary px-4 py-3 text-white shadow-lg'>
                                     <span className='block text-2xl font-bold leading-none'>{schools}</span>
                                     <span className='text-xs text-white/85'>{t('établissements réunis')}</span>
                                 </div>
@@ -141,7 +141,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
             {/* Pour qui ? */}
             <section>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='relative overflow-hidden rounded-3xl bg-secondary px-6 py-12 sm:px-10 lg:py-16'>
+                    <div className='relative overflow-hidden rounded-2xl bg-secondary px-6 py-12 sm:px-10 lg:py-16'>
                         <DotPattern width={22} height={22} cr={1.2} className='fill-white/10' />
                         <div className='pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border-[40px] border-white/5' aria-hidden='true' />
                         <div className='pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full border-[32px] border-primary/20' aria-hidden='true' />
@@ -159,8 +159,8 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                 <li key={audience.title}>
                                     <Link
                                         href={audience.link.href}
-                                        className='group flex h-full flex-col gap-3 rounded-2xl bg-white p-6 transition-transform duration-300 hover:-translate-y-1'>
-                                        <span className='flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-white'>
+                                        className='group flex h-full flex-col gap-3 rounded-xl bg-white p-6 transition-transform duration-300 hover:-translate-y-1'>
+                                        <span className='flex h-14 w-14 items-center justify-center rounded-xl bg-primary text-white'>
                                             <Icon icon={audience.icon} className='text-3xl' />
                                         </span>
                                         <h3 className='text-lg font-semibold text-secondary'>{t(audience.title)}</h3>

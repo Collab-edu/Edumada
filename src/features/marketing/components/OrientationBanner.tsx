@@ -18,7 +18,7 @@ export default function OrientationBanner() {
     return (
         <section>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                <div className='relative grid overflow-hidden rounded-2xl bg-secondary md:grid-cols-[1fr_14rem_1fr] lg:grid-cols-[1fr_18rem_1fr]'>
+                <div className='relative grid overflow-hidden rounded-xl bg-secondary md:grid-cols-[1fr_14rem_1fr] lg:grid-cols-[1fr_18rem_1fr]'>
                     <div className='mobile-center flex flex-col items-start gap-4 p-6 sm:p-8'>
                         <span className='inline-flex items-center gap-2 text-sm font-semibold text-primary'>
                             <Icon icon='tabler:compass' className='text-lg' />
@@ -33,7 +33,7 @@ export default function OrientationBanner() {
                     </div>
 
                     <div className='relative hidden md:block' aria-hidden='true'>
-                        <div className='absolute -right-1 bottom-6 h-32 w-20 rotate-12 rounded-2xl bg-primary' />
+                        <div className='absolute -right-1 bottom-6 h-32 w-20 rotate-12 rounded-xl bg-primary' />
                         <div className='absolute inset-x-2 bottom-0 top-8 overflow-hidden rounded-t-full border-4 border-b-0 border-white/15'>
                             <Image src={PHOTO} alt='' fill sizes='18rem' className='object-cover' />
                         </div>

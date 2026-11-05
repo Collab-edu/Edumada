@@ -55,7 +55,7 @@ export function SchoolAdmission({
             </ol>
 
             {/* Prérequis par offre : tableau sur grand écran, cartes sur mobile. Colonnes selon la catégorie. */}
-            <div className='hidden md:block overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
+            <div className='hidden md:block overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm'>
                 <table className='w-full text-left text-sm'>
                     <thead className='bg-secondary/5 text-secondary'>
                         <tr>
@@ -95,7 +95,7 @@ export function SchoolAdmission({
                 ))}
             </div>
             {/* Pièces du dossier */}
-            <div className='rounded-2xl bg-secondary/[0.06] p-6'>
+            <div className='rounded-xl bg-secondary/[0.06] p-6'>
                 <p className='mb-3 font-semibold text-secondary'>{t('Pièces à fournir')}</p>
                 <ul className='grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2'>
                     {school.admissionDocuments.map((doc) => (

@@ -54,7 +54,7 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
                     name={school.name}
                     initials={school.initials}
                     logo={school.logo}
-                    className='relative -mt-8 h-16 w-16 rounded-2xl text-sm shadow-md ring-4 ring-white'
+                    className='relative -mt-8 h-16 w-16 rounded-xl text-sm shadow-md ring-4 ring-white'
                 />
                 <div>
                     <h3 className='text-lg font-bold leading-snug text-secondary'>{school.name}</h3>

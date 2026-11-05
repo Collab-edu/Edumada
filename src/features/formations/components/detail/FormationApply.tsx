@@ -36,7 +36,7 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
                 ))}
             </ol>
 
-            <div className='flex flex-col md:flex-row md:items-center justify-between gap-5 rounded-2xl bg-secondary p-6 text-white'>
+            <div className='flex flex-col md:flex-row md:items-center justify-between gap-5 rounded-xl bg-secondary p-6 text-white'>
                 <div className='flex flex-col gap-1'>
                     <p className='text-lg font-bold'>
                         {detail.onlineApplication ? t('Candidature en ligne disponible') : t('Candidature auprès de l’établissement')}

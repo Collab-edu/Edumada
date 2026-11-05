@@ -151,7 +151,7 @@ export default function EstablishmentSignUp() {
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='grid gap-8 lg:grid-cols-[2fr_3fr] lg:items-start'>
                     {/* Présentation */}
-                    <aside className='order-2 flex flex-col gap-6 rounded-2xl bg-secondary p-6 text-white sm:p-8 lg:sticky lg:top-28 lg:order-1'>
+                    <aside className='order-2 flex flex-col gap-6 rounded-xl bg-secondary p-6 text-white sm:p-8 lg:sticky lg:top-28 lg:order-1'>
                         <div className='flex flex-col gap-3'>
                             <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
                             <h1 className='text-3xl font-bold text-white md:text-4xl'>{t('Référencez votre établissement')}</h1>
@@ -190,7 +190,7 @@ export default function EstablishmentSignUp() {
                         <p className='text-3xl font-bold text-secondary'>{t('Référencez votre établissement')}</p>
                         <p className='text-black'>{t('Gratuit, en quelques minutes.')}</p>
                     </div>
-                    <div className='order-1 rounded-2xl border border-gray-200 bg-white p-6 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)] sm:p-8 lg:order-2'>
+                    <div className='order-1 rounded-xl border border-gray-200 bg-white p-6 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)] sm:p-8 lg:order-2'>
                         {/* Formule choisie sur la page Tarifs : rappel discret, modifiable */}
                         <div className='mb-6 flex flex-col gap-2 border-b border-gray-100 pb-5'>
                             <div className='flex flex-wrap items-center justify-between gap-3'>

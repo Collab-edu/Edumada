@@ -77,7 +77,7 @@ function KindSelect({ value, onChange }: { value: string; onChange: (value: stri
                 </ListboxButton>
                 <ListboxOptions
                     anchor={{ to: 'bottom start', gap: 12 }}
-                    className='z-50 max-h-80 w-[var(--button-width)] min-w-72 overflow-auto rounded-2xl bg-white p-2 text-base shadow-xl ring-1 ring-black/5 focus:outline-hidden'>
+                    className='z-50 max-h-80 w-[var(--button-width)] min-w-72 overflow-auto rounded-xl bg-white p-2 text-base shadow-xl ring-1 ring-black/5 focus:outline-hidden'>
                     <ListboxOption value='' className='flex min-h-11 cursor-pointer items-center rounded-lg px-3 py-2 text-ink/70 data-[focus]:bg-cream data-[focus]:text-primary'>
                         {t('Tous les établissements')}
                     </ListboxOption>
@@ -124,7 +124,7 @@ function AgeSelect({ value, onChange }: { value: string; onChange: (value: strin
                 </ListboxButton>
                 <ListboxOptions
                     anchor={{ to: 'bottom start', gap: 12 }}
-                    className='z-50 max-h-80 w-[var(--button-width)] min-w-56 overflow-auto rounded-2xl bg-white p-2 text-base shadow-xl ring-1 ring-black/5 focus:outline-hidden'>
+                    className='z-50 max-h-80 w-[var(--button-width)] min-w-56 overflow-auto rounded-xl bg-white p-2 text-base shadow-xl ring-1 ring-black/5 focus:outline-hidden'>
                     <ListboxOption value='' className='flex min-h-11 cursor-pointer items-center rounded-lg px-3 py-2 text-ink/70 data-[focus]:bg-cream data-[focus]:text-primary'>
                         {t('Tous les âges')}
                     </ListboxOption>

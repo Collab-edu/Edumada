@@ -37,10 +37,10 @@ export default function DashboardPreview() {
     const t = useT()
     return (
         <div className='relative px-2 pb-8 pt-6 sm:px-6' aria-hidden='true'>
-            <div className='absolute inset-0 -z-10 rounded-3xl bg-cream' />
+            <div className='absolute inset-0 -z-10 rounded-2xl bg-cream' />
 
             {/* Fenêtre */}
-            <div className='overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-[6px_6px_0_0_rgba(15,76,92,0.22)]'>
+            <div className='overflow-hidden rounded-xl border border-gray-200 bg-white shadow-[6px_6px_0_0_rgba(15,76,92,0.22)]'>
                 <div className='flex items-center gap-2 border-b border-gray-100 bg-offwhite px-4 py-2.5'>
                     <span className='h-2.5 w-2.5 rounded-full bg-primary/70' />
                     <span className='h-2.5 w-2.5 rounded-full bg-amber-300' />

@@ -75,7 +75,7 @@ export default function InternshipsPage() {
                                 </ButtonLink>
                             </div>
                         </div>
-                        <div className='relative h-56 overflow-hidden rounded-2xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
+                        <div className='relative h-56 overflow-hidden rounded-xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
                             <Image
                                 src='https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70'
                                 alt='Stagiaires au travail en équipe'
@@ -157,7 +157,7 @@ export default function InternshipsPage() {
 
             <section className='pb-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='mobile-center flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
+                    <div className='mobile-center flex flex-col gap-4 rounded-xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
                             <h2 className='text-2xl font-bold text-white'>Vous proposez un stage ?</h2>
                             <p className='text-white/80'>Envoyez-nous votre offre : l’équipe Edumada se charge de la publier.</p>

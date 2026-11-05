@@ -139,7 +139,7 @@ const SearchPage = () => {
                     role='search'
                     aria-label='Rechercher une formation'
                     onSubmit={submitSearch}
-                    className='mb-6 sm:mb-8 rounded-2xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)]'>
+                    className='mb-6 sm:mb-8 rounded-xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)]'>
                     <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 lg:items-center'>
                         <div className='rounded-xl px-4 py-3 sm:col-span-2 lg:col-span-3 lg:rounded-none'>
                             <label htmlFor='search-q' className='flex items-center gap-1.5 text-base font-medium text-gray-500'>
@@ -173,7 +173,7 @@ const SearchPage = () => {
                     <aside
                         className={cn(
                             'fixed inset-y-0 left-0 z-50 w-full max-w-sm overflow-y-auto bg-white p-5 shadow-lg transition-transform duration-300',
-                            'lg:static lg:z-auto lg:max-w-none lg:translate-x-0 lg:self-start lg:rounded-2xl lg:border lg:border-gray-100 lg:shadow-sm lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)]',
+                            'lg:static lg:z-auto lg:max-w-none lg:translate-x-0 lg:self-start lg:rounded-xl lg:border lg:border-gray-100 lg:shadow-sm lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)]',
                             panelOpen ? 'translate-x-0' : '-translate-x-full'
                         )}
                         aria-label={t('Filtres avancés')}>
@@ -335,7 +335,7 @@ const SearchPage = () => {
                             </button>
                         )}
                         {loading || results.length > 0 ? null : (
-                            <div className='flex flex-col items-center gap-4 rounded-2xl border border-dashed border-secondary/20 bg-white px-6 py-16 text-center'>
+                            <div className='flex flex-col items-center gap-4 rounded-xl border border-dashed border-secondary/20 bg-white px-6 py-16 text-center'>
                                 <span className='flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white'>
                                     <Icon icon='tabler:search-off' className='text-3xl' />
                                 </span>

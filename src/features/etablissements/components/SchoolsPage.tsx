@@ -95,7 +95,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                 </ButtonLink>
                             </div>
                         </div>
-                        <div className='relative h-56 overflow-hidden rounded-2xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
+                        <div className='relative h-56 overflow-hidden rounded-xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
                             <Image src={config.image} alt={t(config.imageAlt)} fill priority sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
                         </div>
                     </div>
@@ -215,7 +215,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
             {/* Appel aux établissements */}
             <section className='pb-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='mobile-center flex flex-col gap-4 rounded-2xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
+                    <div className='mobile-center flex flex-col gap-4 rounded-xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
                             <h2 className='text-2xl font-bold text-white'>{t(config.cta.title)}</h2>
                             <p className='text-white/80'>{t(config.cta.text)}</p>

@@ -140,10 +140,10 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
     return (
         <div className='flex flex-col gap-10'>
             <div className='grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]'>
-                <div className='flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8'>
+                <div className='flex flex-col gap-4 rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8'>
                     <p className='font-semibold uppercase tracking-wide text-primary'>Votre profil · {top.join('')}</p>
                     <div className='flex items-center gap-3'>
-                        <span className='flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary text-white'>
+                        <span className='flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary text-white'>
                             <Icon icon={profile.icon} className='text-3xl' />
                         </span>
                         <h1 className='text-3xl font-bold text-secondary'>{profile.name}</h1>
@@ -160,7 +160,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                         <strong className='text-secondary'>Vos autres tendances :</strong> {others.map((code) => PROFILES[code].name).join(' et ')}. {others.map((code) => PROFILES[code].summary).join(' ')}
                     </p>
                 </div>
-                <div className='rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8'>
+                <div className='rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8'>
                     <h2 className='mb-4 text-xl font-bold text-secondary'>Vos six profils</h2>
                     <ul className='flex flex-col gap-3'>
                         {scores.map((score) => (
@@ -212,7 +212,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                 })}
             </div>
 
-            <div className='flex flex-col gap-3 rounded-2xl bg-white p-6 ring-1 ring-gray-100 sm:flex-row sm:items-center sm:justify-between'>
+            <div className='flex flex-col gap-3 rounded-xl bg-white p-6 ring-1 ring-gray-100 sm:flex-row sm:items-center sm:justify-between'>
                 <p className='text-sm text-ink/70'>Ce résultat est une aide à la réflexion, pas un diagnostic ni une garantie de réussite. Il reste enregistré dans ce navigateur.</p>
                 <Button variant='secondary' className='shrink-0' onClick={onRestart}>
                     <Icon icon='tabler:rotate-clockwise' />

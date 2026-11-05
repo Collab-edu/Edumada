@@ -235,7 +235,7 @@ export default function SchoolMap({
             </div>
 
             {(state === 'done' || state === 'error' || busy) && (
-                <div className='mt-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm'>
+                <div className='mt-3 rounded-xl border border-gray-100 bg-white p-4 shadow-sm'>
                     <div className='flex flex-wrap items-center gap-2'>
                         <div className='inline-flex rounded-xl bg-offwhite p-1' role='group' aria-label={t('Mode de déplacement')}>
                             {(

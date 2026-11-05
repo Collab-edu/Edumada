@@ -76,7 +76,7 @@ export default function InternshipPage() {
                     <Icon icon='tabler:arrow-left' /> Toutes les offres de stage
                 </Link>
                 <div className='grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px]'>
-                    <div className='flex flex-col gap-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8'>
+                    <div className='flex flex-col gap-8 rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8'>
                         <div className='flex items-center gap-4'>
                             <CompanyLogo name={item.companyName} logo={item.companyLogo} className='h-20 w-20' />
                             <div className='min-w-0'>
