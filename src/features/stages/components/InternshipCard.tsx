@@ -4,7 +4,7 @@ import Link from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import CompanyLogo from './CompanyLogo'
-import { internshipHref, publishedAgo, type Internship } from '../types'
+import { formatMonths, internshipHref, publishedAgo, type Internship } from '../types'
 
 const STORAGE_KEY = 'edumada.stages.saved'
 
@@ -37,7 +37,7 @@ function useSaved(id: string) {
 export default function InternshipCard({ internship: i }: { internship: Internship }) {
     const { saved, toggle } = useSaved(i.id)
     return (
-        <article className='relative flex h-full flex-col rounded-2xl bg-white shadow-[0_10px_30px_-12px_rgba(15,76,92,0.28)] ring-1 ring-secondary/10 transition duration-200 hover:-translate-y-1 hover:shadow-[0_18px_40px_-14px_rgba(15,76,92,0.38)] motion-reduce:transform-none'>
+        <article className='relative flex h-full flex-col rounded-xl bg-white shadow-[0_10px_30px_-12px_rgba(15,76,92,0.28)] ring-1 ring-secondary/10 transition duration-200 hover:-translate-y-1 hover:shadow-[0_18px_40px_-14px_rgba(15,76,92,0.38)] motion-reduce:transform-none'>
             <div className='flex flex-1 flex-col gap-4 p-5'>
                 <div className='flex items-center gap-3'>
                     <CompanyLogo name={i.companyName} logo={i.companyLogo} className='h-14 w-14 ring-gray-200' />
@@ -47,7 +47,7 @@ export default function InternshipCard({ internship: i }: { internship: Internsh
                     </div>
                 </div>
                 <h3 className='text-lg font-semibold leading-snug text-secondary'>
-                    <Link href={internshipHref(i.id)} className='after:absolute after:inset-0 after:rounded-2xl after:content-[""]'>
+                    <Link href={internshipHref(i.id)} className='after:absolute after:inset-0 after:rounded-xl after:content-[""]'>
                         {i.title}
                     </Link>
                 </h3>
@@ -58,12 +58,17 @@ export default function InternshipCard({ internship: i }: { internship: Internsh
                             {i.domain}
                         </p>
                     )}
-                    <div className='flex flex-wrap gap-2'>
-                        <span className='inline-flex items-center gap-1 rounded-full bg-secondary/[0.08] px-3 py-1 text-sm font-medium text-secondary'>
+                    <div className='flex flex-wrap gap-x-4 gap-y-1 text-sm font-medium text-secondary'>
+                        <span className='inline-flex items-center gap-1'>
                             <Icon icon='tabler:map-pin' className='text-base' />
                             {i.city}
                         </span>
-                        <span className='rounded-full bg-cream px-3 py-1 text-sm font-medium text-secondary'>{i.modality}</span>
+                        {i.durationMonths && (
+                            <span className='inline-flex items-center gap-1'>
+                                <Icon icon='tabler:clock-hour-4' className='text-base' />
+                                {formatMonths(i.durationMonths)}
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>
