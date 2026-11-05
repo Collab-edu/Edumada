@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\V1;
 
+use App\Enums\EstablishmentStatus;
 use App\Enums\InquiryStatus;
 use App\Enums\InquiryType;
 use App\Enums\PlanCode;
@@ -31,6 +32,43 @@ class InquiryControllerTest extends TestCase
 
         $this->seed(PlanSeeder::class);
         Notification::fake();
+    }
+
+    public function test_student_contacts_an_establishment_without_choosing_an_offer(): void
+    {
+        [$owner, $establishment] = $this->establishmentOwner();
+        $student = $this->student();
+
+        $this->actingAs($student)->postJson("/api/v1/establishments/{$establishment->slug}/inquiries", [
+            'message' => 'Accueillez-vous les enfants de deux ans ?',
+        ])->assertCreated()
+            ->assertJsonPath('data.type', 'information')
+            ->assertJsonPath('data.offer', null)
+            ->assertJsonPath('data.establishment.id', $establishment->slug);
+
+        $this->assertDatabaseHas('inquiries', ['user_id' => $student->id, 'establishment_id' => $establishment->id, 'offer_id' => null]);
+        Notification::assertSentTo($owner, NewInquiryReceived::class);
+    }
+
+    public function test_contacting_an_establishment_requires_a_message_and_a_student_account(): void
+    {
+        [$owner, $establishment] = $this->establishmentOwner();
+
+        $this->actingAs($this->student())->postJson("/api/v1/establishments/{$establishment->slug}/inquiries", [])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('message');
+
+        $this->actingAs($owner)->postJson("/api/v1/establishments/{$establishment->slug}/inquiries", ['message' => 'Bonjour'])
+            ->assertForbidden();
+    }
+
+    public function test_an_unpublished_establishment_cannot_be_contacted(): void
+    {
+        [, $establishment] = $this->establishmentOwner();
+        $establishment->forceFill(['status' => EstablishmentStatus::Draft])->save();
+
+        $this->actingAs($this->student())->postJson("/api/v1/establishments/{$establishment->slug}/inquiries", ['message' => 'Bonjour'])
+            ->assertNotFound();
     }
 
     public function test_student_sends_an_information_request_that_reaches_the_establishment(): void

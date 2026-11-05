@@ -91,6 +91,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::delete('me/favorites/{offer}', [FavoriteController::class, 'destroy'])->name('me.favorites.destroy');
         Route::get('me/inquiries', [InquiryController::class, 'index'])->name('me.inquiries');
         Route::post('offers/{offer}/inquiries', [InquiryController::class, 'store'])->middleware('throttle:20,60')->name('offers.inquiries.store');
+        Route::post('establishments/{establishment}/inquiries', [InquiryController::class, 'contact'])->middleware('throttle:20,60')->name('establishments.inquiries.store');
         Route::get('inquiries/{inquiry}', [InquiryController::class, 'show'])->name('inquiries.show');
         Route::post('inquiries/{inquiry}/messages', [InquiryMessageController::class, 'store'])->middleware('throttle:30,60')->name('inquiries.messages.store');
         Route::get('inquiries/{inquiry}/attachments/{attachment}', [InquiryAttachmentController::class, 'show'])->scopeBindings()->name('inquiries.attachments.show');

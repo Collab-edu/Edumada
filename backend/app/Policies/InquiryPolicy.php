@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\EstablishmentStatus;
 use App\Models\Establishment;
 use App\Models\Inquiry;
 use App\Models\Offer;
@@ -26,6 +27,18 @@ class InquiryPolicy
         }
 
         return $offer->isPubliclyVisible() ? Response::allow() : Response::denyAsNotFound();
+    }
+
+    /**
+     * Question à un établissement publié, sans offre précise : compte étudiant uniquement.
+     */
+    public function contact(User $user, Establishment $establishment): Response
+    {
+        if (! $user->isStudent()) {
+            return Response::deny('Seul un compte étudiant peut envoyer une demande.');
+        }
+
+        return $establishment->status === EstablishmentStatus::Published ? Response::allow() : Response::denyAsNotFound();
     }
 
     /**

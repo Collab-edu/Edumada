@@ -6,9 +6,11 @@ use App\Enums\InquiryStatus;
 use App\Enums\InquiryType;
 use App\Enums\StatMetric;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EstablishmentContactRequest;
 use App\Http\Requests\InquiryRequest;
 use App\Http\Resources\InquiryResource;
 use App\Models\DailyStat;
+use App\Models\Establishment;
 use App\Models\Inquiry;
 use App\Models\Offer;
 use App\Notifications\NewInquiryReceived;
@@ -68,7 +70,43 @@ class InquiryController extends Controller
             return $inquiry;
         });
 
+        return $this->deliver($inquiry);
+    }
+
+    /**
+     * Envoie une question à l'établissement depuis sa fiche, sans offre précise.
+     */
+    public function contact(EstablishmentContactRequest $request, Establishment $establishment): InquiryResource
+    {
+        Gate::authorize('contact', [Inquiry::class, $establishment]);
+
+        $user = $request->user();
+
+        $inquiry = DB::transaction(function () use ($request, $user, $establishment): Inquiry {
+            $inquiry = Inquiry::create([
+                'type' => InquiryType::Information,
+                'user_id' => $user->id,
+                'establishment_id' => $establishment->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $request->validated('phone') ?? $user->phone,
+                'message' => $request->validated('message'),
+            ]);
+            $inquiry->statusChanges()->create(['user_id' => $user->id, 'to_status' => InquiryStatus::New]);
+
+            return $inquiry;
+        });
+
+        return $this->deliver($inquiry);
+    }
+
+    /**
+     * Prévient l'établissement de la nouvelle demande et la compte dans ses statistiques.
+     */
+    private function deliver(Inquiry $inquiry): InquiryResource
+    {
         $inquiry->load(['offer', 'establishment', 'statusChanges', 'attachments', 'messages']);
+        $establishment = $inquiry->establishment;
 
         $notification = new NewInquiryReceived($inquiry, $establishment->hasFeature('inquiryInbox'));
         if ($establishment->email) {
@@ -76,7 +114,7 @@ class InquiryController extends Controller
         }
         Notification::send($establishment->members, $notification);
 
-        DailyStat::bump($establishment->id, $offer->id, null, $inquiry->type === InquiryType::Application ? StatMetric::ApplyClick : StatMetric::ContactClick);
+        DailyStat::bump($establishment->id, $inquiry->offer_id, null, $inquiry->type === InquiryType::Application ? StatMetric::ApplyClick : StatMetric::ContactClick);
 
         return new InquiryResource($inquiry);
     }

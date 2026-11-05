@@ -19,6 +19,7 @@ import SchoolLogo from './SchoolLogo'
 import ReportDialog from './ReportDialog'
 import ReviewDialog from './ReviewDialog'
 import SchoolMap from '@/components/map/SchoolMap'
+import ContactDialog from '@/features/formations/components/detail/ContactDialog'
 
 interface SchoolProfileProps {
     school: SchoolType
@@ -51,6 +52,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
     const map = mapUrls(school.coordinates)
     const [reviewOpen, setReviewOpen] = useState(false)
     const [reportOpen, setReportOpen] = useState(false)
+    const [contactOpen, setContactOpen] = useState(false)
     const websiteLabel = school.website.replace(/^https?:\/\//, '')
 
     return (
@@ -62,7 +64,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                     <span className='mx-2'>/</span>
                     <Link href='/etablissements/' className='inline-block py-2 hover:text-primary'>{t('Établissements')}</Link>
                     <span className='mx-2'>/</span>
-                    <span className='text-secondary'>{school.name}</span>
+                    <span aria-current='page' className='text-black'>{school.name}</span>
                 </nav>
 
                 {/* Couverture */}
@@ -112,21 +114,19 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         ))}
                     </div>
                     <div className='flex flex-wrap gap-3'>
-                        {school.phone && (
-                            <a
-                                href={`tel:${school.phone.replace(/\s/g, '')}`}
-                                onClick={() => track({ type: 'contact_click', establishment: school.id })}
-                                className='inline-flex items-center gap-2 rounded-lg border border-secondary/20 bg-white px-4 py-2.5 font-semibold text-secondary transition-colors duration-300 hover:border-primary hover:text-primary'>
-                                <Icon icon='tabler:phone' className='text-lg' /> {t('Appeler')}
-                            </a>
-                        )}
+                        <button
+                            type='button'
+                            onClick={() => setContactOpen(true)}
+                            className='inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 font-semibold text-white shadow-lg shadow-primary/30 transition-colors duration-300 hover:cursor-pointer hover:bg-primary/90'>
+                            <Icon icon='tabler:message-circle' className='text-lg' /> Contacter l’établissement
+                        </button>
                         {school.website && (
                             <a
                                 href={school.website}
                                 target='_blank'
                                 rel='noopener noreferrer'
                                 onClick={() => track({ type: 'website_click', establishment: school.id })}
-                                className='inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 font-semibold text-white shadow-lg shadow-primary/30 transition-colors duration-300 hover:bg-primary/90'>
+                                className='inline-flex items-center gap-2 rounded-lg border border-secondary/20 bg-white px-4 py-2.5 font-semibold text-secondary transition-colors duration-300 hover:border-primary hover:text-primary'>
                                 <Icon icon='tabler:world' className='text-lg' /> {t('Site web')}
                             </a>
                         )}
@@ -304,6 +304,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                     </aside>
                 </div>
             </div>
+            <ContactDialog open={contactOpen} onClose={() => setContactOpen(false)} school={school} />
             {school.reviewsEnabled !== false && <ReviewDialog open={reviewOpen} onClose={() => setReviewOpen(false)} establishmentId={school.id} formations={formations} />}
             <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} establishmentId={school.id} />
         </section>
