@@ -277,7 +277,7 @@ L'API demande PHP 8.3 ou plus et une base MariaDB ou MySQL : voir [`backend/READ
 
 ## 8. Historique
 
-**363 commits sur `main`,** tous envoyés sur GitHub au 5 novembre 2026.
+**366 commits sur `main`,** tous envoyés sur GitHub au 5 novembre 2026.
 
 1. **15 octobre :** reprise du template, charte Edumada, recherche, fiches, généralisation aux 5 catégories.
 2. **16 octobre :** API Laravel, site branché sur l'API, espaces et formules, back-office séparé.
@@ -285,4 +285,4 @@ L'API demande PHP 8.3 ou plus et une base MariaDB ou MySQL : voir [`backend/READ
 4. **22 octobre :** mise en ligne sur Vercel et alwaysdata, mot de passe oublié, lieux de Madagascar.
 5. **23 au 26 octobre :** connexion Google, nouveau hero, site en trois langues puis multilingue désactivé.
 6. **28 au 31 octobre :** pages Universités, Formation professionnelle et Petite enfance, refonte des pages Domaines et Orientation, test RIASEC, stages, nouvelles fiches et adresses d'offres.
-7. **1er au 5 novembre :** loaders, messagerie des demandes d'information, témoignages défilants, images « Comment ça marche ? », logo des établissements dans les demandes, formules sur la page Tarifs, nouvel en-tête et menu, pages Crèches et Écoles, arrondis réduits, contact d'un établissement depuis sa fiche.
+7. **1er au 5 novembre :** loaders, messagerie des demandes d'information, témoignages défilants, images « Comment ça marche ? », logo des établissements dans les demandes, formules sur la page Tarifs, nouvel en-tête et menu, pages Crèches et Écoles, arrondis réduits, contact d'un établissement depuis sa fiche, images allégées, CSS intégré aux pages.
