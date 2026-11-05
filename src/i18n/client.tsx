@@ -22,11 +22,14 @@ export function useLocalizePath() {
     return useCallback((href: string) => localizePath(href, locale), [locale])
 }
 
-/** Lien interne qui reste dans la langue de la page (remplace next/link sur le site). */
+/**
+ * Lien interne qui reste dans la langue de la page (remplace next/link sur le site).
+ * Sans préchargement : les visiteurs ne paient que les données des pages qu'ils ouvrent.
+ */
 const Link = forwardRef<HTMLAnchorElement, ComponentProps<typeof NextLink>>(function Link({ href, ...props }, ref) {
     const localize = useLocalizePath()
     const target = typeof href === 'string' ? localize(href) : href.pathname ? { ...href, pathname: localize(href.pathname) } : href
-    return <NextLink ref={ref} href={target} {...props} />
+    return <NextLink ref={ref} href={target} prefetch={false} {...props} />
 })
 
 export default Link

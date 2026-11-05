@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
     /* config options here */
     output: 'export',
     trailingSlash: true,
+    experimental: {
+        // CSS intégré à la page : plus de requête qui bloque le premier affichage.
+        // À garder avec prefetch={false} (src/i18n/client.tsx) : le CSS est aussi recopié dans les fichiers préchargés.
+        inlineCss: true,
+    },
     basePath,
     assetPrefix: basePath,
     // Masque le badge « N » de Next.js affiché en mode développement
