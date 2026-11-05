@@ -11,43 +11,23 @@ import { backofficeUrl } from '@/features/auth/types'
 import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import SectionHeader from '@/components/ui/section-header'
 import Companies from './Companies'
-import { signupUrl, usePlans } from '../plans'
+import { planFeatureSections, signupUrl, usePlans } from '../plans'
 import { Eyebrow } from '@/components/ui/eyebrow'
 
-/** Accroche et contenu de chaque formule, d'après le document « Les 4 types de comptes ». */
-const PLAN_DETAILS: Record<Plan['code'], { description: string; intro: string; features: (plan: Plan) => string[] }> = {
-    free: {
-        description: 'Pour être présent sur Edumada et publier vos premières offres.',
-        intro: 'Ce qui est inclus :',
-        features: (plan) => [
-            'Fiche établissement essentielle',
-            plan.maxPublishedOffers === null
-                ? 'Offres illimitées'
-                : `${plan.maxPublishedOffers} ${plan.maxPublishedOffers > 1 ? 'offres publiées' : 'offre publiée'}`,
-            'Coordonnées : adresse, téléphone et e-mail',
-            'Présence dans les résultats standards',
-            'Demandes reçues par e-mail',
-        ],
-    },
-    pro: {
-        description: 'Pour gérer vos demandes et suivre vos résultats toute l’année.',
-        intro: 'Tout Gratuit, plus :',
-        features: () => [
-            'Offres illimitées',
-            'Galerie photos des locaux',
-            'Site web et réseaux sociaux sur la fiche',
-            'Infrastructures illimitées',
-            'Avis des étudiants',
-            'Boîte de réception des demandes et candidatures',
-            'Statuts, filtres et export CSV',
-            'Statistiques standard',
-        ],
-    },
-    premium: {
-        description: 'Pour mettre vos formations en avant pendant vos recrutements.',
-        intro: 'Tout Pro, plus :',
-        features: () => ['Campagnes sponsorisées, clairement signalées', 'Statistiques avancées par campagne', 'Accompagnement prioritaire'],
-    },
+/** Présentation de chaque formule, comme sur la page Formule du back-office. */
+const PLAN_CARD: Record<Plan['code'], { description: string; tag?: string }> = {
+    free: { description: 'Idéale pour démarrer et avoir une présence de base sur la plateforme.' },
+    pro: { description: 'Pour les établissements qui souhaitent plus de visibilité et de demandes.', tag: 'Recommandé' },
+    premium: { description: 'Pour les établissements qui veulent une visibilité maximale et un accompagnement prioritaire.', tag: 'Visibilité maximale' },
+}
+
+/** Prix selon le rythme choisi ; une formule sans tarif annuel reste au mois. */
+function planPrice(plan: Plan, yearly: boolean) {
+    if (plan.code === 'free') return { amount: '0 Ar', period: 'par mois' }
+    if (!yearly || plan.yearlyPrice === null) {
+        return { amount: formatAriary(plan.monthlyPrice), period: yearly ? 'par mois, pas de tarif annuel' : 'par mois' }
+    }
+    return { amount: formatAriary(plan.yearlyPrice), period: `par an, soit ${formatAriary(Math.round(plan.yearlyPrice / 12))} par mois` }
 }
 
 const FAQ = [
@@ -86,7 +66,9 @@ export default function PricingPage() {
         user?.role === 'establishment'
             ? backofficeUrl(plan.code === 'free' ? '/formule/' : `/formule/?plan=${plan.code}&cycle=${cycleOf(plan)}`)
             : signupUrl(plan.code, cycleOf(plan))
-    const yearlySaving = 10
+    // Économie réelle de l'annuel, calculée à partir des prix.
+    const yearlyPlan = plans.find((plan) => plan.code !== 'free' && plan.yearlyPrice !== null && !!plan.monthlyPrice)
+    const yearlySaving = yearlyPlan ? Math.round((1 - (yearlyPlan.yearlyPrice ?? 0) / ((yearlyPlan.monthlyPrice ?? 1) * 12)) * 100) : 0
 
     return (
         <>
@@ -114,7 +96,7 @@ export default function PricingPage() {
                                         yearly === value ? 'bg-secondary text-white' : 'text-secondary hover:text-primary'
                                     )}>
                                     {value ? t('Annuel') : t('Mensuel')}
-                                    {value && yearlySaving ? (
+                                    {value && yearlySaving > 0 ? (
                                         <span className={cn('rounded-full px-2 py-0.5 text-xs', yearly ? 'bg-white/20 text-white' : 'bg-primary/10 text-primary')}>
                                             −{yearlySaving} %
                                         </span>
@@ -126,9 +108,9 @@ export default function PricingPage() {
 
                     <div className='grid gap-5 md:grid-cols-3 md:items-stretch'>
                         {plans.map((plan) => {
-                            const details = PLAN_DETAILS[plan.code]
+                            const card = PLAN_CARD[plan.code]
                             const highlighted = plan.code === 'pro'
-                            const showYearly = yearly && plan.yearlyPrice !== null && plan.code !== 'free'
+                            const price = planPrice(plan, yearly)
                             return (
                                 <div
                                     key={plan.code}
@@ -137,44 +119,51 @@ export default function PricingPage() {
                                         highlighted ? 'border-primary shadow-[4px_4px_0_0_rgba(255,59,82,0.3)] md:-my-3' : 'border-gray-200 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'
                                     )}>
                                     <div className={cn('flex flex-col gap-4 p-6', highlighted && 'bg-cream/60')}>
-                                        <div className='flex items-center justify-between gap-2'>
-                                            <p className='text-xl font-bold text-secondary'>{t(plan.name)}</p>
-                                            {highlighted && <Eyebrow>{t('Recommandée')}</Eyebrow>}
+                                        <div className='flex flex-wrap items-center justify-between gap-x-2 gap-y-1'>
+                                            <p className='whitespace-nowrap text-xl font-bold text-secondary'>Formule {t(plan.name)}</p>
+                                            {card.tag && <Eyebrow bar={false} className='whitespace-nowrap'>{card.tag}</Eyebrow>}
                                         </div>
-                                        <p className='min-h-12 text-sm text-black'>{t(details.description)}</p>
+                                        <p className='min-h-12 text-sm text-black'>{card.description}</p>
                                         <div className='min-h-16'>
-                                            {plan.code === 'free' ? (
-                                                <p className='text-4xl font-bold text-secondary'>0 Ar</p>
-                                            ) : (
-                                                <>
-                                                    <p className='text-4xl font-bold text-secondary'>
-                                                        {formatAriary(showYearly ? plan.yearlyPrice : plan.monthlyPrice)}
-                                                        <span className='text-base font-normal text-ink/60'> / {showYearly ? t('an') : t('mois')}</span>
-                                                    </p>
-                                                    {yearly && plan.yearlyPrice === null && <p className='text-sm text-ink/60'>{t('Au mois uniquement, selon vos besoins')}</p>}
-                                                </>
-                                            )}
+                                            <p className='text-4xl font-bold text-secondary'>{price.amount}</p>
+                                            <p className='mt-1 text-sm text-ink/60'>{price.period}</p>
                                         </div>
                                         <ButtonLink href={cta(plan)} variant={highlighted ? 'primary' : 'dark'} className='w-full justify-center'>
                                             {plan.code === 'free' ? t('Référencer mon établissement') : t('Choisir {plan}', { plan: t(plan.name) })}
                                         </ButtonLink>
                                     </div>
-                                    <div className='flex flex-1 flex-col gap-3 border-t border-gray-100 p-6'>
-                                        <p className='text-sm font-semibold text-secondary'>{t(details.intro)}</p>
-                                        <ul className='flex flex-col gap-2.5'>
-                                            {details.features(plan).map((feature) => (
-                                                <li key={feature} className='flex items-start gap-2 text-sm text-ink/80'>
-                                                    <Icon icon='tabler:circle-check-filled' className='mt-0.5 shrink-0 text-lg text-primary' />
-                                                    {t(feature)}
-                                                </li>
-                                            ))}
-                                        </ul>
+                                    <div className='flex flex-1 flex-col gap-5 border-t border-gray-100 p-6'>
+                                        {planFeatureSections(plan).map((section) => (
+                                            <div key={section.title} className='flex flex-col gap-2.5'>
+                                                <p className='flex items-center justify-between gap-2 text-sm font-semibold text-secondary'>
+                                                    {section.title}
+                                                    <span className='shrink-0 rounded-full bg-offwhite px-2 py-0.5 text-xs font-semibold text-ink/70'>
+                                                        {section.features.filter((f) => f.included).length}/{section.features.length}
+                                                        <span className='sr-only'> fonctions incluses</span>
+                                                    </span>
+                                                </p>
+                                                <ul className='flex flex-col gap-2'>
+                                                    {section.features.map((f) => (
+                                                        <li key={f.label} className={cn('flex items-start gap-2 text-sm', f.included ? 'text-ink/80' : 'text-ink/40')}>
+                                                            <Icon icon={f.included ? 'tabler:circle-check-filled' : 'tabler:x'} className={cn('mt-0.5 shrink-0 text-lg', f.included ? 'text-primary' : 'text-ink/30')} />
+                                                            <span>
+                                                                {f.label}
+                                                                {!f.included && <span className='sr-only'> (non inclus)</span>}
+                                                            </span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             )
                         })}
                     </div>
-                    <p className='text-center text-sm text-ink/60'>{t('Prix de lancement indicatifs, susceptibles d’évoluer. Aucun nombre de candidats n’est garanti.')}</p>
+                    <div className='flex flex-col gap-1 text-center text-sm text-ink/60'>
+                        <p>{t('Prix de lancement indicatifs, susceptibles d’évoluer. Aucun nombre de candidats n’est garanti.')}</p>
+                        <p>À l’expiration d’une formule payante, la fiche reste en ligne avec la formule Gratuit ; seules les fonctions payantes s’arrêtent.</p>
+                    </div>
                 </div>
             </section>
 

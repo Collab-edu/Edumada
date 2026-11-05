@@ -8,7 +8,17 @@ export type Plan = {
     monthlyPrice: number | null
     yearlyPrice: number | null
     maxPublishedOffers: number | null
-    features: { inquiryInbox?: boolean; statistics?: 'none' | 'standard' | 'advanced'; sponsoredPlacement?: boolean; prioritySupport?: boolean }
+    features: {
+        inquiryInbox?: boolean
+        statistics?: 'none' | 'standard' | 'advanced'
+        sponsoredPlacement?: boolean
+        prioritySupport?: boolean
+        photoGallery?: boolean
+        onlineLinks?: boolean
+        reviews?: boolean
+        /** null : illimité. */
+        maxInfrastructures?: number | null
+    }
 }
 
 export type ManagedOffer = FormationType & {
