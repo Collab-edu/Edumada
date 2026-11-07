@@ -179,7 +179,6 @@ export default function BenefitsPage() {
                             </li>
                         ))}
                     </ul>
-                    <p className='mt-8 text-sm text-ink/60'>{t('Paiement par MVola, Orange Money, Airtel Money, virement ou espèces. Aucun nombre de candidats n’est garanti.')}</p>
                 </div>
             </section>
         </>
