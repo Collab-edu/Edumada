@@ -145,6 +145,28 @@ function toPayload(s: State, rules: OfferKindRules, structure: FormationStructur
     }
 }
 
+/** Exemples d'intitulés selon le type d'établissement (sous-catégorie). */
+const TITLE_EXAMPLES: Record<string, string> = {
+    Université: 'Ex. : Droit des affaires',
+    'École supérieure': 'Ex. : Génie logiciel',
+    'Institut supérieur': 'Ex. : Gestion des entreprises',
+    'Grande école': 'Ex. : Génie civil',
+    'Centre de formation professionnelle': 'Ex. : Électricité bâtiment',
+    "Centre d'apprentissage": 'Ex. : Mécanique automobile',
+    'École technique': 'Ex. : Froid et climatisation',
+    'Centre de formation en informatique': 'Ex. : Bureautique',
+    'Centre de langues': 'Ex. : Anglais général',
+}
+
+/** Libellés de l'intitulé selon la structure de l'offre : Domaine → Filière → Niveaux, ou Domaine → Formation → Durée / Niveau. */
+function offerLabels(structure: FormationStructure, subCategory: string, rules: OfferKindRules) {
+    if (structure === 'levels')
+        return { title: 'Filière', titleHelp: 'La spécialité enseignée, sans le diplôme : les niveaux (Licence, Master…) se précisent juste en dessous.', titlePlaceholder: TITLE_EXAMPLES[subCategory] ?? 'Ex. : Génie logiciel' }
+    if (structure === 'vocational')
+        return { title: 'Formation', titleHelp: 'Le métier ou la compétence enseignée.', titlePlaceholder: TITLE_EXAMPLES[subCategory] ?? 'Ex. : Électricité bâtiment' }
+    return { title: 'Intitulé', titleHelp: undefined, titlePlaceholder: rules.titlePlaceholder }
+}
+
 type StepMeta = { key: string; n: number; title: string; subtitle: string; done: boolean }
 
 /** Étape repliable du formulaire : numéro, titre, état de complétion. */
@@ -183,6 +205,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
     const rules = OFFER_KINDS[s.kind] ?? OFFER_KINDS.formation
     const kinds = kindsForCategory(e.category, offer?.kind)
     const structure = formationStructure(e.category, s.kind)
+    const labels = offerLabels(structure, e.subCategory, rules)
     const showBacSeries = rules.level && (structure === 'levels' ? s.levels.some((l) => l.admissionLevel !== 'Aucun') : s.level !== 'Aucun')
     const [saving, setSaving] = useState<string | null>(null)
     const [error, setError] = useState<unknown>(null)
@@ -312,37 +335,51 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
 
             <Step meta={stepOf('main')} open={isOpen('main')} onToggle={() => toggleStep('main')}>
                 <CRow className='g-3'>
+                    {kinds.length > 1 ? (
+                        <CCol md={6}>
+                            <CFormSelect label="Type d'offre" value={s.kind} onChange={(ev) => changeKind(ev.target.value)}>
+                                {kinds.map((k) => (
+                                    <option key={k} value={k}>
+                                        {OFFER_KINDS[k]?.label ?? k}
+                                    </option>
+                                ))}
+                            </CFormSelect>
+                        </CCol>
+                    ) : (
+                        // Un seul type possible : on rappelle plutôt le type d'établissement, qui détermine les champs.
+                        <CCol md={6}>
+                            <CFormInput label="Type d'établissement" value={e.subCategory || OFFER_KINDS[s.kind]?.label || ''} disabled readOnly />
+                        </CCol>
+                    )}
+                    {rules.domain && (
+                        <CCol md={6}>
+                            <CFormSelect
+                                label={structure === 'simple' ? "Domaine d'études" : 'Domaine'}
+                                value={s.domain}
+                                onChange={(ev) => set('domain', ev.target.value)}
+                                invalid={!!err('domain')}
+                                feedbackInvalid={err('domain')}
+                            >
+                                <option value=''>Choisir…</option>
+                                {opts((domains?.data ?? []).map((d) => d.name))}
+                            </CFormSelect>
+                        </CCol>
+                    )}
                     <CCol md={12}>
                         <CFormInput
-                            label={structure === 'levels' ? 'Filière' : structure === 'vocational' ? 'Formation' : 'Intitulé'}
-                            placeholder={structure === 'levels' ? 'Ex. : Génie logiciel' : structure === 'vocational' ? 'Ex. : Électricité bâtiment' : rules.titlePlaceholder}
+                            label={labels.title}
+                            text={labels.titleHelp}
+                            placeholder={labels.titlePlaceholder}
                             value={s.title}
                             onChange={(ev) => set('title', ev.target.value)}
                             invalid={!!err('title')}
                             feedbackInvalid={err('title')}
                         />
                     </CCol>
-                    <CCol md={6}>
-                        <CFormSelect label="Type d'offre" value={s.kind} disabled={kinds.length === 1} onChange={(ev) => changeKind(ev.target.value)}>
-                            {kinds.map((k) => (
-                                <option key={k} value={k}>
-                                    {OFFER_KINDS[k]?.label ?? k}
-                                </option>
-                            ))}
-                        </CFormSelect>
-                    </CCol>
-                    {rules.domain && (
-                        <CCol md={6}>
-                            <CFormSelect label="Domaine d'études" value={s.domain} onChange={(ev) => set('domain', ev.target.value)}>
-                                <option value=''>Choisir…</option>
-                                {opts((domains?.data ?? []).map((d) => d.name))}
-                            </CFormSelect>
-                        </CCol>
-                    )}
                     {structure === 'levels' && (
                         <CCol md={12}>
                             <div className='form-label mb-1'>Niveaux proposés</div>
-                            <p className='small text-body-secondary mb-2'>Un niveau par diplôme (ex. : Licence puis Master), avec sa durée, ses frais annuels et le niveau requis pour y entrer.</p>
+                            <p className='small text-body-secondary mb-2'>Les niveaux auxquels cette filière est proposée (ex. : Licence puis Master), chacun avec sa durée, ses frais annuels et le niveau requis pour y entrer.</p>
                             {rowEditor(
                                 'levels',
                                 { diploma: '', durationYears: '', fees: '', admissionLevel: 'BAC' },
@@ -378,7 +415,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                     {structure === 'vocational' && (
                         <>
                             <CCol md={4}>
-                                <CFormSelect label='Diplôme obtenu' value={s.diploma} onChange={(ev) => set('diploma', ev.target.value)}>
+                                <CFormSelect label='Niveau (diplôme obtenu)' value={s.diploma} onChange={(ev) => set('diploma', ev.target.value)}>
                                     <option value=''>Aucun diplôme</option>
                                     {opts(VOCATIONAL_DIPLOMAS)}
                                 </CFormSelect>
