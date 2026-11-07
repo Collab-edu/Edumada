@@ -38,6 +38,17 @@ class EstablishmentControllerTest extends TestCase
             ->assertJsonPath('data.0.id', $premium->slug);
     }
 
+    public function test_owner_sets_the_founding_year_shown_on_the_profile(): void
+    {
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $establishment = Establishment::factory()->ownedBy($owner)->create();
+        $url = "/api/v1/establishments/{$establishment->slug}";
+
+        $this->actingAs($owner)->patchJson($url, ['foundedYear' => 1998])->assertOk()->assertJsonPath('data.foundedYear', 1998);
+        $this->getJson($url)->assertOk()->assertJsonPath('data.foundedYear', 1998);
+        $this->actingAs($owner)->patchJson($url, ['foundedYear' => now()->year + 1])->assertUnprocessable()->assertJsonValidationErrors('foundedYear');
+    }
+
     public function test_logo_can_stay_a_site_path_but_not_a_script_or_other_host_path(): void
     {
         $owner = User::factory()->create(['role' => UserRole::Establishment]);

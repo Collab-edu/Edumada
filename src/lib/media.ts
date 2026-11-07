@@ -17,6 +17,6 @@ export function mapUrls(coordinates: { lat: number; lng: number } | null) {
     if (!coordinates) return null
     const { lat, lng } = coordinates
     return {
-        link: `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=16/${lat}/${lng}`,
+        link: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
     }
 }

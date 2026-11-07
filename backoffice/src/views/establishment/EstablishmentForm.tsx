@@ -32,6 +32,7 @@ const initial = (e?: ManagedEstablishment) => ({
     socialLinks: { ...(e?.socialLinks ?? {}) } as Record<string, string>,
     infrastructures: e?.infrastructures ?? [],
     accreditation: e?.accreditation ?? '',
+    foundedYear: e?.foundedYear ? String(e.foundedYear) : '',
     lat: e?.coordinates ? String(e.coordinates.lat) : '',
     lng: e?.coordinates ? String(e.coordinates.lng) : '',
     admissionDocuments: e?.admissionDocuments ?? [],
@@ -75,6 +76,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
             website: form.website || null,
             description: form.description || null,
             accreditation: form.accreditation || null,
+            foundedYear: form.foundedYear.trim() ? Number(form.foundedYear) : null,
             imageSrc: form.imageSrc || null,
             logo: form.logo || null,
             socialLinks: Object.fromEntries(Object.entries(form.socialLinks).filter(([, url]) => url)),
@@ -183,6 +185,20 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                             </CFormSelect>
                             <span aria-hidden='true'>{form.type}</span>
                         </div>
+                    </CCol>
+                    <CCol md={6}>
+                        <CFormInput
+                            id='bo-founded'
+                            label='Année de création'
+                            inputMode='numeric'
+                            maxLength={4}
+                            placeholder={`Ex. : ${new Date().getFullYear() - 20}`}
+                            value={form.foundedYear}
+                            onChange={(e) => set('foundedYear', e.target.value.replace(/\D/g, ''))}
+                            invalid={!!err('foundedYear')}
+                            feedbackInvalid={err('foundedYear')}
+                            text='Affichée sur votre fiche : « Depuis 1998 ».'
+                        />
                     </CCol>
                     <CCol md={12}>
                         <CFormTextarea

@@ -23,6 +23,8 @@ export type SchoolType = {
   tags: string[]
   /** Reconnaissance / accréditation, null si non applicable ou non renseignée. */
   accreditation: string | null
+  /** Année de création ; null si non renseignée. */
+  foundedYear?: number | null
   /** true seulement si Edumada a vérifié la reconnaissance auprès des autorités. */
   accreditationVerified: boolean
   /** Position GPS ; null tant que l'établissement ne l'a pas renseignée. */

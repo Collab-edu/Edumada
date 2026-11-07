@@ -192,6 +192,7 @@ export type Establishment = {
     description: string
     tags?: string[]
     accreditation: string | null
+    foundedYear?: number | null
     accreditationVerified: boolean
     coordinates: { lat: number; lng: number } | null
     admissionDocuments: string[]

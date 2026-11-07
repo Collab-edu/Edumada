@@ -48,6 +48,8 @@ class EstablishmentResource extends JsonResource
                 ->unique()
                 ->values()),
             'accreditation' => $this->accreditation,
+            // Année de création (« Depuis 1998 ») ; null si non renseignée.
+            'foundedYear' => $this->founded_year,
             'accreditationVerified' => $this->accreditation_verified,
             'coordinates' => $this->latitude !== null && $this->longitude !== null
                 ? ['lat' => $this->latitude, 'lng' => $this->longitude]

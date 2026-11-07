@@ -29,6 +29,12 @@ interface SchoolProfileProps {
     faq: FaqItem[]
 }
 
+/** « 27 ans d'existence », « Créé cette année ». */
+function foundedLabel(year: number): string {
+    const age = new Date().getFullYear() - year
+    return age <= 0 ? 'Créé cette année' : age === 1 ? "1 an d'existence" : `${age} ans d'existence`
+}
+
 function InfoRow({ icon, label, children }: { icon: string; label: string; children: React.ReactNode }) {
     const t = useT()
     return (
@@ -89,6 +95,11 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 <span className='inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>
                                     <Icon icon='tabler:map-pin' /> {school.city}
                                 </span>
+                                {school.foundedYear && (
+                                    <span className='inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>
+                                        <Icon icon='tabler:calendar-star' /> {t('Depuis {year}', { year: school.foundedYear })}
+                                    </span>
+                                )}
                                 {school.verification.status === 'Vérifié' && (
                                     <span className='inline-flex items-center gap-1 rounded-full bg-success px-3 py-1 font-semibold text-secondary'>
                                         <Icon icon='tabler:shield-check' /> {t('Fiche vérifiée')}
@@ -225,7 +236,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 target='_blank'
                                 rel='noopener noreferrer'
                                 className='flex items-center justify-between px-6 py-4 font-semibold text-primary hover:underline'>
-                                {t('Ouvrir dans OpenStreetMap')}
+                                {t('Ouvrir dans Google Maps')}
                                 <Icon icon='tabler:external-link' />
                             </a>
                         </div>
@@ -238,6 +249,11 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 <InfoRow icon={category.icon} label='Type et catégorie'>
                                     {[school.subCategory, category.label, school.type].filter((v): v is string => Boolean(v)).map((v) => t(v)).join(' · ')}
                                 </InfoRow>
+                                {school.foundedYear && (
+                                    <InfoRow icon='tabler:calendar-star' label='Année de création'>
+                                        {school.foundedYear} · {t(foundedLabel(school.foundedYear))}
+                                    </InfoRow>
+                                )}
                                 <InfoRow icon='tabler:map-pin' label='Adresse'>{school.address}</InfoRow>
                                 {school.phone && (
                                     <InfoRow icon='tabler:phone' label='Téléphone'>

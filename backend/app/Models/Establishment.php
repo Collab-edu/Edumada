@@ -30,7 +30,7 @@ use Illuminate\Validation\ValidationException;
 #[Fillable([
     'slug', 'name', 'initials', 'sector', 'category_id', 'sub_category_id',
     'city', 'address', 'phone', 'email', 'website', 'description',
-    'social_links', 'infrastructures', 'accreditation', 'latitude', 'longitude',
+    'social_links', 'infrastructures', 'accreditation', 'founded_year', 'latitude', 'longitude',
     'admission_documents', 'cover_image', 'logo', 'photos',
 ])]
 #[RouteKey('slug')]
@@ -50,6 +50,7 @@ class Establishment extends Model
             'verification_status' => VerificationStatus::class,
             'verified_at' => 'date',
             'accreditation_verified' => 'boolean',
+            'founded_year' => 'integer',
             'social_links' => 'array',
             'infrastructures' => 'array',
             'admission_documents' => 'array',
