@@ -8,46 +8,14 @@ import Image from 'next/image'
 import withBasePath from '@/lib/base-path'
 
 const BENEFITS = [
-    {
-        icon: 'tabler:id-badge-2',
-        title: 'Une fiche complète',
-        text: 'Présentation, coordonnées, position sur la carte, et avec Pro une galerie photos : tout ce qu’un futur étudiant veut savoir sur votre établissement.',
-    },
-    {
-        icon: 'tabler:books',
-        title: 'Vos formations en ligne',
-        text: 'Publiez vos offres avec la durée, les frais, le diplôme et les conditions d’admission. Elles apparaissent dans la recherche du site.',
-    },
-    {
-        icon: 'tabler:inbox',
-        title: 'Les demandes des étudiants',
-        text: 'Recevez les demandes d’information et les candidatures, puis suivez-les avec des statuts, des filtres et un export CSV.',
-    },
-    {
-        icon: 'tabler:chart-bar',
-        title: 'Des statistiques claires',
-        text: 'Vues de votre fiche, clics vers vos coordonnées, demandes reçues : mesurez l’intérêt pour vos formations.',
-    },
-    {
-        icon: 'tabler:speakerphone',
-        title: 'Plus de visibilité',
-        text: 'Pendant vos recrutements, mettez vos formations en avant avec des campagnes sponsorisées, toujours signalées comme telles.',
-    },
-    {
-        icon: 'tabler:rosette-discount-check',
-        title: 'Un badge « vérifié »',
-        text: 'Après contrôle de votre identité et de vos autorisations, votre fiche affiche un badge de confiance. Il ne s’achète pas.',
-    },
-    {
-        icon: 'tabler:star',
-        title: 'Les avis de vos étudiants',
-        text: 'Avec Pro, recueillez les témoignages de vos étudiants et de leurs familles : la meilleure preuve de la qualité de vos formations.',
-    },
-    {
-        icon: 'tabler:users',
-        title: 'Une gestion à plusieurs',
-        text: 'Invitez vos collègues dans votre espace établissement pour tenir la fiche à jour et répondre aux demandes ensemble.',
-    },
+    { icon: 'tabler:eye', title: 'Plus de visibilité', text: 'Présentez votre établissement sur une plateforme dédiée à l’éducation à Madagascar.' },
+    { icon: 'tabler:book', title: 'Mettez en valeur vos formations', text: 'Publiez vos filières, programmes et spécialités avec des informations claires et attractives.' },
+    { icon: 'tabler:users', title: 'Attirez de nouveaux étudiants', text: 'Permettez aux étudiants de découvrir vos offres et de vous contacter directement.' },
+    { icon: 'tabler:device-desktop', title: 'Votre page établissement', text: 'Disposez d’une page personnalisée pour présenter votre histoire, vos infrastructures et vos coordonnées.' },
+    { icon: 'tabler:message-circle', title: 'Échangez facilement', text: 'Recevez les demandes d’informations des étudiants intéressés et répondez simplement.' },
+    { icon: 'tabler:world', title: 'Renforcez votre présence en ligne', text: 'Bénéficiez d’une présence supplémentaire sur Internet et améliorez la visibilité de votre établissement sur Google.' },
+    { icon: 'tabler:trending-up', title: 'Suivez vos statistiques', text: 'Consultez le nombre de visites de votre page et mesurez l’intérêt pour vos formations.' },
+    { icon: 'tabler:headset', title: 'Un accompagnement dédié', text: 'Notre équipe vous aide à créer et optimiser votre fiche pour gagner en visibilité.' },
 ]
 
 const STEPS = [
@@ -104,14 +72,17 @@ export default function BenefitsPage() {
                         {BENEFITS.map((benefit, i) => (
                             <li
                                 key={benefit.title}
-                                className='relative flex flex-col rounded-2xl border border-gray-100 bg-white p-7 shadow-[0_8px_24px_-18px_rgba(15,76,92,0.35)] transition-shadow duration-300 hover:shadow-[0_14px_30px_-16px_rgba(15,76,92,0.35)]'>
-                                {/* Numéro discret en haut à droite : 01, 02… */}
-                                <span className='absolute top-6 right-7 text-xs font-semibold text-ink/30'>{String(i + 1).padStart(2, '0')}</span>
-                                <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary'>
-                                    <Icon icon={benefit.icon} className='text-xl' />
+                                className='relative flex flex-col overflow-hidden rounded-2xl bg-white p-6 shadow-[0_10px_30px_-18px_rgba(15,76,92,0.3)] transition-transform duration-300 hover:-translate-y-1'>
+                                {/* Grand numéro pâle en filigrane : 01, 02… */}
+                                <span aria-hidden='true' className='absolute -top-1 right-4 font-heading text-6xl font-extrabold leading-none text-secondary/[0.06]'>
+                                    {String(i + 1).padStart(2, '0')}
                                 </span>
-                                <h3 className='mt-6 text-lg font-bold text-secondary'>{t(benefit.title)}</h3>
-                                <p className='mt-2 !text-sm leading-relaxed text-ink/80'>{t(benefit.text)}</p>
+                                <span className='relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-[#e8203a] text-white shadow-[0_8px_16px_-6px_rgba(255,59,82,0.6)]'>
+                                    <Icon icon={benefit.icon} className='text-2xl' />
+                                </span>
+                                <h3 className='relative mt-5 text-lg font-bold leading-snug text-secondary'>{t(benefit.title)}</h3>
+                                <p className='relative mt-3 mb-6 !text-sm leading-relaxed text-ink/80'>{t(benefit.text)}</p>
+                                <span aria-hidden='true' className='mt-auto block h-0.5 w-8 rounded-full bg-primary' />
                             </li>
                         ))}
                     </ul>
