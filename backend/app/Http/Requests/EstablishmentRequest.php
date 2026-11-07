@@ -36,7 +36,8 @@ class EstablishmentRequest extends FormRequest
             'website' => ['sometimes', 'nullable', 'url', 'max:255'],
             'description' => ['sometimes', 'nullable', 'string', 'max:5000'],
             'socialLinks' => ['sometimes', 'array:facebook,instagram,linkedin,youtube'],
-            'socialLinks.*' => ['nullable', 'url', 'max:255'],
+            // Nom de la page, identifiant (@edumada) ou lien : le site en fait un lien quand c'est possible.
+            'socialLinks.*' => ['nullable', 'string', 'max:255'],
             'infrastructures' => ['sometimes', 'array', 'max:30'],
             'infrastructures.*' => ['string', 'max:255'],
             'accreditation' => ['sometimes', 'nullable', 'string', 'max:255'],

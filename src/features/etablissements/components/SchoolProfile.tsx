@@ -36,25 +36,54 @@ function foundedLabel(year: number): string {
 }
 
 /** Coordonnée cliquable (appeler, écrire, visiter) : icône, libellé et valeur. */
-function ContactRow({ icon, label, href, external, onClick, children }: { icon: string; label: string; href: string; external?: boolean; onClick?: () => void; children: React.ReactNode }) {
+function ContactRow({ icon, label, href, external, onClick, children }: { icon: string; label: string; href?: string | null; external?: boolean; onClick?: () => void; children: React.ReactNode }) {
     const t = useT()
+    const content = (
+        <>
+            <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary'>
+                <Icon icon={icon} className='text-lg' />
+            </span>
+            <span className='flex min-w-0 flex-col'>
+                <span className='text-xs text-ink/60'>{t(label)}</span>
+                <span className='truncate font-semibold text-ink group-hover:text-primary'>{children}</span>
+            </span>
+        </>
+    )
     return (
         <li>
-            <a
-                href={href}
-                onClick={onClick}
-                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className='group flex items-center gap-3 rounded-lg py-2 hover:text-primary'>
-                <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary'>
-                    <Icon icon={icon} className='text-lg' />
-                </span>
-                <span className='flex min-w-0 flex-col'>
-                    <span className='text-xs text-ink/60'>{t(label)}</span>
-                    <span className='truncate font-semibold text-ink group-hover:text-primary'>{children}</span>
-                </span>
-            </a>
+            {href ? (
+                <a href={href} onClick={onClick} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className='group flex items-center gap-3 rounded-lg py-2 hover:text-primary'>
+                    {content}
+                </a>
+            ) : (
+                <span className='flex items-center gap-3 py-2'>{content}</span>
+            )}
         </li>
     )
+}
+
+const SOCIAL_NAMES: Record<string, string> = { facebook: 'Facebook', instagram: 'Instagram', linkedin: 'LinkedIn', youtube: 'YouTube' }
+
+/** Page du réseau : identifiant (« edumada », « @edumada ») → profil ; nom avec espaces → recherche sur le réseau. */
+const SOCIAL_PROFILE: Record<string, (handle: string) => string> = {
+    facebook: (h) => `https://www.facebook.com/${h}`,
+    instagram: (h) => `https://www.instagram.com/${h}`,
+    linkedin: (h) => `https://www.linkedin.com/company/${h}`,
+    youtube: (h) => `https://www.youtube.com/@${h}`,
+}
+const SOCIAL_SEARCH: Record<string, (q: string) => string> = {
+    facebook: (q) => `https://www.facebook.com/search/top?q=${encodeURIComponent(q)}`,
+    linkedin: (q) => `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(q)}`,
+    youtube: (q) => `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`,
+}
+
+/** Réseau social saisi en texte libre : nom affiché et lien quand on peut en faire un. */
+function socialLink(network: string, value: string): { label: string; href: string | null } {
+    const text = value.trim()
+    if (/^https?:\/\//i.test(text)) return { label: text.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, ''), href: text }
+    const handle = text.replace(/^@/, '')
+    if (/^[\w.-]+$/.test(handle)) return { label: text, href: SOCIAL_PROFILE[network]?.(handle) ?? null }
+    return { label: text, href: SOCIAL_SEARCH[network]?.(text) ?? null }
 }
 
 /** Ligne de la fiche pratique : libellé à gauche, valeur à droite. */
@@ -288,22 +317,17 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                         )}
                                     </ul>
                                     {socials.length > 0 && (
-                                        <div className='mt-3'>
-                                            <p className='mb-2 text-xs text-ink/60'>{t('Réseaux sociaux')}</p>
-                                            <div className='flex flex-wrap gap-2'>
-                                                {socials.map(([network, url]) => (
-                                                    <a
-                                                        key={network}
-                                                        href={url}
-                                                        target='_blank'
-                                                        rel='noopener noreferrer'
-                                                        aria-label={network}
-                                                        className='flex h-10 w-10 items-center justify-center rounded-full bg-secondary/10 text-secondary transition-colors hover:bg-primary hover:text-white'>
-                                                        <Icon icon={`tabler:brand-${network}`} className='text-xl' />
-                                                    </a>
-                                                ))}
-                                            </div>
-                                        </div>
+                                        // Réseaux saisis en texte (nom de la page, @identifiant ou lien).
+                                        <ul className='flex flex-col text-sm'>
+                                            {socials.map(([network, value]) => {
+                                                const social = socialLink(network, value)
+                                                return (
+                                                    <ContactRow key={network} icon={`tabler:brand-${network}`} label={SOCIAL_NAMES[network] ?? network} href={social.href} external>
+                                                        {social.label}
+                                                    </ContactRow>
+                                                )
+                                            })}
+                                        </ul>
                                     )}
                                 </div>
                             )}

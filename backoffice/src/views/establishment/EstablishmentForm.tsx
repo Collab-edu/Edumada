@@ -257,8 +257,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                                 id={`bo-social-${key}`}
                                 label={label}
                                 icon={cilLink}
-                                type='url'
-                                placeholder='https://'
+                                placeholder='Nom de la page, @identifiant ou lien'
                                 value={form.socialLinks[key] ?? ''}
                                 onChange={(e) => set('socialLinks', { ...form.socialLinks, [key]: e.target.value })}
                                 error={err(`socialLinks.${key}`)}
