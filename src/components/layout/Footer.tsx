@@ -46,6 +46,18 @@ const Footer = () => {
                     <div className='flex flex-col gap-4 lg:col-span-4'>
                         <Image src={withBasePath('/images/logo/edumada-logo-white.svg')} alt='Edumada' width={828} height={270} className='h-12 w-auto self-start' />
                         <p className='max-w-xs text-white/70'>{t('Trouvez votre formation à Madagascar et construisez votre avenir.')}</p>
+                        <div className='flex gap-2'>
+                            {SOCIAL_LINKS.map((social) => (
+                                <Link
+                                    key={social.label}
+                                    href={social.href}
+                                    scroll={false}
+                                    aria-label={social.label}
+                                    className='flex h-8 w-8 items-center justify-center rounded-md border border-white/20 text-white transition-colors duration-300 hover:border-white hover:bg-white hover:text-secondary'>
+                                    <Icon icon={social.icon} className='text-base' />
+                                </Link>
+                            ))}
+                    </div>
                     </div>
                     <div className='grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-8'>
                         {footerlink.map((section) => (
@@ -68,24 +80,12 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Copyright et réseaux sociaux */}
-                <div className='flex flex-col-reverse gap-6 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between'>
+                {/* Copyright */}
+                <div className='border-t border-white/10 pt-6'>
                     {/* L'année est calculée au rendu : on tolère l'écart entre build statique et navigateur. */}
                     <p className='!text-sm text-white/60' suppressHydrationWarning>
                         © {new Date().getFullYear()} Edumada. {t('Tous droits réservés.')}
                     </p>
-                    <div className='flex gap-3'>
-                        {SOCIAL_LINKS.map((social) => (
-                            <Link
-                                key={social.label}
-                                href={social.href}
-                                scroll={false}
-                                aria-label={social.label}
-                                className='flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 text-white transition-colors duration-300 hover:border-white hover:bg-white hover:text-secondary'>
-                                <Icon icon={social.icon} className='text-xl' />
-                            </Link>
-                        ))}
-                    </div>
                 </div>
             </div>
         </footer>
