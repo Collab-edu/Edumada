@@ -3,7 +3,7 @@ import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import SectionHeader from '@/components/ui/section-header'
-import DashboardPreview from './DashboardPreview'
+import EstablishmentHeroMockup from './EstablishmentHeroMockup'
 import Image from 'next/image'
 import withBasePath from '@/lib/base-path'
 
@@ -45,36 +45,42 @@ export default function BenefitsPage() {
     return (
         <>
             {/* En-tête */}
-            <section className='pt-28 pb-14 sm:pt-32 md:pb-20'>
+            <section className='overflow-hidden pt-28 pb-14 sm:pt-32 md:pb-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
-                        <div className='mobile-center flex flex-col gap-4'>
-                            <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
-                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t('Faites découvrir vos formations aux futurs étudiants')}</h1>
-                            <p className='text-black'>
-                                {t('Edumada est le lieu où les jeunes et leurs familles cherchent une formation à Madagascar. Référencez votre établissement gratuitement et soyez là où ils vous cherchent.')}
+                    <div className='grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-10'>
+                        <div className='mobile-center flex flex-col gap-6'>
+                            <h1 className='text-4xl leading-[1.08] font-extrabold text-secondary md:text-6xl'>
+                                {t('Faites découvrir vos formations aux')} <span className='text-primary'>{t('futurs étudiants')}</span>
+                            </h1>
+                            <p className='max-w-xl text-lg text-ink'>
+                                {t('Rejoignez EduMada et gagnez en visibilité auprès d’un large public d’étudiants à Madagascar. Présentez votre établissement, vos formations et facilitez la prise de contact.')}
                             </p>
                             <div className='mobile-center flex flex-wrap gap-3'>
-                                <ButtonLink href='/tarifs/'>
+                                <ButtonLink href='/tarifs/' className='min-h-12 px-6 shadow-lg shadow-primary/25'>
                                     {t('Référencer mon établissement')}
                                     <Icon icon='tabler:arrow-right' className='text-lg' />
                                 </ButtonLink>
-                                <ButtonLink href='/tarifs/' variant='secondary'>
-                                    {t('Voir les formules')}
+                                <ButtonLink href='#avantages' variant='secondary' className='min-h-12 px-6'>
+                                    {t('Voir les avantages')}
                                 </ButtonLink>
                             </div>
+                            <ul className='mobile-center flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink'>
+                                {['Formule gratuite disponible', 'Inscription en quelques minutes'].map((item) => (
+                                    <li key={item} className='inline-flex items-center gap-2'>
+                                        <Icon icon='tabler:circle-check' className='text-lg text-green-600' />
+                                        {t(item)}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
 
-                        <div>
-                            <DashboardPreview />
-                            <p className='mt-4 text-center !text-xs text-ink/50'>{t('Aperçu illustratif de l’espace établissement')}</p>
-                        </div>
+                        <EstablishmentHeroMockup />
                     </div>
                 </div>
             </section>
 
             {/* Avantages */}
-            <section className='py-14 md:py-20'>
+            <section id='avantages' className='scroll-mt-24 py-14 md:py-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     {/* Types d'établissements concernés */}
                     <div className='mb-14 flex flex-col gap-4 rounded-2xl md:mb-20 bg-secondary/[0.06] px-5 py-5 md:flex-row md:items-center md:justify-between md:px-8'>
