@@ -36,7 +36,7 @@ export default function ScrollToTop() {
                         type='button'
                         onClick={scrollToTop}
                         aria-label='Revenir en haut de la page'
-                        className='back-to-top flex h-11 w-11 cursor-pointer items-center justify-center rounded-md bg-primary text-white shadow-md transition duration-300 ease-in-out hover:bg-secondary'>
+                        className='back-to-top flex h-11 w-11 cursor-pointer items-center justify-center rounded-md bg-ink text-white shadow-md transition duration-300 ease-in-out hover:bg-primary'>
                         <span className='mt-[6px] h-3 w-3 rotate-45 border-l border-t border-white'></span>
                     </button>
                 )}
