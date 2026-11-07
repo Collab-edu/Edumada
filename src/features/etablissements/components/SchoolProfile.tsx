@@ -97,7 +97,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 </span>
                                 {school.foundedYear && (
                                     <span className='inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>
-                                        <Icon icon='tabler:calendar-star' /> {t('Depuis {year}', { year: school.foundedYear })}
+                                        <Icon icon='tabler:calendar-star' /> {school.foundedYear} · {t(foundedLabel(school.foundedYear))}
                                     </span>
                                 )}
                                 {school.verification.status === 'Vérifié' && (
