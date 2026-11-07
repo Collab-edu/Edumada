@@ -144,14 +144,15 @@ export default function BenefitsPage() {
 
             {/* Formules */}
             <section className='pt-16 pb-24 md:pt-24 md:pb-28'>
-                <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
+                {/* Largeur réduite : les trois formules restent compactes et centrées. */}
+                <div className='container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8'>
                     <div className='mobile-center mb-8 flex flex-col gap-5 sm:mb-10 sm:flex-row sm:items-end sm:justify-between'>
                         <div className='mobile-center flex flex-col gap-3'>
                             <h2 className='font-bold'>{t('Commencez gratuitement')}</h2>
                             <p className='text-ink'>{t('Passez à une formule payante seulement quand vous en avez besoin.')}</p>
                         </div>
-                        {/* Même bouton que « Voir les avantages » en haut de page. */}
-                        <ButtonLink href='/tarifs/' variant='secondary' className='min-h-12 shrink-0 self-center px-6 sm:self-auto'>
+                        {/* Bouton rouge, comme « Référencer mon établissement » en haut de page. */}
+                        <ButtonLink href='/tarifs/' className='min-h-12 shrink-0 self-center px-6 shadow-lg shadow-primary/25 sm:self-auto'>
                             {t('Comparer les formules')}
                             <Icon icon='tabler:arrow-right' className='text-lg' />
                         </ButtonLink>
