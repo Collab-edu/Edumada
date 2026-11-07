@@ -86,6 +86,8 @@ export type FormationDetailType = {
   }
   costs: {
     applicationFee: number | null
+    /** Frais de concours (sélection « Concours ») ; null = pas de frais. */
+    examFee?: number | null
     otherFees: FeeLine[]
     /** Les montants sont-ils confirmés par l'établissement ou estimés par Edumada ? */
     status: 'Confirmés' | 'Estimés' | 'Non communiqués'

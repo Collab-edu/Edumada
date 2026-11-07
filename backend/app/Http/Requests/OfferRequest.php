@@ -114,8 +114,10 @@ class OfferRequest extends FormRequest
             'details.admission.prerequisites.*' => $strings(),
             'details.admission.specialConditions' => ['sometimes', 'nullable', 'string', 'max:2000'],
             'details.admission.minAge' => ['sometimes', 'nullable', 'numeric', 'min:0', 'max:99'],
-            'details.costs' => ['sometimes', 'array:applicationFee,otherFees,status,paymentOptions,scholarships,discounts'],
+            'details.costs' => ['sometimes', 'array:applicationFee,examFee,otherFees,status,paymentOptions,scholarships,discounts'],
             'details.costs.applicationFee' => ['sometimes', 'nullable', 'integer', 'min:0'],
+            // Frais de concours : vide = pas de frais.
+            'details.costs.examFee' => ['sometimes', 'nullable', 'integer', 'min:0'],
             'details.costs.otherFees' => ['sometimes', 'array'],
             'details.costs.otherFees.*.label' => ['required', 'string', 'max:255'],
             'details.costs.otherFees.*.amount' => ['present', 'nullable', 'integer', 'min:0'],
@@ -254,6 +256,7 @@ class OfferRequest extends FormRequest
         $set('details.admission.specialConditions', 'special_conditions');
         $set('details.admission.minAge', 'min_age');
         $set('details.costs.applicationFee', 'application_fee');
+        $set('details.costs.examFee', 'exam_fee');
         $set('details.costs.otherFees', 'other_fees');
         $set('details.costs.status', 'costs_status', fn (string $label) => CostsStatus::fromLabel($label));
         $set('details.costs.paymentOptions', 'payment_options');
@@ -280,6 +283,11 @@ class OfferRequest extends FormRequest
             if ($unit) {
                 $attributes['duration_years'] = $unit->toYears((float) $duration['value']);
             }
+        }
+
+        // Pas de concours : pas de frais de concours.
+        if (Arr::has($data, 'admission.selection') && $data['admission']['selection'] !== AdmissionSelection::CompetitiveExam->label()) {
+            $attributes['exam_fee'] = null;
         }
 
         // « Autre » diplôme : son nom précisé par l'établissement (effacé pour un diplôme de la liste).

@@ -280,6 +280,19 @@ class OfferControllerTest extends TestCase
             ->assertJsonPath('data.durationYears', 0.5);
     }
 
+    public function test_exam_fee_is_kept_only_for_a_competitive_exam(): void
+    {
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $establishment = Establishment::factory()->ownedBy($owner)->create();
+        $url = "/api/v1/establishments/{$establishment->slug}/offers";
+        $details = ['costs' => ['status' => 'Confirmés', 'examFee' => 25000]];
+
+        $this->actingAs($owner)->postJson($url, $this->validPayload(['admission' => ['level' => 'BAC', 'selection' => 'Concours'], 'details' => $details]))
+            ->assertCreated()->assertJsonPath('data.details.costs.examFee', 25000);
+        $this->actingAs($owner)->postJson($url, $this->validPayload(['title' => 'Autre offre', 'details' => $details]))
+            ->assertCreated()->assertJsonPath('data.details.costs.examFee', null);
+    }
+
     public function test_other_diploma_must_be_specified(): void
     {
         $owner = User::factory()->create(['role' => UserRole::Establishment]);

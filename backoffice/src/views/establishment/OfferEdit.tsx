@@ -60,6 +60,7 @@ function initialState(offer: ManagedOffer | undefined, e: ManagedEstablishment, 
         specialConditions: d.admission?.specialConditions ?? '',
         minAge: str(d.admission?.minAge),
         applicationFee: str(d.costs?.applicationFee),
+        examFee: str(d.costs?.examFee),
         otherFees: (d.costs?.otherFees ?? []).map((f) => ({ label: f.label, amount: str(f.amount) })),
         costsStatus: d.costs?.status ?? 'Confirmés',
         paymentOptions: d.costs?.paymentOptions ?? [],
@@ -136,6 +137,8 @@ function toPayload(s: State, rules: OfferKindRules, structure: FormationStructur
             admission: { prerequisites: s.prerequisites, specialConditions: s.specialConditions || null, minAge: rules.minAge ? num(s.minAge) : null },
             costs: {
                 applicationFee: num(s.applicationFee),
+                // Frais de concours : seulement pour une sélection sur concours ; vide = pas de frais.
+                examFee: rules.selection && s.selection === 'Concours' ? num(s.examFee) : null,
                 otherFees: s.otherFees.filter((f) => f.label.trim()).map((f) => ({ label: f.label, amount: num(f.amount) })),
                 status: s.costsStatus,
                 paymentOptions: s.paymentOptions,
@@ -581,6 +584,19 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                             <CFormSelect label='Sélection' value={s.selection} onChange={(ev) => set('selection', ev.target.value)}>
                                 {opts(ref?.admissionSelections)}
                             </CFormSelect>
+                        </CCol>
+                    )}
+                    {rules.selection && s.selection === 'Concours' && (
+                        <CCol md={4}>
+                            <CFormInput
+                                label='Frais de concours (Ar)'
+                                text='Laissez vide s’il n’y a pas de frais.'
+                                inputMode='numeric'
+                                value={s.examFee}
+                                onChange={(ev) => set('examFee', ev.target.value)}
+                                invalid={!!err('details.costs.examFee')}
+                                feedbackInvalid={err('details.costs.examFee')}
+                            />
                         </CCol>
                     )}
                     {rules.minAge && (

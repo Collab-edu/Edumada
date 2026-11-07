@@ -10,6 +10,7 @@ return new class extends Migration
      * Enseignement supérieur : une offre est une filière proposée à plusieurs niveaux (Licence, Master…),
      * chacun avec son diplôme, sa durée et son niveau requis (`levels`).
      * Formation professionnelle : durée exprimée dans une unité libre (heures, jours, semaines, mois, ans).
+     * Sélection sur concours : frais de concours (`exam_fee`).
      * Les colonnes diploma, duration_years, fees et admission_level restent le résumé utilisé par la recherche.
      */
     public function up(): void
@@ -22,13 +23,15 @@ return new class extends Migration
             $table->json('level_diplomas')->nullable()->after('levels');
             $table->decimal('duration_value', 6, 2)->nullable()->after('duration_years');
             $table->string('duration_unit', 10)->nullable()->after('duration_value');
+            // Frais de concours (sélection « Concours ») ; vide = pas de frais.
+            $table->unsignedInteger('exam_fee')->nullable()->after('application_fee');
         });
     }
 
     public function down(): void
     {
         Schema::table('offers', function (Blueprint $table) {
-            $table->dropColumn(['diploma_other', 'levels', 'level_diplomas', 'duration_value', 'duration_unit']);
+            $table->dropColumn(['diploma_other', 'levels', 'level_diplomas', 'duration_value', 'duration_unit', 'exam_fee']);
         });
     }
 };

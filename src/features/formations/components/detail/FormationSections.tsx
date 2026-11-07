@@ -138,6 +138,11 @@ export function AdmissionSection({ formation, detail, school, fields }: Props) {
                 )}
                 {formation.ageRange && <Fact icon='tabler:mood-kid' label='Âge des enfants accueillis'>{formatAgeRange(formation.ageRange)}</Fact>}
                 {formation.kind !== 'accueil' && <Fact icon='tabler:filter' label='Modalités de sélection'>{selection}</Fact>}
+                {selection === 'Concours' && (
+                    <Fact icon='tabler:receipt' label='Frais de concours'>
+                        {detail.costs.examFee ? formatFees(detail.costs.examFee) : t('Pas de frais de concours')}
+                    </Fact>
+                )}
                 {formation.kind === 'formation' && (
                     <Fact icon='tabler:user' label='Âge minimum'>
                         {detail.admission.minAge ? `${detail.admission.minAge} ans` : 'Aucun âge minimum imposé'}
@@ -177,6 +182,7 @@ export function CostsSection({ formation, detail }: Props) {
         { label: "Frais d'inscription", amount: formation.registrationFee },
         { label: `${KIND_LABELS[formation.kind].fees} (par ${formation.feesPeriod})`, amount: formation.fees },
         { label: 'Frais de dossier', amount: costs.applicationFee },
+        ...(formation.admission.selection === 'Concours' && costs.examFee ? [{ label: 'Frais de concours', amount: costs.examFee }] : []),
         ...costs.otherFees,
     ]
     return (

@@ -83,6 +83,7 @@ export type FormationDetail = {
     admission: { prerequisites: string[]; specialConditions: string | null; minAge: number | null }
     costs: {
         applicationFee: number | null
+        examFee?: number | null
         otherFees: { label: string; amount: number | null }[]
         status: string
         paymentOptions: string[]

@@ -35,6 +35,7 @@ class OfferDetailResource extends JsonResource
             ],
             'costs' => [
                 'applicationFee' => $this->application_fee,
+                'examFee' => $this->exam_fee,
                 'otherFees' => $this->other_fees ?? [],
                 'status' => $this->costs_status->label(),
                 'paymentOptions' => $this->payment_options ?? [],
