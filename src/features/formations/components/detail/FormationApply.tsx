@@ -25,29 +25,28 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
 
     return (
         <DetailSection id='postuler' title='Comment postuler ?' icon='tabler:send'>
-            {/* Étapes en cartes : empilées et compactes sur mobile, sur une ligne sur grand écran. */}
-            <ol className='grid grid-cols-1 gap-4 pt-2 sm:grid-cols-2 lg:grid-cols-5 lg:gap-5'>
+            {/* Étapes en cartes : numéro en haut à gauche, icône centrée sur un double rond rose, titre et trait rouge en dessous. */}
+            <ol className='grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5'>
                 {steps.map((step, i) => (
                     <li
                         key={step.title}
-                        className='relative flex items-center gap-3 rounded-xl bg-white p-3 pl-5 shadow-[0_8px_20px_-12px_rgba(15,76,92,0.3)] ring-1 ring-gray-100 lg:flex-col lg:items-start lg:gap-2 lg:p-3 lg:pt-5'>
-                        <span className='absolute -top-2.5 -left-2 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-sm font-bold text-white shadow'>
+                        className='relative flex flex-col rounded-2xl bg-white p-4 shadow-[0_10px_24px_-14px_rgba(15,76,92,0.35)] ring-1 ring-gray-100'>
+                        <span className='absolute top-3 left-3 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-base font-extrabold text-white'>
                             {i + 1}
                         </span>
-                        <span className='relative flex h-10 w-10 shrink-0 items-center justify-center lg:mx-auto' aria-hidden='true'>
-                            <span className='absolute inset-0 translate-x-1.5 rounded-full bg-primary/10' />
-                            <Icon icon={step.icon} className='relative text-2xl text-secondary' />
+                        <span className='relative mx-auto mt-3 flex h-14 w-16 items-center justify-center' aria-hidden='true'>
+                            <span className='absolute top-1 left-0 h-12 w-12 rounded-full bg-primary/10' />
+                            <span className='absolute top-1 right-0 h-12 w-12 rounded-full bg-primary/10' />
+                            <Icon icon={step.icon} className='relative text-4xl text-secondary' />
                         </span>
-                        <div className='flex min-w-0 flex-col'>
-                            {step.href ? (
-                                <a href={step.href} className='text-sm font-bold leading-snug text-secondary hover:text-primary'>
-                                    {t(step.title)}
-                                </a>
-                            ) : (
-                                <span className='text-sm font-bold leading-snug text-secondary'>{t(step.title)}</span>
-                            )}
-                            <span className='mt-1.5 h-0.5 w-8 rounded-full bg-primary' aria-hidden='true' />
-                        </div>
+                        {step.href ? (
+                            <a href={step.href} className='mt-3 text-sm font-extrabold leading-snug text-secondary hover:text-primary'>
+                                {t(step.title)}
+                            </a>
+                        ) : (
+                            <span className='mt-3 text-sm font-extrabold leading-snug text-secondary'>{t(step.title)}</span>
+                        )}
+                        <span className='mt-3 h-1 w-10 rounded-full bg-primary' aria-hidden='true' />
                     </li>
                 ))}
             </ol>
