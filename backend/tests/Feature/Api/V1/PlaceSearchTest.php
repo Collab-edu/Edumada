@@ -61,6 +61,25 @@ class PlaceSearchTest extends TestCase
             ->assertJsonPath('data.0.detail', 'Ankatso, Antananarivo, Analamanga');
     }
 
+    public function test_it_reads_the_position_of_a_google_maps_link(): void
+    {
+        Http::fake([
+            'maps.app.goo.gl/*' => Http::response('', 200),
+            'nominatim.openstreetmap.org/*' => Http::response(['address' => ['city' => 'Antsirabe', 'country_code' => 'mg']]),
+        ]);
+
+        $long = 'https://www.google.com/maps/place/Acad%C3%A9mie+Num%C3%A9rique/@-19.8650,47.0300,17z/data=!3m1!4b1!4m6!3m5!1s0x0:0x0!8m2!3d-19.8659!4d47.0331';
+        $this->getJson('/api/v1/places/from-map-link?url='.urlencode($long))
+            ->assertOk()
+            ->assertJsonPath('data.lat', -19.8659)
+            ->assertJsonPath('data.lng', 47.0331)
+            ->assertJsonPath('data.name', 'Académie Numérique')
+            ->assertJsonPath('data.city', 'Antsirabe');
+
+        $this->getJson('/api/v1/places/from-map-link?url='.urlencode('https://exemple.com/@-19.8,47.0'))->assertUnprocessable();
+        $this->getJson('/api/v1/places/from-map-link?url='.urlencode('https://www.google.com/maps/@48.85,2.35,12z'))->assertUnprocessable();
+    }
+
     public function test_results_are_cached(): void
     {
         $this->photon([$this->feature('Mahitsy', 'place', 'town', ['county' => 'Ambohidratrimo', 'state' => 'Analamanga'], -18.75, 47.35)]);

@@ -98,6 +98,89 @@ class PlaceController extends Controller
         return response()->json(['data' => $found ?? []]);
     }
 
+    /** Liens Google Maps acceptés : courts (à suivre) et complets (lus directement). */
+    private const SHORT_MAP_HOSTS = ['maps.app.goo.gl', 'goo.gl', 'g.co'];
+
+    private const MAP_HOSTS = ['google.com', 'www.google.com', 'maps.google.com', 'google.mg', 'www.google.mg', 'maps.google.mg'];
+
+    /**
+     * Position d'un établissement introuvable sur OpenStreetMap, d'après le lien Google Maps collé
+     * par l'établissement (« Partager » → « Copier le lien ») : coordonnées, nom du lieu et ville.
+     */
+    public function fromMapLink(Request $request): JsonResponse
+    {
+        $link = trim($request->validate(['url' => ['required', 'string', 'max:2048']])['url']);
+        $host = Str::lower((string) parse_url($link, PHP_URL_HOST));
+        if (! in_array($host, [...self::SHORT_MAP_HOSTS, ...self::MAP_HOSTS], true)) {
+            return response()->json(['message' => 'Collez un lien Google Maps (bouton « Partager » de Google Maps).'], 422);
+        }
+
+        // Lien court : on suit la redirection pour lire l'adresse complète, qui contient la position.
+        if (in_array($host, self::SHORT_MAP_HOSTS, true)) {
+            try {
+                $response = Http::timeout(6)->withOptions(['allow_redirects' => ['max' => 5]])->withHeaders(['User-Agent' => 'Mozilla/5.0 (Edumada)'])->get($link);
+                $link = (string) ($response->effectiveUri() ?? $link);
+            } catch (Throwable $exception) {
+                report($exception);
+
+                return response()->json(['message' => 'Lien Google Maps injoignable pour le moment. Réessayez.'], 422);
+            }
+        }
+
+        $point = self::pointFromMapUrl(urldecode($link));
+        if (! $point) {
+            return response()->json(['message' => 'Position introuvable dans ce lien : ouvrez l\'établissement sur Google Maps, puis « Partager » → « Copier le lien ».'], 422);
+        }
+        [$lat, $lng] = $point;
+        if ($lat < -26 || $lat > -11 || $lng < 42 || $lng > 51) {
+            return response()->json(['message' => 'Ce lieu ne se trouve pas à Madagascar.'], 422);
+        }
+
+        // Nom du lieu dans l'adresse Google : …/maps/place/Nom+du+lieu/@…
+        $name = preg_match('#/place/([^/@]+)#', urldecode($link), $m) ? trim(str_replace('+', ' ', $m[1])) : '';
+
+        return response()->json(['data' => ['lat' => $lat, 'lng' => $lng, 'name' => $name, 'city' => $this->cityAt($lat, $lng) ?? '']]);
+    }
+
+    /**
+     * Coordonnées dans une adresse Google Maps : repère exact (!3d…!4d…), puis paramètre q / ll, puis centre de la vue (@lat,lng).
+     *
+     * @return array{0: float, 1: float}|null
+     */
+    public static function pointFromMapUrl(string $url): ?array
+    {
+        $number = '(-?\d{1,2}\.\d+)';
+        $patterns = ["/!3d{$number}!4d(-?\d{1,3}\.\d+)/", "/[?&](?:q|query|ll|center|destination)={$number},\s*(-?\d{1,3}\.\d+)/", "/@{$number},(-?\d{1,3}\.\d+)/"];
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $url, $m)) {
+                return [round((float) $m[1], 6), round((float) $m[2], 6)];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Ville d'un point (géocodage inverse OpenStreetMap), gardée 30 jours ; null si inconnue.
+     */
+    private function cityAt(float $lat, float $lng): ?string
+    {
+        return Cache::remember('places:city-at:'.round($lat, 3).','.round($lng, 3), now()->addDays(30), function () use ($lat, $lng) {
+            try {
+                $response = Http::timeout(6)
+                    ->withHeaders(['User-Agent' => 'Edumada/1.0 ('.config('edumada.frontend_url').')'])
+                    ->get('https://nominatim.openstreetmap.org/reverse', ['lat' => $lat, 'lon' => $lng, 'zoom' => 14, 'format' => 'jsonv2', 'accept-language' => 'fr']);
+            } catch (Throwable $exception) {
+                report($exception);
+
+                return null;
+            }
+            $a = $response->successful() ? ($response->json('address') ?? []) : [];
+
+            return $a['city'] ?? $a['town'] ?? $a['village'] ?? $a['county'] ?? null;
+        });
+    }
+
     /**
      * @return array<int, array{label: string, detail: string, city: string, lat: float, lng: float}>|null null si Photon n'a pas répondu
      */

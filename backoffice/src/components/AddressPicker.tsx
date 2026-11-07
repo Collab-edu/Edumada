@@ -3,7 +3,7 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
 import { CCol, CFormFeedback, CFormInput, CFormLabel, CInputGroup, CInputGroupText, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLocationPin, cilSearch } from '@coreui/icons'
-import { api } from '@/lib/api'
+import { api, errorMessage } from '@/lib/api'
 import PlaceInput from '@/components/PlaceInput'
 
 /** Adresse trouvée sur OpenStreetMap (API /places/addresses). */
@@ -36,6 +36,10 @@ export default function AddressPicker({
     const [open, setOpen] = useState(false)
     const [active, setActive] = useState(-1)
     const typed = useRef(false)
+    // Établissement absent d'OpenStreetMap : position lue dans un lien Google Maps.
+    const [showLink, setShowLink] = useState(false)
+    const [link, setLink] = useState('')
+    const [linkState, setLinkState] = useState<{ loading?: boolean; error?: string; ok?: string }>({})
     const hasPoint = value.lat !== '' && value.lng !== ''
 
     // Suggestions OpenStreetMap pendant la frappe.
@@ -77,6 +81,24 @@ export default function AddressPicker({
         }
     }
 
+    const readLink = (url: string) => {
+        setLink(url)
+        if (!url.trim()) return setLinkState({})
+        setLinkState({ loading: true })
+        api<{ data: { lat: number; lng: number; name: string; city: string } }>('/places/from-map-link', { query: { url: url.trim() } })
+            .then(({ data }) => {
+                onChange({
+                    lat: data.lat.toFixed(6),
+                    lng: data.lng.toFixed(6),
+                    ...(data.city ? { city: data.city } : {}),
+                    // L'adresse déjà tapée est gardée ; sinon, le nom du lieu sur Google Maps.
+                    ...(!value.address.trim() && data.name ? { address: data.name } : {}),
+                })
+                setLinkState({ ok: 'Position récupérée : vérifiez-la sur la carte ci-dessous.' })
+            })
+            .catch((e) => setLinkState({ error: errorMessage(e) }))
+    }
+
     const showList = open && hits.length > 0
 
     return (
@@ -111,8 +133,35 @@ export default function AddressPicker({
                 {errors.address && <CFormFeedback invalid className='d-block'>{errors.address}</CFormFeedback>}
                 {(errors.lat || errors.lng) && <CFormFeedback invalid className='d-block'>{errors.lat ?? errors.lng}</CFormFeedback>}
                 <div className='form-text'>
-                    Tapez la rue, le quartier ou le nom de l&apos;établissement, puis choisissez dans la liste : la position sur la carte du site est remplie automatiquement.
+                    Tapez la rue, le quartier ou le nom de l&apos;établissement, puis choisissez dans la liste : la position sur la carte du site est remplie automatiquement.{' '}
+                    {!showLink && (
+                        <button type='button' className='btn btn-link btn-sm p-0 align-baseline' onClick={() => setShowLink(true)}>
+                            Introuvable dans la liste ? Utilisez un lien Google Maps
+                        </button>
+                    )}
                 </div>
+                {showLink && (
+                    <div className='mt-2 rounded-3 border bg-body-tertiary p-3'>
+                        <CFormLabel htmlFor='bo-map-link' className='small fw-semibold mb-1'>
+                            Lien Google Maps de l&apos;établissement
+                        </CFormLabel>
+                        <CFormInput
+                            id='bo-map-link'
+                            type='url'
+                            placeholder='https://maps.app.goo.gl/…'
+                            value={link}
+                            invalid={!!linkState.error}
+                            valid={!!linkState.ok}
+                            onChange={(e) => readLink(e.target.value)}
+                        />
+                        <div className='form-text'>
+                            Sur Google Maps, ouvrez votre établissement, touchez « Partager » puis « Copier le lien », et collez-le ici. Écrivez l&apos;adresse à la main dans le champ ci-dessus.
+                        </div>
+                        {linkState.loading && <div className='small text-body-secondary mt-1'>Lecture du lien…</div>}
+                        {linkState.error && <div className='small text-danger mt-1'>{linkState.error}</div>}
+                        {linkState.ok && <div className='small text-success mt-1'>{linkState.ok}</div>}
+                    </div>
+                )}
                 {showList && (
                     <ul id={listId} role='listbox' className='bo-place-list list-unstyled'>
                         {hits.map((h, i) => (
