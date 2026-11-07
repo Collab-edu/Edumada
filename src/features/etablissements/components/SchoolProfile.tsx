@@ -35,16 +35,14 @@ function foundedLabel(year: number): string {
     return age <= 0 ? 'Créé cette année' : age === 1 ? "1 an d'existence" : `${age} ans d'existence`
 }
 
-function InfoRow({ icon, label, children }: { icon: string; label: string; children: React.ReactNode }) {
+/** Ligne de la fiche pratique : libellé à gauche, valeur à droite. */
+function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
     const t = useT()
     return (
-        <li className='flex gap-3 py-3 border-b border-gray-100 last:border-b-0'>
-            <Icon icon={icon} className='mt-0.5 shrink-0 text-xl text-secondary' />
-            <div className='flex min-w-0 flex-col'>
-                <span className='text-sm text-ink/60'>{t(label)}</span>
-                <span className='break-words text-ink'>{typeof children === 'string' ? t(children) : children}</span>
-            </div>
-        </li>
+        <div className='flex items-start justify-between gap-4 border-b border-gray-100 py-2.5 last:border-b-0'>
+            <dt className='shrink-0 text-ink/60'>{t(label)}</dt>
+            <dd className='min-w-0 break-words text-right font-medium text-ink'>{typeof children === 'string' ? t(children) : children}</dd>
+        </div>
     )
 }
 
@@ -60,6 +58,9 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
     const [reportOpen, setReportOpen] = useState(false)
     const [contactOpen, setContactOpen] = useState(false)
     const websiteLabel = school.website.replace(/^https?:\/\//, '')
+    // Pastille du bandeau de la fiche pratique.
+    const statusLabel = school.verification.status === 'Vérifié' ? 'Vérifiée' : school.verification.status === 'En cours' ? 'Vérification en cours' : 'Non vérifiée'
+    const statusClass = school.verification.status === 'Vérifié' ? 'bg-success text-secondary' : 'bg-white/15 text-white'
 
     return (
         <section className='pt-24 pb-20 sm:pt-28'>
@@ -223,99 +224,116 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         </div>
                     </div>
 
-                    {/* Colonne latérale */}
-                    <aside className='flex flex-col gap-6 lg:sticky lg:top-28 lg:self-start'>
-                        {map && (
-                        <div className='overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm'>
-                            <p className='px-6 pt-5 pb-3 text-lg font-bold text-secondary'>Localisation</p>
-                            {school.coordinates && (
-                                <SchoolMap lat={school.coordinates.lat} lng={school.coordinates.lng} name={school.name} address={school.city} className='[&>div+div]:mx-3 [&>div+div]:shadow-none' mapClassName='h-80 w-full' />
-                            )}
-                            <a
-                                href={map.link}
-                                target='_blank'
-                                rel='noopener noreferrer'
-                                className='flex items-center justify-between px-6 py-4 font-semibold text-primary hover:underline'>
-                                {t('Ouvrir dans Google Maps')}
-                                <Icon icon='tabler:external-link' />
-                            </a>
-                        </div>
-                        )}
+                    {/* Colonne latérale : une seule « fiche pratique » (contact, localisation, informations, signalement). */}
+                    <aside className='lg:sticky lg:top-28 lg:self-start'>
+                        <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
+                            <div className='flex items-center justify-between gap-3 bg-secondary px-5 py-3.5'>
+                                <p className='text-xs font-bold uppercase tracking-[0.12em] text-white'>{t('Fiche pratique')}</p>
+                                <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${statusClass}`}>{t(statusLabel)}</span>
+                            </div>
 
-                        <div className='rounded-xl border border-gray-100 bg-white p-6 shadow-sm'>
-                            <p className='mb-2 text-lg font-bold text-secondary'>Informations pratiques</p>
-                            <ul>
-                                <InfoRow icon='tabler:building-community' label='Nom'>{school.name}</InfoRow>
-                                <InfoRow icon={category.icon} label='Type et catégorie'>
-                                    {[school.subCategory, category.label, school.type].filter((v): v is string => Boolean(v)).map((v) => t(v)).join(' · ')}
-                                </InfoRow>
-                                {school.foundedYear && (
-                                    <InfoRow icon='tabler:calendar-star' label='Année de création'>
-                                        {school.foundedYear} · {t(foundedLabel(school.foundedYear))}
-                                    </InfoRow>
-                                )}
-                                <InfoRow icon='tabler:map-pin' label='Adresse'>{school.address}</InfoRow>
-                                {school.phone && (
-                                    <InfoRow icon='tabler:phone' label='Téléphone'>
-                                        <a href={`tel:${school.phone.replace(/\s/g, '')}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='hover:text-primary'>{school.phone}</a>
-                                    </InfoRow>
-                                )}
-                                {school.email && (
-                                    <InfoRow icon='tabler:mail' label='E-mail'>
-                                        <a href={`mailto:${school.email}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='hover:text-primary'>{school.email}</a>
-                                    </InfoRow>
-                                )}
-                                {school.website && (
-                                    <InfoRow icon='tabler:world' label='Site web'>
-                                        <a href={school.website} target='_blank' rel='noopener noreferrer' onClick={() => track({ type: 'website_click', establishment: school.id })} className='text-primary hover:underline'>
-                                            {websiteLabel}
+                            <div className='border-b border-gray-100 p-5'>
+                                <button
+                                    type='button'
+                                    onClick={() => setContactOpen(true)}
+                                    className='flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 font-bold text-white shadow-md shadow-primary/25 transition-colors duration-300 hover:cursor-pointer hover:bg-primary/90'>
+                                    <Icon icon='tabler:message-circle' className='text-lg' /> {t('Contacter l’établissement')}
+                                </button>
+                            </div>
+
+                            {map && (
+                                <div className='border-b border-gray-100 bg-offwhite/60 p-5'>
+                                    <p className='mb-3 font-bold text-secondary'>{t('Localisation')}</p>
+                                    {school.coordinates && (
+                                        <SchoolMap
+                                            lat={school.coordinates.lat}
+                                            lng={school.coordinates.lng}
+                                            name={school.name}
+                                            className='overflow-hidden rounded-xl'
+                                            mapClassName='h-56 w-full'
+                                        />
+                                    )}
+                                    <div className='mt-3 flex items-start justify-between gap-3 text-sm'>
+                                        <span className='min-w-0 text-ink'>{[school.address, school.city].filter(Boolean).join(', ')}</span>
+                                        <a
+                                            href={map.link}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                            className='inline-flex shrink-0 items-center gap-1 font-semibold text-primary hover:underline'>
+                                            {t('Google Maps')} <Icon icon='tabler:external-link' />
                                         </a>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className='p-5'>
+                                <p className='mb-1 font-bold text-secondary'>{t('Informations')}</p>
+                                <dl className='text-sm'>
+                                    <InfoRow label='Nom'>{school.name}</InfoRow>
+                                    <InfoRow label='Type'>
+                                        {[school.subCategory, category.label, school.type].filter((v): v is string => Boolean(v)).map((v) => t(v)).join(' · ')}
                                     </InfoRow>
-                                )}
-                                {socials.length > 0 && (
-                                    <InfoRow icon='tabler:share' label='Réseaux sociaux'>
-                                        <span className='flex flex-wrap gap-2'>
-                                            {socials.map(([network, url]) => (
-                                                <a
-                                                    key={network}
-                                                    href={url}
-                                                    target='_blank'
-                                                    rel='noopener noreferrer'
-                                                    aria-label={network}
-                                                    className='flex h-10 w-10 items-center justify-center rounded-full bg-secondary/10 text-secondary hover:bg-primary hover:text-white'>
-                                                    <Icon icon={`tabler:brand-${network}`} className='text-xl' />
-                                                </a>
-                                            ))}
-                                        </span>
+                                    {school.foundedYear && (
+                                        <InfoRow label='Création'>
+                                            {school.foundedYear} · {t(foundedLabel(school.foundedYear))}
+                                        </InfoRow>
+                                    )}
+                                    <InfoRow label='Adresse'>{school.address}</InfoRow>
+                                    {school.phone && (
+                                        <InfoRow label='Téléphone'>
+                                            <a href={`tel:${school.phone.replace(/\s/g, '')}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='hover:text-primary'>{school.phone}</a>
+                                        </InfoRow>
+                                    )}
+                                    {school.email && (
+                                        <InfoRow label='E-mail'>
+                                            <a href={`mailto:${school.email}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='hover:text-primary'>{school.email}</a>
+                                        </InfoRow>
+                                    )}
+                                    {school.website && (
+                                        <InfoRow label='Site web'>
+                                            <a href={school.website} target='_blank' rel='noopener noreferrer' onClick={() => track({ type: 'website_click', establishment: school.id })} className='text-primary hover:underline'>
+                                                {websiteLabel}
+                                            </a>
+                                        </InfoRow>
+                                    )}
+                                    {socials.length > 0 && (
+                                        <InfoRow label='Réseaux'>
+                                            <span className='inline-flex flex-wrap justify-end gap-1.5'>
+                                                {socials.map(([network, url]) => (
+                                                    <a
+                                                        key={network}
+                                                        href={url}
+                                                        target='_blank'
+                                                        rel='noopener noreferrer'
+                                                        aria-label={network}
+                                                        className='flex h-8 w-8 items-center justify-center rounded-full bg-secondary/10 text-secondary hover:bg-primary hover:text-white'>
+                                                        <Icon icon={`tabler:brand-${network}`} className='text-base' />
+                                                    </a>
+                                                ))}
+                                            </span>
+                                        </InfoRow>
+                                    )}
+                                    <InfoRow label='Accréditation'>
+                                        {school.accreditationVerified && school.accreditation ? school.accreditation : 'En cours de vérification'}
                                     </InfoRow>
-                                )}
-                                <InfoRow icon='tabler:rosette-discount-check' label='Reconnaissance / accréditation'>
-                                    {school.accreditationVerified && school.accreditation
-                                        ? school.accreditation
-                                        : 'En cours de vérification par Edumada'}
-                                </InfoRow>
-                                <InfoRow icon='tabler:shield-check' label='Statut sur Edumada'>
-                                    {school.verification.status === 'Vérifié' && school.verification.date
-                                        ? t('Fiche vérifiée le {date}', { date: t(formatDate(school.verification.date)) })
-                                        : school.verification.status === 'En cours'
-                                            ? 'Vérification en cours'
-                                            : 'Fiche non vérifiée'}
-                                </InfoRow>
-                            </ul>
-                        </div>
-                        <div className='rounded-xl border border-gray-100 bg-white p-6 shadow-sm flex flex-col gap-3'>
-                            <p className='text-lg font-bold text-secondary'>{t('Une information à corriger ?')}</p>
-                            <button
-                                type='button'
-                                onClick={() => setReportOpen(true)}
-                                className='flex min-h-11 items-center gap-2 font-semibold text-primary hover:underline hover:cursor-pointer'>
-                                <Icon icon='tabler:flag' /> {t('Signaler une information erronée')}
-                            </button>
-                            <Link
-                                href={backofficeUrl(`/revendiquer?fiche=${school.id}`)}
-                                className='flex min-h-11 items-center gap-2 font-semibold text-secondary hover:text-primary'>
-                                <Icon icon='tabler:building-community' /> {t('Vous représentez cet établissement ? Gérez cette fiche')}
-                            </Link>
+                                    <InfoRow label='Statut'>
+                                        {school.verification.status === 'Vérifié' && school.verification.date
+                                            ? t('Fiche vérifiée le {date}', { date: t(formatDate(school.verification.date)) })
+                                            : school.verification.status === 'En cours'
+                                              ? 'Vérification en cours'
+                                              : 'Fiche non vérifiée'}
+                                    </InfoRow>
+                                </dl>
+                            </div>
+
+                            <div className='flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-gray-100 px-5 py-3 text-sm'>
+                                <button type='button' onClick={() => setReportOpen(true)} className='min-h-10 font-semibold text-primary hover:underline hover:cursor-pointer'>
+                                    {t('Signaler une erreur')}
+                                </button>
+                                <Link href={backofficeUrl(`/revendiquer?fiche=${school.id}`)} className='min-h-10 content-center font-semibold text-secondary hover:text-primary'>
+                                    {t('Gérer cette fiche')}
+                                </Link>
+                            </div>
                         </div>
                     </aside>
                 </div>
