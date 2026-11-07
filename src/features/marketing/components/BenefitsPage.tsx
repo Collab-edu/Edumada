@@ -81,7 +81,7 @@ export default function BenefitsPage() {
                         <p className='!text-xs font-bold uppercase tracking-[0.12em] text-ink/60'>{t('Pour tous les établissements')}</p>
                         <ul className='flex flex-wrap gap-2 md:gap-3'>
                             {AUDIENCES.map((a) => (
-                                <li key={a.label} className='inline-flex items-center gap-2 rounded-full bg-secondary/[0.06] px-4 py-2 text-sm font-semibold text-black'>
+                                <li key={a.label} className='inline-flex items-center gap-2 rounded-xl bg-secondary/[0.06] px-4 py-2 text-sm font-semibold text-black'>
                                     <Icon icon={a.icon} className='text-base text-primary' />
                                     {t(a.label)}
                                 </li>
