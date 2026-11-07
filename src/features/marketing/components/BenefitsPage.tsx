@@ -150,12 +150,11 @@ export default function BenefitsPage() {
                             <h2 className='font-bold'>{t('Commencez gratuitement')}</h2>
                             <p className='text-ink'>{t('Passez à une formule payante seulement quand vous en avez besoin.')}</p>
                         </div>
-                        <Link
-                            href='/tarifs/'
-                            className='group inline-flex shrink-0 items-center gap-1.5 self-center rounded-full border border-primary/25 bg-white px-5 py-2.5 text-sm font-semibold text-primary transition-colors hover:border-primary sm:self-auto'>
+                        {/* Même bouton que « Voir les avantages » en haut de page. */}
+                        <ButtonLink href='/tarifs/' variant='secondary' className='min-h-12 shrink-0 self-center px-6 sm:self-auto'>
                             {t('Comparer les formules')}
-                            <Icon icon='tabler:arrow-right' className='transition-transform duration-300 group-hover:translate-x-1' />
-                        </Link>
+                            <Icon icon='tabler:arrow-right' className='text-lg' />
+                        </ButtonLink>
                     </div>
                     {/* Les trois formules dans une seule carte ; Pro mis en avant. */}
                     <ul className='grid overflow-hidden rounded-2xl bg-white shadow-[0_16px_40px_-24px_rgba(15,76,92,0.4)] md:grid-cols-3'>
