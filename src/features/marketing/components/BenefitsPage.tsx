@@ -49,7 +49,7 @@ export default function BenefitsPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-10'>
                         <div className='mobile-center flex flex-col gap-6'>
-                            <h1 className='text-4xl leading-[1.08] font-extrabold text-secondary md:text-6xl'>
+                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>
                                 {t('Faites découvrir vos formations aux')} <span className='text-primary'>{t('futurs étudiants')}</span>
                             </h1>
                             <p className='max-w-xl text-lg text-ink'>
