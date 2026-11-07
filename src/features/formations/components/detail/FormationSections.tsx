@@ -125,12 +125,24 @@ export function AdmissionSection({ formation, detail, school, fields }: Props) {
     const { level, bacSeries, selection } = formation.admission
     const levels = formation.levels ?? []
     // Filière à plusieurs niveaux : le niveau requis dépend du diplôme visé.
-    const requiredLevel = levels.length > 1 ? levels.map((l) => `${diplomaName(l)} : ${ADMISSION_LEVEL_LABEL[l.admissionLevel]}`).join(' · ') : ADMISSION_LEVEL_LABEL[level]
     const needsBac = levels.length > 1 ? levels.some((l) => l.admissionLevel === 'BAC') : level === 'BAC'
     return (
         <DetailSection id='admission' title={formation.kind === 'formation' ? "Conditions d'admission" : "Conditions d'inscription"} icon='tabler:clipboard-check'>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-                {fields.level && <Fact icon='tabler:school' label="Niveau d'études requis">{requiredLevel}</Fact>}
+                {fields.level && levels.length > 1 && (
+                    // Un niveau requis par diplôme : une ligne chacun, lisible d'un coup d'œil.
+                    <Fact icon='tabler:school' label="Niveau d'études requis" className='sm:col-span-2'>
+                        <ul className='mt-1 flex flex-col divide-y divide-gray-100'>
+                            {levels.map((l) => (
+                                <li key={`${l.diploma}-${l.diplomaOther ?? ''}`} className='flex items-baseline justify-between gap-4 py-1.5'>
+                                    <span className='font-semibold text-secondary'>{diplomaName(l)}</span>
+                                    <span className='text-right text-ink/80'>{l.admissionLevel === 'Aucun' ? t('Sans diplôme') : t('Accès : {level}', { level: l.admissionLevel })}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </Fact>
+                )}
+                {fields.level && levels.length <= 1 && <Fact icon='tabler:school' label="Niveau d'études requis">{ADMISSION_LEVEL_LABEL[level]}</Fact>}
                 {fields.level && needsBac && (
                     <Fact icon='tabler:list-letters' label='Séries du BAC acceptées'>
                         {bacSeries.length > 0 ? bacSeries.join(', ') : 'Toutes les séries'}

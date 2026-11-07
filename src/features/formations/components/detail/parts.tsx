@@ -27,10 +27,10 @@ export function SubTitle({ children }: { children: ReactNode }) {
 }
 
 /** Une information clé : icône, libellé, valeur. */
-export function Fact({ icon, label, children }: { icon: string; label: string; children: ReactNode }) {
+export function Fact({ icon, label, children, className }: { icon: string; label: string; children: ReactNode; className?: string }) {
     const t = useT()
     return (
-        <div className='flex gap-3 rounded-xl border border-gray-100 bg-white p-4'>
+        <div className={cn('flex gap-3 rounded-xl border border-gray-100 bg-white p-4', className)}>
             <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary/10 text-secondary'>
                 <Icon icon={icon} className='text-lg' />
             </span>
