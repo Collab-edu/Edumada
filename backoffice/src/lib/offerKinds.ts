@@ -131,3 +131,22 @@ export const kindsForCategory = (category: string, current?: string) => {
     const kinds = KINDS_BY_CATEGORY[category] ?? Object.keys(OFFER_KINDS)
     return current && !kinds.includes(current) ? [...kinds, current] : kinds
 }
+
+/**
+ * Structure d'une formation selon la catégorie de l'établissement :
+ * - `levels` (supérieur) : Domaine → Filière → Niveaux (Licence, Master…), chacun avec durée, frais et niveau requis ;
+ * - `vocational` (formation professionnelle) : Domaine → Formation → Durée (avec unité) et diplôme obtenu ;
+ * - `simple` : un diplôme et une durée en années (autres cas).
+ */
+export type FormationStructure = 'levels' | 'vocational' | 'simple'
+
+export const formationStructure = (category: string, kind: string): FormationStructure =>
+    kind !== 'formation' ? 'simple' : category === 'superieur' ? 'levels' : category === 'formation-pro' ? 'vocational' : 'simple'
+
+/** Diplômes d'un niveau d'une filière du supérieur. */
+export const HIGHER_DIPLOMAS = ['BTS', 'Licence', 'Master', 'Doctorat', 'Certificat', 'Autre']
+
+/** Diplômes délivrés par une formation professionnelle. */
+export const VOCATIONAL_DIPLOMAS = ['Attestation', 'Certificat', 'CAP', 'BT', 'BTS', 'Autre']
+
+export const DURATION_UNITS = ['heures', 'jours', 'semaines', 'mois', 'ans']

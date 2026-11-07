@@ -97,6 +97,9 @@ export type FormationDetail = {
     lastVerified: string
 }
 
+/** Niveau d'une filière du supérieur (Licence, Master…). */
+export type OfferLevel = { diploma: string; durationYears: number | null; fees: number | null; admissionLevel: string }
+
 export type Offer = {
     id: string
     urlSlug: string
@@ -110,6 +113,10 @@ export type Offer = {
     category: string
     diploma: string | null
     durationYears: number | null
+    /** Formation professionnelle : durée dans son unité (« 6 mois »). */
+    duration?: { value: number; unit: string } | null
+    /** Supérieur : niveaux proposés pour la filière. */
+    levels?: OfferLevel[]
     ageRange: { min: number; max: number } | null
     fees: number | null
     feesPeriod: string
@@ -341,6 +348,7 @@ export type AuditLog = {
 export type ReferenceData = {
     offerKinds: string[]
     diplomas: string[]
+    durationUnits?: string[]
     modalities: string[]
     registrationStatuses: string[]
     admissionLevels: string[]

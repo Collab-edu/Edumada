@@ -128,7 +128,7 @@ export default function Offers() {
                                                 <Link href={`/offres/modifier/?id=${o.id}`} className='fw-semibold text-decoration-none'>
                                                     {o.title}
                                                 </Link>
-                                                <div className='small text-body-secondary'>{[o.diploma, o.modality, o.domain].filter(Boolean).join(' · ')}</div>
+                                                <div className='small text-body-secondary'>{[o.levels?.length ? o.levels.map((l) => l.diploma).join(', ') : o.diploma, o.modality, o.domain].filter(Boolean).join(' · ')}</div>
                                             </div>
                                         </div>
                                     </CTableDataCell>
