@@ -6,7 +6,7 @@ import type { FaqItem } from '@/features/etablissements/faq'
 import type { SchoolType } from '@/features/etablissements/types'
 import { formatDate } from '../../format'
 import type { FormationDetailType, FormationType } from '../../types'
-import { DetailSection, Panel, SubTitle } from './parts'
+import { DetailSection, Panel } from './parts'
 
 type Props = { formation: FormationType; detail: FormationDetailType; school: SchoolType; onContact: () => void; onApply: () => void }
 
@@ -71,7 +71,7 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
 }
 
 /* 9. Informations complémentaires */
-export function ExtraInfoSection({ detail, faq, onReport }: { detail: FormationDetailType; faq: FaqItem[]; onReport: () => void }) {
+export function ExtraInfoSection({ detail, onReport }: { detail: FormationDetailType; onReport: () => void }) {
     const t = useT()
     return (
         <DetailSection id='infos' title='Informations complémentaires' icon='tabler:file-description'>
@@ -103,10 +103,16 @@ export function ExtraInfoSection({ detail, faq, onReport }: { detail: FormationD
                     </div>
                 </Panel>
             </div>
-            <div>
-                <SubTitle>Questions fréquentes</SubTitle>
-                <SchoolFaq items={faq} />
-            </div>
+        </DetailSection>
+    )
+}
+
+/* 11. Questions fréquentes (dernière section de la fiche) */
+export function FaqSection({ faq }: { faq: FaqItem[] }) {
+    if (faq.length === 0) return null
+    return (
+        <DetailSection id='faq' title='Questions fréquentes' icon='tabler:help-circle'>
+            <SchoolFaq items={faq} />
         </DetailSection>
     )
 }

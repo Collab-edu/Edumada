@@ -14,7 +14,7 @@ import type { CategoryType } from '@/features/categories/types'
 import { formatDate, formatTuition, offerFacts } from '../../format'
 import type { FormationDetailType, FormationType } from '../../types'
 import SimilarFormations from '../SimilarFormations'
-import { ApplySection, ExtraInfoSection } from './FormationApply'
+import { ApplySection, ExtraInfoSection, FaqSection } from './FormationApply'
 import FormationHero, { REGISTRATION_BADGE } from './FormationHero'
 import FormationSchool from './FormationSchool'
 import { AdmissionSection, CareersSection, CostsSection, OrganisationSection, PresentationSection, ProgramSection } from './FormationSections'
@@ -134,8 +134,9 @@ export function FormationDetailPage({ formation, detail, school, category, other
                         <OrganisationSection {...sectionProps} />
                         {showCareers && <CareersSection {...sectionProps} />}
                         <FormationSchool school={school} otherFormations={otherFormations} />
-                        <ExtraInfoSection detail={detail} faq={faq} onReport={() => setReportOpen(true)} />
+                        <ExtraInfoSection detail={detail} onReport={() => setReportOpen(true)} />
                         <ApplySection {...sectionProps} onContact={openContact} onApply={applyClick} />
+                        <FaqSection faq={faq} />
                     </div>
 
                     {/* Résumé latéral */}
