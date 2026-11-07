@@ -10,7 +10,7 @@ import { DetailSection, Panel, SubTitle } from './parts'
 
 type Props = { formation: FormationType; detail: FormationDetailType; school: SchoolType; onContact: () => void; onApply: () => void }
 
-/* 9. Comment postuler ? */
+/* 10. Comment postuler ? (dernière section, après les informations complémentaires) */
 export function ApplySection({ formation, detail, school, onContact, onApply }: Props) {
     const t = useT()
     const steps = [
@@ -70,7 +70,7 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
     )
 }
 
-/* 10. Informations complémentaires */
+/* 9. Informations complémentaires */
 export function ExtraInfoSection({ detail, faq, onReport }: { detail: FormationDetailType; faq: FaqItem[]; onReport: () => void }) {
     const t = useT()
     return (

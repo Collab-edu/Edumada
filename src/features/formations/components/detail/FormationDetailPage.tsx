@@ -134,8 +134,8 @@ export function FormationDetailPage({ formation, detail, school, category, other
                         <OrganisationSection {...sectionProps} />
                         {showCareers && <CareersSection {...sectionProps} />}
                         <FormationSchool school={school} otherFormations={otherFormations} />
-                        <ApplySection {...sectionProps} onContact={openContact} onApply={applyClick} />
                         <ExtraInfoSection detail={detail} faq={faq} onReport={() => setReportOpen(true)} />
+                        <ApplySection {...sectionProps} onContact={openContact} onApply={applyClick} />
                     </div>
 
                     {/* Résumé latéral */}
