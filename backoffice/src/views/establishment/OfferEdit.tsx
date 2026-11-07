@@ -62,7 +62,6 @@ function initialState(offer: ManagedOffer | undefined, e: ManagedEstablishment, 
         otherFees: (d.costs?.otherFees ?? []).map((f) => ({ label: f.label, amount: str(f.amount) })),
         costsStatus: d.costs?.status ?? 'Confirmés',
         paymentOptions: d.costs?.paymentOptions ?? [],
-        discounts: d.costs?.discounts ?? '',
         schedule: d.organization?.schedule ?? '',
         rhythm: d.organization?.rhythm ?? [],
         jobs: d.careers?.jobs ?? [],
@@ -139,7 +138,7 @@ function toPayload(s: State, rules: OfferKindRules, structure: FormationStructur
                 status: s.costsStatus,
                 paymentOptions: s.paymentOptions,
                 scholarships: null,
-                discounts: s.discounts || null,
+                discounts: null,
             },
             organization: { schedule: s.schedule || null, campus: null, rhythm: s.rhythm },
             careers: rules.careers
@@ -675,7 +674,6 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 )}
                 <div className='mt-3'>
                     <ListInput label='Modalités de paiement' placeholder='Ex. : Mensuel' value={s.paymentOptions} onChange={(v) => set('paymentOptions', v)} />
-                    <CFormTextarea label='Réductions' rows={2} value={s.discounts} onChange={(ev) => set('discounts', ev.target.value)} />
                 </div>
             </Step>
 
