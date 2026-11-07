@@ -179,7 +179,7 @@ export function AdmissionSection({ formation, detail, school, fields }: Props) {
     )
 }
 
-/* 5. Frais et financement */
+/* 5. Frais et modalités de paiement */
 const STATUS_BANNER = {
     Confirmés: { icon: 'tabler:circle-check', text: "Montants confirmés par l'établissement.", className: 'bg-success/25 text-secondary' },
     Estimés: { icon: 'tabler:alert-triangle', text: "Montants estimés : à confirmer auprès de l'établissement avant toute démarche.", className: 'bg-cream text-primary' },
@@ -198,7 +198,7 @@ export function CostsSection({ formation, detail }: Props) {
         ...costs.otherFees,
     ]
     return (
-        <DetailSection id='frais' title='Frais et financement' icon='tabler:coin'>
+        <DetailSection id='frais' title='Frais et modalités de paiement' icon='tabler:coin'>
             <p className={cn('flex items-center gap-2 rounded-xl px-4 py-3 font-medium', banner.className)}>
                 <Icon icon={banner.icon} className='shrink-0 text-lg' /> {t(banner.text)}
             </p>
