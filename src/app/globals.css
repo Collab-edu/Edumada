@@ -283,3 +283,15 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .edu-loader-fill, .edu-loader-wave, .edu-loader-draw, .edu-loader-cap, .edu-loader-dot, .edu-loader-bar { animation: none; }
 }
+
+/* Bouton WhatsApp : le logo frétille brièvement toutes les 4 secondes. */
+@keyframes wa-wiggle {
+  0%, 82%, 100% { transform: rotate(0deg); }
+  85% { transform: rotate(-14deg); }
+  88% { transform: rotate(12deg); }
+  91% { transform: rotate(-8deg); }
+  94% { transform: rotate(4deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wa-wiggle { animation: wa-wiggle 4s ease-in-out infinite; }
+}
