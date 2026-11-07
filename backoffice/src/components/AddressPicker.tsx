@@ -1,10 +1,10 @@
 'use client'
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
-import { CCol, CFormFeedback, CFormInput, CFormLabel, CInputGroup, CInputGroupText, CRow } from '@coreui/react'
+import { CCol, CFormFeedback, CFormInput, CFormLabel, CFormSelect, CInputGroup, CInputGroupText, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLocationPin, cilSearch } from '@coreui/icons'
 import { api, errorMessage } from '@/lib/api'
-import PlaceInput from '@/components/PlaceInput'
+import { CITIES, MAIN_CITIES, matchCity, OTHER_CITIES } from '@/lib/cities'
 
 /** Adresse trouvée sur OpenStreetMap (API /places/addresses). */
 type AddressHit = { label: string; detail: string; city: string; lat: number; lng: number }
@@ -36,6 +36,15 @@ export default function AddressPicker({
     const [open, setOpen] = useState(false)
     const [active, setActive] = useState(-1)
     const typed = useRef(false)
+    // Ville hors de la liste : « Autre ville… » et saisie libre.
+    const [otherCity, setOtherCity] = useState(() => !!value.city && !CITIES.includes(value.city))
+    /** Ville trouvée (OpenStreetMap, Google Maps) : celle de la liste si elle y figure, sinon « Autre ville ». */
+    const cityPatch = (found: string): Partial<AddressValue> => {
+        if (!found) return {}
+        const listed = matchCity(found)
+        setOtherCity(!listed)
+        return { city: listed ?? found }
+    }
     // Établissement absent d'OpenStreetMap : position lue dans un lien Google Maps.
     const [showLink, setShowLink] = useState(false)
     const [link, setLink] = useState('')
@@ -63,7 +72,7 @@ export default function AddressPicker({
 
     const choose = (hit: AddressHit) => {
         typed.current = false
-        onChange({ address: hit.label, city: hit.city || value.city, lat: hit.lat.toFixed(6), lng: hit.lng.toFixed(6) })
+        onChange({ address: hit.label, ...cityPatch(hit.city), lat: hit.lat.toFixed(6), lng: hit.lng.toFixed(6) })
         setHits([])
         setOpen(false)
     }
@@ -90,7 +99,7 @@ export default function AddressPicker({
                 onChange({
                     lat: data.lat.toFixed(6),
                     lng: data.lng.toFixed(6),
-                    ...(data.city ? { city: data.city } : {}),
+                    ...cityPatch(data.city),
                     // L'adresse déjà tapée est gardée ; sinon, le nom du lieu sur Google Maps.
                     ...(!value.address.trim() && data.name ? { address: data.name } : {}),
                 })
@@ -206,17 +215,44 @@ export default function AddressPicker({
             </CCol>
 
             <CCol md={12}>
-                <PlaceInput
+                {/* Liste fixe : un même nom pour tous, donc un filtre « Ville » du site sans doublons. */}
+                <CFormSelect
                     id='bo-city'
                     label='Ville'
-                    value={value.city}
-                    error={errors.city}
-                    text="Remplie d'après l'adresse ; modifiable."
-                    onChange={(city, place) =>
-                        // Sans adresse choisie, la position de la ville sert de repère sur la carte du site.
-                        onChange({ city, ...(place && !hasPoint ? { lat: place.lat.toFixed(6), lng: place.lng.toFixed(6) } : {}) })
-                    }
-                />
+                    value={otherCity ? '__other__' : value.city}
+                    invalid={!!errors.city && !otherCity}
+                    feedbackInvalid={errors.city}
+                    text="Choisie d'après l'adresse ; modifiable."
+                    onChange={(e) => {
+                        const choice = e.target.value
+                        setOtherCity(choice === '__other__')
+                        onChange({ city: choice === '__other__' ? '' : choice })
+                    }}
+                >
+                    <option value=''>Choisir…</option>
+                    <optgroup label='Grandes villes'>
+                        {MAIN_CITIES.map((c) => (
+                            <option key={c}>{c}</option>
+                        ))}
+                    </optgroup>
+                    <optgroup label='Autres villes'>
+                        {OTHER_CITIES.map((c) => (
+                            <option key={c}>{c}</option>
+                        ))}
+                    </optgroup>
+                    <option value='__other__'>Autre ville…</option>
+                </CFormSelect>
+                {otherCity && (
+                    <CFormInput
+                        className='mt-2'
+                        aria-label='Nom de la ville'
+                        placeholder='Nom de la ville'
+                        value={value.city}
+                        invalid={!!errors.city}
+                        feedbackInvalid={errors.city}
+                        onChange={(e) => onChange({ city: e.target.value })}
+                    />
+                )}
             </CCol>
         </CRow>
     )
