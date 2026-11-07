@@ -77,11 +77,11 @@ export default function BenefitsPage() {
             <section>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     {/* Types d'établissements concernés */}
-                    <div className='mb-12 flex flex-col gap-4 border-y border-gray-100 py-5 md:flex-row md:items-center md:justify-between'>
+                    <div className='mb-12 flex flex-col gap-4 rounded-2xl bg-secondary/[0.06] px-5 py-5 md:flex-row md:items-center md:justify-between md:px-8'>
                         <p className='!text-xs font-bold uppercase tracking-[0.12em] text-ink/60'>{t('Pour tous les établissements')}</p>
                         <ul className='flex flex-wrap gap-2 md:gap-3'>
                             {AUDIENCES.map((a) => (
-                                <li key={a.label} className='inline-flex items-center gap-2 rounded-xl bg-secondary/[0.06] px-4 py-2 text-sm font-semibold text-black'>
+                                <li key={a.label} className='inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black shadow-[0_4px_12px_-8px_rgba(15,76,92,0.4)]'>
                                     <Icon icon={a.icon} className='text-base text-primary' />
                                     {t(a.label)}
                                 </li>
