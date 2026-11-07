@@ -7,6 +7,14 @@ import DashboardPreview from './DashboardPreview'
 import Image from 'next/image'
 import withBasePath from '@/lib/base-path'
 
+/** Bandeau « Pour tous les établissements ». */
+const AUDIENCES = [
+    { icon: 'tabler:school', label: 'Universités' },
+    { icon: 'tabler:briefcase', label: 'Formations pro' },
+    { icon: 'tabler:mood-kid', label: 'Crèches' },
+    { icon: 'tabler:building-community', label: 'Primaire & Collège' },
+]
+
 const BENEFITS = [
     { icon: 'tabler:eye', title: 'Plus de visibilité', text: 'Présentez votre établissement sur une plateforme dédiée à l’éducation à Madagascar.' },
     { icon: 'tabler:book', title: 'Mettez en valeur vos formations', text: 'Publiez vos filières, programmes et spécialités avec des informations claires et attractives.' },
@@ -67,6 +75,18 @@ export default function BenefitsPage() {
             {/* Avantages */}
             <section>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
+                    {/* Types d'établissements concernés */}
+                    <div className='mb-12 flex flex-col gap-4 border-y border-gray-100 py-5 md:flex-row md:items-center md:justify-between'>
+                        <p className='!text-xs font-bold uppercase tracking-[0.12em] text-ink/60'>{t('Pour tous les établissements')}</p>
+                        <ul className='flex flex-wrap gap-2 md:gap-3'>
+                            {AUDIENCES.map((a) => (
+                                <li key={a.label} className='inline-flex items-center gap-2 rounded-full bg-secondary/[0.06] px-4 py-2 text-sm font-semibold text-secondary'>
+                                    <Icon icon={a.icon} className='text-base text-primary' />
+                                    {t(a.label)}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                     <SectionHeader title='Ce que vous gagnez' description='Les outils inclus pour présenter votre établissement et suivre l’intérêt des étudiants.' />
                     <ul className='grid gap-5 sm:grid-cols-2 lg:grid-cols-4'>
                         {BENEFITS.map((benefit, i) => (
