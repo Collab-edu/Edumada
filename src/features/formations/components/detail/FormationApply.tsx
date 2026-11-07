@@ -26,33 +26,33 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
     return (
         <DetailSection id='postuler' title='Comment postuler ?' icon='tabler:send'>
             {/* Étapes en cartes : empilées et compactes sur mobile, sur une ligne reliée par des flèches sur grand écran. */}
-            <ol className='grid grid-cols-1 gap-5 pt-3 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6'>
+            <ol className='grid grid-cols-1 gap-4 pt-2 sm:grid-cols-2 lg:grid-cols-5 lg:gap-5'>
                 {steps.map((step, i) => (
                     <li
                         key={step.title}
-                        className='relative flex items-center gap-4 rounded-2xl bg-white p-4 pl-6 shadow-[0_10px_30px_-14px_rgba(15,76,92,0.3)] ring-1 ring-gray-100 lg:flex-col lg:items-start lg:p-5 lg:pt-8'>
-                        <span className='absolute -top-3 -left-2 flex h-9 w-9 items-center justify-center rounded-full bg-primary text-lg font-bold text-white shadow-md lg:h-10 lg:w-10'>
+                        className='relative flex items-center gap-3 rounded-xl bg-white p-3 pl-5 shadow-[0_8px_20px_-12px_rgba(15,76,92,0.3)] ring-1 ring-gray-100 lg:flex-col lg:items-start lg:gap-2 lg:p-3 lg:pt-5'>
+                        <span className='absolute -top-2.5 -left-2 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-sm font-bold text-white shadow'>
                             {i + 1}
                         </span>
-                        <span className='relative flex h-14 w-14 shrink-0 items-center justify-center lg:mx-auto lg:h-16 lg:w-16' aria-hidden='true'>
-                            <span className='absolute inset-0 translate-x-2 rounded-full bg-primary/10' />
-                            <Icon icon={step.icon} className='relative text-4xl text-secondary lg:text-5xl' />
+                        <span className='relative flex h-10 w-10 shrink-0 items-center justify-center lg:mx-auto' aria-hidden='true'>
+                            <span className='absolute inset-0 translate-x-1.5 rounded-full bg-primary/10' />
+                            <Icon icon={step.icon} className='relative text-2xl text-secondary' />
                         </span>
                         <div className='flex min-w-0 flex-col'>
                             {step.href ? (
-                                <a href={step.href} className='font-bold leading-snug text-secondary hover:text-primary'>
+                                <a href={step.href} className='text-sm font-bold leading-snug text-secondary hover:text-primary'>
                                     {t(step.title)}
                                 </a>
                             ) : (
-                                <span className='font-bold leading-snug text-secondary'>{t(step.title)}</span>
+                                <span className='text-sm font-bold leading-snug text-secondary'>{t(step.title)}</span>
                             )}
-                            <span className='mt-2 h-1 w-10 rounded-full bg-primary' aria-hidden='true' />
+                            <span className='mt-1.5 h-0.5 w-8 rounded-full bg-primary' aria-hidden='true' />
                         </div>
                         {i < steps.length - 1 && (
                             <span
-                                className='absolute top-1/2 -right-[22px] z-10 hidden h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-white shadow ring-4 ring-offwhite lg:flex'
+                                className='absolute top-1/2 -right-[17px] z-10 hidden h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-white ring-2 ring-offwhite lg:flex'
                                 aria-hidden='true'>
-                                <Icon icon='tabler:chevron-right' className='text-base' />
+                                <Icon icon='tabler:chevron-right' className='text-xs' />
                             </span>
                         )}
                     </li>
