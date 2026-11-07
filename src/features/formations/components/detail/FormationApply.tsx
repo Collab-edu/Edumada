@@ -25,7 +25,7 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
 
     return (
         <DetailSection id='postuler' title='Comment postuler ?' icon='tabler:send'>
-            {/* Étapes en cartes : empilées et compactes sur mobile, sur une ligne reliée par des flèches sur grand écran. */}
+            {/* Étapes en cartes : empilées et compactes sur mobile, sur une ligne sur grand écran. */}
             <ol className='grid grid-cols-1 gap-4 pt-2 sm:grid-cols-2 lg:grid-cols-5 lg:gap-5'>
                 {steps.map((step, i) => (
                     <li
@@ -48,13 +48,6 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
                             )}
                             <span className='mt-1.5 h-0.5 w-8 rounded-full bg-primary' aria-hidden='true' />
                         </div>
-                        {i < steps.length - 1 && (
-                            <span
-                                className='absolute top-1/2 -right-[17px] z-10 hidden h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-white ring-2 ring-offwhite lg:flex'
-                                aria-hidden='true'>
-                                <Icon icon='tabler:chevron-right' className='text-xs' />
-                            </span>
-                        )}
                     </li>
                 ))}
             </ol>
