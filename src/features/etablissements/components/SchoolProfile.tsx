@@ -36,11 +36,14 @@ function foundedLabel(year: number): string {
 }
 
 /** Ligne de la fiche pratique : libellé à gauche, valeur à droite. */
-function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
+function InfoRow({ icon, label, children }: { icon: string; label: string; children: React.ReactNode }) {
     const t = useT()
     return (
         <div className='flex items-start justify-between gap-4 border-b border-gray-100 py-2.5 last:border-b-0'>
-            <dt className='shrink-0 text-ink/60'>{t(label)}</dt>
+            <dt className='flex max-w-[45%] shrink-0 items-start gap-2 text-ink/60'>
+                <Icon icon={icon} className='mt-0.5 shrink-0 text-base text-secondary' />
+                {t(label)}
+            </dt>
             <dd className='min-w-0 break-words text-right font-medium text-ink'>{typeof children === 'string' ? t(children) : children}</dd>
         </div>
     )
@@ -249,55 +252,54 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                             lat={school.coordinates.lat}
                                             lng={school.coordinates.lng}
                                             name={school.name}
+                                            address={school.city}
                                             className='overflow-hidden rounded-xl'
                                             mapClassName='h-56 w-full'
                                         />
                                     )}
-                                    <div className='mt-3 flex items-start justify-between gap-3 text-sm'>
-                                        <span className='min-w-0 text-ink'>{[school.address, school.city].filter(Boolean).join(', ')}</span>
-                                        <a
-                                            href={map.link}
-                                            target='_blank'
-                                            rel='noopener noreferrer'
-                                            className='inline-flex shrink-0 items-center gap-1 font-semibold text-primary hover:underline'>
-                                            {t('Google Maps')} <Icon icon='tabler:external-link' />
-                                        </a>
-                                    </div>
+                                    <a
+                                        href={map.link}
+                                        target='_blank'
+                                        rel='noopener noreferrer'
+                                        className='mt-3 flex items-center justify-between gap-3 text-sm font-semibold text-primary hover:underline'>
+                                        {t('Ouvrir dans Google Maps')}
+                                        <Icon icon='tabler:external-link' />
+                                    </a>
                                 </div>
                             )}
 
                             <div className='p-5'>
-                                <p className='mb-1 font-bold text-secondary'>{t('Informations')}</p>
+                                <p className='mb-1 font-bold text-secondary'>{t('Informations pratiques')}</p>
                                 <dl className='text-sm'>
-                                    <InfoRow label='Nom'>{school.name}</InfoRow>
-                                    <InfoRow label='Type'>
+                                    <InfoRow icon='tabler:building-community' label='Nom'>{school.name}</InfoRow>
+                                    <InfoRow icon={category.icon} label='Type et catégorie'>
                                         {[school.subCategory, category.label, school.type].filter((v): v is string => Boolean(v)).map((v) => t(v)).join(' · ')}
                                     </InfoRow>
                                     {school.foundedYear && (
-                                        <InfoRow label='Création'>
+                                        <InfoRow icon='tabler:calendar-star' label='Année de création'>
                                             {school.foundedYear} · {t(foundedLabel(school.foundedYear))}
                                         </InfoRow>
                                     )}
-                                    <InfoRow label='Adresse'>{school.address}</InfoRow>
+                                    <InfoRow icon='tabler:map-pin' label='Adresse'>{school.address}</InfoRow>
                                     {school.phone && (
-                                        <InfoRow label='Téléphone'>
+                                        <InfoRow icon='tabler:phone' label='Téléphone'>
                                             <a href={`tel:${school.phone.replace(/\s/g, '')}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='hover:text-primary'>{school.phone}</a>
                                         </InfoRow>
                                     )}
                                     {school.email && (
-                                        <InfoRow label='E-mail'>
+                                        <InfoRow icon='tabler:mail' label='E-mail'>
                                             <a href={`mailto:${school.email}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='hover:text-primary'>{school.email}</a>
                                         </InfoRow>
                                     )}
                                     {school.website && (
-                                        <InfoRow label='Site web'>
+                                        <InfoRow icon='tabler:world' label='Site web'>
                                             <a href={school.website} target='_blank' rel='noopener noreferrer' onClick={() => track({ type: 'website_click', establishment: school.id })} className='text-primary hover:underline'>
                                                 {websiteLabel}
                                             </a>
                                         </InfoRow>
                                     )}
                                     {socials.length > 0 && (
-                                        <InfoRow label='Réseaux'>
+                                        <InfoRow icon='tabler:share' label='Réseaux sociaux'>
                                             <span className='inline-flex flex-wrap justify-end gap-1.5'>
                                                 {socials.map(([network, url]) => (
                                                     <a
@@ -313,10 +315,10 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                             </span>
                                         </InfoRow>
                                     )}
-                                    <InfoRow label='Accréditation'>
-                                        {school.accreditationVerified && school.accreditation ? school.accreditation : 'En cours de vérification'}
+                                    <InfoRow icon='tabler:rosette-discount-check' label='Reconnaissance / accréditation'>
+                                        {school.accreditationVerified && school.accreditation ? school.accreditation : 'En cours de vérification par Edumada'}
                                     </InfoRow>
-                                    <InfoRow label='Statut'>
+                                    <InfoRow icon='tabler:shield-check' label='Statut sur Edumada'>
                                         {school.verification.status === 'Vérifié' && school.verification.date
                                             ? t('Fiche vérifiée le {date}', { date: t(formatDate(school.verification.date)) })
                                             : school.verification.status === 'En cours'
@@ -326,12 +328,18 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 </dl>
                             </div>
 
-                            <div className='flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-gray-100 px-5 py-3 text-sm'>
-                                <button type='button' onClick={() => setReportOpen(true)} className='min-h-10 font-semibold text-primary hover:underline hover:cursor-pointer'>
-                                    {t('Signaler une erreur')}
+                            <div className='flex flex-col gap-1 border-t border-gray-100 px-5 py-4 text-sm'>
+                                <p className='font-bold text-secondary'>{t('Une information à corriger ?')}</p>
+                                <button
+                                    type='button'
+                                    onClick={() => setReportOpen(true)}
+                                    className='flex min-h-10 items-center gap-2 text-left font-semibold text-primary hover:underline hover:cursor-pointer'>
+                                    <Icon icon='tabler:flag' /> {t('Signaler une information erronée')}
                                 </button>
-                                <Link href={backofficeUrl(`/revendiquer?fiche=${school.id}`)} className='min-h-10 content-center font-semibold text-secondary hover:text-primary'>
-                                    {t('Gérer cette fiche')}
+                                <Link
+                                    href={backofficeUrl(`/revendiquer?fiche=${school.id}`)}
+                                    className='flex min-h-10 items-center gap-2 font-semibold text-secondary hover:text-primary'>
+                                    <Icon icon='tabler:building-community' /> {t('Vous représentez cet établissement ? Gérez cette fiche')}
                                 </Link>
                             </div>
                         </div>
