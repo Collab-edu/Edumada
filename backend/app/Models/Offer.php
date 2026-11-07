@@ -33,7 +33,7 @@ use Illuminate\Support\Str;
  * Offre éducative : formation, niveau scolaire ou accueil.
  */
 #[Fillable([
-    'slug', 'domain_id', 'kind', 'title', 'diploma', 'levels', 'level_diplomas', 'duration_years', 'duration_value', 'duration_unit', 'age_min', 'age_max',
+    'slug', 'domain_id', 'kind', 'title', 'diploma', 'diploma_other', 'levels', 'level_diplomas', 'duration_years', 'duration_value', 'duration_unit', 'age_min', 'age_max',
     'fees', 'fees_period', 'registration_fee', 'registration_starts_on', 'registration_ends_on',
     'starts_on', 'modality', 'registration_status', 'languages', 'admission_level', 'bac_series',
     'selection', 'housing', 'scholarship', 'image', 'status',

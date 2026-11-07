@@ -54,13 +54,15 @@ class OfferRequest extends FormRequest
             'domain' => ['sometimes', 'nullable', 'string', Rule::exists('domains', 'name')],
             'kind' => [$required, Rule::in(OfferKind::labels())],
             'diploma' => ['sometimes', 'nullable', Rule::in(Diploma::labels())],
+            // « Autre » : le nom du diplôme est à préciser.
+            'diplomaOther' => ['nullable', 'string', 'max:100', 'required_if:diploma,Autre'],
             'durationYears' => ['sometimes', 'nullable', 'numeric', 'min:0', 'max:15'],
             // Supérieur : niveaux proposés pour la filière (le premier sert de résumé pour la recherche).
             'levels' => ['sometimes', 'nullable', 'array', 'max:10'],
-            'levels.*' => ['array:diploma,durationYears,fees,admissionLevel'],
+            'levels.*' => ['array:diploma,diplomaOther,durationYears,admissionLevel'],
             'levels.*.diploma' => ['required', Rule::in(Diploma::labels())],
+            'levels.*.diplomaOther' => ['nullable', 'string', 'max:100', 'required_if:levels.*.diploma,Autre'],
             'levels.*.durationYears' => ['present', 'nullable', 'numeric', 'min:0', 'max:15'],
-            'levels.*.fees' => ['present', 'nullable', 'integer', 'min:0'],
             'levels.*.admissionLevel' => ['required', Rule::in(AdmissionLevel::labels())],
             // Formation professionnelle : durée dans l'unité choisie (« 3 mois »).
             'duration' => ['sometimes', 'nullable', 'array:value,unit'],
@@ -280,24 +282,27 @@ class OfferRequest extends FormRequest
             }
         }
 
-        // Niveaux d'une filière : le premier niveau et les frais les plus bas résument l'offre pour la recherche.
+        // « Autre » diplôme : son nom précisé par l'établissement (effacé pour un diplôme de la liste).
+        if (Arr::has($data, 'diploma')) {
+            $attributes['diploma_other'] = $data['diploma'] === Diploma::Other->label() ? ($data['diplomaOther'] ?? null) : null;
+        }
+
+        // Niveaux d'une filière : le premier niveau résume l'offre pour la recherche.
         if (Arr::has($data, 'levels')) {
             $levels = array_values(array_map(fn (array $level) => [
                 'diploma' => $level['diploma'],
+                'diplomaOther' => $level['diploma'] === Diploma::Other->label() ? ($level['diplomaOther'] ?? null) : null,
                 'durationYears' => $level['durationYears'] !== null ? (float) $level['durationYears'] : null,
-                'fees' => $level['fees'],
                 'admissionLevel' => $level['admissionLevel'],
             ], $data['levels'] ?? []));
             $attributes['levels'] = $levels ?: null;
             $attributes['level_diplomas'] = $levels ? array_values(array_unique(array_map(fn (array $level) => Diploma::fromLabel($level['diploma'])->value, $levels))) : null;
             if ($levels) {
                 $first = $levels[0];
-                $fees = array_filter(array_column($levels, 'fees'), fn ($fee) => $fee !== null);
                 $attributes['diploma'] = Diploma::fromLabel($first['diploma']);
+                $attributes['diploma_other'] = $first['diplomaOther'];
                 $attributes['duration_years'] = $first['durationYears'];
                 $attributes['admission_level'] = AdmissionLevel::fromLabel($first['admissionLevel']);
-                $attributes['fees'] = $fees ? min($fees) : null;
-                $attributes['fees_period'] = FeesPeriod::Year;
             }
         }
 

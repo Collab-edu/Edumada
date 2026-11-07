@@ -25,10 +25,11 @@ function initialState(offer: ManagedOffer | undefined, e: ManagedEstablishment, 
         kind: offer?.kind ?? kind,
         domain: offer?.domain ?? '',
         diploma: offer?.diploma ?? '',
+        diplomaOther: offer?.diplomaOther ?? '',
         durationYears: str(offer?.durationYears),
         durationValue: str(offer?.duration?.value),
         durationUnit: offer?.duration?.unit ?? 'mois',
-        levels: (offer?.levels ?? []).map((l) => ({ diploma: l.diploma, durationYears: str(l.durationYears), fees: str(l.fees), admissionLevel: l.admissionLevel })),
+        levels: (offer?.levels ?? []).map((l) => ({ diploma: l.diploma, diplomaOther: l.diplomaOther ?? '', durationYears: str(l.durationYears), admissionLevel: l.admissionLevel })),
         ageMin: str(offer?.ageRange?.min),
         ageMax: str(offer?.ageRange?.max),
         fees: str(offer?.fees),
@@ -91,14 +92,21 @@ function toPayload(s: State, rules: OfferKindRules, structure: FormationStructur
         kind: s.kind,
         domain: s.domain || rules.autoDomain,
         diploma: diplomas.includes(s.diploma) ? s.diploma : null,
+        // « Autre » : nom du diplôme précisé par l'établissement.
+        diplomaOther: s.diploma === 'Autre' && diplomas.includes(s.diploma) ? s.diplomaOther.trim() || null : null,
         durationYears: structure === 'simple' && rules.duration ? num(s.durationYears) : null,
         // Supérieur : niveaux de la filière ; l'API en déduit diplôme, durée, frais et niveau requis pour la recherche.
-        levels: levels.map((l) => ({ diploma: l.diploma, durationYears: num(l.durationYears), fees: num(l.fees), admissionLevel: l.admissionLevel })),
+        levels: levels.map((l) => ({
+            diploma: l.diploma,
+            diplomaOther: l.diploma === 'Autre' ? l.diplomaOther.trim() || null : null,
+            durationYears: num(l.durationYears),
+            admissionLevel: l.admissionLevel,
+        })),
         // Formation professionnelle : durée dans son unité.
         duration: structure === 'vocational' && num(s.durationValue) ? { value: num(s.durationValue), unit: s.durationUnit } : null,
         ageRange: rules.childAge && s.ageMin && s.ageMax ? { min: num(s.ageMin), max: num(s.ageMax) } : null,
-        fees: structure === 'levels' ? null : num(s.fees),
-        feesPeriod: structure === 'levels' ? 'an' : s.feesPeriod,
+        fees: num(s.fees),
+        feesPeriod: s.feesPeriod,
         registrationFee: num(s.registrationFee),
         registrationPeriod: s.registrationStart && s.registrationEnd ? { start: s.registrationStart, end: s.registrationEnd } : null,
         startDate: s.startDate || null,
@@ -273,14 +281,14 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
         }
     }
 
-    function rowEditor<K extends RowKey>(key: K, empty: State[K][number], render: (item: State[K][number], update: (patch: Partial<State[K][number]>) => void) => ReactNode, addLabel: string) {
+    function rowEditor<K extends RowKey>(key: K, empty: State[K][number], render: (item: State[K][number], update: (patch: Partial<State[K][number]>) => void, index: number) => ReactNode, addLabel: string) {
         const rows = s[key] as State[K][number][]
         const update = (next: State[K][number][]) => set(key, next as State[K])
         return (
             <>
                 {rows.map((item, i) => (
                     <CRow key={i} className='g-2 align-items-end mb-2'>
-                        {render(item, (patch) => update(rows.map((x, j) => (j === i ? { ...x, ...patch } : x))))}
+                        {render(item, (patch) => update(rows.map((x, j) => (j === i ? { ...x, ...patch } : x))), i)}
                         <CCol xs='auto'>
                             <CButton color='danger' variant='ghost' aria-label='Retirer' onClick={() => update(rows.filter((_, j) => j !== i))}>
                                 <CIcon icon={cilTrash} />
@@ -379,25 +387,34 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                     {structure === 'levels' && (
                         <CCol md={12}>
                             <div className='form-label mb-1'>Niveaux proposés</div>
-                            <p className='small text-body-secondary mb-2'>Les niveaux auxquels cette filière est proposée (ex. : Licence puis Master), chacun avec sa durée, ses frais annuels et le niveau requis pour y entrer.</p>
+                            <p className='small text-body-secondary mb-2'>Les niveaux auxquels cette filière est proposée (ex. : Licence puis Master), chacun avec sa durée et le niveau requis pour y entrer.</p>
                             {rowEditor(
                                 'levels',
-                                { diploma: '', durationYears: '', fees: '', admissionLevel: 'BAC' },
-                                (l, update) => (
+                                { diploma: '', diplomaOther: '', durationYears: '', admissionLevel: 'BAC' },
+                                (l, update, i) => (
                                     <>
-                                        <CCol xs={6} md={3}>
+                                        <CCol xs={6} md={l.diploma === 'Autre' ? 2 : 4}>
                                             <CFormSelect aria-label='Diplôme' value={l.diploma} onChange={(ev) => update({ diploma: ev.target.value })}>
                                                 <option value=''>Diplôme…</option>
                                                 {opts(HIGHER_DIPLOMAS)}
                                             </CFormSelect>
                                         </CCol>
-                                        <CCol xs={6} md={2}>
+                                        {l.diploma === 'Autre' && (
+                                            <CCol xs={6} md={3}>
+                                                <CFormInput
+                                                    aria-label='Précisez le diplôme'
+                                                    placeholder='Précisez (ex. : DTS)'
+                                                    value={l.diplomaOther}
+                                                    onChange={(ev) => update({ diplomaOther: ev.target.value })}
+                                                    invalid={!!err(`levels.${i}.diplomaOther`)}
+                                                    feedbackInvalid={err(`levels.${i}.diplomaOther`)}
+                                                />
+                                            </CCol>
+                                        )}
+                                        <CCol xs={6} md={l.diploma === 'Autre' ? 2 : 3}>
                                             <CFormInput aria-label='Durée (années)' placeholder='Durée (ans)' inputMode='decimal' value={l.durationYears} onChange={(ev) => update({ durationYears: ev.target.value })} />
                                         </CCol>
-                                        <CCol xs={6} md={3}>
-                                            <CFormInput aria-label='Frais (Ar / an)' placeholder='Frais (Ar / an)' inputMode='numeric' value={l.fees} onChange={(ev) => update({ fees: ev.target.value })} />
-                                        </CCol>
-                                        <CCol xs={6} md={3}>
+                                        <CCol xs={6} md={4}>
                                             <CFormSelect aria-label='Niveau requis' value={l.admissionLevel} onChange={(ev) => update({ admissionLevel: ev.target.value })}>
                                                 {(ref?.admissionLevels ?? ['Aucun', 'BAC', 'BAC+2', 'BAC+3']).map((v) => (
                                                     <option key={v} value={v}>
@@ -420,6 +437,18 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                                     {opts(VOCATIONAL_DIPLOMAS)}
                                 </CFormSelect>
                             </CCol>
+                            {s.diploma === 'Autre' && (
+                                <CCol md={4}>
+                                    <CFormInput
+                                        label='Précisez le diplôme'
+                                        placeholder='Ex. : Permis poids lourd'
+                                        value={s.diplomaOther}
+                                        onChange={(ev) => set('diplomaOther', ev.target.value)}
+                                        invalid={!!err('diplomaOther')}
+                                        feedbackInvalid={err('diplomaOther')}
+                                    />
+                                </CCol>
+                            )}
                             <CCol xs={6} md={2}>
                                 <CFormInput
                                     label='Durée'
@@ -581,10 +610,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
 
             <Step meta={stepOf('frais')} open={isOpen('frais')} onToggle={() => toggleStep('frais')}>
                 <p className='small text-body-secondary'>Laissez vide si vous ne savez pas : « Non communiqué » vaut mieux qu&apos;un montant approximatif.</p>
-                {structure === 'levels' && <p className='small text-body-secondary'>Les frais de scolarité se saisissent pour chaque niveau, à l&apos;étape 1.</p>}
                 <CRow className='g-3 mb-3'>
-                    {structure !== 'levels' && (
-                        <>
                     <CCol xs={8} md={4}>
                         <CFormInput
                             label={rules.feesLabel}
@@ -601,8 +627,6 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                             <option value='mois'>mois</option>
                         </CFormSelect>
                     </CCol>
-                        </>
-                    )}
                     <CCol md={3}>
                         <CFormInput label='Inscription (Ar)' inputMode='numeric' value={s.registrationFee} onChange={(ev) => set('registrationFee', ev.target.value)} />
                     </CCol>

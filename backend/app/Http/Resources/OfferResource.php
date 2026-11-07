@@ -34,6 +34,8 @@ class OfferResource extends JsonResource
             'kind' => $this->kind->label(),
             'category' => $establishment->category->slug,
             'diploma' => $this->diploma?->label(),
+            // Nom précisé quand le diplôme est « Autre ».
+            'diplomaOther' => $this->diploma_other,
             'durationYears' => $this->duration_years,
             'duration' => $this->duration_unit && $this->duration_value !== null
                 ? ['value' => $this->duration_value, 'unit' => $this->duration_unit->label()]

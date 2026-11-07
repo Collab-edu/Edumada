@@ -4,7 +4,7 @@ import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import type { SchoolType } from '@/features/etablissements/types'
 import type { CategoryType } from '@/features/categories/types'
-import { ADMISSION_LEVEL_LABEL, formatAgeRange, formatDate, formatDuration, formatFees, offerDuration } from '../../format'
+import { ADMISSION_LEVEL_LABEL, diplomaName, formatAgeRange, formatDate, formatDuration, formatFees, offerDuration } from '../../format'
 import type { FormationDetailType, FormationType } from '../../types'
 import { CheckList, ChipList, DetailSection, Fact, NOT_PROVIDED, Panel, SubTitle } from './parts'
 import { Eyebrow } from '@/components/ui/eyebrow'
@@ -27,22 +27,20 @@ function LevelsTable({ formation }: { formation: FormationType }) {
         <div>
             <SubTitle>Niveaux proposés</SubTitle>
             <div className='overflow-x-auto rounded-xl border border-gray-100 bg-white shadow-sm'>
-                <table className='w-full min-w-[480px] text-left text-sm'>
+                <table className='w-full min-w-[360px] text-left text-sm'>
                     <caption className='sr-only'>{t('Niveaux proposés')}</caption>
                     <thead className='bg-offwhite text-ink/70'>
                         <tr>
                             <th scope='col' className='px-4 py-3 font-semibold'>{t('Diplôme')}</th>
                             <th scope='col' className='px-4 py-3 font-semibold'>{t('Durée')}</th>
-                            <th scope='col' className='px-4 py-3 font-semibold'>{t('Frais par an')}</th>
                             <th scope='col' className='px-4 py-3 font-semibold'>{t('Accès')}</th>
                         </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-100'>
                         {levels.map((level) => (
-                            <tr key={level.diploma}>
-                                <th scope='row' className='px-4 py-3 font-semibold text-secondary'>{level.diploma}</th>
+                            <tr key={`${level.diploma}-${level.diplomaOther ?? ''}`}>
+                                <th scope='row' className='px-4 py-3 font-semibold text-secondary'>{diplomaName(level)}</th>
                                 <td className='px-4 py-3'>{formatDuration(level.durationYears)}</td>
-                                <td className='px-4 py-3'>{formatFees(level.fees) ?? <span className='text-ink/50'>{t(NOT_PROVIDED)}</span>}</td>
                                 <td className='px-4 py-3'>{level.admissionLevel === 'Aucun' ? t('Sans diplôme') : level.admissionLevel}</td>
                             </tr>
                         ))}
@@ -127,7 +125,7 @@ export function AdmissionSection({ formation, detail, school, fields }: Props) {
     const { level, bacSeries, selection } = formation.admission
     const levels = formation.levels ?? []
     // Filière à plusieurs niveaux : le niveau requis dépend du diplôme visé.
-    const requiredLevel = levels.length > 1 ? levels.map((l) => `${l.diploma} : ${ADMISSION_LEVEL_LABEL[l.admissionLevel]}`).join(' · ') : ADMISSION_LEVEL_LABEL[level]
+    const requiredLevel = levels.length > 1 ? levels.map((l) => `${diplomaName(l)} : ${ADMISSION_LEVEL_LABEL[l.admissionLevel]}`).join(' · ') : ADMISSION_LEVEL_LABEL[level]
     const needsBac = levels.length > 1 ? levels.some((l) => l.admissionLevel === 'BAC') : level === 'BAC'
     return (
         <DetailSection id='admission' title={formation.kind === 'formation' ? "Conditions d'admission" : "Conditions d'inscription"} icon='tabler:clipboard-check'>
@@ -177,10 +175,7 @@ export function CostsSection({ formation, detail }: Props) {
     const banner = STATUS_BANNER[costs.status]
     const rows = [
         { label: "Frais d'inscription", amount: formation.registrationFee },
-        // Filière du supérieur : frais de scolarité de chaque niveau.
-        ...(formation.levels?.length
-            ? formation.levels.map((l) => ({ label: `${KIND_LABELS[formation.kind].fees} – ${l.diploma} (par an)`, amount: l.fees }))
-            : [{ label: `${KIND_LABELS[formation.kind].fees} (par ${formation.feesPeriod})`, amount: formation.fees }]),
+        { label: `${KIND_LABELS[formation.kind].fees} (par ${formation.feesPeriod})`, amount: formation.fees },
         { label: 'Frais de dossier', amount: costs.applicationFee },
         ...costs.otherFees,
     ]

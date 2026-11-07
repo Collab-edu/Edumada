@@ -243,16 +243,18 @@ class OfferControllerTest extends TestCase
                 'diploma' => null,
                 'durationYears' => null,
                 'levels' => [
-                    ['diploma' => 'Licence', 'durationYears' => 3, 'fees' => 1800000, 'admissionLevel' => 'BAC'],
-                    ['diploma' => 'Master', 'durationYears' => 2, 'fees' => 1500000, 'admissionLevel' => 'BAC+3'],
+                    ['diploma' => 'Licence', 'durationYears' => 3, 'admissionLevel' => 'BAC'],
+                    ['diploma' => 'Master', 'durationYears' => 2, 'admissionLevel' => 'BAC+3'],
+                    ['diploma' => 'Autre', 'diplomaOther' => 'DTS', 'durationYears' => 2, 'admissionLevel' => 'BAC'],
                 ],
             ]))
             ->assertCreated()
             ->assertJsonPath('data.levels.1.diploma', 'Master')
-            // Résumé pour la recherche : premier niveau, frais les plus bas.
+            ->assertJsonPath('data.levels.2.diplomaOther', 'DTS')
+            // Résumé pour la recherche : premier niveau ; les frais restent ceux de l'offre.
             ->assertJsonPath('data.diploma', 'Licence')
             ->assertJsonPath('data.durationYears', 3)
-            ->assertJsonPath('data.fees', 1500000)
+            ->assertJsonPath('data.fees', 1800000)
             ->assertJsonPath('data.admission.level', 'BAC');
 
         Offer::query()->update(['status' => OfferStatus::Published]);
@@ -276,6 +278,20 @@ class OfferControllerTest extends TestCase
             ->assertJsonPath('data.diploma', 'Attestation')
             ->assertJsonPath('data.duration.unit', 'mois')
             ->assertJsonPath('data.durationYears', 0.5);
+    }
+
+    public function test_other_diploma_must_be_specified(): void
+    {
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $establishment = Establishment::factory()->ownedBy($owner)->create();
+        $url = "/api/v1/establishments/{$establishment->slug}/offers";
+
+        $this->actingAs($owner)->postJson($url, $this->validPayload(['diploma' => 'Autre']))
+            ->assertUnprocessable()->assertJsonValidationErrors('diplomaOther');
+        $this->actingAs($owner)->postJson($url, $this->validPayload(['levels' => [['diploma' => 'Autre', 'durationYears' => 2, 'admissionLevel' => 'BAC']]]))
+            ->assertUnprocessable()->assertJsonValidationErrors('levels.0.diplomaOther');
+        $this->actingAs($owner)->postJson($url, $this->validPayload(['diploma' => 'Autre', 'diplomaOther' => 'Permis C']))
+            ->assertCreated()->assertJsonPath('data.diplomaOther', 'Permis C');
     }
 
     public function test_free_plan_rejects_publishing_a_second_offer_with_422(): void

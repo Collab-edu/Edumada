@@ -6,8 +6,8 @@ export type RegistrationStatus = 'Ouvertes' | 'À venir' | 'Fermées'
 export type AdmissionLevel = 'Aucun' | 'BAC' | 'BAC+2' | 'BAC+3'
 export type AdmissionSelection = 'Inscription directe' | 'Sur dossier' | 'Dossier et entretien' | 'Concours'
 
-/** Niveau d'une filière du supérieur : Licence, Master… avec sa durée, ses frais annuels et son niveau d'entrée. */
-export type OfferLevel = { diploma: Diploma; durationYears: number | null; fees: number | null; admissionLevel: AdmissionLevel }
+/** Niveau d'une filière du supérieur : Licence, Master… avec sa durée et son niveau d'entrée (diplomaOther : nom précisé pour « Autre »). */
+export type OfferLevel = { diploma: Diploma; diplomaOther?: string | null; durationYears: number | null; admissionLevel: AdmissionLevel }
 
 export type FormationType = {
   id: string
@@ -29,6 +29,8 @@ export type FormationType = {
   category: string
   /** Diplôme préparé ; null pour un accueil sans diplôme (crèche, accompagnement…). */
   diploma: Diploma | null
+  /** Nom du diplôme quand l'établissement a choisi « Autre ». */
+  diplomaOther?: string | null
   /** Durée en années (0.5 = six mois) ; null si non renseignée ou sans objet. */
   durationYears: number | null
   /** Formation professionnelle : durée dans son unité (« 6 mois », « 40 heures »). */

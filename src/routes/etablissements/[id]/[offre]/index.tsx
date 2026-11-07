@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { readFormationDetails, readSiteData } from '@/data/server'
 import LiveFormationPage from '@/features/formations/components/detail/LiveFormationPage'
-import { offerFacts } from '@/features/formations/format'
+import { diplomaName, offerFacts } from '@/features/formations/format'
 import { buildFormationPageProps } from '@/features/formations/page-props'
 
 type Props = { params: Promise<{ id: string; offre: string }> }
@@ -40,7 +40,7 @@ export default async function FormationPage({ params }: Props) {
     name: props.formation.title,
     description: props.detail.description,
     provider: { '@type': 'EducationalOrganization', name: props.school.name, ...(props.school.website ? { sameAs: props.school.website } : {}) },
-    ...(props.formation.diploma ? { educationalCredentialAwarded: props.formation.diploma } : {}),
+    ...(props.formation.diploma ? { educationalCredentialAwarded: diplomaName(props.formation) } : {}),
     inLanguage: props.formation.languages,
   }
 

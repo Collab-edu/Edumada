@@ -8,14 +8,16 @@ return new class extends Migration
 {
     /**
      * Enseignement supérieur : une offre est une filière proposée à plusieurs niveaux (Licence, Master…),
-     * chacun avec son diplôme, sa durée, ses frais et son niveau requis (`levels`).
+     * chacun avec son diplôme, sa durée et son niveau requis (`levels`).
      * Formation professionnelle : durée exprimée dans une unité libre (heures, jours, semaines, mois, ans).
      * Les colonnes diploma, duration_years, fees et admission_level restent le résumé utilisé par la recherche.
      */
     public function up(): void
     {
         Schema::table('offers', function (Blueprint $table) {
-            $table->json('levels')->nullable()->after('diploma');
+            // Nom du diplôme quand l'établissement choisit « Autre ».
+            $table->string('diploma_other', 100)->nullable()->after('diploma');
+            $table->json('levels')->nullable()->after('diploma_other');
             // Codes des diplômes de tous les niveaux (filtre « Diplôme »).
             $table->json('level_diplomas')->nullable()->after('levels');
             $table->decimal('duration_value', 6, 2)->nullable()->after('duration_years');
@@ -26,7 +28,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('offers', function (Blueprint $table) {
-            $table->dropColumn(['levels', 'level_diplomas', 'duration_value', 'duration_unit']);
+            $table->dropColumn(['diploma_other', 'levels', 'level_diplomas', 'duration_value', 'duration_unit']);
         });
     }
 };

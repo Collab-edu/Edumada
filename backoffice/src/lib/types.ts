@@ -98,7 +98,7 @@ export type FormationDetail = {
 }
 
 /** Niveau d'une filière du supérieur (Licence, Master…). */
-export type OfferLevel = { diploma: string; durationYears: number | null; fees: number | null; admissionLevel: string }
+export type OfferLevel = { diploma: string; diplomaOther?: string | null; durationYears: number | null; admissionLevel: string }
 
 export type Offer = {
     id: string
@@ -112,6 +112,8 @@ export type Offer = {
     kind: string
     category: string
     diploma: string | null
+    /** Nom du diplôme quand « Autre » est choisi. */
+    diplomaOther?: string | null
     durationYears: number | null
     /** Formation professionnelle : durée dans son unité (« 6 mois »). */
     duration?: { value: number; unit: string } | null
