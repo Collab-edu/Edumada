@@ -139,51 +139,61 @@ export function FormationDetailPage({ formation, detail, school, category, other
                         <FaqSection faq={faq} />
                     </div>
 
-                    {/* Résumé latéral */}
+                    {/* Résumé latéral : même présentation que la « Fiche pratique » d'un établissement. */}
                     <aside className='hidden lg:block'>
-                        <div className='sticky top-40 flex flex-col gap-4 rounded-xl border border-gray-100 bg-white p-6 shadow-sm'>
-                            <p className='text-lg font-bold text-secondary'>{t('En bref')}</p>
-                            <span className={cn('w-fit rounded-full px-3 py-1 text-xs font-semibold', badge.className)}>{t(badge.label)}</span>
-                            <dl className='flex flex-col gap-3 text-sm'>
+                        <div className='sticky top-40 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
+                            <div className='flex items-center justify-between gap-3 bg-secondary px-5 py-3.5'>
+                                <p className='text-xs font-bold uppercase tracking-[0.12em] text-white'>{t('En bref')}</p>
+                                {/* Fond plein : la pastille reste lisible sur le bandeau foncé. */}
+                                <span className={cn('rounded-full px-2.5 py-0.5 text-xs font-semibold', badge.className.replace('bg-success/30', 'bg-success'))}>{t(badge.label)}</span>
+                            </div>
+
+                            <div className='flex flex-col gap-2 border-b border-gray-100 p-5'>
+                                {detail.onlineApplication ? (
+                                    <Link
+                                        href={`/candidature/?offre=${formation.id}`}
+                                        onClick={applyClick}
+                                        className='flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary font-bold text-white shadow-md shadow-primary/25 hover:bg-primary/90'>
+                                        <Icon icon='tabler:send' /> {t('Postuler maintenant')}
+                                    </Link>
+                                ) : null}
+                                <button
+                                    type='button'
+                                    onClick={openContact}
+                                    className={cn(
+                                        'flex min-h-12 items-center justify-center gap-2 rounded-xl font-bold hover:cursor-pointer',
+                                        detail.onlineApplication
+                                            ? 'border border-secondary/20 text-secondary hover:border-primary hover:text-primary'
+                                            : 'bg-primary text-white shadow-md shadow-primary/25 hover:bg-primary/90'
+                                    )}>
+                                    <Icon icon='tabler:message-circle' /> {t('Contacter l’établissement')}
+                                </button>
+                            </div>
+
+                            <dl className='p-5 text-sm'>
                                 {[
                                     [KIND_LABELS[formation.kind].fees, tuition ?? 'Non communiqués'],
                                     ...offerFacts(formation).map((fact) => [fact.icon === 'tabler:school' ? 'Diplôme' : fact.icon === 'tabler:clock' ? 'Durée' : 'Âge', fact.label]),
                                     [formation.kind === 'accueil' ? 'Début' : 'Rentrée', formation.startDate ? formatDate(formation.startDate) : 'Non communiquée'],
                                     ['Date limite', formation.registrationPeriod ? formatDate(formation.registrationPeriod.end) : 'Non communiquée'],
                                 ].map(([label, value]) => (
-                                    <div key={label} className='flex justify-between gap-3 border-b border-gray-100 pb-2 last:border-0'>
-                                        <dt className='text-ink/60'>{t(label)}</dt>
-                                        <dd className='text-right font-semibold text-secondary'>{t(value)}</dd>
+                                    <div key={label} className='flex items-start justify-between gap-4 border-b border-gray-100 py-2.5 last:border-b-0'>
+                                        <dt className='shrink-0 text-ink/60'>{t(label)}</dt>
+                                        <dd className='min-w-0 text-right font-semibold text-secondary'>{t(value)}</dd>
                                     </div>
                                 ))}
                             </dl>
-                            {detail.onlineApplication ? (
-                                <Link
-                                    href={`/candidature/?offre=${formation.id}`}
-                                    onClick={applyClick}
-                                    className='flex items-center justify-center gap-2 rounded-xl bg-primary py-3 font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90'>
-                                    <Icon icon='tabler:send' /> {t('Postuler maintenant')}
-                                </Link>
-                            ) : null}
-                            <button
-                                type='button'
-                                onClick={openContact}
-                                className={cn(
-                                    'flex items-center justify-center gap-2 rounded-xl py-3 font-bold hover:cursor-pointer',
-                                    detail.onlineApplication
-                                        ? 'border border-secondary/20 text-secondary hover:border-primary hover:text-primary'
-                                        : 'bg-primary text-white shadow-lg shadow-primary/30 hover:bg-primary/90'
-                                )}>
-                                <Icon icon='tabler:message-circle' /> {t('Contacter l’établissement')}
-                            </button>
-                            <button
-                                type='button'
-                                onClick={toggleFavorite}
-                                aria-pressed={isFavorite}
-                                className='flex items-center justify-center gap-2 py-1 font-semibold text-secondary hover:text-primary hover:cursor-pointer'>
-                                <Icon icon={isFavorite ? 'tabler:heart-filled' : 'tabler:heart'} className={cn(isFavorite && 'text-primary')} />
-                                {isFavorite ? 'Dans mes favoris' : 'Ajouter aux favoris'}
-                            </button>
+
+                            <div className='border-t border-gray-100 px-5 py-3'>
+                                <button
+                                    type='button'
+                                    onClick={toggleFavorite}
+                                    aria-pressed={isFavorite}
+                                    className='flex min-h-10 w-full items-center justify-center gap-2 text-sm font-semibold text-secondary hover:text-primary hover:cursor-pointer'>
+                                    <Icon icon={isFavorite ? 'tabler:heart-filled' : 'tabler:heart'} className={cn(isFavorite && 'text-primary')} />
+                                    {isFavorite ? 'Dans mes favoris' : 'Ajouter aux favoris'}
+                                </button>
+                            </div>
                         </div>
                     </aside>
                 </div>
