@@ -82,17 +82,19 @@ export function ProgramSection({ detail }: Props) {
                 <ol className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                     {detail.program.map((period, i) => (
                         <li key={period.period} className='rounded-xl border border-gray-100 bg-white p-4'>
-                            <p className='mb-2 flex items-center gap-2 font-semibold text-secondary'>
+                            <p className={cn('flex items-center gap-2 font-semibold text-secondary', period.courses.length > 0 && 'mb-2')}>
                                 <span className='flex h-7 w-7 items-center justify-center rounded-full bg-primary text-sm font-bold text-white'>
                                     {i + 1}
                                 </span>
                                 {period.period}
                             </p>
-                            <ul className='flex flex-col gap-1 pl-9 text-ink/80'>
-                                {period.courses.map((course) => (
-                                    <li key={course} className='list-disc'>{course}</li>
-                                ))}
-                            </ul>
+                            {period.courses.length > 0 && (
+                                <ul className='flex flex-col gap-1 pl-9 text-ink/80'>
+                                    {period.courses.map((course) => (
+                                        <li key={course} className='list-disc'>{course}</li>
+                                    ))}
+                                </ul>
+                            )}
                         </li>
                     ))}
                 </ol>

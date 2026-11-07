@@ -125,7 +125,7 @@ function toPayload(s: State, rules: OfferKindRules, structure: FormationStructur
             objectives: s.objectives,
             skills: s.skills,
             subjects: rules.subjects ? s.subjects : [],
-            program: rules.fullProgramme ? s.program.filter((p) => p.period.trim()) : [],
+            program: rules.fullProgramme ? s.program.filter((p) => p.period.trim()).map((p) => ({ period: p.period, courses: [] })) : [],
             specializations: rules.fullProgramme ? s.specializations : [],
             teachingMethods: rules.subjects ? s.teachingMethods : [],
             evaluation: rules.fullProgramme ? s.evaluation || null : null,
@@ -549,8 +549,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                                 { period: '', courses: [] },
                                 (p, update) => (
                                     <CCol>
-                                        <CFormInput className='mb-2' placeholder='Période (ex. : 1re année)' value={p.period} onChange={(ev) => update({ period: ev.target.value })} />
-                                        <ListInput label='Cours' value={p.courses} onChange={(v) => update({ courses: v })} />
+                                        <CFormInput placeholder='Période (ex. : 1re année)' value={p.period} onChange={(ev) => update({ period: ev.target.value })} />
                                     </CCol>
                                 ),
                                 'Ajouter une période'
