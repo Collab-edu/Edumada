@@ -45,7 +45,6 @@ function initialState(offer: ManagedOffer | undefined, e: ManagedEstablishment, 
         level: offer?.admission.level ?? 'Aucun',
         bacSeries: offer?.admission.bacSeries ?? [],
         selection: offer?.admission.selection ?? OFFER_KINDS[kind].defaultSelection,
-        housing: offer?.housing ?? 'Non renseigné',
         imageSrc: offer?.imageSrc ?? '',
         description: d.description ?? '',
         objectives: d.objectives ?? [],
@@ -119,7 +118,7 @@ function toPayload(s: State, rules: OfferKindRules, structure: FormationStructur
                 .filter(Boolean),
         ],
         admission: { level: rules.level && structure !== 'levels' ? s.level : 'Aucun', bacSeries: rules.level ? s.bacSeries : [], selection: rules.selection ? s.selection : rules.defaultSelection },
-        housing: rules.housing ? s.housing : 'Non renseigné',
+        housing: 'Non renseigné',
         scholarship: 'Non renseigné',
         imageSrc: s.imageSrc || null,
         ...(status ? { status } : {}),
@@ -652,13 +651,6 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                             {opts(ref?.costsStatuses ?? ['Confirmés', 'Estimés', 'Non communiqués'])}
                         </CFormSelect>
                     </CCol>
-                    {rules.housing && (
-                        <CCol md={4}>
-                            <CFormSelect label={rules.level ? 'Hébergement' : 'Internat'} value={s.housing} onChange={(ev) => set('housing', ev.target.value)}>
-                                {opts(ref?.housing)}
-                            </CFormSelect>
-                        </CCol>
-                    )}
                 </CRow>
                 <div className='form-label'>Autres frais</div>
                 {rowEditor(

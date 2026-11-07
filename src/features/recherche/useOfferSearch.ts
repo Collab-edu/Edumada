@@ -30,7 +30,6 @@ export function toApiQuery(filters: SearchFilters, sort: SortValue) {
         languages: filters.languages,
         level: filters.admissionLevel === 'Tous les niveaux' ? '' : filters.admissionLevel,
         bacSeries: filters.bacSeries,
-        housing: filters.housing,
         childAge: filters.childAge,
         sort: sort === 'pertinence' ? '' : sort,
     }

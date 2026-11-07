@@ -8,7 +8,6 @@ import {
     BUDGET_RANGES,
     CHILD_AGES,
     DURATIONS,
-    HOUSING_OPTIONS,
     LANGUAGES,
     MODALITIES,
     REGISTRATION_OPTIONS,
@@ -17,7 +16,7 @@ import {
 } from '../filters'
 import { useT } from '@/i18n/client'
 
-type ListKey = 'budgets' | 'durations' | 'modalities' | 'diplomas' | 'languages' | 'bacSeries' | 'housing'
+type ListKey = 'budgets' | 'durations' | 'modalities' | 'diplomas' | 'languages' | 'bacSeries'
 
 interface SearchFiltersPanelProps {
     filters: SearchFilters
@@ -178,7 +177,6 @@ export function SearchFiltersPanel({ filters, onChange, profile }: SearchFilters
                             })}
                         </div>
                     </FilterGroup>}
-                    {profile.housing && <FilterGroup title={profile.admission ? 'Hébergement' : 'Internat'} defaultOpen={false}>{checkboxes('housing', HOUSING_OPTIONS)}</FilterGroup>}
                 </div>
             )}
         </div>

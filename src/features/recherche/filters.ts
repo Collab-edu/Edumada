@@ -25,7 +25,6 @@ export const LANGUAGES = ['Français', 'Malgache', 'Anglais', 'Autre'] as const
 /** Niveau actuel de l'étudiant : on affiche les formations qui lui sont accessibles. */
 export const ADMISSION_LEVELS = ['Tous les niveaux', 'Sans BAC', 'BAC', 'BAC+2', 'BAC+3', 'BAC+4'] as const
 export const BAC_SERIES = ['A', 'C', 'D', 'Technique'] as const
-export const HOUSING_OPTIONS = ['Disponible', 'Non disponible', 'Non renseigné'] as const
 /** Âge de l'enfant (crèches, écoles) : valeur vide = tous âges. */
 export const CHILD_AGES = [
     { value: '', label: 'Tous les âges' },
@@ -65,7 +64,6 @@ export type SearchFilters = {
     languages: string[]
     admissionLevel: string
     bacSeries: string[]
-    housing: string[]
     /** Âge de l'enfant en années, chaîne vide = tous âges. */
     childAge: string
 }
@@ -86,7 +84,6 @@ export const EMPTY_FILTERS: SearchFilters = {
     languages: [],
     admissionLevel: 'Tous les niveaux',
     bacSeries: [],
-    housing: [],
     childAge: '',
 }
 
@@ -94,13 +91,13 @@ export const EMPTY_FILTERS: SearchFilters = {
  * Filtres proposés selon la catégorie recherchée : pas de diplôme ni de domaine pour une crèche,
  * pas d'âge de l'enfant pour l'université. `undefined` (aucune catégorie) : recherche de formation.
  */
-export type FilterProfile = { domain: boolean; age: boolean; diplomas: readonly string[]; duration: boolean; modality: boolean; admission: boolean; housing: boolean }
+export type FilterProfile = { domain: boolean; age: boolean; diplomas: readonly string[]; duration: boolean; modality: boolean; admission: boolean }
 
-const FORMATION_FILTERS: FilterProfile = { domain: true, age: false, diplomas: DIPLOMAS, duration: true, modality: true, admission: true, housing: true }
+const FORMATION_FILTERS: FilterProfile = { domain: true, age: false, diplomas: DIPLOMAS, duration: true, modality: true, admission: true }
 
 export function filterProfile(categoryId: string | undefined): FilterProfile {
-    if (categoryId === 'petite-enfance') return { domain: false, age: true, diplomas: [], duration: false, modality: false, admission: false, housing: false }
-    if (categoryId === 'scolaire') return { domain: false, age: true, diplomas: SCHOOL_DIPLOMAS, duration: false, modality: false, admission: false, housing: true }
+    if (categoryId === 'petite-enfance') return { domain: false, age: true, diplomas: [], duration: false, modality: false, admission: false }
+    if (categoryId === 'scolaire') return { domain: false, age: true, diplomas: SCHOOL_DIPLOMAS, duration: false, modality: false, admission: false }
     if (categoryId === 'superieur') return { ...FORMATION_FILTERS, diplomas: HIGHER_DIPLOMAS }
     if (categoryId === 'formation-pro') return { ...FORMATION_FILTERS, diplomas: VOCATIONAL_DIPLOMAS }
     if (categoryId === 'autres') return { ...FORMATION_FILTERS, age: true }
@@ -118,7 +115,6 @@ export function pruneFilters(filters: SearchFilters, profile: FilterProfile): Se
         modalities: profile.modality ? filters.modalities : [],
         admissionLevel: profile.admission ? filters.admissionLevel : EMPTY_FILTERS.admissionLevel,
         bacSeries: profile.admission ? filters.bacSeries : [],
-        housing: profile.housing ? filters.housing : [],
     }
 }
 
@@ -202,7 +198,6 @@ export function matchesFilters(f: FormationType, filters: SearchFilters, kindsOf
     if (filters.bacSeries.length > 0 && f.admission.bacSeries.length > 0) {
         if (!filters.bacSeries.some((s) => f.admission.bacSeries.includes(s))) return false
     }
-    if (!matchesAny(filters.housing, f.housing)) return false
     if (filters.childAge) {
         const age = Number(filters.childAge)
         if (!f.ageRange || age < f.ageRange.min || age > f.ageRange.max) return false
@@ -244,7 +239,7 @@ export function activeFilters(filters: SearchFilters, t: (text: string) => strin
         if (filters[key]) chips.push({ id: key, label: (prefix && t(prefix)) + (key === 'q' || key === 'school' ? filters[key] : t(filters[key])), remove: (f) => ({ ...f, [key]: '' }) })
     }
     const list = (
-        key: 'budgets' | 'durations' | 'modalities' | 'diplomas' | 'languages' | 'bacSeries' | 'housing',
+        key: 'budgets' | 'durations' | 'modalities' | 'diplomas' | 'languages' | 'bacSeries',
         prefix = ''
     ) => {
         for (const value of filters[key]) {
@@ -279,7 +274,6 @@ export function activeFilters(filters: SearchFilters, t: (text: string) => strin
         })
     }
     list('bacSeries', 'BAC série ')
-    list('housing', 'Hébergement : ')
     if (filters.childAge) {
         const label = CHILD_AGES.find((a) => a.value === filters.childAge)?.label ?? `${filters.childAge} ans`
         chips.push({ id: 'childAge', label: `${t('Âge de l’enfant :')} ${t(label)}`, remove: (f) => ({ ...f, childAge: '' }) })
