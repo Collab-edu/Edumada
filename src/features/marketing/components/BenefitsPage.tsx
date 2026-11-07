@@ -107,15 +107,17 @@ export default function BenefitsPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <SectionHeader title='Ce que vous gagnez' description='Les outils inclus pour présenter votre établissement et suivre l’intérêt des étudiants.' />
                     <ul className='grid gap-5 sm:grid-cols-2 lg:grid-cols-3'>
-                        {BENEFITS.map((benefit) => (
+                        {BENEFITS.map((benefit, i) => (
                             <li
                                 key={benefit.title}
-                                className='flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
-                                <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white'>
-                                    <Icon icon={benefit.icon} className='text-2xl' />
+                                className='relative flex flex-col rounded-2xl border border-gray-100 bg-white p-7 shadow-[0_8px_24px_-18px_rgba(15,76,92,0.35)] transition-shadow duration-300 hover:shadow-[0_14px_30px_-16px_rgba(15,76,92,0.35)]'>
+                                {/* Numéro discret en haut à droite : 01, 02… */}
+                                <span className='absolute top-6 right-7 text-xs font-semibold text-ink/30'>{String(i + 1).padStart(2, '0')}</span>
+                                <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary'>
+                                    <Icon icon={benefit.icon} className='text-xl' />
                                 </span>
-                                <h3 className='text-lg font-semibold text-secondary'>{t(benefit.title)}</h3>
-                                <p className='text-black'>{t(benefit.text)}</p>
+                                <h3 className='mt-6 text-lg font-bold text-secondary'>{t(benefit.title)}</h3>
+                                <p className='mt-2 !text-sm leading-relaxed text-ink/80'>{t(benefit.text)}</p>
                             </li>
                         ))}
                     </ul>
