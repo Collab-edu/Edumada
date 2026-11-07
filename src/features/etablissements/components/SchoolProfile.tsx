@@ -267,13 +267,33 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         </div>
                         )}
 
+                        {map && (
+                            <div id='localisation' className='scroll-mt-28'>
+                                <h2 className='mb-5 font-bold'>{t('Localisation')}</h2>
+                                <div className='overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm'>
+                                    {school.coordinates && (
+                                        <SchoolMap lat={school.coordinates.lat} lng={school.coordinates.lng} name={school.name} address={school.city} mapClassName='h-72 w-full md:h-96' />
+                                    )}
+                                    <div className='flex flex-col gap-2 px-5 py-4 text-sm sm:flex-row sm:items-center sm:justify-between'>
+                                        <span className='flex items-start gap-2 text-ink'>
+                                            <Icon icon='tabler:map-pin' className='mt-0.5 shrink-0 text-lg text-primary' />
+                                            {[school.address, school.city].filter(Boolean).join(', ')}
+                                        </span>
+                                        <a href={map.link} target='_blank' rel='noopener noreferrer' className='inline-flex shrink-0 items-center gap-1 font-semibold text-primary hover:underline'>
+                                            {t('Ouvrir dans Google Maps')} <Icon icon='tabler:external-link' />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         <div id='faq' className='scroll-mt-28'>
                             <h2 className='mb-5 font-bold'>{t('Questions fréquentes')}</h2>
                             <SchoolFaq items={faq} />
                         </div>
                     </div>
 
-                    {/* Colonne latérale : une seule « fiche pratique » (contact, localisation, informations, signalement). */}
+                    {/* Colonne latérale : une seule « fiche pratique » (contact, coordonnées, informations, signalement). */}
                     <aside className='lg:sticky lg:top-28 lg:self-start'>
                         <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
                             <div className='flex items-center justify-between gap-3 bg-secondary px-5 py-3.5'>
@@ -335,30 +355,6 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                             </div>
                                         </div>
                                     )}
-                                </div>
-                            )}
-
-                            {map && (
-                                <div className='border-b border-gray-100 bg-offwhite/60 p-5'>
-                                    <p className='mb-3 font-bold text-secondary'>{t('Localisation')}</p>
-                                    {school.coordinates && (
-                                        <SchoolMap
-                                            lat={school.coordinates.lat}
-                                            lng={school.coordinates.lng}
-                                            name={school.name}
-                                            address={school.city}
-                                            className='overflow-hidden rounded-xl'
-                                            mapClassName='h-56 w-full'
-                                        />
-                                    )}
-                                    <a
-                                        href={map.link}
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        className='mt-3 flex items-center justify-between gap-3 text-sm font-semibold text-primary hover:underline'>
-                                        {t('Ouvrir dans Google Maps')}
-                                        <Icon icon='tabler:external-link' />
-                                    </a>
                                 </div>
                             )}
 

@@ -61,7 +61,7 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                     </p>
 
                     <div id='contact' className='scroll-mt-40 grid grid-cols-1 md:grid-cols-5 gap-5'>
-                        <div className='flex flex-col gap-3 md:col-span-2'>
+                        <div className='flex flex-col gap-3 md:col-span-2 lg:col-span-5'>
                             <SubTitle>Coordonnées</SubTitle>
                             {school.phone && (
                             <a href={`tel:${school.phone.replace(/\s/g, '')}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='flex min-h-10 items-center gap-2 text-ink/80 hover:text-primary'>
@@ -84,7 +84,8 @@ export function FormationSchool({ school, otherFormations }: FormationSchoolProp
                                 lng={school.coordinates.lng}
                                 name={school.name}
                                 address={school.city}
-                                className='md:col-span-3'
+                                // Sur grand écran, la carte est dans la barre latérale de l'offre.
+                                className='md:col-span-3 lg:hidden'
                                 mapClassName='h-72 w-full rounded-xl ring-1 ring-gray-100 md:h-80'
                             />
                         )}

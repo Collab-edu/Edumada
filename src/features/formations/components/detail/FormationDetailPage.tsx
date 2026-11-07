@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
+import { mapUrls } from '@/lib/media'
+import SchoolMap from '@/components/map/SchoolMap'
 import { track } from '@/lib/track'
 import { useAuth } from '@/features/auth/AuthProvider'
 import ReportDialog from '@/features/etablissements/components/ReportDialog'
@@ -183,6 +185,28 @@ export function FormationDetailPage({ formation, detail, school, category, other
                                     </div>
                                 ))}
                             </dl>
+
+                            {school.coordinates && (
+                                <div className='border-t border-gray-100 bg-offwhite/60 p-5'>
+                                    <p className='mb-3 font-bold text-secondary'>{t('Localisation')}</p>
+                                    <SchoolMap
+                                        lat={school.coordinates.lat}
+                                        lng={school.coordinates.lng}
+                                        name={school.name}
+                                        address={school.city}
+                                        className='overflow-hidden rounded-xl'
+                                        mapClassName='h-48 w-full'
+                                    />
+                                    <a
+                                        href={mapUrls(school.coordinates)?.link}
+                                        target='_blank'
+                                        rel='noopener noreferrer'
+                                        className='mt-3 flex items-center justify-between gap-3 text-sm font-semibold text-primary hover:underline'>
+                                        {t('Ouvrir dans Google Maps')}
+                                        <Icon icon='tabler:external-link' />
+                                    </a>
+                                </div>
+                            )}
 
                             <div className='border-t border-gray-100 px-5 py-3'>
                                 <button
