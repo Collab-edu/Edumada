@@ -4,7 +4,8 @@ import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import SectionHeader from '@/components/ui/section-header'
 import DashboardPreview from './DashboardPreview'
-import PhoneMockup, { type PhoneTab } from './PhoneMockup'
+import Image from 'next/image'
+import withBasePath from '@/lib/base-path'
 
 const BENEFITS = [
     {
@@ -39,22 +40,8 @@ const BENEFITS = [
     },
 ]
 
-/** Liste de contrôle de la fiche, avec les mêmes libellés que l'espace établissement. */
-const CHECKLIST = [
-    { label: 'Photo de couverture', done: true },
-    { label: 'Présentation de quelques phrases', done: true },
-    { label: 'Téléphone et e-mail', done: true },
-    { label: 'Au moins 2 photos des locaux', done: true },
-    { label: 'Position sur la carte', done: true },
-    { label: 'Au moins une offre publiée', done: false },
-]
-
-const PHONE_TABS: PhoneTab[] = [
-    { icon: 'tabler:layout-dashboard', label: 'Accueil' },
-    { icon: 'tabler:id-badge-2', label: 'Fiche', active: true },
-    { icon: 'tabler:books', label: 'Offres' },
-    { icon: 'tabler:inbox', label: 'Demandes' },
-]
+/** Étapes affichées dans le téléphone (formulaire de référencement). */
+const SIGNUP_STEPS = ['Informations générales', 'Formations', 'Publication']
 
 const STEPS = [
     { title: 'Créez votre compte', text: 'Un compte établissement gratuit, en quelques minutes.' },
@@ -125,48 +112,46 @@ export default function BenefitsPage() {
             </section>
 
             {/* Étapes */}
-            <section className='bg-secondary/[0.06]'>
+            <section className='overflow-hidden bg-secondary/[0.06]'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
-                        <PhoneMockup tabs={PHONE_TABS}>
-                            <div>
-                                <p className='font-bold text-secondary'>{t('Bienvenue')} <Icon icon='material-symbols:waving-hand-outline' aria-hidden='true' className='inline-block align-[-0.125em] text-amber-400' /></p>
-                                <p className='!text-xs text-ink/60'>{t('Votre fiche est presque prête.')}</p>
-                            </div>
-                            <div className='flex flex-col gap-2 rounded-lg bg-white p-3'>
-                                <div className='flex items-center justify-between text-xs'>
-                                    <span className='font-semibold text-secondary'>{t('Fiche complétée')}</span>
-                                    <span className='font-bold text-primary'>83 %</span>
+                        {/* Téléphone décoratif : parcours d'inscription d'un établissement, sur une forme rose. */}
+                        <div className='relative mx-auto w-full max-w-[16rem] py-6' aria-hidden='true'>
+                            <div className='absolute top-1/4 -left-14 -z-10 h-[70%] w-[125%] rotate-[-14deg] rounded-[3.5rem] bg-primary/15' />
+                            <div className='overflow-hidden rounded-[2.3rem] border-[9px] border-secondary bg-white shadow-xl'>
+                                <div className='flex items-center justify-between border-b border-gray-100 px-4 py-3'>
+                                    <Image src={withBasePath('/images/logo/edumada-logo.svg')} alt='' width={828} height={270} className='h-6 w-auto' />
+                                    <Icon icon='tabler:menu-2' className='text-xl text-secondary' />
                                 </div>
-                                <div className='h-2 overflow-hidden rounded-full bg-secondary/10'>
-                                    <div className='h-full w-[83%] rounded-full bg-primary' />
+                                <div className='flex flex-col gap-5 px-4 pt-5 pb-6'>
+                                    <div>
+                                        <p className='text-lg font-bold leading-tight text-secondary'>{t('Référencer mon établissement')}</p>
+                                        <span className='mt-2 block h-1 w-12 rounded-full bg-primary' />
+                                    </div>
+                                    <ol className='relative flex flex-col'>
+                                        <span className='absolute top-4 bottom-4 left-[15px] w-0.5 bg-gray-200' />
+                                        {SIGNUP_STEPS.map((label, i) => (
+                                            <li key={label} className={`relative flex items-center gap-3 rounded-lg px-1.5 py-2.5 text-xs ${i === 0 ? 'bg-offwhite font-bold text-secondary' : 'text-ink/70'}`}>
+                                                <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${i === 0 ? 'bg-green-600 text-white' : 'border border-gray-300 bg-white'}`}>
+                                                    {i === 0 && <Icon icon='tabler:check' className='text-xs' />}
+                                                </span>
+                                                {t(label)}
+                                            </li>
+                                        ))}
+                                    </ol>
+                                    <span className='flex h-10 items-center justify-center rounded-lg bg-primary text-xs font-semibold text-white'>{t('Continuer')}</span>
                                 </div>
                             </div>
-                            <ul className='flex flex-col gap-1.5'>
-                                {CHECKLIST.map((item) => (
-                                    <li key={item.label} className='flex items-center gap-2 rounded-lg bg-white px-2 py-1.5 text-[11px] text-secondary'>
-                                        <span
-                                            className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${item.done ? 'bg-success/50 text-secondary' : 'border border-dashed border-primary text-primary'}`}>
-                                            <Icon icon={item.done ? 'tabler:check' : 'tabler:plus'} className='text-xs' />
-                                        </span>
-                                        <span className={item.done ? '' : 'font-semibold'}>{t(item.label)}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className='flex items-center gap-2 rounded-lg bg-secondary px-3 py-2 text-[11px] font-semibold text-white'>
-                                <Icon icon='tabler:send' className='text-sm' />
-                                {t('Envoyer pour vérification')}
-                            </div>
-                        </PhoneMockup>
+                        </div>
                         <div>
                             <SectionHeader title='Comment ça marche ?' description='Trois étapes pour être visible sur Edumada.' />
-                            <ol className='flex flex-col gap-4'>
+                            <ol className='flex flex-col gap-3'>
                                 {STEPS.map((step, index) => (
-                                    <li key={step.title} className='flex gap-4 rounded-xl bg-white p-5'>
-                                        <span className='flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary font-bold text-white'>{index + 1}</span>
-                                        <div className='flex flex-col gap-1'>
-                                            <h3 className='text-lg font-semibold text-secondary'>{t(step.title)}</h3>
-                                            <p className='text-black'>{t(step.text)}</p>
+                                    <li key={step.title} className='flex items-center gap-4 rounded-xl bg-white px-5 py-4 shadow-[0_8px_24px_-18px_rgba(15,76,92,0.45)]'>
+                                        <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary text-sm font-bold text-white'>{index + 1}</span>
+                                        <div className='flex flex-col gap-0.5'>
+                                            <h3 className='text-base font-bold text-secondary'>{t(step.title)}</h3>
+                                            <p className='!text-sm text-ink/80'>{t(step.text)}</p>
                                         </div>
                                     </li>
                                 ))}
