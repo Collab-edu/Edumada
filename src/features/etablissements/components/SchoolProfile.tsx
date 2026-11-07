@@ -36,6 +36,18 @@ function foundedLabel(year: number): string {
     return age <= 0 ? 'Créé cette année' : age === 1 ? "1 an d'existence" : `${age} ans d'existence`
 }
 
+/** Titre de section avec son icône dans un carré rouge, comme sur la fiche d'une offre. */
+function SectionTitle({ icon, className, children }: { icon: string; className?: string; children: React.ReactNode }) {
+    return (
+        <h2 className={cn('mb-5 flex items-center gap-3 font-bold', className)}>
+            <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white'>
+                <Icon icon={icon} className='text-xl' />
+            </span>
+            <span>{children}</span>
+        </h2>
+    )
+}
+
 /** Coordonnée cliquable (appeler, écrire, visiter) : icône, libellé et valeur. */
 function ContactRow({ icon, label, action, href, external, onClick, children }: { icon: string; label: string; action: string; href: string; external?: boolean; onClick?: () => void; children: React.ReactNode }) {
     const t = useT()
@@ -198,14 +210,14 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                     {/* Colonne principale */}
                     <div className='flex flex-col gap-10'>
                         <div>
-                            <h2 className='mb-3 font-bold'>{t('À propos')}</h2>
+                            <SectionTitle icon='tabler:info-circle'>{t('À propos')}</SectionTitle>
                             <p className='text-black leading-relaxed'>{school.description}</p>
                         </div>
 
                         <div>
-                            <h2 className='mb-5 font-bold'>
+                            <SectionTitle icon={category.icon}>
                                 {t(category.offersLabel)} <span className='text-ink/50'>({formations.length})</span>
-                            </h2>
+                            </SectionTitle>
                             {formations.length > 0 ? (
                                 <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
                                     {formations.map((formation) => (
@@ -219,14 +231,14 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
 
                         {formations.length > 0 && (
                             <div id='admission' className='scroll-mt-28'>
-                                <h2 className='mb-5 font-bold'>{t('Conditions d’admission')}</h2>
+                                <SectionTitle icon='tabler:clipboard-check'>{t('Conditions d’admission')}</SectionTitle>
                                 <SchoolAdmission school={school} formations={formations} fields={fields} />
                             </div>
                         )}
 
                         {school.photos.length > 0 && (
                         <div>
-                            <h2 className='mb-5 font-bold'>Photos</h2>
+                            <SectionTitle icon='tabler:photo'>Photos</SectionTitle>
                             <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
                                 {school.photos.map((src, i) => (
                                     <div
@@ -241,7 +253,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
 
                         {school.infrastructures.length > 0 && (
                             <div>
-                                <h2 className='mb-5 font-bold'>Infrastructures</h2>
+                                <SectionTitle icon='tabler:building'>Infrastructures</SectionTitle>
                                 <ul className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                                     {school.infrastructures.map((item) => (
                                         <li key={item} className='flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-4 py-3 text-ink/80'>
@@ -255,7 +267,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         {school.reviewsEnabled !== false && (
                         <div id='temoignages' className='scroll-mt-28'>
                             <div className='mb-5 flex flex-wrap items-center justify-between gap-3'>
-                                <h2 className='font-bold'>{t(reviewsTitle)}</h2>
+                                <SectionTitle icon='tabler:messages' className='mb-0'>{t(reviewsTitle)}</SectionTitle>
                                 <button
                                     type='button'
                                     onClick={() => setReviewOpen(true)}
@@ -269,7 +281,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
 
                         {map && (
                             <div id='localisation' className='scroll-mt-28'>
-                                <h2 className='mb-5 font-bold'>{t('Localisation')}</h2>
+                                <SectionTitle icon='tabler:map-pin'>{t('Localisation')}</SectionTitle>
                                 <div className='overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm'>
                                     {school.coordinates && (
                                         <SchoolMap lat={school.coordinates.lat} lng={school.coordinates.lng} name={school.name} address={school.city} mapClassName='h-72 w-full md:h-96' />
@@ -288,7 +300,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         )}
 
                         <div id='faq' className='scroll-mt-28'>
-                            <h2 className='mb-5 font-bold'>{t('Questions fréquentes')}</h2>
+                            <SectionTitle icon='tabler:help-circle'>{t('Questions fréquentes')}</SectionTitle>
                             <SchoolFaq items={faq} />
                         </div>
                     </div>
