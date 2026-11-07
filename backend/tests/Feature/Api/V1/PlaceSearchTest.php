@@ -61,16 +61,6 @@ class PlaceSearchTest extends TestCase
             ->assertJsonPath('data.0.detail', 'Ankatso, Antananarivo, Analamanga');
     }
 
-    public function test_it_gives_the_address_of_a_point_on_the_map(): void
-    {
-        Http::fake(['nominatim.openstreetmap.org/*' => Http::response(['address' => ['road' => 'Rue Ratsimilaho', 'suburb' => 'Antaninarenina', 'city' => 'Antananarivo', 'country_code' => 'mg']])]);
-
-        $this->getJson('/api/v1/places/address-at?lat=-18.91&lng=47.52')
-            ->assertOk()
-            ->assertJsonPath('data.address', 'Rue Ratsimilaho, Antaninarenina')
-            ->assertJsonPath('data.city', 'Antananarivo');
-    }
-
     public function test_results_are_cached(): void
     {
         $this->photon([$this->feature('Mahitsy', 'place', 'town', ['county' => 'Ambohidratrimo', 'state' => 'Analamanga'], -18.75, 47.35)]);

@@ -99,31 +99,6 @@ class PlaceController extends Controller
     }
 
     /**
-     * Adresse d'un point posé sur la carte (repère déplacé à la main) : rue et quartier, avec la ville.
-     * Cache 30 jours, position arrondie à une dizaine de mètres.
-     */
-    public function addressAt(Request $request): JsonResponse
-    {
-        $point = $request->validate([
-            'lat' => ['required', 'numeric', 'between:-26,-11'],
-            'lng' => ['required', 'numeric', 'between:42,51'],
-        ]);
-        $lat = round((float) $point['lat'], 4);
-        $lng = round((float) $point['lng'], 4);
-
-        $key = "places:address-at:{$lat},{$lng}";
-        $address = Cache::get($key);
-        if ($address === null) {
-            $address = $this->reverseAddress($lat, $lng);
-            if ($address !== null) {
-                Cache::put($key, $address, now()->addDays(30));
-            }
-        }
-
-        return response()->json(['data' => $address ?: null]);
-    }
-
-    /**
      * @return array<int, array{label: string, detail: string, city: string, lat: float, lng: float}>|null null si Photon n'a pas répondu
      */
     private function searchAddresses(string $query): ?array
@@ -165,35 +140,6 @@ class PlaceController extends Controller
         }
 
         return array_slice(array_values($results), 0, 8);
-    }
-
-    /**
-     * @return array{address: string, city: string}|false|null false hors de Madagascar, null si Nominatim n'a pas répondu
-     */
-    private function reverseAddress(float $lat, float $lng): array|false|null
-    {
-        try {
-            $response = Http::timeout(6)
-                ->withHeaders(['User-Agent' => 'Edumada/1.0 ('.config('edumada.frontend_url').')'])
-                ->get('https://nominatim.openstreetmap.org/reverse', ['lat' => $lat, 'lon' => $lng, 'zoom' => 18, 'format' => 'jsonv2', 'accept-language' => 'fr']);
-        } catch (Throwable $exception) {
-            report($exception);
-
-            return null;
-        }
-        if (! $response->successful()) {
-            return null;
-        }
-
-        $a = $response->json('address') ?? [];
-        if (($a['country_code'] ?? '') !== 'mg') {
-            return false;
-        }
-
-        $street = trim(($a['house_number'] ?? '').' '.($a['road'] ?? ''));
-        $address = collect([$street ?: null, $a['suburb'] ?? $a['quarter'] ?? $a['neighbourhood'] ?? null])->filter()->unique()->implode(', ');
-
-        return ['address' => $address, 'city' => $a['city'] ?? $a['town'] ?? $a['village'] ?? $a['county'] ?? ''];
     }
 
     /**

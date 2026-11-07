@@ -200,7 +200,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
             </PageCard>
 
             {/* Adresse unique de l'établissement : recherche OpenStreetMap, carte et ville remplie automatiquement. */}
-            <PageCard icon={cilLocationPin} title='Adresse et localisation' subtitle='Affichées sur la fiche publique et sur la carte des établissements'>
+            <PageCard icon={cilLocationPin} title='Adresse et localisation' subtitle='Affichées sur la fiche publique et sur la carte du site'>
                 <AddressPicker
                     value={{ address: form.address, city: form.city, lat: form.lat, lng: form.lng }}
                     onChange={(patch) => setForm((f) => ({ ...f, ...patch }))}
