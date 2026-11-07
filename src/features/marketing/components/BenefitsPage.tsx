@@ -64,14 +64,6 @@ export default function BenefitsPage() {
                                     {t('Voir les avantages')}
                                 </ButtonLink>
                             </div>
-                            <ul className='mobile-center flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink'>
-                                {['Formule gratuite disponible', 'Inscription en quelques minutes'].map((item) => (
-                                    <li key={item} className='inline-flex items-center gap-2'>
-                                        <Icon icon='tabler:circle-check' className='text-lg text-green-600' />
-                                        {t(item)}
-                                    </li>
-                                ))}
-                            </ul>
                         </div>
 
                         <EstablishmentHeroMockup />
