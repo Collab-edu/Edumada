@@ -57,7 +57,7 @@ const Footer = () => {
                                     <Icon icon={social.icon} className='text-base' />
                                 </Link>
                             ))}
-                    </div>
+                        </div>
                     </div>
                     <div className='grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-8'>
                         {footerlink.map((section) => (
