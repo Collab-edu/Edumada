@@ -55,6 +55,8 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('establishments/{establishment}/offers/{urlSlug}', [OfferController::class, 'showByUrl'])->name('establishments.offers.show');
     Route::get('places', [PlaceController::class, 'index'])->middleware('throttle:places')->name('places.index');
     Route::get('places/here', [PlaceController::class, 'here'])->middleware('throttle:places')->name('places.here');
+    Route::get('places/addresses', [PlaceController::class, 'addresses'])->middleware('throttle:places')->name('places.addresses');
+    Route::get('places/address-at', [PlaceController::class, 'addressAt'])->middleware('throttle:places')->name('places.address-at');
     Route::get('reviews', [ReviewController::class, 'index'])->name('reviews.index');
     Route::get('plans', [PlanController::class, 'index'])->name('plans.index');
     Route::get('sponsored', [CampaignController::class, 'sponsored'])->name('sponsored');

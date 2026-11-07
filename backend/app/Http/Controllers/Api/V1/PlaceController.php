@@ -79,6 +79,124 @@ class PlaceController extends Controller
     }
 
     /**
+     * Adresse précise d'un établissement (fiche du back-office) : rues, quartiers, bâtiments et lieux
+     * connus d'OpenStreetMap, avec la ville et la position à placer sur la carte. Cache 7 jours.
+     */
+    public function addresses(Request $request): JsonResponse
+    {
+        $query = trim($request->validate(['q' => ['required', 'string', 'min:3', 'max:120']])['q']);
+
+        $key = 'places:address:'.Str::slug($query);
+        $found = Cache::get($key);
+        if ($found === null) {
+            $found = $this->searchAddresses($query);
+            if ($found !== null) {
+                Cache::put($key, $found, now()->addDays(7));
+            }
+        }
+
+        return response()->json(['data' => $found ?? []]);
+    }
+
+    /**
+     * Adresse d'un point posé sur la carte (repère déplacé à la main) : rue et quartier, avec la ville.
+     * Cache 30 jours, position arrondie à une dizaine de mètres.
+     */
+    public function addressAt(Request $request): JsonResponse
+    {
+        $point = $request->validate([
+            'lat' => ['required', 'numeric', 'between:-26,-11'],
+            'lng' => ['required', 'numeric', 'between:42,51'],
+        ]);
+        $lat = round((float) $point['lat'], 4);
+        $lng = round((float) $point['lng'], 4);
+
+        $key = "places:address-at:{$lat},{$lng}";
+        $address = Cache::get($key);
+        if ($address === null) {
+            $address = $this->reverseAddress($lat, $lng);
+            if ($address !== null) {
+                Cache::put($key, $address, now()->addDays(30));
+            }
+        }
+
+        return response()->json(['data' => $address ?: null]);
+    }
+
+    /**
+     * @return array<int, array{label: string, detail: string, city: string, lat: float, lng: float}>|null null si Photon n'a pas répondu
+     */
+    private function searchAddresses(string $query): ?array
+    {
+        $url = self::ENDPOINT.'?'.http_build_query(['q' => $query, 'bbox' => self::BBOX, 'limit' => 12, 'lang' => 'fr']);
+
+        try {
+            $response = Http::timeout(5)->withHeaders(['User-Agent' => 'Edumada/1.0 ('.config('edumada.frontend_url').')'])->get($url);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return null;
+        }
+        if (! $response->successful()) {
+            return null;
+        }
+
+        $results = [];
+        foreach ($response->json('features') ?? [] as $feature) {
+            $p = $feature['properties'] ?? [];
+            [$lng, $lat] = $feature['geometry']['coordinates'] ?? [null, null];
+            if ($lat === null || ($p['countrycode'] ?? '') !== 'MG') {
+                continue;
+            }
+
+            // « Lot II M 45 », « Rue Rainandriamampandry » ou nom du lieu (« Université d'Antananarivo »).
+            $street = trim(($p['housenumber'] ?? '').' '.($p['street'] ?? ''));
+            $label = collect([$p['name'] ?? null, $street ?: null])->filter()->unique()->implode(', ');
+            $city = $p['city'] ?? $p['town'] ?? $p['village'] ?? $p['county'] ?? '';
+            if ($label === '') {
+                continue;
+            }
+            $detail = collect([$p['district'] ?? $p['locality'] ?? null, $city, $p['state'] ?? null])
+                ->filter(fn (?string $part) => $part && $part !== $label)
+                ->unique()
+                ->implode(', ');
+
+            $results[Str::lower($label.'|'.$detail)] ??= ['label' => $label, 'detail' => $detail, 'city' => $city, 'lat' => (float) $lat, 'lng' => (float) $lng];
+        }
+
+        return array_slice(array_values($results), 0, 8);
+    }
+
+    /**
+     * @return array{address: string, city: string}|false|null false hors de Madagascar, null si Nominatim n'a pas répondu
+     */
+    private function reverseAddress(float $lat, float $lng): array|false|null
+    {
+        try {
+            $response = Http::timeout(6)
+                ->withHeaders(['User-Agent' => 'Edumada/1.0 ('.config('edumada.frontend_url').')'])
+                ->get('https://nominatim.openstreetmap.org/reverse', ['lat' => $lat, 'lon' => $lng, 'zoom' => 18, 'format' => 'jsonv2', 'accept-language' => 'fr']);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return null;
+        }
+        if (! $response->successful()) {
+            return null;
+        }
+
+        $a = $response->json('address') ?? [];
+        if (($a['country_code'] ?? '') !== 'mg') {
+            return false;
+        }
+
+        $street = trim(($a['house_number'] ?? '').' '.($a['road'] ?? ''));
+        $address = collect([$street ?: null, $a['suburb'] ?? $a['quarter'] ?? $a['neighbourhood'] ?? null])->filter()->unique()->implode(', ');
+
+        return ['address' => $address, 'city' => $a['city'] ?? $a['town'] ?? $a['village'] ?? $a['county'] ?? ''];
+    }
+
+    /**
      * @return array{name: string, kind: string, detail: string, lat: float, lng: float}|false|null false si aucun lieu, null si Nominatim n'a pas répondu
      */
     private function reverse(float $lat, float $lng): array|false|null

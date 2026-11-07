@@ -8,7 +8,7 @@ import { useApi } from '@/lib/useApi'
 import type { Category, ManagedEstablishment } from '@/lib/types'
 import { useToast } from '@/context/ToastContext'
 import { ErrorAlert, IconInput, ImageUpload, PageCard, PlanLock } from '@/components/ui'
-import PlaceInput from '@/components/PlaceInput'
+import AddressPicker from '@/components/AddressPicker'
 import AdmissionSection from './AdmissionSection'
 
 const SOCIALS = [
@@ -60,12 +60,6 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
     const gallery = !!features.photoGallery
     const onlineLinks = !!features.onlineLinks
     const maxInfrastructures = establishment ? (features.maxInfrastructures ?? null) : 0
-
-    const locate = () =>
-        navigator.geolocation?.getCurrentPosition(
-            (pos) => setForm((f) => ({ ...f, lat: pos.coords.latitude.toFixed(6), lng: pos.coords.longitude.toFixed(6) })),
-            () => toast.error('Position introuvable : saisissez-la à la main.')
-        )
 
     const submit = async (e: FormEvent) => {
         e.preventDefault()
@@ -190,22 +184,6 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                             <span aria-hidden='true'>{form.type}</span>
                         </div>
                     </CCol>
-                    <CCol md={6}>
-                        <PlaceInput
-                            id='bo-city'
-                            label='Ville'
-                            value={form.city}
-                            error={err('city')}
-                            onChange={(city, place) => {
-                                setForm((f) => {
-                                    // Position encore vide : celle de la localité choisie, à préciser plus bas si besoin.
-                                    const fill = place && !f.lat && !f.lng
-                                    return { ...f, city, ...(fill ? { lat: place.lat.toFixed(6), lng: place.lng.toFixed(6) } : {}) }
-                                })
-                                if (place && !form.lat && !form.lng) toast.info(`Position sur la carte remplie d'après ${place.name}. Précisez-la plus bas si besoin.`)
-                            }}
-                        />
-                    </CCol>
                     <CCol md={12}>
                         <CFormTextarea
                             label='Présentation'
@@ -221,11 +199,18 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                 </CRow>
             </PageCard>
 
-            <PageCard icon={cilLocationPin} title='Coordonnées' subtitle="L'e-mail public reçoit aussi les demandes envoyées via Edumada">
+            {/* Adresse unique de l'établissement : recherche OpenStreetMap, carte et ville remplie automatiquement. */}
+            <PageCard icon={cilLocationPin} title='Adresse et localisation' subtitle='Affichées sur la fiche publique et sur la carte des établissements'>
+                <AddressPicker
+                    value={{ address: form.address, city: form.city, lat: form.lat, lng: form.lng }}
+                    onChange={(patch) => setForm((f) => ({ ...f, ...patch }))}
+                    errors={{ address: err('address'), city: err('city'), lat: err('coordinates.lat'), lng: err('coordinates.lng') }}
+                    onNotice={(message) => toast.error(message)}
+                />
+            </PageCard>
+
+            <PageCard icon={cilPhone} title='Coordonnées' subtitle="L'e-mail public reçoit aussi les demandes envoyées via Edumada">
                 <CRow className='g-3'>
-                    <CCol md={12}>
-                        <IconInput id='bo-address' label='Adresse' icon={cilLocationPin} value={form.address} onChange={(e) => set('address', e.target.value)} />
-                    </CCol>
                     <CCol md={6}>
                         <IconInput id='bo-phone' label='Téléphone' icon={cilPhone} type='tel' value={form.phone} onChange={(e) => set('phone', e.target.value)} error={err('phone')} />
                     </CCol>
@@ -265,36 +250,6 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                             />
                         </CCol>
                     ))}
-                    <CCol md={4}>
-                        <IconInput
-                            id='bo-lat'
-                            label='Latitude'
-                            icon={cilLocationPin}
-                            inputMode='decimal'
-                            placeholder='-18.8792'
-                            value={form.lat}
-                            onChange={(e) => set('lat', e.target.value)}
-                            error={err('coordinates.lat')}
-                        />
-                    </CCol>
-                    <CCol md={4}>
-                        <IconInput
-                            id='bo-lng'
-                            label='Longitude'
-                            icon={cilLocationPin}
-                            inputMode='decimal'
-                            placeholder='47.5079'
-                            value={form.lng}
-                            onChange={(e) => set('lng', e.target.value)}
-                            error={err('coordinates.lng')}
-                        />
-                    </CCol>
-                    <CCol md={4} className='d-flex align-items-end'>
-                        <CButton color='secondary' variant='outline' onClick={locate} className='w-100'>
-                            <CIcon icon={cilLocationPin} className='me-2' />
-                            Ma position actuelle
-                        </CButton>
-                    </CCol>
                 </CRow>
             </PageCard>
 

@@ -46,6 +46,31 @@ class PlaceSearchTest extends TestCase
         Http::assertSent(fn ($request) => str_contains($request->url(), 'osm_tag=place') && str_contains($request->url(), 'bbox='));
     }
 
+    public function test_it_finds_a_precise_address_with_its_city(): void
+    {
+        $this->photon([
+            $this->feature("Université d'Antananarivo", 'amenity', 'university', ['street' => "Route de l'Université", 'district' => 'Ankatso', 'city' => 'Antananarivo', 'state' => 'Analamanga'], -18.9167, 47.5583),
+            $this->feature('Ankatso', 'place', 'suburb', ['city' => 'Antananarivo', 'countrycode' => 'FR'], -18.91, 47.55),
+        ]);
+
+        $this->getJson('/api/v1/places/addresses?q=Ankatso universit')
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.label', "Université d'Antananarivo, Route de l'Université")
+            ->assertJsonPath('data.0.city', 'Antananarivo')
+            ->assertJsonPath('data.0.detail', 'Ankatso, Antananarivo, Analamanga');
+    }
+
+    public function test_it_gives_the_address_of_a_point_on_the_map(): void
+    {
+        Http::fake(['nominatim.openstreetmap.org/*' => Http::response(['address' => ['road' => 'Rue Ratsimilaho', 'suburb' => 'Antaninarenina', 'city' => 'Antananarivo', 'country_code' => 'mg']])]);
+
+        $this->getJson('/api/v1/places/address-at?lat=-18.91&lng=47.52')
+            ->assertOk()
+            ->assertJsonPath('data.address', 'Rue Ratsimilaho, Antaninarenina')
+            ->assertJsonPath('data.city', 'Antananarivo');
+    }
+
     public function test_results_are_cached(): void
     {
         $this->photon([$this->feature('Mahitsy', 'place', 'town', ['county' => 'Ambohidratrimo', 'state' => 'Analamanga'], -18.75, 47.35)]);
