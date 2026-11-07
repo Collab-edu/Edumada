@@ -23,6 +23,22 @@ export function formatDuration(years: number | null): string {
     return years === 1 ? '1 an' : `${years} ans`
 }
 
+const SINGULAR_UNIT: Record<string, string> = { heures: 'heure', jours: 'jour', semaines: 'semaine', ans: 'an' }
+
+/** Durée d'une offre : « 6 mois », « 40 heures » (formation professionnelle) ou d'après la durée en années. */
+export function offerDuration(offer: Pick<FormationType, 'duration' | 'durationYears'>): string {
+    const d = offer.duration
+    if (!d) return formatDuration(offer.durationYears)
+    const value = d.value.toLocaleString('fr-FR')
+    return `${value} ${d.value <= 1 ? (SINGULAR_UNIT[d.unit] ?? d.unit) : d.unit}`
+}
+
+/** Diplômes d'une offre : ceux de chaque niveau d'une filière du supérieur, sinon son diplôme. */
+export function offerDiplomas(offer: Pick<FormationType, 'diploma' | 'levels'>): string[] {
+    if (offer.levels?.length) return [...new Set(offer.levels.map((l) => l.diploma))]
+    return offer.diploma ? [offer.diploma] : []
+}
+
 /** « 3 mois », « 1 an », « 6 ans ». */
 export function formatAge(years: number): string {
     if (years < 1) return `${Math.round(years * 12)} mois`
@@ -46,9 +62,12 @@ export function formatTuition(offer: Pick<FormationType, 'fees' | 'feesPeriod'>)
  */
 export function offerFacts(offer: FormationType): { icon: string; label: string }[] {
     const facts: { icon: string; label: string }[] = []
-    if (offer.diploma) facts.push({ icon: 'tabler:school', label: offer.diploma })
+    const diplomas = offerDiplomas(offer)
+    if (diplomas.length) facts.push({ icon: 'tabler:school', label: diplomas.join(' · ') })
     if (offer.ageRange) facts.push({ icon: 'tabler:mood-kid', label: formatAgeRange(offer.ageRange) })
-    if (offer.durationYears !== null && offer.kind === 'formation') facts.push({ icon: 'tabler:clock', label: formatDuration(offer.durationYears) })
+    // Une filière à plusieurs niveaux n'a pas une durée unique : elle est détaillée sur la fiche.
+    const hasDuration = offer.duration || offer.durationYears !== null
+    if (hasDuration && offer.kind === 'formation' && (offer.levels?.length ?? 0) < 2) facts.push({ icon: 'tabler:clock', label: offerDuration(offer) })
     return facts
 }
 

@@ -1,10 +1,13 @@
-export type Diploma = 'Certificat' | 'BTS' | 'Licence' | 'Master' | 'Doctorat' | 'CEPE' | 'BEPC' | 'BAC' | 'Autre'
+export type Diploma = 'Attestation' | 'Certificat' | 'CAP' | 'BT' | 'BTS' | 'Licence' | 'Master' | 'Doctorat' | 'CEPE' | 'BEPC' | 'BAC' | 'Autre'
 /** Nature de l'offre éducative : formation diplômante, niveau scolaire, ou accueil (crèche, accompagnement). */
 export type OfferKind = 'formation' | 'niveau' | 'accueil'
 export type Modality = 'Présentiel' | 'Distanciel' | 'Hybride'
 export type RegistrationStatus = 'Ouvertes' | 'À venir' | 'Fermées'
 export type AdmissionLevel = 'Aucun' | 'BAC' | 'BAC+2' | 'BAC+3'
 export type AdmissionSelection = 'Inscription directe' | 'Sur dossier' | 'Dossier et entretien' | 'Concours'
+
+/** Niveau d'une filière du supérieur : Licence, Master… avec sa durée, ses frais annuels et son niveau d'entrée. */
+export type OfferLevel = { diploma: Diploma; durationYears: number | null; fees: number | null; admissionLevel: AdmissionLevel }
 
 export type FormationType = {
   id: string
@@ -28,6 +31,10 @@ export type FormationType = {
   diploma: Diploma | null
   /** Durée en années (0.5 = six mois) ; null si non renseignée ou sans objet. */
   durationYears: number | null
+  /** Formation professionnelle : durée dans son unité (« 6 mois », « 40 heures »). */
+  duration?: { value: number; unit: string } | null
+  /** Supérieur : niveaux proposés pour la filière ; le premier résume l'offre (diploma, durationYears, admission). */
+  levels?: OfferLevel[]
   /** Âge des enfants accueillis, en années (0.25 = 3 mois) ; null si sans objet. */
   ageRange: { min: number; max: number } | null
   /** Frais de scolarité en ariary ; null si non renseignés. */

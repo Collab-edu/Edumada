@@ -27,7 +27,8 @@ export default function OfferCard({ formation, isFavorite, onToggleFavorite, spo
     const t = useT()
     const distance = formation.distanceKm !== undefined ? ` · ${t('à {km} km', { km: formation.distanceKm.toLocaleString('fr-FR') })}` : ''
     const facts = [
-        ...offerFacts(formation).filter((fact) => fact.label !== formation.diploma),
+        // Le diplôme déjà écrit dans l'intitulé (« Licence en informatique ») n'est pas répété.
+        ...offerFacts(formation).filter((fact) => !formation.title.includes(fact.label)),
         ...(formation.languages.length ? [{ icon: 'tabler:language', label: formation.languages.join(', ') }] : []),
         { icon: 'tabler:map-pin', label: `${formation.city}${distance}` },
     ]

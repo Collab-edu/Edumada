@@ -4,7 +4,7 @@ import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import type { SchoolType } from '@/features/etablissements/types'
 import type { CategoryType } from '@/features/categories/types'
-import { ADMISSION_LEVEL_LABEL, formatAgeRange, formatDate, formatDuration, formatFees } from '../../format'
+import { ADMISSION_LEVEL_LABEL, formatAgeRange, formatDate, formatDuration, formatFees, offerDuration } from '../../format'
 import type { FormationDetailType, FormationType } from '../../types'
 import { CheckList, ChipList, DetailSection, Fact, NOT_PROVIDED, Panel, SubTitle } from './parts'
 import { Eyebrow } from '@/components/ui/eyebrow'
@@ -18,11 +18,47 @@ const PRESENTATION_TITLE: Record<FormationType['kind'], string> = {
     accueil: "Présentation de l'accueil",
 }
 
+/** Supérieur : niveaux proposés pour la filière (Licence, Master…). */
+function LevelsTable({ formation }: { formation: FormationType }) {
+    const t = useT()
+    const levels = formation.levels ?? []
+    if (levels.length === 0) return null
+    return (
+        <div>
+            <SubTitle>Niveaux proposés</SubTitle>
+            <div className='overflow-x-auto rounded-xl border border-gray-100 bg-white shadow-sm'>
+                <table className='w-full min-w-[480px] text-left text-sm'>
+                    <caption className='sr-only'>{t('Niveaux proposés')}</caption>
+                    <thead className='bg-offwhite text-ink/70'>
+                        <tr>
+                            <th scope='col' className='px-4 py-3 font-semibold'>{t('Diplôme')}</th>
+                            <th scope='col' className='px-4 py-3 font-semibold'>{t('Durée')}</th>
+                            <th scope='col' className='px-4 py-3 font-semibold'>{t('Frais par an')}</th>
+                            <th scope='col' className='px-4 py-3 font-semibold'>{t('Accès')}</th>
+                        </tr>
+                    </thead>
+                    <tbody className='divide-y divide-gray-100'>
+                        {levels.map((level) => (
+                            <tr key={level.diploma}>
+                                <th scope='row' className='px-4 py-3 font-semibold text-secondary'>{level.diploma}</th>
+                                <td className='px-4 py-3'>{formatDuration(level.durationYears)}</td>
+                                <td className='px-4 py-3'>{formatFees(level.fees) ?? <span className='text-ink/50'>{t(NOT_PROVIDED)}</span>}</td>
+                                <td className='px-4 py-3'>{level.admissionLevel === 'Aucun' ? t('Sans diplôme') : level.admissionLevel}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    )
+}
+
 /* 2. Présentation et objectifs */
 export function PresentationSection({ formation, detail }: Props) {
     return (
         <DetailSection id='presentation' title={PRESENTATION_TITLE[formation.kind]} icon='tabler:info-circle'>
             <p className='text-black leading-relaxed'>{detail.description}</p>
+            <LevelsTable formation={formation} />
             <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                 <Panel>
                     <SubTitle>Objectifs pédagogiques</SubTitle>
@@ -89,11 +125,15 @@ export function ProgramSection({ detail }: Props) {
 export function AdmissionSection({ formation, detail, school, fields }: Props) {
     const t = useT()
     const { level, bacSeries, selection } = formation.admission
+    const levels = formation.levels ?? []
+    // Filière à plusieurs niveaux : le niveau requis dépend du diplôme visé.
+    const requiredLevel = levels.length > 1 ? levels.map((l) => `${l.diploma} : ${ADMISSION_LEVEL_LABEL[l.admissionLevel]}`).join(' · ') : ADMISSION_LEVEL_LABEL[level]
+    const needsBac = levels.length > 1 ? levels.some((l) => l.admissionLevel === 'BAC') : level === 'BAC'
     return (
         <DetailSection id='admission' title={formation.kind === 'formation' ? "Conditions d'admission" : "Conditions d'inscription"} icon='tabler:clipboard-check'>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-                {fields.level && <Fact icon='tabler:school' label="Niveau d'études requis">{ADMISSION_LEVEL_LABEL[level]}</Fact>}
-                {fields.level && level === 'BAC' && (
+                {fields.level && <Fact icon='tabler:school' label="Niveau d'études requis">{requiredLevel}</Fact>}
+                {fields.level && needsBac && (
                     <Fact icon='tabler:list-letters' label='Séries du BAC acceptées'>
                         {bacSeries.length > 0 ? bacSeries.join(', ') : 'Toutes les séries'}
                     </Fact>
@@ -137,7 +177,10 @@ export function CostsSection({ formation, detail }: Props) {
     const banner = STATUS_BANNER[costs.status]
     const rows = [
         { label: "Frais d'inscription", amount: formation.registrationFee },
-        { label: `${KIND_LABELS[formation.kind].fees} (par ${formation.feesPeriod})`, amount: formation.fees },
+        // Filière du supérieur : frais de scolarité de chaque niveau.
+        ...(formation.levels?.length
+            ? formation.levels.map((l) => ({ label: `${KIND_LABELS[formation.kind].fees} – ${l.diploma} (par an)`, amount: l.fees }))
+            : [{ label: `${KIND_LABELS[formation.kind].fees} (par ${formation.feesPeriod})`, amount: formation.fees }]),
         { label: 'Frais de dossier', amount: costs.applicationFee },
         ...costs.otherFees,
     ]
@@ -185,7 +228,9 @@ export function OrganisationSection({ formation, detail }: Props) {
     return (
         <DetailSection id='organisation' title={KIND_LABELS[formation.kind].organisation} icon='tabler:calendar-event'>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-                {formation.durationYears !== null && formation.kind === 'formation' && <Fact icon='tabler:clock' label='Durée totale'>{formatDuration(formation.durationYears)}</Fact>}
+                {(formation.duration || formation.durationYears !== null) && formation.kind === 'formation' && (formation.levels?.length ?? 0) < 2 && (
+                    <Fact icon='tabler:clock' label='Durée totale'>{offerDuration(formation)}</Fact>
+                )}
                 {formation.ageRange && <Fact icon='tabler:mood-kid' label='Âge des enfants'>{formatAgeRange(formation.ageRange)}</Fact>}
                 <Fact icon='tabler:calendar-star' label={KIND_LABELS[formation.kind].start}>
                     {formation.startDate ? formatDate(formation.startDate) : NOT_PROVIDED}

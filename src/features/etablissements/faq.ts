@@ -1,5 +1,5 @@
 import type { CategoryType } from '@/features/categories/types'
-import { formatAgeRange, formatDate, formatFees } from '@/features/formations/format'
+import { formatAgeRange, formatDate, formatFees, offerDiplomas } from '@/features/formations/format'
 import type { FormationType } from '@/features/formations/types'
 import type { SchoolType } from './types'
 
@@ -28,7 +28,7 @@ function describeFees(values: (number | null)[]): string | null {
  */
 export function buildSchoolFaq(school: SchoolType, formations: FormationType[], fields: CategoryType['fields']): FaqItem[] {
     // Question sur les diplômes pour les catégories qui en délivrent, sinon sur l'âge d'accueil.
-    const diplomas = fields.diplomas ? unique(formations.flatMap((f) => (f.diploma ? [f.diploma] : []))) : []
+    const diplomas = fields.diplomas ? unique(formations.flatMap(offerDiplomas)) : []
     const ages = formations.flatMap((f) => (f.ageRange ? [`de ${formatAgeRange(f.ageRange)} (${f.title})`] : []))
 
     // Regroupe les formations qui partagent la même période : « A et B (du … au …) ».

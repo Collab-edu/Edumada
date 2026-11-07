@@ -1,4 +1,5 @@
 import type { AdmissionLevel, FormationType } from '@/features/formations/types'
+import { offerDiplomas } from '@/features/formations/format'
 
 /* ------------------------------------------------------------------ */
 /* Options des filtres avancés                                         */
@@ -13,7 +14,11 @@ export const BUDGET_RANGES = [
 
 export const DURATIONS = ["Moins d'un an", '1 an', '2 ans', '3 ans', '5 ans ou plus'] as const
 export const MODALITIES = ['Présentiel', 'Distanciel', 'Hybride'] as const
-export const DIPLOMAS = ['Certificat', 'BTS', 'Licence', 'Master', 'Doctorat', 'Autre'] as const
+export const DIPLOMAS = ['Attestation', 'Certificat', 'CAP', 'BT', 'BTS', 'Licence', 'Master', 'Doctorat', 'Autre'] as const
+/** Diplômes du supérieur (niveaux d'une filière). */
+export const HIGHER_DIPLOMAS = ['BTS', 'Licence', 'Master', 'Doctorat', 'Certificat', 'Autre'] as const
+/** Diplômes délivrés par une formation professionnelle. */
+export const VOCATIONAL_DIPLOMAS = ['Attestation', 'Certificat', 'CAP', 'BT', 'BTS', 'Autre'] as const
 export const SCHOOL_DIPLOMAS = ['CEPE', 'BEPC', 'BAC'] as const
 export const REGISTRATION_OPTIONS = ['Toutes', 'Inscriptions ouvertes', 'À venir'] as const
 export const LANGUAGES = ['Français', 'Malgache', 'Anglais', 'Autre'] as const
@@ -99,6 +104,8 @@ const FORMATION_FILTERS: FilterProfile = { domain: true, age: false, diplomas: D
 export function filterProfile(categoryId: string | undefined): FilterProfile {
     if (categoryId === 'petite-enfance') return { domain: false, age: true, diplomas: [], duration: false, modality: false, admission: false, housing: false, scholarship: false }
     if (categoryId === 'scolaire') return { domain: false, age: true, diplomas: SCHOOL_DIPLOMAS, duration: false, modality: false, admission: false, housing: true, scholarship: true }
+    if (categoryId === 'superieur') return { ...FORMATION_FILTERS, diplomas: HIGHER_DIPLOMAS }
+    if (categoryId === 'formation-pro') return { ...FORMATION_FILTERS, diplomas: VOCATIONAL_DIPLOMAS }
     if (categoryId === 'autres') return { ...FORMATION_FILTERS, age: true }
     return FORMATION_FILTERS
 }
@@ -184,7 +191,8 @@ export function matchesFilters(f: FormationType, filters: SearchFilters, kindsOf
     }
     if (!matchesAny(filters.durations, durationCategory(f.durationYears))) return false
     if (!matchesAny(filters.modalities, f.modality)) return false
-    if (!matchesAny(filters.diplomas, f.diploma)) return false
+    // Une filière du supérieur correspond si l'un de ses niveaux prépare le diplôme cherché.
+    if (filters.diplomas.length > 0 && !offerDiplomas(f).some((d) => filters.diplomas.includes(d))) return false
     if (filters.registration !== 'Toutes' && f.registration !== REGISTRATION_VALUE[filters.registration]) return false
 
     if (filters.school && !normalize(f.school).includes(normalize(filters.school))) return false
