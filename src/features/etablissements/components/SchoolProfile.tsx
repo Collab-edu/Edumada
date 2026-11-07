@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { imageOr, mapUrls } from '@/lib/media'
 import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
+import { cn } from '@/lib/utils'
 import type { CategoryType } from '@/features/categories/types'
 import { formatDate } from '@/features/formations/format'
 import { track } from '@/lib/track'
@@ -36,28 +37,22 @@ function foundedLabel(year: number): string {
 }
 
 /** Coordonnée cliquable (appeler, écrire, visiter) : icône, libellé et valeur. */
-function ContactRow({ icon, label, href, external, onClick, children }: { icon: string; label: string; href?: string | null; external?: boolean; onClick?: () => void; children: React.ReactNode }) {
+function ContactRow({ icon, label, action, href, external, onClick, children }: { icon: string; label: string; action: string; href: string; external?: boolean; onClick?: () => void; children: React.ReactNode }) {
     const t = useT()
-    const content = (
-        <>
-            <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary'>
-                <Icon icon={icon} className='text-lg' />
-            </span>
-            <span className='flex min-w-0 flex-col'>
-                <span className='text-xs text-ink/60'>{t(label)}</span>
-                <span className='truncate font-semibold text-ink group-hover:text-primary'>{children}</span>
-            </span>
-        </>
-    )
     return (
         <li>
-            {href ? (
-                <a href={href} onClick={onClick} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className='group flex items-center gap-3 rounded-lg py-2 hover:text-primary'>
-                    {content}
-                </a>
-            ) : (
-                <span className='flex items-center gap-3 py-2'>{content}</span>
-            )}
+            <a
+                href={href}
+                onClick={onClick}
+                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                className='group flex items-center gap-3 px-4 py-3 transition-colors hover:bg-offwhite'>
+                <Icon icon={icon} className='shrink-0 text-xl text-primary' />
+                <span className='flex min-w-0 flex-1 flex-col'>
+                    <span className='text-xs text-ink/60'>{t(label)}</span>
+                    <span className='truncate font-bold text-secondary'>{children}</span>
+                </span>
+                <span className='shrink-0 text-sm font-semibold text-primary group-hover:underline'>{t(action)}</span>
+            </a>
         </li>
     )
 }
@@ -298,36 +293,47 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             {/* Coordonnées : site web et réseaux sociaux selon la formule (déjà filtrés par l'API). */}
                             {(school.phone || school.email || school.website || socials.length > 0) && (
                                 <div className='border-b border-gray-100 p-5'>
-                                    <p className='mb-2 font-bold text-secondary'>{t('Coordonnées')}</p>
-                                    <ul className='flex flex-col text-sm'>
-                                        {school.phone && (
-                                            <ContactRow icon='tabler:phone' label='Téléphone' href={`tel:${school.phone.replace(/\s/g, '')}`} onClick={() => track({ type: 'contact_click', establishment: school.id })}>
-                                                {school.phone}
-                                            </ContactRow>
-                                        )}
-                                        {school.email && (
-                                            <ContactRow icon='tabler:mail' label='E-mail' href={`mailto:${school.email}`} onClick={() => track({ type: 'contact_click', establishment: school.id })}>
-                                                {school.email}
-                                            </ContactRow>
-                                        )}
-                                        {school.website && (
-                                            <ContactRow icon='tabler:world' label='Site web' href={school.website} external onClick={() => track({ type: 'website_click', establishment: school.id })}>
-                                                {websiteLabel}
-                                            </ContactRow>
-                                        )}
-                                    </ul>
-                                    {socials.length > 0 && (
-                                        // Réseaux saisis en texte (nom de la page, @identifiant ou lien).
-                                        <ul className='flex flex-col text-sm'>
-                                            {socials.map(([network, value]) => {
-                                                const social = socialLink(network, value)
-                                                return (
-                                                    <ContactRow key={network} icon={`tabler:brand-${network}`} label={SOCIAL_NAMES[network] ?? network} href={social.href} external>
-                                                        {social.label}
-                                                    </ContactRow>
-                                                )
-                                            })}
+                                    <p className='mb-3 font-bold text-secondary'>{t('Coordonnées')}</p>
+                                    {(school.phone || school.email || school.website) && (
+                                        <ul className='divide-y divide-gray-100 overflow-hidden rounded-xl border border-gray-100 text-sm'>
+                                            {school.phone && (
+                                                <ContactRow icon='tabler:phone' label='Téléphone' action='Appeler' href={`tel:${school.phone.replace(/\s/g, '')}`} onClick={() => track({ type: 'contact_click', establishment: school.id })}>
+                                                    {school.phone}
+                                                </ContactRow>
+                                            )}
+                                            {school.email && (
+                                                <ContactRow icon='tabler:mail' label='E-mail' action='Écrire' href={`mailto:${school.email}`} onClick={() => track({ type: 'contact_click', establishment: school.id })}>
+                                                    {school.email}
+                                                </ContactRow>
+                                            )}
+                                            {school.website && (
+                                                <ContactRow icon='tabler:world' label='Site web' action='Visiter' href={school.website} external onClick={() => track({ type: 'website_click', establishment: school.id })}>
+                                                    {websiteLabel}
+                                                </ContactRow>
+                                            )}
                                         </ul>
+                                    )}
+                                    {socials.length > 0 && (
+                                        <div className='mt-4'>
+                                            <p className='mb-2 text-xs font-bold uppercase tracking-[0.12em] text-ink/60'>{t('Réseaux sociaux')}</p>
+                                            {/* Réseaux saisis en texte (nom de la page, @identifiant ou lien) : le nom apparaît au survol. */}
+                                            <div className='flex flex-wrap gap-2'>
+                                                {socials.map(([network, value]) => {
+                                                    const social = socialLink(network, value)
+                                                    const name = `${SOCIAL_NAMES[network] ?? network} : ${social.label}`
+                                                    const tile = 'flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/[0.07] text-secondary transition-colors'
+                                                    return social.href ? (
+                                                        <a key={network} href={social.href} target='_blank' rel='noopener noreferrer' aria-label={name} title={name} className={cn(tile, 'hover:bg-primary hover:text-white')}>
+                                                            <Icon icon={`tabler:brand-${network}`} className='text-xl' />
+                                                        </a>
+                                                    ) : (
+                                                        <span key={network} role='img' aria-label={name} title={name} className={tile}>
+                                                            <Icon icon={`tabler:brand-${network}`} className='text-xl' />
+                                                        </span>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
                             )}
