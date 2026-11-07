@@ -253,7 +253,6 @@ export function OrganisationSection({ formation, detail }: Props) {
                 <Fact icon='tabler:clock-hour-4' label={formation.kind === 'accueil' ? "Horaires d'accueil" : 'Horaires des cours'}>{organization.schedule ?? NOT_PROVIDED}</Fact>
                 {formation.kind === 'formation' && <Fact icon='tabler:device-laptop' label='Modalité'>{formation.modality}</Fact>}
                 <Fact icon='tabler:language' label={KIND_LABELS[formation.kind].languages}>{formation.languages.join(', ')}</Fact>
-                <Fact icon='tabler:building' label={KIND_LABELS[formation.kind].place}>{organization.campus}</Fact>
                 <Fact icon='tabler:hourglass' label='Rythme'>{organization.rhythm.join(' ou ')}</Fact>
             </div>
             {detail.academicCalendar.length > 0 && (

@@ -64,7 +64,6 @@ function initialState(offer: ManagedOffer | undefined, e: ManagedEstablishment, 
         paymentOptions: d.costs?.paymentOptions ?? [],
         discounts: d.costs?.discounts ?? '',
         schedule: d.organization?.schedule ?? '',
-        campus: d.organization?.campus ?? (e.address ? `${e.name} — ${e.address}` : ''),
         rhythm: d.organization?.rhythm ?? [],
         jobs: d.careers?.jobs ?? [],
         sectors: d.careers?.sectors ?? [],
@@ -142,7 +141,7 @@ function toPayload(s: State, rules: OfferKindRules, structure: FormationStructur
                 scholarships: null,
                 discounts: s.discounts || null,
             },
-            organization: { schedule: s.schedule || null, campus: s.campus || null, rhythm: s.rhythm },
+            organization: { schedule: s.schedule || null, campus: null, rhythm: s.rhythm },
             careers: rules.careers
                 ? { jobs: s.jobs, sectors: s.sectors, furtherStudies: s.furtherStudies, internship: s.internship || null, partnerships: s.partnerships }
                 : { jobs: [], sectors: [], furtherStudies: [], internship: null, partnerships: [] },
@@ -700,9 +699,6 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                     </CCol>
                     <CCol md={6}>
                         <CFormInput label={rules.scheduleLabel} value={s.schedule} onChange={(ev) => set('schedule', ev.target.value)} />
-                    </CCol>
-                    <CCol md={6}>
-                        <CFormInput label={rules.placeLabel} value={s.campus} onChange={(ev) => set('campus', ev.target.value)} />
                     </CCol>
                 </CRow>
                 <ListInput label='Rythme' placeholder='Ex. : Temps plein' value={s.rhythm} onChange={(v) => set('rhythm', v)} />

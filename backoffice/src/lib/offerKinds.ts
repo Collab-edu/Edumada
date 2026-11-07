@@ -23,7 +23,6 @@ export type OfferKindRules = {
     feesLabel: string
     startLabel: string
     scheduleLabel: string
-    placeLabel: string
     brochureLabel: string
     onlineLabel: string
     defaultFeesPeriod: 'an' | 'mois'
@@ -51,7 +50,6 @@ export const OFFER_KINDS: Record<string, OfferKindRules> = {
         feesLabel: 'Frais de scolarité (Ar)',
         startLabel: 'Date de rentrée',
         scheduleLabel: 'Horaires',
-        placeLabel: 'Lieu des cours',
         brochureLabel: 'Brochure de la formation',
         onlineLabel: 'Recevoir les candidatures en ligne (les étudiants postulent avec leurs documents ; suivi dans « Demandes »)',
         defaultFeesPeriod: 'an',
@@ -77,7 +75,6 @@ export const OFFER_KINDS: Record<string, OfferKindRules> = {
         feesLabel: 'Frais de scolarité (Ar)',
         startLabel: 'Date de rentrée',
         scheduleLabel: 'Horaires',
-        placeLabel: 'Lieu des cours',
         brochureLabel: 'Brochure',
         onlineLabel: 'Recevoir les demandes d’inscription en ligne (avec les documents ; suivi dans « Demandes »)',
         defaultFeesPeriod: 'mois',
@@ -103,7 +100,6 @@ export const OFFER_KINDS: Record<string, OfferKindRules> = {
         feesLabel: "Frais d'accueil (Ar)",
         startLabel: "Date de début d'accueil",
         scheduleLabel: "Horaires d'accueil",
-        placeLabel: "Lieu d'accueil",
         brochureLabel: 'Brochure',
         onlineLabel: 'Recevoir les demandes d’inscription en ligne (avec les documents ; suivi dans « Demandes »)',
         defaultFeesPeriod: 'mois',

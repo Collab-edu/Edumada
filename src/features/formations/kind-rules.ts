@@ -9,8 +9,8 @@ export const KIND_FIELDS: Record<OfferKind, CategoryType['fields']> = {
 }
 
 /** Libellés de la fiche qui changent selon le type d'offre. */
-export const KIND_LABELS: Record<OfferKind, { fees: string; start: string; languages: string; place: string; organisation: string }> = {
-    formation: { fees: 'Frais de scolarité', start: 'Date de rentrée', languages: "Langues d'enseignement", place: 'Campus', organisation: 'Organisation de la formation' },
-    niveau: { fees: 'Frais de scolarité', start: 'Date de rentrée', languages: "Langues d'enseignement", place: 'Établissement', organisation: 'Organisation de la scolarité' },
-    accueil: { fees: "Frais d'accueil", start: "Début de l'accueil", languages: 'Langues parlées', place: "Lieu d'accueil", organisation: "Organisation de l'accueil" },
+export const KIND_LABELS: Record<OfferKind, { fees: string; start: string; languages: string; organisation: string }> = {
+    formation: { fees: 'Frais de scolarité', start: 'Date de rentrée', languages: "Langues d'enseignement", organisation: 'Organisation de la formation' },
+    niveau: { fees: 'Frais de scolarité', start: 'Date de rentrée', languages: "Langues d'enseignement", organisation: 'Organisation de la scolarité' },
+    accueil: { fees: "Frais d'accueil", start: "Début de l'accueil", languages: 'Langues parlées', organisation: "Organisation de l'accueil" },
 }
