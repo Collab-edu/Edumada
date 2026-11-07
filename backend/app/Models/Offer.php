@@ -6,6 +6,7 @@ use App\Enums\AdmissionLevel;
 use App\Enums\AdmissionSelection;
 use App\Enums\CostsStatus;
 use App\Enums\Diploma;
+use App\Enums\DurationUnit;
 use App\Enums\EstablishmentSector;
 use App\Enums\EstablishmentStatus;
 use App\Enums\FeesPeriod;
@@ -32,7 +33,7 @@ use Illuminate\Support\Str;
  * Offre éducative : formation, niveau scolaire ou accueil.
  */
 #[Fillable([
-    'slug', 'domain_id', 'kind', 'title', 'diploma', 'duration_years', 'age_min', 'age_max',
+    'slug', 'domain_id', 'kind', 'title', 'diploma', 'levels', 'level_diplomas', 'duration_years', 'duration_value', 'duration_unit', 'age_min', 'age_max',
     'fees', 'fees_period', 'registration_fee', 'registration_starts_on', 'registration_ends_on',
     'starts_on', 'modality', 'registration_status', 'languages', 'admission_level', 'bac_series',
     'selection', 'housing', 'scholarship', 'image', 'status',
@@ -72,6 +73,10 @@ class Offer extends Model
         return [
             'kind' => OfferKind::class,
             'diploma' => Diploma::class,
+            'levels' => 'array',
+            'level_diplomas' => 'array',
+            'duration_unit' => DurationUnit::class,
+            'duration_value' => 'float',
             'fees_period' => FeesPeriod::class,
             'modality' => Modality::class,
             'registration_status' => RegistrationStatus::class,
@@ -225,7 +230,14 @@ class Offer extends Model
             ->when(isset($filters['durationMin']), fn (Builder $query) => $query->where('duration_years', '>=', $filters['durationMin']))
             ->when(isset($filters['durationMax']), fn (Builder $query) => $query->where('duration_years', '<=', $filters['durationMax']))
             ->when($filters['modalities'] ?? null, fn (Builder $query, array $labels) => $query->whereIn('modality', $toValues(Modality::class, $labels)))
-            ->when($filters['diplomas'] ?? null, fn (Builder $query, array $labels) => $query->whereIn('diploma', $toValues(Diploma::class, $labels)))
+            // Diplôme de l'offre, ou de l'un des niveaux d'une filière du supérieur.
+            ->when($filters['diplomas'] ?? null, fn (Builder $query, array $labels) => $query->where(function (Builder $query) use ($labels, $toValues): void {
+                $values = $toValues(Diploma::class, $labels);
+                $query->whereIn('diploma', $values);
+                foreach ($values as $value) {
+                    $query->orWhereJsonContains('level_diplomas', $value);
+                }
+            }))
             ->when($filters['housing'] ?? null, fn (Builder $query, array $labels) => $query->whereIn('housing', $toValues(HousingAvailability::class, $labels)))
             ->when($filters['scholarships'] ?? null, fn (Builder $query, array $labels) => $query->whereIn('scholarship', $toValues(ScholarshipAvailability::class, $labels)))
             ->when($filters['registration'] ?? null, fn (Builder $query, string $label) => $query->where('registration_status', RegistrationStatus::fromLabel($label)))

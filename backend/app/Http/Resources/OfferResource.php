@@ -35,6 +35,10 @@ class OfferResource extends JsonResource
             'category' => $establishment->category->slug,
             'diploma' => $this->diploma?->label(),
             'durationYears' => $this->duration_years,
+            'duration' => $this->duration_unit && $this->duration_value !== null
+                ? ['value' => $this->duration_value, 'unit' => $this->duration_unit->label()]
+                : null,
+            'levels' => $this->levels ?? [],
             'ageRange' => $this->age_min !== null && $this->age_max !== null
                 ? ['min' => $this->age_min, 'max' => $this->age_max]
                 : null,

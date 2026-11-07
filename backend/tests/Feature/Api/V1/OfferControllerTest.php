@@ -232,6 +232,52 @@ class OfferControllerTest extends TestCase
         $this->assertSame(['C', 'D'], $offer->bac_series);
     }
 
+    public function test_higher_education_offer_is_a_field_with_several_levels(): void
+    {
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $establishment = Establishment::factory()->ownedBy($owner)->create();
+
+        $this->actingAs($owner)
+            ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload([
+                'title' => 'Génie logiciel',
+                'diploma' => null,
+                'durationYears' => null,
+                'levels' => [
+                    ['diploma' => 'Licence', 'durationYears' => 3, 'fees' => 1800000, 'admissionLevel' => 'BAC'],
+                    ['diploma' => 'Master', 'durationYears' => 2, 'fees' => 1500000, 'admissionLevel' => 'BAC+3'],
+                ],
+            ]))
+            ->assertCreated()
+            ->assertJsonPath('data.levels.1.diploma', 'Master')
+            // Résumé pour la recherche : premier niveau, frais les plus bas.
+            ->assertJsonPath('data.diploma', 'Licence')
+            ->assertJsonPath('data.durationYears', 3)
+            ->assertJsonPath('data.fees', 1500000)
+            ->assertJsonPath('data.admission.level', 'BAC');
+
+        Offer::query()->update(['status' => OfferStatus::Published]);
+        $this->getJson('/api/v1/offers?diplomas[]=Master')->assertOk()->assertJsonCount(1, 'data');
+        $this->getJson('/api/v1/offers?diplomas[]=Doctorat')->assertOk()->assertJsonCount(0, 'data');
+    }
+
+    public function test_vocational_offer_has_a_duration_in_a_unit_and_a_vocational_diploma(): void
+    {
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $establishment = Establishment::factory()->ownedBy($owner)->create();
+
+        $this->actingAs($owner)
+            ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload([
+                'title' => 'Électricité bâtiment',
+                'diploma' => 'Attestation',
+                'durationYears' => null,
+                'duration' => ['value' => 6, 'unit' => 'mois'],
+            ]))
+            ->assertCreated()
+            ->assertJsonPath('data.diploma', 'Attestation')
+            ->assertJsonPath('data.duration.unit', 'mois')
+            ->assertJsonPath('data.durationYears', 0.5);
+    }
+
     public function test_free_plan_rejects_publishing_a_second_offer_with_422(): void
     {
         $owner = User::factory()->create(['role' => UserRole::Establishment]);

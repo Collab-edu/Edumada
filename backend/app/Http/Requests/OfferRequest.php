@@ -6,6 +6,7 @@ use App\Enums\AdmissionLevel;
 use App\Enums\AdmissionSelection;
 use App\Enums\CostsStatus;
 use App\Enums\Diploma;
+use App\Enums\DurationUnit;
 use App\Enums\FeesPeriod;
 use App\Enums\HousingAvailability;
 use App\Enums\Modality;
@@ -54,6 +55,17 @@ class OfferRequest extends FormRequest
             'kind' => [$required, Rule::in(OfferKind::labels())],
             'diploma' => ['sometimes', 'nullable', Rule::in(Diploma::labels())],
             'durationYears' => ['sometimes', 'nullable', 'numeric', 'min:0', 'max:15'],
+            // Supérieur : niveaux proposés pour la filière (le premier sert de résumé pour la recherche).
+            'levels' => ['sometimes', 'nullable', 'array', 'max:10'],
+            'levels.*' => ['array:diploma,durationYears,fees,admissionLevel'],
+            'levels.*.diploma' => ['required', Rule::in(Diploma::labels())],
+            'levels.*.durationYears' => ['present', 'nullable', 'numeric', 'min:0', 'max:15'],
+            'levels.*.fees' => ['present', 'nullable', 'integer', 'min:0'],
+            'levels.*.admissionLevel' => ['required', Rule::in(AdmissionLevel::labels())],
+            // Formation professionnelle : durée dans l'unité choisie (« 3 mois »).
+            'duration' => ['sometimes', 'nullable', 'array:value,unit'],
+            'duration.value' => ['required_with:duration', 'numeric', 'gt:0', 'max:5000'],
+            'duration.unit' => ['required_with:duration', Rule::in(DurationUnit::labels())],
             'ageRange' => ['sometimes', 'nullable', 'array:min,max'],
             'ageRange.min' => ['required_with:ageRange', 'numeric', 'min:0', 'max:99'],
             'ageRange.max' => ['required_with:ageRange', 'numeric', 'gte:ageRange.min', 'max:99'],
@@ -256,6 +268,38 @@ class OfferRequest extends FormRequest
         $set('details.onlineApplication', 'online_application');
         $set('details.brochureUrl', 'brochure_url');
         $set('details.academicCalendar', 'academic_calendar');
+
+        // Durée dans une unité : la durée en années (filtres, tris) en est déduite.
+        if (Arr::has($data, 'duration')) {
+            $duration = $data['duration'];
+            $unit = $duration ? DurationUnit::fromLabel($duration['unit']) : null;
+            $attributes['duration_value'] = $duration['value'] ?? null;
+            $attributes['duration_unit'] = $unit;
+            if ($unit) {
+                $attributes['duration_years'] = $unit->toYears((float) $duration['value']);
+            }
+        }
+
+        // Niveaux d'une filière : le premier niveau et les frais les plus bas résument l'offre pour la recherche.
+        if (Arr::has($data, 'levels')) {
+            $levels = array_values(array_map(fn (array $level) => [
+                'diploma' => $level['diploma'],
+                'durationYears' => $level['durationYears'] !== null ? (float) $level['durationYears'] : null,
+                'fees' => $level['fees'],
+                'admissionLevel' => $level['admissionLevel'],
+            ], $data['levels'] ?? []));
+            $attributes['levels'] = $levels ?: null;
+            $attributes['level_diplomas'] = $levels ? array_values(array_unique(array_map(fn (array $level) => Diploma::fromLabel($level['diploma'])->value, $levels))) : null;
+            if ($levels) {
+                $first = $levels[0];
+                $fees = array_filter(array_column($levels, 'fees'), fn ($fee) => $fee !== null);
+                $attributes['diploma'] = Diploma::fromLabel($first['diploma']);
+                $attributes['duration_years'] = $first['durationYears'];
+                $attributes['admission_level'] = AdmissionLevel::fromLabel($first['admissionLevel']);
+                $attributes['fees'] = $fees ? min($fees) : null;
+                $attributes['fees_period'] = FeesPeriod::Year;
+            }
+        }
 
         return $attributes;
     }

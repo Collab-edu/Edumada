@@ -9,7 +9,10 @@ enum Diploma: string
 {
     use HasLabel;
 
+    case Attestation = 'attestation';
     case Certificate = 'certificate';
+    case Cap = 'cap';
+    case Bt = 'bt';
     case Bts = 'bts';
     case Licence = 'licence';
     case Master = 'master';
@@ -22,7 +25,10 @@ enum Diploma: string
     public function label(): string
     {
         return match ($this) {
+            self::Attestation => 'Attestation',
             self::Certificate => 'Certificat',
+            self::Cap => 'CAP',
+            self::Bt => 'BT',
             self::Bts => 'BTS',
             self::Licence => 'Licence',
             self::Master => 'Master',

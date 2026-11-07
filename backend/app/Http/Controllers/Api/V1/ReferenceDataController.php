@@ -7,6 +7,7 @@ use App\Enums\AdmissionSelection;
 use App\Enums\CampaignStatus;
 use App\Enums\CostsStatus;
 use App\Enums\Diploma;
+use App\Enums\DurationUnit;
 use App\Enums\EstablishmentSector;
 use App\Enums\EstablishmentStatus;
 use App\Enums\FeesPeriod;
@@ -42,6 +43,7 @@ class ReferenceDataController extends Controller
                 'establishmentTypes' => EstablishmentSector::labels(),
                 'offerKinds' => OfferKind::labels(),
                 'diplomas' => Diploma::labels(),
+                'durationUnits' => DurationUnit::labels(),
                 'modalities' => Modality::labels(),
                 'registrationStatuses' => RegistrationStatus::labels(),
                 'admissionLevels' => AdmissionLevel::labels(),
