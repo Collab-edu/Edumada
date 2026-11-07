@@ -46,7 +46,6 @@ function initialState(offer: ManagedOffer | undefined, e: ManagedEstablishment, 
         bacSeries: offer?.admission.bacSeries ?? [],
         selection: offer?.admission.selection ?? OFFER_KINDS[kind].defaultSelection,
         housing: offer?.housing ?? 'Non renseigné',
-        scholarship: offer?.scholarship ?? 'Non renseigné',
         imageSrc: offer?.imageSrc ?? '',
         description: d.description ?? '',
         objectives: d.objectives ?? [],
@@ -64,7 +63,6 @@ function initialState(offer: ManagedOffer | undefined, e: ManagedEstablishment, 
         otherFees: (d.costs?.otherFees ?? []).map((f) => ({ label: f.label, amount: str(f.amount) })),
         costsStatus: d.costs?.status ?? 'Confirmés',
         paymentOptions: d.costs?.paymentOptions ?? [],
-        scholarshipsInfo: d.costs?.scholarships ?? '',
         discounts: d.costs?.discounts ?? '',
         schedule: d.organization?.schedule ?? '',
         campus: d.organization?.campus ?? (e.address ? `${e.name} — ${e.address}` : ''),
@@ -122,7 +120,7 @@ function toPayload(s: State, rules: OfferKindRules, structure: FormationStructur
         ],
         admission: { level: rules.level && structure !== 'levels' ? s.level : 'Aucun', bacSeries: rules.level ? s.bacSeries : [], selection: rules.selection ? s.selection : rules.defaultSelection },
         housing: rules.housing ? s.housing : 'Non renseigné',
-        scholarship: rules.scholarship ? s.scholarship : 'Non renseigné',
+        scholarship: 'Non renseigné',
         imageSrc: s.imageSrc || null,
         ...(status ? { status } : {}),
         details: {
@@ -142,7 +140,7 @@ function toPayload(s: State, rules: OfferKindRules, structure: FormationStructur
                 otherFees: s.otherFees.filter((f) => f.label.trim()).map((f) => ({ label: f.label, amount: num(f.amount) })),
                 status: s.costsStatus,
                 paymentOptions: s.paymentOptions,
-                scholarships: rules.scholarship ? s.scholarshipsInfo || null : null,
+                scholarships: null,
                 discounts: s.discounts || null,
             },
             organization: { schedule: s.schedule || null, campus: s.campus || null, rhythm: s.rhythm },
@@ -250,7 +248,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
             ? [{ key: 'programme', title: rules.fullProgramme ? 'Programme' : 'Matières', subtitle: rules.fullProgramme ? 'Les matières et le déroulement du cursus.' : 'Les matières enseignées à ce niveau.', done: s.subjects.length > 0 || s.program.some((x) => x.period.trim()) }]
             : []),
         { key: 'admission', title: rules.level ? 'Admission' : 'Inscription', subtitle: rules.level ? 'Les conditions d’admission et prérequis.' : 'Les conditions et pièces demandées.', done: s.prerequisites.length > 0 },
-        { key: 'frais', title: rules.scholarship ? 'Frais et financement' : 'Frais', subtitle: rules.scholarship ? 'Les coûts, bourses et modalités de paiement.' : 'Les coûts et modalités de paiement.', done: s.fees.trim() !== '' },
+        { key: 'frais', title: 'Frais', subtitle: 'Les coûts et modalités de paiement.', done: s.fees.trim() !== '' },
         { key: 'organisation', title: 'Organisation et calendrier', subtitle: s.kind === 'accueil' ? 'Les dates, horaires et lieu d’accueil.' : 'Les dates, horaires et lieu des cours.', done: !!s.startDate || !!s.schedule.trim() || s.rhythm.length > 0 },
         ...(rules.careers ? [{ key: 'debouches', title: 'Débouchés', subtitle: 'Les métiers et secteurs d’activité.', done: s.jobs.length > 0 }] : []),
         { key: 'candidature', title: s.kind === 'formation' ? 'Candidature' : 'Demande d’inscription', subtitle: s.kind === 'formation' ? 'Les modalités de candidature et documents.' : 'Les demandes en ligne et documents.', done: s.onlineApplication || !!s.brochureUrl.trim() },
@@ -654,13 +652,6 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                             {opts(ref?.costsStatuses ?? ['Confirmés', 'Estimés', 'Non communiqués'])}
                         </CFormSelect>
                     </CCol>
-                    {rules.scholarship && (
-                        <CCol md={4}>
-                            <CFormSelect label='Bourses' value={s.scholarship} onChange={(ev) => set('scholarship', ev.target.value)}>
-                                {opts(ref?.scholarships)}
-                            </CFormSelect>
-                        </CCol>
-                    )}
                     {rules.housing && (
                         <CCol md={4}>
                             <CFormSelect label={rules.level ? 'Hébergement' : 'Internat'} value={s.housing} onChange={(ev) => set('housing', ev.target.value)}>
@@ -693,7 +684,6 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 )}
                 <div className='mt-3'>
                     <ListInput label='Modalités de paiement' placeholder='Ex. : Mensuel' value={s.paymentOptions} onChange={(v) => set('paymentOptions', v)} />
-                    {rules.scholarship && <CFormTextarea label='Bourses : précisions' rows={2} className='mb-3' value={s.scholarshipsInfo} onChange={(ev) => set('scholarshipsInfo', ev.target.value)} />}
                     <CFormTextarea label='Réductions' rows={2} value={s.discounts} onChange={(ev) => set('discounts', ev.target.value)} />
                 </div>
             </Step>

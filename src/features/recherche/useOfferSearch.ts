@@ -31,7 +31,6 @@ export function toApiQuery(filters: SearchFilters, sort: SortValue) {
         level: filters.admissionLevel === 'Tous les niveaux' ? '' : filters.admissionLevel,
         bacSeries: filters.bacSeries,
         housing: filters.housing,
-        scholarships: filters.scholarships,
         childAge: filters.childAge,
         sort: sort === 'pertinence' ? '' : sort,
     }

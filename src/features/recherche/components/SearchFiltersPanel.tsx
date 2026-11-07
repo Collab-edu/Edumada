@@ -12,13 +12,12 @@ import {
     LANGUAGES,
     MODALITIES,
     REGISTRATION_OPTIONS,
-    SCHOLARSHIP_OPTIONS,
     type FilterProfile,
     type SearchFilters,
 } from '../filters'
 import { useT } from '@/i18n/client'
 
-type ListKey = 'budgets' | 'durations' | 'modalities' | 'diplomas' | 'languages' | 'bacSeries' | 'housing' | 'scholarships'
+type ListKey = 'budgets' | 'durations' | 'modalities' | 'diplomas' | 'languages' | 'bacSeries' | 'housing'
 
 interface SearchFiltersPanelProps {
     filters: SearchFilters
@@ -180,7 +179,6 @@ export function SearchFiltersPanel({ filters, onChange, profile }: SearchFilters
                         </div>
                     </FilterGroup>}
                     {profile.housing && <FilterGroup title={profile.admission ? 'Hébergement' : 'Internat'} defaultOpen={false}>{checkboxes('housing', HOUSING_OPTIONS)}</FilterGroup>}
-                    {profile.scholarship && <FilterGroup title='Bourses' defaultOpen={false}>{checkboxes('scholarships', SCHOLARSHIP_OPTIONS)}</FilterGroup>}
                 </div>
             )}
         </div>

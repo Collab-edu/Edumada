@@ -15,7 +15,6 @@ export type OfferKindRules = {
     modality: boolean
     selection: boolean
     minAge: boolean
-    scholarship: boolean
     housing: boolean
     /** Domaine rattaché automatiquement quand le champ n'est pas proposé. */
     autoDomain: string | null
@@ -47,7 +46,6 @@ export const OFFER_KINDS: Record<string, OfferKindRules> = {
         modality: true,
         selection: true,
         minAge: true,
-        scholarship: true,
         housing: true,
         autoDomain: null,
         skillsLabel: 'Compétences acquises',
@@ -75,7 +73,6 @@ export const OFFER_KINDS: Record<string, OfferKindRules> = {
         modality: false,
         selection: true,
         minAge: false,
-        scholarship: true,
         housing: true,
         autoDomain: 'Enseignement général',
         skillsLabel: "Ce que l'élève développe",
@@ -103,7 +100,6 @@ export const OFFER_KINDS: Record<string, OfferKindRules> = {
         modality: false,
         selection: false,
         minAge: false,
-        scholarship: false,
         housing: false,
         autoDomain: 'Petite enfance',
         skillsLabel: "Ce que l'enfant développe",

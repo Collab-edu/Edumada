@@ -228,7 +228,6 @@ export function CostsSection({ formation, detail }: Props) {
             </div>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
                 <Fact icon='tabler:calendar-dollar' label='Modalités de paiement'>{costs.paymentOptions.join(', ')}</Fact>
-                {formation.kind !== 'accueil' && <Fact icon='tabler:award' label='Bourses'>{costs.scholarships ?? 'Aucune bourse communiquée'}</Fact>}
                 <Fact icon='tabler:discount' label='Réductions et financement'>{costs.discounts ?? 'Aucune réduction communiquée'}</Fact>
             </div>
         </DetailSection>
