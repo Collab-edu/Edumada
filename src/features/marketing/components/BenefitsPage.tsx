@@ -38,6 +38,16 @@ const BENEFITS = [
         title: 'Un badge « vérifié »',
         text: 'Après contrôle de votre identité et de vos autorisations, votre fiche affiche un badge de confiance. Il ne s’achète pas.',
     },
+    {
+        icon: 'tabler:star',
+        title: 'Les avis de vos étudiants',
+        text: 'Avec Pro, recueillez les témoignages de vos étudiants et de leurs familles : la meilleure preuve de la qualité de vos formations.',
+    },
+    {
+        icon: 'tabler:users',
+        title: 'Une gestion à plusieurs',
+        text: 'Invitez vos collègues dans votre espace établissement pour tenir la fiche à jour et répondre aux demandes ensemble.',
+    },
 ]
 
 const STEPS = [
@@ -90,7 +100,7 @@ export default function BenefitsPage() {
             <section>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <SectionHeader title='Ce que vous gagnez' description='Les outils inclus pour présenter votre établissement et suivre l’intérêt des étudiants.' />
-                    <ul className='grid gap-5 sm:grid-cols-2 lg:grid-cols-3'>
+                    <ul className='grid gap-5 sm:grid-cols-2 lg:grid-cols-4'>
                         {BENEFITS.map((benefit, i) => (
                             <li
                                 key={benefit.title}
