@@ -100,7 +100,8 @@ export function ExtraInfoSection({ detail, onReport }: { detail: FormationDetail
                         </div>
                     </div>
                     {detail.brochureUrl ? (
-                        <a href={detail.brochureUrl} download target='_blank' rel='noopener noreferrer' className='rounded-lg border border-primary px-4 py-2 font-semibold text-primary hover:bg-primary hover:text-white'>
+                        <a href={detail.brochureUrl} download target='_blank' rel='noopener noreferrer' className='inline-flex shrink-0 items-center gap-2 rounded-lg border border-primary px-4 py-2 font-semibold text-primary hover:bg-primary hover:text-white'>
+                            <Icon icon='tabler:download' className='text-lg' aria-hidden='true' />
                             {t('Télécharger')}
                         </a>
                     ) : null}
