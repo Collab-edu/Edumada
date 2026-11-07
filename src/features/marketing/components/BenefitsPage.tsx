@@ -45,7 +45,7 @@ export default function BenefitsPage() {
     return (
         <>
             {/* En-tête */}
-            <section className='pt-28 pb-10 sm:pt-32'>
+            <section className='pt-28 pb-14 sm:pt-32 md:pb-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
                         <div className='mobile-center flex flex-col gap-4'>
@@ -74,10 +74,10 @@ export default function BenefitsPage() {
             </section>
 
             {/* Avantages */}
-            <section>
+            <section className='py-14 md:py-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     {/* Types d'établissements concernés */}
-                    <div className='mb-12 flex flex-col gap-4 rounded-2xl bg-secondary/[0.06] px-5 py-5 md:flex-row md:items-center md:justify-between md:px-8'>
+                    <div className='mb-14 flex flex-col gap-4 rounded-2xl md:mb-20 bg-secondary/[0.06] px-5 py-5 md:flex-row md:items-center md:justify-between md:px-8'>
                         <p className='!text-xs font-bold uppercase tracking-[0.12em] text-ink/60'>{t('Pour tous les établissements')}</p>
                         <ul className='flex flex-wrap gap-2 md:gap-3'>
                             {AUDIENCES.map((a) => (
@@ -89,7 +89,7 @@ export default function BenefitsPage() {
                         </ul>
                     </div>
                     <SectionHeader title='Ce que vous gagnez' description='Les outils inclus pour présenter votre établissement et suivre l’intérêt des étudiants.' />
-                    <ul className='grid gap-5 sm:grid-cols-2 lg:grid-cols-4'>
+                    <ul className='grid gap-6 sm:grid-cols-2 lg:grid-cols-4'>
                         {BENEFITS.map((benefit, i) => (
                             <li
                                 key={benefit.title}
@@ -111,9 +111,9 @@ export default function BenefitsPage() {
             </section>
 
             {/* Étapes */}
-            <section className='overflow-hidden bg-secondary/[0.06]'>
+            <section className='overflow-hidden bg-secondary/[0.06] py-16 md:py-24'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
+                    <div className='grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16'>
                         {/* Vrai téléphone (image, comme à l'accueil) sur une forme rose : le référencement d'un établissement. */}
                         <div className='relative mx-auto w-full max-w-[17rem] py-4'>
                             <div aria-hidden='true' className='absolute top-1/4 -left-12 h-[62%] w-[120%] rotate-[-14deg] rounded-[3.5rem] bg-primary/15' />
@@ -128,7 +128,7 @@ export default function BenefitsPage() {
                         </div>
                         <div>
                             <SectionHeader title='Comment ça marche ?' description='Trois étapes pour être visible sur Edumada.' />
-                            <ol className='flex flex-col gap-3'>
+                            <ol className='flex flex-col gap-4'>
                                 {STEPS.map((step, index) => (
                                     <li key={step.title} className='flex items-center gap-4 rounded-xl bg-white px-5 py-4 shadow-[0_8px_24px_-18px_rgba(15,76,92,0.45)]'>
                                         <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary text-sm font-bold text-white'>{index + 1}</span>
@@ -145,14 +145,14 @@ export default function BenefitsPage() {
             </section>
 
             {/* Formules */}
-            <section className='pb-20'>
+            <section className='pt-16 pb-24 md:pt-24 md:pb-28'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <SectionHeader
                         title='Commencez gratuitement'
                         description='Passez à une formule payante seulement quand vous en avez besoin.'
                         link={{ href: '/tarifs/', label: 'Comparer les formules' }}
                     />
-                    <ul className='grid gap-5 md:grid-cols-3'>
+                    <ul className='grid gap-6 md:grid-cols-3'>
                         {PLANS.map((plan) => (
                             <li key={plan.name}>
                                 <Link
@@ -164,7 +164,7 @@ export default function BenefitsPage() {
                             </li>
                         ))}
                     </ul>
-                    <p className='mt-6 text-sm text-ink/60'>{t('Paiement par MVola, Orange Money, Airtel Money, virement ou espèces. Aucun nombre de candidats n’est garanti.')}</p>
+                    <p className='mt-8 text-sm text-ink/60'>{t('Paiement par MVola, Orange Money, Airtel Money, virement ou espèces. Aucun nombre de candidats n’est garanti.')}</p>
                 </div>
             </section>
         </>
