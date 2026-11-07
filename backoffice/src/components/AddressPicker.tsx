@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
-import { CButton, CCol, CFormFeedback, CFormInput, CFormLabel, CInputGroup, CInputGroupText, CRow } from '@coreui/react'
+import { CCol, CFormFeedback, CFormInput, CFormLabel, CInputGroup, CInputGroupText, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLocationPin, cilSearch } from '@coreui/icons'
 import type { Map as LeafletMap, Marker } from 'leaflet'
@@ -27,19 +27,15 @@ export default function AddressPicker({
     value,
     onChange,
     errors = {},
-    onNotice,
 }: {
     value: AddressValue
     onChange: (patch: Partial<AddressValue>) => void
     errors?: { address?: string; city?: string; lat?: string; lng?: string }
-    /** Message d'information (position introuvable…). */
-    onNotice?: (message: string) => void
 }) {
     const listId = useId()
     const [hits, setHits] = useState<AddressHit[]>([])
     const [open, setOpen] = useState(false)
     const [active, setActive] = useState(-1)
-    const [locating, setLocating] = useState(false)
     const typed = useRef(false)
     const mapBox = useRef<HTMLDivElement>(null)
     const map = useRef<LeafletMap | null>(null)
@@ -53,7 +49,7 @@ export default function AddressPicker({
     const lng = Number(value.lng)
     const hasPoint = value.lat !== '' && value.lng !== '' && Number.isFinite(lat) && Number.isFinite(lng)
 
-    /** Repère déplacé (glissé, clic sur la carte, ma position) : position, puis ville et adresse de ce point. */
+    /** Repère déplacé (glissé ou clic sur la carte) : position, puis ville et adresse de ce point. */
     const placePoint = (pLat: number, pLng: number) => {
         latest.current.onChange({ lat: pLat.toFixed(6), lng: pLng.toFixed(6) })
         api<{ data: { address: string; city: string } | null }>('/places/address-at', { query: { lat: pLat, lng: pLng } })
@@ -107,7 +103,7 @@ export default function AddressPicker({
         marker.current = m
     }
 
-    // Le repère suit la position (choix d'une adresse, ma position, saisie).
+    // Le repère suit la position (choix d'une adresse).
     useEffect(() => {
         if (!map.current || !hasPoint) return
         if (marker.current) marker.current.setLatLng([lat, lng])
@@ -155,21 +151,6 @@ export default function AddressPicker({
         }
     }
 
-    const locate = () => {
-        if (!navigator.geolocation) return onNotice?.('Position introuvable : placez le repère sur la carte.')
-        setLocating(true)
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                setLocating(false)
-                placePoint(pos.coords.latitude, pos.coords.longitude)
-                map.current?.setView([pos.coords.latitude, pos.coords.longitude], 17)
-            },
-            () => {
-                setLocating(false)
-                onNotice?.('Position introuvable : placez le repère sur la carte.')
-            }
-        )
-    }
 
     const showList = open && hits.length > 0
 
@@ -238,7 +219,7 @@ export default function AddressPicker({
                 </div>
             </CCol>
 
-            <CCol md={7}>
+            <CCol md={12}>
                 <PlaceInput
                     id='bo-city'
                     label='Ville'
@@ -251,12 +232,6 @@ export default function AddressPicker({
                         if (place && !hasPoint) map.current?.setView([place.lat, place.lng], 13)
                     }}
                 />
-            </CCol>
-            <CCol md={5} className='d-flex align-items-start' style={{ paddingTop: '2rem' }}>
-                <CButton color='secondary' variant='outline' onClick={locate} disabled={locating} className='w-100'>
-                    <CIcon icon={cilLocationPin} className='me-2' />
-                    {locating ? 'Localisation…' : 'Utiliser ma position actuelle'}
-                </CButton>
             </CCol>
         </CRow>
     )

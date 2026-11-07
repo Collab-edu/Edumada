@@ -205,7 +205,6 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                     value={{ address: form.address, city: form.city, lat: form.lat, lng: form.lng }}
                     onChange={(patch) => setForm((f) => ({ ...f, ...patch }))}
                     errors={{ address: err('address'), city: err('city'), lat: err('coordinates.lat'), lng: err('coordinates.lng') }}
-                    onNotice={(message) => toast.error(message)}
                 />
             </PageCard>
 
