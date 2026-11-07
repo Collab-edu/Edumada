@@ -45,7 +45,7 @@ export default function BenefitsPage() {
     return (
         <>
             {/* En-tête */}
-            <section className='overflow-hidden pt-28 pb-14 sm:pt-32 md:pb-20'>
+            <section className='overflow-hidden pt-28 pb-6 sm:pt-32 md:pb-8'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-10'>
                         <div className='mobile-center flex flex-col gap-6'>
@@ -72,7 +72,7 @@ export default function BenefitsPage() {
             </section>
 
             {/* Avantages */}
-            <section id='avantages' className='scroll-mt-24 py-14 md:py-20'>
+            <section id='avantages' className='scroll-mt-24 pt-4 pb-14 md:pt-6 md:pb-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     {/* Types d'établissements concernés */}
                     <div className='mb-14 flex flex-col gap-4 rounded-2xl md:mb-20 bg-secondary/[0.06] px-5 py-5 md:flex-row md:items-center md:justify-between md:px-8'>
