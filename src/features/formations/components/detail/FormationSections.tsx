@@ -27,13 +27,12 @@ function LevelsTable({ formation }: { formation: FormationType }) {
         <div>
             <SubTitle>Niveaux proposés</SubTitle>
             <div className='overflow-x-auto rounded-xl border border-gray-100 bg-white shadow-sm'>
-                <table className='w-full min-w-[360px] text-left text-sm'>
+                <table className='w-full text-left text-sm'>
                     <caption className='sr-only'>{t('Niveaux proposés')}</caption>
                     <thead className='bg-offwhite text-ink/70'>
                         <tr>
                             <th scope='col' className='px-4 py-3 font-semibold'>{t('Diplôme')}</th>
                             <th scope='col' className='px-4 py-3 font-semibold'>{t('Durée')}</th>
-                            <th scope='col' className='px-4 py-3 font-semibold'>{t('Accès')}</th>
                         </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-100'>
@@ -41,7 +40,6 @@ function LevelsTable({ formation }: { formation: FormationType }) {
                             <tr key={`${level.diploma}-${level.diplomaOther ?? ''}`}>
                                 <th scope='row' className='px-4 py-3 font-semibold text-secondary'>{diplomaName(level)}</th>
                                 <td className='px-4 py-3'>{formatDuration(level.durationYears)}</td>
-                                <td className='px-4 py-3'>{level.admissionLevel === 'Aucun' ? t('Sans diplôme') : level.admissionLevel}</td>
                             </tr>
                         ))}
                     </tbody>
