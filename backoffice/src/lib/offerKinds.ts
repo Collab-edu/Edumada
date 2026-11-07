@@ -144,7 +144,7 @@ export const formationStructure = (category: string, kind: string): FormationStr
     kind !== 'formation' ? 'simple' : category === 'superieur' ? 'levels' : category === 'formation-pro' ? 'vocational' : 'simple'
 
 /** Diplômes d'un niveau d'une filière du supérieur. */
-export const HIGHER_DIPLOMAS = ['BTS', 'Licence', 'Master', 'Doctorat', 'Certificat', 'Autre']
+export const HIGHER_DIPLOMAS = ['BTS', 'Licence', 'Master 1', 'Master 2', 'Doctorat', 'Certificat', 'Autre']
 
 /** Diplômes délivrés par une formation professionnelle. */
 export const VOCATIONAL_DIPLOMAS = ['Attestation', 'Certificat', 'CAP', 'BT', 'BTS', 'Autre']

@@ -416,7 +416,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                                         </CCol>
                                         <CCol xs={6} md={4}>
                                             <CFormSelect aria-label='Niveau requis' value={l.admissionLevel} onChange={(ev) => update({ admissionLevel: ev.target.value })}>
-                                                {(ref?.admissionLevels ?? ['Aucun', 'BAC', 'BAC+2', 'BAC+3']).map((v) => (
+                                                {(ref?.admissionLevels ?? ['Aucun', 'BAC', 'BAC+2', 'BAC+3', 'BAC+4']).map((v) => (
                                                     <option key={v} value={v}>
                                                         {v === 'Aucun' ? 'Accès sans diplôme' : `Accès : ${v}`}
                                                     </option>
@@ -572,7 +572,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                     {rules.level && structure !== 'levels' && (
                         <CCol md={4}>
                             <CFormSelect label='Niveau requis' value={s.level} onChange={(ev) => set('level', ev.target.value)}>
-                                {opts(ref?.admissionLevels ?? ['Aucun', 'BAC', 'BAC+2', 'BAC+3'])}
+                                {opts(ref?.admissionLevels ?? ['Aucun', 'BAC', 'BAC+2', 'BAC+3', 'BAC+4'])}
                             </CFormSelect>
                         </CCol>
                     )}

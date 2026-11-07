@@ -7,6 +7,7 @@ export const ADMISSION_LEVEL_LABEL: Record<AdmissionLevel, string> = {
     BAC: 'Baccalauréat',
     'BAC+2': 'BAC+2 (BTS, DTS…)',
     'BAC+3': 'BAC+3 (Licence)',
+    'BAC+4': 'BAC+4 (Master 1)',
 }
 // UTC : la date affichée est la même au rendu serveur et dans le navigateur.
 const dateFormatter = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })

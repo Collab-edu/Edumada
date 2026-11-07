@@ -13,6 +13,7 @@ enum AdmissionLevel: string
     case Bac = 'bac';
     case BacPlus2 = 'bac_plus_2';
     case BacPlus3 = 'bac_plus_3';
+    case BacPlus4 = 'bac_plus_4';
 
     public function label(): string
     {
@@ -21,6 +22,7 @@ enum AdmissionLevel: string
             self::Bac => 'BAC',
             self::BacPlus2 => 'BAC+2',
             self::BacPlus3 => 'BAC+3',
+            self::BacPlus4 => 'BAC+4',
         };
     }
 }

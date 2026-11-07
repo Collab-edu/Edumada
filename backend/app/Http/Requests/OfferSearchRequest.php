@@ -19,7 +19,7 @@ use Illuminate\Validation\Rule;
 class OfferSearchRequest extends FormRequest
 {
     /** Niveau actuel de l'étudiant (filtre « Mon niveau »). */
-    public const STUDENT_LEVELS = ['Sans BAC', 'BAC', 'BAC+2', 'BAC+3'];
+    public const STUDENT_LEVELS = ['Sans BAC', 'BAC', 'BAC+2', 'BAC+3', 'BAC+4'];
 
     public const SORTS = ['pertinence', 'frais-asc', 'frais-desc', 'duree-asc'];
 

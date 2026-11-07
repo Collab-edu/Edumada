@@ -16,6 +16,8 @@ enum Diploma: string
     case Bts = 'bts';
     case Licence = 'licence';
     case Master = 'master';
+    case Master1 = 'master_1';
+    case Master2 = 'master_2';
     case Doctorate = 'doctorate';
     case Cepe = 'cepe';
     case Bepc = 'bepc';
@@ -32,6 +34,8 @@ enum Diploma: string
             self::Bts => 'BTS',
             self::Licence => 'Licence',
             self::Master => 'Master',
+            self::Master1 => 'Master 1',
+            self::Master2 => 'Master 2',
             self::Doctorate => 'Doctorat',
             self::Cepe => 'CEPE',
             self::Bepc => 'BEPC',

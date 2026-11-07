@@ -14,16 +14,16 @@ export const BUDGET_RANGES = [
 
 export const DURATIONS = ["Moins d'un an", '1 an', '2 ans', '3 ans', '5 ans ou plus'] as const
 export const MODALITIES = ['Présentiel', 'Distanciel', 'Hybride'] as const
-export const DIPLOMAS = ['Attestation', 'Certificat', 'CAP', 'BT', 'BTS', 'Licence', 'Master', 'Doctorat', 'Autre'] as const
+export const DIPLOMAS = ['Attestation', 'Certificat', 'CAP', 'BT', 'BTS', 'Licence', 'Master 1', 'Master 2', 'Doctorat', 'Autre'] as const
 /** Diplômes du supérieur (niveaux d'une filière). */
-export const HIGHER_DIPLOMAS = ['BTS', 'Licence', 'Master', 'Doctorat', 'Certificat', 'Autre'] as const
+export const HIGHER_DIPLOMAS = ['BTS', 'Licence', 'Master 1', 'Master 2', 'Doctorat', 'Certificat', 'Autre'] as const
 /** Diplômes délivrés par une formation professionnelle. */
 export const VOCATIONAL_DIPLOMAS = ['Attestation', 'Certificat', 'CAP', 'BT', 'BTS', 'Autre'] as const
 export const SCHOOL_DIPLOMAS = ['CEPE', 'BEPC', 'BAC'] as const
 export const REGISTRATION_OPTIONS = ['Toutes', 'Inscriptions ouvertes', 'À venir'] as const
 export const LANGUAGES = ['Français', 'Malgache', 'Anglais', 'Autre'] as const
 /** Niveau actuel de l'étudiant : on affiche les formations qui lui sont accessibles. */
-export const ADMISSION_LEVELS = ['Tous les niveaux', 'Sans BAC', 'BAC', 'BAC+2', 'BAC+3'] as const
+export const ADMISSION_LEVELS = ['Tous les niveaux', 'Sans BAC', 'BAC', 'BAC+2', 'BAC+3', 'BAC+4'] as const
 export const BAC_SERIES = ['A', 'C', 'D', 'Technique'] as const
 export const HOUSING_OPTIONS = ['Disponible', 'Non disponible', 'Non renseigné'] as const
 export const SCHOLARSHIP_OPTIONS = ['Bourses disponibles', 'Non renseigné'] as const
@@ -160,8 +160,8 @@ export function durationCategory(years: number | null): string | null {
     return years === 1 ? '1 an' : `${years} ans`
 }
 
-const ADMISSION_RANK: Record<AdmissionLevel, number> = { Aucun: 0, BAC: 1, 'BAC+2': 2, 'BAC+3': 3 }
-const STUDENT_RANK: Record<string, number> = { 'Sans BAC': 0, BAC: 1, 'BAC+2': 2, 'BAC+3': 3 }
+const ADMISSION_RANK: Record<AdmissionLevel, number> = { Aucun: 0, BAC: 1, 'BAC+2': 2, 'BAC+3': 3, 'BAC+4': 4 }
+const STUDENT_RANK: Record<string, number> = { 'Sans BAC': 0, BAC: 1, 'BAC+2': 2, 'BAC+3': 3, 'BAC+4': 4 }
 
 const normalize = (s: string) =>
     s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim()

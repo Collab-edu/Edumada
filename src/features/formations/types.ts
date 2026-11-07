@@ -1,9 +1,9 @@
-export type Diploma = 'Attestation' | 'Certificat' | 'CAP' | 'BT' | 'BTS' | 'Licence' | 'Master' | 'Doctorat' | 'CEPE' | 'BEPC' | 'BAC' | 'Autre'
+export type Diploma = 'Attestation' | 'Certificat' | 'CAP' | 'BT' | 'BTS' | 'Licence' | 'Master' | 'Master 1' | 'Master 2' | 'Doctorat' | 'CEPE' | 'BEPC' | 'BAC' | 'Autre'
 /** Nature de l'offre éducative : formation diplômante, niveau scolaire, ou accueil (crèche, accompagnement). */
 export type OfferKind = 'formation' | 'niveau' | 'accueil'
 export type Modality = 'Présentiel' | 'Distanciel' | 'Hybride'
 export type RegistrationStatus = 'Ouvertes' | 'À venir' | 'Fermées'
-export type AdmissionLevel = 'Aucun' | 'BAC' | 'BAC+2' | 'BAC+3'
+export type AdmissionLevel = 'Aucun' | 'BAC' | 'BAC+2' | 'BAC+3' | 'BAC+4'
 export type AdmissionSelection = 'Inscription directe' | 'Sur dossier' | 'Dossier et entretien' | 'Concours'
 
 /** Niveau d'une filière du supérieur : Licence, Master… avec sa durée et son niveau d'entrée (diplomaOther : nom précisé pour « Autre »). */
