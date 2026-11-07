@@ -145,19 +145,37 @@ export default function BenefitsPage() {
             {/* Formules */}
             <section className='pt-16 pb-24 md:pt-24 md:pb-28'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                    <SectionHeader
-                        title='Commencez gratuitement'
-                        description='Passez à une formule payante seulement quand vous en avez besoin.'
-                        link={{ href: '/tarifs/', label: 'Comparer les formules' }}
-                    />
-                    <ul className='grid gap-6 md:grid-cols-3'>
-                        {PLANS.map((plan) => (
-                            <li key={plan.name}>
-                                <Link
-                                    href='/tarifs/'
-                                    className={`group flex h-full flex-col gap-2 rounded-xl border bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 ${plan.highlight ? 'border-primary' : 'border-gray-200 hover:border-primary/40'}`}>
-                                    <span className='text-xl font-bold text-secondary group-hover:text-primary duration-300'>{t(plan.name)}</span>
-                                    <p className='text-black'>{t(plan.text)}</p>
+                    <div className='mobile-center mb-8 flex flex-col gap-5 sm:mb-10 sm:flex-row sm:items-end sm:justify-between'>
+                        <div className='mobile-center flex flex-col gap-3'>
+                            <h2 className='font-bold'>{t('Commencez gratuitement')}</h2>
+                            <p className='text-ink'>{t('Passez à une formule payante seulement quand vous en avez besoin.')}</p>
+                        </div>
+                        <Link
+                            href='/tarifs/'
+                            className='group inline-flex shrink-0 items-center gap-1.5 self-center rounded-full border border-primary/25 bg-white px-5 py-2.5 text-sm font-semibold text-primary transition-colors hover:border-primary sm:self-auto'>
+                            {t('Comparer les formules')}
+                            <Icon icon='tabler:arrow-right' className='transition-transform duration-300 group-hover:translate-x-1' />
+                        </Link>
+                    </div>
+                    {/* Les trois formules dans une seule carte ; Pro mis en avant. */}
+                    <ul className='grid overflow-hidden rounded-2xl bg-white shadow-[0_16px_40px_-24px_rgba(15,76,92,0.4)] md:grid-cols-3'>
+                        {PLANS.map((plan, i) => (
+                            <li key={plan.name} className={plan.highlight ? 'bg-primary/[0.06]' : ''}>
+                                <Link href='/tarifs/' className='group flex h-full flex-col p-6 md:p-7'>
+                                    <span className='flex items-center gap-3'>
+                                        <span
+                                            className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${plan.highlight ? 'bg-primary text-white' : 'border border-secondary/25 text-secondary'}`}>
+                                            {i + 1}
+                                        </span>
+                                        {/* Niveau de la formule : 1, 2 ou 3 barres */}
+                                        <span className='flex items-end gap-0.5' aria-hidden='true'>
+                                            {[0, 1, 2].map((bar) => (
+                                                <span key={bar} className={`w-1 rounded-sm ${bar <= i ? 'bg-primary' : 'bg-gray-200'}`} style={{ height: 6 + bar * 4 }} />
+                                            ))}
+                                        </span>
+                                    </span>
+                                    <span className={`mt-5 text-xl font-bold transition-colors ${plan.highlight ? 'text-primary' : 'text-secondary group-hover:text-primary'}`}>{t(plan.name)}</span>
+                                    <p className='mt-2 !text-sm text-ink'>{t(plan.text)}</p>
                                 </Link>
                             </li>
                         ))}
