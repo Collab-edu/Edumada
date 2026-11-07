@@ -11,6 +11,13 @@ type AddressHit = { label: string; detail: string; city: string; lat: number; ln
 
 export type AddressValue = { address: string; city: string; lat: string; lng: string }
 
+/** Carte OpenStreetMap intégrée, centrée sur le point avec un repère (environ 500 m autour). */
+const osmEmbed = (lat: number, lng: number) => {
+    const d = 0.004
+    const bbox = [lng - d, lat - d, lng + d, lat + d].map((n) => n.toFixed(5)).join(',')
+    return `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat.toFixed(6)},${lng.toFixed(6)}`
+}
+
 /**
  * Adresse unique de l'établissement : recherche sur OpenStreetMap (rue, quartier, lieu connu).
  * Choisir une suggestion remplit l'adresse, la ville et la position sur la carte du site.
@@ -129,6 +136,23 @@ export default function AddressPicker({
                             </li>
                         ))}
                     </ul>
+                )}
+            </CCol>
+
+            {/* Aperçu de la position choisie, sur la carte OpenStreetMap. */}
+            <CCol md={12}>
+                {hasPoint ? (
+                    <iframe
+                        title="Position de l'établissement sur la carte"
+                        src={osmEmbed(Number(value.lat), Number(value.lng))}
+                        style={{ width: '100%', height: 260, border: 0, borderRadius: 12 }}
+                        className='border'
+                        loading='lazy'
+                    />
+                ) : (
+                    <div className='d-flex align-items-center justify-content-center rounded-3 border bg-body-tertiary text-body-secondary small text-center p-3' style={{ height: 120 }}>
+                        Choisissez une adresse dans la liste pour la voir sur la carte.
+                    </div>
                 )}
             </CCol>
 
