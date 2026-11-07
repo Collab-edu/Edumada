@@ -40,9 +40,6 @@ const BENEFITS = [
     },
 ]
 
-/** Étapes affichées dans le téléphone (formulaire de référencement). */
-const SIGNUP_STEPS = ['Informations générales', 'Formations', 'Publication']
-
 const STEPS = [
     { title: 'Créez votre compte', text: 'Un compte établissement gratuit, en quelques minutes.' },
     { title: 'Complétez votre fiche', text: 'Ajoutez vos informations et vos offres, ou revendiquez la fiche qui existe déjà.' },
@@ -115,33 +112,17 @@ export default function BenefitsPage() {
             <section className='overflow-hidden bg-secondary/[0.06]'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-10 lg:grid-cols-2 lg:items-center'>
-                        {/* Téléphone décoratif : parcours d'inscription d'un établissement, sur une forme rose. */}
-                        <div className='relative mx-auto w-full max-w-[16rem] py-6' aria-hidden='true'>
-                            <div className='absolute top-1/4 -left-14 -z-10 h-[70%] w-[125%] rotate-[-14deg] rounded-[3.5rem] bg-primary/15' />
-                            <div className='overflow-hidden rounded-[2.3rem] border-[9px] border-secondary bg-white shadow-xl'>
-                                <div className='flex items-center justify-between border-b border-gray-100 px-4 py-3'>
-                                    <Image src={withBasePath('/images/logo/edumada-logo.svg')} alt='' width={828} height={270} className='h-6 w-auto' />
-                                    <Icon icon='tabler:menu-2' className='text-xl text-secondary' />
-                                </div>
-                                <div className='flex flex-col gap-5 px-4 pt-5 pb-6'>
-                                    <div>
-                                        <p className='text-lg font-bold leading-tight text-secondary'>{t('Référencer mon établissement')}</p>
-                                        <span className='mt-2 block h-1 w-12 rounded-full bg-primary' />
-                                    </div>
-                                    <ol className='relative flex flex-col'>
-                                        <span className='absolute top-4 bottom-4 left-[15px] w-0.5 bg-gray-200' />
-                                        {SIGNUP_STEPS.map((label, i) => (
-                                            <li key={label} className={`relative flex items-center gap-3 rounded-lg px-1.5 py-2.5 text-xs ${i === 0 ? 'bg-offwhite font-bold text-secondary' : 'text-ink/70'}`}>
-                                                <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${i === 0 ? 'bg-green-600 text-white' : 'border border-gray-300 bg-white'}`}>
-                                                    {i === 0 && <Icon icon='tabler:check' className='text-xs' />}
-                                                </span>
-                                                {t(label)}
-                                            </li>
-                                        ))}
-                                    </ol>
-                                    <span className='flex h-10 items-center justify-center rounded-lg bg-primary text-xs font-semibold text-white'>{t('Continuer')}</span>
-                                </div>
-                            </div>
+                        {/* Vrai téléphone (image, comme à l'accueil) sur une forme rose : le référencement d'un établissement. */}
+                        <div className='relative mx-auto w-full max-w-[17rem] py-4'>
+                            <div aria-hidden='true' className='absolute top-1/4 -left-12 h-[62%] w-[120%] rotate-[-14deg] rounded-[3.5rem] bg-primary/15' />
+                            <Image
+                                src={withBasePath('/images/avantages/referencer-etablissement.webp')}
+                                alt='Référencement d’un établissement sur Edumada : informations générales, formations puis publication'
+                                width={600}
+                                height={967}
+                                sizes='272px'
+                                className='relative h-auto w-full'
+                            />
                         </div>
                         <div>
                             <SectionHeader title='Comment ça marche ?' description='Trois étapes pour être visible sur Edumada.' />
