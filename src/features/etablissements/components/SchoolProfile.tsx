@@ -35,6 +35,28 @@ function foundedLabel(year: number): string {
     return age <= 0 ? 'Créé cette année' : age === 1 ? "1 an d'existence" : `${age} ans d'existence`
 }
 
+/** Coordonnée cliquable (appeler, écrire, visiter) : icône, libellé et valeur. */
+function ContactRow({ icon, label, href, external, onClick, children }: { icon: string; label: string; href: string; external?: boolean; onClick?: () => void; children: React.ReactNode }) {
+    const t = useT()
+    return (
+        <li>
+            <a
+                href={href}
+                onClick={onClick}
+                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                className='group flex items-center gap-3 rounded-lg py-2 hover:text-primary'>
+                <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary'>
+                    <Icon icon={icon} className='text-lg' />
+                </span>
+                <span className='flex min-w-0 flex-col'>
+                    <span className='text-xs text-ink/60'>{t(label)}</span>
+                    <span className='truncate font-semibold text-ink group-hover:text-primary'>{children}</span>
+                </span>
+            </a>
+        </li>
+    )
+}
+
 /** Ligne de la fiche pratique : libellé à gauche, valeur à droite. */
 function InfoRow({ icon, label, children }: { icon: string; label: string; children: React.ReactNode }) {
     const t = useT()
@@ -244,6 +266,48 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 </button>
                             </div>
 
+                            {/* Coordonnées : site web et réseaux sociaux selon la formule (déjà filtrés par l'API). */}
+                            {(school.phone || school.email || school.website || socials.length > 0) && (
+                                <div className='border-b border-gray-100 p-5'>
+                                    <p className='mb-2 font-bold text-secondary'>{t('Coordonnées')}</p>
+                                    <ul className='flex flex-col text-sm'>
+                                        {school.phone && (
+                                            <ContactRow icon='tabler:phone' label='Téléphone' href={`tel:${school.phone.replace(/\s/g, '')}`} onClick={() => track({ type: 'contact_click', establishment: school.id })}>
+                                                {school.phone}
+                                            </ContactRow>
+                                        )}
+                                        {school.email && (
+                                            <ContactRow icon='tabler:mail' label='E-mail' href={`mailto:${school.email}`} onClick={() => track({ type: 'contact_click', establishment: school.id })}>
+                                                {school.email}
+                                            </ContactRow>
+                                        )}
+                                        {school.website && (
+                                            <ContactRow icon='tabler:world' label='Site web' href={school.website} external onClick={() => track({ type: 'website_click', establishment: school.id })}>
+                                                {websiteLabel}
+                                            </ContactRow>
+                                        )}
+                                    </ul>
+                                    {socials.length > 0 && (
+                                        <div className='mt-3'>
+                                            <p className='mb-2 text-xs text-ink/60'>{t('Réseaux sociaux')}</p>
+                                            <div className='flex flex-wrap gap-2'>
+                                                {socials.map(([network, url]) => (
+                                                    <a
+                                                        key={network}
+                                                        href={url}
+                                                        target='_blank'
+                                                        rel='noopener noreferrer'
+                                                        aria-label={network}
+                                                        className='flex h-10 w-10 items-center justify-center rounded-full bg-secondary/10 text-secondary transition-colors hover:bg-primary hover:text-white'>
+                                                        <Icon icon={`tabler:brand-${network}`} className='text-xl' />
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
                             {map && (
                                 <div className='border-b border-gray-100 bg-offwhite/60 p-5'>
                                     <p className='mb-3 font-bold text-secondary'>{t('Localisation')}</p>
@@ -281,40 +345,6 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                         </InfoRow>
                                     )}
                                     <InfoRow icon='tabler:map-pin' label='Adresse'>{school.address}</InfoRow>
-                                    {school.phone && (
-                                        <InfoRow icon='tabler:phone' label='Téléphone'>
-                                            <a href={`tel:${school.phone.replace(/\s/g, '')}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='hover:text-primary'>{school.phone}</a>
-                                        </InfoRow>
-                                    )}
-                                    {school.email && (
-                                        <InfoRow icon='tabler:mail' label='E-mail'>
-                                            <a href={`mailto:${school.email}`} onClick={() => track({ type: 'contact_click', establishment: school.id })} className='hover:text-primary'>{school.email}</a>
-                                        </InfoRow>
-                                    )}
-                                    {school.website && (
-                                        <InfoRow icon='tabler:world' label='Site web'>
-                                            <a href={school.website} target='_blank' rel='noopener noreferrer' onClick={() => track({ type: 'website_click', establishment: school.id })} className='text-primary hover:underline'>
-                                                {websiteLabel}
-                                            </a>
-                                        </InfoRow>
-                                    )}
-                                    {socials.length > 0 && (
-                                        <InfoRow icon='tabler:share' label='Réseaux sociaux'>
-                                            <span className='inline-flex flex-wrap justify-end gap-1.5'>
-                                                {socials.map(([network, url]) => (
-                                                    <a
-                                                        key={network}
-                                                        href={url}
-                                                        target='_blank'
-                                                        rel='noopener noreferrer'
-                                                        aria-label={network}
-                                                        className='flex h-8 w-8 items-center justify-center rounded-full bg-secondary/10 text-secondary hover:bg-primary hover:text-white'>
-                                                        <Icon icon={`tabler:brand-${network}`} className='text-base' />
-                                                    </a>
-                                                ))}
-                                            </span>
-                                        </InfoRow>
-                                    )}
                                     <InfoRow icon='tabler:rosette-discount-check' label='Reconnaissance / accréditation'>
                                         {school.accreditationVerified && school.accreditation ? school.accreditation : 'En cours de vérification par Edumada'}
                                     </InfoRow>
