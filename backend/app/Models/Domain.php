@@ -51,6 +51,7 @@ class Domain extends Model
         'Textile & Couture' => ['categories' => ['formation-pro', 'autres'], 'icon' => 'tabler:needle-thread'],
         'Agriculture & Élevage' => ['categories' => ['formation-pro', 'autres'], 'icon' => 'tabler:tractor'],
         'Artisanat' => ['categories' => ['formation-pro', 'autres'], 'icon' => 'tabler:palette'],
+        'Langues' => ['categories' => ['formation-pro', 'autres'], 'icon' => 'tabler:language'],
         'Beauté & Coiffure' => ['categories' => ['formation-pro', 'autres'], 'icon' => 'tabler:scissors'],
         'Petite enfance' => ['categories' => ['petite-enfance', 'autres'], 'icon' => 'tabler:baby-carriage'],
         'Enseignement général' => ['categories' => ['scolaire', 'autres'], 'icon' => 'tabler:school'],
