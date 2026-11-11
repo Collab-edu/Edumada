@@ -48,7 +48,8 @@ export type Category = {
     fields: CategoryFields
 }
 
-export type Domain = { id: string; name: string; icon: string | null; count: number }
+/** `categories` : catégories d'établissement qui peuvent l'utiliser (null = toutes). */
+export type Domain = { id: string; name: string; icon: string | null; categories: string[] | null; count: number }
 
 export type Plan = {
     code: 'free' | 'pro' | 'premium'

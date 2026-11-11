@@ -203,7 +203,8 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
     const { current: e, reload } = useCurrentEstablishment()
     const router = useRouter()
     const toast = useToast()
-    const { data: domains } = useApi<{ data: Domain[] }>('/domains')
+    // Seulement les domaines de la catégorie (ex. pas « Médecine & Santé » pour un centre de formation professionnelle).
+    const { data: domains } = useApi<{ data: Domain[] }>('/domains', { category: e.category })
     const { data: reference } = useApi<{ data: ReferenceData }>('/reference')
     const ref = reference?.data
     const defaultKind = e.category === 'petite-enfance' ? 'accueil' : e.category === 'scolaire' ? 'niveau' : 'formation'
@@ -367,7 +368,8 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                                 feedbackInvalid={err('domain')}
                             >
                                 <option value=''>Choisir…</option>
-                                {opts((domains?.data ?? []).map((d) => d.name))}
+                                {/* Le domaine déjà enregistré reste affiché, même s'il n'est plus proposé pour cette catégorie. */}
+                                {opts([...new Set([...(domains?.data ?? []).map((d) => d.name), ...(offer?.domain ? [offer.domain] : [])])])}
                             </CFormSelect>
                         </CCol>
                     )}

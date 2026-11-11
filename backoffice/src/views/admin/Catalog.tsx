@@ -187,7 +187,7 @@ export default function Catalog() {
                     </PageCard>
                 </CCol>
                 <CCol xl={5}>
-                    <PageCard title="Domaines d'études" subtitle="Valeurs du filtre « Domaine d'études » du site">
+                    <PageCard title="Domaines d'études" subtitle="Valeurs du filtre « Domaine d'études » du site et catégories qui peuvent les proposer">
                         <CForm
                             className='mb-3'
                             onSubmit={(e) => {
@@ -210,6 +210,29 @@ export default function Catalog() {
                                 <CListGroupItem key={d.id} className='d-flex align-items-center'>
                                     <span className='me-auto'>
                                         {d.name} <span className='small text-body-secondary'>({d.count} offres)</span>
+                                        {/* Catégories qui peuvent choisir ce domaine dans une offre (aucune cochée = toutes). */}
+                                        <span className='d-flex flex-wrap gap-1 mt-1'>
+                                            {(categories?.data ?? []).map((c) => {
+                                                const active = d.categories?.includes(c.id) ?? false
+                                                const next = active ? (d.categories ?? []).filter((x) => x !== c.id) : [...(d.categories ?? []), c.id]
+                                                return (
+                                                    <CButton
+                                                        key={c.id}
+                                                        size='sm'
+                                                        color={active ? 'primary' : 'secondary'}
+                                                        variant={active ? undefined : 'outline'}
+                                                        className='py-0 px-2 small'
+                                                        aria-pressed={active}
+                                                        title={active ? `Retirer de « ${c.label} »` : `Proposer aux établissements « ${c.label} »`}
+                                                        onClick={() =>
+                                                            run(() => api(`/domains/${d.id}`, { method: 'PATCH', body: { categories: next.length ? next : null } }), 'Catégories du domaine mises à jour', reloadDomains)
+                                                        }
+                                                    >
+                                                        {c.shortLabel || c.label}
+                                                    </CButton>
+                                                )
+                                            })}
+                                        </span>
                                     </span>
                                     <CButton
                                         size='sm'

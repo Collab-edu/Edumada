@@ -22,6 +22,7 @@ class DomainResource extends JsonResource
             'id' => $this->slug,
             'name' => $this->name,
             'icon' => $this->icon,
+            'categories' => $this->categories,
             'count' => $this->whenCounted('offers'),
         ];
     }

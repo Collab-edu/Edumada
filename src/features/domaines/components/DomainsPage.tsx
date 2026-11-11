@@ -12,7 +12,7 @@ const photo = (id: string, w = 600) =>
     id.startsWith('/') ? withBasePath(encodeURI(id)) : `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=70`
 
 /** Icône et photo de chaque domaine (mêmes libellés que le filtre « Domaine d'études »). Photos : Unsplash ou public/images/Photos. */
-const DOMAINS: Record<string, { icon: string; image: string }> = {
+const DOMAINS: Record<string, { icon: string; image?: string }> = {
     Informatique: { icon: 'tabler:device-desktop', image: '1517694712202-14dd9538aa97' },
     'Médecine & Santé': { icon: 'tabler:heart', image: '1505751172876-fa1923c5c528' },
     Droit: { icon: 'tabler:scale', image: '1589829545856-d10d557cf95f' },
@@ -21,6 +21,15 @@ const DOMAINS: Record<string, { icon: string; image: string }> = {
     Agronomie: { icon: 'tabler:plant', image: '/images/Photos/agronomie.webp' },
     'Lettres & Langues': { icon: 'tabler:book', image: '/images/Photos/langue et lettre.webp' },
     'Tourisme & Hôtellerie': { icon: 'tabler:send', image: '1507525428034-b723cf961d3e' },
+    // Formation professionnelle : photo générique en attendant des photos dédiées.
+    'Bâtiment & Travaux publics': { icon: 'tabler:building' },
+    'Électricité & Énergies renouvelables': { icon: 'tabler:bolt' },
+    'Mécanique & Automobile': { icon: 'tabler:car' },
+    'Cuisine & Restauration': { icon: 'tabler:chef-hat' },
+    'Textile & Couture': { icon: 'tabler:needle-thread' },
+    'Agriculture & Élevage': { icon: 'tabler:tractor', image: '/images/Photos/agronomie.webp' },
+    Artisanat: { icon: 'tabler:palette' },
+    'Beauté & Coiffure': { icon: 'tabler:scissors' },
     'Petite enfance': { icon: 'tabler:baby-carriage', image: '1503454537195-1dcabb73ffb9' },
     'Enseignement général': { icon: 'tabler:school', image: '1588072432836-e10032774350' },
     'Éducation spécialisée': { icon: 'tabler:heart-handshake', image: '1529390079861-591de354faf5' },
@@ -126,7 +135,7 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
                               <div className='mt-auto'>
                                   <div className={cn('relative overflow-hidden rounded-xl', compact ? 'h-24' : 'h-28')}>
                                       <Image
-                                          src={photo(meta.image, 500)}
+                                          src={photo(meta.image ?? DEFAULT_DOMAIN.image, 500)}
                                           alt=''
                                           fill
                                           sizes='(min-width: 1024px) 25vw, (min-width: 420px) 50vw, 100vw'

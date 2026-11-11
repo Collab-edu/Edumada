@@ -172,6 +172,23 @@ class OfferRequest extends FormRequest
                 }
             },
             function (Validator $validator): void {
+                $domain = $this->input('domain');
+                if (! is_string($domain) || $validator->errors()->has('domain')) {
+                    return;
+                }
+
+                // Une offre existante garde son domaine, même hors de la règle.
+                $offer = $this->route('offer');
+                if ($offer instanceof Offer && $offer->domain?->name === $domain) {
+                    return;
+                }
+
+                $category = $this->establishment()->category?->slug;
+                if (! Domain::forCategory($category)->where('name', $domain)->exists()) {
+                    $validator->errors()->add('domain', 'Ce domaine ne correspond pas à la catégorie de votre établissement.');
+                }
+            },
+            function (Validator $validator): void {
                 if ($validator->errors()->has('status') || $this->input('status') !== OfferStatus::Published->value) {
                     return;
                 }

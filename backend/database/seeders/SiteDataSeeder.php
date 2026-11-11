@@ -14,19 +14,6 @@ use RuntimeException;
  */
 class SiteDataSeeder extends Seeder
 {
-    /**
-     * Icônes des domaines absents des cartes de l'accueil.
-     *
-     * @var array<string, string>
-     */
-    private const EXTRA_DOMAIN_ICONS = [
-        'Ingénierie' => 'tabler:settings',
-        'Agronomie' => 'tabler:plant',
-        'Petite enfance' => 'tabler:baby-carriage',
-        'Enseignement général' => 'tabler:school',
-        'Éducation spécialisée' => 'tabler:heart-handshake',
-    ];
-
     public function run(): void
     {
         $site = $this->readJson('data.json');
@@ -75,11 +62,15 @@ class SiteDataSeeder extends Seeder
         $names = array_values(array_filter($filter['options'], fn (string $option) => $option !== 'Tous les domaines'));
         $icons = collect($site['DomainData'])->groupBy('searchDomain')->map(fn ($cards) => $cards->first()['icon']);
 
+        // Domaines du filtre du site, puis ceux propres à une catégorie (formation professionnelle…).
+        $names = array_values(array_unique([...$names, ...array_keys(Domain::DEFAULTS)]));
+
         $domains = [];
         foreach ($names as $position => $name) {
             $domains[$name] = Domain::updateOrCreate(['name' => $name], [
                 'slug' => Str::slug($name),
-                'icon' => $icons[$name] ?? self::EXTRA_DOMAIN_ICONS[$name] ?? null,
+                'icon' => $icons[$name] ?? Domain::DEFAULTS[$name]['icon'] ?? null,
+                'categories' => Domain::DEFAULTS[$name]['categories'] ?? null,
                 'position' => $position,
             ]);
         }

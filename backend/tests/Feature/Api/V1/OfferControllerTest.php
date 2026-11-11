@@ -172,6 +172,37 @@ class OfferControllerTest extends TestCase
             ->assertCreated();
     }
 
+    public function test_offer_domain_must_match_the_establishment_category(): void
+    {
+        $owner = User::factory()->create(['role' => UserRole::Establishment]);
+        $category = Category::factory()->create(['slug' => 'formation-pro']);
+        $establishment = Establishment::factory()->ownedBy($owner)->create(['category_id' => $category->id]);
+        Domain::factory()->create(['name' => 'Médecine & Santé', 'categories' => ['superieur']]);
+        Domain::factory()->create(['name' => 'Bâtiment & Travaux publics', 'categories' => ['formation-pro']]);
+
+        $this->actingAs($owner)
+            ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload(['domain' => 'Médecine & Santé']))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('domain');
+
+        $this->actingAs($owner)
+            ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload(['domain' => 'Bâtiment & Travaux publics']))
+            ->assertCreated();
+
+        $this->getJson('/api/v1/domains?category=formation-pro')
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.name', 'Bâtiment & Travaux publics');
+    }
+
+    public function test_category_without_assigned_domains_sees_every_domain(): void
+    {
+        Domain::factory()->create(['categories' => ['superieur']]);
+        Domain::factory()->create(['categories' => null]);
+
+        $this->getJson('/api/v1/domains?category=autres')->assertOk()->assertJsonCount(2, 'data');
+    }
+
     public function test_existing_offer_keeps_a_kind_outside_the_rule(): void
     {
         $owner = User::factory()->create(['role' => UserRole::Establishment]);

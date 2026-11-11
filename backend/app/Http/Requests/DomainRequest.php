@@ -17,6 +17,8 @@ class DomainRequest extends FormRequest
         return [
             'name' => [$required, 'string', 'max:255', Rule::unique('domains', 'name')->ignore($this->route('domain'))],
             'icon' => ['sometimes', 'nullable', 'string', 'max:100'],
+            'categories' => ['sometimes', 'nullable', 'array'],
+            'categories.*' => ['string', Rule::exists('categories', 'slug')],
             'position' => ['sometimes', 'integer', 'min:0'],
         ];
     }

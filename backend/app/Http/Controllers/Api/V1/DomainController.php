@@ -8,6 +8,7 @@ use App\Http\Resources\DomainResource;
 use App\Models\Domain;
 use App\Models\Offer;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -15,12 +16,13 @@ use Illuminate\Support\Facades\Gate;
 class DomainController extends Controller
 {
     /**
-     * Domaines avec le nombre réel d'offres publiées.
+     * Domaines avec le nombre réel d'offres publiées ; `?category=formation-pro` ne garde que ceux de la catégorie.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
         return DomainResource::collection(
-            Domain::withCount(['offers' => fn (Builder $offers) => $offers->whereIn('offers.id', Offer::published()->select('id'))])
+            Domain::forCategory($request->string('category')->toString() ?: null)
+                ->withCount(['offers' => fn (Builder $offers) => $offers->whereIn('offers.id', Offer::published()->select('id'))])
                 ->orderBy('position')
                 ->get(),
         );
