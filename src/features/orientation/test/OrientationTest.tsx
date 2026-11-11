@@ -1,10 +1,11 @@
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type RefObject } from 'react'
 import { Icon } from '@/components/ui/icon'
 import { Button, ButtonLink } from '@/components/ui/form'
 import { useSiteData } from '@/data/site-data'
 import { useAuth } from '@/features/auth/AuthProvider'
 import FormationCard from '@/features/formations/components/FormationCard'
+import type { FormationType } from '@/features/formations/types'
 import { cn } from '@/lib/utils'
 import { computeScores, PROFILE_ORDER, PROFILES, QUESTIONS, recommendDomains, type Answers, type ProfileCode } from './data'
 
@@ -128,6 +129,170 @@ function Quiz({ answers, onAnswer, onDone }: { answers: Answers; onAnswer: (inde
     )
 }
 
+/** Une filière : les offres d'un domaine qui portent le même intitulé (ex. « Génie logiciel », « Coupe et couture »). */
+type Field = { key: string; name: string; offers: FormationType[] }
+
+const fieldKey = (title: string) => title.trim().toLocaleLowerCase('fr').replace(/\s+/g, ' ')
+
+function fieldsOf(offers: FormationType[]): Field[] {
+    const fields = new Map<string, Field>()
+    for (const offer of offers) {
+        const key = fieldKey(offer.title)
+        const field = fields.get(key) ?? {
+            key,
+            name: offer.title.trim(),
+            offers: [],
+        }
+        field.offers.push(offer)
+        fields.set(key, field)
+    }
+    return [...fields.values()].sort((a, b) => b.offers.length - a.offers.length || a.name.localeCompare(b.name, 'fr'))
+}
+
+const plural = (n: number) => `${n} formation${n > 1 ? 's' : ''}`
+
+/** Étape par étape : domaines du profil → filières du domaine choisi → formations de la filière choisie. */
+function DomainExplorer({
+    domains,
+    formations,
+    loading,
+    isFavorite,
+    toggleFavorite,
+}: {
+    domains: ReturnType<typeof recommendDomains>
+    formations: FormationType[]
+    loading: boolean
+    isFavorite: (id: string) => boolean
+    toggleFavorite: (id: string) => void
+}) {
+    const [domainName, setDomainName] = useState<string | null>(null)
+    const [fieldKeyValue, setFieldKeyValue] = useState<string | null>(null)
+    const fieldsRef = useRef<HTMLDivElement>(null)
+    const offersRef = useRef<HTMLDivElement>(null)
+
+    const offersByDomain = useMemo(() => {
+        const map = new Map<string, FormationType[]>()
+        for (const f of formations) if (f.kind === 'formation' && f.domain) map.set(f.domain, [...(map.get(f.domain) ?? []), f])
+        return map
+    }, [formations])
+    const domain = domains.find((d) => d.name === domainName) ?? null
+    const fields = useMemo(() => (domain ? fieldsOf(offersByDomain.get(domain.name) ?? []) : []), [domain, offersByDomain])
+    const field = fields.find((f) => f.key === fieldKeyValue) ?? null
+
+    const scrollTo = (ref: RefObject<HTMLDivElement | null>) => window.requestAnimationFrame(() => ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+    const chooseDomain = (name: string) => {
+        setDomainName(name)
+        setFieldKeyValue(null)
+        scrollTo(fieldsRef)
+    }
+    const chooseField = (key: string) => {
+        setFieldKeyValue(key)
+        scrollTo(offersRef)
+    }
+
+    return (
+        <div className='flex flex-col gap-10'>
+            {/* 1. Domaines */}
+            <div className='flex flex-col gap-4'>
+                <div>
+                    <p className='text-sm font-semibold uppercase tracking-wide text-primary'>Étape 1 · Domaine</p>
+                    <h2 className='text-2xl font-bold text-secondary'>Les domaines qui vous correspondent</h2>
+                    <p className='text-black'>Choisissez un domaine pour découvrir ses filières.</p>
+                </div>
+                <ul className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+                    {domains.map((d) => {
+                        const selected = d.name === domainName
+                        const count = offersByDomain.get(d.name)?.length ?? 0
+                        return (
+                            <li key={d.name}>
+                                <button
+                                    type='button'
+                                    aria-pressed={selected}
+                                    onClick={() => chooseDomain(d.name)}
+                                    className={cn(
+                                        'flex h-full w-full flex-col gap-3 rounded-xl border-2 bg-white p-5 text-left transition-colors hover:cursor-pointer hover:border-primary',
+                                        selected ? 'border-primary bg-cream' : 'border-gray-200'
+                                    )}>
+                                    <span className='flex items-center justify-between gap-3'>
+                                        <Icon icon={d.icon} className='text-3xl text-primary' />
+                                        <span className={cn('flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2', selected ? 'border-primary bg-primary text-white' : 'border-gray-300')}>
+                                            {selected && <Icon icon='tabler:check' className='text-sm' />}
+                                        </span>
+                                    </span>
+                                    <span className='text-lg font-semibold leading-snug text-secondary'>{d.name}</span>
+                                    <span className='text-sm text-black'>{d.description}</span>
+                                    <span className='mt-auto text-sm text-ink/70'>
+                                        Lié à votre profil {d.matched.map((code) => PROFILES[code].name).join(' et ')}
+                                        {!loading && ` · ${plural(count)}`}
+                                    </span>
+                                </button>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>
+
+            {/* 2. Filières du domaine choisi */}
+            {domain && (
+                <div ref={fieldsRef} className='flex scroll-mt-28 flex-col gap-4'>
+                    <div>
+                        <p className='text-sm font-semibold uppercase tracking-wide text-primary'>Étape 2 · Filière</p>
+                        <h2 className='text-2xl font-bold text-secondary'>Les filières en {domain.name}</h2>
+                        <p className='text-sm text-ink/70'>Métiers possibles : {domain.jobs.join(', ')}.</p>
+                    </div>
+                    {loading ? (
+                        <p className='text-sm text-ink/60'>Chargement des filières…</p>
+                    ) : fields.length === 0 ? (
+                        <p className='rounded-xl bg-white p-4 text-sm text-black'>Aucune formation dans ce domaine sur Edumada pour le moment.</p>
+                    ) : (
+                        <ul className='flex flex-wrap gap-3'>
+                            {fields.map((f) => {
+                                const selected = f.key === fieldKeyValue
+                                return (
+                                    <li key={f.key}>
+                                        <button
+                                            type='button'
+                                            aria-pressed={selected}
+                                            onClick={() => chooseField(f.key)}
+                                            className={cn(
+                                                'flex min-h-12 items-center gap-2 rounded-full border-2 bg-white px-4 py-2 text-left font-medium text-secondary transition-colors hover:cursor-pointer hover:border-primary',
+                                                selected ? 'border-primary bg-cream' : 'border-gray-200'
+                                            )}>
+                                            {f.name}
+                                            <span className='rounded-full bg-secondary/[0.08] px-2 text-sm text-ink'>{f.offers.length}</span>
+                                        </button>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    )}
+                </div>
+            )}
+
+            {/* 3. Formations de la filière choisie */}
+            {domain && field && (
+                <div ref={offersRef} className='flex scroll-mt-28 flex-col gap-4'>
+                    <div>
+                        <p className='text-sm font-semibold uppercase tracking-wide text-primary'>Étape 3 · Formations</p>
+                        <h2 className='text-2xl font-bold text-secondary'>{field.name}</h2>
+                        <p className='text-black'>
+                            {plural(field.offers.length)} en {domain.name} sur Edumada.
+                        </p>
+                    </div>
+                    <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4'>
+                        {field.offers.map((formation) => (
+                            <FormationCard key={formation.id} formation={formation} isFavorite={isFavorite(formation.id)} onToggleFavorite={() => toggleFavorite(formation.id)} compact />
+                        ))}
+                    </div>
+                    <ButtonLink href={`/recherche?domaine=${encodeURIComponent(domain.name)}`} variant='secondary' className='w-fit'>
+                        Voir toutes les formations en {domain.name}
+                    </ButtonLink>
+                </div>
+            )}
+        </div>
+    )
+}
+
 function Results({ answers, onRestart }: { answers: Answers; onRestart: () => void }) {
     const { data: formations, loading } = useSiteData('FormationData')
     const { isFavorite, toggleFavorite } = useAuth()
@@ -178,39 +343,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                 </div>
             </div>
 
-            <div className='flex flex-col gap-8'>
-                <h2 className='text-2xl font-bold text-secondary'>Les domaines qui vous correspondent</h2>
-                {domains.map((domain) => {
-                    const offers = formations.filter((f) => f.domain === domain.name && f.kind === 'formation')
-                    return (
-                        <section key={domain.name} className='!p-0 flex flex-col gap-4'>
-                            <div>
-                                <h3 className='text-xl font-semibold text-secondary'>{domain.name}</h3>
-                                <p className='text-black'>{domain.description}</p>
-                                <p className='text-sm text-ink/70'>
-                                    Lié à votre profil {domain.matched.map((code) => PROFILES[code].name).join(' et ')}. Métiers possibles : {domain.jobs.join(', ')}.
-                                </p>
-                            </div>
-                            {loading ? (
-                                <p className='text-sm text-ink/60'>Chargement des formations…</p>
-                            ) : offers.length === 0 ? (
-                                <p className='rounded-xl bg-white p-4 text-sm text-black'>Aucune formation dans ce domaine sur Edumada pour le moment.</p>
-                            ) : (
-                                <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4'>
-                                    {offers.slice(0, 4).map((formation) => (
-                                        <FormationCard key={formation.id} formation={formation} isFavorite={isFavorite(formation.id)} onToggleFavorite={() => toggleFavorite(formation.id)} compact />
-                                    ))}
-                                </div>
-                            )}
-                            {offers.length > 4 && (
-                                <ButtonLink href={`/recherche?domaine=${encodeURIComponent(domain.name)}`} variant='secondary' className='w-fit'>
-                                    Voir les {offers.length} formations
-                                </ButtonLink>
-                            )}
-                        </section>
-                    )
-                })}
-            </div>
+            <DomainExplorer domains={domains} formations={formations} loading={loading} isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
 
             <div className='flex flex-col gap-3 rounded-xl bg-white p-6 ring-1 ring-gray-100 sm:flex-row sm:items-center sm:justify-between'>
                 <p className='text-sm text-ink/70'>Ce résultat est une aide à la réflexion, pas un diagnostic ni une garantie de réussite. Il reste enregistré dans ce navigateur.</p>

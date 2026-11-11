@@ -154,16 +154,27 @@ export const QUESTIONS: { text: string; answers: { profile: ProfileCode; text: s
     },
 ]
 
-/** Domaines du catalogue Edumada : `name` est le libellé exact des offres. */
-export const DOMAINS: { name: string; profiles: ProfileCode[]; description: string; jobs: string[] }[] = [
-    { name: 'Informatique', profiles: ['I', 'C', 'R'], description: 'Concevoir des logiciels, gérer des données et des réseaux.', jobs: ['Développeur', 'Administrateur réseau', 'Analyste de données'] },
-    { name: 'Médecine & Santé', profiles: ['S', 'I'], description: 'Soigner, prévenir et accompagner les patients.', jobs: ['Infirmier', 'Sage-femme', 'Médecin'] },
-    { name: 'Droit', profiles: ['E', 'C'], description: 'Comprendre les règles, conseiller et défendre.', jobs: ['Juriste', 'Avocat', 'Notaire'] },
-    { name: 'Gestion & Commerce', profiles: ['E', 'C'], description: 'Piloter une activité, vendre et gérer les comptes.', jobs: ['Comptable', 'Commercial', 'Responsable de gestion'] },
-    { name: 'Ingénierie', profiles: ['R', 'I'], description: 'Concevoir et réaliser des ouvrages et des systèmes techniques.', jobs: ['Technicien', 'Ingénieur', 'Conducteur de travaux'] },
-    { name: 'Agronomie', profiles: ['R', 'I'], description: 'Développer l’agriculture et préserver l’environnement.', jobs: ['Technicien agricole', 'Agronome', 'Conseiller rural'] },
-    { name: 'Lettres & Langues', profiles: ['A', 'S'], description: 'Maîtriser les langues, écrire, traduire et communiquer.', jobs: ['Traducteur', 'Rédacteur', 'Chargé de communication'] },
-    { name: 'Tourisme & Hôtellerie', profiles: ['E', 'S', 'A'], description: 'Accueillir, organiser des séjours et faire découvrir.', jobs: ['Guide touristique', 'Réceptionniste', 'Responsable d’hôtel'] },
+export type OrientationDomain = { name: string; icon: string; profiles: ProfileCode[]; description: string; jobs: string[] }
+
+/** Domaines du catalogue Edumada (supérieur et formation professionnelle) : `name` est le libellé exact des offres. */
+export const DOMAINS: OrientationDomain[] = [
+    { name: 'Informatique', icon: 'tabler:device-desktop', profiles: ['I', 'C', 'R'], description: 'Concevoir des logiciels, gérer des données et des réseaux.', jobs: ['Développeur', 'Administrateur réseau', 'Analyste de données'] },
+    { name: 'Médecine & Santé', icon: 'tabler:heart', profiles: ['S', 'I'], description: 'Soigner, prévenir et accompagner les patients.', jobs: ['Infirmier', 'Sage-femme', 'Médecin'] },
+    { name: 'Droit', icon: 'tabler:scale', profiles: ['E', 'C'], description: 'Comprendre les règles, conseiller et défendre.', jobs: ['Juriste', 'Avocat', 'Notaire'] },
+    { name: 'Gestion & Commerce', icon: 'tabler:briefcase', profiles: ['E', 'C'], description: 'Piloter une activité, vendre et gérer les comptes.', jobs: ['Comptable', 'Commercial', 'Responsable de gestion'] },
+    { name: 'Ingénierie', icon: 'tabler:settings', profiles: ['R', 'I'], description: 'Concevoir et réaliser des ouvrages et des systèmes techniques.', jobs: ['Technicien', 'Ingénieur', 'Conducteur de travaux'] },
+    { name: 'Agronomie', icon: 'tabler:plant', profiles: ['R', 'I'], description: 'Développer l’agriculture et préserver l’environnement.', jobs: ['Technicien agricole', 'Agronome', 'Conseiller rural'] },
+    { name: 'Lettres & Langues', icon: 'tabler:book', profiles: ['A', 'S'], description: 'Maîtriser les langues, écrire, traduire et communiquer.', jobs: ['Traducteur', 'Rédacteur', 'Chargé de communication'] },
+    { name: 'Tourisme & Hôtellerie', icon: 'tabler:send', profiles: ['E', 'S', 'A'], description: 'Accueillir, organiser des séjours et faire découvrir.', jobs: ['Guide touristique', 'Réceptionniste', 'Responsable d’hôtel'] },
+    { name: 'Bâtiment & Travaux publics', icon: 'tabler:building', profiles: ['R', 'C'], description: 'Construire, rénover et entretenir bâtiments et routes.', jobs: ['Maçon', 'Chef de chantier', 'Dessinateur en bâtiment'] },
+    { name: 'Électricité & Énergies renouvelables', icon: 'tabler:bolt', profiles: ['R', 'I'], description: 'Installer et entretenir les réseaux électriques et le solaire.', jobs: ['Électricien', 'Installateur solaire', 'Technicien de maintenance'] },
+    { name: 'Mécanique & Automobile', icon: 'tabler:car', profiles: ['R', 'I'], description: 'Diagnostiquer et réparer véhicules et machines.', jobs: ['Mécanicien automobile', 'Électromécanicien', 'Réparateur d’engins'] },
+    { name: 'Cuisine & Restauration', icon: 'tabler:chef-hat', profiles: ['R', 'A', 'S'], description: 'Préparer les repas et accueillir en restaurant.', jobs: ['Cuisinier', 'Pâtissier', 'Serveur'] },
+    { name: 'Textile & Couture', icon: 'tabler:needle-thread', profiles: ['A', 'R'], description: 'Créer, couper et assembler vêtements et tissus.', jobs: ['Couturier', 'Modéliste', 'Brodeur'] },
+    { name: 'Agriculture & Élevage', icon: 'tabler:tractor', profiles: ['R'], description: 'Cultiver, élever et produire au quotidien.', jobs: ['Éleveur', 'Technicien agricole', 'Pisciculteur'] },
+    { name: 'Artisanat', icon: 'tabler:palette', profiles: ['A', 'R'], description: 'Fabriquer à la main des objets utiles ou décoratifs.', jobs: ['Artisan', 'Bijoutier', 'Maroquinier'] },
+    { name: 'Beauté & Coiffure', icon: 'tabler:scissors', profiles: ['A', 'S', 'E'], description: 'Prendre soin de l’image et du bien-être des clients.', jobs: ['Coiffeur', 'Esthéticienne', 'Maquilleur'] },
+    { name: 'Langues', icon: 'tabler:language', profiles: ['S', 'A', 'E'], description: 'Parler couramment une langue étrangère pour travailler.', jobs: ['Guide-interprète', 'Assistant bilingue', 'Agent d’accueil'] },
 ]
 
 export type Answers = (ProfileCode | null)[]
@@ -178,7 +189,7 @@ export function computeScores(answers: Answers): Score[] {
     })).sort((a, b) => b.percent - a.percent)
 }
 
-/** Les 3 domaines les plus proches des 3 profils dominants (poids 3, 2 et 1). */
+/** Les 4 domaines les plus proches des 3 profils dominants (poids 3, 2 et 1). */
 export function recommendDomains(top: ProfileCode[]) {
     return DOMAINS.map((domain) => {
         const matched = top.filter((code) => domain.profiles.includes(code))
@@ -187,5 +198,5 @@ export function recommendDomains(top: ProfileCode[]) {
     })
         .filter((domain) => domain.weight > 0)
         .sort((a, b) => b.weight - a.weight)
-        .slice(0, 3)
+        .slice(0, 4)
 }
