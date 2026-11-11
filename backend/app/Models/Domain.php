@@ -56,6 +56,8 @@ class Domain extends Model
         'Petite enfance' => ['categories' => ['petite-enfance', 'autres'], 'icon' => 'tabler:baby-carriage'],
         'Enseignement général' => ['categories' => ['scolaire', 'autres'], 'icon' => 'tabler:school'],
         'Éducation spécialisée' => ['categories' => ['autres'], 'icon' => 'tabler:heart-handshake'],
+        // Toujours en dernier : pour une formation qui n'entre dans aucun domaine de la liste.
+        'Autre' => ['categories' => ['formation-pro', 'autres'], 'icon' => 'tabler:dots'],
     ];
 
     /**

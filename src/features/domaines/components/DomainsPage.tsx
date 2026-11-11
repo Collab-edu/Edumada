@@ -31,6 +31,7 @@ const DOMAINS: Record<string, { icon: string; image?: string }> = {
     Artisanat: { icon: 'tabler:palette' },
     'Beauté & Coiffure': { icon: 'tabler:scissors' },
     Langues: { icon: 'tabler:language', image: '/images/Photos/langue et lettre.webp' },
+    Autre: { icon: 'tabler:dots' },
     'Petite enfance': { icon: 'tabler:baby-carriage', image: '1503454537195-1dcabb73ffb9' },
     'Enseignement général': { icon: 'tabler:school', image: '1588072432836-e10032774350' },
     'Éducation spécialisée': { icon: 'tabler:heart-handshake', image: '1529390079861-591de354faf5' },
