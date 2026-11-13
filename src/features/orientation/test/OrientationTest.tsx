@@ -239,7 +239,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
     ]
 
     return (
-        <div className='flex flex-col gap-12 lg:gap-16'>
+        <div className='flex flex-col gap-8 lg:gap-10'>
             {/* Titre et progression */}
             <div className='flex flex-col gap-5'>
                 <div className='flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between'>
@@ -256,8 +256,8 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
             </div>
 
             {/* Profil */}
-            <section aria-labelledby='profil-title' className='grid gap-6 lg:grid-cols-2'>
-                <div className={cn(card, 'flex flex-col gap-6 p-6 sm:p-10')}>
+            <section aria-labelledby='profil-title' className='grid gap-4 py-0 lg:grid-cols-2 lg:gap-6'>
+                <div className={cn(card, 'flex flex-col gap-5 p-6 sm:p-8')}>
                     <div className='flex flex-wrap items-center justify-between gap-3'>
                         <span className={stepLabel}>Votre profil dominant</span>
                         <span aria-label={`Code Holland ${top.join('')}`} className='flex gap-1'>
@@ -289,7 +289,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                     </p>
                 </div>
 
-                <div className={cn(card, 'flex flex-col gap-6 p-6 sm:p-10')}>
+                <div className={cn(card, 'flex flex-col gap-5 p-6 sm:p-8')}>
                     <div className='flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1'>
                         <h2 className='text-xl font-bold text-secondary'>Vos six profils</h2>
                         <span className='text-sm text-ink/70'>Les 3 premiers forment votre code</span>
@@ -319,7 +319,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
             </section>
 
             {/* 1. Domaines */}
-            <section aria-labelledby='domaines-title' className='flex flex-col gap-6'>
+            <section aria-labelledby='domaines-title' className='flex flex-col gap-4 py-0'>
                 <div>
                     <p className={cn(stepLabel, 'mb-1')}>Étape 1 · Domaine</p>
                     <h2 id='domaines-title' className='text-2xl font-bold text-secondary'>
@@ -362,7 +362,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
 
             {/* 2. Filières du domaine choisi */}
             {domain && (
-                <section ref={fieldsRef} aria-labelledby='filieres-title' className='flex scroll-mt-28 flex-col gap-6'>
+                <section ref={fieldsRef} aria-labelledby='filieres-title' className='flex scroll-mt-28 flex-col gap-4 py-0'>
                     <div className='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
                         <div>
                             <p className={cn(stepLabel, 'mb-1')}>Étape 2 · Filière</p>
@@ -434,7 +434,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
 
             {/* 3. Formations de la filière choisie */}
             {domain && field && (
-                <section ref={offersRef} aria-labelledby='formations-title' className='flex scroll-mt-28 flex-col gap-6'>
+                <section ref={offersRef} aria-labelledby='formations-title' className='flex scroll-mt-28 flex-col gap-4 py-0'>
                     <div>
                         <p className={cn(stepLabel, 'mb-1')}>Étape 3 · Établissement</p>
                         <h2 id='formations-title' className='text-2xl font-bold text-secondary'>
