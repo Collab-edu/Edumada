@@ -239,7 +239,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
     ]
 
     return (
-        <div className='flex flex-col gap-8 lg:gap-10'>
+        <div className='mx-auto flex w-full max-w-5xl flex-col gap-12 lg:gap-14'>
             {/* Titre et progression */}
             <div className='flex flex-col gap-5'>
                 <div className='flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between'>
@@ -444,7 +444,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                             {plural(field.offers.length)} en {domain.name} sur Edumada.
                         </p>
                     </div>
-                    <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4'>
+                    <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'>
                         {field.offers.map((formation) => (
                             <FormationCard key={formation.id} formation={formation} isFavorite={isFavorite(formation.id)} onToggleFavorite={() => toggleFavorite(formation.id)} compact />
                         ))}
