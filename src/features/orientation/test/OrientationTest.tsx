@@ -245,7 +245,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                 <div className='flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between'>
                     <div>
                         <p className='mb-1 text-sm font-semibold text-ink/70'>Test d’orientation · Résultat</p>
-                        <h1 className='text-3xl font-bold text-secondary md:text-5xl'>Votre parcours, étape par étape</h1>
+                        <h1 className='text-2xl font-bold text-secondary md:text-4xl'>Votre parcours, étape par étape</h1>
                     </div>
                     <Button variant='secondary' className='w-full shrink-0 sm:w-fit' onClick={onRestart}>
                         <Icon icon='tabler:rotate' />
