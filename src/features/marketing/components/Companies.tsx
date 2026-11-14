@@ -17,9 +17,10 @@ const Companies = () => {
     return (
         <section className='bg-white py-8 sm:py-10 border-y border-gray-100'>
             {/* TODO : logos d'exemple du template, à remplacer par de vrais partenaires */}
-            <h2 className='mb-6 px-4 text-center text-base font-medium text-ink/70'>Ils nous font confiance</h2>
+            <h2 className='mb-6 px-4 text-center text-base font-medium text-ink/70'>Adopté par des milliers d’établissements d’enseignement à Madagascar.
+</h2>
             {companies.length > 0 ? (
-                <AutoScroll duration={30} minItemsPerLoop={12} itemClassName='w-40 sm:w-56'>
+                <AutoScroll duration={120} minItemsPerLoop={12} itemClassName='w-40 sm:w-56'>
                     {companies.map((item) => (
                         <div key={item.imgSrc} className='flex h-12 items-center justify-center'>
                             <Image

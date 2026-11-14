@@ -1,0 +1,9 @@
+Loaders Edumada
+
+loader-page.html      Chargement de page, fond blanc (1a)
+loader-fond-bleu.html Chargement de page, fond bleu (1b)
+loaders-petits.html   Mini loader, bouton et cartes de chargement (1c)
+edumada-loader.svg    Logo animé seul, utilisable partout : <img src="edumada-loader.svg" width="120">
+
+Pour l'intégrer : copiez le bloc <style> (les @keyframes) et le contenu de <div class="edu-loader"> dans votre page, puis masquez .edu-loader quand la page est chargée :
+window.addEventListener('load', () => document.querySelector('.edu-loader').remove());
