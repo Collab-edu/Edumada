@@ -15,6 +15,7 @@ import type { FaqItem } from '../faq'
 import SchoolAdmission from './SchoolAdmission'
 import SchoolFaq from './SchoolFaq'
 import SchoolFormation from './SchoolFormation'
+import SchoolGallery from './SchoolGallery'
 import SchoolTestimonials from './SchoolTestimonials'
 import SchoolLogo from './SchoolLogo'
 import ReportDialog from './ReportDialog'
@@ -239,15 +240,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         {school.photos.length > 0 && (
                         <div>
                             <SectionTitle icon='tabler:photo'>Photos</SectionTitle>
-                            <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
-                                {school.photos.map((src, i) => (
-                                    <div
-                                        key={src}
-                                        className={`relative overflow-hidden rounded-xl bg-cream ${i === 0 ? 'col-span-2 row-span-2 h-72' : 'h-[138px]'}`}>
-                                        <Image src={src} alt={`${school.name} — photo ${i + 1}`} fill className='object-cover' />
-                                    </div>
-                                ))}
-                            </div>
+                            <SchoolGallery photos={school.photos} name={school.name} />
                         </div>
                         )}
 
