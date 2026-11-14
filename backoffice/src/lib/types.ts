@@ -67,6 +67,8 @@ export type Plan = {
         edumadaPromotion?: boolean
         /** Accompagnement prioritaire et optimisation de la fiche et des offres. */
         prioritySupport?: boolean
+        /** Plusieurs utilisateurs (membres de l'équipe) : Premium. */
+        teamMembers?: boolean
         /** Galerie photos, site web et réseaux sociaux, avis : affichés sur la fiche publique. */
         photoGallery?: boolean
         onlineLinks?: boolean

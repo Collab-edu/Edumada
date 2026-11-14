@@ -24,7 +24,7 @@ class PlanSeeder extends Seeder
                 'max_published_offers' => 1,
                 'features' => [
                     'inquiryInbox' => false, 'statistics' => 'none', 'sponsoredPlacement' => false, 'searchPriority' => false, 'premiumBadge' => false, 'edumadaPromotion' => false, 'prioritySupport' => false,
-                    'photoGallery' => false, 'onlineLinks' => false, 'reviews' => false, 'maxInfrastructures' => 0, 'offerLockMonths' => 12,
+                    'photoGallery' => false, 'onlineLinks' => false, 'reviews' => false, 'maxInfrastructures' => 0, 'offerLockMonths' => 12, 'teamMembers' => false,
                 ],
             ],
             [
@@ -35,7 +35,7 @@ class PlanSeeder extends Seeder
                 'max_published_offers' => 3,
                 'features' => [
                     'inquiryInbox' => true, 'statistics' => 'standard', 'sponsoredPlacement' => false, 'searchPriority' => false, 'premiumBadge' => false, 'edumadaPromotion' => false, 'prioritySupport' => false,
-                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => false, 'maxInfrastructures' => null, 'offerLockMonths' => null,
+                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => false, 'maxInfrastructures' => null, 'offerLockMonths' => null, 'teamMembers' => false,
                 ],
             ],
             [
@@ -46,7 +46,7 @@ class PlanSeeder extends Seeder
                 'max_published_offers' => null,
                 'features' => [
                     'inquiryInbox' => true, 'statistics' => 'advanced', 'sponsoredPlacement' => false, 'searchPriority' => true, 'premiumBadge' => true, 'edumadaPromotion' => true, 'prioritySupport' => true,
-                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null, 'offerLockMonths' => null,
+                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null, 'offerLockMonths' => null, 'teamMembers' => true,
                 ],
             ],
         ];

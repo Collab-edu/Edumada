@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * - onlineLinks : site web et réseaux sociaux affichés sur la fiche publique ;
  * - reviews : avis des étudiants sur la fiche (Premium uniquement) ;
  * - maxInfrastructures : nombre d'infrastructures affichées (0 = aucune, null = illimité) ;
+ * - teamMembers : plusieurs utilisateurs (membres de l'équipe) pour gérer la fiche (Premium uniquement) ;
  * - offerLockMonths : durée (en mois) pendant laquelle l'offre publiée ne peut être ni remplacée ni changée d'identité (null = pas de verrou).
  */
 #[Fillable(['code', 'name', 'monthly_price', 'yearly_price', 'max_published_offers', 'features', 'position'])]

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api\V1;
 
 use App\Enums\EstablishmentMemberRole;
+use App\Enums\PlanCode;
 use App\Enums\UserRole;
 use App\Models\Category;
 use App\Models\Establishment;
@@ -24,10 +25,22 @@ class TeamTest extends TestCase
         $this->seed(PlanSeeder::class);
     }
 
+    public function test_only_premium_can_add_team_members(): void
+    {
+        $member = ['name' => 'Hery Rabe', 'email' => 'hery@ecole.mg', 'role' => 'editor', 'password' => 'Provisoire2026'];
+
+        foreach ([PlanCode::Free, PlanCode::Pro] as $plan) {
+            [$owner, $establishment] = $this->establishmentOwner($plan);
+            $this->actingAs($owner)->postJson("/api/v1/establishments/{$establishment->slug}/members", $member)->assertForbidden();
+        }
+
+        $this->assertDatabaseMissing('users', ['email' => 'hery@ecole.mg']);
+    }
+
     public function test_owner_adds_a_new_member_who_can_sign_in(): void
     {
         Notification::fake();
-        [$owner, $establishment] = $this->establishmentOwner();
+        [$owner, $establishment] = $this->establishmentOwner(PlanCode::Premium);
 
         $this->actingAs($owner)->postJson("/api/v1/establishments/{$establishment->slug}/members", [
             'name' => 'Hery Rabe',
@@ -49,7 +62,7 @@ class TeamTest extends TestCase
     public function test_existing_establishment_account_without_fiche_is_attached(): void
     {
         Notification::fake();
-        [$owner, $establishment] = $this->establishmentOwner();
+        [$owner, $establishment] = $this->establishmentOwner(PlanCode::Premium);
         $member = User::factory()->create(['role' => UserRole::Establishment, 'email' => 'aina@ecole.mg']);
 
         $this->actingAs($owner)->postJson("/api/v1/establishments/{$establishment->slug}/members", [
@@ -63,8 +76,8 @@ class TeamTest extends TestCase
 
     public function test_an_account_cannot_manage_two_establishments(): void
     {
-        [$owner, $establishment] = $this->establishmentOwner();
-        [$otherOwner] = $this->establishmentOwner();
+        [$owner, $establishment] = $this->establishmentOwner(PlanCode::Premium);
+        [$otherOwner] = $this->establishmentOwner(PlanCode::Premium);
 
         $this->actingAs($owner)->postJson("/api/v1/establishments/{$establishment->slug}/members", [
             'email' => $otherOwner->email,
@@ -76,7 +89,7 @@ class TeamTest extends TestCase
 
     public function test_student_accounts_cannot_join_a_team(): void
     {
-        [$owner, $establishment] = $this->establishmentOwner();
+        [$owner, $establishment] = $this->establishmentOwner(PlanCode::Premium);
         $student = $this->student();
 
         $this->actingAs($owner)->postJson("/api/v1/establishments/{$establishment->slug}/members", [
@@ -87,7 +100,7 @@ class TeamTest extends TestCase
 
     public function test_editors_see_the_team_but_cannot_change_it(): void
     {
-        [$owner, $establishment] = $this->establishmentOwner();
+        [$owner, $establishment] = $this->establishmentOwner(PlanCode::Premium);
         $editor = User::factory()->create(['role' => UserRole::Establishment]);
         $establishment->addMember($editor, EstablishmentMemberRole::Editor);
 
@@ -102,15 +115,15 @@ class TeamTest extends TestCase
 
     public function test_outsiders_cannot_list_the_team(): void
     {
-        [, $establishment] = $this->establishmentOwner();
-        [$stranger] = $this->establishmentOwner();
+        [, $establishment] = $this->establishmentOwner(PlanCode::Premium);
+        [$stranger] = $this->establishmentOwner(PlanCode::Premium);
 
         $this->actingAs($stranger)->getJson("/api/v1/establishments/{$establishment->slug}/members")->assertForbidden();
     }
 
     public function test_owner_changes_a_role_and_removes_a_member(): void
     {
-        [$owner, $establishment] = $this->establishmentOwner();
+        [$owner, $establishment] = $this->establishmentOwner(PlanCode::Premium);
         $editor = User::factory()->create(['role' => UserRole::Establishment]);
         $establishment->addMember($editor, EstablishmentMemberRole::Editor);
         $editor->createToken('web');
@@ -125,7 +138,7 @@ class TeamTest extends TestCase
 
     public function test_the_last_owner_cannot_be_removed_or_demoted(): void
     {
-        [$owner, $establishment] = $this->establishmentOwner();
+        [$owner, $establishment] = $this->establishmentOwner(PlanCode::Premium);
 
         $this->actingAs($owner)->deleteJson("/api/v1/establishments/{$establishment->slug}/members/{$owner->id}")
             ->assertUnprocessable();
@@ -136,7 +149,7 @@ class TeamTest extends TestCase
 
     public function test_an_account_with_a_fiche_cannot_create_or_claim_another(): void
     {
-        [$owner] = $this->establishmentOwner();
+        [$owner] = $this->establishmentOwner(PlanCode::Premium);
         $other = Establishment::factory()->create();
 
         $this->actingAs($owner)->postJson('/api/v1/establishments', [

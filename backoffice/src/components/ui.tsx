@@ -417,8 +417,8 @@ export function PlanBadge({ code, className }: { code: string; className?: strin
     )
 }
 
-/** Fonctionnalité verrouillée : réservée aux formules payantes, avec le lien vers les formules. */
-export function PlanLock({ title, children }: { title: string; children: ReactNode }) {
+/** Fonctionnalité verrouillée : réservée aux formules payantes (ou à Premium seul), avec le lien vers les formules. */
+export function PlanLock({ title, children, premiumOnly = false }: { title: string; children: ReactNode; premiumOnly?: boolean }) {
     return (
         <div className='bo-plan-lock'>
             <CIcon icon={cilLockLocked} className='bo-plan-lock-icon' />
@@ -426,7 +426,7 @@ export function PlanLock({ title, children }: { title: string; children: ReactNo
                 <div className='bo-plan-lock-title'>
                     <strong>{title}</strong>
                     <span className='bo-plan-lock-badges'>
-                        <PlanBadge code='pro' />
+                        {!premiumOnly && <PlanBadge code='pro' />}
                         <PlanBadge code='premium' />
                     </span>
                 </div>

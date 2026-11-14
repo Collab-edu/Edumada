@@ -8,7 +8,7 @@ import { useToast } from '@/context/ToastContext'
 import { api, errorMessage, fieldError, isGeneralError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import { formatDate } from '@/lib/format'
-import { ErrorAlert, Loading, PageCard } from '@/components/ui'
+import { ErrorAlert, Loading, PageCard, PlanLock } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
 
 type Member = {
@@ -201,7 +201,11 @@ export default function Team() {
                 </div>
             </div>
 
-            {isOwner ? (
+            {isOwner && !e.plan.features.teamMembers ? (
+                <PlanLock title='Plusieurs utilisateurs' premiumOnly>
+                    Donnez accès au back-office à vos collaborateurs (admissions, communication…) avec la formule Premium. Les membres déjà ajoutés gardent leur accès.
+                </PlanLock>
+            ) : isOwner ? (
                 <PageCard icon={cilUserPlus} title='Ajouter un membre' subtitle='Donnez accès au back-office à une personne de votre établissement'>
                     {created && (
                         <CAlert color='success' dismissible onClose={() => setCreated(null)}>

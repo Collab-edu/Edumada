@@ -65,6 +65,7 @@ export function planFeatureSections(plan: Plan): PlanFeatureSection[] {
                 { label: 'Demandes reçues par e-mail', included: true },
                 { label: 'Boîte de réception des demandes', included: !!f.inquiryInbox },
                 { label: 'Statuts, filtres et export CSV', included: !!f.inquiryInbox },
+                { label: 'Plusieurs utilisateurs (équipe)', included: !!f.teamMembers },
                 { label: f.statistics === 'advanced' ? 'Statistiques avancées' : f.statistics === 'standard' ? 'Statistiques standard' : 'Statistiques', included: !!f.statistics && f.statistics !== 'none' },
             ],
         },

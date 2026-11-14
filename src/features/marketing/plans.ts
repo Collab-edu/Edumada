@@ -5,9 +5,9 @@ import type { Plan } from '@/features/espace/types'
 
 /** Formules affichées si l'API ne répond pas (mêmes hypothèses que la base). */
 export const FALLBACK_PLANS: Plan[] = [
-    { code: 'free', name: 'Gratuit', monthlyPrice: 0, yearlyPrice: 0, maxPublishedOffers: 1, features: { inquiryInbox: false, statistics: 'none', searchPriority: false, premiumBadge: false, edumadaPromotion: false, prioritySupport: false, photoGallery: false, onlineLinks: false, reviews: false, maxInfrastructures: 0 } },
-    { code: 'pro', name: 'Pro', monthlyPrice: 75000, yearlyPrice: 600000, maxPublishedOffers: 3, features: { inquiryInbox: true, statistics: 'standard', searchPriority: false, premiumBadge: false, edumadaPromotion: false, prioritySupport: false, photoGallery: true, onlineLinks: true, reviews: false, maxInfrastructures: null } },
-    { code: 'premium', name: 'Premium', monthlyPrice: 175000, yearlyPrice: null, maxPublishedOffers: null, features: { inquiryInbox: true, statistics: 'advanced', searchPriority: true, premiumBadge: true, edumadaPromotion: true, prioritySupport: true, photoGallery: true, onlineLinks: true, reviews: true, maxInfrastructures: null } },
+    { code: 'free', name: 'Gratuit', monthlyPrice: 0, yearlyPrice: 0, maxPublishedOffers: 1, features: { inquiryInbox: false, statistics: 'none', searchPriority: false, premiumBadge: false, edumadaPromotion: false, prioritySupport: false, teamMembers: false, photoGallery: false, onlineLinks: false, reviews: false, maxInfrastructures: 0 } },
+    { code: 'pro', name: 'Pro', monthlyPrice: 75000, yearlyPrice: 600000, maxPublishedOffers: 3, features: { inquiryInbox: true, statistics: 'standard', searchPriority: false, premiumBadge: false, edumadaPromotion: false, prioritySupport: false, teamMembers: false, photoGallery: true, onlineLinks: true, reviews: false, maxInfrastructures: null } },
+    { code: 'premium', name: 'Premium', monthlyPrice: 175000, yearlyPrice: null, maxPublishedOffers: null, features: { inquiryInbox: true, statistics: 'advanced', searchPriority: true, premiumBadge: true, edumadaPromotion: true, prioritySupport: true, teamMembers: true, photoGallery: true, onlineLinks: true, reviews: true, maxInfrastructures: null } },
 ]
 
 export type PlanFeatureSection = { title: string; features: { label: string; included: boolean }[] }
@@ -39,6 +39,7 @@ export function planFeatureSections(plan: Plan): PlanFeatureSection[] {
                 { label: 'Demandes reçues par e-mail', included: true },
                 { label: 'Boîte de réception des demandes', included: !!f.inquiryInbox },
                 { label: 'Statuts, filtres et export CSV', included: !!f.inquiryInbox },
+                { label: 'Plusieurs utilisateurs (équipe)', included: !!f.teamMembers },
                 { label: f.statistics === 'advanced' ? 'Statistiques avancées' : f.statistics === 'standard' ? 'Statistiques standard' : 'Statistiques', included: !!f.statistics && f.statistics !== 'none' },
             ],
         },

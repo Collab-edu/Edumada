@@ -35,6 +35,7 @@ class TeamController extends Controller
     public function store(TeamMemberRequest $request, Establishment $establishment): JsonResponse
     {
         Gate::authorize('manageTeam', $establishment);
+        abort_unless($establishment->hasFeature('teamMembers'), 403, 'Plusieurs utilisateurs par établissement : fonctionnalité réservée à la formule Premium.');
         $validated = $request->validated();
         $role = EstablishmentMemberRole::from($validated['role']);
 
