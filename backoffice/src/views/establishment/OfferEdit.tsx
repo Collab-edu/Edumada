@@ -358,7 +358,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
             )}
             {cannotPublish && (
                 <CAlert color='warning'>
-                    Avec la formule {e.plan.name}, vous changez d&apos;offre publiée une fois par an : celle-ci pourra être publiée à partir du {formatDate(lock.until)}. Vous pouvez la préparer en brouillon, ou passer à Pro pour la publier tout de suite.
+                    Avec la formule {e.plan.name}, vous changez d&apos;offre publiée une fois par an : celle-ci pourra être publiée à partir du {formatDate(lock.until)}. Vous pouvez la préparer en brouillon, ou passer à Pro (3 offres) ou Premium (illimité) pour la publier tout de suite.
                 </CAlert>
             )}
 

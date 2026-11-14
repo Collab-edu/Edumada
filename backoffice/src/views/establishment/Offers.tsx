@@ -91,8 +91,16 @@ export default function Offers() {
             >
                 {atLimit && (
                     <CAlert color='warning'>
-                        Limite de la formule {e.plan.name} atteinte : les nouvelles offres restent en brouillon. <Link href='/formule/'>Passer à Pro</Link> pour publier sans
-                        limite.
+                        Limite de la formule {e.plan.name} atteinte : les nouvelles offres restent en brouillon.{' '}
+                        {e.plan.code === 'free' ? (
+                            <>
+                                <Link href='/formule/'>Passer à Pro</Link> pour publier 3 offres, ou à Premium pour des offres illimitées.
+                            </>
+                        ) : (
+                            <>
+                                <Link href='/formule/'>Passer à Premium</Link> pour publier des offres illimitées.
+                            </>
+                        )}
                     </CAlert>
                 )}
 
@@ -100,7 +108,7 @@ export default function Offers() {
                     <CAlert color='info'>
                         <strong>Offre verrouillée jusqu&apos;au {formatDate(lock.until)}.</strong> Avec la formule {e.plan.name}, vous changez d&apos;offre publiée une fois par an
                         {lockedTitle ? <> : « {lockedTitle} » reste votre offre en ligne</> : null}. Sa description, ses frais, ses dates et son programme restent modifiables à tout moment.{' '}
-                        <Link href='/formule/'>Passer à Pro</Link> pour publier toutes vos offres.
+                        <Link href='/formule/'>Passer à Pro</Link> pour publier jusqu&apos;à 3 offres, ou à Premium sans limite.
                     </CAlert>
                 )}
 

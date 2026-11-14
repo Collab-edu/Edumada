@@ -363,23 +363,26 @@ class OfferControllerTest extends TestCase
             ->assertCreated();
     }
 
-    public function test_pro_plan_publishes_beyond_the_free_limit(): void
+    public function test_pro_plan_publishes_up_to_three_offers_and_premium_without_limit(): void
     {
-        $owner = User::factory()->create(['role' => UserRole::Establishment]);
-        $establishment = Establishment::factory()->ownedBy($owner)->create();
-        Offer::factory()->count(3)->for($establishment)->create();
-        $establishment->subscriptions()->create([
-            'plan_id' => Plan::firstWhere('code', PlanCode::Pro)->id,
-            'status' => SubscriptionStatus::Active,
-            'billing_cycle' => BillingCycle::Yearly,
-            'starts_at' => now()->subDay(),
-            'ends_at' => now()->addYear(),
-        ]);
+        [$owner, $establishment] = $this->establishmentOwner(PlanCode::Pro);
+        Offer::factory()->count(2)->for($establishment)->create();
 
         $this->actingAs($owner)
             ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload(['status' => 'published']))
             ->assertCreated()
             ->assertJsonPath('data.status', 'published');
+
+        $this->actingAs($owner)
+            ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload(['title' => 'Master en droit', 'status' => 'published']))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('status');
+
+        $establishment->subscriptions()->delete();
+        $this->subscribe($establishment, PlanCode::Premium);
+        $this->actingAs($owner)
+            ->postJson("/api/v1/establishments/{$establishment->slug}/offers", $this->validPayload(['title' => 'Master en droit', 'status' => 'published']))
+            ->assertCreated();
     }
 
     public function test_expired_subscription_falls_back_to_free_limit(): void

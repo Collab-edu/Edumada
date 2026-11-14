@@ -35,8 +35,8 @@ const STEPS = [
 
 const PLANS = [
     { name: 'Gratuit', text: 'Fiche essentielle et une offre publiée.' },
-    { name: 'Pro', text: 'Offres illimitées, galerie photos, avis, boîte de réception et statistiques.', highlight: true },
-    { name: 'Premium', text: 'Campagnes sponsorisées et accompagnement prioritaire.' },
+    { name: 'Pro', text: '3 offres publiées, galerie photos, avis, boîte de réception et statistiques.', highlight: true },
+    { name: 'Premium', text: 'Offres illimitées, campagnes sponsorisées et accompagnement prioritaire.' },
 ]
 
 /** Page Avantages : ce qu'Edumada apporte aux établissements référencés. */

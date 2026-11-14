@@ -327,7 +327,7 @@ class Establishment extends Model
         $date = $lock['until']->locale('fr')->isoFormat('LL');
         throw ValidationException::withMessages([
             $publishingAnother ? 'status' : 'title' => $publishingAnother
-                ? "La formule Gratuit permet de changer d'offre publiée une fois par an : prochain changement possible le {$date}. Passez à Pro pour publier toutes vos offres."
+                ? "La formule Gratuit permet de changer d'offre publiée une fois par an : prochain changement possible le {$date}. Passez à Pro (3 offres) ou Premium (illimité) pour publier plusieurs offres."
                 : "Le titre, le domaine et le diplôme de votre offre publiée sont verrouillés jusqu'au {$date} (formule Gratuit). Vous pouvez toujours modifier la description, les frais, les dates et le programme, ou passer à Pro.",
         ]);
     }

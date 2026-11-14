@@ -32,7 +32,7 @@ class PlanSeeder extends Seeder
                 'name' => 'Pro',
                 'monthly_price' => 75000,
                 'yearly_price' => 600000,
-                'max_published_offers' => null,
+                'max_published_offers' => 3,
                 'features' => [
                     'inquiryInbox' => true, 'statistics' => 'standard', 'sponsoredPlacement' => false, 'prioritySupport' => false,
                     'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null, 'offerLockMonths' => null,
