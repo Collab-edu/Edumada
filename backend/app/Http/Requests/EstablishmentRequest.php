@@ -29,9 +29,6 @@ class EstablishmentRequest extends FormRequest
             'type' => [$required, Rule::in(EstablishmentSector::labels())],
             'category' => [$required, 'string', Rule::exists('categories', 'slug')],
             'subCategory' => ['sometimes', 'nullable', 'string', 'max:255'],
-            // Autres cycles couverts (crèche, primaire, supérieur…) : réservé aux formules Pro et Premium.
-            'secondaryCategories' => ['sometimes', 'array', 'max:10'],
-            'secondaryCategories.*' => ['string', 'distinct', Rule::exists('categories', 'slug')],
             'city' => [$required, 'string', 'max:255'],
             'address' => ['sometimes', 'nullable', 'string', 'max:255'],
             'phone' => ['sometimes', 'nullable', 'string', 'max:30'],
@@ -72,12 +69,6 @@ class EstablishmentRequest extends FormRequest
 
                 if (! $plan->hasFeature('photoGallery') && count($this->input('photos', [])) > 0) {
                     $validator->errors()->add('photos', 'La galerie photos est réservée aux formules Pro et Premium.');
-                }
-                $maxCategories = $plan->limit('maxCategories');
-                if ($maxCategories !== null && count($this->secondaryCategoryIds() ?? []) > $maxCategories - 1) {
-                    $validator->errors()->add('secondaryCategories', $maxCategories <= 1
-                        ? 'Plusieurs catégories sont réservées aux formules Pro et Premium.'
-                        : "Votre formule permet {$maxCategories} catégories au maximum.");
                 }
                 $max = $plan->limit('maxInfrastructures');
                 if ($max !== null && count($this->input('infrastructures', [])) > $max) {
@@ -154,25 +145,6 @@ class EstablishmentRequest extends FormRequest
         }
 
         return $attributes;
-    }
-
-    /**
-     * Autres catégories envoyées (hors catégorie principale) ; null si le champ n'est pas envoyé.
-     *
-     * @return list<int>|null
-     */
-    public function secondaryCategoryIds(): ?array
-    {
-        if (! $this->has('secondaryCategories')) {
-            return null;
-        }
-
-        $mainId = $this->resolvedCategory()?->id;
-
-        return Category::whereIn('slug', (array) $this->input('secondaryCategories', []))
-            ->whereKeyNot($mainId)
-            ->pluck('id')
-            ->all();
     }
 
     private function resolvedCategory(): ?Category

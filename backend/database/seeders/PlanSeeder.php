@@ -24,7 +24,7 @@ class PlanSeeder extends Seeder
                 'max_published_offers' => 1,
                 'features' => [
                     'inquiryInbox' => false, 'statistics' => 'none', 'sponsoredPlacement' => false, 'prioritySupport' => false,
-                    'photoGallery' => false, 'onlineLinks' => false, 'reviews' => false, 'maxInfrastructures' => 0, 'maxCategories' => 1,
+                    'photoGallery' => false, 'onlineLinks' => false, 'reviews' => false, 'maxInfrastructures' => 0,
                 ],
             ],
             [
@@ -35,7 +35,7 @@ class PlanSeeder extends Seeder
                 'max_published_offers' => null,
                 'features' => [
                     'inquiryInbox' => true, 'statistics' => 'standard', 'sponsoredPlacement' => false, 'prioritySupport' => false,
-                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null, 'maxCategories' => null,
+                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null,
                 ],
             ],
             [
@@ -46,7 +46,7 @@ class PlanSeeder extends Seeder
                 'max_published_offers' => null,
                 'features' => [
                     'inquiryInbox' => true, 'statistics' => 'advanced', 'sponsoredPlacement' => true, 'prioritySupport' => true,
-                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null, 'maxCategories' => null,
+                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null,
                 ],
             ],
         ];

@@ -33,7 +33,7 @@ use Illuminate\Support\Str;
  * Offre éducative : formation, niveau scolaire ou accueil.
  */
 #[Fillable([
-    'slug', 'category_id', 'domain_id', 'kind', 'title', 'diploma', 'diploma_other', 'levels', 'level_diplomas', 'duration_years', 'duration_value', 'duration_unit', 'age_min', 'age_max',
+    'slug', 'domain_id', 'kind', 'title', 'diploma', 'diploma_other', 'levels', 'level_diplomas', 'duration_years', 'duration_value', 'duration_unit', 'age_min', 'age_max',
     'fees', 'fees_period', 'registration_fee', 'registration_starts_on', 'registration_ends_on',
     'starts_on', 'modality', 'registration_status', 'languages', 'admission_level', 'bac_series',
     'selection', 'housing', 'scholarship', 'image', 'status',
@@ -122,7 +122,6 @@ class Offer extends Model
     protected static function booted(): void
     {
         static::creating(function (Offer $offer): void {
-            $offer->category_id ??= $offer->establishment?->category_id;
             $offer->url_slug ??= self::uniqueUrlSlug($offer);
         });
     }
@@ -211,14 +210,11 @@ class Offer extends Model
             ->when($filters['domain'] ?? null, fn (Builder $query, string $name) => $query->whereHas(
                 'domain', fn (Builder $domain) => $domain->where('name', $name),
             ))
-            // Catégorie de l'offre (« Enseignement supérieur »), ou sous-catégorie de l'établissement (« Université », « Crèche »)
-            // pour ses offres de la catégorie principale.
-            ->when($filters['category'] ?? null, fn (Builder $query, string $category) => $query->where(
-                fn (Builder $query) => $query
+            // Catégorie (« Enseignement supérieur ») ou sous-catégorie de l'établissement (« Université », « Crèche »).
+            ->when($filters['category'] ?? null, fn (Builder $query, string $category) => $query->whereHas(
+                'establishment', fn (Builder $establishment) => $establishment
                     ->whereHas('category', fn (Builder $categories) => $categories->where('slug', $category)->orWhere('short_label', $category))
-                    ->orWhereHas('establishment', fn (Builder $establishment) => $establishment
-                        ->whereColumn('establishments.category_id', 'offers.category_id')
-                        ->whereHas('subCategory', fn (Builder $subCategories) => $subCategories->where('label', $category))),
+                    ->orWhereHas('subCategory', fn (Builder $subCategories) => $subCategories->where('label', $category)),
             ))
             ->when(
                 array_filter(array_intersect_key($filters, array_flip(['city', 'type', 'school']))),
@@ -339,16 +335,6 @@ class Offer extends Model
     public function establishment(): BelongsTo
     {
         return $this->belongsTo(Establishment::class);
-    }
-
-    /**
-     * Catégorie de l'offre (crèche, primaire, supérieur…), parmi celles de son établissement.
-     *
-     * @return BelongsTo<Category, $this>
-     */
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
     }
 
     /**

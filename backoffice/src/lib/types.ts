@@ -68,8 +68,6 @@ export type Plan = {
         reviews?: boolean
         /** Nombre d'infrastructures affichées ; null = illimité. */
         maxInfrastructures?: number | null
-        /** Nombre de catégories de la fiche, principale comprise ; null = illimité. */
-        maxCategories?: number | null
     }
 }
 
@@ -184,8 +182,6 @@ export type Establishment = {
     type: string
     category: string
     subCategory: string
-    /** Autres cycles couverts (crèche, primaire…), hors catégorie principale. */
-    secondaryCategories?: string[]
     socialLinks: Record<string, string>
     infrastructures: string[]
     verification: { status: string; date: string | null }

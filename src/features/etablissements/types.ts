@@ -8,8 +8,6 @@ export type SchoolType = {
   /** Catégorie principale (CategoryType.id) et sous-catégorie libre. */
   category: string
   subCategory: string
-  /** Autres cycles couverts (crèche, primaire, supérieur…) : CategoryType.id, hors catégorie principale. */
-  secondaryCategories?: string[]
   socialLinks: { facebook?: string; instagram?: string; linkedin?: string; youtube?: string }
   /** Présentation des infrastructures (bibliothèque, cantine, ateliers…). */
   infrastructures: string[]
