@@ -18,7 +18,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * - photoGallery : galerie de photos des locaux sur la fiche publique ;
  * - onlineLinks : site web et réseaux sociaux affichés sur la fiche publique ;
  * - reviews : avis des étudiants sur la fiche ;
- * - maxInfrastructures : nombre d'infrastructures affichées (0 = aucune, null = illimité).
+ * - maxInfrastructures : nombre d'infrastructures affichées (0 = aucune, null = illimité) ;
+ * - maxCategories : nombre de catégories de la fiche, principale comprise (null = illimité).
  */
 #[Fillable(['code', 'name', 'monthly_price', 'yearly_price', 'max_published_offers', 'features', 'position'])]
 class Plan extends Model

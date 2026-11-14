@@ -1,6 +1,6 @@
 'use client'
 import { useState, type FormEvent } from 'react'
-import { CAlert, CButton, CCol, CForm, CFormInput, CFormLabel, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
+import { CAlert, CButton, CCol, CForm, CFormCheck, CFormInput, CFormLabel, CFormSelect, CFormTextarea, CRow, CSpinner } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilEducation, cilEnvelopeClosed, cilGlobeAlt, cilImage, cilLink, cilLocationPin, cilPencil, cilPhone, cilSave } from '@coreui/icons'
 import { api, ApiError, fieldError, isGeneralError } from '@/lib/api'
@@ -23,6 +23,7 @@ const initial = (e?: ManagedEstablishment) => ({
     type: e?.type ?? 'Privé',
     category: e?.category ?? '',
     subCategory: e?.subCategory ?? '',
+    secondaryCategories: e?.secondaryCategories ?? [],
     city: e?.city ?? '',
     address: e?.address ?? '',
     phone: e?.phone ?? '',
@@ -61,6 +62,12 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
     const gallery = !!features.photoGallery
     const onlineLinks = !!features.onlineLinks
     const maxInfrastructures = establishment ? (features.maxInfrastructures ?? null) : 0
+    // Plusieurs cycles (crèche → université) : réservé aux formules Pro et Premium.
+    const maxCategories = establishment ? (features.maxCategories ?? null) : 1
+    const multiCategory = maxCategories === null || maxCategories > 1
+    const otherCategories = (categories?.data ?? []).filter((c) => c.id !== form.category)
+    const toggleCategory = (id: string, on: boolean) =>
+        set('secondaryCategories', on ? [...form.secondaryCategories, id] : form.secondaryCategories.filter((c) => c !== id))
 
     const submit = async (e: FormEvent) => {
         e.preventDefault()
@@ -70,6 +77,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
         const body = {
             ...rest,
             subCategory: form.subCategory || null,
+            secondaryCategories: form.secondaryCategories.filter((c) => c !== form.category),
             address: form.address || null,
             phone: form.phone || null,
             email: form.email || null,
@@ -86,6 +94,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
         const payload: Partial<typeof body> = { ...body }
         if (!gallery) delete payload.photos
         if (maxInfrastructures === 0) delete payload.infrastructures
+        if (!multiCategory) delete payload.secondaryCategories
         if (!onlineLinks) {
             delete payload.website
             delete payload.socialLinks
@@ -146,7 +155,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                     </CCol>
                     <CCol md={6}>
                         <CFormSelect
-                            label='Catégorie'
+                            label='Catégorie principale'
                             value={form.category}
                             onChange={(e) => setForm((f) => ({ ...f, category: e.target.value, subCategory: '' }))}
                             invalid={!!err('category')}
@@ -174,6 +183,32 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                                 <option key={s}>{s}</option>
                             ))}
                         </CFormSelect>
+                    </CCol>
+                    <CCol md={12}>
+                        {multiCategory ? (
+                            <>
+                                <CFormLabel className='d-block mb-1'>Autres cycles proposés</CFormLabel>
+                                <div className='form-text mt-0 mb-2'>
+                                    Votre établissement accueille aussi d&apos;autres publics (crèche, primaire, supérieur…) ? Cochez-les : vous pourrez publier des offres dans chacune de ces catégories.
+                                </div>
+                                <div className='d-flex flex-wrap gap-3'>
+                                    {otherCategories.map((c) => (
+                                        <CFormCheck
+                                            key={c.id}
+                                            id={`bo-cat-${c.id}`}
+                                            label={c.label}
+                                            checked={form.secondaryCategories.includes(c.id)}
+                                            onChange={(e) => toggleCategory(c.id, e.target.checked)}
+                                        />
+                                    ))}
+                                </div>
+                                {err('secondaryCategories') && <div className='invalid-feedback d-block'>{err('secondaryCategories')}</div>}
+                            </>
+                        ) : (
+                            <PlanLock title='Plusieurs cycles'>
+                                De la crèche à l&apos;université ? Publiez vos offres dans plusieurs catégories avec une seule fiche.
+                            </PlanLock>
+                        )}
                     </CCol>
                     <CCol md={6}>
                         <CFormLabel htmlFor='bo-type'>Statut</CFormLabel>

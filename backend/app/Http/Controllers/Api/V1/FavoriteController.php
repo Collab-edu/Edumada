@@ -19,7 +19,7 @@ class FavoriteController extends Controller
         return OfferResource::collection(
             $request->user()->favoriteOffers()
                 ->published()
-                ->with(['establishment.category', 'domain'])
+                ->with(['category', 'establishment.category', 'domain'])
                 ->orderByPivot('created_at', 'desc')
                 ->get(),
         );

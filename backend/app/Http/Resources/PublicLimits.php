@@ -23,6 +23,9 @@ final class PublicLimits
             $fiche['website'] = '';
             $fiche['socialLinks'] = (object) [];
         }
+        if (($maxCategories = $plan->limit('maxCategories')) !== null) {
+            $fiche['secondaryCategories'] = array_slice($fiche['secondaryCategories'], 0, max(0, $maxCategories - 1));
+        }
         if (($max = $plan->limit('maxInfrastructures')) !== null) {
             $fiche['infrastructures'] = array_slice($fiche['infrastructures'], 0, $max);
         }

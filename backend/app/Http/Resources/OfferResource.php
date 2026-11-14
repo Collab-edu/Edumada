@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Format `FormationType` du site (src/features/formations/types.ts).
- * Nécessite `establishment.category` et `domain` chargés.
+ * Nécessite `category`, `establishment.category` et `domain` chargés.
  *
  * @mixin Offer
  */
@@ -32,7 +32,8 @@ class OfferResource extends JsonResource
             'city' => $establishment->city,
             'domain' => $this->domain?->name ?? '',
             'kind' => $this->kind->label(),
-            'category' => $establishment->category->slug,
+            // Catégorie propre à l'offre : un établissement peut couvrir plusieurs cycles.
+            'category' => $this->category?->slug ?? $establishment->category->slug,
             'diploma' => $this->diploma?->label(),
             // Nom précisé quand le diplôme est « Autre ».
             'diplomaOther' => $this->diploma_other,

@@ -37,7 +37,7 @@ class EstablishmentController extends Controller
         ]);
 
         return ManagedEstablishmentResource::collection(
-            Establishment::with(['category', 'subCategory', 'publishedOffers.domain', 'members'])
+            Establishment::with(['category', 'subCategory', 'secondaryCategories', 'publishedOffers.domain', 'members'])
                 ->when($filters['status'] ?? null, fn (Builder $query, string $status) => $query->where('status', $status))
                 ->when($filters['verification'] ?? null, fn (Builder $query, string $status) => $query->where('verification_status', $status))
                 ->when($filters['category'] ?? null, fn (Builder $query, string $slug) => $query->whereHas('category', fn (Builder $query) => $query->where('slug', $slug)))

@@ -9,7 +9,7 @@ import { useToast } from '@/context/ToastContext'
 import { api, ApiError } from '@/lib/api'
 import { useApi } from '@/lib/useApi'
 import { DURATION_UNITS, formationStructure, HIGHER_DIPLOMAS, kindsForCategory, OFFER_KINDS, VOCATIONAL_DIPLOMAS, type FormationStructure, type OfferKindRules } from '@/lib/offerKinds'
-import type { Domain, ManagedEstablishment, ManagedOffer, ReferenceData } from '@/lib/types'
+import type { Category, Domain, ManagedEstablishment, ManagedOffer, ReferenceData } from '@/lib/types'
 import { EmptyState, FileUpload, ImageUpload, ListInput, PageCard, StatusDot } from '@/components/ui'
 
 const KNOWN_LANGUAGES = ['Français', 'Malgache', 'Anglais']
@@ -18,10 +18,15 @@ const BAC_SERIES = ['A', 'C', 'D', 'Technique']
 const str = (v: number | string | null | undefined) => (v === null || v === undefined ? '' : String(v))
 const num = (v: string) => (String(v).trim() === '' ? null : Number(String(v).replace(/\s/g, '').replace(',', '.')))
 
+/** Type d'offre proposé par défaut selon la catégorie de l'offre. */
+const defaultKindFor = (category: string) => (category === 'petite-enfance' ? 'accueil' : category === 'scolaire' ? 'niveau' : 'formation')
+
 function initialState(offer: ManagedOffer | undefined, e: ManagedEstablishment, kind: string) {
     const d: Partial<ManagedOffer['details']> = offer?.details ?? {}
     return {
         title: offer?.title ?? '',
+        // Catégorie de l'offre : un établissement multi-cycles publie dans chacune de ses catégories.
+        category: offer?.category ?? e.category,
         kind: offer?.kind ?? kind,
         domain: offer?.domain ?? '',
         diploma: offer?.diploma ?? '',
@@ -85,6 +90,7 @@ function toPayload(s: State, rules: OfferKindRules, structure: FormationStructur
     const diplomas = structure === 'vocational' ? VOCATIONAL_DIPLOMAS : structure === 'levels' ? [] : rules.diplomas
     return {
         title: s.title,
+        category: s.category,
         kind: s.kind,
         domain: s.domain || rules.autoDomain,
         diploma: diplomas.includes(s.diploma) ? s.diploma : null,
@@ -204,15 +210,21 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
     const router = useRouter()
     const toast = useToast()
     // Seulement les domaines de la catégorie (ex. pas « Médecine & Santé » pour un centre de formation professionnelle).
-    const { data: domains } = useApi<{ data: Domain[] }>('/domains', { category: e.category })
+    const { data: categories } = useApi<{ data: Category[] }>('/categories')
     const { data: reference } = useApi<{ data: ReferenceData }>('/reference')
     const ref = reference?.data
-    const defaultKind = e.category === 'petite-enfance' ? 'accueil' : e.category === 'scolaire' ? 'niveau' : 'formation'
-    const [s, setState] = useState<State>(() => initialState(offer, e, offer?.kind ?? defaultKind))
+    const [s, setState] = useState<State>(() => initialState(offer, e, offer?.kind ?? defaultKindFor(offer?.category ?? e.category)))
+    // Catégories proposées : la principale, puis les autres cycles de la fiche si la formule le permet.
+    const maxCategories = e.plan.features.maxCategories ?? null
+    const categoryIds = [...new Set([e.category, ...(maxCategories === 1 ? [] : (e.secondaryCategories ?? [])), s.category])]
+    const categoryLabel = (id: string) => categories?.data.find((c) => c.id === id)?.label ?? id
+    const isMainCategory = s.category === e.category
+    // Seulement les domaines de la catégorie (ex. pas « Médecine & Santé » pour un centre de formation professionnelle).
+    const { data: domains } = useApi<{ data: Domain[] }>('/domains', { category: s.category })
     const rules = OFFER_KINDS[s.kind] ?? OFFER_KINDS.formation
-    const kinds = kindsForCategory(e.category, offer?.kind)
-    const structure = formationStructure(e.category, s.kind)
-    const labels = offerLabels(structure, e.subCategory, rules)
+    const kinds = kindsForCategory(s.category, offer && offer.category === s.category ? offer.kind : undefined)
+    const structure = formationStructure(s.category, s.kind)
+    const labels = offerLabels(structure, isMainCategory ? e.subCategory : '', rules)
     const showBacSeries = rules.level && (structure === 'levels' ? s.levels.some((l) => l.admissionLevel !== 'Aucun') : s.level !== 'Aucun')
     const [saving, setSaving] = useState<string | null>(null)
     const [error, setError] = useState<unknown>(null)
@@ -224,6 +236,20 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
             ...prev,
             kind,
             domain: next.domain ? prev.domain : '',
+            diploma: next.diplomas.includes(prev.diploma) ? prev.diploma : '',
+            feesPeriod: next.defaultFeesPeriod,
+            selection: next.defaultSelection,
+        }))
+    }
+    // Changer de catégorie : on repart du type d'offre par défaut de cette catégorie.
+    const changeCategory = (category: string) => {
+        const kind = defaultKindFor(category)
+        const next = OFFER_KINDS[kind]
+        setState((prev) => ({
+            ...prev,
+            category,
+            kind,
+            domain: '',
             diploma: next.diplomas.includes(prev.diploma) ? prev.diploma : '',
             feesPeriod: next.defaultFeesPeriod,
             selection: next.defaultSelection,
@@ -342,6 +368,24 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
 
             <Step meta={stepOf('main')} open={isOpen('main')} onToggle={() => toggleStep('main')}>
                 <CRow className='g-3'>
+                    {categoryIds.length > 1 && (
+                        <CCol md={12}>
+                            <CFormSelect
+                                label='Catégorie de l’offre'
+                                value={s.category}
+                                onChange={(ev) => changeCategory(ev.target.value)}
+                                invalid={!!err('category')}
+                                feedbackInvalid={err('category')}
+                                text='Votre établissement couvre plusieurs cycles : choisissez celui de cette offre. Les champs du formulaire s’adaptent.'
+                            >
+                                {categoryIds.map((id) => (
+                                    <option key={id} value={id}>
+                                        {categoryLabel(id)}
+                                    </option>
+                                ))}
+                            </CFormSelect>
+                        </CCol>
+                    )}
                     {kinds.length > 1 ? (
                         <CCol md={6}>
                             <CFormSelect label="Type d'offre" value={s.kind} onChange={(ev) => changeKind(ev.target.value)}>
@@ -355,7 +399,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                     ) : (
                         // Un seul type possible : on rappelle plutôt le type d'établissement, qui détermine les champs.
                         <CCol md={6}>
-                            <CFormInput label="Type d'établissement" value={e.subCategory || OFFER_KINDS[s.kind]?.label || ''} disabled readOnly />
+                            <CFormInput label="Type d'établissement" value={(isMainCategory && e.subCategory) || OFFER_KINDS[s.kind]?.label || ''} disabled readOnly />
                         </CCol>
                     )}
                     {rules.domain && (

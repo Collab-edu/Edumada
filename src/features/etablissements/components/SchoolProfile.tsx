@@ -25,6 +25,8 @@ import ContactDialog from '@/features/formations/components/detail/ContactDialog
 interface SchoolProfileProps {
     school: SchoolType
     category: CategoryType
+    /** Cycles couverts : la catégorie principale, puis les autres (établissement de la crèche à l'université). */
+    categories?: CategoryType[]
     formations: FormationType[]
     testimonials: TestimonialType[]
     faq: FaqItem[]
@@ -108,9 +110,17 @@ function InfoRow({ icon, label, children }: { icon: string; label: string; child
 }
 
 /** Fiche complète d'un établissement : présentation, formations, photos, contact et localisation. */
-export function SchoolProfile({ school, category, formations, testimonials, faq }: SchoolProfileProps) {
+export function SchoolProfile({ school, category, categories = [category], formations, testimonials, faq }: SchoolProfileProps) {
     const t = useT()
     const { fields } = category
+    const otherCategories = categories.filter((c) => c.id !== category.id)
+    // Offres regroupées par cycle quand l'établissement en couvre plusieurs (une offre sans catégorie connue va dans la principale).
+    const offerGroups = categories
+        .map((c) => ({
+            category: c,
+            formations: formations.filter((f) => (categories.some((x) => x.id === f.category) ? f.category : category.id) === c.id),
+        }))
+        .filter((group) => group.formations.length > 0)
     // Les avis viennent des étudiants dans le supérieur, des familles ailleurs.
     const reviewsTitle = category.id === 'petite-enfance' ? 'Avis des parents' : fields.careers ? "Témoignages d'étudiants" : 'Avis des familles et des élèves'
     const socials = Object.entries(school.socialLinks).filter((entry): entry is [string, string] => Boolean(entry[1]))
@@ -151,8 +161,13 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             <h1 className='text-3xl md:text-4xl font-bold leading-tight text-white'>{school.name}</h1>
                             <div className='flex flex-wrap items-center gap-2 text-sm'>
                                 <span className='inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 font-semibold text-secondary'>
-                                    <Icon icon={category.icon} /> {school.subCategory}
+                                    <Icon icon={category.icon} /> {school.subCategory || t(category.shortLabel)}
                                 </span>
+                                {otherCategories.map((c) => (
+                                    <span key={c.id} className='inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 font-semibold text-secondary'>
+                                        <Icon icon={c.icon} /> {t(c.shortLabel)}
+                                    </span>
+                                ))}
                                 {school.type && <span className='rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>{school.type}</span>}
                                 <span className='inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>
                                     <Icon icon='tabler:map-pin' /> {school.city}
@@ -216,9 +231,25 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
 
                         <div>
                             <SectionTitle icon={category.icon}>
-                                {t(category.offersLabel)} <span className='text-ink/50'>({formations.length})</span>
+                                {t(offerGroups.length > 1 ? 'Offres proposées' : category.offersLabel)} <span className='text-ink/50'>({formations.length})</span>
                             </SectionTitle>
-                            {formations.length > 0 ? (
+                            {offerGroups.length > 1 ? (
+                                <div className='flex flex-col gap-8'>
+                                    {offerGroups.map((group) => (
+                                        <div key={group.category.id}>
+                                            <h3 className='mb-4 flex items-center gap-2 text-lg font-bold text-secondary'>
+                                                <Icon icon={group.category.icon} className='text-primary' />
+                                                {t(group.category.shortLabel)} <span className='font-normal text-ink/50'>({group.formations.length})</span>
+                                            </h3>
+                                            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
+                                                {group.formations.map((formation) => (
+                                                    <SchoolFormation key={formation.id} formation={formation} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : formations.length > 0 ? (
                                 <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
                                     {formations.map((formation) => (
                                         <SchoolFormation key={formation.id} formation={formation} />
@@ -375,7 +406,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 <dl className='text-sm'>
                                     <InfoRow icon='tabler:building-community' label='Nom'>{school.name}</InfoRow>
                                     <InfoRow icon={category.icon} label='Type et catégorie'>
-                                        {[school.subCategory, category.label, school.type].filter((v): v is string => Boolean(v)).map((v) => t(v)).join(' · ')}
+                                        {[school.subCategory, category.label, ...otherCategories.map((c) => c.label), school.type].filter((v): v is string => Boolean(v)).map((v) => t(v)).join(' · ')}
                                     </InfoRow>
                                     {school.foundedYear && (
                                         <InfoRow icon='tabler:calendar-star' label='Année de création'>

@@ -92,7 +92,7 @@ class CampaignController extends Controller
             ->when($filters['city'] ?? null, fn (Builder $query, string $city) => $query->where(fn (Builder $query) => $query
                 ->whereNull('target_city')
                 ->orWhere('target_city', $city)))
-            ->with(['establishment', 'offer.establishment.category', 'offer.domain'])
+            ->with(['establishment', 'offer.category', 'offer.establishment.category', 'offer.domain'])
             ->inRandomOrder()
             ->limit(20)
             ->get()

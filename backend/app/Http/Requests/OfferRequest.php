@@ -14,6 +14,7 @@ use App\Enums\OfferKind;
 use App\Enums\OfferStatus;
 use App\Enums\RegistrationStatus;
 use App\Enums\ScholarshipAvailability;
+use App\Models\Category;
 use App\Models\Domain;
 use App\Models\Establishment;
 use App\Models\Offer;
@@ -51,6 +52,8 @@ class OfferRequest extends FormRequest
 
         return [
             'title' => [$required, 'string', 'max:255'],
+            // Catégorie de l'offre parmi celles de la fiche ; par défaut la catégorie principale.
+            'category' => ['sometimes', 'nullable', 'string', Rule::exists('categories', 'slug')],
             'domain' => ['sometimes', 'nullable', 'string', Rule::exists('domains', 'name')],
             'kind' => [$required, Rule::in(OfferKind::labels())],
             'diploma' => ['sometimes', 'nullable', Rule::in(Diploma::labels())],
@@ -158,6 +161,25 @@ class OfferRequest extends FormRequest
     {
         return [
             function (Validator $validator): void {
+                if (! $this->filled('category') || $validator->errors()->has('category')) {
+                    return;
+                }
+
+                // Une offre existante garde sa catégorie, même si la fiche ne la propose plus.
+                $offer = $this->route('offer');
+                $category = $this->offerCategory();
+                if ($offer instanceof Offer && $offer->category_id === $category?->id) {
+                    return;
+                }
+
+                $establishment = $this->establishment();
+                if (! in_array($category?->id, $establishment->allowedCategoryIds(), true)) {
+                    $validator->errors()->add('category', $establishment->currentPlan()->limit('maxCategories') === 1
+                        ? 'Votre formule ne permet qu\'une seule catégorie : passez à Pro ou Premium pour publier des offres dans d\'autres catégories.'
+                        : 'Ajoutez d\'abord cette catégorie à votre fiche établissement.');
+                }
+            },
+            function (Validator $validator): void {
                 $kind = $this->input('kind');
                 if ($kind === null || $validator->errors()->has('kind')) {
                     return;
@@ -166,9 +188,9 @@ class OfferRequest extends FormRequest
                 // Une offre existante garde le type qu'elle a déjà, même hors de la règle.
                 $offer = $this->route('offer');
                 $unchanged = $offer instanceof Offer && $offer->kind->label() === $kind;
-                $allowed = OfferKind::forCategory($this->establishment()->category?->slug);
+                $allowed = OfferKind::forCategory($this->offerCategory()?->slug);
                 if (! $unchanged && ! in_array(OfferKind::fromLabel($kind), $allowed, true)) {
-                    $validator->errors()->add('kind', 'Ce type d\'offre ne correspond pas à la catégorie de votre établissement.');
+                    $validator->errors()->add('kind', 'Ce type d\'offre ne correspond pas à la catégorie de l\'offre.');
                 }
             },
             function (Validator $validator): void {
@@ -183,9 +205,9 @@ class OfferRequest extends FormRequest
                     return;
                 }
 
-                $category = $this->establishment()->category?->slug;
+                $category = $this->offerCategory()?->slug;
                 if (! Domain::forCategory($category)->where('name', $domain)->exists()) {
-                    $validator->errors()->add('domain', 'Ce domaine ne correspond pas à la catégorie de votre établissement.');
+                    $validator->errors()->add('domain', 'Ce domaine ne correspond pas à la catégorie de l\'offre.');
                 }
             },
             function (Validator $validator): void {
@@ -221,6 +243,20 @@ class OfferRequest extends FormRequest
     }
 
     /**
+     * Catégorie de l'offre : celle envoyée, sinon celle de l'offre existante, sinon la principale de la fiche.
+     */
+    public function offerCategory(): ?Category
+    {
+        if ($this->filled('category')) {
+            return Category::where('slug', $this->input('category'))->first();
+        }
+
+        $offer = $this->route('offer');
+
+        return ($offer instanceof Offer ? $offer->category : null) ?? $this->establishment()->category;
+    }
+
+    /**
      * Colonnes de la table `offers` correspondant aux champs envoyés.
      *
      * @return array<string, mixed>
@@ -238,6 +274,7 @@ class OfferRequest extends FormRequest
         };
 
         $set('title', 'title');
+        $set('category', 'category_id', fn (?string $slug) => $this->offerCategory()?->id);
         $set('domain', 'domain_id', fn (?string $name) => $name ? Domain::where('name', $name)->value('id') : null);
         $set('kind', 'kind', fn (string $label) => OfferKind::fromLabel($label));
         $set('diploma', 'diploma', fn (?string $label) => Diploma::fromNullableLabel($label));

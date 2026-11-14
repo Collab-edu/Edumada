@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Enums\EstablishmentMemberRole;
 use App\Enums\EstablishmentSector;
 use App\Enums\EstablishmentStatus;
-use App\Enums\VerificationStatus;
 use App\Enums\PlanCode;
+use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EstablishmentRequest;
 use App\Http\Resources\EstablishmentDetailResource;
@@ -40,12 +40,14 @@ class EstablishmentController extends Controller
         ]);
 
         $establishments = Establishment::published()
-            ->with(['category', 'subCategory', 'publishedOffers.domain'])
+            ->with(['category', 'subCategory', 'secondaryCategories', 'publishedOffers.domain'])
             ->when($filters['plan'] ?? null, fn (Builder $query, string $plan) => $query->onPlan(PlanCode::from($plan)))
             ->when($filters['q'] ?? null, fn (Builder $query, string $text) => $query->whereContains('name', $text))
-            ->when($filters['category'] ?? null, fn (Builder $query, string $category) => $query->whereHas(
-                'category', fn (Builder $categories) => $categories->where('slug', $category)->orWhere('short_label', $category),
-            ))
+            // Catégorie principale ou l'un des autres cycles couverts par la fiche.
+            ->when($filters['category'] ?? null, function (Builder $query, string $category): void {
+                $matches = fn (Builder $categories) => $categories->where('slug', $category)->orWhere('short_label', $category);
+                $query->where(fn (Builder $query) => $query->whereHas('category', $matches)->orWhereHas('secondaryCategories', $matches));
+            })
             ->when($filters['city'] ?? null, fn (Builder $query, string $city) => $query->where('city', $city))
             ->when($filters['type'] ?? null, fn (Builder $query, string $type) => $query->where('sector', EstablishmentSector::fromLabel($type)))
             ->when($request->boolean('verified'), fn (Builder $query) => $query->where('verification_status', VerificationStatus::Verified))
@@ -67,8 +69,9 @@ class EstablishmentController extends Controller
         return new EstablishmentDetailResource($establishment->load([
             'category.subCategories',
             'subCategory',
+            'secondaryCategories',
             'publishedOffers.domain',
-            'publishedOffers.establishment.category',
+            'publishedOffers.category', 'publishedOffers.establishment.category',
             'publishedReviews.establishment',
             'publishedReviews.offer',
         ]));
@@ -87,6 +90,7 @@ class EstablishmentController extends Controller
             $establishment->status = EstablishmentStatus::PendingReview;
             $establishment->verification_status = VerificationStatus::Unverified;
             $establishment->save();
+            $establishment->syncSecondaryCategories($request->secondaryCategoryIds() ?? []);
 
             if ($request->user()->isEstablishmentAccount()) {
                 $establishment->members()->attach($request->user(), ['role' => EstablishmentMemberRole::Owner->value]);
@@ -102,7 +106,15 @@ class EstablishmentController extends Controller
     {
         Gate::authorize('update', $establishment);
 
-        $establishment->update($request->establishmentAttributes());
+        DB::transaction(function () use ($request, $establishment): void {
+            $establishment->update($request->establishmentAttributes());
+
+            // Changement de catégorie principale ou d'autres catégories : les offres restent dans une catégorie de la fiche.
+            $secondaryIds = $request->secondaryCategoryIds();
+            if ($secondaryIds !== null || $establishment->wasChanged('category_id')) {
+                $establishment->syncSecondaryCategories($secondaryIds ?? $establishment->secondaryCategories->modelKeys());
+            }
+        });
 
         return new ManagedEstablishmentResource($establishment->load(ManagedEstablishmentResource::RELATIONS));
     }

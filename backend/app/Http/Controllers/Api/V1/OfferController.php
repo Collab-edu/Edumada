@@ -26,7 +26,7 @@ class OfferController extends Controller
     {
         $filters = $request->validated();
         $perPage = $filters['perPage'] ?? 24;
-        $search = fn (array $filters) => Offer::published()->with(['establishment.category', 'domain'])->matchingSearch($filters);
+        $search = fn (array $filters) => Offer::published()->with(['category', 'establishment.category', 'domain'])->matchingSearch($filters);
 
         $offers = $search($filters)->paginate($perPage)->withQueryString();
         $city = trim($filters['city'] ?? '');
@@ -76,7 +76,7 @@ class OfferController extends Controller
 
         return new OfferPageResource($offer->load([
             'domain',
-            'establishment.category',
+            'category', 'establishment.category',
             'establishment.subCategory',
             'establishment.publishedOffers.domain',
         ]));
@@ -98,7 +98,7 @@ class OfferController extends Controller
         $offer->slug = Offer::uniqueSlug($offer->title.' '.$establishment->name);
         $offer->save();
 
-        return new ManagedOfferResource($offer->load(['domain', 'establishment.category']));
+        return new ManagedOfferResource($offer->load(['domain', 'category', 'establishment.category']));
     }
 
     public function update(OfferRequest $request, Offer $offer): ManagedOfferResource
@@ -111,7 +111,7 @@ class OfferController extends Controller
         }
         $offer->save();
 
-        return new ManagedOfferResource($offer->load(['domain', 'establishment.category']));
+        return new ManagedOfferResource($offer->load(['domain', 'category', 'establishment.category']));
     }
 
     public function destroy(Offer $offer): Response

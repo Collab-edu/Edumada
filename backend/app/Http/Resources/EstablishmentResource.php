@@ -30,6 +30,8 @@ class EstablishmentResource extends JsonResource
             'type' => $this->sector?->label(),
             'category' => $this->category->slug,
             'subCategory' => $this->subCategory?->label ?? '',
+            // Autres cycles couverts (slugs), hors catégorie principale.
+            'secondaryCategories' => $this->secondaryCategories->pluck('slug')->values()->all(),
             'socialLinks' => (object) ($this->social_links ?? []),
             'infrastructures' => $this->infrastructures ?? [],
             'verification' => [

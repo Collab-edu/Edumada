@@ -113,6 +113,45 @@ class Establishment extends Model
     }
 
     /**
+     * Autres catégories couvertes par l'établissement (crèche + primaire + supérieur…), hors catégorie principale.
+     *
+     * @return BelongsToMany<Category, $this>
+     */
+    public function secondaryCategories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class)->withTimestamps()->orderBy('position');
+    }
+
+    /**
+     * Catégories utilisables pour les offres : la principale, puis les autres si la formule le permet.
+     *
+     * @return list<int>
+     */
+    public function allowedCategoryIds(): array
+    {
+        $ids = array_values(array_unique(array_filter([$this->category_id, ...$this->secondaryCategories->modelKeys()])));
+        $max = $this->currentPlan()->limit('maxCategories');
+
+        return $max === null ? $ids : array_slice($ids, 0, max(1, $max));
+    }
+
+    /**
+     * Remplace les autres catégories ; les offres d'une catégorie retirée repassent dans la catégorie principale.
+     *
+     * @param  list<int>  $categoryIds
+     */
+    public function syncSecondaryCategories(array $categoryIds): void
+    {
+        $categoryIds = array_values(array_diff(array_unique($categoryIds), [$this->category_id]));
+        $this->secondaryCategories()->sync($categoryIds);
+        $this->unsetRelation('secondaryCategories');
+
+        $this->offers()
+            ->where(fn (Builder $query) => $query->whereNull('category_id')->orWhereNotIn('category_id', [$this->category_id, ...$categoryIds]))
+            ->update(['category_id' => $this->category_id]);
+    }
+
+    /**
      * @return BelongsTo<SubCategory, $this>
      */
     public function subCategory(): BelongsTo

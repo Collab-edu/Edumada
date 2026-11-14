@@ -19,7 +19,7 @@ class ManagedEstablishmentResource extends EstablishmentResource
      *
      * @var list<string>
      */
-    public const RELATIONS = ['category', 'subCategory', 'publishedOffers.domain', 'offers.domain', 'offers.establishment.category'];
+    public const RELATIONS = ['category', 'subCategory', 'secondaryCategories', 'publishedOffers.domain', 'offers.domain', 'offers.category', 'offers.establishment.category'];
 
     /**
      * L'établissement voit toutes ses données, même celles que sa formule n'affiche pas.
