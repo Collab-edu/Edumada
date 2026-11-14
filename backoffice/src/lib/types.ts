@@ -68,6 +68,8 @@ export type Plan = {
         reviews?: boolean
         /** Nombre d'infrastructures affichées ; null = illimité. */
         maxInfrastructures?: number | null
+        /** Durée (mois) du verrou de l'offre publiée ; null = pas de verrou. */
+        offerLockMonths?: number | null
     }
 }
 
@@ -210,6 +212,8 @@ export type ManagedEstablishment = Establishment & {
     memberRole?: 'owner' | 'editor'
     plan: Plan
     publishedOffersCount: number
+    /** Formule Gratuit : offre publiée verrouillée (ni remplacement, ni changement de titre/domaine/diplôme) jusqu'à la date `until`. */
+    offerLock?: { offerId: string | null; correctableUntil: string; until: string } | null
     /** Formule payante choisie à l'inscription, tant qu'elle n'est pas activée. */
     requestedPlan?: { code: 'pro' | 'premium'; name: string; billingCycle: 'monthly' | 'yearly' } | null
     offers?: ManagedOffer[]

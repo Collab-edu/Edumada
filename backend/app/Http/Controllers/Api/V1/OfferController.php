@@ -96,7 +96,10 @@ class OfferController extends Controller
 
         $offer = $establishment->offers()->make($request->offerAttributes());
         $offer->slug = Offer::uniqueSlug($offer->title.' '.$establishment->name);
+        $change = $offer->pendingPublicationChange();
+        $establishment->assertOfferChangeAllowed($offer, $change);
         $offer->save();
+        $establishment->lockOfferIfNeeded($offer, $change);
 
         return new ManagedOfferResource($offer->load(['domain', 'establishment.category']));
     }
@@ -106,10 +109,14 @@ class OfferController extends Controller
         Gate::authorize('update', $offer);
 
         $offer->fill($request->offerAttributes());
+        // Formule Gratuit : pas de remplacement ni de changement d'identité de l'offre publiée pendant le verrou.
+        $change = $offer->pendingPublicationChange();
+        $offer->establishment->assertOfferChangeAllowed($offer, $change);
         if ($offer->isDirty('status')) {
             AuditLog::record('offer.status_changed', $offer, ['from' => $offer->getOriginal('status')?->value, 'to' => $offer->status->value]);
         }
         $offer->save();
+        $offer->establishment->lockOfferIfNeeded($offer, $change);
 
         return new ManagedOfferResource($offer->load(['domain', 'establishment.category']));
     }

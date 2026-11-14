@@ -10,6 +10,7 @@ use App\Enums\PlanCode;
 use App\Enums\ReviewStatus;
 use App\Enums\VerificationStatus;
 use App\Models\Concerns\HasUniqueSlug;
+use Carbon\CarbonInterface;
 use Database\Factories\EstablishmentFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\RouteKey;
@@ -55,6 +56,8 @@ class Establishment extends Model
             'infrastructures' => 'array',
             'admission_documents' => 'array',
             'photos' => 'array',
+            'offer_locked_at' => 'datetime',
+            'offer_locked_until' => 'datetime',
             'latitude' => 'float',
             'longitude' => 'float',
         ];
@@ -270,6 +273,83 @@ class Establishment extends Model
     public function currentPlan(): Plan
     {
         return $this->currentSubscription()?->plan ?? Plan::where('code', PlanCode::Free)->firstOrFail();
+    }
+
+    /**
+     * Après la publication, le titre, le domaine ou le diplôme restent corrigeables quelques jours (faute de frappe…).
+     */
+    public const OFFER_CORRECTION_DAYS = 7;
+
+    /**
+     * Verrou en cours sur l'offre publiée (formule Gratuit) : offre concernée, fin du délai de correction et fin du verrou.
+     *
+     * @return array{offerId: int|null, correctableUntil: CarbonInterface, until: CarbonInterface}|null
+     */
+    public function activeOfferLock(): ?array
+    {
+        if ($this->currentPlan()->limit('offerLockMonths') === null || $this->offer_locked_until === null || $this->offer_locked_until->isPast()) {
+            return null;
+        }
+
+        return [
+            'offerId' => $this->locked_offer_id,
+            'correctableUntil' => $this->offer_locked_at->copy()->addDays(self::OFFER_CORRECTION_DAYS),
+            'until' => $this->offer_locked_until,
+        ];
+    }
+
+    /**
+     * Formule Gratuit : pendant le verrou, on ne publie pas une autre offre et on ne change pas l'identité
+     * (titre, domaine, diplôme…) de l'offre verrouillée, sauf pendant le délai de correction.
+     * Le reste (description, frais, dates, programme…) reste modifiable.
+     *
+     * L'identité de l'offre verrouillée reste bloquée même archivée : sinon il suffirait de l'archiver, la renommer et la republier.
+     *
+     * @param  array{publishing: bool, identityChanged: bool, wasPublished: bool}  $change
+     *
+     * @throws ValidationException
+     */
+    public function assertOfferChangeAllowed(Offer $offer, array $change): void
+    {
+        $lock = $this->activeOfferLock();
+        if ($lock === null) {
+            return;
+        }
+
+        $isLockedOffer = $offer->exists && $offer->getKey() === $lock['offerId'];
+        $publishingAnother = $change['publishing'] && ! $isLockedOffer;
+        $renaming = $change['identityChanged'] && ($isLockedOffer || $change['wasPublished'])
+            && ! ($isLockedOffer && $lock['correctableUntil']->isFuture());
+        if (! $publishingAnother && ! $renaming) {
+            return;
+        }
+
+        $date = $lock['until']->locale('fr')->isoFormat('LL');
+        throw ValidationException::withMessages([
+            $publishingAnother ? 'status' : 'title' => $publishingAnother
+                ? "La formule Gratuit permet de changer d'offre publiée une fois par an : prochain changement possible le {$date}. Passez à Pro pour publier toutes vos offres."
+                : "Le titre, le domaine et le diplôme de votre offre publiée sont verrouillés jusqu'au {$date} (formule Gratuit). Vous pouvez toujours modifier la description, les frais, les dates et le programme, ou passer à Pro.",
+        ]);
+    }
+
+    /**
+     * Après une publication ou un changement d'identité autorisé : démarre le verrou de la formule s'il n'y en a pas en cours.
+     *
+     * @param  array{publishing: bool, identityChanged: bool, wasPublished: bool}  $change
+     */
+    public function lockOfferIfNeeded(Offer $offer, array $change): void
+    {
+        $months = $this->currentPlan()->limit('offerLockMonths');
+        $putsOnline = $change['publishing'] || ($change['identityChanged'] && $change['wasPublished']);
+        if ($months === null || ! $putsOnline || $this->activeOfferLock() !== null) {
+            return;
+        }
+
+        $this->forceFill([
+            'locked_offer_id' => $offer->getKey(),
+            'offer_locked_at' => now(),
+            'offer_locked_until' => now()->addMonths($months),
+        ])->save();
     }
 
     /**

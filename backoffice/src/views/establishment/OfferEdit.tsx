@@ -7,6 +7,7 @@ import { cilCheckAlt, cilChevronBottom, cilChevronRight, cilChevronTop, cilEduca
 import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useToast } from '@/context/ToastContext'
 import { api, ApiError } from '@/lib/api'
+import { formatDate } from '@/lib/format'
 import { useApi } from '@/lib/useApi'
 import { DURATION_UNITS, formationStructure, HIGHER_DIPLOMAS, kindsForCategory, OFFER_KINDS, VOCATIONAL_DIPLOMAS, type FormationStructure, type OfferKindRules } from '@/lib/offerKinds'
 import type { Domain, ManagedEstablishment, ManagedOffer, ReferenceData } from '@/lib/types'
@@ -215,6 +216,11 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
     const labels = offerLabels(structure, e.subCategory, rules)
     const showBacSeries = rules.level && (structure === 'levels' ? s.levels.some((l) => l.admissionLevel !== 'Aucun') : s.level !== 'Aucun')
     const [saving, setSaving] = useState<string | null>(null)
+    // Formule Gratuit : l'offre publiée est verrouillée un an (voir Offers).
+    const lock = e.offerLock
+    const isLockedOffer = !!lock && !!offer && offer.id === lock.offerId
+    const identityLocked = isLockedOffer && new Date(lock.correctableUntil) < new Date()
+    const cannotPublish = !!lock && !isLockedOffer
     const [error, setError] = useState<unknown>(null)
     const set = <K extends keyof State>(key: K, value: State[K]) => setState((prev) => ({ ...prev, [key]: value }))
     // Changer de type : on repart des valeurs par défaut de ce type pour les champs qu'il ne partage pas.
@@ -337,6 +343,22 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                 <CAlert color='danger'>
                     {apiError?.field('status') ??
                         (apiError && Object.keys(apiError.errors).length ? 'Certains champs sont à corriger (en rouge).' : error instanceof Error ? error.message : '')}
+                </CAlert>
+            )}
+
+            {identityLocked && (
+                <CAlert color='info'>
+                    Le titre, le domaine et le diplôme de cette offre sont verrouillés jusqu&apos;au {formatDate(lock.until)} (formule {e.plan.name}). Tout le reste se modifie librement.
+                </CAlert>
+            )}
+            {isLockedOffer && !identityLocked && (
+                <CAlert color='info'>
+                    Vous pouvez encore corriger le titre, le domaine et le diplôme jusqu&apos;au {formatDate(lock.correctableUntil)}. Ensuite, ils seront verrouillés jusqu&apos;au {formatDate(lock.until)} (formule {e.plan.name}).
+                </CAlert>
+            )}
+            {cannotPublish && (
+                <CAlert color='warning'>
+                    Avec la formule {e.plan.name}, vous changez d&apos;offre publiée une fois par an : celle-ci pourra être publiée à partir du {formatDate(lock.until)}. Vous pouvez la préparer en brouillon, ou passer à Pro pour la publier tout de suite.
                 </CAlert>
             )}
 
@@ -779,7 +801,7 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                             {saving === 'save' && <CSpinner size='sm' className='me-2' />}
                             Enregistrer
                         </CButton>
-                        {offer.status !== 'published' && (
+                        {offer.status !== 'published' && !cannotPublish && (
                             <CButton color='danger' className='text-white' disabled={!!saving} onClick={() => save('published')}>
                                 {saving === 'published' ? <CSpinner size='sm' className='me-2' /> : <CIcon icon={cilSend} className='me-2' />}
                                 Enregistrer et publier
@@ -792,10 +814,12 @@ function OfferForm({ offer }: { offer?: ManagedOffer }) {
                             <CIcon icon={cilSave} className='me-2' />
                             Enregistrer le brouillon
                         </CButton>
-                        <CButton color='danger' className='text-white' disabled={!!saving} onClick={() => save('published')}>
-                            {saving === 'published' ? <CSpinner size='sm' className='me-2' /> : <CIcon icon={cilSend} className='me-2' />}
-                            Publier
-                        </CButton>
+                        {!cannotPublish && (
+                            <CButton color='danger' className='text-white' disabled={!!saving} onClick={() => save('published')}>
+                                {saving === 'published' ? <CSpinner size='sm' className='me-2' /> : <CIcon icon={cilSend} className='me-2' />}
+                                Publier
+                            </CButton>
+                        )}
                     </>
                 )}
                 </div>

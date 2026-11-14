@@ -51,6 +51,31 @@ class Offer extends Model
     use HasFactory, HasUniqueSlug, SoftDeletes;
 
     /**
+     * Colonnes qui font l'identité d'une offre : les changer sur une offre publiée revient à publier une autre formation
+     * (soumis au verrou de la formule Gratuit, voir Establishment::assertOfferChangeAllowed).
+     *
+     * @var list<string>
+     */
+    public const IDENTITY_ATTRIBUTES = ['title', 'domain_id', 'kind', 'diploma', 'diploma_other', 'levels'];
+
+    /**
+     * Changement en attente sur l'offre (remplie, pas encore enregistrée) : la publie-t-il, change-t-il son identité ?
+     * `wasPublished` : l'offre était déjà en ligne avant ce changement.
+     *
+     * @return array{publishing: bool, identityChanged: bool, wasPublished: bool}
+     */
+    public function pendingPublicationChange(): array
+    {
+        $wasPublished = $this->exists && $this->getOriginal('status') === OfferStatus::Published;
+
+        return [
+            'publishing' => $this->status === OfferStatus::Published && ! $wasPublished,
+            'identityChanged' => $this->exists && $this->isDirty(self::IDENTITY_ATTRIBUTES),
+            'wasPublished' => $wasPublished,
+        ];
+    }
+
+    /**
      * Valeurs par défaut de la base, nécessaires pour renvoyer une offre juste créée.
      *
      * @var array<string, mixed>

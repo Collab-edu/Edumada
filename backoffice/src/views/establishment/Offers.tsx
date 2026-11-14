@@ -23,7 +23,7 @@ import { cilPlus } from '@coreui/icons'
 import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useToast } from '@/context/ToastContext'
 import { api, assetUrl, errorMessage, SITE_URL } from '@/lib/api'
-import { formatAriary, formatDateTime } from '@/lib/format'
+import { formatAriary, formatDate, formatDateTime } from '@/lib/format'
 import type { ManagedOffer } from '@/lib/types'
 import { EmptyState, PageCard, StatusBadge } from '@/components/ui'
 import PageBanner from '@/components/PageBanner'
@@ -44,6 +44,8 @@ export default function Offers() {
     const offers = (e.offers ?? []).filter((o) => filter === 'all' || o.status === filter)
     const limit = e.plan.maxPublishedOffers
     const atLimit = limit !== null && e.publishedOffersCount >= limit
+    const lock = e.offerLock
+    const lockedTitle = (e.offers ?? []).find((o) => o.id === lock?.offerId)?.title
 
     const run = async (action: () => Promise<unknown>, message: string) => {
         try {
@@ -91,6 +93,14 @@ export default function Offers() {
                     <CAlert color='warning'>
                         Limite de la formule {e.plan.name} atteinte : les nouvelles offres restent en brouillon. <Link href='/formule/'>Passer à Pro</Link> pour publier sans
                         limite.
+                    </CAlert>
+                )}
+
+                {lock && (
+                    <CAlert color='info'>
+                        <strong>Offre verrouillée jusqu&apos;au {formatDate(lock.until)}.</strong> Avec la formule {e.plan.name}, vous changez d&apos;offre publiée une fois par an
+                        {lockedTitle ? <> : « {lockedTitle} » reste votre offre en ligne</> : null}. Sa description, ses frais, ses dates et son programme restent modifiables à tout moment.{' '}
+                        <Link href='/formule/'>Passer à Pro</Link> pour publier toutes vos offres.
                     </CAlert>
                 )}
 

@@ -43,6 +43,12 @@ class ManagedEstablishmentResource extends EstablishmentResource
             'memberRole' => $this->whenPivotLoaded('establishment_user', fn () => $this->pivot->role),
             'plan' => new PlanResource($plan),
             'publishedOffersCount' => $this->publishedOffers()->count(),
+            // Formule Gratuit : offre publiée verrouillée (pas de remplacement ni de changement de titre/domaine/diplôme).
+            'offerLock' => ($lock = $this->activeOfferLock()) ? [
+                'offerId' => $this->offers->firstWhere('id', $lock['offerId'])?->slug,
+                'correctableUntil' => $lock['correctableUntil']->toIso8601String(),
+                'until' => $lock['until']->toDateString(),
+            ] : null,
             // Formule payante choisie à l'inscription, tant qu'elle n'est pas activée.
             'requestedPlan' => $this->requested_plan ? [
                 'code' => $this->requested_plan,
