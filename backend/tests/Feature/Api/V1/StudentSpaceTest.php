@@ -39,15 +39,17 @@ class StudentSpaceTest extends TestCase
         $this->actingAs($this->student())->putJson("/api/v1/me/favorites/{$offer->slug}")->assertNotFound();
     }
 
-    public function test_free_fiche_does_not_accept_reviews(): void
+    public function test_free_and_pro_fiches_do_not_accept_reviews(): void
     {
         $this->seed(PlanSeeder::class);
         $establishment = Establishment::factory()->create();
+        $review = ['rating' => 4, 'quote' => 'Des enseignants disponibles et des cours très concrets.'];
 
-        $this->actingAs($this->student())->postJson("/api/v1/establishments/{$establishment->slug}/reviews", [
-            'rating' => 4,
-            'quote' => 'Des enseignants disponibles et des cours très concrets.',
-        ])->assertForbidden();
+        $this->actingAs($this->student())->postJson("/api/v1/establishments/{$establishment->slug}/reviews", $review)->assertForbidden();
+
+        // Avis réservés à Premium.
+        $this->subscribe($establishment, PlanCode::Pro);
+        $this->actingAs($this->student())->postJson("/api/v1/establishments/{$establishment->slug}/reviews", $review)->assertForbidden();
 
         $this->assertDatabaseCount('reviews', 0);
     }
@@ -56,7 +58,7 @@ class StudentSpaceTest extends TestCase
     {
         $this->seed(PlanSeeder::class);
         $establishment = Establishment::factory()->create();
-        $this->subscribe($establishment, PlanCode::Pro);
+        $this->subscribe($establishment, PlanCode::Premium);
 
         $this->actingAs($this->student())->postJson("/api/v1/establishments/{$establishment->slug}/reviews", [
             'rating' => 4,

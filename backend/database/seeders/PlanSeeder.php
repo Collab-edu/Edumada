@@ -35,7 +35,7 @@ class PlanSeeder extends Seeder
                 'max_published_offers' => 3,
                 'features' => [
                     'inquiryInbox' => true, 'statistics' => 'standard', 'sponsoredPlacement' => false, 'searchPriority' => false, 'premiumBadge' => false, 'edumadaPromotion' => false, 'prioritySupport' => false,
-                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null, 'offerLockMonths' => null,
+                    'photoGallery' => true, 'onlineLinks' => true, 'reviews' => false, 'maxInfrastructures' => null, 'offerLockMonths' => null,
                 ],
             ],
             [

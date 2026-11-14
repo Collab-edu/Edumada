@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * - prioritySupport : accompagnement prioritaire et optimisation de la fiche et des offres ;
  * - photoGallery : galerie de photos des locaux sur la fiche publique ;
  * - onlineLinks : site web et réseaux sociaux affichés sur la fiche publique ;
- * - reviews : avis des étudiants sur la fiche ;
+ * - reviews : avis des étudiants sur la fiche (Premium uniquement) ;
  * - maxInfrastructures : nombre d'infrastructures affichées (0 = aucune, null = illimité) ;
  * - offerLockMonths : durée (en mois) pendant laquelle l'offre publiée ne peut être ni remplacée ni changée d'identité (null = pas de verrou).
  */

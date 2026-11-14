@@ -63,7 +63,7 @@ class AdminTest extends TestCase
     public function test_published_review_appears_on_the_site(): void
     {
         $offer = Offer::factory()->create();
-        $this->subscribe($offer->establishment, PlanCode::Pro);
+        $this->subscribe($offer->establishment, PlanCode::Premium);
         $review = $offer->establishment->reviews()->create([
             'offer_id' => $offer->id, 'author_name' => 'Hery R.', 'rating' => 5, 'quote' => 'Une formation très concrète.',
         ]);
