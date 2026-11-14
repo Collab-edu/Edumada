@@ -10,7 +10,7 @@ export const SOCIAL_LINKS = [
  */
 export const CONTACT = {
     email: 'contact@edumada.mg',
-    phone: '+261 34 00 000 00',
+    phone: '038 29 155 09',
     // Numéro WhatsApp au format international (le bouton flottant ouvre wa.me/<numéro>). Vide = renvoi vers la page Contact.
     whatsapp: '261382915509',
 }
