@@ -63,6 +63,8 @@ export type FormationType = {
   imageSrc: string
   /** Logo de l'établissement, recopié pour les cartes d'offre. */
   schoolLogo?: string
+  /** Établissement en formule Premium : badge doré sur la carte. Absent dans les données locales. */
+  premium?: boolean
 }
 
 /** Montant d'un frais ; null = « Non communiqué ». */

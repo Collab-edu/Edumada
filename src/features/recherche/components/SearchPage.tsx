@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import { Icon } from '@/components/ui/icon'
 import { Button } from '@/components/ui/form'
 import { useAuth } from '@/features/auth/AuthProvider'
-import { track } from '@/lib/track'
 import { cn } from '@/lib/utils'
 import CityPicker from './CityPicker'
 import SuggestInput from './SuggestInput'
@@ -23,7 +22,7 @@ import {
     type SearchFilters,
     type SortValue,
 } from '../filters'
-import { useOfferSearch, useSponsoredOffers } from '../useOfferSearch'
+import { useOfferSearch } from '../useOfferSearch'
 import { FILTER_UI, TOP_FILTERS, useFilterSuggestions } from '../useFilterSuggestions'
 import { useT } from '@/i18n/client'
 
@@ -41,12 +40,6 @@ const SearchPage = () => {
     const [sort, setSort] = useState<SortValue>('pertinence')
     const [panelOpen, setPanelOpen] = useState(false)
     const { results, total, loading, loadingMore, hasMore, offline, loadMore, near, placeNotFound } = useOfferSearch(filters, sort)
-    const sponsored = useSponsoredOffers(filters)
-
-    // Impressions des emplacements sponsorisés (statistiques Premium).
-    useEffect(() => {
-        sponsored.forEach((s) => track({ type: 'impression', establishment: s.offer.schoolId, offer: s.offer.id, campaign: s.campaignId }))
-    }, [sponsored])
 
     // Bloque le défilement de la page quand le panneau mobile est ouvert.
     useEffect(() => {
@@ -292,23 +285,6 @@ const SearchPage = () => {
                                 <Icon icon='tabler:wifi-off' className='mt-0.5 shrink-0 text-primary' />
                                 {t('Le service Edumada ne répond pas : les résultats affichés peuvent ne pas être à jour.')}
                             </p>
-                        )}
-
-                        {sponsored.length > 0 && !loading && (
-                            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
-                                {sponsored.map((item) => (
-                                    <div
-                                        key={item.campaignId}
-                                        onClickCapture={() => track({ type: 'click', establishment: item.offer.schoolId, offer: item.offer.id, campaign: item.campaignId })}>
-                                        <ResultCard
-                                            formation={item.offer}
-                                            sponsored
-                                            isFavorite={isFavorite(item.offer.id)}
-                                            onToggleFavorite={() => toggleFavorite(item.offer.id)}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
                         )}
 
                         {loading ? (

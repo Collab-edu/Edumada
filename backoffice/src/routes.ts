@@ -1,7 +1,6 @@
 import {
     cilBank,
     cilBriefcase,
-    cilBullhorn,
     cilChartLine,
     cilCreditCard,
     cilEducation,
@@ -48,7 +47,6 @@ export const routes: RouteMeta[] = [
     { path: '/offres/modifier', name: "Modifier l'offre", description: 'Mettez à jour la formation publiée.', icon: cilEducation, establishment: true, roles: ESTABLISHMENT, parent: '/offres' },
     { path: '/demandes', name: 'Demandes', description: "Demandes d'information et candidatures reçues.", icon: cilInbox, establishment: true, roles: ESTABLISHMENT },
     { path: '/statistiques', name: 'Statistiques', description: 'Vues, clics et demandes sur la période.', icon: cilChartLine, establishment: true, roles: ESTABLISHMENT },
-    { path: '/campagnes', name: 'Campagnes', description: 'Mettez une offre en avant avec le badge « Sponsorisé ».', icon: cilBullhorn, establishment: true, roles: ESTABLISHMENT },
     { path: '/formule', name: 'Formule et factures', description: 'Votre abonnement, vos paiements et vos factures.', icon: cilCreditCard, establishment: true, roles: ESTABLISHMENT },
     { path: '/equipe', name: 'Équipe', description: 'Les personnes qui gèrent votre établissement sur Edumada.', icon: cilPeople, establishment: true, roles: ESTABLISHMENT },
     { path: '/facture', name: 'Facture', description: 'Détail et impression de la facture.', icon: cilFile },

@@ -5,6 +5,7 @@ import { getBasePath } from '@/lib/base-path'
 import { imageOr } from '@/lib/media'
 import { cn } from '@/lib/utils'
 import { Icon } from '@/components/ui/icon'
+import { PremiumBadge } from '@/components/ui/premium-badge'
 import { Card, CardWave } from '@/components/ui/card'
 import { useSiteData } from '@/data/site-data'
 import type { SchoolType } from '../types'
@@ -37,13 +38,14 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
     }
 
     return (
-        <Card className='flex h-full flex-col overflow-hidden shadow-[0_6px_14px_-8px_rgba(15,76,92,0.3)]'>
+        <Card className={cn('flex h-full flex-col overflow-hidden shadow-[0_6px_14px_-8px_rgba(15,76,92,0.3)]', school.premium && 'ring-2 ring-gold')}>
             <div className={cn('relative shrink-0 bg-cream', compact ? 'h-40' : 'h-48')}>
                 <Image src={imageOr(school.imageSrc, 640)} alt={`Locaux de ${school.name}`} fill className='object-cover' />
                 {/* Type d'établissement, comme sur les cartes de formation */}
                 <div className='absolute top-3 right-3 left-3 flex flex-wrap items-center gap-1.5'>
                     <CategoryTag categoryId={school.category} subCategory={school.subCategory} className='static max-w-full rounded-full' />
                     {school.type && <span className='rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-secondary'>{t(school.type)}</span>}
+                    {school.premium && <PremiumBadge />}
                 </div>
                 <CardWave />
             </div>

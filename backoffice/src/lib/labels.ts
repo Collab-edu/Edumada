@@ -65,14 +65,16 @@ export function planFeatureSections(plan: Plan): PlanFeatureSection[] {
                 { label: 'Demandes reçues par e-mail', included: true },
                 { label: 'Boîte de réception des demandes', included: !!f.inquiryInbox },
                 { label: 'Statuts, filtres et export CSV', included: !!f.inquiryInbox },
-                { label: f.statistics === 'advanced' ? 'Statistiques avancées par campagne' : f.statistics === 'standard' ? 'Statistiques standard' : 'Statistiques', included: !!f.statistics && f.statistics !== 'none' },
+                { label: f.statistics === 'advanced' ? 'Statistiques avancées' : f.statistics === 'standard' ? 'Statistiques standard' : 'Statistiques', included: !!f.statistics && f.statistics !== 'none' },
             ],
         },
         {
             title: 'Visibilité et marketing',
             features: [
-                { label: 'Campagnes « Sponsorisé »', included: !!f.sponsoredPlacement },
-                { label: 'Accompagnement prioritaire', included: !!f.prioritySupport },
+                { label: 'Mise en avant dans les résultats de recherche', included: !!f.searchPriority },
+                { label: 'Badge doré « Premium » sur la fiche et les offres', included: !!f.premiumBadge },
+                { label: 'Mise en avant sur le site et les réseaux sociaux Edumada', included: !!f.edumadaPromotion },
+                { label: 'Accompagnement prioritaire et optimisation de la fiche et des offres', included: !!f.prioritySupport },
             ],
         },
     ]

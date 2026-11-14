@@ -61,6 +61,11 @@ export type Plan = {
         inquiryInbox?: boolean
         statistics?: 'none' | 'standard' | 'advanced'
         sponsoredPlacement?: boolean
+        /** Premium : en tête des résultats, badge doré, promotion sur le site et les réseaux Edumada. */
+        searchPriority?: boolean
+        premiumBadge?: boolean
+        edumadaPromotion?: boolean
+        /** Accompagnement prioritaire et optimisation de la fiche et des offres. */
         prioritySupport?: boolean
         /** Galerie photos, site web et réseaux sociaux, avis : affichés sur la fiche publique. */
         photoGallery?: boolean

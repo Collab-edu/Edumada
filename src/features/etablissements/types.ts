@@ -38,6 +38,8 @@ export type SchoolType = {
   photos: string[]
   /** false : la formule de l'établissement (Gratuit) n'affiche pas d'avis. Absent dans les données locales. */
   reviewsEnabled?: boolean
+  /** Formule Premium : badge doré et mise en avant dans les résultats. Absent dans les données locales. */
+  premium?: boolean
 }
 
 export type TestimonialType = {

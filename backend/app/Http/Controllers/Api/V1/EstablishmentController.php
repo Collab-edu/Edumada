@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Enums\EstablishmentMemberRole;
 use App\Enums\EstablishmentSector;
 use App\Enums\EstablishmentStatus;
-use App\Enums\VerificationStatus;
 use App\Enums\PlanCode;
+use App\Enums\VerificationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EstablishmentRequest;
 use App\Http\Resources\EstablishmentDetailResource;
@@ -49,6 +49,8 @@ class EstablishmentController extends Controller
             ->when($filters['city'] ?? null, fn (Builder $query, string $city) => $query->where('city', $city))
             ->when($filters['type'] ?? null, fn (Builder $query, string $type) => $query->where('sector', EstablishmentSector::fromLabel($type)))
             ->when($request->boolean('verified'), fn (Builder $query) => $query->where('verification_status', VerificationStatus::Verified))
+            // Fiches Premium d'abord, puis par nom.
+            ->orderByDesc(Establishment::featureRankQuery('searchPriority', 'establishments.id'))
             ->orderBy('name')
             ->paginate($filters['perPage'] ?? 24)
             ->withQueryString();

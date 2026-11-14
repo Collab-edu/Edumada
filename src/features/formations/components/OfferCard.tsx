@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link, { useT } from '@/i18n/client'
 import { Card, CardWave } from '@/components/ui/card'
 import { Icon } from '@/components/ui/icon'
+import { PremiumBadge } from '@/components/ui/premium-badge'
 import { imageOr } from '@/lib/media'
 import { cn } from '@/lib/utils'
 import CategoryTag from '@/features/categories/components/CategoryTag'
@@ -15,15 +16,13 @@ export interface OfferCardProps {
     formation: FormationType
     isFavorite: boolean
     onToggleFavorite: () => void
-    /** Emplacement payant d'une campagne Premium : toujours signalé comme tel. */
-    sponsored?: boolean
     id?: string
     /** Photo moins haute (bandeaux défilants, grilles de 4). */
     compact?: boolean
 }
 
 /** Carte d'une offre, commune à tout le site : photo, établissement, infos clés et bouton vers la fiche. */
-export default function OfferCard({ formation, isFavorite, onToggleFavorite, sponsored = false, id, compact = false }: OfferCardProps) {
+export default function OfferCard({ formation, isFavorite, onToggleFavorite, id, compact = false }: OfferCardProps) {
     const t = useT()
     const distance = formation.distanceKm !== undefined ? ` · ${t('à {km} km', { km: formation.distanceKm.toLocaleString('fr-FR') })}` : ''
     const facts = [
@@ -34,12 +33,12 @@ export default function OfferCard({ formation, isFavorite, onToggleFavorite, spo
     ]
 
     return (
-        <Card id={id} className={cn('flex h-full flex-col overflow-hidden scroll-mt-28 shadow-[0_6px_14px_-8px_rgba(15,76,92,0.3)]', sponsored && 'ring-2 ring-primary/30')}>
+        <Card id={id} className={cn('flex h-full flex-col overflow-hidden scroll-mt-28 shadow-[0_6px_14px_-8px_rgba(15,76,92,0.3)]', formation.premium && 'ring-2 ring-gold')}>
             <div className={cn('relative shrink-0 bg-cream', compact ? 'h-40' : 'h-48')}>
                 <Image src={imageOr(formation.imageSrc, 640)} alt='' fill className='object-cover' />
                 <div className='absolute top-3 right-3 left-3 flex flex-wrap items-center gap-1.5'>
                     <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} className='static max-w-full rounded-full' />
-                    {sponsored && <span className='rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold text-white'>{t('Sponsorisé')}</span>}
+                    {formation.premium && <PremiumBadge />}
                 </div>
                 <CardWave />
             </div>

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { CButton, CCol, CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBullhorn, cilCheckCircle, cilInbox, cilPhone, cilScreenDesktop } from '@coreui/icons'
+import { cilCheckCircle, cilInbox, cilPhone, cilScreenDesktop } from '@coreui/icons'
 import { useCurrentEstablishment } from '@/context/EstablishmentContext'
 import { useApi } from '@/lib/useApi'
 import { formatDate, formatDay, formatNumber, percentChange } from '@/lib/format'
@@ -37,7 +37,7 @@ export default function Stats() {
                             </CButton>
                         }
                     >
-                        Combien de personnes consultent vos offres, cliquent pour vous contacter, envoient une demande ? Standard avec Pro, avancées (campagnes) avec Premium.
+                        Combien de personnes consultent vos offres, cliquent pour vous contacter, envoient une demande ? Standard avec Pro, avancées avec Premium.
                     </EmptyState>
                 </PageCard>
             </>
@@ -145,50 +145,6 @@ export default function Stats() {
                     </CTableBody>
                 </CTable>
             </PageCard>
-
-            {s.level === 'advanced' && (
-                <PageCard title='Campagnes' subtitle="Demandes reçues pour l'offre promue pendant la campagne : attribution indicative">
-                    {!s.campaigns?.length ? (
-                        <EmptyState
-                            title='Aucune campagne'
-                            action={
-                                <CButton color='primary' as={Link} href='/campagnes/'>
-                                    <CIcon icon={cilBullhorn} className='me-2' />
-                                    Créer une campagne
-                                </CButton>
-                            }
-                        />
-                    ) : (
-                        <CTable align='middle' responsive className='mb-0'>
-                            <CTableHead>
-                                <CTableRow>
-                                    <CTableHeaderCell>Campagne</CTableHeaderCell>
-                                    <CTableHeaderCell className='text-end'>Impressions</CTableHeaderCell>
-                                    <CTableHeaderCell className='text-end'>Clics</CTableHeaderCell>
-                                    <CTableHeaderCell className='text-end'>Taux de clic</CTableHeaderCell>
-                                    <CTableHeaderCell className='text-end'>Demandes</CTableHeaderCell>
-                                </CTableRow>
-                            </CTableHead>
-                            <CTableBody>
-                                {s.campaigns.map((c) => (
-                                    <CTableRow key={c.id}>
-                                        <CTableDataCell>
-                                            {c.title}
-                                            <div className='small text-body-secondary'>
-                                                {c.offer} · {c.startsOn} → {c.endsOn}
-                                            </div>
-                                        </CTableDataCell>
-                                        <CTableDataCell className='text-end'>{c.impressions}</CTableDataCell>
-                                        <CTableDataCell className='text-end'>{c.clicks}</CTableDataCell>
-                                        <CTableDataCell className='text-end'>{c.clickRate === null ? '—' : `${c.clickRate} %`}</CTableDataCell>
-                                        <CTableDataCell className='text-end'>{c.inquiriesDuring}</CTableDataCell>
-                                    </CTableRow>
-                                ))}
-                            </CTableBody>
-                        </CTable>
-                    )}
-                </PageCard>
-            )}
         </>
     )
 }

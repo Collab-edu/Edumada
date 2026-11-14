@@ -60,6 +60,8 @@ class EstablishmentResource extends JsonResource
             'photos' => $this->photos ?? [],
             'updatedAt' => $this->updated_at?->toDateString(),
             'reviewsEnabled' => $plan->hasFeature('reviews'),
+            // Formule Premium : badge doré sur la fiche et ses cartes.
+            'premium' => $plan->hasFeature('premiumBadge'),
         ];
 
         return $this->appliesPlanLimits() ? PublicLimits::apply($fiche, $plan) : $fiche;

@@ -29,6 +29,8 @@ class OfferResource extends JsonResource
             'schoolLogo' => $establishment->logo ?? '',
             'schoolId' => $establishment->slug,
             'schoolType' => $establishment->sector?->label(),
+            // Établissement Premium : badge doré sur la carte de l'offre.
+            'premium' => (bool) $establishment->currentSubscription()?->plan?->hasFeature('premiumBadge'),
             'city' => $establishment->city,
             'domain' => $this->domain?->name ?? '',
             'kind' => $this->kind->label(),

@@ -13,8 +13,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * `features` :
  * - inquiryInbox : boîte de réception centralisée des demandes et candidatures ;
  * - statistics : 'none' | 'standard' | 'advanced' ;
- * - sponsoredPlacement : mise en avant dans les emplacements promus ;
- * - prioritySupport : accompagnement prioritaire ;
+ * - sponsoredPlacement : campagnes « Sponsorisé » (désactivées pour toutes les formules depuis novembre 2026) ;
+ * - searchPriority : offres et fiche en tête des résultats de recherche ;
+ * - premiumBadge : badge doré « Premium » sur la fiche et les cartes ;
+ * - edumadaPromotion : mise en avant sur le site et les réseaux sociaux Edumada (fait par l'équipe) ;
+ * - prioritySupport : accompagnement prioritaire et optimisation de la fiche et des offres ;
  * - photoGallery : galerie de photos des locaux sur la fiche publique ;
  * - onlineLinks : site web et réseaux sociaux affichés sur la fiche publique ;
  * - reviews : avis des étudiants sur la fiche ;

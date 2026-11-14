@@ -487,8 +487,8 @@ export default function EstablishmentDashboard({ e }: { e: ManagedEstablishment 
                         <CIcon icon={cilBullhorn} size='xl' className='bo-visibility-icon' />
                         <h2 className='bo-dash-title mb-2'>Gagnez en visibilité</h2>
                         <p>Notre équipe vous accompagne pour attirer plus d&apos;étudiants.</p>
-                        <Link href={premium ? '/campagnes/' : '/formule/'} className='bo-dash-cta'>
-                            {premium ? 'Découvrir les campagnes' : 'Découvrir Premium'}
+                        <Link href={premium ? '/fiche/' : '/formule/'} className='bo-dash-cta'>
+                            {premium ? 'Optimiser ma fiche' : 'Découvrir Premium'}
                             <CIcon icon={cilArrowRight} size='sm' className='ms-2' />
                         </Link>
                     </div>

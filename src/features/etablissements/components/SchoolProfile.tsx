@@ -16,6 +16,7 @@ import SchoolAdmission from './SchoolAdmission'
 import SchoolFaq from './SchoolFaq'
 import SchoolFormation from './SchoolFormation'
 import SchoolGallery from './SchoolGallery'
+import { PremiumBadge } from '@/components/ui/premium-badge'
 import SchoolTestimonials from './SchoolTestimonials'
 import SchoolLogo from './SchoolLogo'
 import ReportDialog from './ReportDialog'
@@ -154,6 +155,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 <span className='inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 font-semibold text-secondary'>
                                     <Icon icon={category.icon} /> {school.subCategory}
                                 </span>
+                                {school.premium && <PremiumBadge className='px-3 text-sm' />}
                                 {school.type && <span className='rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>{school.type}</span>}
                                 <span className='inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>
                                     <Icon icon='tabler:map-pin' /> {school.city}

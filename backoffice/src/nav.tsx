@@ -5,7 +5,6 @@ import {
     cilBook,
     cilBriefcase,
     cilBuilding,
-    cilBullhorn,
     cilChartLine,
     cilCreditCard,
     cilEducation,
@@ -66,7 +65,6 @@ export function buildNav({
               item('Offres', '/offres', cilEducation),
               item('Demandes', '/demandes', cilInbox, badge(counts.newInquiries)),
               item('Statistiques', '/statistiques', cilChartLine),
-              item('Campagnes', '/campagnes', cilBullhorn, current.plan.code === 'premium' ? undefined : { color: 'secondary', text: 'PREMIUM' }),
               item('Formule et factures', '/formule', cilCreditCard),
               item('Équipe', '/equipe', cilPeople),
           ]

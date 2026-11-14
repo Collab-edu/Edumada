@@ -19,6 +19,8 @@
   --color-offwhite: #f6f8fa; /* Blanc cassé : fond principal */
   --color-ink: #334155; /* Gris ardoise : texte principal */
   --color-orange: #ffe5e8; /* ancien accent, aligné sur le rose clair */
+  --color-gold: #f2c230; /* Or : badge Premium */
+  --color-gold-ink: #4a3600; /* Texte sur fond or (contraste AA) */
 
   --animate-auto-scroll: auto-scroll 40s linear infinite;
 

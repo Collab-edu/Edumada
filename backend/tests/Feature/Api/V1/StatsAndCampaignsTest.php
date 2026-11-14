@@ -61,36 +61,21 @@ class StatsAndCampaignsTest extends TestCase
         ])->assertForbidden();
     }
 
-    public function test_premium_campaign_is_served_as_sponsored_and_measured(): void
+    public function test_sponsored_campaigns_are_disabled_even_for_premium(): void
     {
         [$owner, $establishment] = $this->establishmentOwner(PlanCode::Premium);
         $offer = Offer::factory()->for($establishment)->create();
 
-        $campaignId = $this->actingAs($owner)->postJson("/api/v1/establishments/{$establishment->slug}/campaigns", [
+        $this->actingAs($owner)->postJson("/api/v1/establishments/{$establishment->slug}/campaigns", [
             'offer' => $offer->slug,
             'title' => 'Inscriptions ouvertes pour la rentrée',
             'startsOn' => now()->toDateString(),
             'endsOn' => now()->addMonth()->toDateString(),
-            'targetCity' => 'Antananarivo',
-        ])->assertCreated()->json('data.id');
-
-        $this->getJson('/api/v1/sponsored?city=Antananarivo')
-            ->assertOk()
-            ->assertJsonPath('data.0.offer.id', $offer->slug)
-            ->assertJsonPath('data.0.campaignId', $campaignId);
-        $this->getJson('/api/v1/sponsored?city=Toliara')->assertOk()->assertJsonCount(0, 'data');
-
-        $this->postJson('/api/v1/track', ['events' => [
-            ['type' => 'impression', 'establishment' => $establishment->slug, 'offer' => $offer->slug, 'campaign' => $campaignId],
-            ['type' => 'impression', 'establishment' => $establishment->slug, 'offer' => $offer->slug, 'campaign' => $campaignId],
-            ['type' => 'click', 'establishment' => $establishment->slug, 'offer' => $offer->slug, 'campaign' => $campaignId],
-        ]])->assertNoContent();
+        ])->assertForbidden();
 
         $this->actingAs($owner)->getJson("/api/v1/establishments/{$establishment->slug}/stats")
             ->assertOk()
-            ->assertJsonPath('data.level', 'advanced')
-            ->assertJsonPath('data.campaigns.0.impressions', 2)
-            ->assertJsonPath('data.campaigns.0.clickRate', 50);
+            ->assertJsonPath('data.level', 'advanced');
     }
 
     public function test_campaign_stops_being_served_when_premium_ends(): void

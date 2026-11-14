@@ -22,7 +22,7 @@ export default function ConditionsPage() {
           <T>Les formules payantes</T> (<Link href='/tarifs/' className='text-primary underline'><T>voir les formules</T></Link>){' '}
           <T>sont activées après confirmation du paiement. À leur expiration, les fonctions payantes sont suspendues ; la fiche de base reste en ligne.</T>
         </li>
-        <li><T>Les emplacements promus sont toujours signalés comme « Sponsorisé ». Aucun nombre de candidatures n’est garanti.</T></li>
+        <li><T>Les établissements en formule Premium sont mis en avant dans les résultats et signalés par un badge « Premium ». Aucun nombre de candidatures n’est garanti.</T></li>
       </ul>
       <h2><T>Exactitude des informations</T></h2>
       <p><T>Edumada vérifie les fiches autant que possible et affiche la date de dernière vérification. Chacun peut signaler une information erronée depuis une fiche.</T></p>

@@ -149,34 +149,3 @@ export function useOfferSearch(filters: SearchFilters, sort: SortValue): SearchS
     }
 }
 
-export type SponsoredOffer = {
-    campaignId: number
-    title: string
-    description: string | null
-    callToAction: string | null
-    offer: FormationType
-}
-
-/** Offres mises en avant par une campagne Premium, ciblées sur la recherche en cours. */
-export function useSponsoredOffers(filters: SearchFilters): SponsoredOffer[] {
-    const [items, setItems] = useState<SponsoredOffer[]>([])
-    const key = `${filters.categorie}|${filters.domaine}|${filters.ville}`
-
-    useEffect(() => {
-        if (!apiEnabled) return
-        let active = true
-        api<{ data: SponsoredOffer[] }>('/sponsored', {
-            query: { category: filters.categorie, domain: filters.domaine, city: filters.ville, limit: 2 },
-            token: null,
-        })
-            .then((res) => active && setItems(res.data))
-            .catch(() => active && setItems([]))
-        return () => {
-            active = false
-        }
-        // key résume les trois filtres de ciblage.
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [key])
-
-    return items
-}

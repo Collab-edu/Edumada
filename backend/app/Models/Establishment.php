@@ -251,7 +251,24 @@ class Establishment extends Model
     }
 
     /**
-     * La formule en vigueur inclut-elle cette fonctionnalité (inquiryInbox, sponsoredPlacement…) ?
+     * Sous-requête « 1 si l'établissement de la colonne donnée a une formule incluant cette fonctionnalité » :
+     * sert à faire passer les fiches et offres Premium en tête des résultats (`searchPriority`).
+     *
+     * @return Builder<Subscription>
+     */
+    public static function featureRankQuery(string $feature, string $establishmentColumn): Builder
+    {
+        $planIds = Plan::all()->filter(fn (Plan $plan) => $plan->hasFeature($feature))->modelKeys();
+
+        return Subscription::query()
+            ->selectRaw('count(*)')
+            ->whereColumn('subscriptions.establishment_id', $establishmentColumn)
+            ->whereIn('plan_id', $planIds)
+            ->current();
+    }
+
+    /**
+     * La formule en vigueur inclut-elle cette fonctionnalité (inquiryInbox, premiumBadge…) ?
      */
     public function hasFeature(string $feature): bool
     {

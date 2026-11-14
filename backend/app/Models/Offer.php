@@ -314,7 +314,8 @@ class Offer extends Model
             'frais-asc' => $query->orderByRaw('fees is null')->orderBy('fees'),
             'frais-desc' => $query->orderByRaw('fees is null')->orderByDesc('fees'),
             'duree-asc' => $query->orderByRaw('duration_years is null')->orderBy('duration_years'),
-            default => $query->orderBy('id'),
+            // Pertinence : les offres des établissements Premium d'abord.
+            default => $query->orderByDesc(Establishment::featureRankQuery('searchPriority', 'offers.establishment_id'))->orderBy('id'),
         };
     }
 

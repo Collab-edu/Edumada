@@ -23,7 +23,7 @@ class PlanSeeder extends Seeder
                 'yearly_price' => 0,
                 'max_published_offers' => 1,
                 'features' => [
-                    'inquiryInbox' => false, 'statistics' => 'none', 'sponsoredPlacement' => false, 'prioritySupport' => false,
+                    'inquiryInbox' => false, 'statistics' => 'none', 'sponsoredPlacement' => false, 'searchPriority' => false, 'premiumBadge' => false, 'edumadaPromotion' => false, 'prioritySupport' => false,
                     'photoGallery' => false, 'onlineLinks' => false, 'reviews' => false, 'maxInfrastructures' => 0, 'offerLockMonths' => 12,
                 ],
             ],
@@ -34,7 +34,7 @@ class PlanSeeder extends Seeder
                 'yearly_price' => 600000,
                 'max_published_offers' => 3,
                 'features' => [
-                    'inquiryInbox' => true, 'statistics' => 'standard', 'sponsoredPlacement' => false, 'prioritySupport' => false,
+                    'inquiryInbox' => true, 'statistics' => 'standard', 'sponsoredPlacement' => false, 'searchPriority' => false, 'premiumBadge' => false, 'edumadaPromotion' => false, 'prioritySupport' => false,
                     'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null, 'offerLockMonths' => null,
                 ],
             ],
@@ -45,7 +45,7 @@ class PlanSeeder extends Seeder
                 'yearly_price' => null,
                 'max_published_offers' => null,
                 'features' => [
-                    'inquiryInbox' => true, 'statistics' => 'advanced', 'sponsoredPlacement' => true, 'prioritySupport' => true,
+                    'inquiryInbox' => true, 'statistics' => 'advanced', 'sponsoredPlacement' => false, 'searchPriority' => true, 'premiumBadge' => true, 'edumadaPromotion' => true, 'prioritySupport' => true,
                     'photoGallery' => true, 'onlineLinks' => true, 'reviews' => true, 'maxInfrastructures' => null, 'offerLockMonths' => null,
                 ],
             ],
