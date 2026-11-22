@@ -60,10 +60,7 @@ const SchoolCta = () => {
                             <>
                                 <h2 className='font-bold text-secondary'>{t('Vous êtes un établissement de formation à Madagascar\u00a0?')}</h2>
                                 <p className='text-black leading-relaxed'>
-                                    {t('Rejoignez Edumada et présentez votre établissement aux étudiants, aux parents et aux personnes à la recherche d’une formation. Publiez vos informations, mettez en valeur vos programmes et facilitez les échanges avec vos futurs étudiants.')}
-                                </p>
-                                <p className='text-black leading-relaxed'>
-                                    {t('La création d’une fiche établissement est gratuite. Vous pouvez ainsi commencer à développer votre présence sur une plateforme dédiée à l’éducation et à la formation à Madagascar.')}
+                                    {t('Présentez votre établissement et vos programmes aux étudiants et aux parents. La création d’une fiche établissement est gratuite.')}
                                 </p>
                             </>
                         ) : (
