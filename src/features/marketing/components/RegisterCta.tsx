@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image'
-import Link, { useT } from '@/i18n/client'
+import { useT } from '@/i18n/client'
+import { ButtonLink } from '@/components/ui/form'
 
 const RegisterCta = () => {
     const t = useT()
@@ -21,17 +22,15 @@ const RegisterCta = () => {
                         className='absolute inset-0 bg-gradient-to-r from-secondary via-secondary/85 to-secondary/40'
                     />
                     <div className='relative flex flex-col md:flex-row items-center justify-between gap-6 px-8 py-10 md:px-16 text-center md:text-left'>
-                        <p className='text-white italic font-bold leading-tight'>
+                        <p className='text-white font-bold leading-tight'>
                             <span className='text-3xl lg:text-4xl'>{t('Inscrivez-vous !')}</span>{' '}
                             <span className='block lg:inline text-lg lg:text-xl mt-1 lg:mt-0 lg:ml-2'>
                                 {t('pour étudier à la rentrée académique 2026.')}
                             </span>
                         </p>
-                        <Link
-                            href='/inscription/'
-                            className='shrink-0 rounded-full bg-white px-8 py-4 text-sm font-bold uppercase tracking-wide text-secondary shadow-lg transition-all duration-300 hover:bg-primary hover:text-white hover:-translate-y-0.5'>
+                        <ButtonLink href='/inscription/' variant='secondary' className='shrink-0 px-8'>
                             {t('S’inscrire maintenant')}
-                        </Link>
+                        </ButtonLink>
                     </div>
                 </div>
             </div>

@@ -33,7 +33,7 @@ export default function MobileSearch() {
             <button
                 type='button'
                 onClick={() => setOpen(true)}
-                className='flex w-full items-center gap-3 rounded-xl bg-white px-4 py-4 text-left shadow-[0_18px_40px_-16px_rgba(15,76,92,0.45)] ring-1 ring-secondary/10 hover:cursor-pointer'>
+                className='flex w-full items-center gap-3 rounded-xl bg-white px-4 py-4 text-left shadow-[0_16px_40px_-20px_rgba(15,23,42,0.25)] ring-1 ring-secondary/10 hover:cursor-pointer'>
                 <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white'>
                     <Icon icon='tabler:search' className='text-xl' />
                 </span>
@@ -77,7 +77,7 @@ export default function MobileSearch() {
                         <Link
                             href={searchHref}
                             onClick={() => setOpen(false)}
-                            className='mt-2 flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-4 font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90'>
+                            className='mt-2 flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-4 font-bold text-white transition-colors duration-200 hover:bg-primary/90'>
                             <Icon icon='tabler:search' className='text-xl' />
                             {t('Rechercher')}
                         </Link>

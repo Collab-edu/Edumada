@@ -6,6 +6,10 @@ import { cn } from '@/lib/utils'
 export const cardClassName =
     'group rounded-xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg'
 
+/** Cartes de l'accueil « par type d'établissement » et « par domaine » : bordure fine, le survol change seulement les couleurs. */
+export const exploreCardClassName =
+    'group flex h-full flex-col justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 transition-colors duration-200 hover:border-secondary/30 hover:bg-offwhite'
+
 export function Card({ className, ...props }: ComponentProps<'div'>) {
     return <div className={cn(cardClassName, className)} {...props} />
 }

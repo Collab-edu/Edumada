@@ -29,12 +29,9 @@ export default function HeroPhoto() {
             {/* Photo et voile : clair au centre pour le texte, la photo se dévoile sur les bords */}
             {/* La photo occupe la hauteur restante : le hero tient tout l'écran à l'ouverture. */}
             <div className='relative flex flex-1 flex-col justify-center overflow-hidden pt-28 pb-10 sm:pt-32 sm:pb-40 lg:pb-44'>
-                {/* Mobile : fond blanc cassé, fins points bleu sarcelle et halos flous (sans image, rien à télécharger). */}
+                {/* Mobile : fond blanc cassé et fins points bleu sarcelle, immobiles (sans image, rien à télécharger). */}
                 <div aria-hidden='true' className='absolute inset-0 overflow-hidden bg-offwhite sm:hidden'>
-                    <div className='absolute -top-24 -left-24 h-72 w-72 animate-halo rounded-full bg-cream blur-3xl motion-reduce:animate-none' />
-                    <div className='absolute -right-20 -bottom-24 h-80 w-80 animate-halo rounded-full bg-success/45 blur-3xl [animation-delay:-4s] motion-reduce:animate-none' />
-                    <div className='absolute top-1/3 -right-16 h-48 w-48 animate-halo rounded-full bg-primary/10 blur-3xl [animation-delay:-2s] motion-reduce:animate-none' />
-                    {/* Masque fixe ; dessous, les points glissent d'une case en boucle (le motif déborde d'une case). */}
+                    {/* Points estompés vers les bords. */}
                     <div className='absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white_25%,transparent_80%)]'>
                         <DotPattern
                             width={20}
@@ -42,7 +39,7 @@ export default function HeroPhoto() {
                             cx={1.5}
                             cy={1.5}
                             cr={1.2}
-                            className='-top-5 -left-5 h-[calc(100%+20px)] w-[calc(100%+20px)] animate-dots-drift fill-secondary/30 motion-reduce:animate-none'
+                            className='fill-secondary/20'
                         />
                     </div>
                 </div>
@@ -62,16 +59,11 @@ export default function HeroPhoto() {
 
                 <div className='relative container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='relative mx-auto max-w-3xl text-center'>
-                        {/* Traits rouges décoratifs : étincelle animée, chaque trait jaillit à son tour depuis le titre */}
+                        {/* Trois traits rouges, repris du logo, au-dessus du titre */}
                         <svg aria-hidden='true' viewBox='0 0 40 40' className={`${ENTER} absolute -top-6 left-0 hidden h-10 w-10 text-primary [animation-delay:500ms] sm:block lg:-left-6`}>
                             <g fill='none' stroke='currentColor' strokeWidth='3.5' strokeLinecap='round'>
-                                {['M8 22 L 20 26', 'M12 10 L 22 20', 'M26 4 L 28 16'].map((d, i) => (
-                                    <path
-                                        key={d}
-                                        d={d}
-                                        style={{ animationDelay: `${i * 0.25}s` }}
-                                        className='origin-[30px_32px] animate-spark [transform-box:view-box] motion-reduce:animate-none'
-                                    />
+                                {['M8 22 L 20 26', 'M12 10 L 22 20', 'M26 4 L 28 16'].map((d) => (
+                                    <path key={d} d={d} />
                                 ))}
                             </g>
                         </svg>

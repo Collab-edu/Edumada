@@ -2,11 +2,8 @@
 import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import SectionHeader from '@/components/ui/section-header'
+import { exploreCardClassName } from '@/components/ui/card'
 import { useSiteData } from '@/data/site-data'
-
-// Carte bordée avec une ombre pleine décalée, qui se « soulève » au survol.
-const domainCardClassName =
-    'group flex flex-col justify-between gap-4 rounded-xl border border-gray-200 bg-white px-4 py-4 shadow-[4px_4px_0_0_rgba(255,59,82,0.22)] transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[6px_6px_0_0_rgba(255,59,82,0.35)]'
 
 const DomainsSection = () => {
     const t = useT()
@@ -29,10 +26,10 @@ const DomainsSection = () => {
                             <Link
                                 key={domain.name}
                                 href={`/recherche?domaine=${encodeURIComponent(domain.searchDomain)}`}
-                                className={domainCardClassName}>
+                                className={exploreCardClassName}>
                                 <Icon icon={domain.icon} className='text-xl text-primary' />
                                 <div className='flex flex-col gap-1'>
-                                    <h3 className='text-[15px] font-semibold leading-snug text-black group-hover:text-primary duration-300'>
+                                    <h3 className='text-base font-semibold leading-snug text-black transition-colors duration-200 group-hover:text-primary'>
                                         {domain.name}
                                     </h3>
                                     <span className='text-sm text-ink/60'>{domain.count} formations</span>
@@ -56,7 +53,7 @@ const DomainsSection = () => {
                             </span>
                             <Icon
                                 icon='tabler:chevron-right'
-                                className='shrink-0 text-xl transition-transform duration-300 group-hover:translate-x-1'
+                                className='shrink-0 text-xl transition-transform duration-200 group-hover:translate-x-0.5'
                             />
                         </Link>
                     </div>

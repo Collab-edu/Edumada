@@ -13,12 +13,12 @@ const STEPS = [
     { title: 'Contactez', text: 'Envoyez votre demande à l’établissement.', image: 'etape-3', alt: 'Suivi d’une demande envoyée à un établissement' },
 ]
 
-/** Entrée de chaque téléphone : il monte, s'agrandit et se redresse depuis l'extérieur, l'un après l'autre. */
+/** Entrée de chaque téléphone : court fondu en montant, l'un après l'autre. */
 const phoneEntrance = (index: number) => ({
-    initial: { opacity: 0, y: 72, scale: 0.88, rotate: [-9, 0, 9][index] },
-    whileInView: { opacity: 1, y: 0, scale: 1, rotate: 0 },
+    initial: { opacity: 0, y: 16 },
+    whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, amount: 0.3 },
-    transition: { type: 'spring' as const, stiffness: 90, damping: 14, delay: index * 0.18 },
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const, delay: index * 0.08 },
 })
 
 /** Section « Comment ça marche ? » : les trois étapes, chacune sur un téléphone. */
@@ -37,12 +37,11 @@ export default function HowItWorksPhones() {
                             {index > 0 && (
                                 <span
                                     aria-hidden='true'
-                                    className='absolute -top-11 left-1/2 z-10 flex h-11 w-11 -translate-x-1/2 rotate-90 items-center justify-center rounded-full bg-white text-primary shadow-[0_8px_20px_-8px_rgba(15,76,92,0.35)] md:-left-5 md:top-[38%] md:translate-x-[-50%] md:rotate-0'>
+                                    className='absolute -top-11 left-1/2 z-10 flex h-11 w-11 -translate-x-1/2 rotate-90 items-center justify-center rounded-full bg-white text-primary ring-1 ring-secondary/10 md:-left-5 md:top-[38%] md:translate-x-[-50%] md:rotate-0'>
                                     <Icon icon='tabler:chevron-right' className='text-2xl' />
                                 </span>
                             )}
                             <div className='relative w-full max-w-[17rem]'>
-                                <div aria-hidden='true' className='absolute inset-x-[-12%] bottom-[16%] top-[16%] rounded-full bg-cream/70' />
                                 <motion.div className='relative' {...phoneEntrance(index)}>
                                     <Image
                                         src={withBasePath(`/images/comment-ca-marche/${step.image}.webp`)}
@@ -52,7 +51,7 @@ export default function HowItWorksPhones() {
                                         sizes='272px'
                                         className='h-auto w-full'
                                     />
-                                    <span className='absolute -bottom-3 left-1/2 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full border-[3px] border-white bg-primary text-xl font-bold text-white shadow-md'>
+                                    <span className='absolute -bottom-3 left-1/2 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full border-4 border-white bg-primary text-xl font-bold text-white'>
                                         {index + 1}
                                     </span>
                                 </motion.div>
