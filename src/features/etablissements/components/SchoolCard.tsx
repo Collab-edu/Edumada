@@ -15,7 +15,21 @@ import Link, { useT } from '@/i18n/client'
 
 /** `compact` : version basse et large (bandeau défilant de l'accueil). */
 /** `distanceKm` : distance au lieu recherché, affichée à côté de la ville. */
-export function SchoolCard({ school, compact = false, distanceKm }: { school: SchoolType; compact?: boolean; distanceKm?: number }) {
+/** `offers` : nombre d'offres publiées (« 12 formations ») et principaux domaines, pour les pages de catégorie. */
+export function SchoolCard({
+    school,
+    compact = false,
+    distanceKm,
+    offers,
+    showCategory = true,
+}: {
+    school: SchoolType
+    compact?: boolean
+    distanceKm?: number
+    offers?: { label: string; domains: string[] }
+    /** false sur les pages de catégorie, où toutes les cartes ont la même. */
+    showCategory?: boolean
+}) {
     const t = useT()
     const { data: categories } = useSiteData('CategoryData')
     const category = categories.find((c) => c.id === school.category)
@@ -62,7 +76,7 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
                     <h3 className='text-lg font-bold leading-snug text-secondary'>{school.name}</h3>
                     <span className='mt-2 block h-0.5 w-12 rounded-full bg-primary' aria-hidden='true' />
                 </div>
-                {category && (
+                {showCategory && category && (
                     <p className='flex w-fit max-w-full items-center gap-2 rounded-full bg-offwhite px-3 py-1.5 text-sm font-medium text-black'>
                         <Icon icon={category.icon} className='shrink-0 text-base' />
                         <span className='truncate'>{t(category.shortLabel)}</span>
@@ -73,6 +87,15 @@ export function SchoolCard({ school, compact = false, distanceKm }: { school: Sc
                     {school.city}
                     {distanceKm !== undefined && <span className='font-semibold text-primary'>· {t('à {km} km', { km: distanceKm.toLocaleString('fr-FR') })}</span>}
                 </p>
+                {offers && (
+                    <p className='-mt-2 flex items-start gap-1.5 text-sm text-ink/80'>
+                        <Icon icon='tabler:book-2' className='mt-0.5 shrink-0 text-base text-secondary' />
+                        <span>
+                            <span className='font-semibold text-black'>{t(offers.label)}</span>
+                            {offers.domains.length > 0 && <> · {offers.domains.map((d) => t(d)).join(', ')}</>}
+                        </span>
+                    </p>
+                )}
                 <div className='mt-auto flex items-center justify-between gap-3 pt-1'>
                     <Link
                         href={`/etablissements/${school.id}`}
