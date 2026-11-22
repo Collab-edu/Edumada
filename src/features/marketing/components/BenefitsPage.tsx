@@ -28,10 +28,10 @@ const BENEFITS = [
 
 /** Sections « Pourquoi référencer votre établissement » (plan SEO de la page). */
 const REASONS = [
-    { title: 'Développez la visibilité de votre établissement', text: 'En créant votre fiche sur Edumada, vous disposez d’un espace pour présenter votre établissement, son emplacement, ses coordonnées et ses principales caractéristiques. Les étudiants peuvent ainsi découvrir votre structure lorsqu’ils recherchent une école, une université ou un centre de formation correspondant à leurs besoins.' },
-    { title: 'Présentez vos formations et vos programmes', text: 'Mettez en avant les formations que vous proposez, les filières disponibles, les niveaux d’admission et les informations essentielles sur vos programmes. Une présentation claire aide les futurs étudiants à mieux comprendre votre offre et à identifier les parcours qui correspondent à leurs objectifs.' },
-    { title: 'Facilitez les demandes d’informations', text: 'Les personnes intéressées peuvent consulter votre fiche et vous contacter directement pour obtenir davantage de renseignements. Vous facilitez ainsi les premiers échanges avec de futurs étudiants et leurs familles.' },
-    { title: 'Une présence adaptée aux établissements malgaches', text: 'Edumada accueille différents types de structures éducatives : universités, écoles supérieures, centres de formation professionnelle, écoles primaires, collèges, lycées et établissements préscolaires. Quelle que soit votre spécialité, vous pouvez présenter votre établissement à un public qui recherche des possibilités d’apprentissage et de formation à Madagascar.' },
+    { icon: 'tabler:eye', title: 'Développez la visibilité de votre établissement', text: 'En créant votre fiche sur Edumada, vous disposez d’un espace pour présenter votre établissement, son emplacement, ses coordonnées et ses principales caractéristiques. Les étudiants peuvent ainsi découvrir votre structure lorsqu’ils recherchent une école, une université ou un centre de formation correspondant à leurs besoins.' },
+    { icon: 'tabler:book', title: 'Présentez vos formations et vos programmes', text: 'Mettez en avant les formations que vous proposez, les filières disponibles, les niveaux d’admission et les informations essentielles sur vos programmes. Une présentation claire aide les futurs étudiants à mieux comprendre votre offre et à identifier les parcours qui correspondent à leurs objectifs.' },
+    { icon: 'tabler:message-circle', title: 'Facilitez les demandes d’informations', text: 'Les personnes intéressées peuvent consulter votre fiche et vous contacter directement pour obtenir davantage de renseignements. Vous facilitez ainsi les premiers échanges avec de futurs étudiants et leurs familles.' },
+    { icon: 'tabler:map-pin', title: 'Une présence adaptée aux établissements malgaches', text: 'Edumada accueille différents types de structures éducatives : universités, écoles supérieures, centres de formation professionnelle, écoles primaires, collèges, lycées et établissements préscolaires. Quelle que soit votre spécialité, vous pouvez présenter votre établissement à un public qui recherche des possibilités d’apprentissage et de formation à Madagascar.' },
 ]
 
 const STEPS = [
@@ -126,18 +126,24 @@ export default function BenefitsPage() {
 
             {/* Pourquoi référencer son établissement (plan SEO de la page) */}
             <section className='pt-0 pb-14 md:pb-20'>
-                <div className='container mx-auto flex max-w-site flex-col gap-12 px-4 sm:px-6 lg:px-8'>
-                    <div className='grid gap-6 lg:grid-cols-[1fr_1.4fr] lg:gap-16'>
-                        <h2 className='mobile-center font-bold'>{t('Pourquoi référencer votre établissement sur Edumada ?')}</h2>
-                        <div className='flex flex-col gap-4 text-black'>
+                <div className='container mx-auto flex max-w-site flex-col gap-6 px-4 sm:px-6 lg:px-8'>
+                    <div className='grid gap-5 rounded-2xl bg-secondary p-6 text-white sm:p-8 lg:grid-cols-[1fr_1.5fr] lg:gap-16 lg:p-10'>
+                        <div className='flex flex-col gap-4'>
+                            <span aria-hidden='true' className='block h-1 w-10 rounded-full bg-primary' />
+                            <h2 className='font-bold leading-tight text-white'>{t('Pourquoi référencer votre établissement sur Edumada\u00a0?')}</h2>
+                        </div>
+                        <div className='flex flex-col gap-4 text-white/85'>
                             <p>{t('Aujourd’hui, les étudiants et les parents utilisent de plus en plus Internet pour rechercher des écoles, des universités et des formations. Disposer d’une présence en ligne claire et accessible est devenu un véritable atout pour les établissements d’enseignement.')}</p>
                             <p>{t('Edumada est une plateforme dédiée à la découverte des établissements et des formations à Madagascar. Elle permet aux structures éducatives de présenter leurs activités et de faciliter la prise de contact avec les personnes intéressées.')}</p>
                         </div>
                     </div>
-                    <div className='grid gap-10 md:grid-cols-2 md:gap-x-16'>
+                    <div className='grid gap-6 md:grid-cols-2'>
                         {REASONS.map((reason) => (
-                            <div key={reason.title} className='flex flex-col gap-3'>
-                                <h2 className='text-2xl font-bold leading-tight text-secondary'>{t(reason.title)}</h2>
+                            <div key={reason.title} className='flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8'>
+                                <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary'>
+                                    <Icon icon={reason.icon} className='text-2xl' />
+                                </span>
+                                <h2 className='text-xl font-bold leading-snug text-secondary md:text-2xl'>{t(reason.title)}</h2>
                                 <p className='text-black'>{t(reason.text)}</p>
                             </div>
                         ))}

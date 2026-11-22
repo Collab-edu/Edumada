@@ -58,7 +58,7 @@ const SchoolCta = () => {
                         <Eyebrow>{schools.length > 0 ? t('Déjà {n} établissements sur Edumada', { n: schools.length }) : t('Espace établissements')}</Eyebrow>
                         {isHome ? (
                             <>
-                                <h2 className='font-bold text-secondary'>{t('Vous êtes un établissement de formation à Madagascar ?')}</h2>
+                                <h2 className='font-bold text-secondary'>{t('Vous êtes un établissement de formation à Madagascar\u00a0?')}</h2>
                                 <p className='text-black leading-relaxed'>
                                     {t('Rejoignez Edumada et présentez votre établissement aux étudiants, aux parents et aux personnes à la recherche d’une formation. Publiez vos informations, mettez en valeur vos programmes et facilitez les échanges avec vos futurs étudiants.')}
                                 </p>

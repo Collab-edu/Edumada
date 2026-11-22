@@ -47,9 +47,10 @@ const CategoriesSection = () => {
                                 <li key={category.id} className={i === categories.length - 1 ? 'sm:col-span-2 lg:col-span-1' : ''}>
                                     <Link
                                         href={`/recherche?categorie=${encodeURIComponent(category.shortLabel)}`}
-                                        className={exploreCardClassName}>
+                                        className={`${exploreCardClassName} max-sm:flex-row max-sm:items-start`}>
                                         {/* Même format que les cartes « domaines » : icône, titre, compteur. */}
-                                        <Icon icon={category.icon} className='text-xl text-primary' />
+                                        {/* Téléphone : icône à gauche du texte, pour des cartes moins hautes. */}
+                                        <Icon icon={category.icon} className='shrink-0 text-xl text-primary max-sm:mt-0.5' />
                                         {/* Titre en haut, compteur en bas : les cartes restent alignées malgré des textes de longueurs différentes. */}
                                         <div className='flex flex-1 flex-col gap-1'>
                                             <h3 className='text-base font-semibold leading-snug text-black transition-colors duration-200 group-hover:text-primary'>

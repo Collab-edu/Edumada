@@ -85,8 +85,9 @@ export default function OrientationPage() {
             <section className='pt-32 pb-10 sm:pt-40'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
-                        <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
-                            Orientation scolaire à Madagascar : <span className='text-primary'>trouvez la formation qui vous correspond</span>
+                        {/* Titre long (plan SEO) : même taille que les autres pages, pour tenir sur trois lignes. */}
+                        <h1 className='text-3xl md:text-5xl font-bold leading-tight text-secondary'>
+                            Orientation scolaire à Madagascar&nbsp;: <span className='text-primary'>trouvez la formation qui vous correspond</span>
                         </h1>
                         <p className='max-w-2xl text-black'>
                             {t('Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et comparer les possibilités à Madagascar.')}
@@ -118,7 +119,7 @@ export default function OrientationPage() {
                     <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
                         <div className='mobile-center flex max-w-2xl flex-col gap-5'>
                             <h2 className='text-3xl font-bold leading-tight md:text-4xl'>
-                                {t('Comment choisir son orientation scolaire à')} <span className='text-primary'>{t('Madagascar ?')}</span>
+                                {t('Comment choisir son orientation scolaire à')} <span className='text-primary'>{t('Madagascar\u00a0?')}</span>
                             </h2>
                             <p className='text-black'>
                                 {t('Choisir son orientation scolaire est une décision importante qui influence la suite des études et les perspectives professionnelles. Après le baccalauréat, de nombreux étudiants se retrouvent face à plusieurs possibilités : poursuivre des études universitaires, intégrer une école supérieure ou suivre une formation professionnelle.')}
