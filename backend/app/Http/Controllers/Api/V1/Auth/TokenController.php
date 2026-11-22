@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\GoogleIdToken;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -37,16 +40,38 @@ class TokenController extends Controller
 
     /**
      * Connexion avec Google : le compte Edumada qui porte l'adresse du compte Google.
+     * Avec createStudent (site public), une adresse inconnue crée un compte étudiant, sans mot de
+     * passe : la personne se reconnecte avec Google, ou en crée un via « Mot de passe oublié ».
      */
     public function google(Request $request, GoogleIdToken $google): JsonResponse
     {
-        $credential = $request->validate(['credential' => ['required', 'string', 'max:4096']])['credential'];
+        $data = $request->validate([
+            'credential' => ['required', 'string', 'max:4096'],
+            'createStudent' => ['sometimes', 'boolean'],
+        ]);
         abort_unless($google->enabled(), 503, "La connexion avec Google n'est pas encore activée.");
 
-        $account = $google->verify($credential)
+        $account = $google->verify($data['credential'])
             ?? throw ValidationException::withMessages(['credential' => 'La connexion avec Google a échoué. Réessayez.']);
-        $user = User::where('email', $account['email'])->first()
-            ?? throw ValidationException::withMessages(['credential' => "Aucun compte Edumada n'utilise l'adresse {$account['email']}. Créez d'abord votre compte établissement."]);
+        $user = User::where('email', $account['email'])->first();
+
+        $created = false;
+        if (! $user && ($data['createStudent'] ?? false)) {
+            $user = new User([
+                'name' => $account['name'],
+                'first_name' => $account['firstName'],
+                'last_name' => $account['lastName'],
+                'email' => $account['email'],
+                'password' => Str::password(32),
+            ]);
+            $user->role = UserRole::Student;
+            $user->email_verified_at = now();
+            $user->save();
+            event(new Registered($user));
+            $created = true;
+        }
+
+        $user ??= throw ValidationException::withMessages(['credential' => "Aucun compte Edumada n'utilise l'adresse {$account['email']}. Créez d'abord votre compte établissement."]);
 
         // L'adresse est confirmée par Google.
         if (! $user->email_verified_at) {
@@ -56,7 +81,8 @@ class TokenController extends Controller
         return response()->json([
             'token' => $user->createToken('web')->plainTextToken,
             'user' => new UserResource($user->load('establishments')),
-        ]);
+            'created' => $created,
+        ], $created ? 201 : 200);
     }
 
     /**

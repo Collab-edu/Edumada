@@ -122,6 +122,36 @@ class GoogleAuthTest extends TestCase
             ->assertJsonValidationErrors(['credential' => 'Aucun compte']);
     }
 
+    public function test_student_account_is_created_with_google_from_the_public_site(): void
+    {
+        $this->google();
+
+        $this->postJson('/api/v1/auth/google', ['credential' => 'jeton-google', 'createStudent' => true])
+            ->assertCreated()
+            ->assertJsonPath('created', true)
+            ->assertJsonPath('user.email', 'direction@institut.mg')
+            ->assertJsonPath('user.role', 'student')
+            ->assertJsonStructure(['token']);
+
+        $user = User::firstWhere('email', 'direction@institut.mg');
+        $this->assertSame('Hery Rabe', $user->name);
+        $this->assertNotNull($user->email_verified_at);
+    }
+
+    public function test_create_student_logs_into_an_existing_account_without_changing_it(): void
+    {
+        $user = User::factory()->create(['email' => 'direction@institut.mg']);
+        $user->role = UserRole::Establishment;
+        $user->save();
+        $this->google();
+
+        $this->postJson('/api/v1/auth/google', ['credential' => 'jeton-google', 'createStudent' => true])
+            ->assertOk()
+            ->assertJsonPath('created', false)
+            ->assertJsonPath('user.role', 'establishment');
+        $this->assertDatabaseCount('users', 1);
+    }
+
     public function test_google_login_with_an_unconfirmed_google_address_fails(): void
     {
         User::factory()->create(['email' => 'direction@institut.mg']);

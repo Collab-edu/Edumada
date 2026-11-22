@@ -9,6 +9,7 @@ import { ApiError, apiEnabled } from '@/lib/api'
 import { useAuth } from '../AuthProvider'
 import { SPACE_HOME, backofficeUrl, goTo } from '../types'
 import { Icon } from '@/components/ui/icon'
+import GoogleSignIn from './GoogleSignIn'
 
 /** Adresse de retour demandée (?next=/formations/…), limitée au site lui-même. */
 export function nextUrl(): string | null {
@@ -56,6 +57,10 @@ const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
             </div>
 
             {!apiEnabled && <FormAlert tone='info'>La connexion sera disponible quand le service en ligne d&apos;Edumada sera activé.</FormAlert>}
+
+            <div className='mt-4 text-left'>
+                <GoogleSignIn onSuccess={onSuccess} />
+            </div>
 
             <form onSubmit={submit} className='mt-4 flex flex-col gap-4 text-left' noValidate>
                 {error && !error.field('email') && <FormAlert>{error.message}</FormAlert>}

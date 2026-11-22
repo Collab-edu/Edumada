@@ -34,6 +34,8 @@ type AuthContextValue = {
     loading: boolean
     login: (email: string, password: string) => Promise<User>
     register: (data: RegisterData) => Promise<User>
+    /** Connexion avec Google ; une adresse inconnue crée un compte étudiant (`created`). */
+    loginWithGoogle: (credential: string) => Promise<{ user: User; created: boolean }>
     logout: () => Promise<void>
     /** Déconnexion volontaire en cours : les espaces ne renvoient pas vers la connexion. */
     signingOut: boolean
@@ -109,6 +111,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return res.user
     }, [])
 
+    const loginWithGoogle = useCallback(async (credential: string) => {
+        const res = await api<{ token: string; user: User; created: boolean }>('/auth/google', { method: 'POST', body: { credential, createStudent: true }, token: null })
+        setToken(res.token)
+        setUser(res.user)
+        await loadFavorites(res.user)
+        return { user: res.user, created: res.created }
+    }, [loadFavorites])
+
     const logout = useCallback(async () => {
         setSigningOut(true)
         try {
@@ -149,6 +159,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             loading,
             login,
             register,
+            loginWithGoogle,
             logout,
             signingOut,
             refresh,
@@ -157,7 +168,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             isFavorite: (offerId: string) => favorites.includes(offerId),
             toggleFavorite,
         }),
-        [user, loading, login, register, logout, signingOut, refresh, favorites, toggleFavorite]
+        [user, loading, login, register, loginWithGoogle, logout, signingOut, refresh, favorites, toggleFavorite]
     )
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

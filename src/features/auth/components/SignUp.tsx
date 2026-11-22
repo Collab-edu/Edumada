@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils'
 import { useAuth } from '../AuthProvider'
 import { SPACE_HOME, backofficeUrl, goTo } from '../types'
 import { nextUrl } from './SignIn'
+import GoogleSignIn from './GoogleSignIn'
 import PlaceField from '@/features/recherche/components/PlaceField'
 import { ESTABLISHMENT_START } from '@/features/marketing/plans'
 
@@ -150,6 +151,8 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                         </div>
                     </fieldset>
                 )}
+
+                <GoogleSignIn text='signup_with' onSuccess={onSuccess} />
 
                 {error && Object.keys(error.errors).length === 0 && <FormAlert>{error.message}</FormAlert>}
 
