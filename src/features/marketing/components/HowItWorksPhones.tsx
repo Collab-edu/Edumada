@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { motion, MotionConfig } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import { Icon } from '@/components/ui/icon'
 import SectionHeader from '@/components/ui/section-header'
 import withBasePath from '@/lib/base-path'
@@ -13,25 +13,41 @@ const STEPS = [
     { title: 'Contactez', text: 'Envoyez votre demande à l’établissement.', image: 'etape-3', alt: 'Suivi d’une demande envoyée à un établissement' },
 ]
 
-/** Entrée de chaque téléphone : court fondu en montant, l'un après l'autre. */
-const phoneEntrance = (index: number) => ({
-    initial: { opacity: 0, y: 16 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.3 },
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const, delay: index * 0.08 },
-})
+/**
+ * true dès que l'élément entre à l'écran (une seule fois) : les téléphones apparaissent en fondu, l'un après l'autre.
+ * En CSS, sans bibliothèque d'animation à télécharger.
+ */
+function useInView<T extends Element>() {
+    const ref = useRef<T>(null)
+    const [inView, setInView] = useState(false)
+    useEffect(() => {
+        const element = ref.current
+        if (!element || !('IntersectionObserver' in window)) return setInView(true)
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setInView(true)
+                    observer.disconnect()
+                }
+            },
+            { threshold: 0.2 }
+        )
+        observer.observe(element)
+        return () => observer.disconnect()
+    }, [])
+    return { ref, inView }
+}
 
 /** Section « Comment ça marche ? » : les trois étapes, chacune sur un téléphone. */
 export default function HowItWorksPhones() {
     const t = useT()
+    const { ref, inView } = useInView<HTMLOListElement>()
 
     return (
         <section className='overflow-hidden'>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <SectionHeader title='Comment ça marche ?' description='Trois étapes pour trouver sa formation sur Edumada.' className='text-center sm:justify-center' />
-                {/* Animation réduite à un fondu si l'appareil demande moins de mouvement. */}
-                <MotionConfig reducedMotion='user'>
-                <ol className='mx-auto grid max-w-5xl gap-14 md:grid-cols-3 md:gap-10'>
+                <ol ref={ref} className='mx-auto grid max-w-5xl gap-14 md:grid-cols-3 md:gap-10'>
                     {STEPS.map((step, index) => (
                         <li key={step.title} className='relative flex flex-col items-center text-center'>
                             {index > 0 && (
@@ -42,7 +58,9 @@ export default function HowItWorksPhones() {
                                 </span>
                             )}
                             <div className='relative w-full max-w-[17rem]'>
-                                <motion.div className='relative' {...phoneEntrance(index)}>
+                                <div
+                                    style={{ transitionDelay: `${index * 80}ms` }}
+                                    className={`relative transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none ${inView ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
                                     <Image
                                         src={withBasePath(`/images/comment-ca-marche/${step.image}.webp`)}
                                         alt={step.alt}
@@ -54,14 +72,13 @@ export default function HowItWorksPhones() {
                                     <span className='absolute -bottom-3 left-1/2 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full border-4 border-white bg-primary text-xl font-bold text-white'>
                                         {index + 1}
                                     </span>
-                                </motion.div>
+                                </div>
                             </div>
                             <h3 className='mt-6 text-xl font-bold text-black'>{t(step.title)}</h3>
                             <p className='mt-1 max-w-[15rem] text-ink'>{step.text}</p>
                         </li>
                     ))}
                 </ol>
-                </MotionConfig>
             </div>
         </section>
     )

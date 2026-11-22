@@ -15,7 +15,7 @@ const EMPTY_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAAL
 // Texte alternatif descriptif (référencement et lecteurs d'écran).
 const HERO_ALT = 'Sac à dos jaune, livres colorés et lampe de bureau : les fournitures scolaires pour bien commencer sa formation à Madagascar'
 
-// Entrée en cascade : chaque bloc apparaît en fondu, à son tour (voir --animate-hero-in dans globals.css).
+// Entrée en fondu de la recherche et des logos ; le titre et le texte s'affichent tout de suite (élément LCP) (voir --animate-hero-in dans globals.css).
 const ENTER = 'animate-hero-in motion-reduce:animate-none'
 
 /**
@@ -44,7 +44,7 @@ export default function HeroPhoto() {
                     </div>
                 </div>
                 {/* Dès la tablette (640 px) : l'image ; le mobile ne reçoit qu'un pixel vide, rien n'est téléchargé. */}
-                <picture className='absolute inset-0 hidden animate-hero-photo motion-reduce:animate-none sm:block'>
+                <picture className='absolute inset-0 hidden sm:block'>
                     <source media='(min-width: 640px)' srcSet={HERO_SRCSET} sizes='100vw' />
                     <img src={EMPTY_PIXEL} alt={t(HERO_ALT)} fetchPriority='high' className='h-full w-full object-cover object-center' />
                 </picture>
@@ -67,7 +67,7 @@ export default function HeroPhoto() {
                                 ))}
                             </g>
                         </svg>
-                        <h1 className={`${ENTER} text-[28px] leading-[1.2] font-extrabold text-secondary sm:text-[32px] lg:text-[35px]`}>
+                        <h1 className={`text-[28px] leading-[1.2] font-extrabold text-secondary sm:text-[32px] lg:text-[35px]`}>
                             {t('Trouvez votre formation à Madagascar et construisez votre')} <span className='text-primary'>{t('avenir')}</span>.
                         </h1>
 
@@ -76,7 +76,7 @@ export default function HeroPhoto() {
                             <MobileSearch />
                         </div>
 
-                        <div className={`${ENTER} relative mt-5 [animation-delay:240ms] sm:mt-6`}>
+                        <div className='relative mt-5 sm:mt-6'>
                             <p className='mx-auto max-w-2xl text-base leading-7 text-ink sm:text-lg'>
                                 {t('Explorez les formations, comparez les établissements et trouvez le parcours adapté à vos ambitions, à votre budget et à votre projet professionnel.')}
                             </p>

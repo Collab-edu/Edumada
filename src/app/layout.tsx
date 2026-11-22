@@ -7,7 +7,6 @@ import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import SchoolCta from "@/features/marketing/components/SchoolCta";
 import NavigationProgress from "@/components/layout/NavigationProgress";
 import { Suspense } from "react";
-import Aoscompo from "@/lib/aos";
 import Providers from "@/components/Providers";
 import { HtmlLang } from "@/i18n/LanguageSwitcher";
 /**
@@ -39,13 +38,11 @@ export default function RootLayout({
                 </Suspense>
                 <HtmlLang />
                 <Providers>
-                    <Aoscompo>
-                        <Header />
-                        {/* Place de la barre supérieure de l'en-tête (affichée sur grand écran). */}
-                        <div className="lg:pt-10">{children}</div>
-                        <SchoolCta />
-                        <Footer />
-                    </Aoscompo>
+                    <Header />
+                    {/* Place de la barre supérieure de l'en-tête (affichée sur grand écran). */}
+                    <div className="lg:pt-10">{children}</div>
+                    <SchoolCta />
+                    <Footer />
                     <WhatsAppButton />
                 </Providers>
             </body>

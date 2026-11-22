@@ -50,9 +50,7 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
       </Link>
       {submenuOpen && (
         <div
-          className={`absolute top-full py-2 left-0 mt-0.5 w-60 bg-white dark:bg-darklight dark:text-white shadow-lg rounded-lg `}
-          data-aos='fade-up'
-          data-aos-duration='500'>
+          className={`absolute top-full py-2 left-0 mt-0.5 w-60 bg-white dark:bg-darklight dark:text-white shadow-lg rounded-lg `}>
           {item.submenu?.map((subItem, index) => (
             <Link
               key={index}
