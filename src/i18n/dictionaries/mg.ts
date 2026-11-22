@@ -181,7 +181,7 @@ const mg: Record<string, string> = {
     'Enseignement supérieur': 'Fampianarana ambony',
     'Crèche et petite enfance': 'Toeram-pitaizana sy zaza madinika',
     'Petite enfance': 'Zaza madinika',
-    'Primaire et secondaire': 'Ambaratonga voalohany sy faharoa',
+    'École, collège et lycée': 'Sekoly ambaratonga voalohany, kolejy ary lisea',
     'Autres établissements': 'Toeram-pianarana hafa',
     'École supérieure': 'Sekoly ambony',
     'Institut supérieur': 'Ivotoerana ambony',

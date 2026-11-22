@@ -92,7 +92,7 @@
                 "Enseignement supérieur",
                 "Petite enfance",
                 "Formation professionnelle",
-                "Primaire et secondaire",
+                "École, collège et lycée",
                 "Autres établissements"
             ]
         },
@@ -3182,8 +3182,8 @@
         },
         {
             "id": "scolaire",
-            "label": "Primaire et secondaire",
-            "shortLabel": "Primaire et secondaire",
+            "label": "École, collège et lycée",
+            "shortLabel": "École, collège et lycée",
             "icon": "tabler:backpack",
             "subCategories": [
                 "École primaire",

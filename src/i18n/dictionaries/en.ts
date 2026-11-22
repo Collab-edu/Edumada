@@ -181,7 +181,7 @@ const en: Record<string, string> = {
     'Enseignement supérieur': 'Higher education',
     'Crèche et petite enfance': 'Nursery and early childhood',
     'Petite enfance': 'Early childhood',
-    'Primaire et secondaire': 'Primary and secondary',
+    'École, collège et lycée': 'Primary school, middle school and high school',
     'Autres établissements': 'Other institutions',
     'École supérieure': 'Higher school',
     'Institut supérieur': 'Higher institute',

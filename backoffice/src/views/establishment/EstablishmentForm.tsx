@@ -144,7 +144,7 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                         />
                     </CCol>
                     <CCol md={6}>
-                        {/* Une seule liste : le type choisi (« Lycée ») donne aussi la catégorie (« Primaire et secondaire »). */}
+                        {/* Une seule liste : le type choisi (« Lycée ») donne aussi la catégorie (« École, collège et lycée »). */}
                         <CFormSelect
                             label="Type d'établissement"
                             value={form.category ? `${form.category}::${form.subCategory}` : ''}

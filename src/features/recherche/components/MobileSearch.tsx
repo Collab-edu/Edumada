@@ -10,7 +10,7 @@ import { useFilterSuggestions } from '../useFilterSuggestions'
 const SHORTCUTS = [
     { label: 'Université', categorie: 'Enseignement supérieur' },
     { label: 'Formation pro', categorie: 'Formation professionnelle' },
-    { label: 'Lycée', categorie: 'Primaire et secondaire' },
+    { label: 'Lycée', categorie: 'École, collège et lycée' },
     { label: 'Crèche', categorie: 'Petite enfance' },
 ]
 
