@@ -23,8 +23,8 @@ const CategoriesSection = () => {
         <section id='categories-section'>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <SectionHeader
-                    title="Explorer par type d'établissement"
-                    description='De la crèche à l’université, trouvez la structure adaptée à chaque âge et à chaque projet.'
+                    title="Université, école, crèche ou centre de formation"
+                    description='Choisissez le type d’établissement que vous cherchez : chaque page liste les établissements référencés et leurs offres.'
                 />
                 <ul className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4'>
                     {loading

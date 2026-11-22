@@ -21,9 +21,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params
   const school = (await readSiteData()).SchoolData.find((s) => s.id === id)
   if (!school) return {}
+  // Les recherches visent le nom de l'établissement suivi de « frais », « filières » ou « inscription ».
+  const forChildren = school.category === 'petite-enfance' || school.category === 'scolaire'
   return {
-    title: school.name,
-    description: `${school.description} ${school.city}, Madagascar.`,
+    title: forChildren ? `${school.name} à ${school.city} : frais et inscription` : `${school.name} : filières, frais et inscription`,
+    description: `${school.name}, ${school.city} (Madagascar). ${school.description}`,
   }
 }
 

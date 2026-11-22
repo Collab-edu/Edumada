@@ -17,8 +17,8 @@ const FormationsSection = () => {
         <section id='courses-section'>
             <div id='Courses' className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <SectionHeader
-                    title='Les formations à découvrir'
-                    description='Parcourez une sélection de formations pour découvrir les cursus disponibles.'
+                    title='Des formations proposées à Madagascar'
+                    description='Licences, BTS, formations courtes : la durée, les frais et le diplôme sont indiqués sur chaque offre.'
                     link={{ href: '/recherche', label: 'Découvrir toutes les formations' }}
                 />
 

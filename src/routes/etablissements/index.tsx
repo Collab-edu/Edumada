@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import SchoolsPage from '@/features/etablissements/components/SchoolsPage'
 
 export const metadata: Metadata = {
-  title: 'Établissements',
-  description: 'Universités, écoles, crèches et centres de formation à Madagascar : filtrez par catégorie et par ville.',
+  title: 'Annuaire des écoles et universités à Madagascar',
+  description: 'Annuaire des universités, écoles, crèches et centres de formation à Madagascar : formations, frais et contact de chaque établissement, par ville.',
 }
 
 export default function EtablissementsPage() {

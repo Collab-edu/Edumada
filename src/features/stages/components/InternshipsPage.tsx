@@ -62,9 +62,9 @@ export default function InternshipsPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-8 lg:grid-cols-2 lg:items-center'>
                         <div className='mobile-center flex max-w-3xl flex-col gap-4'>
-                            <p className='font-semibold text-primary'>Offres de stage</p>
-                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Trouvez votre stage à Madagascar</h1>
-                            <p className='text-black'>Retrouvez les offres de stage publiées par Edumada : comparez les domaines, puis envoyez votre candidature depuis votre compte.</p>
+                            <p className='font-semibold text-primary'>Stages</p>
+                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Offres de stage à Madagascar</h1>
+                            <p className='text-black'>Les stages publiés par Edumada, avec la ville, la durée et le domaine de chaque offre. Vous postulez depuis votre compte, CV et lettre de motivation joints.</p>
                             <div className='mobile-center flex flex-wrap gap-3'>
                                 <ButtonLink href='#offres'>
                                     <Icon icon='tabler:search' className='text-lg' />
@@ -139,7 +139,7 @@ export default function InternshipsPage() {
                                     <Icon icon={b.icon} className='text-2xl' />
                                 </span>
                                 <div>
-                                    <h2 className='text-base font-semibold text-secondary'>{b.title}</h2>
+                                    <h3 className='text-base font-semibold text-secondary'>{b.title}</h3>
                                     <p className='text-sm text-black'>{b.text}</p>
                                 </div>
                             </li>

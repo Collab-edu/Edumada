@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import DomainsPage from '@/features/domaines/components/DomainsPage'
 
 export const metadata: Metadata = {
-  title: 'Domaines',
+  title: 'Domaines d’études et filières à Madagascar',
   description: "Explorez les formations à Madagascar par domaine d'études, après le bac ou en formation professionnelle : informatique, gestion, santé, tourisme et plus encore.",
 }
 

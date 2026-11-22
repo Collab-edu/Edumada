@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 import SearchPage from '@/features/recherche/components/SearchPage'
 
 export const metadata: Metadata = {
-  title: 'Recherche de formations',
+  title: 'Rechercher une formation à Madagascar',
   description:
     'Filtrez les formations à Madagascar par domaine, ville, budget, durée, modalité, diplôme et conditions d’admission.',
 }

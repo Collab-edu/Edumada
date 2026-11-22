@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import CategoryOffersPage from '@/features/formations/components/CategoryOffersPage'
 
 export const metadata: Metadata = {
-  title: 'Formation professionnelle',
+  title: 'Centres de formation professionnelle à Madagascar',
   description:
-    'Formations professionnelles à Madagascar : centres de formation, instituts techniques et écoles de métiers. Comparez les formations courtes et certifiantes.',
+    'Formations courtes et certifiantes à Madagascar : centres de formation professionnelle, instituts techniques et écoles de métiers, avec durée, coût et certificat délivré.',
 }
 
 export default function FormationProfessionnellePage() {

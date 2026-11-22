@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import OrientationPage from '@/features/orientation/components/OrientationPage'
 
 export const metadata: Metadata = {
-  title: 'Orientation',
-  description: 'Choisir sa formation ou un établissement à Madagascar : les étapes pour s’orienter, selon votre profil.',
+  title: 'Orientation après le bac à Madagascar',
+  description: 'Quelle filière choisir après le bac à Madagascar ? Les étapes pour s’orienter, un test d’orientation gratuit et les formations par profil.',
 }
 
 export default function OrientationRoute() {
