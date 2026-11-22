@@ -19,44 +19,53 @@ export interface OfferCardProps {
     id?: string
     /** Photo moins haute (bandeaux défilants, grilles de 4). */
     compact?: boolean
+    /** Sur la fiche de l'établissement : son nom, son logo et son type, identiques sur toutes les cartes, ne sont pas répétés. */
+    onSchoolPage?: boolean
 }
 
 /** Carte d'une offre, commune à tout le site : photo, établissement, infos clés et bouton vers la fiche. */
-export default function OfferCard({ formation, isFavorite, onToggleFavorite, id, compact = false }: OfferCardProps) {
+export default function OfferCard({ formation, isFavorite, onToggleFavorite, id, compact = false, onSchoolPage = false }: OfferCardProps) {
     const t = useT()
     const distance = formation.distanceKm !== undefined ? ` · ${t('à {km} km', { km: formation.distanceKm.toLocaleString('fr-FR') })}` : ''
     const facts = [
         // Le diplôme déjà écrit dans l'intitulé (« Licence en informatique ») n'est pas répété.
         ...offerFacts(formation).filter((fact) => !formation.title.includes(fact.label)),
         ...(formation.languages.length ? [{ icon: 'tabler:language', label: formation.languages.join(', ') }] : []),
-        { icon: 'tabler:map-pin', label: `${formation.city}${distance}` },
+        // Sur la fiche de l'établissement, sa ville est déjà affichée.
+        ...(onSchoolPage ? [] : [{ icon: 'tabler:map-pin', label: `${formation.city}${distance}` }]),
     ]
 
     return (
         <Card id={id} className={cn('flex h-full flex-col overflow-hidden scroll-mt-28 shadow-[0_6px_14px_-8px_rgba(15,23,42,0.17)]', formation.premium && 'ring-2 ring-gold')}>
             <div className={cn('relative shrink-0 bg-cream', compact ? 'h-40' : 'h-48')}>
                 <Image src={imageOr(formation.imageSrc, 640)} alt='' fill className='object-cover' />
-                <div className='absolute top-3 right-3 left-3 flex flex-wrap items-center gap-1.5'>
-                    <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} className='static max-w-full rounded-full' />
-                    {formation.premium && <PremiumBadge />}
-                </div>
+                {!onSchoolPage && (
+                    <div className='absolute top-3 right-3 left-3 flex flex-wrap items-center gap-1.5'>
+                        <CategoryTag categoryId={formation.category} schoolId={formation.schoolId} className='static max-w-full rounded-full' />
+                        {formation.premium && <PremiumBadge />}
+                    </div>
+                )}
                 <CardWave />
             </div>
 
-            <div className='relative flex flex-1 flex-col gap-4 px-5 pb-5'>
-                <Link href={`/etablissements/${formation.schoolId}`} aria-label={formation.school} className='relative -mt-8 w-fit'>
-                    <SchoolLogo name={formation.school} logo={formation.schoolLogo} className='h-16 w-16 rounded-xl text-sm shadow-md ring-4 ring-white' />
-                </Link>
+            <div className={cn('relative flex flex-1 flex-col gap-4 px-5 pb-5', onSchoolPage && 'pt-4')}>
+                {!onSchoolPage && (
+                    <Link href={`/etablissements/${formation.schoolId}`} aria-label={formation.school} className='relative -mt-8 w-fit'>
+                        <SchoolLogo name={formation.school} logo={formation.schoolLogo} className='h-16 w-16 rounded-xl text-sm shadow-md ring-4 ring-white' />
+                    </Link>
+                )}
 
                 <div>
                     <h3 className='text-lg font-bold leading-snug text-secondary'>{formation.title}</h3>
                     <span className='mt-2 block h-0.5 w-12 rounded-full bg-primary' aria-hidden='true' />
                 </div>
 
-                <Link href={`/etablissements/${formation.schoolId}`} className='flex w-fit max-w-full items-center gap-2 rounded-full bg-offwhite px-3 py-1.5 text-sm font-medium text-black hover:text-primary'>
-                    <Icon icon='tabler:building-bank' className='shrink-0 text-base' />
-                    <span className='truncate'>{formation.school}</span>
-                </Link>
+                {!onSchoolPage && (
+                    <Link href={`/etablissements/${formation.schoolId}`} className='flex w-fit max-w-full items-center gap-2 rounded-full bg-offwhite px-3 py-1.5 text-sm font-medium text-black hover:text-primary'>
+                        <Icon icon='tabler:building-bank' className='shrink-0 text-base' />
+                        <span className='truncate'>{formation.school}</span>
+                    </Link>
+                )}
 
                 <ul className='flex flex-wrap gap-x-4 gap-y-2 text-sm text-ink/80'>
                     {facts.map((fact) => (
