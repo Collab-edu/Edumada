@@ -1,3 +1,8 @@
 // Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
 // Contenu de la page : src/routes/inscription-etablissement/index.tsx
-export { default, metadata } from '@/routes/inscription-etablissement'
+import * as source from '@/routes/inscription-etablissement'
+import { localizedMetadata } from '@/i18n/metadata'
+
+export { default } from '@/routes/inscription-etablissement'
+
+export const generateMetadata = localizedMetadata(source, '/inscription-etablissement/', 'fr')

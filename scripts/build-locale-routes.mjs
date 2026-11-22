@@ -80,7 +80,17 @@ for (const file of pages(app)) {
             `// Contenu de la page : src/routes/${segments.join('/')}${segments.length ? '/' : ''}index.tsx`,
             ...(isClient
                 ? [`import Content from '${contentImport}'`, '', 'export default function Page() {', '    return <Content />', '}']
-                : [`export { ${['default', ...meta, ...staticParams].join(', ')} } from '${contentImport}'`]),
+                : ENABLED && meta.length
+                  ? // Multilingue actif : la page française annonce aussi ses versions /en/ et /mg/ (hreflang).
+                    [
+                        `import * as source from '${contentImport}'`,
+                        "import { localizedMetadata } from '@/i18n/metadata'",
+                        '',
+                        `export { ${['default', ...staticParams].join(', ')} } from '${contentImport}'`,
+                        '',
+                        `export const generateMetadata = localizedMetadata(source, '${urlPath}', 'fr')`,
+                    ]
+                  : [`export { ${['default', ...meta, ...staticParams].join(', ')} } from '${contentImport}'`]),
             ...(ex.dynamicParams ? ['export const dynamicParams = false'] : []),
             '',
         ].join('\n')

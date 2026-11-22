@@ -1,3 +1,8 @@
 // Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
 // Contenu de la page : src/routes/conditions/index.tsx
-export { default, metadata } from '@/routes/conditions'
+import * as source from '@/routes/conditions'
+import { localizedMetadata } from '@/i18n/metadata'
+
+export { default } from '@/routes/conditions'
+
+export const generateMetadata = localizedMetadata(source, '/conditions/', 'fr')

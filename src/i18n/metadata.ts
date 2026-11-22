@@ -27,7 +27,12 @@ export function localizedMetadata(module: object, path: string, lang: Locale) {
         const resolved = await params
         const locale = lang
         const base = page.generateMetadata ? await page.generateMetadata({ params: Promise.resolve(resolved) as Promise<never> }) : (page.metadata ?? {})
-        const tr = (value: unknown) => (typeof value === 'string' ? translate(locale, value) : value)
+        // Titre simple, ou { absolute } (accueil) : les deux sont traduits.
+        const tr = (value: unknown): unknown => {
+            if (typeof value === 'string') return translate(locale, value)
+            if (value && typeof value === 'object' && 'absolute' in value) return { ...value, absolute: translate(locale, String((value as { absolute: string }).absolute)) }
+            return value
+        }
         // Chemin de la page, avec l'identifiant pour une fiche (/etablissements/[id]/).
         const concrete = path.replace(/\[(\w+)\]/g, (_, key: string) => resolved[key] ?? key)
         // Sans titre propre (accueil), la page garde celui de la mise en page de la langue.

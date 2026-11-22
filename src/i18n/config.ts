@@ -6,7 +6,7 @@
  * Désactivé : pas de pages /en/ ni /mg/ (voir scripts/build-locale-routes.mjs), pas de sélecteur de langue.
  * Pour l'activer : passer à true, puis lancer node scripts/build-locale-routes.mjs.
  */
-export const I18N_ENABLED = false
+export const I18N_ENABLED = true
 
 export const LOCALES = ['fr', 'en', 'mg'] as const
 export type Locale = (typeof LOCALES)[number]

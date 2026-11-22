@@ -1,3 +1,8 @@
 // Page générée par scripts/build-locale-routes.mjs : ne pas modifier à la main.
 // Contenu de la page : src/routes/avantages/index.tsx
-export { default, metadata } from '@/routes/avantages'
+import * as source from '@/routes/avantages'
+import { localizedMetadata } from '@/i18n/metadata'
+
+export { default } from '@/routes/avantages'
+
+export const generateMetadata = localizedMetadata(source, '/avantages/', 'fr')
