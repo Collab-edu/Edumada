@@ -1,38 +1,8 @@
 'use client'
 import { useT } from '@/i18n/client'
-import ReadMore from '@/components/ui/read-more'
 
 /** Carte blanche des textes de présentation (accueil). */
 const PANEL = 'rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 lg:p-10'
-
-/** Accueil, sous le hero : présentation de la recherche d'une formation à Madagascar. */
-export function HomeIntro() {
-    const t = useT()
-    return (
-        <section id='home-intro'>
-            <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                <div className={`${PANEL} grid gap-5 lg:grid-cols-[1fr_1.5fr] lg:gap-16`}>
-                    <div>
-                        <h2 className='font-bold leading-tight'>{t('Trouvez la bonne formation et le bon établissement à Madagascar')}</h2>
-                    </div>
-                    <ReadMore>
-                        <div className='flex flex-col gap-4 text-black'>
-                            <p>
-                                {t('Choisir une formation est une étape importante pour construire son avenir scolaire et professionnel. À Madagascar, les possibilités d’études sont nombreuses : universités publiques et privées, écoles supérieures, centres de formation professionnelle, lycées et établissements spécialisés.')}
-                            </p>
-                            <p>
-                                {t('Mais trouver le parcours qui correspond réellement à ses ambitions, à son niveau d’études et à son budget n’est pas toujours facile. Edumada vous accompagne dans cette recherche en regroupant les établissements et les formations disponibles à Madagascar sur une seule plateforme.')}
-                            </p>
-                            <p>
-                                {t('Que vous soyez un nouveau bachelier à la recherche d’une université, un étudiant souhaitant poursuivre ses études ou une personne désireuse d’acquérir de nouvelles compétences, vous pouvez explorer différentes possibilités et découvrir les établissements qui correspondent à votre projet.')}
-                            </p>
-                        </div>
-                    </ReadMore>
-                </div>
-            </div>
-        </section>
-    )
-}
 
 const CRITERIA = [
     'Le niveau d’admission requis.',

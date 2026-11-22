@@ -5,7 +5,7 @@ import CategoriesSection from '@/features/categories/components/CategoriesSectio
 import DomainsSection from '@/features/domaines/components/DomainsSection'
 import RegisterCta from '@/features/marketing/components/RegisterCta'
 import HowItWorksPhones from '@/features/marketing/components/HowItWorksPhones'
-import { HomeGuide, HomeIntro } from '@/features/marketing/components/HomeGuide'
+import { HomeGuide } from '@/features/marketing/components/HomeGuide'
 import { LazyFormationsSection, LazySchoolsSection, LazyTestimonialsSection } from '@/features/marketing/components/HomeLazySections'
 import { SITE_URL } from '@/lib/site-url'
 
@@ -57,7 +57,6 @@ export default function Home() {
       <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {/* Les logos qui défilent sont dans le hero (ancienne section : Companies). */}
       <Hero />
-      <HomeIntro />
       <CategoriesSection />
       <DomainsSection />
       <RegisterCta />
