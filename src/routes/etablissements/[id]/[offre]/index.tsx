@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { readFormationDetails, readSiteData } from '@/data/server'
+import { EMPTY_CATALOG_ID, readFormationDetails, readSiteData } from '@/data/server'
 import LiveFormationPage from '@/features/formations/components/detail/LiveFormationPage'
 import { diplomaName, offerFacts } from '@/features/formations/format'
 import { buildFormationPageProps } from '@/features/formations/page-props'
@@ -12,7 +12,9 @@ type Props = { params: Promise<{ id: string; offre: string }> }
 export const dynamicParams = false
 
 export async function generateStaticParams() {
-  return (await readSiteData()).FormationData.map((formation) => ({ id: formation.schoolId, offre: formation.urlSlug }))
+  const params = (await readSiteData()).FormationData.map((formation) => ({ id: formation.schoolId, offre: formation.urlSlug }))
+  // Catalogue vide : voir la page de l'établissement.
+  return params.length > 0 ? params : [{ id: EMPTY_CATALOG_ID, offre: EMPTY_CATALOG_ID }]
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

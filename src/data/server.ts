@@ -11,6 +11,9 @@ const readJson = <T,>(file: string): T => JSON.parse(fs.readFileSync(path.join(d
 let siteData: Promise<SiteData> | null = null
 let details: Promise<FormationDetailType[]> | null = null
 
+/** Identifiant de la page générée quand le catalogue est vide (l'export statique exige au moins une page). */
+export const EMPTY_CATALOG_ID = '_'
+
 /**
  * Données du site au moment du build (composants serveur uniquement), pour générer les pages statiques.
  * Avec NEXT_PUBLIC_API_URL, le catalogue vient de l'API ; si elle ne répond pas, le build continue

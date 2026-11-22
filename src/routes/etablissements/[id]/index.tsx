@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { readSiteData } from '@/data/server'
+import { EMPTY_CATALOG_ID, readSiteData } from '@/data/server'
 import LiveSchoolPage from '@/features/etablissements/components/LiveSchoolPage'
 import { buildSchoolPageProps } from '@/features/etablissements/page-props'
 
@@ -11,7 +11,10 @@ type Props = { params: Promise<{ id: string }> }
 export const dynamicParams = false
 
 export async function generateStaticParams() {
-  return (await readSiteData()).SchoolData.map((school) => ({ id: school.id }))
+  const params = (await readSiteData()).SchoolData.map((school) => ({ id: school.id }))
+  // Catalogue vide (site tout juste remis à zéro) : l'export statique exige au moins une page ;
+  // celle-ci renvoie vers la 404, qui affiche les fiches publiées après le build.
+  return params.length > 0 ? params : [{ id: EMPTY_CATALOG_ID }]
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
