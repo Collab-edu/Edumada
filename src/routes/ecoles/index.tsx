@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import CategoryOffersPage from '@/features/formations/components/CategoryOffersPage'
 
 export const metadata: Metadata = {
-  title: 'Écoles, collèges et lycées à Madagascar',
+  title: 'Écoles, collèges et lycées',
   description:
-    'Écoles primaires, collèges et lycées publics ou privés à Antananarivo et partout à Madagascar : niveaux, frais de scolarité et inscription.',
+    'Écoles primaires, collèges et lycées à Madagascar : comparez les établissements près de chez vous et contactez-les directement.',
 }
 
 export default function EcolesPage() {

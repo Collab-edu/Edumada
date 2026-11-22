@@ -13,8 +13,8 @@ const DomainsSection = () => {
         <section id='domains-section'>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <SectionHeader
-                    title='Les formations par domaine d’études'
-                    description='Informatique, gestion, santé, droit, tourisme… Choisissez un domaine pour voir les filières et les écoles qui l’enseignent à Madagascar.'
+                    title='Explorez les formations par domaine'
+                    description="Découvrez les possibilités d'études selon vos centres d'intérêt et vos objectifs professionnels."
                 />
 
                 <div className='grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-4 lg:grid-cols-[repeat(4,minmax(0,1fr))_minmax(0,1.3fr)] gap-4'>

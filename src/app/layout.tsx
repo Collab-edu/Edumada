@@ -18,11 +18,11 @@ const body = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inte
 
 export const metadata: Metadata = {
     title: {
-        default: "Edumada : universités, écoles et formations à Madagascar",
+        default: "Edumada — Trouvez votre formation à Madagascar",
         template: "%s | Edumada",
     },
     description:
-        "Universités, écoles privées, centres de formation professionnelle et crèches à Madagascar : filières, frais de scolarité, conditions d'admission et dates d'inscription de chaque établissement.",
+        "Explorez les formations, comparez les établissements et trouvez le parcours adapté à vos ambitions, à votre budget et à votre projet professionnel à Madagascar.",
 };
 
 export default function RootLayout({

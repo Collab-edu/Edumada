@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!formation) return {}
   const facts = offerFacts(formation).map((f) => f.label).join(', ')
   return {
-    title: `${formation.title}, ${formation.school} (${formation.city})`,
+    title: `${formation.title} — ${formation.school}`,
     description: `${formation.title} à ${formation.city}${facts ? ` (${facts})` : ''} : ${formation.school}, admission, frais, organisation et inscription.`,
   }
 }

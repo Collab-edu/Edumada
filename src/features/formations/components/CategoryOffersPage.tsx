@@ -25,19 +25,19 @@ const VARIANTS = {
     universites: {
         categoryIds: ['superieur'],
         eyebrow: 'Universités',
-        title: 'Universités et écoles supérieures à Madagascar',
-        intro: 'Universités publiques et privées, instituts supérieurs et grandes écoles : les licences, masters et BTS proposés après le bac, avec les frais de scolarité et les conditions d’admission de chaque établissement.',
+        title: 'Trouvez votre formation dans le supérieur',
+        intro: 'Licences, masters, BTS et cursus des universités, instituts supérieurs, écoles supérieures et grandes écoles à Madagascar : comparez les formations après le bac, puis contactez directement l’établissement.',
         image: 'etudiants',
         imageAlt: 'Étudiants de l’enseignement supérieur',
-        listTitle: 'Universités, instituts et écoles supérieures',
+        listTitle: 'Les établissements du supérieur',
         listIntro: 'Choisissez un type d’établissement, puis filtrez par filière et par ville.',
         offerNoun: { one: 'formation', many: 'formations' },
         domainLabel: 'Filière',
         domainPlaceholder: 'Ex. : informatique, droit…',
         bySubCategory: true,
         benefits: [
-            { icon: 'tabler:school', title: 'Licence, master, BTS', text: 'Pour chaque cursus : la durée, les frais de scolarité et les conditions d’admission.' },
-            { icon: 'tabler:rosette-discount-check', title: 'Homologation et reconnaissance', text: 'Chaque fiche indique la reconnaissance déclarée par l’établissement. Vérifiez-la avant de vous inscrire.' },
+            { icon: 'tabler:school', title: 'Tous les cursus', text: 'Licence, master, BTS, doctorat : comparez durée, frais et conditions d’admission.' },
+            { icon: 'tabler:rosette-discount-check', title: 'Une reconnaissance indiquée', text: 'Vérifiez sur chaque fiche la reconnaissance déclarée par l’établissement.' },
             { icon: 'tabler:message-circle', title: 'Un contact direct', text: 'Écrivez ou appelez l’établissement depuis l’offre, sans intermédiaire.' },
         ],
         cta: { title: 'Vous dirigez une université ou une école supérieure ?', text: 'Présentez vos cursus gratuitement et recevez les demandes des futurs étudiants.', button: 'Référencer mon établissement' },
@@ -46,18 +46,18 @@ const VARIANTS = {
     'formation-pro': {
         categoryIds: ['formation-pro'],
         eyebrow: 'Formation professionnelle',
-        title: 'Formation professionnelle à Madagascar',
-        intro: 'Centres de formation professionnelle, instituts techniques et écoles de métiers : des formations courtes et certifiantes, avec ou sans bac. Chaque offre indique sa durée, son coût et le certificat délivré.',
+        title: 'Apprenez un métier, rapidement et concrètement',
+        intro: 'Centres de formation, instituts techniques et écoles de métiers à Madagascar : comparez les formations courtes et certifiantes, puis contactez directement l’établissement.',
         image: 'formation-pro',
         imageAlt: 'Apprenants en formation professionnelle',
-        listTitle: 'Les centres de formation professionnelle',
+        listTitle: 'Les centres de formation',
         listIntro: 'Filtrez par domaine et par ville pour trouver le centre qui correspond à votre projet.',
         offerNoun: { one: 'formation', many: 'formations' },
         domainLabel: "Domaine d'études",
         domainPlaceholder: FILTER_UI.domaine.placeholder,
         bySubCategory: false,
         benefits: [
-            { icon: 'tabler:clock-hour-4', title: 'Des parcours courts', text: 'De quelques semaines à deux ans, en cours du jour ou du soir selon les centres.' },
+            { icon: 'tabler:clock-hour-4', title: 'Des parcours courts', text: 'De quelques semaines à deux ans, pour se former sans mettre sa vie entre parenthèses.' },
             { icon: 'tabler:tools', title: 'Un métier concret', text: 'Des compétences pratiques, directement utiles en entreprise ou pour se lancer à son compte.' },
             { icon: 'tabler:certificate', title: 'Un certificat reconnu', text: 'Vérifiez sur chaque offre le diplôme ou le certificat délivré et les conditions d’admission.' },
         ],
@@ -67,8 +67,8 @@ const VARIANTS = {
     'petite-enfance': {
         categoryIds: ['petite-enfance', 'scolaire'],
         eyebrow: 'Petite enfance et écoles',
-        title: 'Crèches et écoles à Madagascar',
-        intro: 'Crèches, garderies, maternelles, écoles primaires, collèges et lycées, à Antananarivo et dans les autres villes. Consultez l’âge d’accueil, les niveaux et les frais, puis contactez l’établissement.',
+        title: 'Trouvez la crèche ou l’école de votre enfant',
+        intro: 'Crèches, garderies, maternelles, écoles primaires, collèges et lycées à Madagascar : comparez l’accueil et les niveaux proposés, puis contactez directement l’établissement.',
         image: 'enfants-classe',
         imageAlt: 'Enfants qui travaillent en classe',
         listTitle: 'Les crèches et les écoles',
@@ -88,11 +88,11 @@ const VARIANTS = {
     creches: {
         categoryIds: ['petite-enfance'],
         eyebrow: 'Crèches et petite enfance',
-        title: 'Crèches et garderies à Madagascar',
-        intro: 'Crèches, garderies, préscolaires et maternelles, à Antananarivo et dans les autres villes. Consultez l’âge d’accueil, les horaires et les tarifs, puis contactez la crèche directement.',
+        title: 'Trouvez la crèche de votre enfant',
+        intro: 'Crèches, garderies, préscolaires et maternelles à Madagascar : comparez l’accueil proposé et contactez les établissements près de chez vous.',
         image: 'enfants-classe',
         imageAlt: 'Enfants qui travaillent en classe',
-        listTitle: 'Crèches, garderies et maternelles',
+        listTitle: 'Les crèches',
         listIntro: 'Filtrez par ville pour trouver une crèche près de chez vous.',
         offerNoun: { one: 'offre', many: 'offres' },
         domainLabel: "Domaine d'études",
@@ -109,11 +109,11 @@ const VARIANTS = {
     ecoles: {
         categoryIds: ['scolaire'],
         eyebrow: 'Écoles, collèges et lycées',
-        title: 'Écoles, collèges et lycées à Madagascar',
-        intro: 'Écoles primaires, collèges et lycées, publics ou privés, à Antananarivo et dans les autres villes. Consultez les niveaux proposés et les frais de scolarité, puis contactez l’établissement.',
+        title: 'Trouvez l’école de votre enfant',
+        intro: 'Écoles primaires, collèges et lycées à Madagascar : comparez les niveaux proposés et contactez les établissements près de chez vous.',
         image: 'enfants-classe',
         imageAlt: 'Enfants qui travaillent en classe',
-        listTitle: 'Écoles primaires, collèges et lycées',
+        listTitle: 'Les écoles, collèges et lycées',
         listIntro: 'Filtrez par ville pour trouver un établissement près de chez vous.',
         offerNoun: { one: 'offre', many: 'offres' },
         domainLabel: "Domaine d'études",
@@ -433,7 +433,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                     <Icon icon={b.icon} className='text-2xl' />
                                 </span>
                                 <div>
-                                    <h3 className='text-base font-semibold text-secondary'>{t(b.title)}</h3>
+                                    <h2 className='text-base font-semibold text-secondary'>{t(b.title)}</h2>
                                     <p className='text-sm text-black'>{t(b.text)}</p>
                                 </div>
                             </li>

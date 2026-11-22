@@ -58,14 +58,14 @@ export function buildSchoolFaq(school: SchoolType, formations: FormationType[], 
 
     return [
         {
-            question: `${school.name} : quand ont lieu les inscriptions ?`,
+            question: 'Quand ont lieu les inscriptions ?',
             answer:
                 registrationParts.length > 0
                     ? registrationParts.join(' ')
                     : "Aucune période d'inscription n'est communiquée pour le moment. Contactez l'établissement pour connaître les prochaines dates.",
         },
         {
-            question: fields.diplomas ? `${school.name} : quels sont les frais de scolarité ?` : `${school.name} : quels sont les tarifs ?`,
+            question: fields.diplomas ? 'Combien coûtent les études ?' : "Quels sont les frais d'accueil ?",
             answer:
                 feeSentences.length > 0
                     ? feeSentences.join(' ')
@@ -73,7 +73,7 @@ export function buildSchoolFaq(school: SchoolType, formations: FormationType[], 
         },
         diplomas.length > 0
             ? {
-                  question: `${school.name} : quels diplômes, et sont-ils reconnus ?`,
+                  question: 'Quels diplômes peut-on obtenir ? Sont-ils reconnus ?',
                   answer:
                       `L'établissement prépare aux diplômes suivants : ${joinFr(diplomas)}. ` +
                       (school.accreditationVerified && school.accreditation
@@ -81,7 +81,7 @@ export function buildSchoolFaq(school: SchoolType, formations: FormationType[], 
                           : "Aucune information de reconnaissance ou d'accréditation n'est vérifiée pour le moment : renseignez-vous auprès de l'établissement avant de vous inscrire."),
               }
             : {
-                  question: `${school.name} : dès quel âge les enfants sont-ils accueillis ?`,
+                  question: 'À partir de quel âge les enfants sont-ils accueillis ?',
                   answer: ages.length > 0
                       ? `L'établissement accueille les enfants ${joinFr(ages)}.`
                       : "L'âge d'accueil n'est pas encore renseigné. Contactez l'établissement.",

@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import CategoryOffersPage from '@/features/formations/components/CategoryOffersPage'
 
 export const metadata: Metadata = {
-  title: 'Crèches et garderies à Madagascar',
+  title: 'Crèches et petite enfance',
   description:
-    'Crèches, garderies et maternelles à Antananarivo et partout à Madagascar : âge d’accueil, horaires, tarifs et contact de chaque établissement.',
+    'Crèches, garderies, préscolaires et maternelles à Madagascar : comparez les établissements près de chez vous et contactez-les directement.',
 }
 
 export default function CrechesPage() {

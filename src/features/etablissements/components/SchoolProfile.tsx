@@ -234,7 +234,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
 
                         {formations.length > 0 && (
                             <div id='admission' className='scroll-mt-28'>
-                                <SectionTitle icon='tabler:clipboard-check'>{t('Admission et inscription')}</SectionTitle>
+                                <SectionTitle icon='tabler:clipboard-check'>{t('Conditions d’admission')}</SectionTitle>
                                 <SchoolAdmission school={school} formations={formations} fields={fields} />
                             </div>
                         )}
@@ -295,7 +295,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         )}
 
                         <div id='faq' className='scroll-mt-28'>
-                            <SectionTitle icon='tabler:help-circle'>{t('Questions fréquentes')} <span className='sr-only'>sur {school.name}</span></SectionTitle>
+                            <SectionTitle icon='tabler:help-circle'>{t('Questions fréquentes')}</SectionTitle>
                             <SchoolFaq items={faq} />
                         </div>
                     </div>

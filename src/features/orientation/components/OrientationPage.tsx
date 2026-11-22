@@ -85,10 +85,10 @@ export default function OrientationPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
                         <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
-                            S’orienter après le bac <span className='text-primary'>à Madagascar</span>
+                            Trouvez la voie <span className='text-primary'>qui vous correspond</span>
                         </h1>
                         <p className='max-w-2xl text-black'>
-                            {t('Quelle filière choisir, dans quelle école, pour quel budget ? Quatre étapes pour comparer les formations avant de vous inscrire, que vous sortiez du lycée, que vous cherchiez une formation courte ou une école pour votre enfant.')}
+                            {t('Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et comparer les possibilités à Madagascar.')}
                         </p>
                         <div className='flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center'>
                             <ButtonLink href='/orientation/test/' variant='secondary'>

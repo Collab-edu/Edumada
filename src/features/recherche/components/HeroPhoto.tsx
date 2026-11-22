@@ -68,7 +68,7 @@ export default function HeroPhoto() {
                             </g>
                         </svg>
                         <h1 className={`text-[28px] leading-[1.2] font-extrabold text-secondary sm:text-[32px] lg:text-[35px]`}>
-                            {t('Universités, écoles et formations à')} <span className='text-primary'>{t('Madagascar')}</span>
+                            {t('Trouvez votre formation à Madagascar et construisez votre')} <span className='text-primary'>{t('avenir')}</span>.
                         </h1>
 
                         {/* Mobile : la recherche juste sous le titre (la barre complète est masquée). */}
@@ -78,7 +78,7 @@ export default function HeroPhoto() {
 
                         <div className='relative mt-5 sm:mt-6'>
                             <p className='mx-auto max-w-2xl text-base leading-7 text-ink sm:text-lg'>
-                                {t('Filières, frais de scolarité, conditions d’admission et dates d’inscription : consultez la fiche de chaque établissement, de la crèche à l’université, puis contactez-le directement.')}
+                                {t('Explorez les formations, comparez les établissements et trouvez le parcours adapté à vos ambitions, à votre budget et à votre projet professionnel.')}
                             </p>
                         </div>
                     </div>

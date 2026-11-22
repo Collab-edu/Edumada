@@ -36,8 +36,8 @@ const VARIANTS = {
     /** Tous les établissements, filtrés par type, ville et nom. */
     all: {
         eyebrow: 'Établissements',
-        title: 'Annuaire des écoles et universités à Madagascar',
-        intro: 'Universités, écoles, crèches et centres de formation de tout Madagascar. Chaque fiche donne les formations proposées, les frais, les conditions d’admission et le contact de l’établissement.',
+        title: 'Trouvez l’établissement qui vous correspond',
+        intro: 'Universités, écoles, crèches et centres de formation à Madagascar : consultez leur fiche, découvrez les formations qu’ils proposent, puis contactez-les directement.',
         image: 'etablissements',
         imageAlt: 'Campus d’un établissement d’enseignement',
         listTitle: 'Tous les établissements',
@@ -203,7 +203,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                     <Icon icon={b.icon} className='text-2xl' />
                                 </span>
                                 <div>
-                                    <h3 className='text-base font-semibold text-secondary'>{t(b.title)}</h3>
+                                    <h2 className='text-base font-semibold text-secondary'>{t(b.title)}</h2>
                                     <p className='text-sm text-black'>{t(b.text)}</p>
                                 </div>
                             </li>
