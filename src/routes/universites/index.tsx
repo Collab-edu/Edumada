@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Universités',
   description:
     'Formations des universités, instituts supérieurs, écoles supérieures et grandes écoles à Madagascar : filtrez par type d’établissement, par filière et par ville.',
+  alternates: { canonical: '/universites/' },
 }
 
 export default function UniversitesPage() {

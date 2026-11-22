@@ -206,6 +206,14 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 <Icon icon='tabler:world' className='text-lg' /> {t('Site web')}
                             </a>
                         )}
+                        {/* Lien vers la liste des offres de l'établissement (maillage interne). */}
+                        {formations.length > 0 && (
+                            <a
+                                href='#formations'
+                                className='inline-flex items-center gap-2 rounded-lg border border-secondary/20 bg-white px-4 py-2.5 font-semibold text-secondary transition-colors duration-300 hover:border-primary hover:text-primary'>
+                                <Icon icon='tabler:list-details' className='text-lg' /> {t('Découvrir les formations proposées')}
+                            </a>
+                        )}
                     </div>
                 </div>
 
@@ -217,7 +225,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             <p className='text-black leading-relaxed'>{school.description}</p>
                         </div>
 
-                        <div>
+                        <div id='formations' className='scroll-mt-28'>
                             <SectionTitle icon={category.icon}>
                                 {t(category.offersLabel)} <span className='text-ink/50'>({formations.length})</span>
                             </SectionTitle>

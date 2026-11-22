@@ -4,6 +4,7 @@ import SchoolsPage from '@/features/etablissements/components/SchoolsPage'
 export const metadata: Metadata = {
   title: 'Établissements',
   description: 'Universités, écoles, crèches et centres de formation à Madagascar : filtrez par catégorie et par ville.',
+  alternates: { canonical: '/etablissements/' },
 }
 
 export default function EtablissementsPage() {

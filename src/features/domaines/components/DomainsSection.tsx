@@ -13,8 +13,8 @@ const DomainsSection = () => {
         <section id='domains-section'>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <SectionHeader
-                    title='Explorez les formations par domaine'
-                    description="Découvrez les possibilités d'études selon vos centres d'intérêt et vos objectifs professionnels."
+                    title='Explorez les formations selon votre domaine d’intérêt'
+                    description='Vous avez déjà une idée du métier que vous souhaitez exercer ? Ou vous cherchez encore votre orientation ? Explorez les domaines de formation pour identifier les parcours qui correspondent à vos centres d’intérêt.'
                 />
 
                 <div className='grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-4 lg:grid-cols-[repeat(4,minmax(0,1fr))_minmax(0,1.3fr)] gap-4'>
@@ -59,9 +59,13 @@ const DomainsSection = () => {
                     </div>
                 </div>
 
+                <p className='mt-8 text-black'>
+                    {t('Informatique, gestion, sciences, commerce, communication, santé, agriculture, tourisme, ingénierie ou métiers techniques : chaque domaine offre différentes possibilités d’apprentissage et de spécialisation. Edumada vous permet de découvrir les formations proposées par les établissements et de comparer les informations disponibles avant de faire votre choix.')}
+                </p>
+
                 <Link
                     href='/recherche'
-                    className='mt-8 inline-block font-semibold text-secondary underline underline-offset-4 decoration-secondary/40 hover:text-primary hover:decoration-primary'>
+                    className='mt-6 inline-block font-semibold text-secondary underline underline-offset-4 decoration-secondary/40 hover:text-primary hover:decoration-primary'>
                     {t('Parcourez toutes les formations')}
                 </Link>
             </div>

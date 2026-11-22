@@ -26,6 +26,14 @@ const BENEFITS = [
     { icon: 'tabler:headset', title: 'Un accompagnement dédié', text: 'Notre équipe vous aide à créer et optimiser votre fiche pour gagner en visibilité.' },
 ]
 
+/** Sections « Pourquoi référencer votre établissement » (plan SEO de la page). */
+const REASONS = [
+    { title: 'Développez la visibilité de votre établissement', text: 'En créant votre fiche sur Edumada, vous disposez d’un espace pour présenter votre établissement, son emplacement, ses coordonnées et ses principales caractéristiques. Les étudiants peuvent ainsi découvrir votre structure lorsqu’ils recherchent une école, une université ou un centre de formation correspondant à leurs besoins.' },
+    { title: 'Présentez vos formations et vos programmes', text: 'Mettez en avant les formations que vous proposez, les filières disponibles, les niveaux d’admission et les informations essentielles sur vos programmes. Une présentation claire aide les futurs étudiants à mieux comprendre votre offre et à identifier les parcours qui correspondent à leurs objectifs.' },
+    { title: 'Facilitez les demandes d’informations', text: 'Les personnes intéressées peuvent consulter votre fiche et vous contacter directement pour obtenir davantage de renseignements. Vous facilitez ainsi les premiers échanges avec de futurs étudiants et leurs familles.' },
+    { title: 'Une présence adaptée aux établissements malgaches', text: 'Edumada accueille différents types de structures éducatives : universités, écoles supérieures, centres de formation professionnelle, écoles primaires, collèges, lycées et établissements préscolaires. Quelle que soit votre spécialité, vous pouvez présenter votre établissement à un public qui recherche des possibilités d’apprentissage et de formation à Madagascar.' },
+]
+
 const STEPS = [
     { title: 'Créez votre compte', text: 'Un compte établissement gratuit, en quelques minutes.' },
     { title: 'Complétez votre fiche', text: 'Ajoutez vos informations et vos offres, ou revendiquez la fiche qui existe déjà.' },
@@ -49,7 +57,7 @@ export default function BenefitsPage() {
                     <div className='grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-10'>
                         <div className='mobile-center flex flex-col gap-6'>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>
-                                {t('Faites découvrir vos formations aux')} <span className='text-primary'>{t('futurs étudiants')}</span>
+                                {t('Référencez votre établissement et')} <span className='text-primary'>{t('gagnez en visibilité à Madagascar')}</span>
                             </h1>
                             <p className='max-w-xl text-lg text-ink'>
                                 {t('Rejoignez EduMada et gagnez en visibilité auprès d’un large public d’étudiants à Madagascar. Présentez votre établissement, vos formations et facilitez la prise de contact.')}
@@ -116,6 +124,27 @@ export default function BenefitsPage() {
                 </div>
             </section>
 
+            {/* Pourquoi référencer son établissement (plan SEO de la page) */}
+            <section className='pt-0 pb-14 md:pb-20'>
+                <div className='container mx-auto flex max-w-site flex-col gap-12 px-4 sm:px-6 lg:px-8'>
+                    <div className='grid gap-6 lg:grid-cols-[1fr_1.4fr] lg:gap-16'>
+                        <h2 className='mobile-center font-bold'>{t('Pourquoi référencer votre établissement sur Edumada ?')}</h2>
+                        <div className='flex flex-col gap-4 text-black'>
+                            <p>{t('Aujourd’hui, les étudiants et les parents utilisent de plus en plus Internet pour rechercher des écoles, des universités et des formations. Disposer d’une présence en ligne claire et accessible est devenu un véritable atout pour les établissements d’enseignement.')}</p>
+                            <p>{t('Edumada est une plateforme dédiée à la découverte des établissements et des formations à Madagascar. Elle permet aux structures éducatives de présenter leurs activités et de faciliter la prise de contact avec les personnes intéressées.')}</p>
+                        </div>
+                    </div>
+                    <div className='grid gap-10 md:grid-cols-2 md:gap-x-16'>
+                        {REASONS.map((reason) => (
+                            <div key={reason.title} className='flex flex-col gap-3'>
+                                <h2 className='text-2xl font-bold leading-tight text-secondary'>{t(reason.title)}</h2>
+                                <p className='text-black'>{t(reason.text)}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* Étapes */}
             <section className='overflow-hidden bg-secondary/[0.06] py-16 md:py-24'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
@@ -156,8 +185,9 @@ export default function BenefitsPage() {
                 <div className='container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8'>
                     <div className='mobile-center mb-8 flex flex-col gap-5 sm:mb-10 sm:flex-row sm:items-end sm:justify-between'>
                         <div className='mobile-center flex flex-col gap-3'>
-                            <h2 className='font-bold'>{t('Commencez gratuitement')}</h2>
-                            <p className='text-ink'>{t('Passez à une formule payante seulement quand vous en avez besoin.')}</p>
+                            <h2 className='font-bold'>{t('Commencez gratuitement sur Edumada')}</h2>
+                            <p className='text-ink'>{t('Vous pouvez créer votre compte établissement et publier une première fiche gratuitement. Complétez vos informations, ajoutez vos formations et développez progressivement votre présence sur la plateforme.')}</p>
+                            <p className='text-ink'>{t('Rejoignez Edumada et permettez aux futurs étudiants de découvrir votre établissement.')}</p>
                         </div>
                         {/* Bouton rouge, comme « Référencer mon établissement » en haut de page. */}
                         <ButtonLink href='/tarifs/' className='min-h-12 shrink-0 self-center px-6 sm:self-auto'>

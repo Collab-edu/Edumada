@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Crèches et petite enfance',
   description:
     'Crèches, garderies, préscolaires et maternelles à Madagascar : comparez les établissements près de chez vous et contactez-les directement.',
+  alternates: { canonical: '/creches/' },
 }
 
 export default function CrechesPage() {

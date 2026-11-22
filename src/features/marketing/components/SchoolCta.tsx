@@ -32,6 +32,8 @@ const SchoolCta = () => {
     const photos = [...new Set(schools.map((school) => imageOr(school.imageSrc, 160)))].slice(0, SPOTS.length)
 
     if (hidesSchoolCta(pathname)) return null
+    // Accueil : texte du plan SEO (« établissement de formation à Madagascar »).
+    const isHome = stripLocale(pathname ?? '/') === '/'
 
     return (
         <section id='school-cta-section' className='relative z-10 -mb-28 pb-0'>
@@ -54,10 +56,24 @@ const SchoolCta = () => {
 
                     <div className='relative mx-auto flex max-w-xl flex-col items-center gap-5 text-center'>
                         <Eyebrow>{schools.length > 0 ? t('Déjà {n} établissements sur Edumada', { n: schools.length }) : t('Espace établissements')}</Eyebrow>
-                        <h2 className='font-bold text-secondary'>{t('Vous êtes un établissement de formation ?')}</h2>
-                        <p className='text-black leading-relaxed'>
-                            {t('Présentez vos formations, améliorez votre visibilité et permettez aux futurs étudiants de découvrir votre établissement. La fiche est gratuite.')}
-                        </p>
+                        {isHome ? (
+                            <>
+                                <h2 className='font-bold text-secondary'>{t('Vous êtes un établissement de formation à Madagascar ?')}</h2>
+                                <p className='text-black leading-relaxed'>
+                                    {t('Rejoignez Edumada et présentez votre établissement aux étudiants, aux parents et aux personnes à la recherche d’une formation. Publiez vos informations, mettez en valeur vos programmes et facilitez les échanges avec vos futurs étudiants.')}
+                                </p>
+                                <p className='text-black leading-relaxed'>
+                                    {t('La création d’une fiche établissement est gratuite. Vous pouvez ainsi commencer à développer votre présence sur une plateforme dédiée à l’éducation et à la formation à Madagascar.')}
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <h2 className='font-bold text-secondary'>{t('Vous êtes un établissement de formation ?')}</h2>
+                                <p className='text-black leading-relaxed'>
+                                    {t('Présentez vos formations, améliorez votre visibilité et permettez aux futurs étudiants de découvrir votre établissement. La fiche est gratuite.')}
+                                </p>
+                            </>
+                        )}
                         <div className='flex flex-col items-center gap-5 sm:flex-row'>
                             <Link
                                 href='/tarifs/'

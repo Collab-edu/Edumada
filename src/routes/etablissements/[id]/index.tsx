@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { EMPTY_CATALOG_ID, readSiteData } from '@/data/server'
+import { SITE_URL } from '@/lib/site-url'
 import LiveSchoolPage from '@/features/etablissements/components/LiveSchoolPage'
 import { buildSchoolPageProps } from '@/features/etablissements/page-props'
 
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: school.name,
     description: `${school.description} ${school.city}, Madagascar.`,
+    alternates: { canonical: `/etablissements/${school.id}/` },
   }
 }
 
@@ -46,8 +48,28 @@ export default async function SchoolPage({ params }: Props) {
     })),
   }
 
+  // Données structurées EducationalOrganization : uniquement les informations affichées sur la fiche.
+  const organizationJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'EducationalOrganization',
+    name: school.name,
+    url: `${SITE_URL}/etablissements/${school.id}/`,
+    ...(school.description ? { description: school.description } : {}),
+    address: {
+      '@type': 'PostalAddress',
+      ...(school.address ? { streetAddress: school.address } : {}),
+      addressLocality: school.city,
+      addressCountry: 'MG',
+    },
+    ...(school.phone ? { telephone: school.phone } : {}),
+    ...(school.email ? { email: school.email } : {}),
+    ...(school.website ? { sameAs: school.website } : {}),
+    ...(school.foundedYear ? { foundingDate: String(school.foundedYear) } : {}),
+  }
+
   return (
     <main>
+      <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd).replace(/</g, '\\u003c') }} />
       <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }} />
       <LiveSchoolPage id={id} initial={props} />
     </main>

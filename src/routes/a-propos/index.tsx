@@ -4,6 +4,7 @@ import AboutPage from '@/features/marketing/components/AboutPage'
 export const metadata: Metadata = {
   title: 'À propos',
   description: 'Edumada aide les étudiants et les familles à trouver une formation ou un établissement à Madagascar.',
+  alternates: { canonical: '/a-propos/' },
 }
 
 export default function AboutRoute() {

@@ -9,6 +9,7 @@ import NavigationProgress from "@/components/layout/NavigationProgress";
 import { Suspense } from "react";
 import Providers from "@/components/Providers";
 import { HtmlLang } from "@/i18n/LanguageSwitcher";
+import { SITE_URL } from "@/lib/site-url";
 /**
  * Polices d'Edumada : Plus Jakarta Sans pour les titres et accroches, Inter pour les textes,
  * formulaires et filtres. Alternatives retenues (non chargées) : DM Sans, Nunito Sans.
@@ -17,6 +18,8 @@ const heading = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["600", "700", "
 const body = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
 export const metadata: Metadata = {
+    // Base des URL canoniques déclarées par chaque page.
+    metadataBase: new URL(SITE_URL),
     title: {
         default: "Edumada — Trouvez votre formation à Madagascar",
         template: "%s | Edumada",

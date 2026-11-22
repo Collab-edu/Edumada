@@ -7,6 +7,7 @@ import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import StudentSpaceSection from '@/features/marketing/components/StudentSpaceSection'
 import BacSeriesSection from './BacSeriesSection'
+import OrientationGuide from './OrientationGuide'
 
 /** Les questions à se poser avant de comparer les formations. */
 /** Vidéo libre de droits (Pexels), en attendant une vidéo d'Edumada. */
@@ -52,7 +53,7 @@ const PROFILES = [
         title: 'Après le bac',
         text: 'Licences, masters, BTS et grandes écoles : trouvez l’enseignement supérieur qui correspond à votre projet.',
         href: '/universites/',
-        cta: 'Voir les universités',
+        cta: 'Explorer les formations après le bac',
         image: 'https://images.unsplash.com/photo-1627556704302-624286467c65?auto=format&fit=crop&w=800&q=70',
         alt: 'Main levant une toque de diplômé devant une université',
     },
@@ -61,7 +62,7 @@ const PROFILES = [
         title: 'Apprendre un métier rapidement',
         text: 'Formations courtes et certifiantes pour entrer vite dans la vie active ou changer de métier.',
         href: '/formation-professionnelle/',
-        cta: 'Formation professionnelle',
+        cta: 'Découvrir les formations professionnelles',
         image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&q=70',
         alt: 'Soudeur au travail dans un atelier',
     },
@@ -85,7 +86,7 @@ export default function OrientationPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
                         <h1 className='text-4xl md:text-6xl font-bold text-secondary'>
-                            Trouvez la voie <span className='text-primary'>qui vous correspond</span>
+                            Orientation scolaire à Madagascar : <span className='text-primary'>trouvez la formation qui vous correspond</span>
                         </h1>
                         <p className='max-w-2xl text-black'>
                             {t('Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et comparer les possibilités à Madagascar.')}
@@ -117,13 +118,13 @@ export default function OrientationPage() {
                     <div className='grid gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-16'>
                         <div className='mobile-center flex max-w-2xl flex-col gap-5'>
                             <h2 className='text-3xl font-bold leading-tight md:text-4xl'>
-                                {t('Avant de choisir, posez-vous')} <span className='text-primary'>{t('les bonnes questions')}</span>
+                                {t('Comment choisir son orientation scolaire à')} <span className='text-primary'>{t('Madagascar ?')}</span>
                             </h2>
                             <p className='text-black'>
-                                {t('Le bon choix ne dépend pas seulement de la réputation d’un établissement. Il dépend de votre projet, de votre niveau, de votre budget et de l’endroit où vous voulez étudier.')}
+                                {t('Choisir son orientation scolaire est une décision importante qui influence la suite des études et les perspectives professionnelles. Après le baccalauréat, de nombreux étudiants se retrouvent face à plusieurs possibilités : poursuivre des études universitaires, intégrer une école supérieure ou suivre une formation professionnelle.')}
                             </p>
                             <p className='text-black'>
-                                {t('Prenez le temps d’y répondre : vous saurez quelles formations comparer, et lesquelles écarter.')}
+                                {t('À Madagascar, les établissements proposent des parcours variés dans différents domaines. Le plus important est de trouver une formation qui correspond à vos capacités, à vos centres d’intérêt et à votre projet d’avenir.')}
                             </p>
                         </div>
                         <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-2xl border border-gray-200 bg-white p-6 text-center'>
@@ -163,7 +164,7 @@ export default function OrientationPage() {
                                     </span>
                                     <span className='text-sm font-semibold text-ink/40'>{t('Étape {n}', { n: index + 1 })}</span>
                                 </div>
-                                <h2 className='text-lg font-semibold text-secondary'>{t(step.title)}</h2>
+                                <h3 className='text-lg font-semibold text-secondary'>{t(step.title)}</h3>
                                 <p className='text-sm text-black'>{t(step.text)}</p>
                                 {step.link && (
                                     <Link href={step.link.href} className='mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline'>
@@ -176,6 +177,8 @@ export default function OrientationPage() {
                     </ol>
                 </div>
             </section>
+
+            <OrientationGuide />
 
             <BacSeriesSection />
 
@@ -237,8 +240,9 @@ export default function OrientationPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='mobile-center flex flex-col gap-4 rounded-xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
-                            <h2 className='text-2xl font-bold text-white'>{t('Vous savez déjà ce que vous cherchez ?')}</h2>
-                            <p className='text-white/80'>{t('Filtrez les formations par domaine, ville, durée et budget.')}</p>
+                            <h2 className='text-2xl font-bold text-white'>{t('Trouvez votre formation avec Edumada')}</h2>
+                            <p className='text-white/80'>{t('Vous ne savez pas encore quelle formation choisir ? Explorez les domaines d’études, découvrez les établissements disponibles et comparez les différentes possibilités sur Edumada. Notre plateforme vous aide à mieux comprendre l’offre de formation à Madagascar et à trouver les établissements qui correspondent à votre projet.')}</p>
+                            <p className='mt-2 text-white/80'>{t('Votre avenir commence par un choix éclairé. Prenez le temps d’explorer les possibilités qui s’offrent à vous.')}</p>
                         </div>
                         <ButtonLink href='/recherche/' className='shrink-0'>
                             <Icon icon='tabler:search' className='text-lg' />

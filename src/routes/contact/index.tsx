@@ -5,6 +5,7 @@ import TestimonialsSection from '@/features/marketing/components/TestimonialsSec
 export const metadata: Metadata = {
   title: 'Contact',
   description: 'Une question, une remarque ou besoin d’aide pour choisir votre formation ? Écrivez à l’équipe Edumada.',
+  alternates: { canonical: '/contact/' },
 }
 
 export default function ContactRoute() {

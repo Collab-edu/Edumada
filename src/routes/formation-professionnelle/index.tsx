@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Formation professionnelle',
   description:
     'Formations professionnelles à Madagascar : centres de formation, instituts techniques et écoles de métiers. Comparez les formations courtes et certifiantes.',
+  alternates: { canonical: '/formation-professionnelle/' },
 }
 
 export default function FormationProfessionnellePage() {

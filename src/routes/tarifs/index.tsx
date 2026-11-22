@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Établissements : nos formules',
   description:
     'Référencez votre établissement gratuitement sur Edumada. Formule Pro pour gérer vos demandes, Premium pour promouvoir vos formations. Accès toujours gratuit pour les étudiants.',
+  alternates: { canonical: '/tarifs/' },
 }
 
 export default function TarifsPage() {

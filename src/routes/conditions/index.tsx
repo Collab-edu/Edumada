@@ -3,7 +3,7 @@ import Link from '@/i18n/client'
 import { LegalPage } from '@/components/ui/legal-page'
 import { T } from '@/i18n/T'
 
-export const metadata: Metadata = { title: "Conditions d'utilisation" }
+export const metadata: Metadata = { title: "Conditions d'utilisation", alternates: { canonical: '/conditions/' } }
 
 export default function ConditionsPage() {
   return (

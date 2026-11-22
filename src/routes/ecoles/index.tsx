@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Écoles, collèges et lycées',
   description:
     'Écoles primaires, collèges et lycées à Madagascar : comparez les établissements près de chez vous et contactez-les directement.',
+  alternates: { canonical: '/ecoles/' },
 }
 
 export default function EcolesPage() {

@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Petite enfance et écoles',
   description:
     'Crèches, garderies, maternelles, écoles primaires, collèges et lycées à Madagascar : comparez les établissements près de chez vous et contactez-les directement.',
+  alternates: { canonical: '/petite-enfance/' },
 }
 
 export default function PetiteEnfancePage() {

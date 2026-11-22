@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${formation.title} — ${formation.school}`,
     description: `${formation.title} à ${formation.city}${facts ? ` (${facts})` : ''} : ${formation.school}, admission, frais, organisation et inscription.`,
+    alternates: { canonical: `/etablissements/${formation.schoolId}/${formation.urlSlug}/` },
   }
 }
 
