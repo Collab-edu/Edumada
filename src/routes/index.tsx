@@ -2,11 +2,9 @@
 import Hero from '@/features/recherche/components/HeroPhoto'
 import CategoriesSection from '@/features/categories/components/CategoriesSection'
 import DomainsSection from '@/features/domaines/components/DomainsSection'
-import FormationsSection from '@/features/formations/components/FormationsSection'
-import SchoolsSection from '@/features/etablissements/components/SchoolsSection'
 import RegisterCta from '@/features/marketing/components/RegisterCta'
 import HowItWorksPhones from '@/features/marketing/components/HowItWorksPhones'
-import TestimonialsSection from '@/features/marketing/components/TestimonialsSection'
+import { LazyFormationsSection, LazySchoolsSection, LazyTestimonialsSection } from '@/features/marketing/components/HomeLazySections'
 
 export default function Home() {
   return (
@@ -16,10 +14,10 @@ export default function Home() {
       <CategoriesSection />
       <DomainsSection />
       <RegisterCta />
-      <FormationsSection />
-      <SchoolsSection />
+      <LazyFormationsSection />
+      <LazySchoolsSection />
       <HowItWorksPhones />
-      <TestimonialsSection />
+      <LazyTestimonialsSection />
     </main>
   )
 }
