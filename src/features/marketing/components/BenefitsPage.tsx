@@ -3,7 +3,6 @@ import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import SectionHeader from '@/components/ui/section-header'
-import EstablishmentHeroMockup from './EstablishmentHeroMockup'
 import Image from 'next/image'
 import withBasePath from '@/lib/base-path'
 
@@ -66,7 +65,16 @@ export default function BenefitsPage() {
                             </div>
                         </div>
 
-                        <EstablishmentHeroMockup />
+                        {/* Aperçu de l'espace établissement : simple image, rien n'y est cliquable. */}
+                        <Image
+                            src={withBasePath('/images/avantages/espace-etablissement.webp')}
+                            alt={t('Aperçu de l’espace établissement Edumada : liste des formations publiées, nouvelle demande et vues du mois')}
+                            width={1088}
+                            height={712}
+                            sizes='(min-width: 1024px) 544px, 100vw'
+                            draggable={false}
+                            className='mx-auto h-auto w-full max-w-[34rem] select-none'
+                        />
                     </div>
                 </div>
             </section>
