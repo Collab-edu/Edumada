@@ -54,7 +54,6 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
     const [saving, setSaving] = useState(false)
     const [error, setError] = useState<unknown>(null)
     const set = <K extends keyof FormState>(key: K, value: FormState[K]) => setForm((f) => ({ ...f, [key]: value }))
-    const category = categories?.data.find((c) => c.id === form.category)
     const err = (field: string) => fieldError(error, field)
     // Ce que la formule affiche sur la fiche publique ; une nouvelle fiche démarre en Gratuit.
     const features = establishment?.plan.features ?? {}
@@ -145,33 +144,28 @@ export default function EstablishmentForm({ establishment, onSaved }: { establis
                         />
                     </CCol>
                     <CCol md={6}>
+                        {/* Une seule liste : le type choisi (« Lycée ») donne aussi la catégorie (« Primaire et secondaire »). */}
                         <CFormSelect
-                            label='Catégorie'
-                            value={form.category}
-                            onChange={(e) => setForm((f) => ({ ...f, category: e.target.value, subCategory: '' }))}
-                            invalid={!!err('category')}
-                            feedbackInvalid={err('category')}
+                            label="Type d'établissement"
+                            value={form.category ? `${form.category}::${form.subCategory}` : ''}
+                            onChange={(e) => {
+                                const [category = '', subCategory = ''] = e.target.value.split('::')
+                                setForm((f) => ({ ...f, category, subCategory }))
+                            }}
+                            invalid={!!(err('category') || err('subCategory'))}
+                            feedbackInvalid={err('category') || err('subCategory')}
                         >
                             <option value=''>Choisir…</option>
                             {(categories?.data ?? []).map((c) => (
-                                <option key={c.id} value={c.id}>
-                                    {c.label}
-                                </option>
-                            ))}
-                        </CFormSelect>
-                    </CCol>
-                    <CCol md={6}>
-                        <CFormSelect
-                            label='Type précis'
-                            value={form.subCategory}
-                            disabled={!category}
-                            onChange={(e) => set('subCategory', e.target.value)}
-                            invalid={!!err('subCategory')}
-                            feedbackInvalid={err('subCategory')}
-                        >
-                            <option value=''>{category ? 'Choisir…' : "Choisissez d'abord la catégorie"}</option>
-                            {(category?.subCategories ?? []).map((s) => (
-                                <option key={s}>{s}</option>
+                                <optgroup key={c.id} label={c.label}>
+                                    {/* La catégorie seule : quand elle n'a pas de types, ou pour une fiche enregistrée sans type. */}
+                                    {(c.subCategories.length === 0 || (form.category === c.id && !form.subCategory)) && <option value={`${c.id}::`}>{c.label}</option>}
+                                    {c.subCategories.map((s) => (
+                                        <option key={s} value={`${c.id}::${s}`}>
+                                            {s}
+                                        </option>
+                                    ))}
+                                </optgroup>
                             ))}
                         </CFormSelect>
                     </CCol>
