@@ -1,25 +1,34 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link, { useT } from '@/i18n/client'
-import { CONSENT_OPEN_EVENT, readConsent, saveConsent } from '@/lib/consent'
+import { Icon } from '@/components/ui/icon'
+import { CONSENT_OPEN_EVENT, globalPrivacyControl, readConsent, saveConsent } from '@/lib/consent'
 import { cn } from '@/lib/utils'
 
-const BUTTON = 'inline-flex min-h-11 flex-1 items-center justify-center rounded-xl px-5 font-semibold transition-colors duration-200 hover:cursor-pointer sm:flex-none'
+const BUTTON = 'inline-flex min-h-11 flex-1 items-center justify-center rounded-xl px-5 font-semibold transition-colors duration-200 hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary sm:flex-none'
 
 /**
- * Bandeau de consentement : posé au premier passage, puis rouvert depuis « Gérer les cookies »
- * (pied de page). Accepter et refuser ont le même poids ; « Personnaliser » détaille les usages.
+ * Bandeau de consentement, conforme aux recommandations de la CNIL :
+ * « Tout refuser » et « Tout accepter » au même niveau, « Continuer sans accepter » vaut refus,
+ * rien n'est actif avant le choix, détail des usages dans « Personnaliser ».
+ * Posé au premier passage et tous les 6 mois, rouvert depuis « Gérer les cookies ».
  */
 export default function ConsentBanner() {
     const t = useT()
     const [open, setOpen] = useState(false)
     const [details, setDetails] = useState(false)
     const [measure, setMeasure] = useState(false)
+    const [gpc, setGpc] = useState(false)
 
     useEffect(() => {
         const saved = readConsent()
+        const browserRefuses = globalPrivacyControl()
+        setGpc(browserRefuses)
         setMeasure(saved?.measure ?? false)
-        if (!saved) setOpen(true)
+        // Le navigateur refuse déjà (Global Privacy Control) : refus enregistré, sans bandeau.
+        if (!saved && browserRefuses) saveConsent(false, 'gpc')
+        else if (!saved) setOpen(true)
+
         const reopen = () => {
             setMeasure(readConsent()?.measure ?? false)
             setDetails(true)
@@ -38,14 +47,26 @@ export default function ConsentBanner() {
     }
 
     return (
-        <div role='dialog' aria-modal='false' aria-labelledby='consent-title' className='fixed inset-x-0 bottom-0 z-[60] px-4 pb-4 sm:px-6 sm:pb-6'>
-            <div className='mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_16px_40px_-16px_rgba(15,23,42,0.35)] sm:p-6'>
-                <div className='flex flex-col gap-2'>
-                    <p id='consent-title' className='font-semibold text-secondary'>{t('Vos données sur Edumada')}</p>
+        <section
+            role='region'
+            aria-label={t('Consentement aux cookies')}
+            className='fixed inset-x-0 bottom-0 z-[60] px-4 pb-4 sm:px-6 sm:pb-6'>
+            <div className='relative mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_16px_40px_-16px_rgba(15,23,42,0.35)] sm:p-6'>
+                {/* Fermer sans choisir = refuser (CNIL : « Continuer sans accepter »). */}
+                <button
+                    type='button'
+                    onClick={() => choose(false)}
+                    className='absolute top-3 right-3 inline-flex items-center gap-1 rounded-lg px-2 py-1 !text-sm text-ink/60 transition-colors duration-200 hover:cursor-pointer hover:text-secondary focus-visible:outline-2 focus-visible:outline-secondary'>
+                    {t('Continuer sans accepter')}
+                    <Icon icon='tabler:x' className='text-base' />
+                </button>
+
+                <div className='flex flex-col gap-2 pt-6 sm:pt-0 sm:pr-48'>
+                    <h2 id='consent-title' className='!text-base font-semibold text-secondary'>{t('Vos données sur Edumada')}</h2>
                     <p className='!text-sm leading-relaxed text-black'>
-                        {t('Edumada garde dans votre navigateur ce qui est nécessaire au site : votre connexion, vos réponses au test d’orientation et les stages que vous enregistrez. Avec votre accord, nous comptons aussi, de façon anonyme, les visites et les clics sur les fiches, pour les statistiques des établissements.')}{' '}
-                        <Link href='/confidentialite/' className='font-semibold text-secondary underline underline-offset-2 hover:text-primary'>
-                            {t('Politique de confidentialité')}
+                        {t('Edumada garde dans votre navigateur ce qui est nécessaire au site : votre connexion, vos réponses au test d’orientation et les stages que vous enregistrez. Avec votre accord, nous comptons aussi, de façon anonyme, les visites et les clics sur les fiches, pour les statistiques des établissements. Aucun cookie publicitaire. Votre choix est gardé 6 mois et modifiable à tout moment.')}{' '}
+                        <Link href='/confidentialite/#cookies' className='font-semibold text-secondary underline underline-offset-2 hover:text-primary'>
+                            {t('En savoir plus')}
                         </Link>
                     </p>
                 </div>
@@ -55,14 +76,17 @@ export default function ConsentBanner() {
                         <li className='flex items-start justify-between gap-4 p-4'>
                             <div className='flex flex-col gap-1'>
                                 <p className='!text-sm font-semibold text-secondary'>{t('Nécessaire au fonctionnement')}</p>
-                                <p className='!text-sm text-ink/70'>{t('Connexion, test d’orientation, stages enregistrés. Toujours actif.')}</p>
+                                <p className='!text-sm text-ink/70'>{t('Connexion, test d’orientation, stages enregistrés, votre choix sur ce bandeau. Sans eux, le site ne fonctionne pas.')}</p>
                             </div>
                             <span className='shrink-0 !text-sm font-semibold text-ink/50'>{t('Toujours actif')}</span>
                         </li>
                         <li className='flex items-start justify-between gap-4 p-4'>
                             <label htmlFor='consent-measure' className='flex flex-col gap-1 hover:cursor-pointer'>
                                 <span className='!text-sm font-semibold text-secondary'>{t('Mesure d’audience anonyme')}</span>
-                                <span className='!text-sm text-ink/70'>{t('Nombre de vues et de clics par fiche, sans cookie ni donnée personnelle.')}</span>
+                                <span className='!text-sm text-ink/70'>
+                                    {t('Nombre de vues et de clics par fiche, envoyé à Edumada sans cookie ni donnée personnelle. Sert aux statistiques des établissements.')}
+                                    {gpc && <> {t('Votre navigateur demande de ne pas partager vos données : cette mesure reste désactivée.')}</>}
+                                </span>
                             </label>
                             {/* Interrupteur : bouton à bascule accessible. */}
                             <button
@@ -70,9 +94,10 @@ export default function ConsentBanner() {
                                 type='button'
                                 role='switch'
                                 aria-checked={measure}
+                                disabled={gpc}
                                 onClick={() => setMeasure((v) => !v)}
                                 className={cn(
-                                    'relative mt-0.5 h-6 w-11 shrink-0 rounded-full transition-colors duration-200 hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary',
+                                    'relative mt-0.5 h-6 w-11 shrink-0 rounded-full transition-colors duration-200 hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary disabled:cursor-not-allowed disabled:opacity-50',
                                     measure ? 'bg-secondary' : 'bg-gray-300'
                                 )}>
                                 <span className={cn('absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200', measure && 'translate-x-5')} />
@@ -83,28 +108,29 @@ export default function ConsentBanner() {
 
                 <div className='flex flex-col gap-3 sm:flex-row sm:items-center'>
                     {details ? (
-                        <button type='button' onClick={() => choose(measure)} className={cn(BUTTON, 'bg-secondary text-white hover:bg-secondary/90')}>
+                        <button type='button' onClick={() => choose(measure && !gpc)} className={cn(BUTTON, 'bg-secondary text-white hover:bg-secondary/90')}>
                             {t('Enregistrer mes choix')}
                         </button>
                     ) : (
                         <div className='flex gap-3'>
-                            {/* Refuser et accepter : même taille, même poids. */}
+                            {/* Refuser et accepter : même taille, même poids, côte à côte. */}
                             <button type='button' onClick={() => choose(false)} className={cn(BUTTON, 'bg-secondary text-white hover:bg-secondary/90')}>
                                 {t('Tout refuser')}
                             </button>
-                            <button type='button' onClick={() => choose(true)} className={cn(BUTTON, 'bg-primary text-white hover:bg-primary/90')}>
+                            <button type='button' onClick={() => choose(!gpc)} className={cn(BUTTON, 'bg-primary text-white hover:bg-primary/90')}>
                                 {t('Tout accepter')}
                             </button>
                         </div>
                     )}
                     <button
                         type='button'
+                        aria-expanded={details}
                         onClick={() => setDetails((v) => !v)}
                         className='!text-sm font-semibold text-secondary underline underline-offset-4 decoration-secondary/40 hover:cursor-pointer hover:text-primary sm:ml-auto'>
-                        {details ? t('Retour') : t('Personnaliser')}
+                        {details ? t('Masquer le détail') : t('Personnaliser')}
                     </button>
                 </div>
             </div>
-        </div>
+        </section>
     )
 }

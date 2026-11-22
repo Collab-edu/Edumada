@@ -5,13 +5,14 @@ import { useSiteData } from '@/data/site-data'
 import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import type { FaqItem } from '@/features/etablissements/faq'
 import HeroVideo from '@/components/ui/hero-video'
+import withBasePath from '@/lib/base-path'
 import StudentSpaceSection from './StudentSpaceSection'
 import OrientationBanner from './OrientationBanner'
 import AboutStory from './AboutStory'
 import { useT } from '@/i18n/client'
 
 /** Vidéo libre de droits (Pexels), en attendant une vidéo d'Edumada. */
-const HERO_VIDEO = 'https://videos.pexels.com/video-files/5198159/5198159-hd_1920_1080_25fps.mp4'
+const HERO_VIDEO = withBasePath('/videos/a-propos.mp4')
 
 const FAQ: FaqItem[] = [
     {

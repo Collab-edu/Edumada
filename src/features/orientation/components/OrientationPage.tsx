@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import withBasePath from '@/lib/base-path'
 import Link, { useT } from '@/i18n/client'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import HeroVideo from '@/components/ui/hero-video'
@@ -10,8 +11,8 @@ import BacSeriesSection from './BacSeriesSection'
 import OrientationGuide from './OrientationGuide'
 
 /** Les questions à se poser avant de comparer les formations. */
-/** Vidéo libre de droits (Pexels), en attendant une vidéo d'Edumada. */
-const HERO_VIDEO = 'https://videos.pexels.com/video-files/7092235/7092235-hd_1920_1080_30fps.mp4'
+/** Vidéo libre de droits (Pexels), copiée sur le site, en attendant une vidéo d'Edumada. */
+const HERO_VIDEO = withBasePath('/videos/orientation.mp4')
 
 const QUESTIONS = [
     { label: 'Quel métier ?', rotate: '-rotate-3' },
@@ -54,7 +55,7 @@ const PROFILES = [
         text: 'Licences, masters, BTS et grandes écoles : trouvez l’enseignement supérieur qui correspond à votre projet.',
         href: '/universites/',
         cta: 'Explorer les formations après le bac',
-        image: 'https://images.unsplash.com/photo-1627556704302-624286467c65?auto=format&fit=crop&w=800&q=70',
+        image: withBasePath('/images/pages/profil-apres-bac.webp'),
         alt: 'Main levant une toque de diplômé devant une université',
     },
     {
@@ -63,7 +64,7 @@ const PROFILES = [
         text: 'Formations courtes et certifiantes pour entrer vite dans la vie active ou changer de métier.',
         href: '/formation-professionnelle/',
         cta: 'Découvrir les formations professionnelles',
-        image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&q=70',
+        image: withBasePath('/images/pages/profil-metier.webp'),
         alt: 'Soudeur au travail dans un atelier',
     },
     {
@@ -72,7 +73,7 @@ const PROFILES = [
         text: 'Crèches, écoles primaires, collèges et lycées : trouvez un établissement près de chez vous.',
         href: '/petite-enfance/',
         cta: 'Voir les crèches et écoles',
-        image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=70',
+        image: withBasePath('/images/pages/profil-enfant.webp'),
         alt: 'Enfants qui travaillent en classe',
     },
 ]

@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import withBasePath from '@/lib/base-path'
 import { useT } from '@/i18n/client'
 import { ButtonLink } from '@/components/ui/form'
 
@@ -10,7 +11,7 @@ const RegisterCta = () => {
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='relative overflow-hidden rounded-xl bg-secondary'>
                     <Image
-                        src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=55'
+                        src={withBasePath('/images/pages/inscription-banniere.webp')}
                         alt=''
                         aria-hidden='true'
                         fill

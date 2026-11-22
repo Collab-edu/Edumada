@@ -1,10 +1,12 @@
 'use client'
 import Image from 'next/image'
+import withBasePath from '@/lib/base-path'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import { useT } from '@/i18n/client'
 
-const PHOTO = 'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?auto=format&fit=crop&w=600&h=700&q=75'
+// Photo hébergée sur le site (aucune requête vers un service tiers).
+const PHOTO = withBasePath('/images/pages/orientation-banniere.webp')
 
 const POINTS = [
     { icon: 'tabler:route', text: 'Une démarche simple, en quatre étapes' },

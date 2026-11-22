@@ -7,9 +7,9 @@ import { useSiteData } from '@/data/site-data'
 import { cn } from '@/lib/utils'
 import withBasePath from '@/lib/base-path'
 
-/** Photo Unsplash (identifiant) ou photo du site (chemin commençant par « / », dans public/). */
-const photo = (id: string, w = 600) =>
-    id.startsWith('/') ? withBasePath(encodeURI(id)) : `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=70`
+/** Photo du site : identifiant d'origine Unsplash (copie dans public/images/domaines/) ou chemin commençant par « / ». */
+const photo = (id: string) =>
+    withBasePath(id.startsWith('/') ? encodeURI(id) : `/images/domaines/${id}.webp`)
 
 /** Icône et photo de chaque domaine (mêmes libellés que le filtre « Domaine d'études »). Photos : Unsplash ou public/images/Photos. */
 const DOMAINS: Record<string, { icon: string; image?: string }> = {
@@ -137,7 +137,7 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
                               <div className='mt-auto'>
                                   <div className={cn('relative overflow-hidden rounded-xl', compact ? 'h-24' : 'h-28')}>
                                       <Image
-                                          src={photo(meta.image ?? DEFAULT_DOMAIN.image, 500)}
+                                          src={photo(meta.image ?? DEFAULT_DOMAIN.image)}
                                           alt=''
                                           fill
                                           sizes='(min-width: 1024px) 25vw, (min-width: 420px) 50vw, 100vw'
@@ -238,7 +238,7 @@ export default function DomainsPage() {
                         </svg>
                         <div className='absolute top-16 right-6 bottom-0 left-16 overflow-hidden rounded-[2.5rem] rounded-tr-[6rem] border-4 border-white shadow-[8px_8px_0_0_rgba(255,59,82,0.9)] sm:left-24'>
                             <Image
-                                src={photo('1596495578065-6e0763fa1178', 800)}
+                                src={photo('1596495578065-6e0763fa1178')}
                                 alt='Étudiante souriante qui prend des notes'
                                 fill
                                 priority
@@ -298,7 +298,7 @@ export default function DomainsPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='relative overflow-hidden rounded-2xl bg-secondary'>
                         <div className='absolute inset-y-0 right-0 hidden w-1/2 md:block'>
-                            <Image src={photo('1497633762265-9d179a990aa6', 900)} alt='' fill sizes='50vw' className='object-cover' />
+                            <Image src={photo('1497633762265-9d179a990aa6')} alt='' fill sizes='50vw' className='object-cover' />
                             <div className='absolute inset-0 bg-gradient-to-r from-secondary via-secondary/40 to-primary/30' aria-hidden='true' />
                         </div>
                         <div className='mobile-center relative flex flex-col gap-4 p-8 sm:p-10 md:max-w-[55%]'>
