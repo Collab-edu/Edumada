@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react'
 import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { I18N_ENABLED, LOCALES, LOCALE_NAMES, localizePath, stripLocale } from './config'
+import { I18N_ENABLED, LOCALE_NAMES, localizePath, stripLocale, type Locale } from './config'
 import { useLocale } from './client'
 
 const SHORT: Record<string, string> = { fr: 'FR', en: 'EN', mg: 'MG' }
+/** Ordre d'affichage, comme avant l'activation : FR | MG | EN. */
+const ORDER: Locale[] = ['fr', 'mg', 'en']
 
 /**
  * Sélecteur FR · EN · MG : la même page dans une autre langue. `tone` : « light » sur la barre
@@ -22,8 +24,9 @@ export default function LanguageSwitcher({ tone = 'dark', className }: { tone?: 
 
     if (!I18N_ENABLED) return null
     return (
-        <nav aria-label='Langue / Language / Fiteny' className={cn('flex items-center gap-1', className)}>
-            {LOCALES.map((l) => (
+        // Même rendu que l'aperçu affiché avant l'activation : « FR | MG | EN », langue active en rouge.
+        <nav aria-label='Langue / Language / Fiteny' className={cn('flex items-center divide-x', tone === 'light' ? 'divide-white/20' : 'divide-gray-200', className)}>
+            {ORDER.map((l) => (
                 // next/link direct : le lien vise une autre langue que celle de la page.
                 <NextLink
                     key={l}
@@ -33,14 +36,14 @@ export default function LanguageSwitcher({ tone = 'dark', className }: { tone?: 
                     title={LOCALE_NAMES[l]}
                     aria-current={l === locale ? 'true' : undefined}
                     className={cn(
-                        'inline-flex min-h-8 min-w-9 items-center justify-center rounded-md px-2 text-xs font-bold tracking-wide transition-colors',
+                        'inline-flex min-h-8 items-center px-3 text-sm font-semibold tracking-wide transition-colors',
                         tone === 'light'
                             ? l === locale
-                                ? 'bg-white text-secondary'
-                                : 'text-white/80 hover:bg-white/10 hover:text-white'
+                                ? 'text-white'
+                                : 'text-white/70 hover:text-white'
                             : l === locale
-                              ? 'bg-secondary text-white'
-                              : 'text-secondary hover:bg-offwhite'
+                              ? 'text-primary'
+                              : 'text-black hover:text-primary'
                     )}>
                     {SHORT[l]}
                 </NextLink>
