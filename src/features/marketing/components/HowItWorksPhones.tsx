@@ -63,7 +63,7 @@ export default function HowItWorksPhones() {
                                     className={`relative transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none ${inView ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
                                     <Image
                                         src={withBasePath(`/images/comment-ca-marche/${step.image}.webp`)}
-                                        alt={step.alt}
+                                        alt={t(step.alt)}
                                         width={600}
                                         height={967}
                                         sizes='272px'
@@ -75,7 +75,7 @@ export default function HowItWorksPhones() {
                                 </div>
                             </div>
                             <h3 className='mt-6 text-xl font-bold text-black'>{t(step.title)}</h3>
-                            <p className='mt-1 max-w-[15rem] text-ink'>{step.text}</p>
+                            <p className='mt-1 max-w-[15rem] text-ink'>{t(step.text)}</p>
                         </li>
                     ))}
                 </ol>

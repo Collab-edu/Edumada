@@ -8,6 +8,7 @@ import FormationCard from '@/features/formations/components/FormationCard'
 import type { FormationType } from '@/features/formations/types'
 import { offerDiplomaNames, offerDuration } from '@/features/formations/format'
 import { cn } from '@/lib/utils'
+import { useT } from '@/i18n/client'
 import { computeScores, PROFILE_ORDER, PROFILES, QUESTIONS, recommendDomains, type Answers, type ProfileCode } from './data'
 
 const STORAGE_KEY = 'edumada.orientation.answers'
@@ -32,14 +33,15 @@ function writeAnswers(answers: Answers | null) {
 }
 
 function Intro({ onStart, resume }: { onStart: () => void; resume: boolean }) {
+    const t = useT()
     return (
         <div className='mobile-center flex flex-col gap-8'>
             <div className='flex max-w-3xl flex-col gap-4'>
-                <p className='font-semibold text-primary'>Test d’orientation</p>
-                <h1 className='text-3xl font-bold text-secondary md:text-5xl'>Quel domaine d’études vous correspond ?</h1>
-                <p className='text-black'>12 questions, environ 3 minutes, sans inscription. Vous découvrez votre profil, les domaines qui vous correspondent et les formations disponibles sur Edumada.</p>
+                <p className='font-semibold text-primary'>{t('Test d’orientation')}</p>
+                <h1 className='text-3xl font-bold text-secondary md:text-5xl'>{t('Quel domaine d’études vous correspond ?')}</h1>
+                <p className='text-black'>{t('12 questions, environ 3 minutes, sans inscription. Vous découvrez votre profil, les domaines qui vous correspondent et les formations disponibles sur Edumada.')}</p>
                 <Button onClick={onStart} className='w-full py-3 sm:w-fit'>
-                    {resume ? 'Reprendre mon test' : 'Commencer mon test'}
+                    {resume ? t('Reprendre mon test') : t('Commencer mon test')}
                     <Icon icon='tabler:arrow-right' />
                 </Button>
             </div>
@@ -50,18 +52,19 @@ function Intro({ onStart, resume }: { onStart: () => void; resume: boolean }) {
                             <Icon icon={PROFILES[code].icon} className='text-xl' />
                         </span>
                         <div>
-                            <h2 className='text-base font-semibold text-secondary'>{PROFILES[code].name}</h2>
-                            <p className='text-sm text-ink/70'>{PROFILES[code].strengths.join(', ')}</p>
+                            <h2 className='text-base font-semibold text-secondary'>{t(PROFILES[code].name)}</h2>
+                            <p className='text-sm text-ink/70'>{PROFILES[code].strengths.map((s) => t(s)).join(', ')}</p>
                         </div>
                     </li>
                 ))}
             </ul>
-            <p className='text-sm text-ink/60'>Ce test s’inspire du modèle RIASEC de John Holland. C’est une aide à la réflexion, pas un diagnostic psychologique ni une garantie de réussite.</p>
+            <p className='text-sm text-ink/60'>{t('Ce test s’inspire du modèle RIASEC de John Holland. C’est une aide à la réflexion, pas un diagnostic psychologique ni une garantie de réussite.')}</p>
         </div>
     )
 }
 
 function Quiz({ answers, onAnswer, onDone }: { answers: Answers; onAnswer: (index: number, profile: ProfileCode) => void; onDone: () => void }) {
+    const t = useT()
     const [index, setIndex] = useState(() => {
         const next = answers.findIndex((a) => a === null)
         return next === -1 ? QUESTIONS.length - 1 : next
@@ -80,13 +83,13 @@ function Quiz({ answers, onAnswer, onDone }: { answers: Answers; onAnswer: (inde
         <div className='mx-auto flex max-w-2xl flex-col gap-6'>
             <div>
                 <p className='mb-2 text-sm font-semibold text-secondary'>
-                    Question {index + 1} sur {QUESTIONS.length}
+                    {t('Question {n} sur {total}', { n: index + 1, total: QUESTIONS.length })}
                 </p>
-                <div className='h-2 overflow-hidden rounded-full bg-secondary/10' role='progressbar' aria-label='Progression du test' aria-valuemin={0} aria-valuemax={QUESTIONS.length} aria-valuenow={done}>
+                <div className='h-2 overflow-hidden rounded-full bg-secondary/10' role='progressbar' aria-label={t('Progression du test')} aria-valuemin={0} aria-valuemax={QUESTIONS.length} aria-valuenow={done}>
                     <div className='h-full rounded-full bg-primary transition-[width] duration-300 motion-reduce:transition-none' style={{ width: `${(done / QUESTIONS.length) * 100}%` }} />
                 </div>
             </div>
-            <h1 className='text-2xl font-bold text-secondary sm:text-3xl'>{question.text}</h1>
+            <h1 className='text-2xl font-bold text-secondary sm:text-3xl'>{t(question.text)}</h1>
             <ul className='flex flex-col gap-3'>
                 {question.answers.map((answer) => {
                     const selected = answers[index] === answer.profile
@@ -103,7 +106,7 @@ function Quiz({ answers, onAnswer, onDone }: { answers: Answers; onAnswer: (inde
                                 <span className={cn('flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2', selected ? 'border-primary bg-primary text-white' : 'border-gray-300')}>
                                     {selected && <Icon icon='tabler:check' className='text-sm' />}
                                 </span>
-                                {answer.text}
+                                {t(answer.text)}
                             </button>
                         </li>
                     )
@@ -112,16 +115,16 @@ function Quiz({ answers, onAnswer, onDone }: { answers: Answers; onAnswer: (inde
             <div className='flex items-center justify-between gap-3'>
                 <Button variant='secondary' disabled={index === 0} onClick={() => setIndex(index - 1)}>
                     <Icon icon='tabler:arrow-left' />
-                    Précédent
+                    {t('Précédent')}
                 </Button>
                 {last ? (
                     <Button disabled={!complete} onClick={onDone}>
-                        Voir mon résultat
+                        {t('Voir mon résultat')}
                         <Icon icon='tabler:arrow-right' />
                     </Button>
                 ) : (
                     <Button variant='secondary' disabled={!answers[index]} onClick={() => setIndex(index + 1)}>
-                        Suivant
+                        {t('Suivant')}
                         <Icon icon='tabler:arrow-right' />
                     </Button>
                 )}
@@ -170,8 +173,9 @@ type StepState = 'done' | 'current' | 'todo'
 
 /** Progression du parcours : Profil → Domaine → Filière → Établissement. */
 function Stepper({ steps }: { steps: { label: string; state: StepState }[] }) {
+    const t = useT()
     return (
-        <ol aria-label='Progression' className='grid grid-cols-4 gap-2'>
+        <ol aria-label={t('Progression')} className='grid grid-cols-4 gap-2'>
             {steps.map((step, i) => (
                 <li key={step.label} aria-current={step.state === 'current' ? 'step' : undefined} className='flex flex-col gap-2'>
                     <span className={cn('h-1 rounded-full', step.state === 'todo' ? 'bg-secondary/15' : step.state === 'current' ? 'bg-primary' : 'bg-secondary')} />
@@ -183,7 +187,7 @@ function Stepper({ steps }: { steps: { label: string; state: StepState }[] }) {
                             )}>
                             {step.state === 'done' ? <Icon icon='tabler:check' /> : i + 1}
                         </span>
-                        {step.label}
+                        {t(step.label)}
                     </span>
                 </li>
             ))}
@@ -193,6 +197,7 @@ function Stepper({ steps }: { steps: { label: string; state: StepState }[] }) {
 
 /** Résultat du test : profil, puis étape par étape domaine → filière → formations de la filière. */
 function Results({ answers, onRestart }: { answers: Answers; onRestart: () => void }) {
+    const t = useT()
     const { data: formations, loading } = useSiteData('FormationData')
     const { isFavorite, toggleFavorite } = useAuth()
     const scores = useMemo(() => computeScores(answers), [answers])
@@ -244,12 +249,12 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
             <div className='flex flex-col gap-5'>
                 <div className='flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between'>
                     <div>
-                        <p className='mb-1 text-sm font-semibold text-ink/70'>Test d’orientation · Résultat</p>
-                        <h1 className='text-2xl font-bold text-secondary md:text-4xl'>Votre parcours, étape par étape</h1>
+                        <p className='mb-1 text-sm font-semibold text-ink/70'>{t('Test d’orientation · Résultat')}</p>
+                        <h1 className='text-2xl font-bold text-secondary md:text-4xl'>{t('Votre parcours, étape par étape')}</h1>
                     </div>
                     <Button variant='secondary' className='w-full shrink-0 sm:w-fit' onClick={onRestart}>
                         <Icon icon='tabler:rotate' />
-                        Recommencer le test
+                        {t('Recommencer le test')}
                     </Button>
                 </div>
                 <Stepper steps={steps} />
@@ -259,7 +264,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
             <section aria-labelledby='profil-title' className='grid gap-4 py-0 lg:grid-cols-2 lg:gap-6'>
                 <div className={cn(card, 'flex flex-col gap-5 p-6 sm:p-8')}>
                     <div className='flex flex-wrap items-center justify-between gap-3'>
-                        <span className={stepLabel}>Votre profil dominant</span>
+                        <span className={stepLabel}>{t('Votre profil dominant')}</span>
                         <span aria-label={`Code Holland ${top.join('')}`} className='flex gap-1'>
                             {top.map((code, i) => (
                                 <span key={code} aria-hidden='true' className={cn('flex h-8 w-8 items-center justify-center rounded-md text-sm font-semibold text-white', i === 0 ? 'bg-primary' : 'bg-secondary')}>
@@ -273,26 +278,26 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                             <Icon icon={profile.icon} className='text-3xl' />
                         </span>
                         <h2 id='profil-title' className='text-3xl font-bold text-secondary'>
-                            {profile.name}
+                            {t(profile.name)}
                         </h2>
                     </div>
-                    <p className='text-lg text-black'>{profile.summary}</p>
-                    <ul aria-label='Qualités' className='flex flex-wrap gap-2'>
+                    <p className='text-lg text-black'>{t(profile.summary)}</p>
+                    <ul aria-label={t('Qualités')} className='flex flex-wrap gap-2'>
                         {profile.strengths.map((strength) => (
                             <li key={strength} className='rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-semibold text-secondary'>
-                                {strength}
+                                {t(strength)}
                             </li>
                         ))}
                     </ul>
                     <p className='border-t border-gray-200 pt-5 text-black'>
-                        <strong>Vos autres tendances :</strong> {others.map((code) => PROFILES[code].name).join(' et ')}. {others.map((code) => PROFILES[code].summary).join(' ')}
+                        <strong>{t('Vos autres tendances :')}</strong> {others.map((code) => t(PROFILES[code].name)).join(` ${t('et')} `)}. {others.map((code) => t(PROFILES[code].summary)).join(' ')}
                     </p>
                 </div>
 
                 <div className={cn(card, 'flex flex-col gap-5 p-6 sm:p-8')}>
                     <div className='flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1'>
-                        <h2 className='text-xl font-bold text-secondary'>Vos six profils</h2>
-                        <span className='text-sm text-ink/70'>Les 3 premiers forment votre code</span>
+                        <h2 className='text-xl font-bold text-secondary'>{t('Vos six profils')}</h2>
+                        <span className='text-sm text-ink/70'>{t('Les 3 premiers forment votre code')}</span>
                     </div>
                     <ul className='flex flex-col gap-4'>
                         {scores.map((score, i) => {
@@ -305,8 +310,8 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                                         {score.code}
                                     </span>
                                     <div className='flex flex-col gap-1.5'>
-                                        <span className={cn('text-[15px] font-semibold', inCode ? 'text-black' : 'text-ink/70')}>{PROFILES[score.code].name}</span>
-                                        <span role='progressbar' aria-label={PROFILES[score.code].name} aria-valuemin={0} aria-valuemax={100} aria-valuenow={score.percent} className='block h-2 overflow-hidden rounded-full bg-gray-100'>
+                                        <span className={cn('text-[15px] font-semibold', inCode ? 'text-black' : 'text-ink/70')}>{t(PROFILES[score.code].name)}</span>
+                                        <span role='progressbar' aria-label={t(PROFILES[score.code].name)} aria-valuemin={0} aria-valuemax={100} aria-valuenow={score.percent} className='block h-2 overflow-hidden rounded-full bg-gray-100'>
                                             <span className={cn('block h-full rounded-full', i === 0 ? 'bg-primary' : inCode ? 'bg-secondary' : 'bg-secondary/40')} style={{ width: `${score.percent}%` }} />
                                         </span>
                                     </div>
@@ -321,11 +326,11 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
             {/* 1. Domaines */}
             <section aria-labelledby='domaines-title' className='flex flex-col gap-4 py-0'>
                 <div>
-                    <p className={cn(stepLabel, 'mb-1')}>Étape 1 · Domaine</p>
+                    <p className={cn(stepLabel, 'mb-1')}>{t('Étape 1 · Domaine')}</p>
                     <h2 id='domaines-title' className='text-2xl font-bold text-secondary'>
-                        Les domaines qui vous correspondent
+                        {t('Les domaines qui vous correspondent')}
                     </h2>
-                    <p className='text-black'>Choisissez un domaine pour découvrir ses filières.</p>
+                    <p className='text-black'>{t('Choisissez un domaine pour découvrir ses filières.')}</p>
                 </div>
                 <ul className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6'>
                     {domains.map((d) => {
@@ -347,11 +352,11 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                                             {selected && <Icon icon='tabler:check' className='text-sm' />}
                                         </span>
                                     </span>
-                                    <span className='text-lg font-semibold leading-snug text-black'>{d.name}</span>
-                                    <span className='flex-1 text-[15px] text-ink'>{d.description}</span>
+                                    <span className='text-lg font-semibold leading-snug text-black'>{t(d.name)}</span>
+                                    <span className='flex-1 text-[15px] text-ink'>{t(d.description)}</span>
                                     <span className='flex w-full flex-col items-start gap-2 border-t border-gray-200 pt-3'>
-                                        <span className='text-sm text-ink/70'>Lié à votre profil {d.matched.map((code) => PROFILES[code].name).join(' et ')}</span>
-                                        {!loading && <span className={cn('rounded-lg px-2.5 py-0.5 text-sm font-bold', selected ? 'bg-primary text-white' : 'bg-gray-100 text-ink')}>{plural(count)}</span>}
+                                        <span className='text-sm text-ink/70'>{t('Lié à votre profil')} {d.matched.map((code) => t(PROFILES[code].name)).join(` ${t('et')} `)}</span>
+                                        {!loading && <span className={cn('rounded-lg px-2.5 py-0.5 text-sm font-bold', selected ? 'bg-primary text-white' : 'bg-gray-100 text-ink')}>{t(plural(count))}</span>}
                                     </span>
                                 </button>
                             </li>
@@ -365,14 +370,14 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                 <section ref={fieldsRef} aria-labelledby='filieres-title' className='flex scroll-mt-28 flex-col gap-4 py-0'>
                     <div className='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
                         <div>
-                            <p className={cn(stepLabel, 'mb-1')}>Étape 2 · Filière</p>
+                            <p className={cn(stepLabel, 'mb-1')}>{t('Étape 2 · Filière')}</p>
                             <h2 id='filieres-title' className='text-2xl font-bold text-secondary'>
-                                Les filières en {domain.name}
+                                {t('Les filières en {domain}', { domain: t(domain.name) })}
                             </h2>
-                            <p className='text-ink/70'>Métiers possibles : {domain.jobs.join(', ')}.</p>
+                            <p className='text-ink/70'>{t('Métiers possibles :')} {domain.jobs.map((job) => t(job)).join(', ')}.</p>
                         </div>
                         {levels.length > 1 && (
-                            <div role='group' aria-label='Niveau' className='flex flex-wrap gap-1.5'>
+                            <div role='group' aria-label={t('Niveau')} className='flex flex-wrap gap-1.5'>
                                 {['Tous', ...levels].map((l) => {
                                     const active = l === level
                                     const n = l === 'Tous' ? fields.length : fields.filter((f) => f.level === l).length
@@ -386,7 +391,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                                                 'flex min-h-10 items-center gap-1.5 rounded-lg border px-3.5 text-sm font-semibold transition-colors hover:cursor-pointer',
                                                 active ? 'border-secondary bg-secondary text-white' : 'border-gray-300 bg-white text-secondary hover:border-secondary'
                                             )}>
-                                            {l} <span className='text-xs opacity-80'>{n}</span>
+                                            {t(l)} <span className='text-xs opacity-80'>{n}</span>
                                         </button>
                                     )
                                 })}
@@ -394,9 +399,9 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                         )}
                     </div>
                     {loading ? (
-                        <p className='text-sm text-ink/60'>Chargement des filières…</p>
+                        <p className='text-sm text-ink/60'>{t('Chargement des filières…')}</p>
                     ) : fields.length === 0 ? (
-                        <p className={cn(card, 'p-4 text-black')}>Aucune formation dans ce domaine sur Edumada pour le moment.</p>
+                        <p className={cn(card, 'p-4 text-black')}>{t('Aucune formation dans ce domaine sur Edumada pour le moment.')}</p>
                     ) : (
                         <ul className={cn(card, 'divide-y divide-gray-200 overflow-hidden')}>
                             {shownFields.map((f) => {
@@ -411,16 +416,16 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                                                 'grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 text-left transition-colors hover:cursor-pointer hover:bg-offwhite sm:grid-cols-[6rem_minmax(0,1fr)_auto] sm:gap-5 sm:px-7 sm:py-5',
                                                 selected && 'bg-cream hover:bg-cream'
                                             )}>
-                                            <span className='hidden justify-self-start rounded-md border border-gray-300 bg-white px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-secondary sm:block'>{f.level}</span>
+                                            <span className='hidden justify-self-start rounded-md border border-gray-300 bg-white px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-secondary sm:block'>{t(f.level)}</span>
                                             <span className='flex min-w-0 flex-col gap-0.5'>
-                                                <span className='w-fit rounded-md border border-gray-300 bg-white px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-secondary sm:hidden'>{f.level}</span>
+                                                <span className='w-fit rounded-md border border-gray-300 bg-white px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-secondary sm:hidden'>{t(f.level)}</span>
                                                 <span className='text-[17px] font-bold text-black'>{f.name}</span>
                                                 <span className='text-sm text-ink/70'>
-                                                    {f.duration} · {schoolsLabel(f.schools)}
+                                                    {t(f.duration)} · {t(schoolsLabel(f.schools))}
                                                 </span>
                                             </span>
                                             <span className='flex min-h-12 items-center gap-2 font-semibold text-primary sm:px-4 sm:text-lg'>
-                                                <span className='hidden sm:inline'>Voir</span>
+                                                <span className='hidden sm:inline'>{t('Voir')}</span>
                                                 <Icon icon='tabler:arrow-right' className='text-xl' />
                                             </span>
                                         </button>
@@ -436,12 +441,12 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
             {domain && field && (
                 <section ref={offersRef} aria-labelledby='formations-title' className='flex scroll-mt-28 flex-col gap-4 py-0'>
                     <div>
-                        <p className={cn(stepLabel, 'mb-1')}>Étape 3 · Établissement</p>
+                        <p className={cn(stepLabel, 'mb-1')}>{t('Étape 3 · Établissement')}</p>
                         <h2 id='formations-title' className='text-2xl font-bold text-secondary'>
                             {field.name}
                         </h2>
                         <p className='text-black'>
-                            {plural(field.offers.length)} en {domain.name} sur Edumada.
+                            {t('{offers} en {domain} sur Edumada.', { offers: t(plural(field.offers.length)), domain: t(domain.name) })}
                         </p>
                     </div>
                     <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'>
@@ -450,14 +455,14 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                         ))}
                     </div>
                     <ButtonLink href={`/recherche?domaine=${encodeURIComponent(domain.name)}`} variant='secondary' className='w-fit'>
-                        Voir toutes les formations en {domain.name}
+                        {t('Voir toutes les formations en {domain}', { domain: t(domain.name) })}
                     </ButtonLink>
                 </section>
             )}
 
             <div role='note' className={cn(card, 'flex items-start gap-3 px-5 py-4 text-[15px] text-ink')}>
                 <Icon icon='tabler:info-circle' className='mt-0.5 shrink-0 text-xl text-secondary' />
-                <span>Ce résultat est une aide à la réflexion, pas un diagnostic ni une garantie de réussite. Il reste enregistré dans ce navigateur.</span>
+                <span>{t('Ce résultat est une aide à la réflexion, pas un diagnostic ni une garantie de réussite. Il reste enregistré dans ce navigateur.')}</span>
             </div>
         </div>
     )

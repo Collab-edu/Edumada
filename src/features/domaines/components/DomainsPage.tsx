@@ -1,7 +1,7 @@
 'use client'
 import { useMemo } from 'react'
 import Image from 'next/image'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { useSiteData } from '@/data/site-data'
 import { cn } from '@/lib/utils'
@@ -94,6 +94,7 @@ function Sparks({ className }: { className?: string }) {
 }
 
 function Points({ points, className }: { points: (typeof SECTIONS)[0]['points']; className?: string }) {
+    const t = useT()
     return (
         <ul className={cn('grid gap-5 lg:gap-6', className)}>
             {points.map((point) => (
@@ -101,8 +102,8 @@ function Points({ points, className }: { points: (typeof SECTIONS)[0]['points'];
                     <span className={cn('mb-1 flex h-9 items-center', ICON)}>
                         <Icon icon={point.icon} className='text-3xl' />
                     </span>
-                    <p className='font-semibold text-secondary'>{point.title}</p>
-                    <p className='text-sm text-black'>{point.text}</p>
+                    <p className='font-semibold text-secondary'>{t(point.title)}</p>
+                    <p className='text-sm text-black'>{t(point.text)}</p>
                 </li>
             ))}
         </ul>
@@ -110,6 +111,7 @@ function Points({ points, className }: { points: (typeof SECTIONS)[0]['points'];
 }
 
 function DomainCards({ section, domains, loading, compact }: { section: Section; domains: { name: string; count: number }[]; loading: boolean; compact?: boolean }) {
+    const t = useT()
     return (
         <div className='grid grid-cols-1 gap-5 min-[420px]:grid-cols-2 lg:grid-cols-4 lg:gap-6'>
             {loading
@@ -131,8 +133,8 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
                                   </span>
                               </div>
                               <div className='flex flex-col gap-0.5'>
-                                  <span className='font-semibold leading-snug text-black duration-300 group-hover:text-primary'>{domain.name}</span>
-                                  <span className='text-sm text-ink/60'>{plural(domain.count)}</span>
+                                  <span className='font-semibold leading-snug text-black duration-300 group-hover:text-primary'>{t(domain.name)}</span>
+                                  <span className='text-sm text-ink/60'>{t(plural(domain.count))}</span>
                               </div>
                               <div className='mt-auto'>
                                   <div className={cn('relative overflow-hidden rounded-xl', compact ? 'h-24' : 'h-28')}>
@@ -148,20 +150,21 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
                           </Link>
                       )
                   })}
-            {!loading && domains.length === 0 && <p className='text-ink/60'>Aucune formation pour le moment.</p>}
+            {!loading && domains.length === 0 && <p className='text-ink/60'>{t('Aucune formation pour le moment.')}</p>}
         </div>
     )
 }
 
 function SectionLinks({ section }: { section: Section }) {
+    const t = useT()
     return (
         <div className='mobile-center mt-10 flex flex-wrap gap-x-10 gap-y-4'>
             <Link href={section.page.href} className='group inline-flex items-center gap-1.5 font-semibold text-primary'>
-                <span className='underline decoration-2 underline-offset-4'>{section.page.label}</span>
+                <span className='underline decoration-2 underline-offset-4'>{t(section.page.label)}</span>
                 <Icon icon='tabler:arrow-right' className='transition-transform duration-300 group-hover:translate-x-1' />
             </Link>
             <Link href={`/recherche?categorie=${encodeURIComponent(section.search)}`} className='group inline-flex items-center gap-1.5 font-semibold text-secondary hover:text-primary'>
-                Toutes les formations de cette catégorie
+                {t('Toutes les formations de cette catégorie')}
                 <Icon icon='tabler:arrow-right' className='transition-transform duration-300 group-hover:translate-x-1' />
             </Link>
         </div>
@@ -183,6 +186,7 @@ function Eyebrow({ number, children }: { number: string; children: React.ReactNo
 
 /** Page Domaines : les domaines d'études, séparés entre études supérieures et formation professionnelle. */
 export default function DomainsPage() {
+    const t = useT()
     const { data: formations, loading } = useSiteData('FormationData')
 
     // Domaines de chaque catégorie, du plus fourni au moins fourni.
@@ -209,22 +213,21 @@ export default function DomainsPage() {
                     <div className='mobile-center flex flex-col gap-5'>
                         <span className='flex items-center gap-3 text-sm font-semibold text-secondary'>
                             <span className='h-0.5 w-6 rounded-full bg-secondary' aria-hidden='true' />
-                            Domaines <span className='-ml-2 text-primary'>d’études</span>
+                            {t('Domaines')} <span className='-ml-2 text-primary'>{t('d’études')}</span>
                         </span>
                         <h1 className='text-4xl font-bold leading-tight text-secondary md:text-5xl'>
-                            Les domaines d’études <br className='hidden sm:block' />à <span className='text-primary'>Madagascar</span>
+                            {t('Les domaines d’études')} <br className='hidden sm:block' />{t('à')} <span className='text-primary'>{t('Madagascar')}</span>
                         </h1>
                         <p className='max-w-xl text-black'>
-                            Choisissez votre voie : des études supérieures après le bac, ou une formation professionnelle pour apprendre un métier.
-                            Dans chaque cas, cliquez sur un domaine pour voir les formations proposées à Madagascar.
+                            {t('Choisissez votre voie : des études supérieures après le bac, ou une formation professionnelle pour apprendre un métier. Dans chaque cas, cliquez sur un domaine pour voir les formations proposées à Madagascar.')}
                         </p>
-                        <nav aria-label='Sections de la page' className='mobile-center flex flex-wrap gap-3'>
+                        <nav aria-label={t('Sections de la page')} className='mobile-center flex flex-wrap gap-3'>
                             {SECTIONS.map((section) => (
                                 <a
                                     key={section.id}
                                     href={`#${section.id}`}
                                     className='inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 font-semibold text-secondary transition-colors hover:border-primary hover:text-primary'>
-                                    {section.eyebrow}
+                                    {t(section.eyebrow)}
                                     <Icon icon='tabler:chevron-down' className='text-lg' />
                                 </a>
                             ))}
@@ -239,7 +242,7 @@ export default function DomainsPage() {
                         <div className='absolute top-16 right-6 bottom-0 left-16 overflow-hidden rounded-[2.5rem] rounded-tr-[6rem] border-4 border-white shadow-[8px_8px_0_0_rgba(255,59,82,0.9)] sm:left-24'>
                             <Image
                                 src={photo('1596495578065-6e0763fa1178')}
-                                alt='Étudiante souriante qui prend des notes'
+                                alt={t('Étudiante souriante qui prend des notes')}
                                 fill
                                 priority
                                 sizes='(min-width: 1024px) 400px, 80vw'
@@ -255,15 +258,15 @@ export default function DomainsPage() {
             <section id={bac.id} className='scroll-mt-28 py-16 lg:py-24'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='mobile-center mb-10 flex max-w-3xl flex-col gap-4'>
-                        <Eyebrow number={bac.number}>{bac.eyebrow}</Eyebrow>
-                        <h2 className='font-bold'>{bac.title}</h2>
-                        <p className='text-black'>{bac.text}</p>
+                        <Eyebrow number={bac.number}>{t(bac.eyebrow)}</Eyebrow>
+                        <h2 className='font-bold'>{t(bac.title)}</h2>
+                        <p className='text-black'>{t(bac.text)}</p>
                     </div>
                     <Points points={bac.points} className='sm:grid-cols-2 lg:grid-cols-4' />
 
                     <h3 className='mobile-center mt-16 mb-8 flex lg:mt-20 items-center gap-3 text-xl font-semibold text-secondary'>
                         <span className='h-0.5 w-6 rounded-full bg-primary' aria-hidden='true' />
-                        Choisissez un domaine
+                        {t('Choisissez un domaine')}
                     </h3>
                     <DomainCards section={bac} domains={domainsByCategory.get(bac.categoryId) ?? []} loading={loading} />
                     <SectionLinks section={bac} />
@@ -275,18 +278,18 @@ export default function DomainsPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid items-center gap-10 lg:grid-cols-2 lg:gap-16'>
                         <div className='mobile-center flex flex-col gap-4'>
-                            <Eyebrow number={pro.number}>{pro.eyebrow}</Eyebrow>
-                            <h2 className='font-bold'>{pro.title}</h2>
-                            <p className='text-black'>{pro.text}</p>
+                            <Eyebrow number={pro.number}>{t(pro.eyebrow)}</Eyebrow>
+                            <h2 className='font-bold'>{t(pro.title)}</h2>
+                            <p className='text-black'>{t(pro.text)}</p>
                         </div>
                         <div className='relative h-56 overflow-hidden rounded-[2rem] rounded-bl-[5rem] shadow-[8px_8px_0_0_rgba(15,76,92,0.9)] sm:h-64 lg:h-72'>
-                            <Image src={photo('/images/Photos/formations.webp')} alt='Formateur et apprenants en salle informatique' fill sizes='(min-width: 1024px) 45vw, 100vw' className='object-cover' />
+                            <Image src={photo('/images/Photos/formations.webp')} alt={t('Formateur et apprenants en salle informatique')} fill sizes='(min-width: 1024px) 45vw, 100vw' className='object-cover' />
                         </div>
                     </div>
 
                     <h3 className='mobile-center mt-16 mb-8 flex lg:mt-20 items-center gap-3 text-xl font-semibold text-secondary'>
                         <span className='h-0.5 w-6 rounded-full bg-primary' aria-hidden='true' />
-                        Choisissez un domaine
+                        {t('Choisissez un domaine')}
                     </h3>
                     <DomainCards section={pro} domains={domainsByCategory.get(pro.categoryId) ?? []} loading={loading} compact />
                     <SectionLinks section={pro} />
@@ -302,12 +305,12 @@ export default function DomainsPage() {
                             <div className='absolute inset-0 bg-gradient-to-r from-secondary via-secondary/40 to-primary/30' aria-hidden='true' />
                         </div>
                         <div className='mobile-center relative flex flex-col gap-4 p-8 sm:p-10 md:max-w-[55%]'>
-                            <h2 className='text-2xl font-bold text-white md:text-3xl'>Vous hésitez encore ?</h2>
-                            <p className='text-white/80'>Notre page Orientation vous guide pas à pas, selon votre profil.</p>
+                            <h2 className='text-2xl font-bold text-white md:text-3xl'>{t('Vous hésitez encore ?')}</h2>
+                            <p className='text-white/80'>{t('Notre page Orientation vous guide pas à pas, selon votre profil.')}</p>
                             <Link
                                 href='/orientation/'
                                 className='group inline-flex items-center gap-2 self-start max-sm:self-center rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary/90'>
-                                S’orienter
+                                {t('S’orienter')}
                                 <Icon icon='tabler:arrow-right' className='text-lg transition-transform duration-300 group-hover:translate-x-1' />
                             </Link>
                         </div>

@@ -107,10 +107,10 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='mobile-center mb-7'>
                         <h2 className='text-2xl font-bold text-secondary md:text-3xl'>{t(config.listTitle)}</h2>
-                        <p className='mt-1 text-ink/80'>Choisissez un type d’établissement et une ville : la liste se met à jour.</p>
+                        <p className='mt-1 text-ink/80'>{t('Choisissez un type d’établissement et une ville : la liste se met à jour.')}</p>
                     </div>
 
-                    <div role='group' aria-label='Type d’établissement' className='grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 xl:grid-cols-6'>
+                    <div role='group' aria-label={t('Type d’établissement')} className='grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 xl:grid-cols-6'>
                         {TYPES.map((item) => {
                             const active = type === item.id
                             const n = item.id ? matching.filter((s) => s.category === item.id).length : matching.length
@@ -128,8 +128,8 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                         <Icon icon={item.icon} className='text-xl' />
                                     </span>
                                     <span className='min-w-0'>
-                                        <span className='block text-sm font-semibold leading-tight text-black'>{item.label}</span>
-                                        <span className='mt-0.5 block text-xs text-ink/70'>{loading ? '…' : countLabel(n)}</span>
+                                        <span className='block text-sm font-semibold leading-tight text-black'>{t(item.label)}</span>
+                                        <span className='mt-0.5 block text-xs text-ink/70'>{loading ? '…' : t(countLabel(n))}</span>
                                     </span>
                                 </button>
                             )
@@ -138,13 +138,13 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
 
                     <div className='mt-6 mb-8 flex flex-col gap-3 md:flex-row md:items-center md:gap-4'>
                         <label className='relative block md:w-56 md:shrink-0'>
-                            <span className='sr-only'>Ville</span>
+                            <span className='sr-only'>{t('Ville')}</span>
                             <Icon icon='tabler:map-pin' className='pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-lg text-secondary' />
                             <select
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
                                 className='min-h-12 w-full rounded-xl border border-gray-200 bg-white pr-3 pl-10 font-medium text-secondary outline-hidden focus:border-primary hover:cursor-pointer'>
-                                <option value=''>Toutes les villes</option>
+                                <option value=''>{t('Toutes les villes')}</option>
                                 {cities.map((c) => (
                                     <option key={c} value={c}>
                                         {c}
@@ -153,27 +153,27 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                             </select>
                         </label>
                         <label className='relative block md:w-96'>
-                            <span className='sr-only'>Nom de l’établissement</span>
+                            <span className='sr-only'>{t('Nom de l’établissement')}</span>
                             <Icon icon='tabler:search' className='pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-lg text-ink/50' />
                             <input
                                 type='search'
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder='Nom de l’établissement (facultatif)'
+                                placeholder={t('Nom de l’établissement (facultatif)')}
                                 className='min-h-12 w-full rounded-xl border border-gray-200 bg-white pr-3 pl-10 text-ink outline-hidden placeholder:text-ink/50 focus:border-primary'
                             />
                         </label>
                         <p className='text-secondary md:ml-auto md:shrink-0' aria-live='polite'>
                             {!loading && !pacing && (
                                 <>
-                                    <strong>{shown.length}</strong> établissement{shown.length > 1 ? 's' : ''} trouvé{shown.length > 1 ? 's' : ''}
+                                    <strong>{shown.length}</strong> {shown.length > 1 ? t('établissements trouvés') : t('établissement trouvé')}
                                 </>
                             )}
                         </p>
                     </div>
 
                     {pacing ? (
-                        <SearchingState label='Recherche des établissements…' count={4} gridClassName='grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4' cardClassName='h-[360px]' />
+                        <SearchingState label={t('Recherche des établissements…')} count={4} gridClassName='grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4' cardClassName='h-[360px]' />
                     ) : loading ? (
                         <CardSkeletonGrid count={8} className='h-[360px]' />
                     ) : shown.length === 0 ? (

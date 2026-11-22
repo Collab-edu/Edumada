@@ -1,4 +1,6 @@
+'use client'
 import { Icon } from '@/components/ui/icon'
+import { useT } from '@/i18n/client'
 
 /**
  * Réforme du baccalauréat général malgache (décret adopté en Conseil des ministres le 31 août 2026,
@@ -36,18 +38,17 @@ const SERIES = [
 
 /** Section de la page Orientation : les séries du bac général à partir de 2027. */
 export default function BacSeriesSection() {
+    const t = useT()
     return (
         <section className='py-12 lg:py-16'>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='mobile-center flex max-w-3xl flex-col gap-4'>
-                    <span className='font-semibold text-primary'>Réforme du baccalauréat</span>
+                    <span className='font-semibold text-primary'>{t('Réforme du baccalauréat')}</span>
                     <h2 className='text-3xl font-bold leading-tight md:text-4xl'>
-                        Les nouvelles séries du bac <span className='text-primary'>à partir de 2027</span>
+                        {t('Les nouvelles séries du bac')} <span className='text-primary'>{t('à partir de 2027')}</span>
                     </h2>
                     <p className='text-black'>
-                        Le nouveau programme scolaire, testé depuis 2020, devient la règle : à partir de la session 2027, le bac général
-                        compte trois séries, L, S et OSE, qui remplacent les séries A, C et D. Les épreuves d’une même série ont une
-                        partie commune, avec des parties propres à chaque option.
+                        {t('Le nouveau programme scolaire, testé depuis 2020, devient la règle : à partir de la session 2027, le bac général compte trois séries, L, S et OSE, qui remplacent les séries A, C et D. Les épreuves d’une même série ont une partie commune, avec des parties propres à chaque option.')}
                     </p>
                 </div>
 
@@ -69,28 +70,28 @@ export default function BacSeriesSection() {
                                     <Icon icon={serie.icon} className='text-2xl' />
                                 </span>
                                 <div className='flex min-w-0 flex-col gap-[3px]'>
-                                    <span className='text-[13px] font-semibold text-primary'>Série {serie.code}</span>
-                                    <h3 className='text-[21px] leading-tight font-bold tracking-[-0.3px] text-balance text-secondary'>{serie.name}</h3>
+                                    <span className='text-[13px] font-semibold text-primary'>{t('Série')} {serie.code}</span>
+                                    <h3 className='text-[21px] leading-tight font-bold tracking-[-0.3px] text-balance text-secondary'>{t(serie.name)}</h3>
                                 </div>
                             </div>
 
-                            <p className='relative text-[15px] leading-relaxed text-pretty text-ink'>{serie.text}</p>
+                            <p className='relative text-[15px] leading-relaxed text-pretty text-ink'>{t(serie.text)}</p>
 
                             <div className='flex flex-col gap-2.5'>
-                                <span className='text-[13px] font-semibold text-secondary'>Matières dominantes</span>
+                                <span className='text-[13px] font-semibold text-secondary'>{t('Matières dominantes')}</span>
                                 <ul className='flex flex-wrap gap-2'>
                                     {serie.subjects.map((subject) => (
                                         <li
                                             key={subject}
                                             className='rounded-full border border-secondary/10 bg-secondary/5 px-3 py-1.5 text-[13.5px] font-medium whitespace-nowrap text-black'>
-                                            {subject}
+                                            {t(subject)}
                                         </li>
                                     ))}
                                 </ul>
                             </div>
 
                             <div className='flex flex-col gap-2.5'>
-                                <span className='text-[13px] font-semibold text-secondary'>Options pour la session 2027</span>
+                                <span className='text-[13px] font-semibold text-secondary'>{t('Options pour la session 2027')}</span>
                                 {serie.options.length > 0 ? (
                                     <ul className='flex gap-2'>
                                         {serie.options.map((option) => (
@@ -104,7 +105,7 @@ export default function BacSeriesSection() {
                                 ) : (
                                     <span className='flex min-h-[34px] items-center gap-2 text-sm text-ink'>
                                         <span className='h-1.5 w-1.5 shrink-0 rounded-full bg-primary' aria-hidden='true' />
-                                        Pas de sous-option : une seule série.
+                                        {t('Pas de sous-option : une seule série.')}
                                     </span>
                                 )}
                             </div>
@@ -112,8 +113,8 @@ export default function BacSeriesSection() {
                             <div className='-mx-3 mt-auto -mb-3 flex items-start gap-3 rounded-[14px] bg-offwhite px-[18px] py-4'>
                                 <Icon icon='tabler:arrow-right' className='mt-px shrink-0 text-xl text-primary' />
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-[13px] font-semibold text-secondary'>Après le bac</span>
-                                    <span className='text-sm leading-normal text-pretty text-ink'>{serie.careers}</span>
+                                    <span className='text-[13px] font-semibold text-secondary'>{t('Après le bac')}</span>
+                                    <span className='text-sm leading-normal text-pretty text-ink'>{t(serie.careers)}</span>
                                 </div>
                             </div>
                         </li>

@@ -11,6 +11,7 @@ import SearchingState from '@/features/recherche/components/SearchingState'
 import { useSearchPacing } from '@/features/recherche/useSearchPacing'
 import { FILTER_UI } from '@/features/recherche/useFilterSuggestions'
 import InternshipCard from './InternshipCard'
+import { useT } from '@/i18n/client'
 import type { Internship } from '../types'
 
 const BENEFITS = [
@@ -24,6 +25,7 @@ const suggestions = (values: (string | null)[]) =>
 
 /** Page publique des offres de stage. */
 export default function InternshipsPage() {
+    const t = useT()
     const [items, setItems] = useState<Internship[]>([])
     const [state, setState] = useState<'loading' | 'ready' | 'error'>(apiEnabled ? 'loading' : 'ready')
     const [domain, setDomain] = useState('')
@@ -62,21 +64,21 @@ export default function InternshipsPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-8 lg:grid-cols-2 lg:items-center'>
                         <div className='mobile-center flex max-w-3xl flex-col gap-4'>
-                            <p className='font-semibold text-primary'>Offres de stage</p>
-                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Trouvez votre stage à Madagascar</h1>
-                            <p className='text-black'>Retrouvez les offres de stage publiées par Edumada : comparez les domaines, puis envoyez votre candidature depuis votre compte.</p>
+                            <p className='font-semibold text-primary'>{t('Offres de stage')}</p>
+                            <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t('Trouvez votre stage à Madagascar')}</h1>
+                            <p className='text-black'>{t('Retrouvez les offres de stage publiées par Edumada : comparez les domaines, puis envoyez votre candidature depuis votre compte.')}</p>
                             <div className='mobile-center flex flex-wrap gap-3'>
                                 <ButtonLink href='#offres'>
                                     <Icon icon='tabler:search' className='text-lg' />
-                                    Voir les offres de stage
+                                    {t('Voir les offres de stage')}
                                 </ButtonLink>
                                 <ButtonLink href='/contact/' variant='secondary'>
-                                    Nous contacter
+                                    {t('Nous contacter')}
                                 </ButtonLink>
                             </div>
                         </div>
                         <div className='relative h-56 overflow-hidden rounded-xl sm:h-72 lg:h-80'>
-                            <PagePhoto name='formation-pro' alt='Stagiaires au travail en équipe' priority sizes='(min-width: 1024px) 50vw, 100vw' />
+                            <PagePhoto name='formation-pro' alt={t('Stagiaires au travail en équipe')} priority sizes='(min-width: 1024px) 50vw, 100vw' />
                         </div>
                     </div>
                 </div>
@@ -85,16 +87,16 @@ export default function InternshipsPage() {
             <section id='offres' className='scroll-mt-20'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <SearchPillBar
-                        title='Les offres de stage'
-                        count={state === 'ready' && !pacing ? `${shown.length} offre${shown.length > 1 ? 's' : ''} de stage à Madagascar` : ''}
-                        label='Filtrer les offres de stage'
+                        title={t('Les offres de stage')}
+                        count={state === 'ready' && !pacing ? t(shown.length > 1 ? '{n} offres de stage à Madagascar' : '{n} offre de stage à Madagascar', { n: shown.length }) : ''}
+                        label={t('Filtrer les offres de stage')}
                         onSubmit={search}>
                         <SearchPillField>
                             <SuggestInput
                                 pill
                                 icon={FILTER_UI.domaine.icon}
-                                label='Domaine'
-                                placeholder='Domaine'
+                                label={t('Domaine')}
+                                placeholder={t('Domaine')}
                                 suggestions={domains}
                                 value={draft}
                                 onChange={(value) => {
@@ -109,13 +111,13 @@ export default function InternshipsPage() {
                     </SearchPillBar>
 
                     {pacing ? (
-                        <SearchingState label='Recherche des offres de stage…' count={4} gridClassName='grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4' cardClassName='h-[300px]' />
+                        <SearchingState label={t('Recherche des offres de stage…')} count={4} gridClassName='grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4' cardClassName='h-[300px]' />
                     ) : state === 'loading' ? (
                         <CardSkeletonGrid count={4} className='h-[420px]' />
                     ) : state === 'error' ? (
-                        <p className='rounded-xl bg-white p-8 text-center text-black'>Impossible de charger les offres de stage pour l’instant. Réessayez dans quelques minutes.</p>
+                        <p className='rounded-xl bg-white p-8 text-center text-black'>{t('Impossible de charger les offres de stage pour l’instant. Réessayez dans quelques minutes.')}</p>
                     ) : shown.length === 0 ? (
-                        <p className='rounded-xl bg-white p-8 text-center text-black'>{filtered ? 'Aucune offre de stage ne correspond à ces critères.' : 'Aucune offre de stage publiée pour le moment.'}</p>
+                        <p className='rounded-xl bg-white p-8 text-center text-black'>{filtered ? t('Aucune offre de stage ne correspond à ces critères.') : t('Aucune offre de stage publiée pour le moment.')}</p>
                     ) : (
                         <>
                             <ul className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4'>
@@ -139,8 +141,8 @@ export default function InternshipsPage() {
                                     <Icon icon={b.icon} className='text-2xl' />
                                 </span>
                                 <div>
-                                    <h2 className='text-base font-semibold text-secondary'>{b.title}</h2>
-                                    <p className='text-sm text-black'>{b.text}</p>
+                                    <h2 className='text-base font-semibold text-secondary'>{t(b.title)}</h2>
+                                    <p className='text-sm text-black'>{t(b.text)}</p>
                                 </div>
                             </li>
                         ))}
@@ -152,11 +154,11 @@ export default function InternshipsPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='mobile-center flex flex-col gap-4 rounded-xl bg-secondary p-8 text-white md:flex-row md:items-center md:justify-between'>
                         <div>
-                            <h2 className='text-2xl font-bold text-white'>Vous proposez un stage ?</h2>
-                            <p className='text-white/80'>Envoyez-nous votre offre : l’équipe Edumada se charge de la publier.</p>
+                            <h2 className='text-2xl font-bold text-white'>{t('Vous proposez un stage ?')}</h2>
+                            <p className='text-white/80'>{t('Envoyez-nous votre offre : l’équipe Edumada se charge de la publier.')}</p>
                         </div>
                         <ButtonLink href='/contact/' className='shrink-0'>
-                            Nous contacter
+                            {t('Nous contacter')}
                         </ButtonLink>
                     </div>
                 </div>

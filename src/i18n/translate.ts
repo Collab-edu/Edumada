@@ -36,6 +36,8 @@ const SHAPES: { fr: RegExp; en: (m: RegExpMatchArray) => string; mg: (m: RegExpM
     // Frais : « 1 800 000 Ar / an », « 180 000 Ar / mois ».
     { fr: /^(.+ Ar) \/ an$/, en: (m) => `${m[1]} / year`, mg: (m) => `${m[1]} / taona` },
     { fr: /^(.+ Ar) \/ mois$/, en: (m) => `${m[1]} / month`, mg: (m) => `${m[1]} / volana` },
+    // Ancienneté d'une offre : « il y a 17 jours ».
+    { fr: /^il y a (\d+) jours$/, en: (m) => `${m[1]} days ago`, mg: (m) => `${m[1]} andro lasa izay` },
     // Dates : « 1er septembre 2026 », « 15 janvier 2027 ».
     { fr: DATE, en: (m) => `${MONTHS.en[MONTHS.fr.indexOf(m[2])]} ${m[1].replace('er', '')}, ${m[3]}`, mg: (m) => `${m[1].replace('er', '')} ${MONTHS.mg[MONTHS.fr.indexOf(m[2])]} ${m[3]}` },
 ]

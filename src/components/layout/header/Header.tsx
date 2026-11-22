@@ -145,7 +145,7 @@ const Header: React.FC = () => {
             <div className={cn('hidden lg:block bg-secondary text-white overflow-hidden transition-[max-height] duration-300', sticky ? 'max-h-0' : 'max-h-12')}>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex h-11 items-center justify-between text-sm'>
                     <div className='flex items-center gap-4'>
-                        <span className='text-white/85'>Vous êtes un établissement ?</span>
+                        <span className='text-white/85'>{t('Vous êtes un établissement ?')}</span>
                         <Link href='/tarifs/' className='group flex h-8 items-center gap-2 rounded-lg bg-white px-4 font-semibold text-black'>
                             {t('Référencer mon établissement')}
                             <Icon icon='tabler:arrow-right' className='text-base transition-transform duration-300 group-hover:translate-x-1' />

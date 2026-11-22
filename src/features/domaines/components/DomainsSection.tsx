@@ -30,9 +30,9 @@ const DomainsSection = () => {
                                 <Icon icon={domain.icon} className='text-xl text-primary' />
                                 <div className='flex flex-col gap-1'>
                                     <h3 className='text-base font-semibold leading-snug text-black transition-colors duration-200 group-hover:text-primary'>
-                                        {domain.name}
+                                        {t(domain.name)}
                                     </h3>
-                                    <span className='text-sm text-ink/60'>{domain.count} formations</span>
+                                    <span className='text-sm text-ink/60'>{t(`${domain.count} formations`)}</span>
                                 </div>
                             </Link>
                         ))}

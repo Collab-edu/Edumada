@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 import CompanyLogo from './CompanyLogo'
@@ -35,6 +35,7 @@ function useSaved(id: string) {
 
 /** Carte d'une offre de stage : toute la carte mène à la fiche. */
 export default function InternshipCard({ internship: i }: { internship: Internship }) {
+    const t = useT()
     const { saved, toggle } = useSaved(i.id)
     return (
         <article className='relative flex h-full flex-col rounded-xl bg-white shadow-[0_10px_30px_-12px_rgba(15,23,42,0.15)] ring-1 ring-secondary/10 transition duration-200 hover:shadow-[0_18px_40px_-14px_rgba(15,23,42,0.21)] motion-reduce:transform-none'>
@@ -43,7 +44,7 @@ export default function InternshipCard({ internship: i }: { internship: Internsh
                     <CompanyLogo name={i.companyName} logo={i.companyLogo} className='h-14 w-14 ring-gray-200' />
                     <div className='min-w-0'>
                         <p className='break-words font-semibold text-secondary'>{i.companyName}</p>
-                        <p className='text-sm text-ink/60'>{publishedAgo(i.createdAt)}</p>
+                        <p className='text-sm text-ink/60'>{t(publishedAgo(i.createdAt))}</p>
                     </div>
                 </div>
                 <h3 className='text-lg font-semibold leading-snug text-secondary'>
@@ -55,7 +56,7 @@ export default function InternshipCard({ internship: i }: { internship: Internsh
                     {i.domain && (
                         <p className='flex items-center gap-1.5 text-sm text-ink'>
                             <Icon icon='tabler:tools' className='shrink-0 text-base text-primary' />
-                            {i.domain}
+                            {t(i.domain)}
                         </p>
                     )}
                     <div className='flex flex-wrap gap-x-4 gap-y-1 text-sm font-medium text-secondary'>
@@ -66,20 +67,20 @@ export default function InternshipCard({ internship: i }: { internship: Internsh
                         {i.durationMonths && (
                             <span className='inline-flex items-center gap-1'>
                                 <Icon icon='tabler:clock-hour-4' className='text-base' />
-                                {formatMonths(i.durationMonths)}
+                                {t(formatMonths(i.durationMonths))}
                             </span>
                         )}
                     </div>
                 </div>
             </div>
             <div className='flex items-center gap-3 border-t border-gray-100 p-4'>
-                <Link href={internshipHref(i.id)} aria-label={`Voir les détails : ${i.title}`} className='relative z-10 inline-flex min-h-11 flex-1 items-center justify-center rounded-lg bg-primary px-4 font-semibold text-white transition-colors hover:bg-primary/90'>
-                    Voir détails
+                <Link href={internshipHref(i.id)} aria-label={t('Voir les détails : {title}', { title: i.title })} className='relative z-10 inline-flex min-h-11 flex-1 items-center justify-center rounded-lg bg-primary px-4 font-semibold text-white transition-colors hover:bg-primary/90'>
+                    {t('Voir détails')}
                 </Link>
                 <button
                     type='button'
                     aria-pressed={saved}
-                    aria-label={saved ? `Retirer « ${i.title} » des stages enregistrés` : `Enregistrer « ${i.title} »`}
+                    aria-label={saved ? t('Retirer « {title} » des stages enregistrés', { title: i.title }) : t('Enregistrer « {title} »', { title: i.title })}
                     onClick={toggle}
                     className='relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-secondary ring-1 ring-secondary/15 transition-colors hover:cursor-pointer hover:bg-offwhite'>
                     <svg viewBox='0 0 24 24' stroke='currentColor' strokeWidth='2' strokeLinejoin='round' aria-hidden='true' className={cn('h-6 w-6', saved ? 'fill-current' : 'fill-none')}>

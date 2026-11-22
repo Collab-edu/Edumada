@@ -59,8 +59,8 @@ export default function StudentSpaceSection() {
                         </div>
                         <div className='flex flex-col gap-2'>
                             <div className='flex items-center justify-between text-xs'>
-                                <span className='font-semibold text-secondary'>Mes favoris</span>
-                                <span className='font-semibold text-primary'>Voir tout</span>
+                                <span className='font-semibold text-secondary'>{t('Mes favoris')}</span>
+                                <span className='font-semibold text-primary'>{t('Voir tout')}</span>
                             </div>
                             {favorites.map((formation) => (
                                 <div key={formation.id} className='flex gap-2 rounded-lg bg-white p-2'>

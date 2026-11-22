@@ -88,7 +88,7 @@ export default function OrientationPage() {
                     <div className='mx-auto flex max-w-3xl flex-col items-center gap-5 text-center'>
                         {/* Titre long (plan SEO) : même taille que les autres pages, pour tenir sur trois lignes. */}
                         <h1 className='text-3xl md:text-5xl font-bold leading-tight text-secondary'>
-                            Orientation scolaire à Madagascar&nbsp;: <span className='text-primary'>trouvez la formation qui vous correspond</span>
+                            {t('Orientation scolaire à Madagascar\u00a0:')} <span className='text-primary'>{t('trouvez la formation qui vous correspond')}</span>
                         </h1>
                         <p className='max-w-2xl text-black'>
                             {t('Choisir une formation est une décision importante. Voici une démarche simple, en quatre étapes, pour avancer sereinement et comparer les possibilités à Madagascar.')}
@@ -96,13 +96,13 @@ export default function OrientationPage() {
                         <div className='flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center'>
                             <ButtonLink href='/orientation/test/' variant='secondary'>
                                 <Icon icon='tabler:compass' className='text-lg' />
-                                Faire le test d’orientation (3 min)
+                                {t('Faire le test d’orientation (3 min)')}
                             </ButtonLink>
                             {/* Accès direct aux domaines d'études, bien mis en avant */}
                             <Link
                                 href='/domaines/'
                                 className='group inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary/90'>
-                                Explorer les domaines d’études
+                                {t('Explorer les domaines d’études')}
                                 <Icon icon='tabler:arrow-right' className='text-xl transition-transform duration-300 group-hover:translate-x-1' />
                             </Link>
                         </div>
@@ -207,7 +207,7 @@ export default function OrientationPage() {
                                         <div className='relative h-44 overflow-hidden sm:h-48'>
                                             <Image
                                                 src={profile.image}
-                                                alt={profile.alt}
+                                                alt={t(profile.alt)}
                                                 fill
                                                 sizes='(min-width: 768px) 33vw, 100vw'
                                                 className='object-cover'
