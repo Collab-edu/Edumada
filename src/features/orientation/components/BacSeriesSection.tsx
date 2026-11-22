@@ -40,7 +40,7 @@ export default function BacSeriesSection() {
         <section className='py-12 lg:py-16'>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='mobile-center flex max-w-3xl flex-col gap-4'>
-                    <span className='font-semibold uppercase tracking-wide text-primary'>Réforme du baccalauréat</span>
+                    <span className='font-semibold text-primary'>Réforme du baccalauréat</span>
                     <h2 className='text-3xl font-bold leading-tight md:text-4xl'>
                         Les nouvelles séries du bac <span className='text-primary'>à partir de 2027</span>
                     </h2>
@@ -56,7 +56,7 @@ export default function BacSeriesSection() {
                     {SERIES.map((serie) => (
                         <li
                             key={serie.code}
-                            className='relative flex flex-col gap-[22px] overflow-hidden rounded-[22px] border border-gray-200 bg-white p-7 shadow-[0_10px_30px_-24px_rgba(15,76,92,0.4)] transition duration-200 hover:-translate-y-[3px] hover:border-secondary/20 hover:shadow-[0_20px_40px_-24px_rgba(15,76,92,0.45)]'>
+                            className='relative flex flex-col gap-[22px] overflow-hidden rounded-[22px] border border-gray-200 bg-white p-7 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.22)] transition duration-200 hover:-translate-y-[3px] hover:border-secondary/20 hover:shadow-[0_20px_40px_-24px_rgba(15,23,42,0.25)]'>
                             {/* Code de la série en filigrane */}
                             <span
                                 aria-hidden='true'
@@ -65,7 +65,7 @@ export default function BacSeriesSection() {
                             </span>
 
                             <div className='relative flex items-center gap-3.5'>
-                                <span className='grid h-[52px] w-[52px] shrink-0 place-items-center rounded-[15px] bg-secondary text-white shadow-[0_8px_16px_-8px_rgba(15,76,92,0.6)]'>
+                                <span className='grid h-[52px] w-[52px] shrink-0 place-items-center rounded-[15px] bg-secondary text-white shadow-[0_8px_16px_-8px_rgba(15,23,42,0.33)]'>
                                     <Icon icon={serie.icon} className='text-2xl' />
                                 </span>
                                 <div className='flex min-w-0 flex-col gap-[3px]'>

@@ -50,7 +50,7 @@ export default function GoogleSignIn({ text = 'continue_with', onSuccess }: { te
             <div className={loading ? 'pointer-events-none opacity-60' : undefined} aria-busy={loading}>
                 <GoogleButton text={text} onCredential={choose} />
             </div>
-            <div className='flex items-center gap-3 text-[11px] font-semibold tracking-wider text-ink/50 uppercase'>
+            <div className='flex items-center gap-3 text-xs font-semibold text-ink/50'>
                 <span className='h-px flex-1 bg-gray-200' />
                 {t('ou')}
                 <span className='h-px flex-1 bg-gray-200' />

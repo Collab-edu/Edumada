@@ -16,7 +16,7 @@ export default function ArticlesPage() {
         <section className='pt-28 pb-20 sm:pt-32'>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='mobile-center mb-8 flex max-w-3xl flex-col gap-4'>
-                    <p className='font-semibold uppercase tracking-wide text-primary'>{t('Actualités')}</p>
+                    <p className='font-semibold text-primary'>{t('Actualités')}</p>
                     <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t('Les actualités de l’éducation à Madagascar')}</h1>
                     <p className='text-black'>{t('Rentrées, concours, conseils d’orientation et événements : suivez ce qui compte pour vos études.')}</p>
                 </div>

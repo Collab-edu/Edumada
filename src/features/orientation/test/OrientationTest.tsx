@@ -35,7 +35,7 @@ function Intro({ onStart, resume }: { onStart: () => void; resume: boolean }) {
     return (
         <div className='mobile-center flex flex-col gap-8'>
             <div className='flex max-w-3xl flex-col gap-4'>
-                <p className='font-semibold uppercase tracking-wide text-primary'>Test d’orientation</p>
+                <p className='font-semibold text-primary'>Test d’orientation</p>
                 <h1 className='text-3xl font-bold text-secondary md:text-5xl'>Quel domaine d’études vous correspond ?</h1>
                 <p className='text-black'>12 questions, environ 3 minutes, sans inscription. Vous découvrez votre profil, les domaines qui vous correspondent et les formations disponibles sur Edumada.</p>
                 <Button onClick={onStart} className='w-full py-3 sm:w-fit'>
@@ -163,7 +163,7 @@ function fieldsOf(offers: FormationType[]): Field[] {
 const plural = (n: number) => `${n} formation${n > 1 ? 's' : ''}`
 const schoolsLabel = (n: number) => `${n} établissement${n > 1 ? 's' : ''}`
 
-const stepLabel = 'text-sm font-bold uppercase tracking-[0.08em] text-primary'
+const stepLabel = 'text-sm font-bold text-primary'
 const card = 'rounded-xl border border-gray-200 bg-white'
 
 type StepState = 'done' | 'current' | 'todo'
@@ -339,7 +339,7 @@ function Results({ answers, onRestart }: { answers: Answers; onRestart: () => vo
                                     onClick={() => chooseDomain(d.name)}
                                     className={cn(
                                         'flex h-full w-full flex-col gap-3 rounded-xl border-2 bg-white p-5 text-left transition hover:cursor-pointer hover:border-primary sm:p-7',
-                                        selected ? 'border-primary shadow-lg shadow-primary/20' : 'border-gray-200'
+                                        selected ? 'border-primary' : 'border-gray-200'
                                     )}>
                                     <span className='flex w-full items-center justify-between gap-3'>
                                         <Icon icon={d.icon} className='text-2xl text-primary' />

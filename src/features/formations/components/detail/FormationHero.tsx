@@ -93,7 +93,7 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                             <Link
                                 href={`/candidature/?offre=${formation.id}`}
                                 onClick={onApply}
-                                className='inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-white shadow-lg shadow-primary/30 transition-all duration-300 hover:bg-primary/90 hover:-translate-y-0.5'>
+                                className='inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-white transition duration-300 hover:bg-primary/90'>
                                 <Icon icon='tabler:send' className='text-lg' /> {t('Postuler maintenant')}
                             </Link>
                         ) : null}
@@ -104,7 +104,7 @@ export function FormationHero({ formation, detail, school, isFavorite, onToggleF
                                 'inline-flex items-center gap-2 rounded-xl px-6 py-3 font-bold transition-colors duration-300 hover:cursor-pointer',
                                 detail.onlineApplication
                                     ? 'border border-secondary/20 text-secondary hover:border-primary hover:text-primary'
-                                    : 'bg-primary text-white shadow-lg shadow-primary/30 hover:bg-primary/90'
+                                    : 'bg-primary text-white hover:bg-primary/90'
                             )}>
                             <Icon icon='tabler:message-circle' className='text-lg' /> {t('Contacter l’établissement')}
                         </button>

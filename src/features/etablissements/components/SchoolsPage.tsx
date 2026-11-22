@@ -85,7 +85,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-8 lg:grid-cols-2 lg:items-center'>
                         <div className='mobile-center flex max-w-3xl flex-col gap-4'>
-                            <p className='font-semibold uppercase tracking-wide text-primary'>{t(config.eyebrow)}</p>
+                            <p className='font-semibold text-primary'>{t(config.eyebrow)}</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t(config.title)}</h1>
                             <p className='text-black'>{t(config.intro)}</p>
                             <div className='mobile-center flex flex-wrap gap-3'>
@@ -95,7 +95,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                 </ButtonLink>
                             </div>
                         </div>
-                        <div className='relative h-56 overflow-hidden rounded-xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
+                        <div className='relative h-56 overflow-hidden rounded-xl sm:h-72 lg:h-80'>
                             <Image src={config.image} alt={t(config.imageAlt)} fill priority sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
                         </div>
                     </div>
@@ -122,7 +122,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                                     onClick={() => setType(item.id)}
                                     className={cn(
                                         'flex items-center gap-2.5 rounded-xl border bg-white p-3 text-left transition-shadow duration-200 hover:cursor-pointer hover:shadow-md',
-                                        active ? 'border-primary shadow-[0_10px_24px_-14px_rgba(255,59,82,0.7)]' : 'border-gray-100'
+                                        active ? 'border-primary shadow-[0_10px_24px_-14px_rgba(15,23,42,0.39)]' : 'border-gray-100'
                                     )}>
                                     <span className={cn('flex h-9 w-9 shrink-0 items-center justify-center rounded-lg', active ? 'bg-primary text-white' : 'bg-secondary/[0.07] text-secondary')}>
                                         <Icon icon={item.icon} className='text-xl' />

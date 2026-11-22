@@ -193,7 +193,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                         <button
                             type='button'
                             onClick={() => setContactOpen(true)}
-                            className='inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 font-semibold text-white shadow-lg shadow-primary/30 transition-colors duration-300 hover:cursor-pointer hover:bg-primary/90'>
+                            className='inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 font-semibold text-white transition-colors duration-300 hover:cursor-pointer hover:bg-primary/90'>
                             <Icon icon='tabler:message-circle' className='text-lg' /> Contacter l’établissement
                         </button>
                         {school.website && (
@@ -304,7 +304,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                     <aside className='lg:sticky lg:top-28 lg:self-start'>
                         <div className='overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
                             <div className='flex items-center justify-between gap-3 bg-secondary px-5 py-3.5'>
-                                <p className='text-xs font-bold uppercase tracking-[0.12em] text-white'>{t('Fiche pratique')}</p>
+                                <p className='text-sm font-bold text-white'>{t('Fiche pratique')}</p>
                                 <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${statusClass}`}>{t(statusLabel)}</span>
                             </div>
 
@@ -312,7 +312,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                 <button
                                     type='button'
                                     onClick={() => setContactOpen(true)}
-                                    className='flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 font-bold text-white shadow-md shadow-primary/25 transition-colors duration-300 hover:cursor-pointer hover:bg-primary/90'>
+                                    className='flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 font-bold text-white transition-colors duration-300 hover:cursor-pointer hover:bg-primary/90'>
                                     <Icon icon='tabler:message-circle' className='text-lg' /> {t('Contacter l’établissement')}
                                 </button>
                             </div>
@@ -342,7 +342,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                                     )}
                                     {socials.length > 0 && (
                                         <div className='mt-4'>
-                                            <p className='mb-2 text-xs font-bold uppercase tracking-[0.12em] text-ink/60'>{t('Réseaux sociaux')}</p>
+                                            <p className='mb-2 text-sm font-bold text-ink/60'>{t('Réseaux sociaux')}</p>
                                             {/* Réseaux saisis en texte (nom de la page, @identifiant ou lien) : le nom apparaît au survol. */}
                                             <div className='flex flex-wrap gap-2'>
                                                 {socials.map(([network, value]) => {

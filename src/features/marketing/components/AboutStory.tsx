@@ -69,8 +69,8 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                 {t('Edumada rassemble ces informations au même endroit, présentées de la même façon, pour que chacun puisse comparer avant de décider.')}
                             </p>
                         </div>
-                        <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
-                            <span className='text-xs font-semibold uppercase tracking-wide text-primary'>Le constat</span>
+                        <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-2xl border border-gray-200 bg-white p-6 text-center'>
+                            <span className='text-sm font-semibold text-primary'>Le constat</span>
                             <div className='flex flex-wrap items-center justify-center gap-3'>
                                 {SCATTERED.map((item) => (
                                     <span
@@ -147,7 +147,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                         <div className='pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full border-[32px] border-primary/20' aria-hidden='true' />
 
                         <div className='relative mx-auto flex max-w-2xl flex-col items-center gap-3 text-center'>
-                            <span className='text-sm font-semibold uppercase tracking-wide text-primary'>{t('Pour qui ?')}</span>
+                            <span className='text-sm font-semibold text-primary'>{t('Pour qui ?')}</span>
                             <h2 className='text-3xl font-bold leading-tight text-white md:text-4xl'>
                                 {t('Une plateforme pour tous ceux qui cherchent ou proposent une formation')}
                             </h2>
@@ -159,7 +159,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                                 <li key={audience.title}>
                                     <Link
                                         href={audience.link.href}
-                                        className='group flex h-full flex-col gap-3 rounded-xl bg-white p-6 transition-transform duration-300 hover:-translate-y-1'>
+                                        className='group flex h-full flex-col gap-3 rounded-xl bg-white p-6'>
                                         <span className='flex h-14 w-14 items-center justify-center rounded-xl bg-primary text-white'>
                                             <Icon icon={audience.icon} className='text-3xl' />
                                         </span>

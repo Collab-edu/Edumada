@@ -78,7 +78,7 @@ type Section = (typeof SECTIONS)[number]
 
 const plural = (n: number) => `${n} formation${n > 1 ? 's' : ''}`
 
-const CARD = 'rounded-xl border border-gray-200 bg-white shadow-[4px_4px_0_0_rgba(15,76,92,0.12)]'
+const CARD = 'rounded-xl border border-gray-200 bg-white'
 
 /** Traits rouges décoratifs (comme sur l'accueil). */
 function Sparks({ className }: { className?: string }) {
@@ -120,7 +120,7 @@ function DomainCards({ section, domains, loading, compact }: { section: Section;
                           <Link
                               key={domain.name}
                               href={`/recherche?categorie=${encodeURIComponent(section.search)}&domaine=${encodeURIComponent(domain.name)}`}
-                              className={cn(CARD, 'group flex flex-col gap-4 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[6px_6px_0_0_rgba(255,59,82,0.3)]')}>
+                              className={cn(CARD, 'group flex flex-col gap-4 p-4 transition duration-300 hover:border-primary/40')}>
                               <div className='flex items-start justify-between gap-3'>
                                   <span className={cn('flex h-9 items-center', ICON)}>
                                       <Icon icon={meta.icon} className='text-3xl' />
@@ -173,7 +173,7 @@ function Eyebrow({ number, children }: { number: string; children: React.ReactNo
     return (
         <div className='mobile-center flex items-center gap-4'>
             <span className='font-heading text-5xl font-extrabold leading-none text-secondary/15'>{number}</span>
-            <span className='flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-primary'>
+            <span className='flex items-center gap-3 text-sm font-semibold text-primary'>
                 <span className='h-0.5 w-6 rounded-full bg-primary' aria-hidden='true' />
                 {children}
             </span>
@@ -207,7 +207,7 @@ export default function DomainsPage() {
             <section className='pt-0 pb-12 lg:pb-16'>
                 <div className='container mx-auto grid max-w-site items-center gap-10 px-4 sm:px-6 lg:px-8 lg:grid-cols-[1.1fr_1fr]'>
                     <div className='mobile-center flex flex-col gap-5'>
-                        <span className='flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-secondary'>
+                        <span className='flex items-center gap-3 text-sm font-semibold text-secondary'>
                             <span className='h-0.5 w-6 rounded-full bg-secondary' aria-hidden='true' />
                             Domaines <span className='-ml-2 text-primary'>d’études</span>
                         </span>
@@ -223,7 +223,7 @@ export default function DomainsPage() {
                                 <a
                                     key={section.id}
                                     href={`#${section.id}`}
-                                    className='inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 font-semibold text-secondary shadow-[4px_4px_0_0_rgba(15,76,92,0.22)] transition-colors hover:border-primary hover:text-primary'>
+                                    className='inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 font-semibold text-secondary transition-colors hover:border-primary hover:text-primary'>
                                     {section.eyebrow}
                                     <Icon icon='tabler:chevron-down' className='text-lg' />
                                 </a>

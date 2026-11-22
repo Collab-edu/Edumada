@@ -13,7 +13,6 @@ export default function PhoneMockup({ tabs, children, screenClassName }: { tabs:
     const t = useT()
     return (
         <div className='relative mx-auto w-full max-w-[18rem]' aria-hidden='true'>
-            <div className='absolute -inset-6 -z-10 rounded-full bg-cream blur-2xl' />
             <div className='rounded-[2.5rem] border-[10px] border-secondary bg-offwhite shadow-xl'>
                 <div className='mx-auto mt-2 h-1.5 w-16 rounded-full bg-secondary/20' />
                 <div className={cn('flex flex-col gap-4 px-4 pt-4', screenClassName)}>

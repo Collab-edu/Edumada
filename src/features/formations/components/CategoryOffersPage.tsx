@@ -207,7 +207,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-8 lg:grid-cols-2 lg:items-center'>
                         <div className='mobile-center flex max-w-3xl flex-col gap-4'>
-                            <p className='font-semibold uppercase tracking-wide text-primary'>{t(config.eyebrow)}</p>
+                            <p className='font-semibold text-primary'>{t(config.eyebrow)}</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>{t(config.title)}</h1>
                             <p className='text-black'>{t(config.intro)}</p>
                             <div className='mobile-center flex flex-wrap gap-3'>
@@ -217,7 +217,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                 </ButtonLink>
                             </div>
                         </div>
-                        <div className='relative h-56 overflow-hidden rounded-xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
+                        <div className='relative h-56 overflow-hidden rounded-xl sm:h-72 lg:h-80'>
                             <Image src={config.image} alt={t(config.imageAlt)} fill priority sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
                         </div>
                     </div>
@@ -288,7 +288,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                         aria-label={t('Filtrer les formations')}
                         onSubmit={submitSearch}
                         className={cn(
-                            'mb-6 grid grid-cols-1 gap-2 rounded-xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)] sm:items-center',
+                            'mb-6 grid grid-cols-1 gap-2 rounded-xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,23,42,0.25)] sm:items-center',
                             showDomain ? 'sm:grid-cols-[1fr_1fr_auto]' : 'sm:grid-cols-[1fr_auto]'
                         )}>
                         {showDomain && (

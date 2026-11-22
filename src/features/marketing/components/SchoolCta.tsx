@@ -8,18 +8,18 @@ import { imageOr } from '@/lib/media'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { stripLocale } from '@/i18n/config'
 
-/** Emplacement des photos rondes autour du texte (en % de la carte), taille en px et décalage d'animation. */
+/** Emplacement des photos rondes autour du texte (en % de la carte) et taille en px. */
 const SPOTS = [
-    { left: '5%', top: '18%', size: 56, delay: '0s' },
-    { left: '15%', top: '6%', size: 72, delay: '1.2s' },
-    { left: '11%', top: '50%', size: 60, delay: '2.4s' },
-    { left: '4%', top: '78%', size: 48, delay: '0.6s' },
-    { left: '17%', top: '74%', size: 56, delay: '1.8s' },
-    { left: '81%', top: '8%', size: 68, delay: '0.9s' },
-    { left: '92%', top: '24%', size: 48, delay: '2.1s' },
-    { left: '86%', top: '44%', size: 60, delay: '0.3s' },
-    { left: '79%', top: '80%', size: 44, delay: '1.5s' },
-    { left: '89%', top: '72%', size: 64, delay: '2.7s' },
+    { left: '5%', top: '18%', size: 56},
+    { left: '15%', top: '6%', size: 72},
+    { left: '11%', top: '50%', size: 60},
+    { left: '4%', top: '78%', size: 48},
+    { left: '17%', top: '74%', size: 56},
+    { left: '81%', top: '8%', size: 68},
+    { left: '92%', top: '24%', size: 48},
+    { left: '86%', top: '44%', size: 60},
+    { left: '79%', top: '80%', size: 44},
+    { left: '89%', top: '72%', size: 64},
 ]
 
 /** Pages où le bandeau ferait doublon : il y mène déjà. Le pied de page reprend alors sa marge normale. */
@@ -36,7 +36,7 @@ const SchoolCta = () => {
     return (
         <section id='school-cta-section' className='relative z-10 -mb-28 pb-0'>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
-                <div className='relative overflow-hidden rounded-xl border border-gray-200 bg-white px-6 py-12 shadow-xl shadow-secondary/20 sm:px-10 lg:py-16'>
+                <div className='relative overflow-hidden rounded-xl border border-gray-200 bg-white px-6 py-12 sm:px-10 lg:py-16'>
                     {/* Photos d'établissements autour du texte, sur grand écran */}
                     <div className='pointer-events-none absolute inset-0 hidden lg:block' aria-hidden='true'>
                         {photos.map((src, i) => {
@@ -44,8 +44,8 @@ const SchoolCta = () => {
                             return (
                                 <div
                                     key={src}
-                                    className='absolute animate-float overflow-hidden rounded-full border-4 border-white bg-cream shadow-md'
-                                    style={{ left: spot.left, top: spot.top, width: spot.size, height: spot.size, animationDelay: spot.delay }}>
+                                    className='absolute overflow-hidden rounded-full border-4 border-white bg-cream shadow-md'
+                                    style={{ left: spot.left, top: spot.top, width: spot.size, height: spot.size}}>
                                     <Image src={src} alt='' fill sizes='80px' className='object-cover' />
                                 </div>
                             )
@@ -61,7 +61,7 @@ const SchoolCta = () => {
                         <div className='flex flex-col items-center gap-5 sm:flex-row'>
                             <Link
                                 href='/tarifs/'
-                                className='inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-4 font-bold text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:bg-primary/90 hover:-translate-y-0.5'>
+                                className='inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-4 font-bold text-white transition duration-300 hover:bg-primary/90'>
                                 {t('Référencer mon établissement')}
                                 <Icon icon='tabler:arrow-right' className='text-lg' />
                             </Link>

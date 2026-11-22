@@ -17,7 +17,7 @@ import { I18N_ENABLED } from '@/i18n/config'
 
 /** Bouton carré à icône de la barre principale (compte). */
 const iconButtonClassName =
-    'relative flex h-11 w-11 items-center justify-center rounded-lg bg-white text-secondary shadow-[0_6px_20px_-6px_rgba(15,76,92,0.25)] transition-colors duration-300 hover:bg-primary hover:text-white hover:cursor-pointer'
+    'relative flex h-11 w-11 items-center justify-center rounded-lg bg-white text-secondary shadow-[0_6px_20px_-6px_rgba(15,23,42,0.14)] transition-colors duration-300 hover:bg-primary hover:text-white hover:cursor-pointer'
 
 function IconButton({
     label,
@@ -176,7 +176,7 @@ const Header: React.FC = () => {
             </div>
 
             {/* Barre principale : logo, menu, langue. Au défilement, l'icône de compte remplace la barre supérieure masquée. */}
-            <div className={cn('border-b-4 border-primary transition-all duration-300', sticky ? 'bg-white shadow-lg' : 'bg-white')}>
+            <div className={cn('border-b-4 border-primary transition-shadow duration-300', sticky ? 'bg-white shadow-lg' : 'bg-white')}>
                 <div className='container relative mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex h-[76px] items-center justify-between lg:h-[72px]'>
                     <Logo />
                     <nav className='hidden grow items-center mx-5 whitespace-nowrap xl:flex 2xl:gap-2 2xl:mx-9'>

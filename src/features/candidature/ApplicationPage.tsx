@@ -92,7 +92,7 @@ export default function ApplicationPage() {
                 </nav>
 
                 <div className='rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8'>
-                    <p className='text-sm font-semibold uppercase tracking-wide text-primary'>Candidature en ligne</p>
+                    <p className='text-sm font-semibold text-primary'>Candidature en ligne</p>
                     <h1 className='mt-1 text-2xl sm:text-3xl font-bold text-secondary'>{offer.title}</h1>
                     <p className='mt-1 text-black'>{offer.school} · {offer.city}</p>
                     {offer.registrationPeriod && offer.registration !== 'Fermées' && (

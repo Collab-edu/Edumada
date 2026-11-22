@@ -49,7 +49,6 @@
     }
   }
 
-  --animate-float: float 6s ease-in-out infinite;
   --animate-nav-progress: nav-progress 8s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
 
   @keyframes nav-progress {
@@ -61,14 +60,6 @@
     }
   }
 
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-8px);
-    }
-  }
 
 }
 
@@ -252,14 +243,3 @@ html {
   .edu-loader-fill, .edu-loader-wave, .edu-loader-draw, .edu-loader-cap, .edu-loader-dot, .edu-loader-bar { animation: none; }
 }
 
-/* Bouton WhatsApp : le logo frétille brièvement toutes les 4 secondes. */
-@keyframes wa-wiggle {
-  0%, 82%, 100% { transform: rotate(0deg); }
-  85% { transform: rotate(-14deg); }
-  88% { transform: rotate(12deg); }
-  91% { transform: rotate(-8deg); }
-  94% { transform: rotate(4deg); }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .wa-wiggle { animation: wa-wiggle 4s ease-in-out infinite; }
-}

@@ -145,7 +145,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
                     <aside className='hidden lg:block'>
                         <div className='sticky top-40 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm'>
                             <div className='flex items-center justify-between gap-3 bg-secondary px-5 py-3.5'>
-                                <p className='text-xs font-bold uppercase tracking-[0.12em] text-white'>{t('En bref')}</p>
+                                <p className='text-sm font-bold text-white'>{t('En bref')}</p>
                                 {/* Fond plein : la pastille reste lisible sur le bandeau foncé. */}
                                 <span className={cn('rounded-full px-2.5 py-0.5 text-xs font-semibold', badge.className.replace('bg-success/30', 'bg-success'))}>{t(badge.label)}</span>
                             </div>
@@ -155,7 +155,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
                                     <Link
                                         href={`/candidature/?offre=${formation.id}`}
                                         onClick={applyClick}
-                                        className='flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary font-bold text-white shadow-md shadow-primary/25 hover:bg-primary/90'>
+                                        className='flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary font-bold text-white hover:bg-primary/90'>
                                         <Icon icon='tabler:send' /> {t('Postuler maintenant')}
                                     </Link>
                                 ) : null}
@@ -166,7 +166,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
                                         'flex min-h-12 items-center justify-center gap-2 rounded-xl font-bold hover:cursor-pointer',
                                         detail.onlineApplication
                                             ? 'border border-secondary/20 text-secondary hover:border-primary hover:text-primary'
-                                            : 'bg-primary text-white shadow-md shadow-primary/25 hover:bg-primary/90'
+                                            : 'bg-primary text-white hover:bg-primary/90'
                                     )}>
                                     <Icon icon='tabler:message-circle' /> {t('Contacter l’établissement')}
                                 </button>
@@ -233,7 +233,7 @@ export function FormationDetailPage({ formation, detail, school, category, other
             {/* Barre d'action mobile : le résumé latéral n'existe pas sur petit écran */}
             <div
                 data-mobile-cta
-                className='fixed inset-x-0 bottom-0 z-40 flex items-center gap-2 border-t border-gray-100 bg-white/95 px-4 py-3 shadow-[0_-8px_24px_-12px_rgba(15,76,92,0.25)] backdrop-blur-sm lg:hidden'>
+                className='fixed inset-x-0 bottom-0 z-40 flex items-center gap-2 border-t border-gray-100 bg-white/95 px-4 py-3 shadow-[0_-8px_24px_-12px_rgba(15,23,42,0.14)] backdrop-blur-sm lg:hidden'>
                 <button
                     type='button'
                     onClick={toggleFavorite}

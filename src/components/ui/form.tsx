@@ -164,7 +164,7 @@ export function ListField({ label, hint, error, value, onChange, placeholder, cl
 /* ------------------------------------------------------------------ */
 
 const buttonVariants = {
-    primary: 'bg-primary text-white border border-primary hover:bg-primary/90 shadow-sm shadow-primary/20',
+    primary: 'bg-primary text-white border border-primary hover:bg-primary/90',
     secondary: 'bg-white text-secondary border border-secondary/20 hover:border-primary hover:text-primary',
     dark: 'bg-secondary text-white border border-secondary hover:bg-secondary/90',
     ghost: 'bg-transparent text-secondary border border-transparent hover:bg-secondary/10',

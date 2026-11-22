@@ -33,7 +33,7 @@ export default function OfferCard({ formation, isFavorite, onToggleFavorite, id,
     ]
 
     return (
-        <Card id={id} className={cn('flex h-full flex-col overflow-hidden scroll-mt-28 shadow-[0_6px_14px_-8px_rgba(15,76,92,0.3)]', formation.premium && 'ring-2 ring-gold')}>
+        <Card id={id} className={cn('flex h-full flex-col overflow-hidden scroll-mt-28 shadow-[0_6px_14px_-8px_rgba(15,23,42,0.17)]', formation.premium && 'ring-2 ring-gold')}>
             <div className={cn('relative shrink-0 bg-cream', compact ? 'h-40' : 'h-48')}>
                 <Image src={imageOr(formation.imageSrc, 640)} alt='' fill className='object-cover' />
                 <div className='absolute top-3 right-3 left-3 flex flex-wrap items-center gap-1.5'>

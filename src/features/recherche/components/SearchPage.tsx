@@ -132,7 +132,7 @@ const SearchPage = () => {
                     role='search'
                     aria-label='Rechercher une formation'
                     onSubmit={submitSearch}
-                    className='mb-6 sm:mb-8 rounded-xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,76,92,0.45)]'>
+                    className='mb-6 sm:mb-8 rounded-xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,23,42,0.25)]'>
                     <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 lg:items-center'>
                         <div className='rounded-xl px-4 py-3 sm:col-span-2 lg:col-span-3 lg:rounded-none'>
                             <label htmlFor='search-q' className='flex items-center gap-1.5 text-base font-medium text-gray-500'>

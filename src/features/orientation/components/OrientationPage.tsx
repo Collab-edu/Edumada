@@ -127,8 +127,8 @@ export default function OrientationPage() {
                                 {t('Prenez le temps d’y répondre : vous saurez quelles formations comparer, et lesquelles écarter.')}
                             </p>
                         </div>
-                        <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
-                            <span className='text-xs font-semibold uppercase tracking-wide text-primary'>{t('Vos questions')}</span>
+                        <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-2xl border border-gray-200 bg-white p-6 text-center'>
+                            <span className='text-sm font-semibold text-primary'>{t('Vos questions')}</span>
                             <div className='flex flex-wrap items-center justify-center gap-3'>
                                 {QUESTIONS.map((item) => (
                                     <span
@@ -157,7 +157,7 @@ export default function OrientationPage() {
                         {STEPS.map((step, index) => (
                             <li
                                 key={step.title}
-                                className='flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-5 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'>
+                                className='flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-5'>
                                 <div className='flex items-center justify-between'>
                                     <span className='flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white'>
                                         <Icon icon={step.icon} className='text-2xl' />
@@ -189,7 +189,7 @@ export default function OrientationPage() {
                         <div className='pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full border-[32px] border-primary/20' aria-hidden='true' />
 
                         <div className='relative mx-auto flex max-w-2xl flex-col items-center gap-3 text-center'>
-                            <span className='text-sm font-semibold uppercase tracking-wide text-primary'>{t('Par où commencer ?')}</span>
+                            <span className='text-sm font-semibold text-primary'>{t('Par où commencer ?')}</span>
                             <h2 className='text-3xl font-bold leading-tight text-white md:text-4xl'>{t('Choisissez la situation qui vous ressemble')}</h2>
                             <p className='text-white/75'>{t('Chaque profil vous mène directement aux formations ou aux établissements qui vous concernent.')}</p>
                         </div>
@@ -199,7 +199,7 @@ export default function OrientationPage() {
                                 <li key={profile.title}>
                                     <Link
                                         href={profile.href}
-                                        className='group flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-[6px_6px_0_0_rgba(255,59,82,0.9)] transition-transform duration-300 hover:-translate-y-1'>
+                                        className='group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors duration-200 hover:border-secondary/30'>
                                         <div className='relative h-44 overflow-hidden sm:h-48'>
                                             <Image
                                                 src={profile.image}

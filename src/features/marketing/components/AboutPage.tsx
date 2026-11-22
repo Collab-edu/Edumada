@@ -62,7 +62,7 @@ export default function AboutPage() {
 
                     <div className='relative mt-10'>
                         <HeroVideo src={HERO_VIDEO} poster={HERO_IMAGE} label={t('Élèves en classe')} className='h-56 sm:h-80 lg:h-96' />
-                        <ul className='relative mx-4 -mt-10 grid grid-cols-3 divide-x divide-gray-200 rounded-xl border border-gray-200 bg-white py-4 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)] sm:mx-auto sm:max-w-2xl sm:py-6'>
+                        <ul className='relative mx-4 -mt-10 grid grid-cols-3 divide-x divide-gray-200 rounded-xl border border-gray-200 bg-white py-4 sm:mx-auto sm:max-w-2xl sm:py-6'>
                             {figures.map((figure) => (
                                 <li key={figure.label} className='flex flex-col items-center gap-1 px-2 text-center'>
                                     <span className='text-2xl sm:text-4xl font-bold text-secondary'>{figure.value || '–'}</span>

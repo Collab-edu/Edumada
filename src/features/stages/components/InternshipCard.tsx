@@ -37,7 +37,7 @@ function useSaved(id: string) {
 export default function InternshipCard({ internship: i }: { internship: Internship }) {
     const { saved, toggle } = useSaved(i.id)
     return (
-        <article className='relative flex h-full flex-col rounded-xl bg-white shadow-[0_10px_30px_-12px_rgba(15,76,92,0.28)] ring-1 ring-secondary/10 transition duration-200 hover:-translate-y-1 hover:shadow-[0_18px_40px_-14px_rgba(15,76,92,0.38)] motion-reduce:transform-none'>
+        <article className='relative flex h-full flex-col rounded-xl bg-white shadow-[0_10px_30px_-12px_rgba(15,23,42,0.15)] ring-1 ring-secondary/10 transition duration-200 hover:shadow-[0_18px_40px_-14px_rgba(15,23,42,0.21)] motion-reduce:transform-none'>
             <div className='flex flex-1 flex-col gap-4 p-5'>
                 <div className='flex items-center gap-3'>
                     <CompanyLogo name={i.companyName} logo={i.companyLogo} className='h-14 w-14 ring-gray-200' />

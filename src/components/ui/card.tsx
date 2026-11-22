@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 /** Style commun des cartes du site : fond blanc, coins arrondis, effet de survol. */
 export const cardClassName =
-    'group rounded-xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg'
+    'group rounded-xl bg-white border border-gray-100 shadow-sm transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-md'
 
 /** Cartes de l'accueil « par type d'établissement » et « par domaine » : bordure fine, le survol change seulement les couleurs. */
 export const exploreCardClassName =

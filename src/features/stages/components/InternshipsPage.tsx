@@ -62,7 +62,7 @@ export default function InternshipsPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='grid gap-8 lg:grid-cols-2 lg:items-center'>
                         <div className='mobile-center flex max-w-3xl flex-col gap-4'>
-                            <p className='font-semibold uppercase tracking-wide text-primary'>Offres de stage</p>
+                            <p className='font-semibold text-primary'>Offres de stage</p>
                             <h1 className='text-3xl md:text-5xl font-bold text-secondary'>Trouvez votre stage à Madagascar</h1>
                             <p className='text-black'>Retrouvez les offres de stage publiées par Edumada : comparez les domaines, puis envoyez votre candidature depuis votre compte.</p>
                             <div className='mobile-center flex flex-wrap gap-3'>
@@ -75,7 +75,7 @@ export default function InternshipsPage() {
                                 </ButtonLink>
                             </div>
                         </div>
-                        <div className='relative h-56 overflow-hidden rounded-xl shadow-[6px_6px_0_0_rgba(15,76,92,0.22)] sm:h-72 lg:h-80'>
+                        <div className='relative h-56 overflow-hidden rounded-xl sm:h-72 lg:h-80'>
                             <Image
                                 src='https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70'
                                 alt='Stagiaires au travail en équipe'

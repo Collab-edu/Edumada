@@ -47,7 +47,7 @@ export default function SchoolGallery({ photos, name }: { photos: string[]; name
                                 alt={alt(i)}
                                 fill
                                 sizes='(min-width: 1280px) 280px, 33vw'
-                                className='object-cover object-[center_20%] transition-transform duration-300 group-hover:scale-105'
+                                className='object-cover object-[center_20%] transition-transform duration-300 group-'
                             />
                             {more && (
                                 <span className='absolute inset-0 flex items-center justify-center bg-secondary/60 text-2xl font-bold text-white'>

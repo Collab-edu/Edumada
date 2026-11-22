@@ -153,7 +153,7 @@ export default function EstablishmentSignUp() {
                     {/* Présentation */}
                     <aside className='order-2 flex flex-col gap-6 rounded-xl bg-secondary p-6 text-white sm:p-8 lg:sticky lg:top-28 lg:order-1'>
                         <div className='flex flex-col gap-3'>
-                            <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
+                            <p className='font-semibold text-primary'>{t('Établissements')}</p>
                             <h1 className='text-3xl font-bold text-white md:text-4xl'>{t('Référencez votre établissement')}</h1>
                             <p className='text-white/80'>{t('Créez votre compte en quelques minutes. Vous compléterez ensuite la fiche publique depuis votre espace.')}</p>
                         </div>
@@ -168,7 +168,7 @@ export default function EstablishmentSignUp() {
                             ))}
                         </ul>
                         <div className='flex flex-col gap-3 border-t border-white/15 pt-6'>
-                            <p className='text-sm font-semibold uppercase tracking-wide text-white/60'>{t('Et ensuite ?')}</p>
+                            <p className='text-sm font-semibold text-white/60'>{t('Et ensuite ?')}</p>
                             <ol className='flex flex-col gap-3'>
                                 {NEXT_STEPS.map((step, index) => (
                                     <li key={step} className='flex items-center gap-3 text-white/90'>
@@ -186,11 +186,11 @@ export default function EstablishmentSignUp() {
 
                     {/* Formulaire */}
                     <div className='order-1 flex flex-col gap-2 lg:hidden' aria-hidden='true'>
-                        <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
+                        <p className='font-semibold text-primary'>{t('Établissements')}</p>
                         <p className='text-3xl font-bold text-secondary'>{t('Référencez votre établissement')}</p>
                         <p className='text-black'>{t('Gratuit, en quelques minutes.')}</p>
                     </div>
-                    <div className='order-1 rounded-xl border border-gray-200 bg-white p-6 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)] sm:p-8 lg:order-2'>
+                    <div className='order-1 rounded-xl border border-gray-200 bg-white p-6 sm:p-8 lg:order-2'>
                         {/* Formule choisie sur la page Tarifs : rappel discret, modifiable */}
                         <div className='mb-6 flex flex-col gap-2 border-b border-gray-100 pb-5'>
                             <div className='flex flex-wrap items-center justify-between gap-3'>

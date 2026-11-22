@@ -56,7 +56,7 @@ export default function BenefitsPage() {
                                 {t('Rejoignez EduMada et gagnez en visibilité auprès d’un large public d’étudiants à Madagascar. Présentez votre établissement, vos formations et facilitez la prise de contact.')}
                             </p>
                             <div className='mobile-center flex flex-wrap gap-3'>
-                                <ButtonLink href='/tarifs/' className='min-h-12 px-6 shadow-lg shadow-primary/25'>
+                                <ButtonLink href='/tarifs/' className='min-h-12 px-6'>
                                     {t('Référencer mon établissement')}
                                     <Icon icon='tabler:arrow-right' className='text-lg' />
                                 </ButtonLink>
@@ -76,10 +76,10 @@ export default function BenefitsPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     {/* Types d'établissements concernés */}
                     <div className='mb-14 flex flex-col gap-4 rounded-2xl md:mb-20 bg-secondary/[0.06] px-5 py-5 md:flex-row md:items-center md:justify-between md:px-8'>
-                        <p className='!text-xs font-bold uppercase tracking-[0.12em] text-ink/60'>{t('Pour tous les établissements')}</p>
+                        <p className='!text-sm font-bold text-ink/60'>{t('Pour tous les établissements')}</p>
                         <ul className='flex flex-wrap gap-2 md:gap-3'>
                             {AUDIENCES.map((a) => (
-                                <li key={a.label} className='inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black shadow-[0_4px_12px_-8px_rgba(15,76,92,0.4)]'>
+                                <li key={a.label} className='inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black shadow-[0_4px_12px_-8px_rgba(15,23,42,0.22)]'>
                                     <Icon icon={a.icon} className='text-base text-primary' />
                                     {t(a.label)}
                                 </li>
@@ -91,12 +91,12 @@ export default function BenefitsPage() {
                         {BENEFITS.map((benefit, i) => (
                             <li
                                 key={benefit.title}
-                                className='relative flex flex-col overflow-hidden rounded-2xl bg-white p-6 shadow-[0_10px_30px_-18px_rgba(15,76,92,0.3)] transition-transform duration-300 hover:-translate-y-1'>
+                                className='relative flex flex-col overflow-hidden rounded-2xl bg-white p-6 shadow-[0_10px_30px_-18px_rgba(15,23,42,0.17)]'>
                                 {/* Grand numéro pâle en filigrane : 01, 02… */}
                                 <span aria-hidden='true' className='absolute -top-1 right-4 font-heading text-6xl font-extrabold leading-none text-secondary/[0.06]'>
                                     {String(i + 1).padStart(2, '0')}
                                 </span>
-                                <span className='relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-[#e8203a] text-white shadow-[0_8px_16px_-6px_rgba(255,59,82,0.6)]'>
+                                <span className='relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-[#e8203a] text-white shadow-[0_8px_16px_-6px_rgba(15,23,42,0.33)]'>
                                     <Icon icon={benefit.icon} className='text-2xl' />
                                 </span>
                                 <h3 className='relative mt-5 text-lg font-bold leading-snug text-secondary'>{t(benefit.title)}</h3>
@@ -128,7 +128,7 @@ export default function BenefitsPage() {
                             <SectionHeader title='Comment ça marche ?' description='Trois étapes pour être visible sur Edumada.' />
                             <ol className='flex flex-col gap-4'>
                                 {STEPS.map((step, index) => (
-                                    <li key={step.title} className='flex items-center gap-4 rounded-xl bg-white px-5 py-4 shadow-[0_8px_24px_-18px_rgba(15,76,92,0.45)]'>
+                                    <li key={step.title} className='flex items-center gap-4 rounded-xl bg-white px-5 py-4 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.25)]'>
                                         <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary text-sm font-bold text-white'>{index + 1}</span>
                                         <div className='flex flex-col gap-0.5'>
                                             <h3 className='text-base font-bold text-secondary'>{t(step.title)}</h3>
@@ -152,13 +152,13 @@ export default function BenefitsPage() {
                             <p className='text-ink'>{t('Passez à une formule payante seulement quand vous en avez besoin.')}</p>
                         </div>
                         {/* Bouton rouge, comme « Référencer mon établissement » en haut de page. */}
-                        <ButtonLink href='/tarifs/' className='min-h-12 shrink-0 self-center px-6 shadow-lg shadow-primary/25 sm:self-auto'>
+                        <ButtonLink href='/tarifs/' className='min-h-12 shrink-0 self-center px-6 sm:self-auto'>
                             {t('Comparer les formules')}
                             <Icon icon='tabler:arrow-right' className='text-lg' />
                         </ButtonLink>
                     </div>
                     {/* Les trois formules dans une seule carte ; Pro mis en avant. */}
-                    <ul className='grid overflow-hidden rounded-2xl bg-white shadow-[0_16px_40px_-24px_rgba(15,76,92,0.4)] md:grid-cols-3'>
+                    <ul className='grid overflow-hidden rounded-2xl bg-white shadow-[0_16px_40px_-24px_rgba(15,23,42,0.22)] md:grid-cols-3'>
                         {PLANS.map((plan, i) => (
                             <li key={plan.name} className={plan.highlight ? 'bg-primary/[0.06]' : ''}>
                                 <Link href='/tarifs/' className='group flex h-full flex-col p-6 md:p-7'>

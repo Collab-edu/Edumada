@@ -162,7 +162,7 @@ const SignUp = ({ onSuccess }: { onSuccess?: () => void }) => {
                     error={mismatch ? t('Les deux mots de passe ne correspondent pas.') : undefined}
                 />
 
-                <div className='flex items-center gap-3 pt-1 text-[11px] font-semibold tracking-wider text-ink/50 uppercase'>
+                <div className='flex items-center gap-3 pt-1 text-xs font-semibold text-ink/50'>
                     <span className='h-px flex-1 bg-gray-200' />
                     {t('Facultatif')}
                     <span className='h-px flex-1 bg-gray-200' />
@@ -202,7 +202,7 @@ const SignUp = ({ onSuccess }: { onSuccess?: () => void }) => {
                     )}
                 </Row>
 
-                <Button type='submit' loading={loading} disabled={!apiEnabled || !ready} className='mt-2 w-full py-3 text-base shadow-lg shadow-primary/25'>
+                <Button type='submit' loading={loading} disabled={!apiEnabled || !ready} className='mt-2 w-full py-3 text-base'>
                     {t('Créer mon compte')}
                 </Button>
             </form>

@@ -21,7 +21,7 @@ export default function SearchPillBar({ title, count, label, onSubmit, children 
                 role='search'
                 aria-label={label}
                 onSubmit={onSubmit}
-                className='flex w-full flex-col gap-2 rounded-[12px] bg-white p-2 shadow-[0_12px_32px_-16px_rgba(15,76,92,0.35)] ring-1 ring-secondary/10 md:flex-row md:items-center md:pl-4 lg:max-w-2xl'>
+                className='flex w-full flex-col gap-2 rounded-[12px] bg-white p-2 shadow-[0_12px_32px_-16px_rgba(15,23,42,0.19)] ring-1 ring-secondary/10 md:flex-row md:items-center md:pl-4 lg:max-w-2xl'>
                 {children}
                 <button
                     type='submit'

@@ -17,7 +17,7 @@ export default function EstablishmentHeroMockup() {
             <div className='absolute inset-x-6 top-4 bottom-0 rotate-[4deg] rounded-[2.5rem] bg-primary/10 sm:inset-x-10' />
 
             {/* Fenêtre du back-office */}
-            <div className='relative overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_-24px_rgba(15,76,92,0.45)] ring-1 ring-gray-100'>
+            <div className='relative overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_-24px_rgba(15,23,42,0.25)] ring-1 ring-gray-100'>
                 <div className='flex items-center gap-1.5 border-b border-gray-100 px-4 py-2.5'>
                     <span className='h-2.5 w-2.5 rounded-full bg-[#ff5f57]' />
                     <span className='h-2.5 w-2.5 rounded-full bg-[#febc2e]' />
@@ -59,7 +59,7 @@ export default function EstablishmentHeroMockup() {
             </div>
 
             {/* Bulle : nouvelle demande */}
-            <div className='absolute top-2 right-0 flex items-center gap-2.5 rounded-xl bg-white px-3 py-2.5 shadow-[0_12px_30px_-12px_rgba(15,76,92,0.4)] sm:right-2'>
+            <div className='absolute top-2 right-0 flex items-center gap-2.5 rounded-xl bg-white px-3 py-2.5 shadow-[0_12px_30px_-12px_rgba(15,23,42,0.22)] sm:right-2'>
                 <span className='flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary'>
                     <Icon icon='tabler:message-circle' className='text-base' />
                 </span>
@@ -70,7 +70,7 @@ export default function EstablishmentHeroMockup() {
             </div>
 
             {/* Bulle : vues du mois */}
-            <div className='absolute bottom-2 left-0 flex items-center gap-2.5 rounded-xl bg-white px-3 py-2.5 shadow-[0_12px_30px_-12px_rgba(15,76,92,0.4)]'>
+            <div className='absolute bottom-2 left-0 flex items-center gap-2.5 rounded-xl bg-white px-3 py-2.5 shadow-[0_12px_30px_-12px_rgba(15,23,42,0.22)]'>
                 <span className='flex h-9 w-9 items-center justify-center rounded-full bg-success/30 text-green-700'>
                     <Icon icon='tabler:eye' className='text-lg' />
                 </span>

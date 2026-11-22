@@ -76,7 +76,7 @@ export default function PricingPage() {
             <section className='pt-28 sm:pt-32'>
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8 flex flex-col gap-10'>
                     <div className='mx-auto flex max-w-3xl flex-col items-center gap-4 text-center'>
-                        <p className='font-semibold uppercase tracking-wide text-primary'>{t('Établissements')}</p>
+                        <p className='font-semibold text-primary'>{t('Établissements')}</p>
                         <h1 className='text-3xl md:text-5xl font-bold text-secondary'>
                             {t('Des formules adaptées à')} <span className='text-primary'>{t('votre établissement')}</span>
                         </h1>
@@ -84,7 +84,7 @@ export default function PricingPage() {
                             {t('Commencez gratuitement. Passez à Pro pour gérer vos demandes et candidatures, à Premium pour mettre vos formations en avant pendant vos recrutements.')}
                         </p>
 
-                        <div className='mt-2 inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white p-1 shadow-[3px_3px_0_0_rgba(15,76,92,0.18)]' role='group' aria-label={t('Période de paiement')}>
+                        <div className='mt-2 inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white p-1' role='group' aria-label={t('Période de paiement')}>
                             {[false, true].map((value) => (
                                 <button
                                     key={String(value)}
@@ -116,7 +116,7 @@ export default function PricingPage() {
                                     key={plan.code}
                                     className={cn(
                                         'relative flex flex-col overflow-hidden rounded-xl border bg-white',
-                                        highlighted ? 'border-primary shadow-[4px_4px_0_0_rgba(255,59,82,0.3)] md:-my-3' : 'border-gray-200 shadow-[4px_4px_0_0_rgba(15,76,92,0.22)]'
+                                        highlighted ? 'border-primary md:-my-3' : 'border-gray-200'
                                     )}>
                                     <div className={cn('flex flex-col gap-4 p-6', highlighted && 'bg-cream/60')}>
                                         <div className='flex flex-wrap items-center justify-between gap-x-2 gap-y-1'>

@@ -64,7 +64,7 @@ body {
     background: rgba(0, 0, 0, .12);
   }
   .sidebar-footer { border-color: rgba(255, 255, 255, .08) !important; }
-  .nav-title { letter-spacing: .08em; font-size: .7rem; }
+  .nav-title { text-transform: none; letter-spacing: 0; font-size: .8rem; }
   .nav-link {
     margin: 1px .5rem;
     border-radius: .5rem;
@@ -156,9 +156,7 @@ body {
 .table > thead th {
   background: rgba(15, 76, 92, .05);
   color: var(--edu-teal);
-  font-size: .78rem;
-  text-transform: uppercase;
-  letter-spacing: .04em;
+  font-size: .85rem;
   font-weight: 600;
 }
 
@@ -269,11 +267,11 @@ body {
   transition: box-shadow 0.2s, transform 0.2s;
 }
 .bo-row:hover {
-  box-shadow: 0 6px 18px rgba(15, 76, 92, 0.1);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, .06);
 }
 .bo-row.is-open {
   border-color: var(--edu-teal);
-  box-shadow: 0 10px 28px rgba(15, 76, 92, 0.28);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, .12);
 }
 .bo-row.is-open .bo-row-main {
   background: var(--edu-teal);
@@ -398,10 +396,8 @@ body {
   display: inline-block;
   padding: .3em .7em;
   border-radius: .45rem;
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .03em;
-  text-transform: uppercase;
+  font-size: .78rem;
+  font-weight: 600;
   color: #fff;
   &.is-active { background: #2f9e74; }
   &.is-idle { background: #64748b; }
@@ -429,7 +425,6 @@ body {
   border-radius: .8rem;
   background: var(--edu-teal);
   color: #fff;
-  box-shadow: 0 6px 14px rgba(15, 76, 92, .25);
 }
 .bo-kpi-title { color: var(--cui-secondary-color); font-size: .95rem; }
 .bo-kpi-value { font-family: var(--edu-font-heading), sans-serif; font-size: 1.75rem; font-weight: 700; line-height: 1.2; color: var(--cui-emphasis-color); }

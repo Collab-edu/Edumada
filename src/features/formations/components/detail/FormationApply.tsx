@@ -30,7 +30,7 @@ export function ApplySection({ formation, detail, school, onContact, onApply }: 
                 {steps.map((step, i) => (
                     <li
                         key={step.title}
-                        className='relative flex flex-col rounded-2xl bg-white p-4 shadow-[0_10px_24px_-14px_rgba(15,76,92,0.35)] ring-1 ring-gray-100'>
+                        className='relative flex flex-col rounded-2xl bg-white p-4 shadow-[0_10px_24px_-14px_rgba(15,23,42,0.19)] ring-1 ring-gray-100'>
                         <span className='absolute top-3 left-3 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-base font-extrabold text-white'>
                             {i + 1}
                         </span>
