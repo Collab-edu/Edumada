@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/header/Header";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
+import ConsentBanner from "@/components/layout/ConsentBanner";
 import SchoolCta from "@/features/marketing/components/SchoolCta";
 import NavigationProgress from "@/components/layout/NavigationProgress";
 import { Suspense } from "react";
@@ -47,6 +48,7 @@ export default function RootLayout({
                     <SchoolCta />
                     <Footer />
                     <WhatsAppButton />
+                    <ConsentBanner />
                 </Providers>
             </body>
         </html>

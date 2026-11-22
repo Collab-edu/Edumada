@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation'
 import { stripLocale } from '@/i18n/config'
 import { hidesSchoolCta } from '@/features/marketing/components/SchoolCta'
 import { SOCIAL_LINKS } from './social-links'
+import { openConsentSettings } from '@/lib/consent'
 
 /** Pied de page : newsletter en haut, logo et colonnes de liens, puis copyright et réseaux sociaux. */
 const Footer = () => {
@@ -83,9 +84,18 @@ const Footer = () => {
                 {/* Copyright */}
                 <div className='border-t border-white/10 pt-6'>
                     {/* L'année est calculée au rendu : on tolère l'écart entre build statique et navigateur. */}
-                    <p className='!text-sm text-white/60' suppressHydrationWarning>
-                        © {new Date().getFullYear()} Edumada. {t('Tous droits réservés.')}
-                    </p>
+                    <div className='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
+                        <p className='!text-sm text-white/60' suppressHydrationWarning>
+                            © {new Date().getFullYear()} Edumada. {t('Tous droits réservés.')}
+                        </p>
+                        {/* Rouvre le bandeau de consentement pour modifier son choix. */}
+                        <button
+                            type='button'
+                            onClick={openConsentSettings}
+                            className='self-start !text-sm text-white/60 underline underline-offset-4 decoration-white/30 transition-colors duration-300 hover:cursor-pointer hover:text-white'>
+                            {t('Gérer les cookies')}
+                        </button>
+                    </div>
                 </div>
             </div>
         </footer>

@@ -1,8 +1,10 @@
 import { api, apiEnabled } from './api'
+import { measureAllowed } from './consent'
 
 /**
  * Mesures d'audience envoyées à l'API (vues, clics), regroupées puis envoyées toutes les 3 secondes.
  * Aucune donnée personnelle : seulement l'établissement, l'offre et la campagne concernés.
+ * Envoyées uniquement si le visiteur a accepté la mesure d'audience (voir consent.ts).
  */
 export type TrackEvent = {
     type: 'view' | 'impression' | 'click' | 'contact_click' | 'website_click' | 'apply_click'
@@ -27,6 +29,8 @@ function flush() {
 
 export function track(event: TrackEvent) {
     if (!apiEnabled || typeof window === 'undefined') return
+    // Rien n'est envoyé sans l'accord du visiteur (bandeau de consentement).
+    if (!measureAllowed()) return
     // Une vue ou une impression n'est comptée qu'une fois par page affichée.
     if (event.type === 'view' || event.type === 'impression') {
         const key = `${location.pathname}|${event.type}|${event.establishment}|${event.offer ?? ''}|${event.campaign ?? ''}`
