@@ -296,7 +296,13 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                         key={chip.value || 'toutes'}
                                         type='button'
                                         aria-pressed={active}
-                                        onClick={() => setDraft((prev) => ({ ...prev, sub: chip.value, domain: '' }))}
+                                        onClick={() => {
+                                            // Une pastille filtre tout de suite (sans passer par « Rechercher ») ; le domaine choisi est remis à zéro.
+                                            const next = { ...draft, sub: chip.value, domain: '' }
+                                            setDraft(next)
+                                            setFilters(next)
+                                            startPacing()
+                                        }}
                                         className={cn(
                                             'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-[12px] border px-4 text-sm font-semibold whitespace-nowrap transition-colors hover:cursor-pointer',
                                             active ? 'border-secondary bg-secondary text-white' : 'border-secondary/20 bg-white text-black hover:border-secondary/50'
