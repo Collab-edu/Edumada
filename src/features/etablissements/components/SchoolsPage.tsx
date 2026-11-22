@@ -1,6 +1,6 @@
 'use client'
 import { useMemo, useState } from 'react'
-import Image from 'next/image'
+import PagePhoto from '@/components/ui/page-photo'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import { CardSkeletonGrid } from '@/components/ui/card'
@@ -38,7 +38,7 @@ const VARIANTS = {
         eyebrow: 'Établissements',
         title: 'Trouvez l’établissement qui vous correspond',
         intro: 'Universités, écoles, crèches et centres de formation à Madagascar : consultez leur fiche, découvrez les formations qu’ils proposent, puis contactez-les directement.',
-        image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=70',
+        image: 'etablissements',
         imageAlt: 'Campus d’un établissement d’enseignement',
         listTitle: 'Tous les établissements',
         cta: { title: 'Vous dirigez un établissement ?', text: 'Présentez vos formations gratuitement et recevez les demandes des futurs élèves et étudiants.' },
@@ -96,7 +96,7 @@ export default function SchoolsPage({ variant = 'all' }: { variant?: keyof typeo
                             </div>
                         </div>
                         <div className='relative h-56 overflow-hidden rounded-xl sm:h-72 lg:h-80'>
-                            <Image src={config.image} alt={t(config.imageAlt)} fill priority sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
+                            <PagePhoto name={config.image} alt={t(config.imageAlt)} priority sizes='(min-width: 1024px) 50vw, 100vw' />
                         </div>
                     </div>
                 </div>

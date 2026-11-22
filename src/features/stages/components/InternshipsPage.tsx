@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
-import Image from 'next/image'
+import PagePhoto from '@/components/ui/page-photo'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
 import { CardSkeletonGrid } from '@/components/ui/card'
@@ -76,14 +76,7 @@ export default function InternshipsPage() {
                             </div>
                         </div>
                         <div className='relative h-56 overflow-hidden rounded-xl sm:h-72 lg:h-80'>
-                            <Image
-                                src='https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70'
-                                alt='Stagiaires au travail en équipe'
-                                fill
-                                priority
-                                sizes='(min-width: 1024px) 50vw, 100vw'
-                                className='object-cover'
-                            />
+                            <PagePhoto name='formation-pro' alt='Stagiaires au travail en équipe' priority sizes='(min-width: 1024px) 50vw, 100vw' />
                         </div>
                     </div>
                 </div>

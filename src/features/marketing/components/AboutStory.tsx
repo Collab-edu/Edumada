@@ -1,11 +1,11 @@
 'use client'
 import Image from 'next/image'
+import PagePhoto from '@/components/ui/page-photo'
 import Link, { useT } from '@/i18n/client'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import { Icon } from '@/components/ui/icon'
 import withBasePath from '@/lib/base-path'
 
-const PHOTO = 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1000&q=70'
 
 /** Là où l'information se trouve aujourd'hui, dispersée. */
 const SCATTERED = [
@@ -98,7 +98,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                     <div className='grid items-center gap-12 lg:grid-cols-2 lg:gap-16'>
                         <div className='relative pr-4 sm:pr-10'>
                             <div className='relative h-72 overflow-hidden rounded-2xl sm:h-96'>
-                                <Image src={PHOTO} alt={t('Étudiants qui comparent des formations')} fill sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
+                                <PagePhoto name='etudiants-groupe' alt={t('Étudiants qui comparent des formations')} sizes='(min-width: 1024px) 50vw, 100vw' />
                             </div>
                             {schools > 0 && (
                                 <div className='absolute right-0 top-6 rounded-xl bg-primary px-4 py-3 text-white shadow-lg'>

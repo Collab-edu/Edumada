@@ -1,6 +1,6 @@
 'use client'
 import { useMemo, useState, useRef } from 'react'
-import Image from 'next/image'
+import PagePhoto from '@/components/ui/page-photo'
 import { Icon } from '@/components/ui/icon'
 import { Button, ButtonLink } from '@/components/ui/form'
 import { CardSkeletonGrid } from '@/components/ui/card'
@@ -27,7 +27,7 @@ const VARIANTS = {
         eyebrow: 'Universités',
         title: 'Trouvez votre formation dans le supérieur',
         intro: 'Licences, masters, BTS et cursus des universités, instituts supérieurs, écoles supérieures et grandes écoles à Madagascar : comparez les formations après le bac, puis contactez directement l’établissement.',
-        image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=70',
+        image: 'etudiants',
         imageAlt: 'Étudiants de l’enseignement supérieur',
         listTitle: 'Les établissements du supérieur',
         listIntro: 'Choisissez un type d’établissement, puis filtrez par filière et par ville.',
@@ -48,7 +48,7 @@ const VARIANTS = {
         eyebrow: 'Formation professionnelle',
         title: 'Apprenez un métier, rapidement et concrètement',
         intro: 'Centres de formation, instituts techniques et écoles de métiers à Madagascar : comparez les formations courtes et certifiantes, puis contactez directement l’établissement.',
-        image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70',
+        image: 'formation-pro',
         imageAlt: 'Apprenants en formation professionnelle',
         listTitle: 'Les centres de formation',
         listIntro: 'Filtrez par domaine et par ville pour trouver le centre qui correspond à votre projet.',
@@ -69,7 +69,7 @@ const VARIANTS = {
         eyebrow: 'Petite enfance et écoles',
         title: 'Trouvez la crèche ou l’école de votre enfant',
         intro: 'Crèches, garderies, maternelles, écoles primaires, collèges et lycées à Madagascar : comparez l’accueil et les niveaux proposés, puis contactez directement l’établissement.',
-        image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1200&q=70',
+        image: 'enfants-classe',
         imageAlt: 'Enfants qui travaillent en classe',
         listTitle: 'Les crèches et les écoles',
         listIntro: 'Choisissez un type d’établissement, puis filtrez par ville.',
@@ -90,7 +90,7 @@ const VARIANTS = {
         eyebrow: 'Crèches et petite enfance',
         title: 'Trouvez la crèche de votre enfant',
         intro: 'Crèches, garderies, préscolaires et maternelles à Madagascar : comparez l’accueil proposé et contactez les établissements près de chez vous.',
-        image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1200&q=70',
+        image: 'enfants-classe',
         imageAlt: 'Enfants qui travaillent en classe',
         listTitle: 'Les crèches',
         listIntro: 'Filtrez par ville pour trouver une crèche près de chez vous.',
@@ -111,7 +111,7 @@ const VARIANTS = {
         eyebrow: 'Écoles, collèges et lycées',
         title: 'Trouvez l’école de votre enfant',
         intro: 'Écoles primaires, collèges et lycées à Madagascar : comparez les niveaux proposés et contactez les établissements près de chez vous.',
-        image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1200&q=70',
+        image: 'enfants-classe',
         imageAlt: 'Enfants qui travaillent en classe',
         listTitle: 'Les écoles, collèges et lycées',
         listIntro: 'Filtrez par ville pour trouver un établissement près de chez vous.',
@@ -245,7 +245,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                             </div>
                         </div>
                         <div className='relative h-56 overflow-hidden rounded-xl sm:h-72 lg:h-80'>
-                            <Image src={config.image} alt={t(config.imageAlt)} fill priority sizes='(min-width: 1024px) 50vw, 100vw' className='object-cover' />
+                            <PagePhoto name={config.image} alt={t(config.imageAlt)} priority sizes='(min-width: 1024px) 50vw, 100vw' />
                         </div>
                     </div>
                 </div>
