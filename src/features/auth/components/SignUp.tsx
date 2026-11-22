@@ -3,21 +3,15 @@ import Link, { useT } from '@/i18n/client'
 import { useEffect, useId, useState, type ComponentProps, type FormEvent, type ReactNode } from 'react'
 import { useRouter } from '@/i18n/client'
 import toast from 'react-hot-toast'
-import { Icon } from '@/components/ui/icon'
 import { Button, FormAlert } from '@/components/ui/form'
 import { ApiError, apiEnabled } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import { useAuth } from '../AuthProvider'
-import { SPACE_HOME, backofficeUrl, goTo } from '../types'
+import { SPACE_HOME, goTo } from '../types'
 import { nextUrl } from './SignIn'
 import GoogleSignIn from './GoogleSignIn'
 import PlaceField from '@/features/recherche/components/PlaceField'
 import { ESTABLISHMENT_START } from '@/features/marketing/plans'
-
-const ACCOUNT_TYPES = [
-    { value: 'student', icon: 'tabler:school', title: 'Étudiant ou parent', text: 'Favoris, demandes et candidatures' },
-    { value: 'establishment', icon: 'tabler:building-community', title: 'Établissement', text: 'Présenter vos offres, gratuitement' },
-] as const
 
 export const STUDY_LEVELS = ['Primaire', 'Collège', 'Lycée', 'BAC', 'BAC+2', 'BAC+3', 'BAC+5 et plus', 'Autre']
 
@@ -72,10 +66,9 @@ const STRENGTH = [
 ]
 
 /**
- * Création de compte. `studentOnly` : compte étudiant uniquement, sans le choix du type de compte.
- * Le choix « Établissement » envoie vers les formules (/tarifs/), d'où part l'inscription établissement.
+ * Création d'un compte étudiant. Les établissements s'inscrivent depuis les formules (/tarifs/) : lien en bas du formulaire.
  */
-const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; studentOnly?: boolean }) => {
+const SignUp = ({ onSuccess }: { onSuccess?: () => void }) => {
     const t = useT()
     const { register } = useAuth()
     const router = useRouter()
@@ -87,8 +80,8 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
     // Ancien lien /inscription/?type=etablissement : les établissements commencent par choisir leur formule.
     useEffect(() => {
         setReady(true)
-        if (!studentOnly && new URLSearchParams(window.location.search).get('type') === 'etablissement') router.replace(ESTABLISHMENT_START)
-    }, [studentOnly, router])
+        if (new URLSearchParams(window.location.search).get('type') === 'etablissement') router.replace(ESTABLISHMENT_START)
+    }, [router])
     const set = (key: keyof typeof form) => (e: { target: { value: string } }) => setForm({ ...form, [key]: e.target.value })
     const score = strength(form.password)
     const mismatch = form.password_confirmation !== '' && form.password_confirmation !== form.password
@@ -99,11 +92,10 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
         setError(null)
         try {
             const phone = form.phone.trim() ? `+261 ${form.phone.trim().replace(/^\+?261\s*/, '').replace(/^0/, '')}` : ''
-            const user = await register({ ...form, phone, accountType: 'student' })
+            await register({ ...form, phone, accountType: 'student' })
             toast.success(t('Votre compte est créé.'))
             onSuccess?.()
-            if (user.role === 'establishment') goTo(backofficeUrl(`/connexion?email=${encodeURIComponent(user.email)}`), router.push)
-            else goTo(nextUrl() ?? SPACE_HOME.student, router.push)
+            goTo(nextUrl() ?? SPACE_HOME.student, router.push)
         } catch (err) {
             setError(err as ApiError)
         } finally {
@@ -116,42 +108,6 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
             {!apiEnabled && <FormAlert tone='info'>L&apos;inscription sera disponible quand le service en ligne d&apos;Edumada sera activé.</FormAlert>}
 
             <form onSubmit={submit} className='flex flex-col gap-4' noValidate>
-                {!studentOnly && (
-                    <fieldset>
-                        <legend className='mb-2 text-xs font-semibold text-black'>{t('Je crée un compte')}</legend>
-                        <div className='grid grid-cols-2 gap-1.5 rounded-xl bg-offwhite p-1.5'>
-                            {ACCOUNT_TYPES.map((type) => {
-                                const active = type.value === 'student'
-                                return (
-                                    <label
-                                        key={type.value}
-                                        className={cn(
-                                            'flex flex-col items-center gap-1 rounded-lg border px-2 py-3 text-center transition hover:cursor-pointer',
-                                            active ? 'border-primary bg-cream/50 shadow-sm' : 'border-transparent hover:bg-white'
-                                        )}>
-                                        <input
-                                            type='radio'
-                                            name='accountType'
-                                            value={type.value}
-                                            checked={active}
-                                            onChange={() => {
-                                                if (type.value === 'establishment') {
-                                                    onSuccess?.()
-                                                    router.push(ESTABLISHMENT_START)
-                                                }
-                                            }}
-                                            className='sr-only'
-                                        />
-                                        <Icon icon={type.icon} className='text-xl text-primary' />
-                                        <span className='text-sm font-semibold leading-tight text-secondary'>{t(type.title)}</span>
-                                        <span className='text-[11px] leading-snug text-ink/60'>{t(type.text)}</span>
-                                    </label>
-                                )
-                            })}
-                        </div>
-                    </fieldset>
-                )}
-
                 <GoogleSignIn text='signup_with' onSuccess={onSuccess} />
 
                 {error && Object.keys(error.errors).length === 0 && <FormAlert>{error.message}</FormAlert>}
@@ -260,6 +216,12 @@ const SignUp = ({ onSuccess, studentOnly = false }: { onSuccess?: () => void; st
                 {t('Vous avez déjà un compte ?')}
                 <Link href='/signin/' onClick={onSuccess} className='pl-1 font-semibold text-primary hover:underline'>
                     {t('Se connecter')}
+                </Link>
+            </p>
+            <p className='mt-2 text-center text-sm text-black'>
+                {t('Vous représentez un établissement ?')}
+                <Link href={ESTABLISHMENT_START} onClick={onSuccess} className='pl-1 font-semibold text-primary hover:underline'>
+                    {t('Référencer mon établissement')}
                 </Link>
             </p>
         </div>
