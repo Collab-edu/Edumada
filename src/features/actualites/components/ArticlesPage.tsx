@@ -40,7 +40,7 @@ export default function ArticlesPage() {
                 {loading ? (
                     <CardSkeletonGrid count={4} className='h-[380px]' />
                 ) : error ? (
-                    <p className='rounded-xl bg-white p-8 text-center text-black'>{error}</p>
+                    <p className='rounded-xl bg-white p-8 text-center text-black'>{t(error)}</p>
                 ) : articles.length === 0 ? (
                     <p className='rounded-xl bg-white p-8 text-center text-black'>
                         {category ? t('Aucun article dans cette rubrique pour le moment.') : t('Aucune actualité publiée pour le moment. Revenez bientôt !')}

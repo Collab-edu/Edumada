@@ -120,13 +120,13 @@ export default function PricingPage() {
                                     )}>
                                     <div className={cn('flex flex-col gap-4 p-6', highlighted && 'bg-cream/60')}>
                                         <div className='flex flex-wrap items-center justify-between gap-x-2 gap-y-1'>
-                                            <p className='whitespace-nowrap text-xl font-bold text-secondary'>Formule {t(plan.name)}</p>
-                                            {card.tag && <Eyebrow bar={false} className='whitespace-nowrap'>{card.tag}</Eyebrow>}
+                                            <p className='whitespace-nowrap text-xl font-bold text-secondary'>{t('Formule')} {t(plan.name)}</p>
+                                            {card.tag && <Eyebrow bar={false} className='whitespace-nowrap'>{t(card.tag)}</Eyebrow>}
                                         </div>
-                                        <p className='min-h-12 text-sm text-black'>{card.description}</p>
+                                        <p className='min-h-12 text-sm text-black'>{t(card.description)}</p>
                                         <div className='min-h-16'>
                                             <p className='text-4xl font-bold text-secondary'>{price.amount}</p>
-                                            <p className='mt-1 text-sm text-ink/60'>{price.period}</p>
+                                            <p className='mt-1 text-sm text-ink/60'>{t(price.period)}</p>
                                         </div>
                                         <ButtonLink href={cta(plan)} variant={highlighted ? 'primary' : 'dark'} className='w-full justify-center'>
                                             {plan.code === 'free' ? t('Référencer mon établissement') : t('Choisir {plan}', { plan: t(plan.name) })}
@@ -136,10 +136,10 @@ export default function PricingPage() {
                                         {planFeatureSections(plan).map((section) => (
                                             <div key={section.title} className='flex flex-col gap-2.5'>
                                                 <p className='flex items-center justify-between gap-2 text-sm font-semibold text-secondary'>
-                                                    {section.title}
+                                                    {t(section.title)}
                                                     <span className='shrink-0 rounded-full bg-offwhite px-2 py-0.5 text-xs font-semibold text-ink/70'>
                                                         {section.features.filter((f) => f.included).length}/{section.features.length}
-                                                        <span className='sr-only'> fonctions incluses</span>
+                                                        <span className='sr-only'> {t('fonctions incluses')}</span>
                                                     </span>
                                                 </p>
                                                 <ul className='flex flex-col gap-2'>
@@ -147,8 +147,8 @@ export default function PricingPage() {
                                                         <li key={f.label} className={cn('flex items-start gap-2 text-sm', f.included ? 'text-ink/80' : 'text-ink/40')}>
                                                             <Icon icon={f.included ? 'tabler:circle-check-filled' : 'tabler:x'} className={cn('mt-0.5 shrink-0 text-lg', f.included ? 'text-primary' : 'text-ink/30')} />
                                                             <span>
-                                                                {f.label}
-                                                                {!f.included && <span className='sr-only'> (non inclus)</span>}
+                                                                {t(f.label)}
+                                                                {!f.included && <span className='sr-only'> {t('(non inclus)')}</span>}
                                                             </span>
                                                         </li>
                                                     ))}
@@ -162,7 +162,7 @@ export default function PricingPage() {
                     </div>
                     <div className='flex flex-col gap-1 text-center text-sm text-ink/60'>
                         <p>{t('Prix de lancement indicatifs, susceptibles d’évoluer. Aucun nombre de candidats n’est garanti.')}</p>
-                        <p>À l’expiration d’une formule payante, la fiche reste en ligne avec la formule Gratuit ; seules les fonctions payantes s’arrêtent.</p>
+                        <p>{t('À l’expiration d’une formule payante, la fiche reste en ligne avec la formule Gratuit ; seules les fonctions payantes s’arrêtent.')}</p>
                     </div>
                 </div>
             </section>

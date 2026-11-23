@@ -160,7 +160,7 @@ export default function BenefitsPage() {
                             <div aria-hidden='true' className='absolute top-1/4 -left-12 h-[62%] w-[120%] rotate-[-14deg] rounded-[3.5rem] bg-primary/15' />
                             <Image
                                 src={withBasePath('/images/avantages/referencer-etablissement.webp')}
-                                alt='Référencement d’un établissement sur Edumada : informations générales, formations puis publication'
+                                alt={t('Référencement d’un établissement sur Edumada : informations générales, formations puis publication')}
                                 width={600}
                                 height={967}
                                 sizes='272px'

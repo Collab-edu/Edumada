@@ -130,7 +130,7 @@ const SearchPage = () => {
                 {/* Barre de recherche principale */}
                 <form
                     role='search'
-                    aria-label='Rechercher une formation'
+                    aria-label={t('Rechercher une formation')}
                     onSubmit={submitSearch}
                     className='mb-6 sm:mb-8 rounded-xl bg-white p-3 ring-1 ring-secondary/10 shadow-[0_24px_60px_-30px_rgba(15,23,42,0.25)]'>
                     <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 lg:items-center'>
@@ -153,7 +153,7 @@ const SearchPage = () => {
                         {/* Sur ordinateur : champ principal et bouton en haut, les quatre filtres dessous. */}
                         <Button type='submit' className='h-12 sm:col-span-2 lg:col-span-1'>
                             <Icon icon='tabler:search' className='text-lg' />
-                            Rechercher
+                            {t('Rechercher')}
                         </Button>
                     </div>
                 </form>
@@ -198,7 +198,7 @@ const SearchPage = () => {
                             type='button'
                             onClick={() => submitSearch()}
                             className='mt-6 w-full rounded-lg bg-primary py-3 font-bold text-white lg:hidden hover:cursor-pointer'>
-                            Rechercher
+                            {t('Rechercher')}
                         </button>
                     </aside>
 

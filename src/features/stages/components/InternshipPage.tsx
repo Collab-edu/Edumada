@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import Link from '@/i18n/client'
+import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
 import { PageSkeleton, PageUnavailable } from '@/components/ui/page-state'
 import { formatDate } from '@/features/formations/format'
@@ -12,11 +12,12 @@ import { formatMonths, type Internship } from '../types'
 
 /** Bloc de la fiche : plusieurs lignes deviennent une liste à puces. */
 function Section({ title, text }: { title: string; text: string | null }) {
+    const t = useT()
     if (!text?.trim()) return null
     const lines = text.split('\n').map((line) => line.trim()).filter(Boolean)
     return (
         <div>
-            <h2 className='mb-3 text-xl font-bold text-secondary'>{title}</h2>
+            <h2 className='mb-3 text-xl font-bold text-secondary'>{t(title)}</h2>
             {lines.length > 1 ? (
                 <ul className='flex flex-col gap-2'>
                     {lines.map((line, i) => (
@@ -35,6 +36,7 @@ function Section({ title, text }: { title: string; text: string | null }) {
 
 /** Fiche d'une offre de stage : /stages/voir/?id=… */
 export default function InternshipPage() {
+    const t = useT()
     const id = useSearchParams().get('id') ?? ''
     const [item, setItem] = useState<Internship | null>(null)
     const [state, setState] = useState<'loading' | 'ready' | 'missing' | 'error'>(apiEnabled && id ? 'loading' : 'missing')
@@ -73,7 +75,7 @@ export default function InternshipPage() {
         <section className='pt-28 pb-20 sm:pt-32'>
             <div className='container mx-auto flex max-w-site flex-col gap-6 px-4 sm:px-6 lg:px-8'>
                 <Link href='/stages/' className='inline-flex w-fit items-center gap-1 py-2 text-sm text-ink/60 hover:text-primary'>
-                    <Icon icon='tabler:arrow-left' /> Toutes les offres de stage
+                    <Icon icon='tabler:arrow-left' /> {t('Toutes les offres de stage')}
                 </Link>
                 <div className='grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px]'>
                     <div className='flex flex-col gap-8 rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8'>
@@ -86,7 +88,7 @@ export default function InternshipPage() {
                         </div>
                         <a href='#postuler' className='flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-white hover:bg-primary/90 lg:hidden'>
                             <Icon icon='tabler:send' />
-                            Postuler
+                            {t('Postuler')}
                         </a>
                         <dl className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                             {facts.map((f) => (
@@ -95,8 +97,8 @@ export default function InternshipPage() {
                                         <Icon icon={f.icon} className='text-xl' />
                                     </span>
                                     <div>
-                                        <dt className='text-sm text-ink/60'>{f.label}</dt>
-                                        <dd className='font-medium text-secondary'>{f.value}</dd>
+                                        <dt className='text-sm text-ink/60'>{t(f.label)}</dt>
+                                        <dd className='font-medium text-secondary'>{t(f.value)}</dd>
                                     </div>
                                 </div>
                             ))}

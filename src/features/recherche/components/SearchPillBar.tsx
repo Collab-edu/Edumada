@@ -1,6 +1,7 @@
 'use client'
 import type { FormEvent, ReactNode } from 'react'
 import { Icon } from '@/components/ui/icon'
+import { useT } from '@/i18n/client'
 
 /** Champ de la barre : encadré sur mobile, séparé du suivant par un trait à partir de la tablette. */
 export function SearchPillField({ children }: { children: ReactNode }) {
@@ -9,6 +10,7 @@ export function SearchPillField({ children }: { children: ReactNode }) {
 
 /** En-tête de liste : titre et nombre de résultats à gauche, barre de recherche à droite. */
 export default function SearchPillBar({ title, count, label, onSubmit, children }: { title: string; count: string; label: string; onSubmit: (e: FormEvent) => void; children: ReactNode }) {
+    const t = useT()
     return (
         <div className='mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
             <div className='mobile-center shrink-0'>
@@ -27,7 +29,7 @@ export default function SearchPillBar({ title, count, label, onSubmit, children 
                     type='submit'
                     className='flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg bg-primary px-6 font-semibold text-white transition-colors duration-300 hover:bg-primary/90 hover:cursor-pointer md:ml-2'>
                     <Icon icon='tabler:search' className='text-lg' />
-                    Rechercher
+                    {t('Rechercher')}
                 </button>
             </form>
         </div>

@@ -358,7 +358,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                             </button>
                             <Button type='submit' className='h-12'>
                                 <Icon icon='tabler:search' className='text-lg' />
-                                Rechercher
+                                {t('Rechercher')}
                             </Button>
                         </div>
                     </form>
@@ -400,7 +400,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                             distanceKm={school.distanceKm}
                                             showCategory={false}
                                             offers={{
-                                                label: count ? nounLabel(count, config.offerNoun) : `0 ${config.offerNoun.one} publiée`,
+                                                label: count ? nounLabel(count, config.offerNoun) : config.offerNoun.one === 'offre' ? '0 offre publiée' : '0 formation publiée',
                                                 domains: showDomain ? domainsOf(school.id).slice(0, MAX_CARD_DOMAINS) : [],
                                             }}
                                         />
@@ -413,7 +413,7 @@ export default function CategoryOffersPage({ variant }: { variant: keyof typeof 
                                     <Link
                                         href={searchHref}
                                         className='group inline-flex items-center gap-1.5 py-2 font-semibold text-primary hover:text-primary/80'>
-                                        {t('Voir les {n} correspondantes', { n: nounLabel(shownOffers, config.offerNoun) })}
+                                        {t('Voir les {n} correspondantes', { n: t(nounLabel(shownOffers, config.offerNoun)) })}
                                         <Icon icon='tabler:arrow-right' className='text-lg transition-transform duration-200 group-hover:translate-x-0.5' />
                                     </Link>
                                 </div>

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import withBasePath from '@/lib/base-path'
 import AutoScroll from '@/components/ui/auto-scroll'
 import { useSiteData } from '@/data/site-data'
+import { useT } from '@/i18n/client'
 
 /** « /images/slickCompany/microsoft.svg » → « Microsoft » (texte alternatif du logo). */
 const logoName = (src: string) => {
@@ -14,11 +15,11 @@ const logoName = (src: string) => {
 const Companies = () => {
     const { data: companies } = useSiteData('Companiesdata')
 
+    const t = useT()
     return (
         <section className='bg-white py-8 sm:py-10 border-y border-gray-100'>
             {/* TODO : logos d'exemple du template, à remplacer par de vrais partenaires */}
-            <h2 className='mb-6 px-4 text-center text-base font-medium text-ink/70'>Adopté par des milliers d’établissements d’enseignement à Madagascar.
-</h2>
+            <h2 className='mb-6 px-4 text-center text-base font-medium text-ink/70'>{t('Adopté par des milliers d’établissements d’enseignement à Madagascar.')}</h2>
             {companies.length > 0 ? (
                 <AutoScroll duration={120} minItemsPerLoop={12} itemClassName='w-40 sm:w-56'>
                     {companies.map((item) => (

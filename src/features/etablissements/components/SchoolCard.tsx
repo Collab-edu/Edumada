@@ -54,7 +54,7 @@ export function SchoolCard({
     return (
         <Card className={cn('flex h-full flex-col overflow-hidden shadow-[0_6px_14px_-8px_rgba(15,23,42,0.17)]', school.premium && 'ring-2 ring-gold')}>
             <div className={cn('relative shrink-0 bg-cream', compact ? 'h-40' : 'h-48')}>
-                <Image src={imageOr(school.imageSrc, 640)} alt={`Locaux de ${school.name}`} fill className='object-cover' />
+                <Image src={imageOr(school.imageSrc, 640)} alt={t('Locaux de {name}', { name: school.name })} fill className='object-cover' />
                 {/* Type d'établissement, comme sur les cartes de formation */}
                 <div className='absolute top-3 right-3 left-3 flex flex-wrap items-center gap-1.5'>
                     <CategoryTag categoryId={school.category} subCategory={school.subCategory} className='static max-w-full rounded-full' />
@@ -106,8 +106,8 @@ export function SchoolCard({
                     <button
                         type='button'
                         onClick={share}
-                        aria-label={copied ? 'Lien copié' : `Partager ${school.name}`}
-                        title={copied ? 'Lien copié' : 'Partager'}
+                        aria-label={copied ? t('Lien copié') : t('Partager {name}', { name: school.name })}
+                        title={copied ? t('Lien copié') : t('Partager')}
                         className='flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white transition-colors duration-300 hover:bg-cream hover:cursor-pointer sm:h-10 sm:w-10'>
                         <Icon icon={copied ? 'tabler:check' : 'tabler:share'} className='text-xl text-primary' />
                     </button>

@@ -1,4 +1,6 @@
+'use client'
 import Image from 'next/image'
+import { useT } from '@/i18n/client'
 import withBasePath from '@/lib/base-path'
 import { cn } from '@/lib/utils'
 
@@ -15,11 +17,12 @@ type SchoolLogoProps = {
 
 /** Logo de l'établissement, ou ses initiales s'il n'en a pas encore. */
 export function SchoolLogo({ name, initials, logo, className, fallbackClassName = 'bg-secondary text-white' }: SchoolLogoProps) {
+    const t = useT()
     if (logo) {
         const src = logo.startsWith('/') && !logo.startsWith('//') ? withBasePath(logo) : logo
         return (
             <span className={cn('relative block shrink-0 overflow-hidden bg-white', className)}>
-                <Image src={src} alt={`Logo de ${name}`} fill sizes='96px' className='object-contain p-1' />
+                <Image src={src} alt={t('Logo de {name}', { name })} fill sizes='96px' className='object-contain p-1' />
             </span>
         )
     }

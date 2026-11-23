@@ -70,7 +70,7 @@ export default function AboutStory({ figures, cities }: AboutStoryProps) {
                             </p>
                         </div>
                         <div className='mx-auto flex aspect-square w-full max-w-[19rem] flex-col items-center justify-center gap-5 rounded-2xl border border-gray-200 bg-white p-6 text-center'>
-                            <span className='text-sm font-semibold text-primary'>Le constat</span>
+                            <span className='text-sm font-semibold text-primary'>{t('Le constat')}</span>
                             <div className='flex flex-wrap items-center justify-center gap-3'>
                                 {SCATTERED.map((item) => (
                                     <span

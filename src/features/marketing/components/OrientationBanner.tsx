@@ -24,7 +24,7 @@ export default function OrientationBanner() {
                     <div className='mobile-center flex flex-col items-start gap-4 p-6 sm:p-8'>
                         <span className='inline-flex items-center gap-2 text-sm font-semibold text-primary'>
                             <Icon icon='tabler:compass' className='text-lg' />
-                            Orientation
+                            {t('Orientation')}
                         </span>
                         <h2 className='font-bold text-white'>{t('Un accompagnement à chaque étape')}</h2>
                         <p className='text-white/75'>{t('Des repères et des outils pour vous aider à faire le bon choix de formation.')}</p>

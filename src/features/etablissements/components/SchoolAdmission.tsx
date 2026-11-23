@@ -59,7 +59,7 @@ export function SchoolAdmission({
                 <table className='w-full text-left text-sm'>
                     <thead className='bg-secondary/5 text-secondary'>
                         <tr>
-                            <th scope='col' className='px-4 py-3 font-semibold'>Offre</th>
+                            <th scope='col' className='px-4 py-3 font-semibold'>{t('Offre')}</th>
                             {columns.map((col) => (
                                 <th key={col.label} scope='col' className='px-4 py-3 font-semibold'>{t(col.label)}</th>
                             ))}

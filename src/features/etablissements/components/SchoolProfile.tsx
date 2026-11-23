@@ -153,10 +153,10 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             <h1 className='text-3xl md:text-4xl font-bold leading-tight text-white'>{school.name}</h1>
                             <div className='flex flex-wrap items-center gap-2 text-sm'>
                                 <span className='inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 font-semibold text-secondary'>
-                                    <Icon icon={category.icon} /> {school.subCategory}
+                                    <Icon icon={category.icon} /> {t(school.subCategory)}
                                 </span>
                                 {school.premium && <PremiumBadge className='px-3 text-sm' />}
-                                {school.type && <span className='rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>{school.type}</span>}
+                                {school.type && <span className='rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>{t(school.type)}</span>}
                                 <span className='inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-sm'>
                                     <Icon icon='tabler:map-pin' /> {school.city}
                                 </span>
@@ -194,7 +194,7 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
                             type='button'
                             onClick={() => setContactOpen(true)}
                             className='inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 font-semibold text-white transition-colors duration-300 hover:cursor-pointer hover:bg-primary/90'>
-                            <Icon icon='tabler:message-circle' className='text-lg' /> Contacter l’établissement
+                            <Icon icon='tabler:message-circle' className='text-lg' /> {t('Contacter l’établissement')}
                         </button>
                         {school.website && (
                             <a
@@ -256,11 +256,11 @@ export function SchoolProfile({ school, category, formations, testimonials, faq 
 
                         {school.infrastructures.length > 0 && (
                             <div>
-                                <SectionTitle icon='tabler:building'>Infrastructures</SectionTitle>
+                                <SectionTitle icon='tabler:building'>{t('Infrastructures')}</SectionTitle>
                                 <ul className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                                     {school.infrastructures.map((item) => (
                                         <li key={item} className='flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-4 py-3 text-ink/80'>
-                                            <Icon icon='tabler:circle-check-filled' className='shrink-0 text-lg text-primary' /> {item}
+                                            <Icon icon='tabler:circle-check-filled' className='shrink-0 text-lg text-primary' /> {t(item)}
                                         </li>
                                     ))}
                                 </ul>
