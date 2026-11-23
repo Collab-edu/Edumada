@@ -32,6 +32,12 @@ return [
     'backoffice_url' => env('BACKOFFICE_URL', 'http://localhost:5173'),
 
     /*
+    | Adresse qui reçoit les messages du formulaire de la page Contact.
+    */
+
+    'contact_email' => env('CONTACT_EMAIL', 'contact@edumada.mg'),
+
+    /*
     |--------------------------------------------------------------------------
     | Abonnements
     |--------------------------------------------------------------------------
