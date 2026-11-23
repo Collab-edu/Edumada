@@ -11,21 +11,29 @@ import { formatAriary, formatDate, formatDateTime } from '@/lib/format'
 import type { Campaign, Invoice, Paginated, Plan, Subscription } from '@/lib/types'
 import { Loading, PageCard, Pager, StatusBadge, StatusDot } from '@/components/ui'
 
+/** Remise de l'abonnement annuel par rapport à 12 mois payés au mois. */
+const YEARLY_DISCOUNT = 0.1
+
+/** Prix annuel : 12 mois moins la remise, arrondi à la centaine d'ariary ; null sans prix mensuel. */
+const yearlyFrom = (monthly: number | null) => (monthly === null || monthly <= 0 ? null : Math.round((monthly * 12 * (1 - YEARLY_DISCOUNT)) / 100) * 100)
+
 function PlanEditor({ plan, onSaved }: { plan: Plan; onSaved: () => void }) {
     const toast = useToast()
     const [form, setForm] = useState({
         monthlyPrice: String(plan.monthlyPrice ?? ''),
-        yearlyPrice: String(plan.yearlyPrice ?? ''),
         maxPublishedOffers: String(plan.maxPublishedOffers ?? ''),
     })
     const toNumber = (v: string) => (v.trim() === '' ? null : Number(v))
+    // Le prix annuel n'est plus saisi : il découle toujours du prix mensuel.
+    const monthly = toNumber(form.monthlyPrice)
+    const yearly = yearlyFrom(monthly)
 
     const save = async (e: FormEvent) => {
         e.preventDefault()
         try {
             await api(`/admin/plans/${plan.code}`, {
                 method: 'PATCH',
-                body: { monthlyPrice: toNumber(form.monthlyPrice), yearlyPrice: toNumber(form.yearlyPrice), maxPublishedOffers: toNumber(form.maxPublishedOffers) },
+                body: { monthlyPrice: monthly, yearlyPrice: yearly, maxPublishedOffers: toNumber(form.maxPublishedOffers) },
             })
             toast.success(`Formule ${plan.name} mise à jour`)
             onSaved()
@@ -50,10 +58,10 @@ function PlanEditor({ plan, onSaved }: { plan: Plan; onSaved: () => void }) {
                 <div>
                     <CFormInput
                         label='Prix annuel (Ar)'
-                        text='Vide = non proposé'
-                        inputMode='numeric'
-                        value={form.yearlyPrice}
-                        onChange={(e) => setForm({ ...form, yearlyPrice: e.target.value })}
+                        text={yearly === null ? 'Calculé : 12 mois − 10 %' : `12 × ${formatAriary(monthly ?? 0)} − 10 %`}
+                        value={yearly === null ? '' : yearly.toLocaleString('fr-FR')}
+                        readOnly
+                        tabIndex={-1}
                     />
                 </div>
                 <div>
