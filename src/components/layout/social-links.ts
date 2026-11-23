@@ -1,7 +1,6 @@
-/** Réseaux sociaux d'Edumada (en-tête et pied de page). Liens « #! » tant que les comptes officiels ne sont pas créés. */
+/** Réseaux sociaux d'Edumada (pied de page, données structurées de l'accueil). LinkedIn : à ajouter quand la page existera. */
 export const SOCIAL_LINKS = [
-    { label: 'Facebook', icon: 'tabler:brand-facebook-filled', href: '#!' },
-    { label: 'LinkedIn', icon: 'tabler:brand-linkedin', href: '#!' },
+    { label: 'Facebook', icon: 'tabler:brand-facebook-filled', href: 'https://www.facebook.com/profile.php?id=61566166319479' },
 ]
 
 /**

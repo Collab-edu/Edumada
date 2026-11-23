@@ -49,14 +49,16 @@ const Footer = () => {
                         <p className='max-w-xs text-white/70'>{t('Trouvez votre formation à Madagascar et construisez votre avenir.')}</p>
                         <div className='flex gap-2'>
                             {SOCIAL_LINKS.map((social) => (
-                                <Link
+                                // Lien externe : nouvel onglet, sans transmettre la page d'origine.
+                                <a
                                     key={social.label}
                                     href={social.href}
-                                    scroll={false}
-                                    aria-label={social.label}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    aria-label={t('Edumada sur {network}', { network: social.label })}
                                     className='flex h-8 w-8 items-center justify-center rounded-md border border-white/20 text-white transition-colors duration-300 hover:border-white hover:bg-white hover:text-secondary'>
                                     <Icon icon={social.icon} className='text-base' />
-                                </Link>
+                                </a>
                             ))}
                         </div>
                     </div>

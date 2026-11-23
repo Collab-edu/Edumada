@@ -1658,6 +1658,8 @@ const en: Record<string, string> = {
     'Impossible de joindre Edumada. Vérifiez votre connexion et réessayez.': 'Edumada can’t be reached. Check your connection and try again.',
     // Textes ajoutés pendant la désactivation du multilingue (traduits le 2026-11-22).
     'Avec votre accord, nous comptons les visites des fiches de façon anonyme. Aucun cookie publicitaire, choix modifiable à tout moment.': 'With your consent, we count profile visits anonymously. No advertising cookies, and you can change your choice at any time.',
+    // Textes ajoutés pendant la désactivation du multilingue (traduits le 2026-11-22).
+    'Edumada sur {network}': 'Edumada on {network}',
 }
 
 export default en

@@ -8,6 +8,7 @@ import HowItWorksPhones from '@/features/marketing/components/HowItWorksPhones'
 import { HomeGuide } from '@/features/marketing/components/HomeGuide'
 import { LazyFormationsSection, LazySchoolsSection, LazyTestimonialsSection } from '@/features/marketing/components/HomeLazySections'
 import { SITE_URL } from '@/lib/site-url'
+import { SOCIAL_LINKS } from '@/components/layout/social-links'
 
 const TITLE = 'Formation à Madagascar : écoles, universités et formations | Edumada'
 const DESCRIPTION =
@@ -29,6 +30,8 @@ const jsonLd = {
       name: 'Edumada',
       url: `${SITE_URL}/`,
       description: 'Plateforme de recherche et de découverte des établissements et formations à Madagascar.',
+      // Profils officiels : Google relie le site à la page Facebook.
+      sameAs: SOCIAL_LINKS.map((social) => social.href),
     },
     {
       '@type': 'WebSite',
