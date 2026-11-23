@@ -1668,6 +1668,8 @@ const en: Record<string, string> = {
     'Pile de livres, toque de diplômé et médaille': 'Pile of books, graduation cap and medal',
     'Ordinateur portable, carnets et plantes sur un bureau de travail': 'Laptop, notebooks and plants on a desk',
     'Main tenant une ampoule coiffée d’une toque de diplômé': 'Hand holding a light bulb wearing a graduation cap',
+    // Textes ajoutés pendant la désactivation du multilingue (traduits le 2026-11-22).
+    'Espace étudiant Edumada sur téléphone : recherche, démarches suivies et formations favorites': 'Edumada student account on a phone: search, tracked requests and favourite programmes',
 }
 
 export default en

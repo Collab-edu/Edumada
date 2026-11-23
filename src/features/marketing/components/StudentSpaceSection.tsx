@@ -2,9 +2,7 @@
 import Image from 'next/image'
 import { Icon } from '@/components/ui/icon'
 import { ButtonLink } from '@/components/ui/form'
-import { useSiteData } from '@/data/site-data'
-import { imageOr } from '@/lib/media'
-import PhoneMockup, { type PhoneTab } from './PhoneMockup'
+import withBasePath from '@/lib/base-path'
 import { useT } from '@/i18n/client'
 
 const FEATURES = [
@@ -14,68 +12,26 @@ const FEATURES = [
     { icon: 'tabler:user-cog', text: 'Gérez votre profil en toute simplicité' },
 ]
 
-const SHORTCUTS = [
-    { icon: 'tabler:heart', label: 'Favoris' },
-    { icon: 'tabler:file-check', label: 'Démarches' },
-    { icon: 'tabler:user', label: 'Profil' },
-]
-
-const TABS: PhoneTab[] = [
-    { icon: 'tabler:home', label: 'Accueil', active: true },
-    { icon: 'tabler:search', label: 'Rechercher' },
-    { icon: 'tabler:heart', label: 'Favoris' },
-    { icon: 'tabler:user', label: 'Profil' },
-]
-
 /** Section « Espace étudiant » : aperçu sur téléphone et ce que l'on peut y faire. */
 export default function StudentSpaceSection() {
     const t = useT()
-    const { data: formations } = useSiteData('FormationData')
-    const favorites = formations.filter((formation) => formation.kind === 'formation').slice(0, 2)
 
     return (
         <section>
             <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                 <div className='grid items-center gap-10 lg:grid-cols-2 lg:gap-16'>
-                    {/* Téléphone */}
-                    <PhoneMockup tabs={TABS}>
-                        <div>
-                            <p className='font-bold text-secondary'>{t('Bonjour {name}', { name: 'Aina' })} <Icon icon='material-symbols:waving-hand-outline' aria-hidden='true' className='inline-block align-[-0.125em] text-amber-400' /></p>
-                            <p className='!text-xs text-ink/60'>{t('Quelle formation cherches-tu ?')}</p>
-                        </div>
-                        <div className='flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-ink/50'>
-                            <Icon icon='tabler:search' className='text-sm' />
-                            {t('Rechercher une formation…')}
-                        </div>
-                        <div className='grid grid-cols-3 gap-2'>
-                            {SHORTCUTS.map((shortcut) => (
-                                <div key={shortcut.label} className='flex flex-col items-center gap-1 rounded-lg bg-white py-2 text-[11px] font-medium text-secondary'>
-                                    <span className='flex h-7 w-7 items-center justify-center rounded-full bg-primary text-white'>
-                                        <Icon icon={shortcut.icon} className='text-sm' />
-                                    </span>
-                                    {t(shortcut.label)}
-                                </div>
-                            ))}
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='flex items-center justify-between text-xs'>
-                                <span className='font-semibold text-secondary'>{t('Mes favoris')}</span>
-                                <span className='font-semibold text-primary'>{t('Voir tout')}</span>
-                            </div>
-                            {favorites.map((formation) => (
-                                <div key={formation.id} className='flex gap-2 rounded-lg bg-white p-2'>
-                                    <div className='relative h-12 w-12 shrink-0 overflow-hidden rounded-md bg-cream'>
-                                        <Image src={imageOr(formation.imageSrc, 160)} alt='' fill sizes='48px' className='object-cover' />
-                                    </div>
-                                    <div className='min-w-0'>
-                                        <p className='truncate !text-xs font-semibold text-secondary'>{formation.title}</p>
-                                        <p className='truncate !text-[11px] text-ink/60'>{formation.school}</p>
-                                        <p className='!text-[11px] text-ink/60'>{formation.city}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </PhoneMockup>
+                    {/* Aperçu de l'espace étudiant : vraie image de téléphone, comme sur l'accueil et la page Avantages. */}
+                    <div className='relative mx-auto w-full max-w-[17rem] py-4 lg:max-w-[21rem]'>
+                        <div aria-hidden='true' className='absolute top-1/4 -left-12 h-[62%] w-[120%] rotate-[-14deg] rounded-[3.5rem] bg-primary/15' />
+                        <Image
+                            src={withBasePath('/images/espace-etudiant/espace-etudiant.webp')}
+                            alt={t('Espace étudiant Edumada sur téléphone : recherche, démarches suivies et formations favorites')}
+                            width={600}
+                            height={967}
+                            sizes='(min-width: 1024px) 336px, 272px'
+                            className='relative h-auto w-full'
+                        />
+                    </div>
 
                     {/* Avantages */}
                     <div className='flex flex-col gap-6 rounded-xl border border-primary/15 bg-cream/60 p-6 sm:p-8'>

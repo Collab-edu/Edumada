@@ -1668,6 +1668,8 @@ const mg: Record<string, string> = {
     'Pile de livres, toque de diplômé et médaille': 'Boky mifanongoa, satroka diplaoma ary medaly',
     'Ordinateur portable, carnets et plantes sur un bureau de travail': 'Solosaina finday, kahie ary zavamaniry eo ambony latabatra fiasana',
     'Main tenant une ampoule coiffée d’une toque de diplômé': 'Tanana mitazona jiro misy satroka diplaoma',
+    // Textes ajoutés pendant la désactivation du multilingue (traduits le 2026-11-22).
+    'Espace étudiant Edumada sur téléphone : recherche, démarches suivies et formations favorites': 'Kaonty mpianatra Edumada amin’ny finday: fikarohana, fangatahana arahina ary fiofanana ankafizina',
 }
 
 export default mg
