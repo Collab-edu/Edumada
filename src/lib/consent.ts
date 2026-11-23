@@ -16,6 +16,15 @@ export const CONSENT_MAX_AGE_DAYS = 182
 export const CONSENT_EVENT = 'edumada-consent'
 export const CONSENT_OPEN_EVENT = 'edumada-consent-open'
 
+/** Classe posée sur <html> quand le choix est fait : le bandeau, présent dans le HTML, reste masqué. */
+export const CONSENT_DONE_CLASS = 'consent-done'
+
+/**
+ * Script placé dans <head>, exécuté avant l'affichage : si un choix valide est enregistré (ou si le
+ * navigateur envoie Global Privacy Control), il masque le bandeau sans clignotement. Mêmes règles que readConsent().
+ */
+export const CONSENT_HEAD_SCRIPT = `try{var c=JSON.parse(localStorage.getItem('${STORAGE_KEY}')||'null');if((c&&c.version===${CONSENT_VERSION}&&(Date.now()-new Date(c.date).getTime())/864e5<=${CONSENT_MAX_AGE_DAYS})||navigator.globalPrivacyControl===true)document.documentElement.classList.add('${CONSENT_DONE_CLASS}')}catch(e){}`
+
 export type Consent = {
     version: number
     measure: boolean

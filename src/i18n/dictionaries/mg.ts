@@ -1656,6 +1656,8 @@ const mg: Record<string, string> = {
     'Voir {next} offre de plus': 'Hijery tolotra {next} fanampiny',
     'Retour à l’accueil': 'Hiverina amin’ny fandraisana',
     'Impossible de joindre Edumada. Vérifiez votre connexion et réessayez.': 'Tsy tratra ny Edumada. Hamarino ny fifandraisanao ary andramo indray.',
+    // Textes ajoutés pendant la désactivation du multilingue (traduits le 2026-11-22).
+    'Avec votre accord, nous comptons les visites des fiches de façon anonyme. Aucun cookie publicitaire, choix modifiable à tout moment.': 'Raha manaiky ianao, isainay tsy misy anarana ny fitsidihana ny pejy. Tsy misy cookies fanaovana dokam-barotra, azo ovaina amin’ny fotoana rehetra ny safidinao.',
 }
 
 export default mg

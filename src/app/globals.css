@@ -236,3 +236,7 @@ html {
   .edu-loader-fill, .edu-loader-wave, .edu-loader-draw, .edu-loader-cap, .edu-loader-dot, .edu-loader-bar { animation: none; }
 }
 
+/* Bandeau de consentement présent dans le HTML : masqué avant l'affichage quand le choix est déjà fait (voir CONSENT_HEAD_SCRIPT). */
+.consent-done .consent-banner {
+  display: none;
+}

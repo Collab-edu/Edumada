@@ -11,6 +11,7 @@ import { Suspense } from "react";
 import Providers from "@/components/Providers";
 import { HtmlLang } from "@/i18n/LanguageSwitcher";
 import { SITE_URL } from "@/lib/site-url";
+import { CONSENT_HEAD_SCRIPT } from "@/lib/consent";
 /**
  * Polices d'Edumada : Plus Jakarta Sans pour les titres et accroches, Inter pour les textes,
  * formulaires et filtres. Alternatives retenues (non chargées) : DM Sans, Nunito Sans.
@@ -36,6 +37,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="fr" suppressHydrationWarning className={`${heading.variable} ${body.variable}`}>
+            <head>
+                {/* Avant l'affichage : masque le bandeau de consentement si le choix est déjà fait. */}
+                <script dangerouslySetInnerHTML={{ __html: CONSENT_HEAD_SCRIPT }} />
+            </head>
             <body>
                 <Suspense fallback={null}>
                     <NavigationProgress />

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import Link, { useT } from '@/i18n/client'
 import { Icon } from '@/components/ui/icon'
-import { CONSENT_OPEN_EVENT, globalPrivacyControl, readConsent, saveConsent } from '@/lib/consent'
+import { CONSENT_DONE_CLASS, CONSENT_OPEN_EVENT, globalPrivacyControl, readConsent, saveConsent } from '@/lib/consent'
 import { cn } from '@/lib/utils'
 
 const BUTTON = 'inline-flex min-h-11 flex-1 items-center justify-center rounded-xl px-5 font-semibold transition-colors duration-200 hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary sm:flex-none'
@@ -15,7 +15,9 @@ const BUTTON = 'inline-flex min-h-11 flex-1 items-center justify-center rounded-
  */
 export default function ConsentBanner() {
     const t = useT()
-    const [open, setOpen] = useState(false)
+    // Présent dès le HTML (sans attendre le JavaScript) : le script CONSENT_HEAD_SCRIPT le masque
+    // avant l'affichage quand le visiteur a déjà choisi. Ainsi il ne retarde pas l'affichage de la page.
+    const [open, setOpen] = useState(true)
     const [details, setDetails] = useState(false)
     const [measure, setMeasure] = useState(false)
     const [gpc, setGpc] = useState(false)
@@ -27,9 +29,10 @@ export default function ConsentBanner() {
         setMeasure(saved?.measure ?? false)
         // Le navigateur refuse déjà (Global Privacy Control) : refus enregistré, sans bandeau.
         if (!saved && browserRefuses) saveConsent(false, 'gpc')
-        else if (!saved) setOpen(true)
+        if (saved || browserRefuses) setOpen(false)
 
         const reopen = () => {
+            document.documentElement.classList.remove(CONSENT_DONE_CLASS)
             setMeasure(readConsent()?.measure ?? false)
             setDetails(true)
             setOpen(true)
@@ -42,6 +45,7 @@ export default function ConsentBanner() {
 
     const choose = (value: boolean) => {
         saveConsent(value)
+        document.documentElement.classList.add(CONSENT_DONE_CLASS)
         setOpen(false)
         setDetails(false)
     }
@@ -50,7 +54,7 @@ export default function ConsentBanner() {
         <section
             role='region'
             aria-label={t('Consentement aux cookies')}
-            className='fixed inset-x-0 bottom-0 z-[60] px-4 pb-4 sm:px-6 sm:pb-6'>
+            className='consent-banner fixed inset-x-0 bottom-0 z-[60] px-4 pb-4 sm:px-6 sm:pb-6'>
             <div className='relative mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_16px_40px_-16px_rgba(15,23,42,0.35)] sm:p-6'>
                 {/* Fermer sans choisir = refuser (CNIL : « Continuer sans accepter »). */}
                 <button
@@ -63,8 +67,9 @@ export default function ConsentBanner() {
 
                 <div className='flex flex-col gap-2 pt-6 sm:pt-0 sm:pr-48'>
                     <h2 id='consent-title' className='!text-base font-semibold text-secondary'>{t('Vos données sur Edumada')}</h2>
+                    {/* Texte court : plus petit que le titre de la page, il ne devient pas l'élément mesuré par Google (LCP). Le détail est dans « Personnaliser ». */}
                     <p className='!text-sm leading-relaxed text-black'>
-                        {t('Edumada garde dans votre navigateur ce qui est nécessaire au site : votre connexion, vos réponses au test d’orientation et les stages que vous enregistrez. Avec votre accord, nous comptons aussi, de façon anonyme, les visites et les clics sur les fiches, pour les statistiques des établissements. Aucun cookie publicitaire. Votre choix est gardé 6 mois et modifiable à tout moment.')}{' '}
+                        {t('Avec votre accord, nous comptons les visites des fiches de façon anonyme. Aucun cookie publicitaire, choix modifiable à tout moment.')}{' '}
                         <Link href='/confidentialite/#cookies' className='font-semibold text-secondary underline underline-offset-2 hover:text-primary'>
                             {t('En savoir plus')}
                         </Link>
