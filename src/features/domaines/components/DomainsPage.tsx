@@ -301,7 +301,7 @@ export default function DomainsPage() {
                 <div className='container mx-auto max-w-site px-4 sm:px-6 lg:px-8'>
                     <div className='relative overflow-hidden rounded-2xl bg-secondary'>
                         <div className='absolute inset-y-0 right-0 hidden w-1/2 md:block'>
-                            <Image src={photo('1497633762265-9d179a990aa6')} alt='' fill sizes='50vw' className='object-cover' />
+                            <Image src={photo('/images/pages/domaines-orientation.webp')} alt='' fill sizes='50vw' className='object-cover' />
                             <div className='absolute inset-0 bg-gradient-to-r from-secondary via-secondary/40 to-primary/30' aria-hidden='true' />
                         </div>
                         <div className='mobile-center relative flex flex-col gap-4 p-8 sm:p-10 md:max-w-[55%]'>

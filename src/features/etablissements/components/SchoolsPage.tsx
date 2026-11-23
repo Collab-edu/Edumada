@@ -39,7 +39,7 @@ const VARIANTS = {
         title: 'Trouvez l’établissement qui vous correspond',
         intro: 'Universités, écoles, crèches et centres de formation à Madagascar : consultez leur fiche, découvrez les formations qu’ils proposent, puis contactez-les directement.',
         image: 'etablissements',
-        imageAlt: 'Campus d’un établissement d’enseignement',
+        imageAlt: 'Pile de livres, toque de diplômé et médaille',
         listTitle: 'Tous les établissements',
         cta: { title: 'Vous dirigez un établissement ?', text: 'Présentez vos formations gratuitement et recevez les demandes des futurs élèves et étudiants.' },
     },

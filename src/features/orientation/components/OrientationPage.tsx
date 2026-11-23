@@ -109,7 +109,7 @@ export default function OrientationPage() {
                     </div>
 
                     <div className='mt-10'>
-                        <HeroVideo src={HERO_VIDEO} poster='orientation' label={t('Cours dans une salle de classe')} className='h-56 sm:h-80 lg:h-96' />
+                        <HeroVideo src={HERO_VIDEO} poster='orientation' label={t('Main tenant une ampoule coiffée d’une toque de diplômé')} className='h-56 sm:h-80 lg:h-96' />
                     </div>
                 </div>
             </section>

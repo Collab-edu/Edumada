@@ -1660,6 +1660,14 @@ const en: Record<string, string> = {
     'Avec votre accord, nous comptons les visites des fiches de façon anonyme. Aucun cookie publicitaire, choix modifiable à tout moment.': 'With your consent, we count profile visits anonymously. No advertising cookies, and you can change your choice at any time.',
     // Textes ajoutés pendant la désactivation du multilingue (traduits le 2026-11-22).
     'Edumada sur {network}': 'Edumada on {network}',
+    // Textes ajoutés pendant la désactivation du multilingue (traduits le 2026-11-22).
+    'Toque de diplômé et diplôme roulé sur une table en bois': 'Graduation cap and rolled diploma on a wooden table',
+    'Fournitures scolaires, lettres en couleur et toque de diplômé': 'School supplies, coloured letters and a graduation cap',
+    'Mains d’enfant qui assemblent des jeux de construction colorés': 'A child’s hands putting together colourful building blocks',
+    'Pomme sur une pile de livres, cubes ABC et crayons de couleur': 'Apple on a pile of books, ABC blocks and coloured pencils',
+    'Pile de livres, toque de diplômé et médaille': 'Pile of books, graduation cap and medal',
+    'Ordinateur portable, carnets et plantes sur un bureau de travail': 'Laptop, notebooks and plants on a desk',
+    'Main tenant une ampoule coiffée d’une toque de diplômé': 'Hand holding a light bulb wearing a graduation cap',
 }
 
 export default en

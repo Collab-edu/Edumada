@@ -3,7 +3,18 @@ import withBasePath from '@/lib/base-path'
 import { cn } from '@/lib/utils'
 
 /** Photos hébergées sur le site, en 640 et 1200 px de large (public/images/pages/<nom>-<largeur>.webp). */
-export type PagePhotoName = 'etablissements' | 'etudiants' | 'etudiants-groupe' | 'formation-pro' | 'enfants-classe' | 'orientation'
+export type PagePhotoName =
+    | 'etablissements'
+    | 'etudiants'
+    | 'etudiants-groupe'
+    | 'formation-pro'
+    | 'enfants-classe'
+    | 'orientation'
+    | 'universites'
+    | 'creches'
+    | 'ecoles'
+    | 'petite-enfance'
+    | 'stages'
 
 /** Adresse et versions d'une photo : le navigateur télécharge la plus petite qui suffit à l'écran. */
 export function pagePhoto(name: PagePhotoName) {

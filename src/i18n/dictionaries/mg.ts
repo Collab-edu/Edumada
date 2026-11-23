@@ -1660,6 +1660,14 @@ const mg: Record<string, string> = {
     'Avec votre accord, nous comptons les visites des fiches de façon anonyme. Aucun cookie publicitaire, choix modifiable à tout moment.': 'Raha manaiky ianao, isainay tsy misy anarana ny fitsidihana ny pejy. Tsy misy cookies fanaovana dokam-barotra, azo ovaina amin’ny fotoana rehetra ny safidinao.',
     // Textes ajoutés pendant la désactivation du multilingue (traduits le 2026-11-22).
     'Edumada sur {network}': 'Edumada amin’ny {network}',
+    // Textes ajoutés pendant la désactivation du multilingue (traduits le 2026-11-22).
+    'Toque de diplômé et diplôme roulé sur une table en bois': 'Satroka diplaoma sy diplaoma voahodina eo ambony latabatra hazo',
+    'Fournitures scolaires, lettres en couleur et toque de diplômé': 'Fitaovam-pianarana, litera miloko ary satroka diplaoma',
+    'Mains d’enfant qui assemblent des jeux de construction colorés': 'Tanan’ankizy manambatra kilalao fananganana miloko',
+    'Pomme sur une pile de livres, cubes ABC et crayons de couleur': 'Paoma eo ambony boky, cube ABC ary pensilihazo miloko',
+    'Pile de livres, toque de diplômé et médaille': 'Boky mifanongoa, satroka diplaoma ary medaly',
+    'Ordinateur portable, carnets et plantes sur un bureau de travail': 'Solosaina finday, kahie ary zavamaniry eo ambony latabatra fiasana',
+    'Main tenant une ampoule coiffée d’une toque de diplômé': 'Tanana mitazona jiro misy satroka diplaoma',
 }
 
 export default mg

@@ -78,7 +78,7 @@ export default function InternshipsPage() {
                             </div>
                         </div>
                         <div className='relative h-56 overflow-hidden rounded-xl sm:h-72 lg:h-80'>
-                            <PagePhoto name='formation-pro' alt={t('Stagiaires au travail en équipe')} priority sizes='(min-width: 1024px) 50vw, 100vw' />
+                            <PagePhoto name='stages' alt={t('Ordinateur portable, carnets et plantes sur un bureau de travail')} priority sizes='(min-width: 1024px) 50vw, 100vw' />
                         </div>
                     </div>
                 </div>
