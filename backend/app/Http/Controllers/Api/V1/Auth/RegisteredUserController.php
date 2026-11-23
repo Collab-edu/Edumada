@@ -12,7 +12,10 @@ use App\Http\Resources\UserResource;
 use App\Models\Category;
 use App\Models\Establishment;
 use App\Models\User;
+use App\Notifications\TeamAlert;
+use App\Notifications\WelcomeToEdumada;
 use App\Services\GoogleIdToken;
+use App\Services\MailSender;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -86,6 +89,18 @@ class RegisteredUserController extends Controller
         });
 
         event(new Registered($user));
+
+        // Bienvenue (et, pour une nouvelle fiche, alerte de l'équipe qui doit la valider).
+        $establishment = $user->establishments()->first();
+        MailSender::to($user, new WelcomeToEdumada($establishment));
+        if ($establishment) {
+            MailSender::toTeam(new TeamAlert(
+                "Nouvel établissement à valider : {$establishment->name}",
+                ["{$user->name} ({$user->email}) a inscrit {$establishment->name} ({$establishment->city}).", 'La fiche attend votre validation avant d’être publiée.'],
+                'Ouvrir la modération',
+                '/admin/moderation/',
+            ));
+        }
 
         return response()->json([
             'token' => $user->createToken('web')->plainTextToken,

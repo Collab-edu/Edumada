@@ -13,7 +13,9 @@ use App\Models\DailyStat;
 use App\Models\Establishment;
 use App\Models\Inquiry;
 use App\Models\Offer;
+use App\Notifications\InquirySent;
 use App\Notifications\NewInquiryReceived;
+use App\Services\MailSender;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
@@ -113,6 +115,9 @@ class InquiryController extends Controller
             Notification::route('mail', $establishment->email)->notify($notification);
         }
         Notification::send($establishment->members, $notification);
+
+        // Copie de la demande pour l'étudiant.
+        MailSender::to($inquiry->email, new InquirySent($inquiry));
 
         DailyStat::bump($establishment->id, $inquiry->offer_id, null, $inquiry->type === InquiryType::Application ? StatMetric::ApplyClick : StatMetric::ContactClick);
 

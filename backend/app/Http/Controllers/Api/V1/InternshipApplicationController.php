@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\InternshipApplicationResource;
 use App\Models\Internship;
 use App\Models\InternshipApplication;
+use App\Notifications\InternshipApplicationReceived;
+use App\Notifications\TeamAlert;
+use App\Services\MailSender;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
@@ -60,6 +63,15 @@ class InternshipApplicationController extends Controller
             return $application;
         });
 
-        return new InternshipApplicationResource($application->load('internship'));
+        $application->load('internship');
+        MailSender::to($user, new InternshipApplicationReceived($application));
+        MailSender::toTeam(new TeamAlert(
+            "Nouvelle candidature de stage : {$internship->title}",
+            ["{$user->name} ({$user->email}, {$application->phone}) a postulé au stage « {$internship->title} » chez {$internship->company_name}.", 'Le CV et la lettre de motivation sont dans le back-office.'],
+            'Voir les candidatures',
+            '/admin/stages/',
+        ));
+
+        return new InternshipApplicationResource($application);
     }
 }

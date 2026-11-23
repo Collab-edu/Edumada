@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Enums\ClaimStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Establishment;
+use App\Notifications\TeamAlert;
+use App\Services\MailSender;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -32,6 +34,15 @@ class EstablishmentClaimController extends Controller
 
         $claim = $establishment->claims()->where('user_id', $user->id)->where('status', ClaimStatus::Pending)->first()
             ?? $establishment->claims()->create(['user_id' => $user->id, 'message' => $validated['message']]);
+
+        if ($claim->wasRecentlyCreated) {
+            MailSender::toTeam(new TeamAlert(
+                "Revendication de fiche : {$establishment->name}",
+                ["{$user->name} ({$user->email}) demande à gérer la fiche de {$establishment->name}.", 'Son message : '.$validated['message'], 'Vérifiez son lien avec l’établissement avant d’accepter.'],
+                'Traiter la demande',
+                '/admin/claims/',
+            ));
+        }
 
         return response()->json([
             'data' => ['id' => $claim->id, 'status' => $claim->status->value],

@@ -12,6 +12,7 @@ use App\Models\Inquiry;
 use App\Models\Offer;
 use App\Models\User;
 use App\Notifications\InquiryMessageReceived;
+use App\Notifications\InquirySent;
 use App\Notifications\InquiryStatusChanged;
 use App\Notifications\NewInquiryReceived;
 use Database\Seeders\PlanSeeder;
@@ -88,6 +89,7 @@ class InquiryControllerTest extends TestCase
         $this->assertDatabaseHas('inquiries', ['user_id' => $student->id, 'establishment_id' => $establishment->id, 'type' => 'information']);
         Notification::assertSentTo($owner, NewInquiryReceived::class, fn (NewInquiryReceived $notification) => $notification->hasInbox === false);
         Notification::assertSentTo(new AnonymousNotifiable, NewInquiryReceived::class, fn ($notification, $channels, $notifiable) => $notifiable->routes['mail'] === 'contact@etablissement.mg');
+        Notification::assertSentTo(new AnonymousNotifiable, InquirySent::class, fn ($notification, $channels, $notifiable) => $notifiable->routes['mail'] === $student->email);
     }
 
     public function test_establishment_account_cannot_send_a_request_403(): void
