@@ -1632,8 +1632,25 @@ a.bo-state-card:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
   .bo-empty-note { background: var(--cui-tertiary-bg); font-size: .85rem; }
   .bo-adm-docs li { padding: .45rem .75rem; }
   .bo-adm-docs li > .me-auto { font-size: .8rem; }
-  .bo-adm-chips li { font-size: .8rem; background: rgba(167, 196, 188, .22); }
+  .bo-adm-chips {
+    gap: .4rem;
+    margin-bottom: .75rem;
+    li { gap: .35rem; padding: .2rem .25rem .2rem .6rem; font-size: .75rem; background: rgba(167, 196, 188, .22); }
+    li > .icon { width: .85rem; height: .85rem; }
+    // Croix plus petite, mais zone tactile conservée sur mobile.
+    .bo-adm-remove {
+      position: relative;
+      width: 1.2rem;
+      height: 1.2rem;
+      .icon { width: .6rem; height: .6rem; }
+      &::after { content: ""; position: absolute; inset: -.4rem; }
+    }
+  }
   .bo-adm-suggest button { font-size: .75rem; }
+  .bo-adm-input {
+    input { padding: .45rem .7rem; font-size: .8rem; }
+    button { width: 2.25rem; }
+  }
 }
 @media (min-width: 768px) {
   .bo-fiche .form-control, .bo-fiche .form-select { font-size: .875rem; }
