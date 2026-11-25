@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import CategoryOffersPage from '@/features/formations/components/CategoryOffersPage'
 
 export const metadata: Metadata = {
-  title: 'Écoles, collèges et lycées',
+  title: { absolute: 'École privée, collège et lycée à Antananarivo | Edumada' },
   description:
     'Écoles primaires, collèges et lycées à Madagascar : comparez les établissements près de chez vous et contactez-les directement.',
   alternates: { canonical: '/ecoles/' },

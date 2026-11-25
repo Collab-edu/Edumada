@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 import SearchPage from '@/features/recherche/components/SearchPage'
 
 export const metadata: Metadata = {
-  title: 'Recherche de formations',
+  title: { absolute: 'Rechercher une formation à Madagascar | Edumada' },
   description:
     'Filtrez les formations à Madagascar par domaine, ville, budget, durée, modalité, diplôme et conditions d’admission.',
   alternates: { canonical: '/recherche/' },

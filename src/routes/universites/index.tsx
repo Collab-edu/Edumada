@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import CategoryOffersPage from '@/features/formations/components/CategoryOffersPage'
 
 export const metadata: Metadata = {
-  title: 'Universités',
+  title: { absolute: 'Universités et écoles supérieures à Madagascar | Edumada' },
   description:
     'Formations des universités, instituts supérieurs, écoles supérieures et grandes écoles à Madagascar : filtrez par type d’établissement, par filière et par ville.',
   alternates: { canonical: '/universites/' },
