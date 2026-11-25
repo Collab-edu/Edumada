@@ -12,9 +12,9 @@ const ORDER: Locale[] = ['fr', 'mg', 'en']
 
 /**
  * Sélecteur FR · EN · MG : la même page dans une autre langue. `tone` : « light » sur la barre
- * sombre de l'en-tête, « dark » dans le menu mobile.
+ * sombre de l'en-tête, « dark » sur fond clair. `variant` « buttons » : trois boutons (menu mobile).
  */
-export default function LanguageSwitcher({ tone = 'dark', className }: { tone?: 'light' | 'dark'; className?: string }) {
+export default function LanguageSwitcher({ tone = 'dark', variant = 'inline', className }: { tone?: 'light' | 'dark'; variant?: 'inline' | 'buttons'; className?: string }) {
     const locale = useLocale()
     const pathname = usePathname() ?? '/'
     const path = stripLocale(pathname)
@@ -23,6 +23,26 @@ export default function LanguageSwitcher({ tone = 'dark', className }: { tone?: 
     useEffect(() => setSearch(window.location.search.replace(/^\?/, '')), [pathname])
 
     if (!I18N_ENABLED) return null
+    if (variant === 'buttons')
+        return (
+            <nav aria-label='Langue / Language / Fiteny' className={cn('flex items-center gap-2', className)}>
+                {ORDER.map((l) => (
+                    <NextLink
+                        key={l}
+                        href={`${localizePath(path, l)}${search ? `?${search}` : ''}`}
+                        hrefLang={l}
+                        lang={l}
+                        title={LOCALE_NAMES[l]}
+                        aria-current={l === locale ? 'true' : undefined}
+                        className={cn(
+                            'inline-flex h-10 min-w-12 items-center justify-center rounded-lg border px-3 text-sm font-semibold tracking-wide transition-colors',
+                            l === locale ? 'border-primary bg-primary text-white' : 'border-gray-200 text-black hover:border-primary hover:text-primary'
+                        )}>
+                        {SHORT[l]}
+                    </NextLink>
+                ))}
+            </nav>
+        )
     return (
         // Même rendu que l'aperçu affiché avant l'activation : « FR | MG | EN », langue active en rouge.
         <nav aria-label='Langue / Language / Fiteny' className={cn('flex items-center divide-x', tone === 'light' ? 'divide-white/20' : 'divide-gray-200', className)}>

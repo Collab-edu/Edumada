@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { HeaderItem } from '@/types/navigation'
 import { stripLocale } from '@/i18n/config'
 import { cn } from '@/lib/utils'
+import { Icon } from '@/components/ui/icon'
 
 const samePath = (a: string, b: string) => a.replace(/\/+$/, '') === b.replace(/\/+$/, '')
 
@@ -20,32 +21,22 @@ const MobileHeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
   }
 
   return (
-    <div className='relative w-full'>
+    <div className='relative w-full border-b border-gray-100'>
+      {/* Page en cours : barre rouge à gauche et texte rouge. */}
+      {active && <span aria-hidden className='absolute -left-4 top-1/2 h-8 w-1 -translate-y-1/2 rounded-r-full bg-primary' />}
       <Link
         href={item.href}
         onClick={item.submenu ? handleToggle : undefined}
         aria-current={samePath(path, item.href) ? 'page' : undefined}
         className={cn(
-          'flex items-center justify-between w-full rounded-lg px-3 py-2.5 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/40',
-          active ? 'bg-cream font-semibold text-primary' : 'text-black hover:bg-offwhite'
+          'flex w-full items-center justify-between px-3 py-3.5 text-base font-semibold transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/40',
+          active ? 'text-primary' : 'text-black hover:text-primary'
         )}>
         {t(item.label)}
-        {item.submenu && (
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='1.5em'
-            height='1.5em'
-            viewBox='0 0 24 24'>
-            <path
-              fill='none'
-              stroke='currentColor'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth='1.5'
-              d='m7 10l5 5l5-5'
-            />
-          </svg>
-        )}
+        <Icon
+          icon={item.submenu ? 'tabler:chevron-down' : 'tabler:chevron-right'}
+          className={cn('text-xl', active ? 'text-primary' : 'text-gray-500', item.submenu && submenuOpen && 'rotate-180')}
+        />
       </Link>
       {submenuOpen && item.submenu && (
         <div className='bg-white p-2 w-full'>

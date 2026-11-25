@@ -59,8 +59,8 @@ function IconButton({
  * Choix de la langue. Tant que le multilingue est désactivé, simple aperçu du rendu : le français
  * reste sélectionné et les autres langues ne sont pas cliquables.
  */
-function LanguageChoice() {
-    if (I18N_ENABLED) return <LanguageSwitcher />
+function LanguageChoice({ variant }: { variant?: 'inline' | 'buttons' }) {
+    if (I18N_ENABLED) return <LanguageSwitcher variant={variant} />
     return (
         <div role='group' aria-label='Langue' className='flex items-center divide-x divide-gray-200 text-sm font-semibold tracking-wide text-black'>
             <span aria-current='true' className='px-3 text-primary'>
@@ -223,24 +223,24 @@ const Header: React.FC = () => {
             {navbarOpen && <div className='fixed top-0 left-0 w-full h-full bg-black/50 z-40' />}
             <div
                 ref={mobileMenuRef}
-                className={`xl:hidden fixed top-0 right-0 h-full w-full bg-white shadow-lg transform transition-transform duration-300 max-w-xs ${navbarOpen ? 'translate-x-0' : 'translate-x-full'} z-50`}>
+                className={`xl:hidden fixed top-0 right-0 h-full w-full bg-white shadow-lg transform transition-transform duration-300 max-w-xs overflow-y-auto ${navbarOpen ? 'translate-x-0' : 'translate-x-full'} z-50`}>
                 <div className='flex items-center justify-between p-4'>
                     <Logo />
-                    <button onClick={() => setNavbarOpen(false)} className='bg-black/30 rounded-full p-1 text-white' aria-label={t('Fermer le menu')}>
+                    <button onClick={() => setNavbarOpen(false)} className='flex h-10 w-10 items-center justify-center rounded-full bg-black/30 text-white transition-colors hover:bg-black/40' aria-label={t('Fermer le menu')}>
                         <Icon icon={'material-symbols:close-rounded'} width={24} height={24} />
                     </button>
                 </div>
-                <nav className='flex flex-col items-start p-4'>
+                <nav className='flex flex-col items-start px-4 pb-6 pt-2'>
                     {headerData.map((item, index) => (
                         <MobileHeaderLink key={index} item={item} />
                     ))}
-                    <div className='mt-4 flex flex-col gap-4 w-full'>
+                    <div className='mt-6 flex w-full flex-col gap-3'>
                         {user ? (
                             <>
                                 <Link
                                     href={SPACE_HOME[user.role]}
                                     onClick={() => setNavbarOpen(false)}
-                                    className='inline-flex items-center justify-center gap-2 bg-primary text-white px-4 py-3 rounded-lg border border-primary font-medium'>
+                                    className='inline-flex items-center justify-center gap-2 rounded-lg border border-primary bg-primary px-4 py-3 font-semibold text-white'>
                                     <Icon icon='tabler:user-circle' className='text-xl' /> {t('Mon espace')}
                                 </Link>
                                 <button
@@ -248,14 +248,14 @@ const Header: React.FC = () => {
                                         setNavbarOpen(false)
                                         logout()
                                     }}
-                                    className='px-4 py-3 rounded-lg border border-secondary/20 font-medium text-secondary hover:cursor-pointer'>
+                                    className='rounded-lg border border-secondary px-4 py-3 font-semibold text-secondary hover:cursor-pointer'>
                                     {t('Déconnexion')}
                                 </button>
                             </>
                         ) : (
                             <>
                                 <button
-                                    className='bg-primary text-white px-4 py-2 rounded-lg border border-primary hover:text-primary hover:bg-transparent hover:cursor-pointer transition duration-300 ease-in-out'
+                                    className='rounded-lg border border-primary bg-primary px-4 py-3 font-semibold text-white transition duration-300 ease-in-out hover:cursor-pointer hover:bg-transparent hover:text-primary'
                                     onClick={() => {
                                         setIsSignInOpen(true)
                                         setNavbarOpen(false)
@@ -265,7 +265,7 @@ const Header: React.FC = () => {
                                 <Link
                                     href='/inscription/'
                                     onClick={() => setNavbarOpen(false)}
-                                    className='bg-primary text-white px-4 py-2 text-center rounded-lg border border-primary hover:text-primary hover:bg-transparent transition duration-300 ease-in-out'>
+                                    className='rounded-lg border border-primary bg-primary px-4 py-3 text-center font-semibold text-white transition duration-300 ease-in-out hover:bg-transparent hover:text-primary'>
                                     {t('Inscription')}
                                 </Link>
                             </>
@@ -273,12 +273,12 @@ const Header: React.FC = () => {
                         <Link
                             href='/tarifs/'
                             onClick={() => setNavbarOpen(false)}
-                            className='px-4 py-2 text-center rounded-lg border border-secondary/30 font-medium text-secondary'>
+                            className='rounded-lg border border-secondary px-4 py-3 text-center font-semibold text-secondary transition-colors hover:bg-secondary hover:text-white'>
                             {t('Référencer mon établissement')}
                         </Link>
-                        <div className='mt-2 flex items-center justify-between border-t border-gray-100 pt-4'>
+                        <div className='mt-3 flex items-center justify-between border-t border-gray-100 pt-5'>
                             <span className='text-sm font-medium text-ink/60'>{t('Langue')}</span>
-                            <LanguageChoice />
+                            <LanguageChoice variant='buttons' />
                         </div>
                     </div>
                 </nav>
