@@ -1,7 +1,9 @@
 /**
  * Consentement du visiteur, gardé dans son navigateur (recommandations CNIL, RGPD, loi malgache 2014-038).
- * Le stockage nécessaire au site (connexion, test d'orientation, stages enregistrés) n'en dépend pas ;
- * seule la mesure d'audience anonyme (vues et clics des fiches, voir track.ts) attend l'accord.
+ * Le stockage nécessaire au site (connexion, test d'orientation, stages enregistrés) n'en dépend pas.
+ * Deux usages attendent l'accord, chacun avec son propre choix :
+ * - `measure` : la mesure d'audience anonyme des fiches (vues et clics, voir track.ts), sans cookie ;
+ * - `analytics` : Google Analytics (fréquentation du site), qui dépose ses cookies (voir GoogleAnalytics.tsx).
  *
  * - Refuser est aussi simple qu'accepter ; rien n'est actif avant le choix.
  * - Le choix, accepté comme refusé, est redemandé après 6 mois.
@@ -9,7 +11,7 @@
  */
 const STORAGE_KEY = 'edumada-consent'
 /** À incrémenter si les usages changent : le bandeau est alors reposé à tout le monde. */
-export const CONSENT_VERSION = 2
+export const CONSENT_VERSION = 3
 /** Durée de validité d'un choix : 6 mois. */
 export const CONSENT_MAX_AGE_DAYS = 182
 /** Événement émis quand le choix change, ou quand le visiteur demande à le modifier. */
@@ -28,6 +30,7 @@ export const CONSENT_HEAD_SCRIPT = `try{var c=JSON.parse(localStorage.getItem('$
 export type Consent = {
     version: number
     measure: boolean
+    analytics: boolean
     /** Date du choix (ISO). */
     date: string
     /** Identifiant aléatoire du choix, pour en garder la trace sans identifier la personne. */
@@ -62,8 +65,10 @@ export function readConsent(): Consent | null {
     }
 }
 
-export function saveConsent(measure: boolean, source: Consent['source'] = 'banner') {
-    const consent: Consent = { version: CONSENT_VERSION, measure, date: new Date().toISOString(), id: randomId(), source }
+export type ConsentChoice = { measure: boolean; analytics: boolean }
+
+export function saveConsent(choice: ConsentChoice, source: Consent['source'] = 'banner') {
+    const consent: Consent = { version: CONSENT_VERSION, ...choice, date: new Date().toISOString(), id: randomId(), source }
     try {
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(consent))
     } catch {
@@ -75,6 +80,11 @@ export function saveConsent(measure: boolean, source: Consent['source'] = 'banne
 /** Vrai seulement si le visiteur a accepté la mesure d'audience, et que son navigateur ne s'y oppose pas. */
 export function measureAllowed(): boolean {
     return !globalPrivacyControl() && readConsent()?.measure === true
+}
+
+/** Vrai seulement si le visiteur a accepté Google Analytics, et que son navigateur ne s'y oppose pas. */
+export function analyticsAllowed(): boolean {
+    return !globalPrivacyControl() && readConsent()?.analytics === true
 }
 
 /** Rouvre le bandeau (lien « Gérer les cookies » du pied de page et de la politique de confidentialité). */

@@ -5,6 +5,7 @@ import Header from "@/components/layout/header/Header";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import ConsentBanner from "@/components/layout/ConsentBanner";
+import GoogleAnalytics from "@/components/layout/GoogleAnalytics";
 import SchoolCta from "@/features/marketing/components/SchoolCta";
 import NavigationProgress from "@/components/layout/NavigationProgress";
 import { Suspense } from "react";
@@ -54,6 +55,7 @@ export default function RootLayout({
                     <Footer />
                     <WhatsAppButton />
                     <ConsentBanner />
+                    <GoogleAnalytics />
                 </Providers>
             </body>
         </html>

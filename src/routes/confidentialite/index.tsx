@@ -9,12 +9,14 @@ export const metadata: Metadata = {
   alternates: { canonical: '/confidentialite/' },
 }
 
-/** Tableau du stockage dans le navigateur (aucun cookie déposé par Edumada). */
+/** Tableau du stockage dans le navigateur : celui d'Edumada, puis les cookies de Google Analytics (seulement avec accord). */
 const STORAGE = [
   { name: 'edumada_token', role: 'Vous garder connecté à votre compte.', duration: 'Jusqu’à la déconnexion.', kind: 'Nécessaire' },
   { name: 'edumada.orientation.answers', role: 'Garder vos réponses au test d’orientation en cours.', duration: 'Jusqu’à la fin du test ou l’effacement.', kind: 'Nécessaire' },
   { name: 'edumada.stages.saved', role: 'Garder les stages que vous enregistrez.', duration: 'Jusqu’à ce que vous les retiriez.', kind: 'Nécessaire' },
   { name: 'edumada-consent', role: 'Garder votre choix sur le bandeau de consentement.', duration: '6 mois.', kind: 'Nécessaire' },
+  { name: '_ga', role: 'Cookie Google Analytics : distinguer les visiteurs, sans les identifier.', duration: '13 mois au plus.', kind: 'Statistiques, avec votre accord' },
+  { name: '_ga_E2629R1KJ9', role: 'Cookie Google Analytics : suivre la visite en cours.', duration: '13 mois au plus.', kind: 'Statistiques, avec votre accord' },
 ]
 
 export default function ConfidentialitePage() {
@@ -33,6 +35,7 @@ export default function ConfidentialitePage() {
         <li><T>Candidature à un stage ou une formation : les mêmes informations, et les documents que vous choisissez de joindre. Finalité et base légale : les mêmes que pour une demande.</T></li>
         <li><T>Établissements : informations de la fiche et des personnes qui la gèrent. Finalité : présenter l’établissement et gérer son espace. Base légale : le contrat de référencement.</T></li>
         <li><T>Mesure d’audience anonyme, seulement si vous l’acceptez : nombre de vues et de clics par fiche, sans cookie ni donnée personnelle. Finalité : les statistiques des établissements. Base légale : votre consentement.</T></li>
+        <li><T>Statistiques de visite avec Google Analytics, seulement si vous les acceptez : pages vues, durée de visite, provenance (moteur de recherche, réseau social, lien direct), type d’appareil et ville approximative. Votre adresse IP n’est pas conservée et ces données ne servent à aucune publicité. Finalité : comprendre la fréquentation du site pour l’améliorer. Base légale : votre consentement.</T></li>
         <li><T>Position approximative, seulement si vous utilisez la recherche « autour de moi » : elle sert au calcul des distances et n’est pas enregistrée.</T></li>
       </ul>
 
@@ -50,6 +53,7 @@ export default function ConfidentialitePage() {
         <li><T>Vercel (États-Unis) : hébergement du site.</T></li>
         <li><T>alwaysdata (France) : hébergement des comptes, des demandes, des documents et de la base de données.</T></li>
         <li><T>Google (États-Unis) : connexion avec Google, uniquement si vous l’utilisez. Google applique alors ses propres règles de confidentialité et peut déposer ses cookies.</T></li>
+        <li><T>Google Analytics (Google, États-Unis) : statistiques de visite, seulement si vous les acceptez. Google agit comme sous-traitant d’Edumada ; les transferts vers les États-Unis sont encadrés par le cadre de protection des données UE–États-Unis et les clauses contractuelles types de la Commission européenne.</T></li>
         <li><T>OpenStreetMap : les cartes et les itinéraires des fiches. Votre navigateur charge les fonds de carte depuis ses serveurs, qui reçoivent votre adresse IP, sans cookie.</T></li>
         <li><T>ipwho.is et GeoJS : estimation de la ville d’après votre connexion internet, seulement si vous demandez « autour de moi » et que votre appareil ne donne pas sa position.</T></li>
       </ul>
@@ -59,11 +63,12 @@ export default function ConfidentialitePage() {
       <ul>
         <li><T>Compte, favoris, demandes et documents : tant que votre compte existe. Vous pouvez supprimer votre compte à tout moment depuis « Mon profil » : vos informations, favoris, demandes et documents sont alors effacés.</T></li>
         <li><T>Mesure d’audience : des nombres de vues et de clics par fiche, sans lien avec une personne.</T></li>
+        <li><T>Statistiques de visite (Google Analytics) : 14 mois, puis supprimées automatiquement ; cookies gardés 13 mois au plus.</T></li>
         <li><T>Choix sur le bandeau de consentement : 6 mois, puis il vous est redemandé.</T></li>
       </ul>
 
       <h2 id='cookies'><T>Cookies et stockage dans votre navigateur</T></h2>
-      <p><T>Edumada ne dépose aucun cookie, publicitaire ou autre. Le site garde dans votre navigateur (stockage local) uniquement ce qui est nécessaire à son fonctionnement :</T></p>
+      <p><T>Edumada ne dépose aucun cookie publicitaire. Le site garde dans votre navigateur (stockage local) ce qui est nécessaire à son fonctionnement ; Google Analytics dépose ses deux cookies seulement si vous acceptez les statistiques de visite :</T></p>
       <div className='overflow-x-auto'>
         <table className='w-full min-w-[32rem] border-collapse text-sm'>
           <thead>
@@ -86,7 +91,7 @@ export default function ConfidentialitePage() {
           </tbody>
         </table>
       </div>
-      <p><T>La mesure d’audience anonyme n’utilise ni cookie ni stockage : elle n’est simplement pas envoyée sans votre accord. Si votre navigateur envoie le signal « Global Privacy Control », elle reste désactivée. Vous pouvez changer d’avis à tout moment, avec ce bouton ou le lien « Gérer les cookies » en bas de chaque page :</T></p>
+      <p><T>La mesure d’audience anonyme des fiches n’utilise ni cookie ni stockage : elle n’est simplement pas envoyée sans votre accord. Google Analytics n’est pas chargé sans votre accord ; si vous le retirez, il s’arrête et ses cookies sont effacés. Si votre navigateur envoie le signal « Global Privacy Control », les deux restent désactivés. Vous pouvez changer d’avis à tout moment, avec ce bouton ou le lien « Gérer les cookies » en bas de chaque page :</T></p>
       <ConsentSettingsButton />
 
       <h2><T>Vos droits</T></h2>
@@ -97,7 +102,7 @@ export default function ConfidentialitePage() {
       <p><T>Les échanges avec le site sont chiffrés (HTTPS), les mots de passe sont protégés par hachage, et l’accès aux données est limité aux personnes qui en ont besoin.</T></p>
 
       <h2><T>Modifications</T></h2>
-      <p><T>Cette politique peut évoluer avec le service. La date de mise à jour figure en haut de la page ; si les usages de la mesure d’audience changent, le bandeau de consentement vous est reposé.</T></p>
+      <p><T>Cette politique peut évoluer avec le service. La date de mise à jour figure en haut de la page ; si les usages soumis à votre accord changent, le bandeau de consentement vous est reposé.</T></p>
     </LegalPage>
   )
 }
