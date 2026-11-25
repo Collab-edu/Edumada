@@ -22,8 +22,6 @@ const MobileHeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
 
   return (
     <div className='relative w-full border-b border-gray-100'>
-      {/* Page en cours : barre rouge à gauche et texte rouge. */}
-      {active && <span aria-hidden className='absolute -left-4 top-1/2 h-8 w-1 -translate-y-1/2 rounded-r-full bg-primary' />}
       <Link
         href={item.href}
         onClick={item.submenu ? handleToggle : undefined}
