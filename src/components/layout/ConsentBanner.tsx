@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link, { useT } from '@/i18n/client'
-import { Icon } from '@/components/ui/icon'
 import { CONSENT_DONE_CLASS, CONSENT_OPEN_EVENT, globalPrivacyControl, readConsent, saveConsent } from '@/lib/consent'
 import { cn } from '@/lib/utils'
 
@@ -9,7 +8,7 @@ const BUTTON = 'inline-flex min-h-11 flex-1 items-center justify-center rounded-
 
 /**
  * Bandeau de consentement, conforme aux recommandations de la CNIL :
- * « Tout refuser » et « Tout accepter » au même niveau, « Continuer sans accepter » vaut refus,
+ * « Tout refuser » et « Tout accepter » au même niveau,
  * rien n'est actif avant le choix, détail des usages dans « Personnaliser ».
  * Posé au premier passage et tous les 6 mois, rouvert depuis « Gérer les cookies ».
  */
@@ -55,17 +54,8 @@ export default function ConsentBanner() {
             role='region'
             aria-label={t('Consentement aux cookies')}
             className='consent-banner fixed inset-x-0 bottom-0 z-[60] px-4 pb-4 sm:px-6 sm:pb-6'>
-            <div className='relative mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_16px_40px_-16px_rgba(15,23,42,0.35)] sm:p-6'>
-                {/* Fermer sans choisir = refuser (CNIL : « Continuer sans accepter »). */}
-                <button
-                    type='button'
-                    onClick={() => choose(false)}
-                    className='absolute top-3 right-3 inline-flex items-center gap-1 rounded-lg px-2 py-1 !text-sm text-ink/60 transition-colors duration-200 hover:cursor-pointer hover:text-secondary focus-visible:outline-2 focus-visible:outline-secondary'>
-                    {t('Continuer sans accepter')}
-                    <Icon icon='tabler:x' className='text-base' />
-                </button>
-
-                <div className='flex flex-col gap-2 pt-6 sm:pt-0 sm:pr-48'>
+            <div className='mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-[0_16px_40px_-16px_rgba(15,23,42,0.35)] sm:p-6'>
+                <div className='flex flex-col gap-2'>
                     <h2 id='consent-title' className='!text-base font-semibold text-secondary'>{t('Vos données sur Edumada')}</h2>
                     {/* Texte court : plus petit que le titre de la page, il ne devient pas l'élément mesuré par Google (LCP). Le détail est dans « Personnaliser ». */}
                     <p className='!text-sm leading-relaxed text-black'>
