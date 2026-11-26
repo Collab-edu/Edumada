@@ -3,16 +3,18 @@ import AutoScroll from '@/components/ui/auto-scroll'
 import { useT } from '@/i18n/client'
 import { Card } from '@/components/ui/card'
 
-export type Testimonial = { testimonial: string; by: string; imgSrc: string }
+export type Testimonial = { testimonial: string; by: string }
 
-function ReviewCard({ testimonial, by, imgSrc }: Testimonial) {
+function ReviewCard({ testimonial, by }: Testimonial) {
     const t = useT()
     const [name, ...role] = by.split(', ')
     return (
         <Card className='flex h-full flex-col gap-3 p-5'>
             <div className='flex items-center gap-3'>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={imgSrc} alt='' width={40} height={40} loading='lazy' className='h-10 w-10 shrink-0 rounded-full object-cover object-top' />
+                {/* Pas de photo : l'initiale du nom tient lieu d'avatar. */}
+                <span aria-hidden className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary/10 font-heading text-base font-bold text-secondary'>
+                    {name.charAt(0).toUpperCase()}
+                </span>
                 <div className='min-w-0'>
                     <p className='truncate text-sm font-semibold text-secondary'>{t(name)}</p>
                     {role.length > 0 && <p className='truncate text-xs text-ink/60'>{role.map((part) => t(part)).join(', ')}</p>}
