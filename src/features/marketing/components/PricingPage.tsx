@@ -10,7 +10,6 @@ import { useAuth } from '@/features/auth/AuthProvider'
 import { backofficeUrl } from '@/features/auth/types'
 import SchoolFaq from '@/features/etablissements/components/SchoolFaq'
 import SectionHeader from '@/components/ui/section-header'
-import Companies from './Companies'
 import { planFeatureSections, signupUrl, usePlans } from '../plans'
 import { Eyebrow } from '@/components/ui/eyebrow'
 
@@ -167,7 +166,7 @@ export default function PricingPage() {
                 </div>
             </section>
 
-            <Companies />
+            {/* Bandeau de logos masqué : logos de démonstration, à remplacer par de vrais établissements partenaires. */}
 
             {/* Questions fréquentes */}
             <section className='pb-20'>
