@@ -5,14 +5,20 @@ import { Card } from '@/components/ui/card'
 
 export type Testimonial = { testimonial: string; by: string }
 
-function ReviewCard({ testimonial, by }: Testimonial) {
+/** Couleurs d'avatar, assez foncées pour une lettre blanche lisible. */
+const AVATAR_COLORS = ['#0f4c5c', '#e0263d', '#1a73e8', '#188038', '#8e24aa', '#e8710a', '#00897b', '#c2185b', '#5f6368', '#6d4c41']
+
+function ReviewCard({ testimonial, by, color }: Testimonial & { color: string }) {
     const t = useT()
     const [name, ...role] = by.split(', ')
     return (
         <Card className='flex h-full flex-col gap-3 p-5'>
             <div className='flex items-center gap-3'>
-                {/* Pas de photo : l'initiale du nom tient lieu d'avatar. */}
-                <span aria-hidden className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary/10 font-heading text-base font-bold text-secondary'>
+                {/* Pas de photo : l'initiale du nom tient lieu d'avatar, sur une couleur différente pour chaque avis (comme les avis Google). */}
+                <span
+                    aria-hidden
+                    style={{ backgroundColor: color }}
+                    className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-heading text-base font-bold text-white'>
                     {name.charAt(0).toUpperCase()}
                 </span>
                 <div className='min-w-0'>
@@ -27,8 +33,10 @@ function ReviewCard({ testimonial, by }: Testimonial) {
 
 /** Deux rangées de témoignages qui défilent en sens inverse ; pause au survol d'une rangée. */
 export default function TestimonialMarquee({ testimonials }: { testimonials: Testimonial[] }) {
-    const middle = Math.ceil(testimonials.length / 2)
-    const rows = [testimonials.slice(0, middle), testimonials.slice(middle)]
+    // Couleur selon la position dans la liste : deux avis voisins n'ont jamais la même.
+    const colored = testimonials.map((review, i) => ({ ...review, color: AVATAR_COLORS[i % AVATAR_COLORS.length] }))
+    const middle = Math.ceil(colored.length / 2)
+    const rows = [colored.slice(0, middle), colored.slice(middle)]
     return (
         <div className='relative flex w-full flex-col overflow-hidden'>
             {rows.map((row, i) => (
